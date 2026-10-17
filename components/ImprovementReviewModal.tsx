@@ -16,10 +16,11 @@ import { Copy, ArrowRight, ArrowLeft, X, Check, CheckCircle2, ArrowUpRight } fro
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import {
-  changeAnchors,
   diffWords,
+  groupEdits,
   segmentsForSide,
   summariseDiff,
+  type DiffEdit,
   type DiffSegment,
 } from '../utils/textDiff';
 import { wordCountsLine, wordsKeptParts } from '../utils/diffSummary';
@@ -89,13 +90,14 @@ const OP_CLASS: Record<DiffSegment['op'], string> = {
     'bg-rose-500/10 text-rose-800 dark:text-rose-300 rounded-lg px-0.5 line-through decoration-rose-600/70 dark:decoration-rose-400/70 decoration-2',
 };
 
-/** One edit: the run of cut and added words between two stretches of the student's own. */
-interface Edit {
-  /** Index in `segments` of the edit's first run — the jump target. */
-  anchor: number;
-  removed: string;
-  added: string;
-}
+/**
+ * Splits a run into its words and the whitespace that follows them, so the
+ * whitespace can be drawn outside the run's mark.
+ */
+const splitTrailingWhitespace = (value: string): [string, string] => {
+  const trailing = value.match(/\s*$/)?.[0] ?? '';
+  return [value.slice(0, value.length - trailing.length), trailing];
+};
 
 /**
  * The page. `white-space: pre-wrap` keeps the student's own line breaks, and
@@ -108,8 +110,8 @@ interface Edit {
 const DiffText: React.FC<{
   segments: DiffSegment[];
   fontSize: number;
-  /** Segment index of the first run of the edit the reader is on. */
-  activeAnchor?: number | null;
+  /** Segment range of the edit the reader is on: its changed runs wear the ring. */
+  activeRange?: { start: number; end: number } | null;
   /** Segment index → edit number, for the numbered view. */
   editNumbers?: Map<number, number>;
   /** Registers each edit's first run so the stepper can scroll to it. */
@@ -118,20 +120,23 @@ const DiffText: React.FC<{
   /** The question's terms and command verb, painted on the text as everywhere else. */
   keywords?: string[];
   verb?: PromptVerb;
+  /**
+   * Which column this is. The combined view shows both sides, so a cut run's
+   * paragraph break is collapsed there; the original column shows only the
+   * student's own text, where that break is real and has to stay.
+   */
+  side?: 'both' | 'original' | 'revised';
 }> = ({
   segments,
   fontSize,
-  activeAnchor = null,
+  activeRange = null,
   editNumbers,
   registerMark,
   onSelectEdit,
   keywords,
   verb,
+  side = 'both',
 }) => {
-  // Every run of the active edit wears the ring, not only its first — a
-  // replacement is a cut AND an insertion, and ringing half of it pointed at
-  // the struck word while the new wording sat unmarked beside it.
-  let inActive = false;
   return (
     <p
       className="font-serif leading-[1.9] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
@@ -142,7 +147,6 @@ const DiffText: React.FC<{
         // a syllabus term the revision brought in is the thing the reader is
         // looking for, so it has to show inside the edit as well as beside it.
         if (segment.op === 'equal') {
-          inActive = false;
           return (
             <React.Fragment key={index}>
               {renderHighlightedText(segment.value, keywords, verb)}
@@ -151,8 +155,24 @@ const DiffText: React.FC<{
         }
         const previous = segments[index - 1];
         const opensEdit = !previous || previous.op === 'equal';
-        if (opensEdit) inActive = index === activeAnchor;
+        // Every changed run of the active edit wears the ring, not only its first:
+        // a replacement is a cut AND an insertion, and ringing half of it pointed
+        // at the struck word while the new wording sat unmarked beside it. Kept
+        // words bridged between two changes stay plain.
+        const inActive =
+          activeRange !== null && index >= activeRange.start && index <= activeRange.end;
         const number = opensEdit ? editNumbers?.get(index) : undefined;
+        // Only the words go inside a mark. A line break inside one is drawn as an
+        // empty highlighted line, so the run is cut at every break — the trailing
+        // one and any inside a run that spans paragraphs — and the breaks are
+        // drawn plain between the marks.
+        //
+        // A cut run's breaks are the ORIGINAL's layout. In the combined view every
+        // break of the revision is carried by an equal or inserted run, so keeping
+        // a cut run's break as well would split the revised paragraph in two. A
+        // single space keeps the words apart without that.
+        const collapseBreaks = segment.op === 'delete' && side !== 'original';
+        const pieces = segment.value.split(/(\s*\n\s*)/);
         return (
           <React.Fragment key={index}>
             {number !== undefined && (
@@ -176,20 +196,38 @@ const DiffText: React.FC<{
                 {number}
               </button>
             )}
-            <mark
-              ref={opensEdit && registerMark ? (el) => registerMark(index, el) : undefined}
-              // The focused edit gets a ring rather than a different colour, so
-              // "where am I" never competes with "what kind of edit is this".
-              className={`${OP_CLASS[segment.op]} ${inActive ? 'ring-2 ring-offset-1 ring-offset-transparent' : ''}`}
-              style={
-                inActive
-                  ? ({ '--tw-ring-color': 'rgb(var(--band-rgb))' } as React.CSSProperties)
-                  : undefined
+            {pieces.map((piece, p) => {
+              // Odd pieces are the breaks the split kept; a run that is only
+              // whitespace has no words, so it is plain too.
+              if (p % 2 === 1 || !piece.trim()) {
+                return collapseBreaks && piece.includes('\n') ? ' ' : piece;
               }
-              title={segment.op === 'insert' ? 'Added by the marker' : 'Cut by the marker'}
-            >
-              {renderHighlightedText(segment.value, keywords, verb, true)}
-            </mark>
+              const [visible, trailing] = splitTrailingWhitespace(piece);
+              return (
+                <React.Fragment key={p}>
+                  <mark
+                    // The first piece is the run's jump target.
+                    ref={
+                      p === 0 && opensEdit && registerMark
+                        ? (el) => registerMark(index, el)
+                        : undefined
+                    }
+                    // The focused edit gets a ring rather than a different colour, so
+                    // "where am I" never competes with "what kind of edit is this".
+                    className={`${OP_CLASS[segment.op]} ${inActive ? 'ring-2 ring-offset-1 ring-offset-transparent' : ''}`}
+                    style={
+                      inActive
+                        ? ({ '--tw-ring-color': 'rgb(var(--band-rgb))' } as React.CSSProperties)
+                        : undefined
+                    }
+                    title={segment.op === 'insert' ? 'Added by the marker' : 'Cut by the marker'}
+                  >
+                    {renderHighlightedText(visible, keywords, verb, true)}
+                  </mark>
+                  {trailing}
+                </React.Fragment>
+              );
+            })}
           </React.Fragment>
         );
       })}
@@ -280,47 +318,55 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const originalSide = useMemo(() => segmentsForSide(segments, 'original'), [segments]);
   const revisedSide = useMemo(() => segmentsForSide(segments, 'revised'), [segments]);
 
-  // Grouped so a deletion and the insertion replacing it count as one edit —
-  // that is how a reader sees them, and counting them separately would make an
-  // eleven-edit revision claim twenty-two.
-  const anchors = useMemo(() => changeAnchors(segments), [segments]);
-  const edits = useMemo<Edit[]>(
-    () =>
-      anchors.map((anchor) => {
-        let removed = '';
-        let added = '';
-        for (let i = anchor; i < segments.length && segments[i].op !== 'equal'; i++) {
-          if (segments[i].op === 'delete') removed += segments[i].value;
-          else added += segments[i].value;
-        }
-        return { anchor, removed: removed.trim(), added: added.trim() };
-      }),
-    [anchors, segments]
-  );
+  // Grouped so a rewrite is one numbered edit, not a fragment per word: a kept
+  // run of a couple of words between two changes does not split it. A deletion
+  // and the insertion replacing it are one edit too — that is how a reader sees
+  // them, and counting them separately would make an eleven-edit revision claim
+  // twenty-two.
+  const edits = useMemo<DiffEdit[]>(() => groupEdits(segments), [segments]);
   const editNumbers = useMemo(
-    () => new Map(anchors.map((anchor, i) => [anchor, i + 1] as const)),
-    [anchors]
+    () => new Map(edits.map((edit, i) => [edit.start, i + 1] as const)),
+    [edits]
   );
   /**
-   * Each edit's first ADDED run, as an index into the revised column of the
-   * side-by-side view. That column holds only the equal and inserted runs, so
-   * an index into the full diff points at the wrong words there — the old
-   * stepper ringed text several runs away from the edit it named. A pure cut
-   * has nothing on the revised side, so it maps to -1 and is not ringed.
+   * How many runs of the revised column come before each segment of the full
+   * diff. That column holds only the equal and inserted runs, so an index into
+   * the full diff points at the wrong words there: converting through this
+   * table is what puts the side-by-side ring and jump on the words the edit
+   * names. Has one more entry than `segments`, so the end of an edit converts too.
    */
-  const revisedAnchors = useMemo(() => {
-    const toRevised = new Map<number, number>();
-    let r = 0;
-    segments.forEach((s, j) => {
-      if (s.op !== 'delete') toRevised.set(j, r++);
-    });
-    return anchors.map((anchor) => {
-      for (let j = anchor; j < segments.length && segments[j].op !== 'equal'; j++) {
-        if (segments[j].op === 'insert') return toRevised.get(j) ?? -1;
-      }
-      return -1;
-    });
-  }, [anchors, segments]);
+  const revisedBefore = useMemo(() => {
+    const counts = [0];
+    for (const segment of segments) {
+      counts.push(counts[counts.length - 1] + (segment.op === 'delete' ? 0 : 1));
+    }
+    return counts;
+  }, [segments]);
+  /**
+   * Each edit's first ADDED run, as an index into the revised column of the
+   * side-by-side view. A pure cut has nothing on the revised side, so it maps to
+   * -1 and is not ringed.
+   */
+  const revisedAnchors = useMemo(
+    () =>
+      edits.map((edit) => {
+        for (let j = edit.start; j <= edit.end; j++) {
+          if (segments[j].op === 'insert') return revisedBefore[j];
+        }
+        return -1;
+      }),
+    [edits, segments, revisedBefore]
+  );
+  /** Each edit's span in the revised column, for the side-by-side ring. Null for a pure cut. */
+  const revisedRanges = useMemo(
+    () =>
+      edits.map((edit) => {
+        const start = revisedBefore[edit.start];
+        const end = revisedBefore[edit.end + 1] - 1;
+        return end >= start ? { start, end } : null;
+      }),
+    [edits, revisedBefore]
+  );
 
   // Which syllabus terms the revision brought in: it names what the extra mark
   // was for in the question's own vocabulary.
@@ -364,7 +410,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const behavior: ScrollBehavior = reduceMotion ? 'auto' : 'smooth';
       const mark = markRefs.current.get(
-        view === 'split' ? revisedAnchors[next] : edits[next].anchor
+        view === 'split' ? revisedAnchors[next] : edits[next].start
       );
       if (typeof mark?.scrollIntoView === 'function') {
         mark.scrollIntoView({ block: 'center', behavior });
@@ -429,7 +475,8 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
     !unchanged && originalMark !== undefined && targetMark !== undefined
       ? targetMark - originalMark
       : 0;
-  const activeAnchor = view === 'clean' ? null : (edits[cursor]?.anchor ?? null);
+  const activeEdit = view === 'clean' ? undefined : edits[cursor];
+  const activeRange = activeEdit ? { start: activeEdit.start, end: activeEdit.end } : null;
   const comparing = hasOriginal && !unchanged;
 
   // Every button here is 44px tall on a phone, the touch target, and returns to
@@ -657,7 +704,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     ['Your original', stats.originalWords, originalSide, false],
                     ['Improved', stats.revisedWords, revisedSide, true],
                   ] as const
-                ).map(([label, words, side, isRevised]) => (
+                ).map(([label, words, runs, isRevised]) => (
                   <div key={label}>
                     <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-surface-elevated/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
                       {isRevised && (
@@ -677,9 +724,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                       {/* The revised column owns the jump targets: it is the
                           side a student is being asked to write. */}
                       <DiffText
-                        segments={side}
+                        segments={runs}
+                        side={isRevised ? 'revised' : 'original'}
                         fontSize={fontSize}
-                        activeAnchor={isRevised ? (revisedAnchors[cursor] ?? null) : null}
+                        activeRange={isRevised ? (revisedRanges[cursor] ?? null) : null}
                         registerMark={isRevised ? registerMark : undefined}
                         keywords={originalPrompt.keywords}
                         verb={originalPrompt.verb}
@@ -705,7 +753,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   <DiffText
                     segments={segments}
                     fontSize={fontSize}
-                    activeAnchor={activeAnchor}
+                    activeRange={activeRange}
                     editNumbers={editNumbers}
                     registerMark={registerMark}
                     onSelectEdit={goTo}
@@ -792,7 +840,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     const active = i === cursor && view !== 'clean';
                     return (
                       <li
-                        key={edit.anchor}
+                        key={edit.start}
                         ref={(el) => {
                           if (el) railRefs.current.set(i, el);
                           else railRefs.current.delete(i);

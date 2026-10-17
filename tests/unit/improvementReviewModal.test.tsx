@@ -24,6 +24,13 @@ const ORIGINAL = 'Caching stores data. It makes the system faster.';
 const IMPROVED =
   'Caching stores frequently requested data. It makes the system faster by reducing latency.';
 
+/**
+ * Three separate edits: two→alpha, seven→beta and twelve→gamma. Each gap of kept
+ * words is four long, which is past the two-word bridge, so they stay apart.
+ */
+const THREE_EDITS_ORIGINAL = 'one two three four five six seven eight nine ten eleven twelve';
+const THREE_EDITS_REVISED = 'one alpha three four five six beta eight nine ten eleven gamma';
+
 const renderModal = (over: Partial<React.ComponentProps<typeof ImprovementReviewModal>> = {}) => {
   const onApply = vi.fn();
   const onClose = vi.fn();
@@ -87,6 +94,64 @@ describe('ImprovementReviewModal', () => {
 
     const cut = screen.getAllByTitle('Cut by the marker').map((el) => el.textContent?.trim());
     expect(cut.join(' ')).toContain('It makes the system faster.');
+  });
+
+  /**
+   * A replacement that ends where a paragraph breaks ("numbers.\n\n" cut, the
+   * new sentence ending in its own break) used to paint the break inside the
+   * marks: an empty struck-through bar, then the new sentence on a paragraph of
+   * its own, then an empty green bar. Only the words go inside a mark now.
+   */
+  const paragraphBreakEdit = {
+    originalAnswer: 'The graph shows reading the numbers.\n\nVisualisations also matter.',
+    improvedAnswer:
+      'The graph shows the acceleration after 1990 the first thing the reader notices.\n\nVisualisations also matter.',
+  };
+
+  it('keeps paragraph breaks out of the marks, so an edit draws no empty bar', () => {
+    renderModal(paragraphBreakEdit);
+
+    const marks = Array.from(document.body.querySelectorAll('mark'));
+    expect(marks.length).toBeGreaterThan(0);
+    for (const mark of marks) {
+      expect(mark.textContent).not.toMatch(/\n/);
+      expect(mark.textContent?.trim()).not.toBe('');
+    }
+    // The revision's own break still ends the paragraph the new sentence is in.
+    const page = document.body.querySelector('p.font-serif')!;
+    expect(page.textContent).toContain('notices.\n\nVisualisations');
+  });
+
+  it('keeps the original paragraph break in the original column, where it is the student’s', () => {
+    renderModal(paragraphBreakEdit);
+
+    fireEvent.click(screen.getByText('Side by side'));
+
+    const [original, revised] = Array.from(document.body.querySelectorAll('p.font-serif'));
+    expect(original.textContent).toContain('numbers.\n\nVisualisations');
+    expect(revised.textContent).toContain('notices.\n\nVisualisations');
+    for (const mark of Array.from(document.body.querySelectorAll('mark'))) {
+      expect(mark.textContent?.trim()).not.toBe('');
+    }
+  });
+
+  it('cuts a run that spans paragraphs at each break, so no mark holds an empty line', () => {
+    // The insertion carries a break INSIDE it, not only at its end: a new
+    // closing sentence and a whole new paragraph after it.
+    renderModal({
+      originalAnswer: 'Tables hide the trend.\n\nGraphs show it.',
+      improvedAnswer:
+        'Tables hide the trend in rows of figures.\n\nA reader must build it alone.\n\nGraphs show it.',
+    });
+
+    const marks = Array.from(document.body.querySelectorAll('mark'));
+    expect(marks.length).toBeGreaterThan(1);
+    for (const mark of marks) {
+      expect(mark.textContent).not.toMatch(/\n/);
+      expect(mark.textContent?.trim()).not.toBe('');
+    }
+    const page = document.body.querySelector('p.font-serif')!;
+    expect(page.textContent).toContain('figures.\n\nA reader must build it alone.\n\nGraphs');
   });
 
   it('reports how much of the student’s own writing survived', () => {
@@ -180,8 +245,8 @@ describe('ImprovementReviewModal', () => {
 
   it('steps through the changes in a long revision', () => {
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     // Three separated edits, counted as three — not as six insert/delete runs.
@@ -194,10 +259,57 @@ describe('ImprovementReviewModal', () => {
     expect(screen.getByText('3/3')).toBeTruthy();
   });
 
+  /**
+   * "slow and costly" → "quick and cheap" is one rewrite. The kept "and" between
+   * the two changes is two words' worth of bridge, so the margin lists one edit
+   * with both halves in full, and the page marks only the words that changed.
+   */
+  const BRIDGED = {
+    originalAnswer: 'the system is slow and costly',
+    improvedAnswer: 'the system is quick and cheap',
+  };
+
+  it('reads two changes with a short kept run between them as one edit', () => {
+    renderModal(BRIDGED);
+
+    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const items = within(margin).getAllByRole('listitem');
+    expect(items).toHaveLength(1);
+    expect(items[0].textContent).toContain('slow and costly');
+    expect(items[0].textContent).toContain('quick and cheap');
+    // One edit has nothing to step through, and only the one number on the page.
+    expect(screen.queryByLabelText('Next change')).toBeNull();
+    expect(screen.getByLabelText('Edit 1')).toBeTruthy();
+    expect(screen.queryByLabelText('Edit 2')).toBeNull();
+  });
+
+  it('leaves the bridged kept word unmarked, and marks only what changed', () => {
+    renderModal(BRIDGED);
+
+    const added = screen.getAllByTitle('Added by the marker').map((el) => el.textContent?.trim());
+    const cut = screen.getAllByTitle('Cut by the marker').map((el) => el.textContent?.trim());
+    expect(added).toEqual(['quick', 'cheap']);
+    expect(cut).toEqual(['slow', 'costly']);
+  });
+
+  it('rings every changed run of a bridged edit, and not the kept word between them', () => {
+    renderModal(BRIDGED);
+
+    const ringed = () =>
+      Array.from(document.body.querySelectorAll('mark'))
+        .filter((m) => m.className.includes('ring-2'))
+        .map((m) => m.textContent?.trim());
+    expect(ringed()).toEqual(['slow', 'quick', 'costly', 'cheap']);
+
+    // The side-by-side revised column rings the same two insertions, in its own indexing.
+    fireEvent.click(screen.getByText('Side by side'));
+    expect(ringed()).toEqual(['quick', 'cheap']);
+  });
+
   it('numbers each edit on the page and lists the same numbers in the margin', () => {
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     const margin = screen.getByRole('complementary', { name: 'What changed and why' });
@@ -213,8 +325,8 @@ describe('ImprovementReviewModal', () => {
 
   it('moves to an edit picked from the margin or the page', () => {
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     const margin = screen.getByRole('complementary', { name: 'What changed and why' });
@@ -230,8 +342,8 @@ describe('ImprovementReviewModal', () => {
     // drawn by an absolutely positioned pseudo-element, so the layout of the
     // prose is the same with or without it.
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     const marker = screen.getByLabelText('Edit 1');
@@ -272,8 +384,8 @@ describe('ImprovementReviewModal', () => {
    */
   it('rings the named edit in the side-by-side column', () => {
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     fireEvent.click(screen.getByText('Side by side'));
@@ -308,8 +420,8 @@ describe('ImprovementReviewModal', () => {
    */
   it('paints the primary action and the active edit marker in the band, not in white', () => {
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     const apply = screen.getByText('Use this version').closest('button')!;
@@ -332,8 +444,8 @@ describe('ImprovementReviewModal', () => {
 
   it('marks the cursor edit in the band’s edge, and only that edit', () => {
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     const margin = screen.getByRole('complementary', { name: 'What changed and why' });
@@ -352,8 +464,8 @@ describe('ImprovementReviewModal', () => {
 
   it('keeps the stepper and the close button at a 44px touch target on a phone', () => {
     renderModal({
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     for (const name of ['Previous change', 'Next change']) {
@@ -372,8 +484,8 @@ describe('ImprovementReviewModal', () => {
   it('says what changed and why above the edits, when the rewrite says', () => {
     renderModal({
       keyChanges: ['Named the consequence', 'Added a judgement'],
-      originalAnswer: 'one two three four five six seven eight',
-      improvedAnswer: 'one alpha three four beta six seven gamma',
+      originalAnswer: THREE_EDITS_ORIGINAL,
+      improvedAnswer: THREE_EDITS_REVISED,
     });
 
     const margin = screen.getByRole('complementary', { name: 'What changed and why' });
