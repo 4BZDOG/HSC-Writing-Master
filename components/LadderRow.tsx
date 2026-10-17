@@ -13,10 +13,8 @@ import {
   LADDER_GUTTER_STRIP,
   LADDER_GUTTER_CAPTION,
   LADDER_GUTTER_MARK,
-  LADDER_GUTTER_MARK_LONG,
   LADDER_GUTTER_MARK_MEDIUM,
   LADDER_GUTTER_TOTAL,
-  LADDER_GUTTER_TOTAL_LONG,
   LADDER_LINKED,
   LADDER_LINKED_BADGE,
   LADDER_ROW,
@@ -90,30 +88,24 @@ export const LadderRowGutter: React.FC<LadderRowGutterProps> = ({
   quiet = false,
   phoneGutter = 'full',
 }) => {
-  // The figure steps down as it lengthens, so it always fits the gutter: "5/6" and
-  // "3–4/6" at the usual size, "7–8/10" one step down, and "10–12/12", eight
-  // characters, at the smallest with its total smaller again.
-  const figureLength = markLabel.length + (total === undefined ? 0 : String(total).length + 1);
-  const long = figureLength > 7;
-  const markClass =
-    figureLength <= 5
-      ? LADDER_GUTTER_MARK
-      : figureLength <= 7
-        ? LADDER_GUTTER_MARK_MEDIUM
-        : LADDER_GUTTER_MARK_LONG;
-  const totalClass = long ? LADDER_GUTTER_TOTAL_LONG : LADDER_GUTTER_TOTAL;
-  // On a phone the narrow gutter sets the figure a step smaller, and the strip hides
-  // the figure and caption from sight (they stay in the DOM for a screen reader). The
-  // variants win over the sizes above, and from `sm` the full gutter's sizes apply.
+  // The total is on its own line under the mark, so only the mark has to fit the
+  // gutter's width: "5", "3–4" and "9–10" at the usual size, and a two-digit range,
+  // "10–12", one step down.
+  const markClass = markLabel.length <= 4 ? LADDER_GUTTER_MARK : LADDER_GUTTER_MARK_MEDIUM;
+  // On a phone the narrow gutter leaves 52px inside its inset, so a four-character
+  // mark (43px at 18px) and a five-character one (48px at 16px) each step down once.
+  // The strip hides the figure and caption from sight (they stay in the DOM for a
+  // screen reader). The variants win over the sizes above, and from `sm` the full
+  // gutter's sizes apply.
   const phoneMarkClass =
     phoneGutter === 'narrow'
-      ? long
-        ? 'max-sm:text-xs'
-        : figureLength <= 5
+      ? markLabel.length <= 3
+        ? ''
+        : markLabel.length === 4
           ? 'max-sm:text-lg'
           : 'max-sm:text-base'
       : '';
-  const phoneTotalClass = phoneGutter === 'narrow' ? 'max-sm:text-[10px]' : '';
+  const phoneTotalClass = phoneGutter === 'narrow' ? 'max-sm:text-xs' : '';
   const phoneHidden = phoneGutter === 'strip' ? 'max-sm:sr-only' : '';
   const phoneCaption = phoneGutter === 'narrow' ? 'max-sm:text-[10px] max-sm:leading-none' : '';
   const gutterShape =
@@ -133,7 +125,7 @@ export const LadderRowGutter: React.FC<LadderRowGutterProps> = ({
       <span className={`${markClass} ${phoneMarkClass} ${phoneHidden} ${ink}`}>
         {markLabel}
         {total !== undefined && (
-          <span className={`${totalClass} ${phoneTotalClass}`}>/{total}</span>
+          <span className={`${LADDER_GUTTER_TOTAL} ${phoneTotalClass}`}>/{total}</span>
         )}
       </span>
       {bandCaption !== false && (

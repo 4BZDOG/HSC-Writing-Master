@@ -11,7 +11,6 @@ import {
   LADDER_SOLID,
   LADDER_GUTTER,
   LADDER_GUTTER_MARK,
-  LADDER_GUTTER_MARK_LONG,
   LADDER_GUTTER_MARK_MEDIUM,
   LADDER_LINKED,
   LADDER_LINKED_BADGE,
@@ -112,12 +111,13 @@ describe('LadderRow gutter', () => {
     expect(screen.getByText('2')).toBeTruthy();
   });
 
-  it('keeps a mark at the usual size, and a long figure at the smaller one that fits the gutter', () => {
+  it('keeps a mark at the usual size, and a two-digit range one step down', () => {
     const { container, unmount } = render(
-      <LadderRow band={3} markLabel="3" total={6}>
+      <LadderRow band={3} markLabel="9–10" total={12}>
         x
       </LadderRow>
     );
+    // The total is on its own line, so only the mark has to fit: "9–10" keeps the size.
     expect(gutterOf(container).firstElementChild!.className).toContain(LADDER_GUTTER_MARK);
     unmount();
 
@@ -126,25 +126,39 @@ describe('LadderRow gutter', () => {
         x
       </LadderRow>
     );
-    // "10–12/12" is eight characters, which will not fit the gutter at the usual size.
-    expect(gutterOf(long.container).firstElementChild!.className).toContain(
-      LADDER_GUTTER_MARK_LONG
-    );
-    expect(gutterOf(long.container).firstElementChild!.className).not.toContain(LADDER_GUTTER_MARK);
+    const figure = gutterOf(long.container).firstElementChild as HTMLElement;
+    expect(figure.className).toContain(LADDER_GUTTER_MARK_MEDIUM);
+    expect(figure.className).not.toContain(LADDER_GUTTER_MARK);
   });
 
-  it('steps a middle-length figure down one size, between the usual and the long', () => {
-    // "7–8/10" is six characters: too long for the usual size, short of the longest.
+  it('stacks the total under the mark, so the two read as two lines', () => {
     const { container } = render(
-      <LadderRow band={5} markLabel="7–8" total={10}>
+      <LadderRow band={6} markLabel="11–12" total={12}>
         x
       </LadderRow>
     );
     const figure = gutterOf(container).firstElementChild as HTMLElement;
-    expect(figure.className).toContain(LADDER_GUTTER_MARK_MEDIUM);
-    expect(figure.className).not.toContain(LADDER_GUTTER_MARK);
-    expect(figure.className).not.toContain(LADDER_GUTTER_MARK_LONG);
-    expect(figure.textContent).toBe('7–8/10');
+    // A column: the mark's text, then the total's span under it. The text is still
+    // one string for a screen reader.
+    expect(figure.className).toContain('flex-col');
+    expect(figure.lastElementChild!.textContent).toBe('/12');
+    expect(figure.textContent).toBe('11–12/12');
+  });
+
+  it('steps a narrow phone gutter down once for a four- or five-character mark', () => {
+    const sizes = (markLabel: string) => {
+      const { container, unmount } = render(
+        <LadderRow band={5} markLabel={markLabel} total={12} phoneGutter="narrow">
+          x
+        </LadderRow>
+      );
+      const className = (gutterOf(container).firstElementChild as HTMLElement).className;
+      unmount();
+      return className;
+    };
+    expect(sizes('3–4')).not.toMatch(/max-sm:text-/);
+    expect(sizes('9–10')).toContain('max-sm:text-lg');
+    expect(sizes('11–12')).toContain('max-sm:text-base');
   });
 });
 
