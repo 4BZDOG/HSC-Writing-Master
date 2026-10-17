@@ -812,7 +812,10 @@ const Editor = forwardRef<
                   {onToggleFocusMode && (
                     <button
                       onClick={onToggleFocusMode}
-                      aria-label={isFocusMode ? 'Exit focus mode' : 'Enter focus mode'}
+                      // One name, with the state in aria-pressed: a name that also
+                      // flipped said the state twice, and "Exit focus mode" was
+                      // already the pill's name above the cards.
+                      aria-label="Focus mode"
                       aria-pressed={isFocusMode}
                       title={
                         isFocusMode
@@ -826,7 +829,7 @@ const Editor = forwardRef<
                       ) : (
                         <Maximize className="w-3.5 h-3.5" />
                       )}
-                      <span className="hidden 2xl:inline">{isFocusMode ? 'Normal' : 'Focus'}</span>
+                      <span className="hidden 2xl:inline">Focus</span>
                     </button>
                   )}
                 </div>

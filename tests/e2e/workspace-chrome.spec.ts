@@ -462,7 +462,8 @@ test.describe('the reference panels in one column', () => {
       await page.setViewportSize({ width, height: 1000 });
       await openWorkspace(page);
       await page
-        .getByRole('button', { name: /enter focus mode/i })
+        // The toggle keeps one name and says its state in aria-pressed.
+        .getByRole('button', { name: 'Focus mode', exact: true, pressed: false })
         .first()
         .click();
       await page.waitForTimeout(900);
