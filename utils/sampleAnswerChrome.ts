@@ -24,13 +24,14 @@
  *  same slim form, so the two bodies open with the same line. It wraps, so on a
  *  narrow panel the AI actions drop under the reading size rather than off the
  *  edge. Painted on the panel body, which is the page's tone. */
-export const SAMPLE_TOOLS = 'flex flex-wrap items-center justify-end gap-2';
+export const SAMPLE_TOOLS = 'flex flex-wrap items-center justify-end gap-1 sm:gap-2';
 
 /** The reading-size group: the two zoom buttons with the size between them, in one
- *  small well. Painted on the panel body, so it is a white well in the light theme
- *  and a black-tinted one in the dark. */
+ *  small well from `sm`. On a phone it is the two buttons alone, with no well and no
+ *  figure, so the toolbar stays one slim line of icons. Painted on the panel body, so it
+ *  is a white well in the light theme and a black-tinted one in the dark. */
 export const SAMPLE_ZOOM =
-  'flex items-center gap-0.5 rounded-lg border border-slate-300 bg-white p-0.5 shadow-sm dark:border-white/10 dark:bg-black/20';
+  'flex items-center gap-0 sm:gap-0.5 sm:rounded-lg sm:border sm:border-slate-300 sm:bg-white sm:p-0.5 sm:shadow-sm dark:sm:border-white/10 dark:sm:bg-black/20';
 
 /** One zoom button. It is 44px on a phone, which is the touch target, and returns to
  *  its own size from `sm`. Painted on the zoom well. */
@@ -40,13 +41,29 @@ export const SAMPLE_ZOOM_BUTTON =
 /** The current reading size between the zoom buttons. It is a figure, so it is mono
  *  and tabular and does not move its neighbours as it changes. Painted on the zoom well. */
 export const SAMPLE_ZOOM_VALUE =
-  'w-7 text-center font-mono text-xs font-bold tabular-nums text-slate-700 dark:text-slate-300 select-none';
+  'w-7 text-center font-mono text-xs font-bold tabular-nums text-slate-700 dark:text-slate-300 select-none max-sm:sr-only';
 
 /** The AI actions ("Generate", "Recalibrate") in their shut form. It is the Marking
  *  Guide's AI Draft button in shape, so the two AI controls read the same way on
- *  either panel. Painted on the panel body. */
+ *  either panel. On a phone it is a plain 44px icon with no box, so it sits in the same
+ *  slim line as the zoom; the box comes back from `sm`. Painted on the panel body. */
 export const SAMPLE_AI_BUTTON =
-  'flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-200 can-hover:hover:shadow-lg can-hover:hover:border-slate-400 dark:can-hover:hover:border-white/25 t-label transition-[box-shadow,border-color] duration-200 touch-manipulation active:scale-[0.98] disabled:cursor-not-allowed disabled:text-slate-400 dark:disabled:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+  'flex items-center justify-center gap-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 sm:py-1.5 sm:rounded-lg sm:border sm:border-slate-300 sm:bg-white sm:shadow-sm dark:sm:border-white/10 dark:sm:bg-white/5 text-slate-700 dark:text-slate-200 sm:text-slate-700 dark:sm:text-slate-200 can-hover:hover:shadow-lg can-hover:hover:border-slate-400 dark:can-hover:hover:border-white/25 t-label transition-[box-shadow,border-color] duration-200 touch-manipulation active:scale-[0.98] disabled:cursor-not-allowed disabled:text-slate-400 dark:disabled:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+
+/** The disclosure of an OPEN row, which replaces the shut disclosure's padding. Desktop
+ *  (from `sm`) it is a compact line of 28px or so, holding only the row's flag and its
+ *  exemplar count with the chevron, so the paper starts close to the row's top. A phone
+ *  gives it a 44px touch target and a 12px inset, and there it is the row's header: the
+ *  summary line ("5/5 · Band 3 · 126 words") is its text. It is the whole line, so a press
+ *  anywhere on it toggles the row. Painted on the row's band fill. */
+export const SAMPLE_DISCLOSURE_OPEN =
+  'flex flex-1 min-w-0 flex-col justify-center min-h-11 sm:min-h-0 px-3 sm:px-4 py-1 sm:py-1.5 text-left select-none touch-manipulation transition-colors duration-200 can-hover:hover:bg-slate-900/[0.04] dark:can-hover:hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+
+/** The summary line on a phone, in an open row's header: the mark, the band and the
+ *  length. The desktop header shows the flag and the count instead, so this is hidden
+ *  from `sm`. Painted on the row's band fill. */
+export const SAMPLE_ROW_SUMMARY =
+  'sm:hidden t-label tabular-nums text-slate-800 dark:text-slate-200';
 
 /** The header line of a row: the badges and figures on the left, the chevron on the
  *  right. The chevron is its own column, so it stays on the first line when the badges
@@ -71,12 +88,13 @@ export const SAMPLE_ROW_PREVIEW =
 
 /** The previous and next controls for a level with several exemplars, with the "N/M"
  *  between them. These sit beside the disclosure, as siblings of it, so they are
- *  never inside a button. They are hidden below `sm`: the picker on the same row
- *  offers every exemplar as a 44px chip, so the arrows would only take the width the
- *  header needs on a phone. Painted on the row's band wash, so the group is a white
+ *  never inside a button. They are on the open row's header line at every width, so a
+ *  phone keeps them beside the row's summary, and each is a 44px target there. The
+ *  picker on the same row also offers every exemplar as a chip. Painted on the row's
+ *  band wash, so the group is a white
  *  well of its own, the same as the zoom well. */
 export const SAMPLE_CAROUSEL =
-  'hidden sm:flex shrink-0 items-center gap-0.5 self-center mr-3 rounded-lg border border-slate-300 bg-white p-0.5 shadow-sm dark:border-white/10 dark:bg-black/20';
+  'flex shrink-0 items-center gap-0.5 self-center mr-2 sm:mr-3 rounded-lg border border-slate-300 bg-white p-0.5 shadow-sm dark:border-white/10 dark:bg-black/20';
 
 /** One carousel arrow. It is 44px on a phone. Painted on the carousel's white well. */
 export const SAMPLE_CAROUSEL_BUTTON =
@@ -127,7 +145,7 @@ export const SAMPLE_ROW = 'sample-row';
  *  sheet and the commentary below it, which has no sheet, as a note on it. Painted on
  *  the row's band wash; its top bar, its text and its foot sit inside it. */
 export const SAMPLE_PAGE =
-  'sample-paper overflow-hidden rounded-xl border border-slate-500 bg-white shadow-lg dark:border-white/20 dark:bg-[rgb(var(--color-bg-surface-inset))] dark:shadow-none';
+  'sample-paper overflow-hidden rounded-none border-0 bg-white shadow-none dark:bg-[rgb(var(--color-bg-surface-inset))] sm:rounded-xl sm:border sm:border-slate-500 sm:shadow-lg dark:sm:border-white/20 dark:sm:shadow-none';
 
 /** The paper's head: "Model answer · 5/5" with the answer's length, its source and the
  *  jump to its criterion, on the band's solid fill (`LADDER_SOLID`, added at the call
@@ -152,12 +170,13 @@ export const SAMPLE_PAGE_BAR_CHIP =
   'border-slate-900/40 bg-white/75 text-slate-900 dark:border-slate-900/40 dark:bg-white/75 dark:text-slate-900';
 
 /** The jump to the marking criterion, on the paper's head: a white pill with a
- *  list-check glyph, pushed to the head's right edge. It is a neutral control on a
- *  coloured bar, as the "Model answer" pill is on the guide's row; the head is the same
- *  solid in both themes, so the dark partners restate the light ones. It is 44px on a
- *  phone, which is the touch target. Painted on the band's solid fill. */
+ *  list-check glyph, pushed to the head's right edge from `sm`. It is a neutral control on
+ *  a coloured bar, as the "Model answer" pill is on the guide's row; the head is the same
+ *  solid in both themes, so the dark partners restate the light ones. On a phone the head
+ *  is a thin strip, so the jump is a small underlined text link there, 44px tall as the
+ *  touch target. Painted on the band's solid fill. */
 export const SAMPLE_CRITERION_LINK =
-  't-label ml-auto inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-full border border-slate-900/45 bg-white/80 text-slate-900 shadow-sm dark:border-slate-900/45 dark:bg-white/80 dark:text-slate-900 can-hover:hover:bg-white dark:can-hover:hover:bg-white transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/70 dark:focus-visible:ring-slate-900/70';
+  't-label ml-auto inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 text-slate-900 underline underline-offset-2 sm:no-underline sm:rounded-full sm:border sm:border-slate-900/45 sm:bg-white/80 sm:px-3 sm:py-1.5 sm:shadow-sm dark:sm:border-slate-900/45 dark:sm:bg-white/80 dark:text-slate-900 can-hover:hover:bg-white sm:can-hover:hover:bg-white dark:can-hover:hover:bg-white transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/70 dark:focus-visible:ring-slate-900/70';
 
 /** The full visible label of the criterion jump, shown above 480px of head. The button's
  *  `aria-label` names it in full for every width, so a screen reader is not given the
@@ -182,7 +201,7 @@ export const SAMPLE_PAGE_FOOT =
  *  is set inline from the zoom control, so it is not in this class. Painted on the
  *  page. */
 export const SAMPLE_PAGE_TEXT =
-  'px-4 py-4 sm:px-6 font-serif leading-[1.6] whitespace-pre-wrap break-words text-slate-800 dark:text-slate-200';
+  'px-3 py-4 sm:px-6 font-serif leading-[1.6] whitespace-pre-wrap break-words text-slate-800 dark:text-slate-200';
 
 /** The toolbar beneath the page: the word and keyword figures on the left and the
  *  actions on the right, wrapping as two lines on a phone. Painted on the row's band
@@ -193,7 +212,7 @@ export const SAMPLE_ACTIONS = 'flex flex-wrap items-center justify-between gap-x
  *  wraps within itself, so every action is reachable at 390px. Painted on the
  *  row's band wash. */
 export const SAMPLE_ACTION_GROUP =
-  'flex w-full sm:w-auto flex-wrap items-center justify-start sm:justify-end gap-1.5 sm:ml-auto';
+  'flex flex-wrap items-center justify-end gap-1 sm:w-auto sm:gap-1.5 sm:ml-auto';
 
 /** A labelled action: "Use", "Copy", "Submit". It is a neutral button, so the actions
  *  are quiet and the exemplar is what the eye lands on. It is 44px on a phone. Painted
@@ -207,14 +226,20 @@ export const SAMPLE_ACTION =
 export const SAMPLE_ACTION_ICON =
   'flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 sm:p-1.5 rounded-lg text-slate-600 dark:text-slate-300 can-hover:hover:bg-slate-900/5 dark:can-hover:hover:bg-white/10 transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
+/** The phone form of an action that is also a word on a wider screen ("Use", "Copy",
+ *  "Submit"): a 44px square with the icon centred, and the word hidden. The word stays in
+ *  the button's accessible name through `aria-label`. From `sm` the button is its
+ *  labelled self. Painted on the row's band wash, as the labelled action is. */
+export const SAMPLE_ACTION_PHONE_ICON = 'max-sm:w-11 max-sm:justify-center max-sm:px-0';
+
 /** The divider between the student's actions and a curator's, a hairline. Painted on
  *  the row's band wash. */
-export const SAMPLE_ACTION_DIVIDER = 'mx-1 h-4 w-px bg-slate-400 dark:bg-white/20';
+export const SAMPLE_ACTION_DIVIDER = 'mx-1 h-4 w-px bg-slate-400 dark:bg-white/20 max-sm:hidden';
 
 /** The toggle that folds the Coach's Tip and the Feedback away. It is a caption-sized
  *  text control, 44px tall on a phone. Painted on the row's band wash. */
 export const SAMPLE_NOTE_TOGGLE =
-  't-label inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 text-slate-700 dark:text-slate-300 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white transition-colors duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+  't-label inline-flex items-center gap-1.5 whitespace-nowrap min-h-11 sm:min-h-0 text-slate-700 dark:text-slate-300 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white transition-colors duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
 /** The prose of the marker's commentary and of the Coach's Tip: the sentence the note
  *  says, in italics, which is the voice of a marker's margin note and sets it apart from
@@ -273,7 +298,7 @@ export const ZONE_FIGURE = 'font-mono text-xs font-bold tabular-nums';
  *  and below, so it holds its own against a white panel. Painted on the row's band
  *  wash. */
 export const SAMPLE_COMMENTARY =
-  'sample-commentary flex flex-col gap-3 rounded-r-xl border-l-4 py-2 pl-3 pr-3 sm:pl-4';
+  'sample-commentary flex flex-col gap-3 rounded-none border-l-4 py-2 pl-3 pr-3 sm:rounded-r-xl sm:pl-4';
 
 /** The commentary's head: its one label on the left and the fold on the right, wrapping
  *  on a phone so the fold keeps its 44px target. It is the only label the commentary
@@ -282,4 +307,4 @@ export const SAMPLE_COMMENTARY =
  *  hairline under it in the light theme. Painted on the row's band wash, so its ink is
  *  the slate pair beside the notes. */
 export const SAMPLE_COMMENTARY_HEAD =
-  'sample-commentary-head flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-slate-800 dark:text-slate-100';
+  'sample-commentary-head flex flex-wrap max-sm:flex-nowrap items-center justify-between gap-x-2 sm:gap-x-3 gap-y-1 text-slate-800 dark:text-slate-100';

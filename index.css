@@ -913,6 +913,24 @@ a:focus-visible,
   padding-bottom: 0.5rem;
   border-bottom: 1px solid rgb(var(--band-rgb) / 0.55);
 }
+/*
+ * On a phone (below `sm`) the exemplar's paper and its commentary run edge to edge in
+ * the row, so they drop the sheet's lift and the desk's box. The row keeps its band
+ * fill and its gutter, and the text keeps its own inset. Scoped to the Sample Answers
+ * classes, and only the light theme needs it, since the dark theme draws neither.
+ */
+@media (max-width: 639px) {
+  [data-theme='light'] .sample-paper {
+    box-shadow: none;
+  }
+  [data-theme='light'] .sample-commentary {
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    background-image: none;
+    box-shadow: none;
+  }
+}
 
 /*
  * A Marking Guide row LINKED to the exemplar the student has open (`LADDER_LINKED`):

@@ -109,6 +109,19 @@ export const LADDER_GUTTER_TOTAL_LONG = 'text-xs font-medium';
  *  in the band's `solidText` at the call site. Painted on the gutter's solid fill. */
 export const LADDER_GUTTER_CAPTION = 't-label text-center whitespace-nowrap';
 
+/** A NARROW gutter, for a phone only: 56px, so a row's body (the exemplar's preview)
+ *  gets the width the 72px gutter took. From `sm` it is `LADDER_GUTTER`'s width. The
+ *  figure and caption are set smaller by the caller (`LadderRowGutter`'s `phoneGutter`).
+ *  It is opt-in: only the Sample Answers panel asks for it, so the guide and the report
+ *  keep the full gutter. Painted on the band's solid fill. */
+export const LADDER_GUTTER_NARROW = `${LADDER_GUTTER} max-sm:w-14 max-sm:px-0.5`;
+
+/** A STRIP gutter, for a phone only: 4px, the band's colour down the left edge of an open
+ *  row that is full-bleed on a phone. Its figure and caption are read by a screen reader
+ *  and not drawn. From `sm` it is `LADDER_GUTTER`'s width. Painted on the band's solid
+ *  fill. */
+export const LADDER_GUTTER_STRIP = `${LADDER_GUTTER} max-sm:w-1 max-sm:px-0`;
+
 /** The body beside the gutter: the row's content. It takes `min-w-0` so a long
  *  unbroken word wraps rather than pushing the gutter out of the row. The inset is
  *  16px, the same as the disclosure and the pane below it, so the two halves of an

@@ -344,7 +344,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                   <span
                     className={`t-label px-2 py-0.5 rounded-lg bg-white/10 light:bg-white/60 border border-white/20 light:border-slate-300/50`}
                   >
-                    '{prompt.verb}'
+                    {prompt.verb}
                   </span>
                   <span aria-hidden="true" className="opacity-50">
                     ·
@@ -364,7 +364,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-col flex-1 overflow-y-auto custom-scrollbar p-8 space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
+        <div className="flex flex-col flex-1 overflow-y-auto custom-scrollbar p-5 sm:p-8 space-y-6 sm:space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
           {duplicates.length > 0 && (
             <div className="rounded-2xl border-2 border-amber-500/40 light:border-amber-300 bg-amber-500/5 light:bg-amber-50 p-5 animate-fade-in">
               <div className="flex items-start gap-3">
@@ -460,15 +460,18 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
             </div>
           )}
           <div>
-            <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-              <h3 className="t-section text-[rgb(var(--color-text-muted))] light:text-slate-500 flex items-center gap-2">
+            {/* The heading and the clear actions share one line, so Clear sits at the
+                right of the heading on a phone too. The hint wraps inside the heading when
+                the line is narrow, and the actions wrap only when they cannot fit. */}
+            <div className="flex items-start justify-between gap-3 mb-4">
+              <h3 className="t-section min-w-0 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex flex-wrap items-center gap-x-2 gap-y-1">
                 <Target className="w-3.5 h-3.5" /> Select Target Marks
                 <span className="normal-case tracking-normal font-medium">
                   — pick as many as you like
                 </span>
               </h3>
 
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap justify-end items-center gap-2 shrink-0">
                 {missingBandMarks.length > 0 && (
                   <button
                     onClick={() => !isLoading && setSelectedMarks(missingBandMarks)}
@@ -583,7 +586,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
           <div
             className={`
-                flex-1 rounded-2xl border-2 p-6 relative overflow-hidden transition-all duration-500
+                flex-1 min-h-min rounded-2xl border-2 p-6 relative overflow-hidden transition-all duration-500
                 ${
                   selectedMarks.length > 0
                     ? `${activeBandConfig.bg} band-edge`
@@ -631,7 +634,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       .
                       {selectedMarks[0] === 0
                         ? ' This simulates a non-attempt or a response that completely fails to address the criteria.'
-                        : ` It will demonstrate the depth, terminology, and structure expected of a Band ${selectedBand} student for this '${prompt.verb}' question.`}
+                        : ` It will demonstrate the depth, terminology, and structure expected of a Band ${selectedBand} student for this ${prompt.verb} question.`}
                     </>
                   ) : (
                     <>
@@ -720,7 +723,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 : `Crafting a Band ${selectedBand} response`
             }
             messages={[
-              `Analysing '${prompt.verb}' requirements...`,
+              `Analysing ${prompt.verb} requirements...`,
               `Targeting ${progress?.mark ?? selectedMarks[0]}/${prompt.totalMarks} marks...`,
               `Calibrating for Band ${progressBand} standard...`,
               'Drafting response content...',

@@ -53,6 +53,10 @@ interface AccordionSectionProps {
    *  ceiling band and the three reference panels of a question agree. Off by
    *  default, so every other section keeps its calm header. */
   hero?: boolean;
+  /** On a phone, the body takes a narrow 12px side inset and no gap above its first
+   *  child, so a panel whose rows are wide (the exemplars) gets the width. From `sm`
+   *  it is the same as every other section. Off by default. */
+  phoneFlush?: boolean;
 }
 
 export const AccordionSection: React.FC<AccordionSectionProps> = ({
@@ -67,6 +71,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
   forceOpenSignal,
   lazy = false,
   hero = false,
+  phoneFlush = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   // The signal as last seen, kept as state and compared during render (the
@@ -163,13 +168,18 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
       >
         <div className="overflow-hidden">
           <div
-            className={
+            className={[
               hero
                 ? `p-5 pt-0 border-t ${LADDER_EDGE_SHUT}`
-                : 'p-5 pt-0 border-t border-slate-300 dark:border-white/10'
-            }
+                : 'p-5 pt-0 border-t border-slate-300 dark:border-white/10',
+              phoneFlush ? 'max-sm:px-2 max-sm:pb-2' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
           >
-            <div className="mt-5">{!lazy || isOpen ? children : null}</div>
+            <div className={phoneFlush ? 'mt-5 max-sm:mt-0' : 'mt-5'}>
+              {!lazy || isOpen ? children : null}
+            </div>
           </div>
         </div>
       </div>
