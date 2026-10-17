@@ -86,7 +86,7 @@ describe('improveAnswer targets the next marking level, not a new essay', () => 
 
     const sent = JSON.stringify(bodyOf(fetchMock));
     expect(sent).toContain(`${target.targetMark}/8`);
-    expect(sent).toContain('the next band up, and no further');
+    expect(sent).toContain('one step up, and no further');
   });
 
   it('briefs the model to edit the student’s own text rather than replace it', async () => {
@@ -142,30 +142,30 @@ describe('the rewrite returned with a mark is scoped the same way', () => {
   });
   afterEach(() => vi.unstubAllGlobals());
 
-  it('asks the marker for a next-band lift of the student’s answer', async () => {
+  it('asks the marker for a one-step lift of the student’s answer', async () => {
     await evaluateAnswer('A short attempt at caching.', prompt);
 
     const sent = JSON.stringify(bodyOf(fetchMock));
     expect(sent).toContain('Lift the STUDENT');
-    expect(sent).toContain('NEXT BAND');
+    expect(sent).toContain('by ONE step');
+    expect(sent).toContain('Keep the student in it, however weak it is');
     expect(sent).toContain("Start from the student's own text");
     expect(sent).toContain('Hard length ceiling');
   });
 
   /**
-   * The marker awards the mark, so it cannot be handed a precomputed target —
-   * it gets the ladder and works the band out. The ladder has to stop at the
-   * question's own ceiling: naming a band the Verb Gate can never award is an
-   * invitation to aim at one.
+   * The marker awards the mark in the same call, so it is handed the target for
+   * every mark it could award, read from `getNextLevelTarget`, rather than a rule
+   * to work one out. Full marks is not in the list: there is nothing to lift.
    */
-  it('sends the band ladder, and stops it at the question’s ceiling', async () => {
+  it('sends the target for every mark it could award', async () => {
     await evaluateAnswer('A short attempt at caching.', prompt);
 
     const sent = JSON.stringify(bodyOf(fetchMock));
-    // Analyse is Tier 4, so an 8-mark question tops out at Band 4.
-    expect(sent).toContain('Band 1 starts at');
-    expect(sent).toContain('Band 4 starts at');
-    expect(sent).not.toContain('Band 5 starts at');
-    expect(sent).not.toContain('Band 6 starts at');
+    for (let mark = 0; mark < 8; mark += 1) {
+      const { targetMark } = getNextLevelTarget(mark, 8, 4);
+      expect(sent).toContain(`${mark} → ${targetMark}`);
+    }
+    expect(sent).not.toContain('8 → ');
   });
 });

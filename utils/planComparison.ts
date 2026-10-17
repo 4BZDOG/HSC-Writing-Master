@@ -65,7 +65,7 @@ const ROW_LABELS: Record<PremiumFeatureKey, { label: string; note?: string }> = 
   },
   answerUpgrades: {
     label: 'AI answer upgrades',
-    note: 'Your own words rewritten one band higher',
+    note: 'Your own words rewritten one step higher: a band, or a mark',
   },
   examMode: {
     label: 'Exam simulation',
