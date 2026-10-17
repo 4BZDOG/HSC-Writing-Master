@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useRef } from 'react';
 import AiWaitGlyph, { WAIT_INK } from './AiWaitGlyph';
 import AiBusyOverlay from './AiBusyOverlay';
 import WaitNoteFigure from './WaitNoteFigure';
-import { waitNotes } from '../utils/waitTips';
+import { verbTipFor, waitNotes } from '../utils/waitTips';
 import { acquireAiBusy } from '../utils/aiBusySignal';
 import {
   subscribeEvalProgress,
@@ -30,6 +30,8 @@ const PHASE_MESSAGES: Record<EvalProgressPhase, string> = {
 /** Marking usually lands inside this; past it, the card says so. */
 const USUAL_SECONDS = 40;
 const TIP_SECONDS = 9;
+/** The sticky app header's height, plus a little air: the loader must sit clear of it. */
+const HEADER_CLEARANCE_PX = 80;
 
 const formatTime = (sec: number): string =>
   sec < 60 ? `${sec}s` : `${Math.floor(sec / 60)}m ${String(sec % 60).padStart(2, '0')}s`;
@@ -43,17 +45,26 @@ const formatTime = (sec: number): string =>
  * and says when it is retrying or has switched model. It used to rotate
  * invented hints ("Calibrating with benchmarks…") over the top of those real
  * states once five seconds had passed.
+ *
+ * `verb` is the question's command verb. Its tip leads the notes (see
+ * `waitNotes`), so the card never explains a verb the question did not ask for.
  */
-const EvaluationProgressBar: React.FC = () => {
+const EvaluationProgressBar: React.FC<{ verb?: string }> = ({ verb }) => {
   const [elapsedSec, setElapsedSec] = useState(0);
   const [phase, setPhase] = useState<EvalProgressPhase>('started');
   const [eventMessage, setEventMessage] = useState<string | null>(null);
   // Read at render, not at module scope — `npm run check:eager-reads` holds
   // that line, since an import read during module init is how a chunk cycle
   // renders the page blank.
-  const notes = useMemo(() => waitNotes('evaluation'), []);
-  const [noteOffset] = useState(() => Math.floor(Math.random() * notes.length));
+  const notes = useMemo(() => waitNotes('evaluation', verb), [verb]);
+  // A verb with its own tip opens on that tip, since it is the one about what
+  // the student is waiting on. Otherwise the opening note is random, so the
+  // same card does not always open on the same sentence.
+  const [noteOffset] = useState(() =>
+    verbTipFor(verb) !== undefined ? 0 : Math.floor(Math.random() * notes.length)
+  );
   const startRef = useRef(Date.now());
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     startRef.current = Date.now();
@@ -73,6 +84,22 @@ const EvaluationProgressBar: React.FC = () => {
 
   useEffect(() => acquireAiBusy(), []);
 
+  // On a phone the page stays scrolled where Evaluate was pressed, which can
+  // leave the heading and bar under the sticky app header. The veil covers the
+  // whole writing card, often far taller than the screen, so centring the veil
+  // itself could leave its middle off-screen. The content block is what has to
+  // be seen, so that is what is centred. Only when it is not already clear: a
+  // loader in view does not move.
+  useEffect(() => {
+    const el = contentRef.current;
+    if (!el || typeof el.scrollIntoView !== 'function') return;
+    const r = el.getBoundingClientRect();
+    const clear = r.top >= HEADER_CLEARANCE_PX && r.bottom <= window.innerHeight;
+    if (clear) return;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    el.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' });
+  }, []);
+
   const isRetrying = phase === 'retrying';
   const isFallback = phase === 'fallback';
   // 'sending' is followed by nothing until the reply lands, so after a few
@@ -91,7 +118,7 @@ const EvaluationProgressBar: React.FC = () => {
   // and its top edge is the header's own edge.
   return (
     <AiBusyOverlay show rounded="rounded-b-surface-inner">
-      <div className="flex flex-col items-center gap-5 text-center">
+      <div ref={contentRef} className="flex flex-col items-center gap-5 text-center">
         <AiWaitGlyph task="evaluation" accent={WAIT_INK} />
 
         <div role="status" aria-live="polite" aria-atomic="true" className="space-y-1">
