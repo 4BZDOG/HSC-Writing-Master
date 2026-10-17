@@ -124,7 +124,11 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
         >
           <div className="min-h-0 overflow-hidden">
             <div className="px-4 sm:px-6 pb-4">
-              <div className="max-w-xl rounded-panel border border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] p-4 sm:p-5 divide-y divide-[rgb(var(--color-border-secondary))]">
+              {/* The card takes the row's width. It used to stop at 36rem, which
+                  left the right of the verb row empty on a desktop; the line
+                  length is capped on the text inside (see StrategyMoves), so a
+                  wider card does not make the steps any harder to read. */}
+              <div className="rounded-panel border border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] p-4 sm:p-5 divide-y divide-[rgb(var(--color-border-secondary))]">
                 <StrategyMoves
                   method={method}
                   terms={terms}

@@ -353,51 +353,65 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // slab that pushed the writing surface down; the keyboard shortcut and the
   // remaining-evaluations count move into the title so the control itself
   // stays the height of the footer it sits in.
-  const evaluateAction = (
-    <>
-      {/* Separates the action from the read-only metrics it is docked beside,
-        so the footer reads as "status … | do this" rather than one run-on row. */}
-      <span
-        aria-hidden="true"
-        className="hidden sm:block w-px h-6 bg-white/10 light:bg-slate-300 flex-shrink-0"
-      />
-      {/* The free tier's remaining markings, VISIBLE rather than in a tooltip
-          — see the note in FreeEvalCounter. Renders nothing for anyone who
-          isn't metered. */}
-      <FreeEvalCounter />
-      {/* The draft-readiness meter, docked immediately left of the button so
-          the accent hue, its number and its completeness word sit together at
-          the point of submission — colour never travels alone. Hidden in Exam
-          Mode exactly as Live Insights is, so nothing hints at scoring there. */}
-      {!isExamMode && <ReadinessMeter readiness={readiness} />}
-      <button
-        onClick={onEvaluate}
-        disabled={isEvaluating || !userAnswer.trim()}
-        // The accent hue is honest only when the readiness label + percentage
-        // ride with it. When the button is coloured (substance to mark, coach
-        // mode), the accessible name speaks that same readiness; otherwise it
-        // falls back to the visible "Evaluate"/"Evaluating" text.
-        aria-label={
-          !isEvaluating && userAnswer.trim() && !readiness.isNeutral && !isExamMode
-            ? `Evaluate — draft readiness: ${readiness.label}, ${readiness.score}%`
-            : undefined
-        }
-        title={
-          isEvaluating
-            ? 'Evaluating your response…'
-            : !userAnswer.trim()
-              ? 'Write a response first, then evaluate'
-              : `Evaluate your response (${shortcutName})${evalCounterTitle}`
-        }
-        // 44px tall on a phone, the touch target a thumb needs; the footer it sits
-        // in is the height of this button, so it grows with it and no further.
-        style={
-          buttonConfig.bandRgb
-            ? ({ '--band-rgb': buttonConfig.bandRgb } as React.CSSProperties)
-            : undefined
-        }
-        className={`
+  // The footer is laid out by Editor, which places these three pieces: the
+  // free-markings count, the readiness meter and this button. They are handed
+  // over separately because they sit in different rows on a phone.
+  //
+  // The free tier's remaining markings, VISIBLE rather than in a tooltip — see
+  // the note in FreeEvalCounter. Renders nothing for anyone who isn't metered.
+  const footerCounter = <FreeEvalCounter />;
+
+  // The draft-readiness meter, which the button's accent is read against. Hidden
+  // in Exam Mode exactly as Live Insights is, so nothing hints at scoring there.
+  //
+  // Its label is the completeness word, and it is dropped only where the space
+  // cannot hold it. Measured, not guessed:
+  // - From `xl` the writing card is a 7/12 column, about 700px at 1280 and 790px
+  //   at 1440. The single row needs about 750px of footer, so the word goes
+  //   there and comes back at `2xl`, where the card is wide enough.
+  // - Below 375px (a 360px Android phone) the bar would have about 45px left
+  //   beside the word, so the word goes there too. The bar keeps the number and
+  //   the aria-label keeps the word for a screen reader.
+  // Everywhere else it stays, and that includes every phone at 375px and up.
+  const footerProgress = isExamMode ? undefined : (
+    <ReadinessMeter
+      readiness={readiness}
+      className="flex-1 min-w-0 lg:flex-none lg:mr-auto"
+      barClassName="flex-1 min-w-[2rem] lg:flex-none lg:w-20"
+      labelClassName="hidden min-[375px]:inline xl:hidden 2xl:inline"
+    />
+  );
+
+  const evaluateButton = (
+    <button
+      onClick={onEvaluate}
+      disabled={isEvaluating || !userAnswer.trim()}
+      // The accent hue is honest only when the readiness label + percentage
+      // ride with it. When the button is coloured (substance to mark, coach
+      // mode), the accessible name speaks that same readiness; otherwise it
+      // falls back to the visible "Evaluate"/"Evaluating" text.
+      aria-label={
+        !isEvaluating && userAnswer.trim() && !readiness.isNeutral && !isExamMode
+          ? `Evaluate — draft readiness: ${readiness.label}, ${readiness.score}%`
+          : undefined
+      }
+      title={
+        isEvaluating
+          ? 'Evaluating your response…'
+          : !userAnswer.trim()
+            ? 'Write a response first, then evaluate'
+            : `Evaluate your response (${shortcutName})${evalCounterTitle}`
+      }
+      // 44px tall on a phone, the touch target a thumb needs; the footer it sits
+      // in is the height of this button, so it grows with it and no further.
+      style={
+        buttonConfig.bandRgb
+          ? ({ '--band-rgb': buttonConfig.bandRgb } as React.CSSProperties)
+          : undefined
+      }
+      className={`
           group px-4 py-2 sm:px-5 sm:py-2.5 min-h-11 sm:min-h-0 rounded-xl font-black text-xs sm:text-sm tracking-tight
+          max-lg:ml-auto max-lg:min-w-[7.5rem] max-lg:justify-center
           transition-all duration-300 flex items-center gap-2 flex-shrink-0 border
           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400
           focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))]
@@ -409,42 +423,41 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 : `${buttonConfig.surface} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
           }
         `}
-      >
-        {isEvaluating ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin text-white/60" />
-            <span className="text-slate-400">Evaluating</span>
-          </>
-        ) : (
-          <>
-            <Sparkles
-              className={`w-4 h-4 transition-transform duration-300 ${
-                userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
-              }`}
-            />
-            {/* The label's colour is the fill's own: white on the indigo default,
+    >
+      {isEvaluating ? (
+        <>
+          <Loader2 className="w-4 h-4 animate-spin text-white/60" />
+          <span className="text-slate-400">Evaluating</span>
+        </>
+      ) : (
+        <>
+          <Sparkles
+            className={`w-4 h-4 transition-transform duration-300 ${
+              userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
+            }`}
+          />
+          {/* The label's colour is the fill's own: white on the indigo default,
               and the band's ink on the band fill (`band-solid`), so it is unset
               there. Applied unconditionally, the white painted the DISABLED label
               too — legible against the dark footer, invisible against the light
               theme's pale grey one. Unset, the label inherits the button's colour. */}
-            <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
-            {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
+          <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
+          {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
                 Windows and ChromeOS machines most NSW schools issue, where
                 the shortcut is Ctrl + Enter — and at 9px the glyph blurred
                 into a smudge. */}
-            <kbd
-              className={`hidden md:inline text-[10px] font-bold border rounded-lg px-1.5 py-0.5 tracking-normal whitespace-nowrap transition-opacity ${
-                userAnswer.trim()
-                  ? 'bg-white/15 border-white/10 opacity-60 group-hover:opacity-100'
-                  : 'bg-black/5 border-current/20 opacity-50'
-              }`}
-            >
-              {SUBMIT_SHORTCUT}
-            </kbd>
-          </>
-        )}
-      </button>
-    </>
+          <kbd
+            className={`hidden md:inline text-[10px] font-bold border rounded-lg px-1.5 py-0.5 tracking-normal whitespace-nowrap transition-opacity ${
+              userAnswer.trim()
+                ? 'bg-white/15 border-white/10 opacity-60 group-hover:opacity-100'
+                : 'bg-black/5 border-current/20 opacity-50'
+            }`}
+          >
+            {SUBMIT_SHORTCUT}
+          </kbd>
+        </>
+      )}
+    </button>
   );
 
   return (
@@ -494,7 +507,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             minFooterHeight={minFooterHeight}
             writingMode={writingMode}
             onWritingModeChange={onWritingModeChange}
-            footerAction={evaluateAction}
+            footerCounter={footerCounter}
+            footerProgress={footerProgress}
+            footerAction={evaluateButton}
             // The marking wait is laid inside the card, under its header,
             // rather than over the whole box. See Editor for why the header
             // stays uncovered and the border never sits under the veil.

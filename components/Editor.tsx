@@ -96,10 +96,13 @@ interface EditorProps {
    *  student's own typing. Curators keep paste — they move sample answers and
    *  test material in and out of this surface as part of the job. */
   blockPaste?: boolean;
-  /** Primary action (Evaluate), docked at the right end of the footer bar.
-   *  It lives in the chrome rather than over — or above — the writing surface:
-   *  floating, it hid the student's own words; in a row of its own it took
-   *  ~90px out of a card whose height is fixed by the question beside it. */
+  /** The footer is three slots beside the words and the target, and how they
+   *  fall depends on width (see the footer below). `footerCounter` is the free
+   *  markings chip, `footerProgress` the readiness meter, and `footerAction`
+   *  the primary action (Evaluate). Each is placed by the footer, so the
+   *  caller hands over the pieces and not the layout. */
+  footerCounter?: React.ReactNode;
+  footerProgress?: React.ReactNode;
   footerAction?: React.ReactNode;
   /** The wait laid over the writing area while a request is in flight (see
    *  AiBusyOverlay). It covers the definition row, the well and the footer,
@@ -185,6 +188,8 @@ const Editor = forwardRef<
       minFooterHeight,
       writingMode = 'coach',
       onWritingModeChange,
+      footerCounter,
+      footerProgress,
       footerAction,
       blockPaste = false,
       draftSaved,
@@ -548,8 +553,25 @@ const Editor = forwardRef<
     // prompt. A fixed 300px floor here used to exceed the space available
     // under a short prompt, so an EMPTY editor rendered a scrollbar with
     // nothing to scroll to.
+    //
+    // The measure. A line of serif prose at 18px runs about 95 characters across
+    // a desktop card and about 130 in Focus Mode, which is past the point where
+    // the eye can find the start of the next line. The three stacked layers all
+    // take the same cap, so the phantom that sizes the height wraps exactly as
+    // the textarea does. The cap is on the text, not the card: the card keeps its
+    // width, and the column is left-aligned, so the words start on the same edge
+    // as the verb row and the question's heading above them rather than floating
+    // in the middle of a wide card. The max-width is border-box, so the calc adds
+    // the gutters back.
+    //
+    // The unit is 55ch, not 75ch, and that is deliberate. A `ch` is the width of
+    // a "0", and in Newsreader at 18px that is 10.2px, while an average letter of
+    // running prose is 7.5px. So 75ch would hold about 100 letters a line, which
+    // is the measure this is meant to fix; 55ch holds about 75. The unit scales
+    // with the reading size, so the line stays the same number of letters when
+    // the student zooms.
     const gridStackItemStyles =
-      'col-start-1 row-start-1 px-5 sm:px-8 pt-8 pb-8 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden';
+      'col-start-1 row-start-1 px-5 sm:px-7 max-w-[calc(55ch_+_2.5rem)] sm:max-w-[calc(55ch_+_3.5rem)] pt-8 pb-8 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden';
 
     return (
       <div
@@ -954,17 +976,34 @@ const Editor = forwardRef<
             {/* Footer Metrics */}
             <div
               ref={footerRef}
-              className={`${CARD_FOOTER_BOX} flex flex-wrap sm:flex-nowrap gap-y-2 sm:gap-y-0 items-center transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy}`}
+              className={`${CARD_FOOTER_BOX} flex items-center transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy}`}
               style={{ minHeight: minFooterHeight || 52 }}
             >
               {/* Inner wrapper carries the row layout so its height stays
               content-driven — the outer box is inflated by the synced
-              minFooterHeight and cannot be measured. */}
+              minFooterHeight and cannot be measured.
+
+              Two layouts, one piece of markup. Below `lg` the footer is two
+              rows: the words, Saved, the target and the free-markings count on
+              the first, and the readiness bar taking the width with Evaluate
+              at its right on the second. From `lg` it is one row: the status
+              at the left, the target, count and bar centred between the status
+              and the button, and Evaluate at the right.
+
+              The bar and Evaluate sit in a second-row wrapper, which `lg:contents`
+              removes from layout so they become direct children of the one row.
+              The centring is auto margins on the target and on the bar, rather
+              than another wrapper. On a desktop the single row does not wrap: if
+              it is too narrow for the bar's label, the label goes (see
+              `labelClassName` in WorkspaceRightPanel). */}
               <div
                 ref={footerContentRef}
-                className="w-full flex flex-wrap justify-between items-center gap-x-4 gap-y-1.5"
+                className="w-full flex flex-wrap lg:flex-nowrap items-center gap-x-2.5 lg:gap-x-4 gap-y-2"
               >
-                <div className="t-label flex items-center gap-4 sm:gap-6 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
+                {/* Saved shows on a phone too: it is the one thing that tells a
+                student their words are safe, and it is short enough to stand
+                beside the count. */}
+                <div className="t-label flex items-center gap-x-2.5 sm:gap-x-5 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
                   {/* Words, and not also characters.
                     A character count is a text-editor convention, and nothing
                     in this application is measured in characters: the length
@@ -984,7 +1023,7 @@ const Editor = forwardRef<
                   something to lose. */}
                   {draftSaved !== undefined && value.trim() !== '' && (
                     <span
-                      className={`hidden sm:flex items-center gap-1.5 transition-colors ${
+                      className={`flex items-center gap-1.5 transition-colors ${
                         draftSaved
                           ? 'text-emerald-500/80 light:text-emerald-700'
                           : 'text-[rgb(var(--color-text-dim))]'
@@ -1002,49 +1041,48 @@ const Editor = forwardRef<
                     </span>
                   )}
                 </div>
-                <div className="flex flex-wrap sm:flex-nowrap items-center justify-end gap-x-3 sm:gap-x-5 gap-y-2 sm:gap-y-0 ml-auto">
-                  <div className="flex items-center gap-2.5">
-                    {/* The halo separates the band dot from the surface behind
-                      it. A white ring does that on the dark footer and vanishes
-                      on the light one, so the dot lost its edge in light mode —
-                      the footer is a theme surface, unlike the header above it,
-                      which is always painted with the band gradient and where a
-                      white-alpha treatment is right in both themes. */}
-                    <div
-                      className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
-                      style={{ backgroundColor: chroma.accent }}
-                    />
-                    {/* "Band 2 target", not "Band 2 Target · Limited". The band's
-                      NESA descriptor beside the word "target" read as though the
-                      goal itself were "limited" — to a student aiming at the top
-                      of a DESCRIBE question, which is capped at Band 2 by its
-                      verb. The descriptor rides in the title for anyone who
-                      wants it. `whitespace-nowrap`: at 1280px it broke in two. */}
-                    <span
-                      className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))]"
-                      title={
-                        isExamMode
-                          ? undefined
-                          : `The highest band this question can reach: Band ${chroma.targetBand} (${chroma.name})`
-                      }
-                    >
-                      {isExamMode ? 'Exam conditions' : `Band ${chroma.targetBand} target`}
-                    </span>
-                    {/* The completeness word used to be repeated here, appended
-                      to the target-band pill as `· Coming along`. The
-                      `ReadinessMeter` a few inches to the right — in this same
-                      footer row, inside `footerAction` — already carries it,
-                      beside the bar and the percentage it belongs to, so the
-                      row read "Band 5 Target · Excellent · Coming along |
-                      Coming along ▬▬ 49%": the same two words twice, once
-                      hanging off a statement about the QUESTION and once
-                      attached to the meter measuring the DRAFT.
-
-                      The meter's copy is the one that survives, because it is
-                      the one with something to explain. What is left here is
-                      the question's fixed goal, which is what this pill was
-                      always for. */}
-                  </div>
+                {/* The question's fixed goal, at the start of the middle. The
+                  auto left margin is what centres the middle between the status
+                  and the button from `lg`; below it the row simply wraps here. */}
+                <div className="t-label flex items-center gap-2.5 whitespace-nowrap lg:ml-auto">
+                  {/* The halo separates the band dot from the surface behind
+                    it. A white ring does that on the dark footer and vanishes
+                    on the light one, so the dot lost its edge in light mode —
+                    the footer is a theme surface, unlike the header above it,
+                    which is always painted with the band gradient and where a
+                    white-alpha treatment is right in both themes. */}
+                  <div
+                    className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
+                    style={{ backgroundColor: chroma.accent }}
+                  />
+                  {/* "Band 2 target", not "Band 2 Target · Limited". The band's
+                    NESA descriptor beside the word "target" read as though the
+                    goal itself were "limited" — to a student aiming at the top
+                    of a DESCRIBE question, which is capped at Band 2 by its
+                    verb. The descriptor rides in the title for anyone who
+                    wants it. `whitespace-nowrap`: at 1280px it broke in two. */}
+                  <span
+                    className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))]"
+                    title={
+                      isExamMode
+                        ? undefined
+                        : `The highest band this question can reach: Band ${chroma.targetBand} (${chroma.name})`
+                    }
+                  >
+                    {isExamMode ? 'Exam conditions' : `Band ${chroma.targetBand} target`}
+                  </span>
+                  {/* The completeness word lives on the `ReadinessMeter` beside
+                    the bar and the percentage it belongs to, and not here. It
+                    used to be appended to this pill too, so the row read the
+                    same two words twice, once about the QUESTION and once about
+                    the DRAFT. */}
+                </div>
+                {footerCounter}
+                {/* From `lg` the bar and Evaluate are the middle's last item
+                    and the button, with no box of their own; below it they are
+                    the second row, the bar taking the width. */}
+                <div className="w-full flex items-center gap-3 lg:contents">
+                  {footerProgress}
                   {footerAction}
                 </div>
               </div>
