@@ -1,5 +1,14 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-17 (Syllabus navigator, and one ladder for syllabus terms, the marking guide and sample answers)
+
+- **Changed.** On a phone, a teacher's navigator hides its per-level edit buttons behind one "Edit syllabus" toggle beside "Hide navigator" (about 830px of buttons before); students see no change. Closed pickers drop their counts and Ready chips below `sm`, so a topic's name is no longer cut to "Core study:…" (#392).
+- **Changed.** On a desktop every picker ends at one right edge: each level's buttons sit in a column sized to the widest group the signed-in role sees, and button labels show from `2xl`. The collapsed bar's ancestor crumbs keep 8.5rem from `lg`, so the path reads in full (#392).
+- **Changed.** "Active Focus" / "Refine Scope..." is now "Focus" / "All of this syllabus point", and action buttons are 44px on a phone with an accessible name (#392).
+- **Changed.** The sample answers panel is redesigned for a phone. The toolbar is one slim row of icons, a closed row keeps a 56px gutter, and an open row is full-bleed: a 4px band strip, a one-line header ("3/3 · Band 2 · 77 words") that is the disclosure, a small "Criterion" link, and icon-only actions. The answer runs 310px wide at 390px, about 37 characters a line where it was about 20 (#393).
+- **Changed.** The marking guide and syllabus terms mirror the sample answers ladder: the same phone inset, 56px gutter and icon toolbar (a guide criterion is 270px wide at 390px, from about 210px); one link style, `LADDER_LINK`, for the guide's "Model answer" and the exemplar's "View marking criterion"; and one reading face, `LADDER_READING` (serif, 15px), for a criterion and an exemplar's preview. `LadderRowGutter`'s `phoneGutter` and `AccordionSection`'s `phoneFlush` are opt-in, so the feedback report is unchanged (#394).
+- **Fixed.** The sample answer generator no longer wraps the verb in quotes ('DESCRIBE') and no longer clips its Expected Result card on a phone (#393).
+
 ## [Unreleased] - 2026-10-17 (The marked-response workflow: rewrite review, marking report and PDF)
 
 - **Fixed.** The marker never said what it changed in the rewrite or why. `evaluateAnswer` asked for `revisedAnswer` as a plain string, so `keyChanges` never arrived: the review's "What changed and why", the report's "What changed" and the PDF's reasons were empty in production, and Regenerate wrote `keyChanges: []`. Marking now asks for `{ text, keyChanges }` (2–4 lines, each what changed and why it earns credit), and so does Regenerate (`improveAnswer`, with a plain-prose fallback for a provider that ignores the schema and a clear error for an unreadable object) (#385).
