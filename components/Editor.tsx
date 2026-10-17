@@ -554,24 +554,14 @@ const Editor = forwardRef<
     // under a short prompt, so an EMPTY editor rendered a scrollbar with
     // nothing to scroll to.
     //
-    // The measure. A line of serif prose at 18px runs about 95 characters across
-    // a desktop card and about 130 in Focus Mode, which is past the point where
-    // the eye can find the start of the next line. The three stacked layers all
-    // take the same cap, so the phantom that sizes the height wraps exactly as
-    // the textarea does. The cap is on the text, not the card: the card keeps its
-    // width, and the column is left-aligned, so the words start on the same edge
-    // as the verb row and the question's heading above them rather than floating
-    // in the middle of a wide card. The max-width is border-box, so the calc adds
-    // the gutters back.
-    //
-    // The unit is 55ch, not 75ch, and that is deliberate. A `ch` is the width of
-    // a "0", and in Newsreader at 18px that is 10.2px, while an average letter of
-    // running prose is 7.5px. So 75ch would hold about 100 letters a line, which
-    // is the measure this is meant to fix; 55ch holds about 75. The unit scales
-    // with the reading size, so the line stays the same number of letters when
-    // the student zooms.
+    // No measure cap: the text runs the full width of the card. A 55ch cap
+    // (about 75 letters a line) left a third of a wide card empty on a desktop
+    // and in Focus Mode, which read as wasted space rather than as an easier
+    // line. The three stacked layers share these classes, so the phantom that
+    // sizes the height still wraps exactly as the textarea does. `sm:px-7`
+    // starts the words on the verb row's left edge.
     const gridStackItemStyles =
-      'col-start-1 row-start-1 px-5 sm:px-7 max-w-[calc(55ch_+_2.5rem)] sm:max-w-[calc(55ch_+_3.5rem)] pt-8 pb-8 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden';
+      'col-start-1 row-start-1 px-5 sm:px-7 pt-8 pb-8 font-serif leading-[1.8] whitespace-pre-wrap break-words overflow-hidden';
 
     return (
       <div
