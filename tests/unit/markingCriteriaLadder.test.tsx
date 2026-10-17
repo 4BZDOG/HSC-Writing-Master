@@ -5,6 +5,7 @@ import MarkingCriteriaAccordion from '../../components/MarkingCriteriaAccordion'
 import { formatMarkingCriteria } from '../../utils/dataManagerUtils';
 import { getBandRgb } from '../../utils/renderUtils';
 import { Prompt, PromptVerb } from '../../types';
+import { LADDER_READING } from '../../utils/ladderChrome';
 
 /**
  * A marking guide is only useful as the descending HSC ladder — one row per
@@ -202,36 +203,41 @@ describe('the accordion renders a row per mark level', () => {
 });
 
 /**
- * The criteria are read, not glanced at.
+ * The criteria read at the ladder's reading size, the one an exemplar's preview is set in.
  *
- * They were set at `text-[11px]` in the panel whose own description is "the
- * criteria your answer is scored against, mark by mark" — while the mark
- * NUMBER beside each row is `text-lg`, 18px. The thing a student glances at was
- * two-thirds larger than the thing they have to read.
- *
- * This is the one reading surface the app had left behind. The others set their
- * size inline from a zoom control and are already 16-21.6px, which is why a
- * count of `text-*` classes said the app had no body size and was measuring the
- * wrong thing. See `.t-body` in index.css.
+ * The guide's rows and the Sample Answers rows are one ladder, so a criterion and a
+ * preview share the serif, the size, the leading and the ink (`LADDER_READING`). The
+ * command-term guide keeps `.t-body`, which is its own glossary and not a ladder row.
  */
-describe('the criteria are set at reading size', () => {
-  it('carries the body token rather than a caption size', () => {
+// Found by the token itself, not a literal size class, so retuning the reading size in
+// `LADDER_READING` cannot make these tests find nothing.
+const READING_SELECTOR = LADDER_READING.split(' ')
+  .slice(0, 2)
+  .map((c) => `.${c.replace(/[[\]]/g, '\\$&')}`)
+  .join('');
+
+describe('the criteria read at the ladder’s reading size', () => {
+  it('sets each criterion row in the shared reading token, not a caption size', () => {
     const { container } = renderCriteria('8 marks: Comprehensive analysis.\n6 marks: Thorough.');
-    const rows = container.querySelectorAll('.t-body');
-    expect(rows.length, 'no criterion row carries .t-body').toBeGreaterThan(0);
+    const rows = container.querySelectorAll<HTMLElement>(READING_SELECTOR);
+    expect(rows.length, 'no criterion row carries the reading token').toBeGreaterThan(0);
     for (const row of rows) {
-      const cls = row.getAttribute('class') ?? '';
-      expect(cls, 'a caption size is still competing with the body token').not.toMatch(
-        /text-\[(9|10|11|12)px\]|text-xs\b/
-      );
+      for (const token of LADDER_READING.split(' ')) {
+        expect(row.className.split(' '), `a criterion row lost \`${token}\``).toContain(token);
+      }
+      expect(row.className).not.toMatch(/text-\[(9|10|11|12)px\]|text-xs\b|t-label/);
     }
   });
 
-  it('keeps the prose fallback at reading size too', () => {
+  it('keeps the prose fallback in the same reading face as a row', () => {
     // The branch taken when the criteria do not parse into a ladder.
     const { container } = renderCriteria(
       'For full marks the response must clearly relate structure to function throughout.'
     );
-    expect(container.querySelectorAll('.t-body').length).toBeGreaterThan(0);
+    const fallback = container.querySelector<HTMLElement>(READING_SELECTOR);
+    expect(fallback, 'the fallback prose is not in the reading face').not.toBeNull();
+    for (const token of LADDER_READING.split(' ')) {
+      expect(fallback!.className.split(' ')).toContain(token);
+    }
   });
 });

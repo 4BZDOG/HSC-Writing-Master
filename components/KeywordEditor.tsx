@@ -320,6 +320,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
               markLabel={String(keyUsed)}
               total={syllabusKeywords.length}
               bandCaption="Key terms"
+              phoneGutter="narrow"
             >
               <div
                 role="group"
@@ -338,6 +339,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
               markLabel={String(supportingUsed)}
               total={supportingKeywords.length}
               bandCaption="Supporting"
+              phoneGutter="narrow"
             >
               <div role="group" aria-label="Supporting terms" className="flex flex-wrap gap-2">
                 {supportingKeywords.map((kw) => renderPill(kw, 'supporting'))}

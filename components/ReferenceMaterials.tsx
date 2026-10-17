@@ -224,6 +224,7 @@ export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
       icon={<ListChecks />}
       band={ceilingBand}
       hero
+      phoneFlush
       resetKey={prompt.id}
       supportId="markingGuide"
       forceOpenSignal={openSignal}
@@ -316,6 +317,7 @@ export const SyllabusTermsPanel: React.FC<
       icon={<Sparkles />}
       band={ceilingBand}
       hero
+      phoneFlush
       resetKey={prompt.id}
       supportId="keywords"
     >

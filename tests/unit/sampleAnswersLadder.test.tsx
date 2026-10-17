@@ -3,7 +3,7 @@ import React from 'react';
 import { readFileSync } from 'node:fs';
 import { render, screen, fireEvent, cleanup, act, within } from '@testing-library/react';
 import SampleAnswersAccordion from '../../components/SampleAnswersAccordion';
-import { MarkingGuidePanel } from '../../components/ReferenceMaterials';
+import { MarkingGuidePanel, SyllabusTermsPanel } from '../../components/ReferenceMaterials';
 import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
 import {
   requestOpenCriterion,
@@ -11,10 +11,15 @@ import {
   resetLinkedExemplars,
 } from '../../utils/ladderLink';
 import {
+  LADDER_BODY,
   LADDER_DISCLOSURE,
   LADDER_EDGE_SHUT,
   LADDER_GUTTER,
+  LADDER_LINK,
+  LADDER_READING,
   LADDER_ROW,
+  LADDER_ROW_PHONE_INSET,
+  LADDER_STACK,
 } from '../../utils/ladderChrome';
 import { getBandRgb } from '../../utils/renderUtils';
 import { readSupportUsage, resetSupportEngagement } from '../../utils/supportEngagement';
@@ -133,17 +138,9 @@ describe('a mark draws the same gutter in the guide and in the exemplars', () =>
     const band = getBandForMark(5, 6, TIER);
     expect(guideGutter.textContent).toBe(`5/6Band ${band}`);
     expect(sampleGutter.textContent).toBe(`5/6Band ${band}`);
-    // The same classes, so the same width, radius, type and band wash. The one difference
-    // is the phone's narrower gutter (a `max-sm:` override of the same width), which the
-    // guide does not draw; from `sm` the two are identical.
-    const withoutPhoneOverrides = (className: string) =>
-      className
-        .split(' ')
-        .filter((token) => !token.startsWith('max-sm:'))
-        .join(' ');
-    expect(withoutPhoneOverrides(sampleGutter.className)).toBe(
-      withoutPhoneOverrides(guideGutter.className)
-    );
+    // The same classes, phone override included: both are a closed row whose criterion or
+    // preview is always shown, so both take the narrow gutter on a phone.
+    expect(sampleGutter.className).toBe(guideGutter.className);
     expect(sampleGutter.className).toContain('max-sm:w-14');
     expect(sampleGutter.style.getPropertyValue('--band-rgb')).toBe(
       guideGutter.style.getPropertyValue('--band-rgb')
@@ -558,5 +555,136 @@ describe('the disclosure in a level is still a native button', () => {
     for (const token of LADDER_DISCLOSURE.split(' ').filter((t) => t === 'p-3' || t === 'block')) {
       expect(levelOf(6).className).toContain(token);
     }
+  });
+});
+
+/**
+ * The three ladders, held together: the Syllabus Terms rows, the Marking Guide rows and
+ * the exemplar rows. They are one design language, so a closed row of each takes the
+ * same phone gutter, the same reading face, the same inset and the same stack gap, and
+ * the two links between the guide and the exemplars are one token.
+ */
+describe('the three ladders read as one', () => {
+  const renderThree = () => {
+    const prompt = {
+      ...makePrompt('p-three', [sample(5), sample(3)]),
+      keywords: ['membrane', 'transport'],
+    } as Prompt;
+    return render(
+      <>
+        <div data-testid="terms">
+          <SyllabusTermsPanel
+            prompt={prompt}
+            topic={undefined}
+            onKeywordsChange={vi.fn()}
+            isEnriching={false}
+            onRegenerateKeywords={vi.fn()}
+            isRegeneratingKeywords={false}
+            regenerateError={null}
+            onSuggestKeywords={vi.fn()}
+            isSuggestingKeywords={false}
+            suggestError={null}
+            userRole="admin"
+          />
+        </div>
+        <div data-testid="guide">
+          <MarkingGuidePanel prompt={prompt} userRole="admin" onMarkingCriteriaChange={vi.fn()} />
+        </div>
+        <div data-testid="samples">
+          <SampleAnswersAccordion
+            prompt={prompt}
+            onSampleAnswerGenerated={vi.fn()}
+            onDeleteSampleAnswer={vi.fn()}
+            onUpdateSampleAnswer={vi.fn()}
+            userRole="admin"
+            defaultCollapsed={false}
+          />
+        </div>
+      </>
+    );
+  };
+
+  /** The tokens of a class string, as a set, so a test can ask for each one. */
+  const tokens = (el: Element): string[] => (el.getAttribute('class') ?? '').split(/\s+/);
+
+  it('gives a closed row of every panel the same narrow gutter on a phone', () => {
+    renderThree();
+    const termsGutters = Array.from(
+      screen.getByTestId('terms').querySelectorAll<HTMLElement>('.border-r')
+    ).filter((el) => el.className.includes('w-[4.5rem]'));
+    expect(termsGutters.length).toBeGreaterThan(0);
+    const guideGutter = gutterIn(screen.getByTestId('guide'), '5');
+    const sampleGutter = gutterIn(screen.getByTestId('samples'), '5');
+    for (const gutter of [...termsGutters, guideGutter, sampleGutter]) {
+      expect(tokens(gutter)).toContain('max-sm:w-14');
+      expect(tokens(gutter)).not.toContain('max-sm:w-1');
+      expect(tokens(gutter)).toContain('w-[4.5rem]');
+    }
+  });
+
+  it('sets a criterion and an exemplar’s preview in the same reading face', () => {
+    renderThree();
+    const criterion = gutterIn(
+      screen.getByTestId('guide'),
+      '6'
+    ).nextElementSibling!.querySelector<HTMLElement>('.font-serif')!;
+    const preview = screen.getByTestId('samples').querySelector<HTMLElement>('.line-clamp-2')!;
+    expect(criterion.className).toContain(LADDER_READING);
+    for (const token of LADDER_READING.split(' ')) {
+      expect(tokens(preview), `the preview lost \`${token}\``).toContain(token);
+    }
+  });
+
+  it('gives a guide row and an exemplar row the same inset from the gutter on a phone', () => {
+    renderThree();
+    const guideBody = gutterIn(screen.getByTestId('guide'), '6').nextElementSibling!;
+    expect(guideBody.className).toContain(LADDER_BODY);
+    expect(guideBody.className).toContain(LADDER_ROW_PHONE_INSET);
+    const sampleDisclosure = levelOf(5);
+    expect(sampleDisclosure.className).toContain(LADDER_ROW_PHONE_INSET);
+  });
+
+  it('stacks the rows of every panel with the one gap', () => {
+    renderThree();
+    const termsStack = screen
+      .getByTestId('terms')
+      .querySelector<HTMLElement>(`.${LADDER_STACK.split(' ')[0]}`);
+    expect(termsStack).not.toBeNull();
+    expect(termsStack!.className).toContain(LADDER_STACK);
+    expect(
+      screen.getByTestId('guide').querySelector(`.${LADDER_STACK.split(' ')[0]}`)!.className
+    ).toContain(LADDER_STACK);
+    expect(
+      screen.getByTestId('samples').querySelector(`.${LADDER_STACK.split(' ')[0]}`)!.className
+    ).toContain(LADDER_STACK);
+  });
+
+  it('draws a guide’s "Model answer" and an exemplar’s "View marking criterion" as one link', () => {
+    renderThree();
+    const modelAnswer = within(screen.getByTestId('guide')).getByRole('button', {
+      name: /^See the model answer for 5 marks/,
+    });
+    expect(tokens(modelAnswer)).toEqual(expect.arrayContaining(LADDER_LINK.split(' ')));
+    // The exemplar's link lives on the open paper, so open the level to reach it.
+    fireEvent.click(levelOf(5));
+    const criterion = within(screen.getByTestId('samples')).getByRole('button', {
+      name: /^View marking criterion for 5 marks/,
+    });
+    expect(tokens(criterion)).toEqual(expect.arrayContaining(LADDER_LINK.split(' ')));
+  });
+
+  it('gives every toolbar tool a 44px phone target, the AI one as a plain icon', () => {
+    renderThree();
+    const aiDraft = within(screen.getByTestId('guide')).getByRole('button', { name: /^AI Draft/ });
+    expect(tokens(aiDraft)).toContain('min-h-11');
+    expect(tokens(aiDraft)).toContain('min-w-11');
+    // The word is hidden on a phone and kept for a screen reader.
+    expect(aiDraft.querySelector('.max-sm\\:sr-only')).not.toBeNull();
+    const edit = within(screen.getByTestId('guide')).getByRole('button', { name: 'Edit criteria' });
+    expect(tokens(edit)).toContain('min-h-11');
+    expect(tokens(edit)).toContain('min-w-11');
+    const add = within(screen.getByTestId('terms')).getByRole('button', { name: 'Add term' });
+    expect(tokens(add)).toContain('min-w-11');
+    expect(tokens(add)).toContain('min-h-11');
   });
 });

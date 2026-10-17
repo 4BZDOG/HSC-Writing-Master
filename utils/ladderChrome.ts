@@ -122,32 +122,44 @@ export const LADDER_GUTTER_NARROW = `${LADDER_GUTTER} max-sm:w-14 max-sm:px-0.5`
  *  fill. */
 export const LADDER_GUTTER_STRIP = `${LADDER_GUTTER} max-sm:w-1 max-sm:px-0`;
 
+/** The inset of a row's text from its gutter, on a phone only. The row is full width
+ *  on a phone, so the 16px a desktop row keeps is 6px there. With the narrow gutter that
+ *  leaves the criterion and the exemplar's preview a 270px column at 390px (the row's
+ *  own 1px border comes off the 272px it would otherwise have). The top and bottom keep
+ *  `p-4`. From `sm` it is `p-4`. Shared by the guide's rows and the exemplar's shut
+ *  disclosure, so the two read the same width. */
+export const LADDER_ROW_PHONE_INSET = 'max-sm:px-1.5';
+
 /** The body beside the gutter: the row's content. It takes `min-w-0` so a long
  *  unbroken word wraps rather than pushing the gutter out of the row. The inset is
  *  16px, the same as the disclosure and the pane below it, so the two halves of an
  *  open row start on one left edge. Painted on the row's band fill. The type inside
  *  it is the caller's to set, because the Marking Guide's criterion is serif reading
  *  text and the Sample Answers body is an interactive exemplar. */
-export const LADDER_BODY = 'flex-1 min-w-0 p-4';
+export const LADDER_BODY = `flex-1 min-w-0 p-4 ${LADDER_ROW_PHONE_INSET}`;
 
 /** The footer under a body's content, where a row puts a control such as "Model
  *  answer". It wraps, so a row on a narrow phone keeps its control whole. Painted
  *  on the row's band fill. */
 export const LADDER_FOOTER = 'mt-3 flex flex-wrap items-center gap-2';
 
-/** The "Model answer" control: a pill that sits on the band fill as a light (or,
- *  in the dark theme, a smoked) chip, so it reads as an action on the row and not
- *  as part of the fill. The white is the chip's ground in the light theme and the
- *  black its ground in the dark, which is what keeps it legible on a band that is
- *  strong at its left edge.
+/** The jump between a guide row and its exemplar, in both directions: the guide's
+ *  "Model answer" and the exemplar's "View marking criterion". The two are one link, so
+ *  they share this token and differ only in their icon and wording.
  *
- *  `min-h-11` (44px) on a phone is the touch target. From `sm` the pill goes back
- *  to its own height. Hover is `can-hover:`, as everywhere in the app: a tap on a
- *  phone leaves `:hover` on the element. Press feedback is `active:` on `transform`.
- *  Painted on the row's band fill, so its ground is the white or black beneath it
- *  and its ink is the slate pair on that ground. */
-export const LADDER_MODEL_ANSWER =
-  't-label inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-full border border-slate-500 bg-white/80 text-slate-800 shadow-sm dark:border-white/30 dark:bg-black/30 dark:text-slate-100 can-hover:hover:bg-white dark:can-hover:hover:bg-black/50 transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+ *  From `sm` it is a white pill with slate ink, the same in both themes, so it reads on
+ *  the band's wash and on the solid head alike. On a phone it is a small underlined text
+ *  link, 44px tall as the touch target. Its ink is slate-900, which is right on the solid
+ *  head in both themes; a caller on a band's wash in the dark theme adds its own light
+ *  ink for the phone (see `MarkingCriteriaAccordion`). `ml-auto` and the like are the
+ *  caller's. Hover is `can-hover:`, as everywhere: a tap leaves `:hover` stuck on a phone.
+ *  Painted on the band's fill, or on its solid head. */
+export const LADDER_LINK =
+  't-label inline-flex items-center gap-1.5 min-h-11 sm:min-h-0 text-slate-900 dark:text-slate-900 underline underline-offset-2 sm:no-underline sm:rounded-full sm:border sm:border-slate-900/45 sm:bg-white/80 dark:sm:border-slate-900/45 dark:sm:bg-white/80 sm:px-3 sm:py-1.5 sm:shadow-sm sm:can-hover:hover:bg-white transition-colors duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/70 dark:focus-visible:ring-white/70';
+
+/** The link token pushed to the right edge of a bar: the exemplar paper's "View marking
+ *  criterion" (re-exported as `SAMPLE_CRITERION_LINK`). Painted on the band's solid fill. */
+export const LADDER_LINK_TRAILING = `${LADDER_LINK} ml-auto`;
 
 /** A guide row while it is LINKED to the exemplar the student has open in the Sample
  *  Answers panel: the row's outline in the band's full hue, a halo round it and a lift
@@ -161,7 +173,7 @@ export const LADDER_LINKED = 'ladder-linked';
 
 /** The badge that says why a linked row is lit: "Matches the model answer you are
  *  reading". A white pill with slate ink in the light theme and a smoked one in the
- *  dark, the same chip ground `LADDER_MODEL_ANSWER` uses, so it reads as a label on the
+ *  dark, the same chip ground `LADDER_LINK` uses, so it reads as a label on the
  *  row and not as part of its fill. Painted on the row's band fill, which is strongest
  *  at the gutter, so the ground is the white or black beneath it and the ink is the
  *  slate pair on that ground. */
@@ -177,7 +189,7 @@ export const LADDER_LINKED_BADGE =
  *  `can-hover:` for the same reason as everywhere: a tap leaves `:hover` stuck on
  *  a phone. The focus ring is inset because the row clips with `overflow-hidden`. */
 export const LADDER_DISCLOSURE =
-  'block min-w-0 p-4 text-left touch-manipulation select-none transition-colors duration-200 ' +
+  `block min-w-0 p-4 ${LADDER_ROW_PHONE_INSET} text-left touch-manipulation select-none transition-colors duration-200 ` +
   'can-hover:hover:bg-slate-900/[0.04] dark:can-hover:hover:bg-white/[0.05] ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
@@ -204,12 +216,25 @@ export const LADDER_NOTE_GLYPH = 'w-4 h-4 mt-0.5 shrink-0 text-slate-600 dark:te
  *  band fill. */
 export const LADDER_NOTE_LABEL = 't-label text-slate-600 dark:text-slate-300';
 
-/** The guide's criterion, as the reading text of a row. The Marking Guide draws its
- *  criteria with this, and the "What earns this mark" note draws the same criterion
- *  with it, so the two are one text face, one size and one ink. `.t-body` is the
- *  size prose is read at. Painted on the row's band fill, which is strongest at the
- *  gutter, so the ink is checked there (see DesignSpec §2 and the e2e contrast
- *  sweep). */
+/** The reading text of a ladder row: a Marking Guide criterion and an exemplar's preview.
+ *  Both are the same serif, size, leading and ink, so a guide row and an exemplar row
+ *  read as one ladder. 15px: the guide's criteria are text a student reads, not a
+ *  caption, and at 14px they read small beside the question; at the guide's old 16px
+ *  an exemplar's two-line preview held too little of the answer. Painted on the row's
+ *  band fill, which is strongest at the gutter, so the ink is checked there (see
+ *  DesignSpec §2 and the e2e contrast sweep). */
+export const LADDER_READING =
+  'font-serif text-[15px] leading-relaxed text-slate-700 dark:text-slate-300';
+
+/** An exemplar's opening on a shut Sample Answers row: the reading face, clamped to two
+ *  lines, so a student can tell two exemplars apart before opening either. Composed here
+ *  (and re-exported as `SAMPLE_ROW_PREVIEW`) so it is built from `LADDER_READING` in the
+ *  same module, not read across an import at init. Painted on the row's band wash. */
+export const LADDER_ROW_PREVIEW = `mt-2 line-clamp-2 break-words ${LADDER_READING}`;
+
+/** The command-term guide's criterion lines, a glossary on a card rather than a ladder
+ *  row. Kept at `.t-body`, the size prose is read at there. The ladder rows read
+ *  `LADDER_READING`. */
 export const LADDER_CRITERION = 't-body font-serif text-slate-600 dark:text-slate-300';
 
 /** The unparsed-guide fallback: a guide that did not split into rows, shown as one
@@ -217,8 +242,7 @@ export const LADDER_CRITERION = 't-body font-serif text-slate-600 dark:text-slat
  *  row's radius, border and fill and reads as the ladder's own, not as a stray box.
  *  The caller adds `LADDER_EDGE_SHUT` and `LADDER_FILL` and hands over `--band-rgb`.
  *  Painted on the panel body, with its fill from the band. */
-export const LADDER_FALLBACK =
-  'rounded-xl border p-4 shadow-sm t-body font-serif text-slate-600 dark:text-slate-300';
+export const LADDER_FALLBACK = `rounded-xl border p-4 shadow-sm ${LADDER_READING}`;
 
 /** The empty guide: no criteria yet, and a line that says what closes the gap. It is
  *  a dashed well in the band's edge, not a grey box, so an empty panel still reads
@@ -226,13 +250,14 @@ export const LADDER_FALLBACK =
  *  Painted on the panel body. */
 export const LADDER_EMPTY = 'py-8 px-4 text-center rounded-xl border-2 border-dashed';
 
-/** A panel tool in the Marking Guide's curator row ("AI Draft"): the shape the
- *  Sample Answers panel's "Generate" uses, so the two AI controls read the same way
- *  on either panel. It is 44px on a phone, which is the touch target, and returns to
- *  its own height from `sm`. Painted on the panel body, which is the page's tone, so
- *  it is a white button in the light theme and a dark one in the dark. */
+/** A panel tool in the Marking Guide's curator row ("AI Draft"), and the AI action on the
+ *  Sample Answers panel ("Generate", "Recalibrate"), which is the same control. On a phone
+ *  it is a plain 44px icon with no box, so a toolbar is one slim line of icons; from `sm`
+ *  it is a bordered button with its label. A caller whose label is a word on a phone hides
+ *  it with `max-sm:sr-only`, so the name stays. Painted on the panel body, which is the
+ *  page's tone, so it is a white button in the light theme and a dark one in the dark. */
 export const LADDER_TOOL =
-  't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 shadow-sm dark:border-white/10 dark:bg-white/5 dark:text-slate-200 can-hover:hover:shadow-lg can-hover:hover:border-slate-400 dark:can-hover:hover:border-white/25 transition-[box-shadow,border-color] duration-200 touch-manipulation active:scale-[0.98] disabled:cursor-not-allowed disabled:text-slate-400 dark:disabled:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+  't-label inline-flex items-center justify-center gap-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 sm:px-3 sm:py-1.5 sm:rounded-lg sm:border sm:border-slate-300 sm:bg-white sm:shadow-sm dark:sm:border-white/10 dark:sm:bg-white/5 text-slate-700 dark:text-slate-200 can-hover:hover:shadow-lg can-hover:hover:border-slate-400 dark:can-hover:hover:border-white/25 transition-[box-shadow,border-color] duration-200 touch-manipulation active:scale-[0.98] disabled:cursor-not-allowed disabled:text-slate-400 dark:disabled:text-slate-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
 /** An icon-only panel tool: "Edit", "Save", "Cancel", the notice's dismiss. It is
  *  44px on a phone, where a 24px icon is too small to hit, and returns to its own
@@ -293,7 +318,7 @@ export const LADDER_TOOL_INPUT =
  *  same shape as `LADDER_TOOL`, so a locked tool reads as part of the same family.
  *  Painted on the panel body. */
 export const LADDER_TOOL_LOCKED =
-  't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-amber-500/50 bg-amber-50 text-amber-800 shadow-sm dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-300 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-600/50 dark:focus-visible:ring-amber-300/60';
+  't-label inline-flex items-center justify-center gap-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 sm:px-3 sm:py-1.5 sm:rounded-lg sm:border sm:border-amber-500/50 sm:bg-amber-50 sm:shadow-sm dark:sm:border-amber-400/40 dark:sm:bg-amber-400/10 text-amber-800 dark:text-amber-300 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-600/50 dark:focus-visible:ring-amber-300/60';
 
 /** The icon-only version of `LADDER_TOOL_LOCKED`, combined with `LADDER_TOOL_ICON`
  *  for a locked icon tool ("AI Suggest" and "Regenerate" without the plan). */

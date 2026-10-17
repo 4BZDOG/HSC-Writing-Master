@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import MarkingCriteriaManager from '../../components/MarkingCriteriaAccordion';
 import { OPEN_EXEMPLAR_EVENT, type OpenExemplarDetail } from '../../utils/ladderLink';
-import { LADDER_MODEL_ANSWER } from '../../utils/ladderChrome';
+import { LADDER_LINK } from '../../utils/ladderChrome';
 import type { Prompt, PromptVerb, SampleAnswer } from '../../types';
 
 /**
@@ -120,7 +120,7 @@ describe('the Model answer control on a guide row', () => {
   it('keeps a touch target of at least 44px on a phone', () => {
     renderGuide(FOUR_ROWS, prompt('ANALYSE', 4, [4]));
     const chip = screen.getByRole('button', { name: /see the model answer/i });
-    expect(chip.className).toContain(LADDER_MODEL_ANSWER);
+    expect(chip.className).toContain(LADDER_LINK);
     expect(chip.className).toContain('min-h-11');
   });
 
