@@ -426,6 +426,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     !!prompt.scenarioImage ||
     isEditingScenario ||
     !(condensed || examMode || !canCurate);
+  // A plain-text scenario sheds its inset box below `sm`. The box's border and
+  // fill, and the quote gutter inside them, left the text about 220px wide at
+  // 390px, which is ~30 characters a line. A scenario with an image keeps the box:
+  // the carousel is laid inside it.
+  const scenarioIsPlainText = !!prompt.scenario && !prompt.scenarioImage;
   const pastHsc = useMemo(() => getPastHscLabel(prompt), [prompt]);
   // Filler for the void a short question leaves — see the block that uses it.
   // Keyed off the absence of a real scenario rather than of the scenario
@@ -604,7 +609,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   own at any laptop width. And a "Band 2 ceiling" caption sat
                   here saying what the BAND pill in the corner already says —
                   its tooltip says it in full. */}
-                <div className={CARD_HEADER_META_ROW}>
+                <div className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:row-start-2`}>
                   <button
                     onClick={onVerbClick}
                     disabled={examMode}
@@ -711,7 +716,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
                 </button>
                 <span
-                  className="t-label font-mono tabular-nums text-white min-w-[2.25ch] text-center select-none"
+                  className="t-label font-mono tabular-nums text-white min-w-[2.25ch] text-center select-none max-sm:sr-only"
                   aria-live="polite"
                 >
                   {fontSize}
@@ -728,7 +733,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </button>
               </div>
 
-              <div data-card-bar className={`t-label ${CARD_HEADER_BAR} gap-1.5`}>
+              <div
+                data-card-bar
+                className={`t-label ${CARD_HEADER_BAR} gap-1.5 max-sm:col-start-2 max-sm:col-end-4 max-sm:row-start-2 max-sm:justify-self-end`}
+              >
                 {/* First to go when the row is tight: the suggested time is
                   the least load-bearing of the three, and the question card is
                   at its narrowest exactly where the corner has least room. It
@@ -786,7 +794,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             // reading as blank. Auto margins collapse to 0 the moment the
             // content is taller than the body, so long questions still start at
             // the top and scroll normally.
-            className={`${condensed ? 'p-6 sm:p-8' : 'p-6 sm:p-8 pb-4 sm:pb-4'} ${
+            // Below `sm` the sides come in to the header's 16px gutter, so the question
+            // and the scenario line up with the icon, and the scenario has the width
+            // to read at (see the scenario's own classes).
+            className={`${condensed ? 'p-6 max-sm:px-4 sm:p-8' : 'p-6 max-sm:px-4 sm:p-8 pb-4 sm:pb-4'} ${
               showScenarioSection ? '' : 'my-auto'
             } relative z-10 flex flex-col gap-6 sm:gap-8`}
           >
@@ -838,8 +849,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </div>
               ) : (
                 <div className="relative pl-2">
+                  {/* Reading text, so it gets a measure. At Focus Mode's width the
+                    question ran ~130 characters a line, which is past where the
+                    eye can return to the start of the next one. */}
                   <h2
-                    className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight break-words"
+                    className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight break-words max-w-[70ch]"
                     style={{ fontSize: `${fontSize * 1.2}px`, lineHeight: 1.3 }}
                   >
                     {/* The verb opens its guide. It has always been drawn
@@ -866,7 +880,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                           onClick={studioAction(() =>
                             onRunQualityCheck(prompt.question, 'question')
                           )}
-                          className={`p-2.5 rounded-xl shadow-lg hover:scale-110 transition-all ${
+                          className={`p-2.5 max-sm:size-11 max-sm:flex max-sm:items-center max-sm:justify-center rounded-xl shadow-lg hover:scale-110 transition-all ${
                             studioChrome ||
                             'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300'
                           }`}
@@ -877,7 +891,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       )}
                       <button
                         onClick={() => setIsEditingQuestion(true)}
-                        className="p-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-lg hover:scale-110 transition-all"
+                        className="p-2.5 max-sm:size-11 max-sm:flex max-sm:items-center max-sm:justify-center rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-lg hover:scale-110 transition-all"
                         title="Edit Question"
                       >
                         <Edit3 className="w-4 h-4" />
@@ -994,6 +1008,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     className={`
                            relative p-6 rounded-2xl transition-all duration-300
                            ${
+                             // A text scenario's box is capped with its text, so a wide
+                             // card (Focus Mode) does not leave a blank strip inside it.
+                             scenarioIsPlainText ? 'max-w-[calc(70ch+5rem)]' : ''
+                           }
+                           ${
+                             scenarioIsPlainText
+                               ? 'max-sm:p-0 max-sm:border-0 max-sm:shadow-none max-sm:bg-transparent light:max-sm:bg-transparent'
+                               : ''
+                           }
+                           ${
                              prompt.scenario || prompt.scenarioImage
                                ? `bg-black/20 light:bg-slate-100 border-2 border-white/10 light:border-slate-300 shadow-inner`
                                : 'bg-transparent border-dashed border border-slate-700/50 light:border-slate-300'
@@ -1010,10 +1034,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       />
                     ) : prompt.scenario ? (
                       <div className="relative">
-                        {/* Decorative Quote Icon */}
-                        <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180" />
+                        {/* Decorative Quote Icon. Hidden below `sm`: its gutter is what took
+                            the text's width, and the thin rule on the paragraph carries
+                            the quotation there instead. */}
+                        <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180 max-sm:hidden" />
                         <p
-                          className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words"
+                          className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words max-w-[70ch] max-sm:pl-2.5 max-sm:pr-0 max-sm:border-l-2 max-sm:border-white/20 light:max-sm:border-slate-300"
                           style={{ fontSize: `${fontSize}px` }}
                         >
                           {renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb)}
