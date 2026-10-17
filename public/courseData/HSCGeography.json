@@ -485,8 +485,7 @@
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
                       "GE-11-01",
-                      "GE-11-02",
-                      "GE-11-03"
+                      "GE-11-02"
                     ],
                     "markerNotes": [
                       "Discuss means arguing both sides of the relationship: how the changes interact and how far each driver matters. A list of changes and consequences caps the answer at the middle band.",
@@ -605,8 +604,7 @@
                     "verb": "ASSESS",
                     "linkedOutcomes": [
                       "GE-11-01",
-                      "GE-11-02",
-                      "GE-11-04"
+                      "GE-11-02"
                     ],
                     "markerNotes": [
                       "Assess asks for a judgement against criteria, so the answer must weigh extent, rate and impacts against each other and say which matters most.",
@@ -828,8 +826,7 @@
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
                       "GE-11-01",
-                      "GE-11-02",
-                      "GE-11-03"
+                      "GE-11-02"
                     ],
                     "markerNotes": [
                       "Discuss means showing both why the choice works and where it has limits. A hazard chosen only because it is dramatic earns little.",
@@ -1217,8 +1214,7 @@
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
                       "GE-11-01",
-                      "GE-11-02",
-                      "GE-11-05"
+                      "GE-11-02"
                     ],
                     "markerNotes": [
                       "Analyse means breaking the change into its parts and showing how they relate. A list of changes is a description; the analysis is the relationship between the influences.",
@@ -1782,8 +1778,7 @@
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
                       "GE-11-01",
-                      "GE-11-02",
-                      "GE-11-05"
+                      "GE-11-02"
                     ],
                     "markerNotes": [
                       "Analyse means showing how the human and climate influences combine. Two separate causes listed side by side are a description, not an analysis.",
@@ -2009,9 +2004,7 @@
                     "totalMarks": 8,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
-                      "GE-11-03",
-                      "GE-11-04",
-                      "GE-11-05"
+                      "GE-11-04"
                     ],
                     "markerNotes": [
                       "Evaluate needs an explicit yardstick. State the criteria first, then judge each response against each criterion and say which it meets, partly meets or fails.",
@@ -6792,9 +6785,7 @@
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "GE-11-02",
-                      "GE-11-03",
-                      "GE-11-04"
+                      "GE-11-02"
                     ],
                     "markerNotes": [
                       "'Extent' asks for a position. Strong answers say how far integration has transformed places, and what limits that transformation, such as distance or local choices.",
@@ -6848,8 +6839,7 @@
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
                       "GE-11-02",
-                      "GE-11-03",
-                      "GE-11-04"
+                      "GE-11-03"
                     ],
                     "markerNotes": [
                       "The strongest answers treat the three kinds of change as linked rather than as three separate lists. Drought, for example, intensified competition for milk, and the enterprise responded by changing where it processed and sourced milk.",
@@ -8359,8 +8349,7 @@
                     "verb": "ASSESS",
                     "linkedOutcomes": [
                       "GE-11-02",
-                      "GE-11-03",
-                      "GE-11-04"
+                      "GE-11-03"
                     ],
                     "markerNotes": [
                       "Assess means weigh the extent of transformation and reach a judgement. Strong answers test the judgement against the implications for people (jobs, services, identity) and environments (emissions, coastal pressure, land use).",
@@ -8466,9 +8455,7 @@
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-11-02",
-                      "GE-11-03",
-                      "GE-11-04"
+                      "GE-11-02"
                     ],
                     "markerNotes": [
                       "The answer that describes an influence names the specific mechanism, such as the office networks of advanced producer services firms, rather than global networks in general.",
@@ -14183,9 +14170,7 @@
                     "totalMarks": 20,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "GE-12-04",
-                      "GE-12-03",
-                      "GE-12-05"
+                      "GE-12-04"
                     ],
                     "markerNotes": [
                       "The top answers judge each strategy against the same criteria, such as whether its benefits last across generations and who carries its costs, rather than describing each strategy in turn.",
@@ -15422,8 +15407,7 @@
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
                       "GE-12-03",
-                      "GE-12-04",
-                      "GE-12-05"
+                      "GE-12-04"
                     ],
                     "markerNotes": [
                       "Evaluate requires a judgement about how far the balance can be achieved, weighing each influence against the others rather than describing them in turn.",
@@ -15478,9 +15462,7 @@
                     "totalMarks": 3,
                     "verb": "DESCRIBE",
                     "linkedOutcomes": [
-                      "GE-12-03",
-                      "GE-12-04",
-                      "GE-12-05"
+                      "GE-12-04"
                     ],
                     "markerNotes": [
                       "A role is shown by what a forum does, such as bringing countries to agree on shared targets, rather than by naming the forum.",
@@ -15775,9 +15757,7 @@
                     "totalMarks": 6,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "GE-12-04",
-                      "GE-12-03",
-                      "GE-12-05"
+                      "GE-12-03"
                     ],
                     "markerNotes": [
                       "The top answer identifies social impacts in more than one dimension, such as livelihoods, identity and vulnerability, and links each to the economic activity named in its first sentence.",
@@ -16133,9 +16113,7 @@
                     "totalMarks": 3,
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
-                      "GE-12-02",
-                      "GE-12-03",
-                      "GE-12-04"
+                      "GE-12-02"
                     ],
                     "markerNotes": [
                       "The top answers give a clear cause and effect: a change in consumer preference leads to a specific change in what is grown or how it is sold.",
@@ -16194,9 +16172,7 @@
                     "totalMarks": 5,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "GE-12-02",
-                      "GE-12-03",
-                      "GE-12-04"
+                      "GE-12-02"
                     ],
                     "markerNotes": [
                       "The strongest answers discuss the effect of the influence on the activity in both directions, so the response is a genuine discussion rather than a list of benefits.",
@@ -16371,8 +16347,6 @@
                     "totalMarks": 5,
                     "verb": "COMPARE",
                     "linkedOutcomes": [
-                      "GE-12-01",
-                      "GE-12-03",
                       "GE-12-04"
                     ],
                     "markerNotes": [
@@ -17022,9 +16996,7 @@
                     "totalMarks": 6,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
-                      "GE-12-04",
-                      "GE-12-02",
-                      "GE-12-03"
+                      "GE-12-04"
                     ],
                     "markerNotes": [
                       "The top answers judge success against the pillars, rather than describing the initiative and then adding a sentence of opinion.",
@@ -18132,8 +18104,7 @@
                     "verb": "EXPLAIN",
                     "linkedOutcomes": [
                       "GE-12-02",
-                      "GE-12-01",
-                      "GE-12-03"
+                      "GE-12-01"
                     ],
                     "markerNotes": [
                       "Strong answers name one urban dynamic and explain its effect on where residential land is located, rather than describing apartments or suburbs in general.",
@@ -18476,7 +18447,6 @@
                     "totalMarks": 20,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "GE-12-04",
                       "GE-12-02",
                       "GE-12-03"
                     ],
@@ -18538,9 +18508,7 @@
                     "totalMarks": 12,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
-                      "GE-12-04",
-                      "GE-12-02",
-                      "GE-12-03"
+                      "GE-12-04"
                     ],
                     "markerNotes": [
                       "The gap between a strong answer and a middle one is judgement. Strong answers test each strategy against named criteria such as safety and daily life, and say where each works and where it falls short, rather than describing both and concluding that both were effective.",

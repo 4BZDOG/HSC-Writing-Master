@@ -2606,8 +2606,6 @@
               "verb": "EXPLAIN",
               "scenario": "A software development company, 'InnovateTech', is tasked with developing a new financial management application for a major banking client. The application will handle sensitive customer data and transactions, requiring the highest standards of safety and security. The project involves multiple developers, testers, and project managers. The client has emphasised the importance of a robust and error-free solution due to the critical nature of banking operations. The project lead needs to explain to a new team member how the team's collaborative approach will ensure the final product meets these stringent safety and security requirements, specifically considering how tasks are delegated and how this impacts the overall quality of the solution.",
               "linkedOutcomes": [
-                "SE-12-01",
-                "SE-12-04",
                 "SE-12-07",
                 "SE-12-09"
               ],
@@ -2920,10 +2918,7 @@
               "verb": "OUTLINE",
               "scenario": "A large technology enterprise is developing a new social networking application that will collect and store significant amounts of user data, including personal identifiable information (PII) and user-generated content. The development team is in the initial planning phase, focusing on the architectural design and security protocols.",
               "linkedOutcomes": [
-                "SE-12-01",
-                "SE-12-04",
-                "SE-12-05",
-                "SE-12-07"
+                "SE-12-05"
               ],
               "relatedTopics": [],
               "prerequisiteKnowledge": [],

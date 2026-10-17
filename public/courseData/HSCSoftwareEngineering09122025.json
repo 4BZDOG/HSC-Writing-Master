@@ -8796,8 +8796,6 @@
                     "verb": "EXPLAIN",
                     "scenario": "A software development company, 'InnovateTech', is tasked with developing a new financial management application for a major banking client. The application will handle sensitive customer data and transactions, requiring the highest standards of safety and security. The project involves multiple developers, testers, and project managers. The client has emphasised the importance of a robust and error-free solution due to the critical nature of banking operations. The project lead needs to explain to a new team member how the team's collaborative approach will ensure the final product meets these stringent safety and security requirements, specifically considering how tasks are delegated and how this impacts the overall quality of the solution.",
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-04",
                       "SE-12-07",
                       "SE-12-09"
                     ],
@@ -9110,10 +9108,7 @@
                     "verb": "OUTLINE",
                     "scenario": "A large technology enterprise is developing a new social networking application that will collect and store significant amounts of user data, including personal identifiable information (PII) and user-generated content. The development team is in the initial planning phase, focusing on the architectural design and security protocols.",
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-04",
-                      "SE-12-05",
-                      "SE-12-07"
+                      "SE-12-05"
                     ],
                     "relatedTopics": [],
                     "prerequisiteKnowledge": [],
@@ -9468,9 +9463,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-04",
-                      "SE-12-07",
-                      "SE-12-03"
+                      "SE-12-04"
                     ],
                     "markerNotes": [
                       "Describe the request as an ordered process: connection, certificate check, key exchange, then encrypted response.",
@@ -9807,10 +9800,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-04",
-                      "SE-12-07",
-                      "SE-12-05"
+                      "SE-12-04"
                     ],
                     "markerNotes": [
                       "Answer both parts: the protocol (HTTPS) and its standard port (443).",
@@ -10040,9 +10030,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-04",
-                      "SE-12-07",
-                      "SE-12-03"
+                      "SE-12-04"
                     ],
                     "markerNotes": [
                       "Identify two clearly different items, such as TLS encryption and digital certificates, rather than two items that are closely linked.",
@@ -10268,9 +10256,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-03",
-                      "SE-12-04"
+                      "SE-12-03"
                     ],
                     "markerNotes": [
                       "Identify two distinct changes (for example distributed storage and a stream processing layer), not two versions of the same idea.",
@@ -10383,11 +10369,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-03",
-                      "SE-12-04",
-                      "SE-12-06",
-                      "SE-12-07"
+                      "SE-12-03"
                     ],
                     "markerNotes": [
                       "Link each characteristic (volume, velocity) to a named architectural change, such as distributed storage or stream processing.",
@@ -10560,10 +10542,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-03",
-                      "SE-12-05",
-                      "SE-12-06"
+                      "SE-12-03"
                     ],
                     "markerNotes": [
                       "Explain the role (developing and maintaining open standards, including internationalisation guidance), then apply it to the three countries.",
@@ -10736,11 +10715,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-02",
-                      "SE-12-03",
-                      "SE-12-05",
-                      "SE-12-06"
+                      "SE-12-03"
                     ],
                     "markerNotes": [
                       "Describe the role (developing and maintaining open standards and recommendations), not just naming the organisation.",
@@ -11523,10 +11498,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-07",
-                      "SE-12-03",
-                      "SE-12-06"
+                      "SE-12-03"
                     ],
                     "markerNotes": [
                       "Describe the impact on design (consistency, maintainability, responsiveness), not just what CSS is.",
@@ -11770,9 +11742,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-06",
-                      "SE-12-09"
+                      "SE-12-06"
                     ],
                     "markerNotes": [
                       "Describe the mechanisms (commit history, branches, merges, conflict resolution) and the benefit each gives a team.",
@@ -11956,9 +11926,6 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-02",
-                      "SE-12-03",
                       "SE-12-06"
                     ],
                     "markerNotes": [
@@ -12072,9 +12039,6 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-02",
-                      "SE-12-03",
                       "SE-12-06"
                     ],
                     "markerNotes": [
@@ -12197,9 +12161,6 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-03",
-                      "SE-12-05",
                       "SE-12-06"
                     ],
                     "markerNotes": [
@@ -12379,9 +12340,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03",
-                      "SE-12-01",
-                      "SE-12-06"
+                      "SE-12-03"
                     ],
                     "markerNotes": [
                       "Describe the mechanism for each: compression reduces the size of transferred files; caching stores files locally so they need not be requested again.",
@@ -12627,8 +12586,6 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-04",
                       "SE-12-07"
                     ],
                     "markerNotes": [
@@ -12688,8 +12645,6 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-04",
                       "SE-12-07"
                     ],
                     "markerNotes": [
@@ -12739,8 +12694,6 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-04",
                       "SE-12-07"
                     ],
                     "markerNotes": [
@@ -12857,9 +12810,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-04",
-                      "SE-12-07",
-                      "SE-12-03"
+                      "SE-12-07"
                     ],
                     "markerNotes": [
                       "Accept any two distinct back-end processes, such as validating input, running a server-side script, storing data in a database or generating a response.",
@@ -13037,9 +12988,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-02",
-                      "SE-12-07"
+                      "SE-12-02"
                     ],
                     "markerNotes": [
                       "Look for the server-side script calling the operating system through a function such as exec() or subprocess, not the browser running commands.",
@@ -13520,10 +13469,6 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-01",
-                      "SE-12-04",
-                      "SE-12-07",
-                      "SE-12-02",
                       "SE-12-06"
                     ],
                     "markerNotes": [
@@ -13837,9 +13782,7 @@
                     ],
                     "isPastHSC": false,
                     "linkedOutcomes": [
-                      "SE-12-03",
-                      "SE-12-02",
-                      "SE-12-07"
+                      "SE-12-03"
                     ],
                     "markerNotes": [
                       "Look for both components working together: the service worker provides offline capability and the manifest provides installability.",

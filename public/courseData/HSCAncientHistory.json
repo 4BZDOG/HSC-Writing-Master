@@ -3608,9 +3608,7 @@
                     "totalMarks": 10,
                     "verb": "EVALUATE",
                     "linkedOutcomes": [
-                      "AH-12-02",
-                      "AH-12-03",
-                      "AH-12-05"
+                      "AH-12-03"
                     ],
                     "markerNotes": [
                       "An evaluation must end with an explicit judgement on significance. A list of consequences, however accurate, reaches only the middle bands.",
@@ -4132,9 +4130,7 @@
                     "totalMarks": 8,
                     "verb": "ASSESS",
                     "linkedOutcomes": [
-                      "AH-12-03",
-                      "AH-12-06",
-                      "AH-12-05"
+                      "AH-12-03"
                     ],
                     "markerNotes": [
                       "Assess requires a verdict on significance. The strongest answers weigh the architectural, religious and political dimensions and say which mattered most.",
@@ -4536,8 +4532,7 @@
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
                       "AH-12-01",
-                      "AH-12-02",
-                      "AH-12-03"
+                      "AH-12-02"
                     ],
                     "markerNotes": [
                       "Discuss requires a view on how much changes in weapons mattered compared with the recruitment systems and politics that determined who fought.",
@@ -4944,8 +4939,7 @@
                     "verb": "ASSESS",
                     "linkedOutcomes": [
                       "AH-12-02",
-                      "AH-12-03",
-                      "AH-12-04"
+                      "AH-12-03"
                     ],
                     "markerNotes": [
                       "Assess requires a judgement on how much the conquest mattered, and the best answers weigh the impact on the conquerors against the impact on the conquered.",
@@ -5343,9 +5337,7 @@
                     "totalMarks": 8,
                     "verb": "JUSTIFY",
                     "linkedOutcomes": [
-                      "AH-12-02",
-                      "AH-12-04",
-                      "AH-12-06"
+                      "AH-12-02"
                     ],
                     "markerNotes": [
                       "Justify requires the claim to be argued from examples, with an explicit recognition of who was included and who was excluded from the rituals.",
@@ -5638,8 +5630,7 @@
                     "verb": "INVESTIGATE",
                     "linkedOutcomes": [
                       "AH-12-03",
-                      "AH-12-05",
-                      "AH-12-06"
+                      "AH-12-05"
                     ],
                     "markerNotes": [
                       "Investigate requires a research approach: state the question, weigh the evidence from the site, and show how the competing attributions change the conclusions.",
@@ -6199,9 +6190,7 @@
                     "totalMarks": 8,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "AH-11-01",
-                      "AH-11-03",
-                      "AH-11-04"
+                      "AH-11-03"
                     ],
                     "markerNotes": [
                       "A discuss answer needs a judgement. The strongest responses argue that military success sustained the elite and also threatened the Republic, and support that with named examples.",
@@ -6872,7 +6861,6 @@
                     "verb": "ASSESS",
                     "linkedOutcomes": [
                       "AH-11-01",
-                      "AH-11-02",
                       "AH-11-03"
                     ],
                     "markerNotes": [
@@ -7273,8 +7261,7 @@
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
                       "AH-12-01",
-                      "AH-12-02",
-                      "AH-12-03"
+                      "AH-12-02"
                     ],
                     "markerNotes": [
                       "Discuss needs a judgement on extent. The strongest answers treat the eruption as the decisive final event, and the earthquake as evidence that decline had already begun.",
@@ -8395,7 +8382,6 @@
                     "verb": "ASSESS",
                     "linkedOutcomes": [
                       "AH-12-06",
-                      "AH-12-01",
                       "AH-12-02"
                     ],
                     "markerNotes": [
