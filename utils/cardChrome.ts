@@ -73,26 +73,16 @@ export const CARD_HEADER_BOX =
  * top, both headings sit exactly one padding step below the top of their card.
  */
 export const CARD_HEADER_ROW =
-  // Below `sm` the row is a grid, not a wrapping flex line. The first line holds
-  // the icon, the heading and one control, and the second line holds whatever
-  // sits under the heading. Each card places its own items (see the `max-sm:`
-  // placements on the meta row, the bar and the zoom), because which item goes
-  // where differs between the two. The `1fr` heading column is what keeps
-  // "WRITING PROMPT" on one line beside a 44px control at 390px.
-  'relative z-10 w-full flex flex-wrap justify-between items-start gap-x-3 gap-y-2 max-sm:grid max-sm:grid-cols-[2.5rem_minmax(0,1fr)_auto] max-sm:gap-y-1';
+  'relative z-10 w-full flex flex-wrap justify-between items-start gap-x-3 gap-y-2';
 
-/**
- * Icon tile + title block. Below `sm` both are `display: contents`, so their
- * children become items of the header row's grid rather than a box of their own.
- */
-export const CARD_HEADER_IDENTITY = 'flex items-start gap-3 min-w-0 max-sm:contents';
+/** Icon tile + title block. */
+export const CARD_HEADER_IDENTITY = 'flex items-start gap-3 min-w-0';
 
 export const CARD_HEADER_ICON =
-  'w-10 h-10 rounded-xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0 max-sm:col-start-1 max-sm:row-start-1 max-sm:self-center';
+  'w-10 h-10 rounded-xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0';
 
-/** `pt-0.5` on both, so the two headings start on the same line. Below `sm` it is
- *  `display: contents` for the same reason as `CARD_HEADER_IDENTITY`. */
-export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 pt-0.5 max-sm:contents';
+/** `pt-0.5` on both, so the two headings start on the same line. */
+export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 pt-0.5';
 
 /**
  * `min-h-7` with the text centred in it, rather than a bare line of type. The
@@ -125,14 +115,11 @@ export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 pt-0.5 max-sm:contents';
  * holds the bars level at every width down to the two-column breakpoint.
  */
 export const CARD_HEADER_TITLE =
-  'flex flex-wrap items-center gap-2 min-h-7 text-lg sm:text-xl min-[1360px]:text-2xl t-display tracking-normal uppercase italic leading-none drop-shadow-sm max-sm:col-start-2 max-sm:row-start-1 max-sm:self-center';
+  'flex flex-wrap items-center gap-2 min-h-7 text-lg sm:text-xl min-[1360px]:text-2xl t-display tracking-normal uppercase italic leading-none drop-shadow-sm';
 
 /** The one line under the title — "Band 2 ceiling", the band + progress meter.
- *  Floored for the same reason: both cards put a chip on this line. Below `sm`
- *  it drops its top margin and centres on the row it lands in; the card says
- *  which row that is. */
-export const CARD_HEADER_META_ROW =
-  'flex flex-wrap items-center gap-2 min-h-6 mt-1 max-sm:mt-0 max-sm:self-center';
+ *  Floored for the same reason: both cards put a chip on this line. */
+export const CARD_HEADER_META_ROW = 'flex flex-wrap items-center gap-2 min-h-6 mt-1';
 
 /**
  * The meta line under a title ("No assistance", a band chip). Solid white, not
@@ -158,13 +145,7 @@ export const CARD_HEADER_TRAY =
   // bounded and can scroll (see CARD_HEADER_BAR). `min-w-0` is the half that
   // makes shrinking actually possible: a flex item will not go below its
   // content's intrinsic width without it.
-  //
-  // Below `sm` the tray is `display: contents` instead, so its bar becomes an
-  // item of the header row and takes the full second line under the heading.
-  // That is what lets the phone header drop the tray's box and its scroll
-  // bounding: the bar scrolls on its own line, and only when the toolbar grows
-  // past 320px (the Formatting pair opened).
-  'self-stretch flex flex-wrap items-end justify-end gap-x-3 gap-y-2 ml-auto min-w-0 shrink sm:shrink-0 max-sm:contents';
+  'self-stretch flex flex-wrap items-end justify-end gap-x-3 gap-y-2 ml-auto min-w-0 shrink sm:shrink-0';
 
 /**
  * The question card's corner: the reading size across the top and the stat bar on
@@ -174,29 +155,20 @@ export const CARD_HEADER_TRAY =
  *
  * Two rows cost a header 28px + 4px + the bar's 36px = 68px, inside the 72px the
  * heading block already occupies, so the header stays at its ~92px and under the
- * 96px ceiling `workspace-chrome.spec.ts` holds.
- *
- * On a phone the corner is `display: contents`, so its reading size and its bar
- * become items of the header row. The reading size goes on the heading's line
- * at the right, and the bar goes on the line beneath it, beside the command
- * verb. Two lines in all, where a full row of its own used to cost a third.
+ * 96px ceiling `workspace-chrome.spec.ts` holds. On a phone the corner is a full
+ * row of its own (the title block has no room beside it) and runs as one line,
+ * reading size at the left and the bar at the right, rather than two 44px rows.
  */
 export const CARD_HEADER_CORNER =
-  'self-stretch flex flex-col items-end justify-between gap-1 ml-auto min-w-0 shrink sm:shrink-0 max-sm:contents';
+  'self-stretch flex flex-col items-end justify-between gap-1 ml-auto min-w-0 shrink sm:shrink-0 max-sm:w-full max-sm:flex-row max-sm:items-center max-sm:justify-between max-sm:gap-3';
 
 /**
  * The reading size control in that corner. The bar's own fill and border, one step
  * smaller (28px against the bar's 36px, so the pair stack inside the heading's
  * height), and 44px on a phone where its buttons are touch targets.
- *
- * On a phone it loses its box entirely: two plain icon buttons, with the figure
- * in between hidden (it is still read by the group's live region). A boxed
- * "18" on the heading's line was the widest thing in the header, and the two
- * buttons are what a student actually taps. The group sits at the right of the
- * heading's line (column 3 of the header row, see `CARD_HEADER_ROW`).
  */
 export const CARD_HEADER_ZOOM =
-  'flex items-center gap-0.5 h-7 px-0.5 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner max-sm:h-11 max-sm:gap-0 max-sm:px-0 max-sm:rounded-none max-sm:bg-transparent max-sm:backdrop-blur-none max-sm:border-0 max-sm:shadow-none max-sm:col-start-3 max-sm:row-start-1 max-sm:self-center';
+  'flex items-center gap-0.5 h-7 max-sm:h-11 px-0.5 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner';
 
 /** One of its two buttons. White on the band wash, like everything else in the
  *  header; disabled at the end of the range, which WCAG 1.4.3 exempts. */
