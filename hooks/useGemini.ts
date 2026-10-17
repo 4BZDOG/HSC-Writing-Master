@@ -32,7 +32,7 @@ import { applyEvaluation } from '../utils/progression';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { getFocusAreas } from '../utils/dataManagerUtils';
 import { getCommandTermInfo } from '../data/commandTerms';
-import { rewriteTarget } from '../components/feedback/rewriteText';
+import { rewriteSampleNote, rewriteTarget } from '../components/feedback/rewriteText';
 import { generateId } from '../utils/idUtils';
 import {
   addAndPruneSampleAnswers,
@@ -320,7 +320,14 @@ export const useGemini = ({
                 // A lift of THIS student's response, not an exemplar written
                 // from scratch — the library badges the two differently.
                 derivedFromStudent: true,
-                feedback: `This Band ${target.band} revision scores ${target.mark}/${prompt.totalMarks}. It demonstrates the cognitive demand of '${prompt.verb}' at this level — ${target.band >= 5 ? 'providing sophisticated analysis with specific terminology and clear cause-effect reasoning' : target.band >= 3 ? 'explaining key concepts with adequate detail but lacking the depth or specificity of higher bands' : 'identifying basic elements with limited development or connection to the scenario'}.`,
+                feedback: rewriteSampleNote({
+                  mark: target.mark,
+                  band: target.band,
+                  totalMarks: prompt.totalMarks,
+                  originalMark: result.overallMark,
+                  keyChanges:
+                    typeof result.revisedAnswer === 'object' ? result.revisedAnswer.keyChanges : [],
+                }),
               };
               p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
             }
@@ -457,7 +464,13 @@ export const useGemini = ({
               band: targetBand,
               source: 'AI',
               derivedFromStudent: true,
-              feedback: `This Band ${targetBand} exemplar scores ${targetMark}/${prompt.totalMarks} — one mark above the original attempt. It keeps the student's own response and lifts it by ${targetBand >= 5 ? 'sharpening the terminology and completing the analysis the command verb demands' : targetBand >= 3 ? 'adding the missing detail and making the links between points explicit' : 'addressing more of what the question asks and developing the points already made'}.`,
+              feedback: rewriteSampleNote({
+                mark: targetMark,
+                band: targetBand,
+                totalMarks: prompt.totalMarks,
+                originalMark: evaluation.overallMark,
+                keyChanges,
+              }),
             };
 
             p.sampleAnswers = addAndPruneSampleAnswers(p.sampleAnswers, aiSample);
@@ -487,10 +500,8 @@ export const useGemini = ({
                 }
               : prev
           );
-          showToast(
-            `Auto-saved ${targetMark}/${prompt.totalMarks} (Band ${targetBand}) exemplar to library.`,
-            'success'
-          );
+          // No toast: the review opens on this same render, its footer already says
+          // both versions are saved, and a toast over it covered its header on a phone.
         }
         return text;
       } catch (error) {

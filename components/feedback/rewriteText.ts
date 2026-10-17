@@ -56,3 +56,30 @@ export function rewriteTarget(
       : getNextLevelTarget(overallMark, totalMarks, tier).targetMark;
   return { mark, band: getBandForMark(mark, totalMarks, tier) };
 }
+
+/**
+ * The note saved with a rewrite in the question's sample answers: what it is worth
+ * and, when the marker said, what was changed to get there.
+ *
+ * It used to be a sentence of band boilerplate ("explaining key concepts with
+ * adequate detail…") that said nothing about this rewrite, and the improve path's
+ * claimed "one mark above the original attempt" of a rewrite briefed to reach the
+ * next band. The marker's own change list is the useful part, so it is the body.
+ * Kept plain: this note is also handed back to the marker as a reference sample's
+ * notes when a question has no verified exemplars.
+ */
+export function rewriteSampleNote(args: {
+  mark: number;
+  band: number;
+  totalMarks: number;
+  originalMark: number;
+  keyChanges?: string[];
+}): string {
+  const { mark, band, totalMarks, originalMark, keyChanges = [] } = args;
+  const head = `The student's own answer, lifted from ${originalMark}/${totalMarks} to ${mark}/${totalMarks} (Band ${band}) by the marker's edits.`;
+  const changes = keyChanges
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => (/[.!?]$/.test(line) ? line : `${line}.`));
+  return changes.length ? `${head} What changed: ${changes.join(' ')}` : head;
+}
