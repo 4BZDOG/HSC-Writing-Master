@@ -283,8 +283,15 @@ export const useFocusTrap = <T extends HTMLElement>(active: boolean) => {
      * where it wants focus, and stealing it back to the ✕ in the corner turns
      * every form dialog into one that needs a click before it can be typed in.
      */
+    //
+    // Not into an AI wait card, though. A dialog that opens straight into a
+    // wait (the quality check) has its close disabled while it works, and the
+    // first control left was then the source link in the card's results chart:
+    // focus landed on a footnote and scrolled the body past the dialog's own
+    // title on a phone. The container takes it instead, so the title is what
+    // is announced, and Tab still reaches the link.
     if (container && !startedInside) {
-      const focusable = focusableWithin(container);
+      const focusable = focusableWithin(container).filter((el) => !el.closest('.ai-wait-card'));
       (focusable[0] ?? container).focus?.();
     }
 

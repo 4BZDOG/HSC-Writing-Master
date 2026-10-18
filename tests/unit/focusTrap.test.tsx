@@ -112,6 +112,21 @@ describe('useFocusTrap', () => {
     expect(document.activeElement).toBe(screen.getByText('first'));
   });
 
+  it('opens on the dialog itself, not on a link inside an AI wait card', () => {
+    // A dialog that opens straight into a wait, with its close disabled, used to
+    // land focus on the wait card's chart source and scroll past its own title.
+    render(
+      <Harness>
+        <button disabled>Close</button>
+        <div className="ai-wait-card">
+          <a href="https://example.org">Source</a>
+        </div>
+      </Harness>
+    );
+    fireEvent.click(screen.getByText('opener'));
+    expect(document.activeElement).toBe(screen.getByTestId('dialog'));
+  });
+
   it('wraps from the last control back to the first', () => {
     render(<Harness />);
     fireEvent.click(screen.getByText('opener'));

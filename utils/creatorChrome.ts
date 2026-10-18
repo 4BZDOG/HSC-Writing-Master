@@ -55,9 +55,12 @@ export const CREATOR_BODY = 'flex-1 overflow-y-auto px-5 sm:px-6 py-5 custom-scr
 
 /** The fixed foot of a creator dialog. Buttons stack on a phone, with the
  *  primary action on the bottom edge where the thumb reaches it, and sit in a
- *  row from `sm` up. */
+ *  row from `sm` up. Every footer writes Cancel first and the primary last, so
+ *  plain source order is right both ways: last at the bottom of a column, last
+ *  at the right of a row. It was `flex-col-reverse`, which put the primary at
+ *  the TOP of a phone's stack, the opposite of what this note promised. */
 export const CREATOR_FOOTER =
-  'flex-shrink-0 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 px-5 sm:px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated';
+  'flex-shrink-0 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 px-5 sm:px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated';
 
 /** The cancel action beside the primary one. Quiet, so the primary still reads
  *  as the one thing to do. */

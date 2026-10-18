@@ -221,11 +221,46 @@ const show = (c: Checked): string =>
   `${c.file}: ${c.text.replace(/\s+/g, ' ').trim().slice(0, 110)}`;
 
 describe('no white ink is left on an amber or accent fill', () => {
-  it('finds the class strings it is meant to check, so a broken matcher cannot pass silently', () => {
-    // Every accent button that keeps white for light is a match, and so is
-    // every amber fill that once had white. A regex that stopped matching
-    // would empty this list, and "nothing to check" would read as a pass.
-    expect(scan().length).toBeGreaterThan(10);
+  it('catches every spelling it is meant to check, so a broken matcher cannot pass silently', () => {
+    // A regex that stopped matching would empty the scan, and "nothing to
+    // check" would read as a pass. This used to be guarded by a count of real
+    // matches (more than 10), which measured how much of the pattern was LEFT
+    // in the codebase rather than whether the matchers work: moving the
+    // creator dialogs to one solid indigo primary (#409 and after) removed the
+    // accent gradients with white ink and took the count to 6, a better
+    // codebase failing its own guard. So the matchers are pinned to known
+    // strings instead, each spelling they exist to catch and each they must
+    // leave alone, and the scan itself only has to find something.
+    const fixture = (text: string) => ({
+      white: WHITE_INK.test(text),
+      amber: AMBER_FILL.test(text),
+      accent: ACCENT_FILL.test(text) || SKY_FILL.test(text),
+    });
+    expect(fixture('px-4 text-white bg-amber-500')).toEqual({
+      white: true,
+      amber: true,
+      accent: false,
+    });
+    expect(
+      fixture('text-white from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))]')
+        .accent
+    ).toBe(true);
+    expect(fixture('text-white bg-accent-dark').accent).toBe(true);
+    expect(fixture('text-white from-indigo-600 to-sky-500').accent).toBe(true);
+    // A variant is a different state, and a near-miss name is a different colour.
+    expect(fixture('hover:text-white hover:bg-amber-500')).toEqual({
+      white: false,
+      amber: false,
+      accent: false,
+    });
+    expect(fixture('text-white-50 bg-amber-200 to-sky-700').white).toBe(false);
+    expect(fixture('bg-amber-200 to-sky-700')).toEqual({
+      white: false,
+      amber: false,
+      accent: false,
+    });
+
+    expect(scan().length).toBeGreaterThan(0);
   });
 
   it('never sets white on an amber fill', () => {

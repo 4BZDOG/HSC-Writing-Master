@@ -448,9 +448,11 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 the line is narrow, and the actions wrap only when they cannot fit. */}
             <div className="flex items-start justify-between gap-3 mb-4">
               <h3 className="t-section min-w-0 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex flex-wrap items-center gap-x-2 gap-y-1">
-                <Target className="w-3.5 h-3.5" /> Select target marks
-                <span className="normal-case tracking-normal font-medium">
-                  — pick as many as you like
+                <Target className="w-3.5 h-3.5" aria-hidden="true" /> Target marks
+                {/* The hint is a plain note beside the heading, not a fragment hung
+                    off it with a dash, and not in the heading's caps or slope. */}
+                <span className="normal-case not-italic tracking-normal font-medium">
+                  Pick as many as you like.
                 </span>
               </h3>
 
