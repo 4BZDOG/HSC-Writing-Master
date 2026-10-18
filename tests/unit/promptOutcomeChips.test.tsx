@@ -31,8 +31,10 @@ const prompt = {
   totalMarks: 8,
   keywords: [],
   sampleAnswers: [],
-  linkedOutcomes: outcomes.map((o) => o.code),
+  // Two: a question links one outcome, or two at most (`MAX_LINKED_OUTCOMES`).
+  linkedOutcomes: ['SE-12-01', 'SE-12-03'],
 } as unknown as Prompt;
+const linked = outcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code));
 
 const props = {
   prompt,
@@ -80,29 +82,27 @@ afterEach(() => {
 const chipFor = (code: string) => screen.getByRole('button', { name: new RegExp(code) });
 
 describe('outcome chips in the prompt footer', () => {
-  it('lays every chip out in a grid that fills each line, and never scrolls', () => {
+  it('sits the chips on the brief button’s line, and wraps rather than scrolls', () => {
     render(<PromptDisplay {...props} />);
 
-    const grid = screen.getByRole('group', { name: /linked outcomes/i });
-    // All three chips share the one grid…
-    outcomes.forEach((o) => {
-      expect(within(grid).getByRole('button', { name: new RegExp(o.code) })).toBeTruthy();
+    const group = screen.getByRole('group', { name: /linked outcomes/i });
+    linked.forEach((o) => {
+      expect(within(group).getByRole('button', { name: new RegExp(o.code) })).toBeTruthy();
     });
-    // …in equal cells that wrap onto more lines when the card is narrow, instead
-    // of scrolling sideways. In two columns this card is ~490px, and the scrolling
-    // strip it replaced was left a few pixels: the second chip was clipped to
-    // "S…" with no scrollbar to find the rest of it.
-    expect(grid.className).toContain('grid');
-    expect(grid.className).toContain('auto-fill');
-    expect(grid.className).not.toMatch(/overflow-(x-)?(auto|hidden|scroll)/);
+    // One row with the brief button and the tools. Where the footer is too narrow
+    // for all of it, the chips drop to a line of their own (a container query on
+    // the footer, `.outcome-footer` in index.css), keyed on how many there are.
+    expect(group.className).toContain('outcome-footer-chips');
+    expect(group.getAttribute('data-count')).toBe('2');
+    expect(group.className).not.toMatch(/overflow-(x-)?(auto|hidden|scroll)/);
 
-    // The brief button and the tools are the row ABOVE the grid, not in it, so the
-    // flag can never be stranded beside a half-filled line of chips.
     const brief = screen.getByRole('button', { name: /read before you write/i });
-    expect(grid.contains(brief)).toBe(false);
-    const actions = brief.parentElement as HTMLElement;
+    const row = brief.parentElement as HTMLElement;
+    expect(row.className).toContain('outcome-footer');
+    expect(row.className).toContain('flex-wrap');
+    expect(group.parentElement).toBe(row);
     expect(
-      within(actions).getByRole('button', { name: /flag this question for review/i })
+      within(row).getByRole('button', { name: /flag this question for review/i })
     ).toBeTruthy();
     expect(brief.className).toContain('flex-1');
   });
@@ -112,7 +112,7 @@ describe('outcome chips in the prompt footer', () => {
 
     const chips = [
       screen.getByRole('button', { name: /read before you write/i }),
-      ...outcomes.map((o) => chipFor(o.code)),
+      ...linked.map((o) => chipFor(o.code)),
     ];
     for (const chip of chips) {
       // A code is never broken across lines, and never truncated with an ellipsis.
@@ -208,7 +208,7 @@ describe('outcome chips in the prompt footer', () => {
 
   it('keeps the preview on screen for a chip near the viewport edge', () => {
     render(<PromptDisplay {...props} />);
-    const chip = chipFor('SE-12-06');
+    const chip = chipFor('SE-12-03');
     // A chip hard against the right edge of a 1024px-wide window.
     vi.spyOn(chip, 'getBoundingClientRect').mockReturnValue({
       left: 1000,

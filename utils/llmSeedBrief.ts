@@ -139,7 +139,7 @@ export const buildLlmSeedInstructions = () => ({
       '"source" is always "AI". "feedback" explains, in marker language, exactly why the answer earns its mark and what would lift it.',
   },
   QUALITY_BAR:
-    'Factually accurate and syllabus-authentic. No placeholder text, no duplicated questions. Before returning: every verb is on the list, every totalMarks is inside its verb\'s range, every linkedOutcomes code exists in the course\'s outcomes array, every markingCriteria line starts with "N marks:" or "N-M marks:" and has the rows MARKING_CRITERIA asks for, and every sample mark is a whole number no higher than totalMarks.',
+    'Factually accurate and syllabus-authentic. No placeholder text, no duplicated questions. Before returning: every verb is on the list, every totalMarks is inside its verb\'s range, every linkedOutcomes code exists in the course\'s outcomes array and each question links one outcome (two only when it genuinely assesses both, never more), every markingCriteria line starts with "N marks:" or "N-M marks:" and has the rows MARKING_CRITERIA asks for, and every sample mark is a whole number no higher than totalMarks.',
 });
 
 /**
