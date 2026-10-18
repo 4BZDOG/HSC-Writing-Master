@@ -173,7 +173,7 @@ describe('SyllabusImportModal input validation', () => {
   it('requires a course name before analysing', () => {
     renderModal();
     fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
-    expect(screen.getByText('Course name is required.')).toBeTruthy();
+    expect(screen.getByText('Enter a course name.')).toBeTruthy();
   });
 
   it('requires syllabus content in at least one topic tab', () => {
@@ -235,7 +235,7 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
     const onImport = vi.fn();
     renderModal({ onImport });
 
-    fireEvent.change(screen.getByLabelText('Syllabus Content'), {
+    fireEvent.change(screen.getByLabelText('Syllabus content'), {
       target: { value: 'Outcomes and content for secure software architecture...' },
     });
     fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
@@ -262,9 +262,9 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
     const onImport = vi.fn();
     renderModal({ onImport, initialTopicId: 't1' });
 
-    expect((screen.getByLabelText('Import Into') as HTMLSelectElement).value).toBe('t1');
+    expect((screen.getByLabelText('Import into') as HTMLSelectElement).value).toBe('t1');
 
-    fireEvent.change(screen.getByLabelText('Syllabus Content'), {
+    fireEvent.change(screen.getByLabelText('Syllabus content'), {
       target: { value: 'some syllabus text' },
     });
     fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));
@@ -281,7 +281,7 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
   it('surfaces an error when no sub-topics can be extracted', async () => {
     vi.mocked(parseSyllabusStructure).mockResolvedValue([]);
     renderModal();
-    fireEvent.change(screen.getByLabelText('Syllabus Content'), {
+    fireEvent.change(screen.getByLabelText('Syllabus content'), {
       target: { value: 'garbled text' },
     });
     fireEvent.click(screen.getByRole('button', { name: /analyse syllabus/i }));

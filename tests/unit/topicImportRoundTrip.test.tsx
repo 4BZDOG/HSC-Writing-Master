@@ -89,7 +89,7 @@ describe('TopicImportModal — reimports its own Studio export', () => {
     await waitFor(() => {
       expect(screen.getByText(/will merge into "fixture topic"/i)).toBeTruthy();
     });
-    expect(screen.queryByText(/not a valid single topic object/i)).toBeFalsy();
+    expect(screen.queryByText(/does not contain exactly one topic/i)).toBeFalsy();
   });
 
   it('still rejects a genuinely invalid file (not topic-shaped, not a single-topic Course[])', async () => {
@@ -107,17 +107,14 @@ describe('TopicImportModal — reimports its own Studio export', () => {
     fireEvent.change(fileInput, { target: { files: [makeJsonFile({ not: 'a topic' })] } });
 
     await waitFor(() => {
-      expect(screen.getByText(/not a valid single topic object/i)).toBeTruthy();
+      expect(screen.getByText(/does not contain exactly one topic/i)).toBeTruthy();
     });
   });
 
   it('rejects a Course[] export that bundles more than one topic (not a single-topic unit)', async () => {
     const multiTopicCourse: Course = {
       ...fixtureCourse,
-      topics: [
-        ...fixtureCourse.topics,
-        { id: 'topic-2', name: 'Second Topic', subTopics: [] },
-      ],
+      topics: [...fixtureCourse.topics, { id: 'topic-2', name: 'Second Topic', subTopics: [] }],
     } as unknown as Course;
 
     const { container } = render(
@@ -134,7 +131,7 @@ describe('TopicImportModal — reimports its own Studio export', () => {
     fireEvent.change(fileInput, { target: { files: [makeJsonFile([multiTopicCourse])] } });
 
     await waitFor(() => {
-      expect(screen.getByText(/not a valid single topic object/i)).toBeTruthy();
+      expect(screen.getByText(/does not contain exactly one topic/i)).toBeTruthy();
     });
   });
 });

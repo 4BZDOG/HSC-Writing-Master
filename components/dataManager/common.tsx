@@ -1,16 +1,18 @@
 import React from 'react';
 import { Database } from 'lucide-react';
+import { CREATOR_ICON_TILE } from '../../utils/creatorChrome';
 
 export const ModalHeader: React.FC<{ title: string; subtitle: string; icon?: React.ReactNode }> = ({
   title,
   subtitle,
   icon,
 }) => (
-  <div className="flex-shrink-0 px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]">
+  <div className="flex-shrink-0 px-6 py-5 border-b border-slate-200 dark:border-white/10">
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
-          {icon || <Database className="w-5 h-5 text-white" />}
+        {/* The tile names the object; the caller's icon, or the database default. */}
+        <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+          {icon || <Database className="w-5 h-5" />}
         </div>
         <div>
           <h3 className="text-xl font-bold text-[rgb(var(--color-text-primary))]">{title}</h3>
@@ -30,7 +32,7 @@ export const ActionButtons: React.FC<{
    *  confirm button is disabled, so the user isn't left guessing. */
   hint?: string;
 }> = ({ onCancel, onConfirm, confirmText, isConfirmDisabled = false, hint }) => (
-  <div className="px-4 sm:px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-[rgb(var(--color-border-secondary))] flex flex-wrap items-center justify-end gap-3 flex-shrink-0">
+  <div className="px-4 sm:px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 border-t border-slate-200 dark:border-white/10 flex flex-wrap items-center justify-end gap-3 flex-shrink-0">
     {hint && (
       <p className="text-xs text-[rgb(var(--color-text-muted))] mr-auto w-full sm:w-auto">{hint}</p>
     )}

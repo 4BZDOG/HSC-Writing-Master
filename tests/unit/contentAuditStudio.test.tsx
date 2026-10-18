@@ -197,8 +197,8 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
 
     // TopicImportModal opened, scoped to "Fixture Course" (the course the
     // selection resolved to) rather than any other course.
-    expect(screen.getByRole('dialog', { name: /import a topic file/i })).toBeTruthy();
-    expect(screen.getByText('into "Fixture Course"')).toBeTruthy();
+    expect(screen.getByRole('dialog', { name: /import a topic/i })).toBeTruthy();
+    expect(screen.getByText('Into "Fixture Course"')).toBeTruthy();
   });
 
   it('disables Import JSON once the selection no longer resolves to one topic/course', () => {
@@ -239,9 +239,7 @@ describe('ContentAuditModal — gap visibility and batch targeting', () => {
     fireEvent.click(btn);
 
     expect(screen.getByText('Clear questions?')).toBeTruthy();
-    expect(
-      screen.getByText(/Delete all 1 question under "Fixture Course"\?/)
-    ).toBeTruthy();
+    expect(screen.getByText(/Delete all 1 question under "Fixture Course"\?/)).toBeTruthy();
     expect(screen.getByText(/Sub-topics, dot points and the topic itself are kept/)).toBeTruthy();
   });
 

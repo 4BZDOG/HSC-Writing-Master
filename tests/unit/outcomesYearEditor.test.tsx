@@ -85,7 +85,7 @@ describe('editing both years of outcomes', () => {
     fireEvent.change(screen.getByPlaceholderText('Outcome description…'), {
       target: { value: 'Prelim one' },
     });
-    fireEvent.click(screen.getByText('Save Changes'));
+    fireEvent.click(screen.getByText('Save outcomes'));
 
     // The Year 12 outcomes were never touched, and are still there.
     expect(saved[0]).toEqual([
