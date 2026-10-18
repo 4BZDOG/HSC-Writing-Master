@@ -247,7 +247,7 @@ export const useGemini = ({
       setShowImprovementReview(false);
       setImprovementReviewLeadsToFeedback(false);
       const evalStart = Date.now();
-      emitEvalProgress({ phase: 'started', message: 'Preparing evaluation...' });
+      emitEvalProgress({ phase: 'started', message: 'Preparing evaluation…' });
       try {
         // The syllabus above the question, so the marker can tell the terms
         // the question is built on from the ones that merely support it — the
@@ -532,7 +532,7 @@ export const useGemini = ({
       const samples = sampleIds ? all.filter((s) => sampleIds.includes(s.id)) : all;
       if (samples.length === 0) return;
 
-      showToast(`Recalibrating ${samples.length} sample answers...`, 'info');
+      showToast(`Recalibrating ${samples.length} sample answers…`, 'info');
 
       // Create a "Clean" prompt context with no existing samples.
       // This forces the AI to grade purely against the rubric, preventing circular validation

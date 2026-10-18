@@ -2,11 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { generateDotPointsForSubTopic } from '../services/geminiService';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
-import { X, Sparkles } from 'lucide-react';
+import { X, ListChecks } from 'lucide-react';
 import AiErrorNotice from './AiErrorNotice';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+} from '../utils/creatorChrome';
 
 interface DotPointGeneratorModalProps {
   isOpen: boolean;
@@ -70,64 +83,40 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
   }
 
   return (
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Generate dot points"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={handleClose}
-    >
+    <div className={CREATOR_BACKDROP} onClick={handleClose}>
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="dot-point-generator-title"
+        className={`${CREATOR_SHELL} max-w-xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50">
-          {/* Cubic Mesh Texture Overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-accent))] to-[rgb(var(--color-primary))] flex items-center justify-center shadow-lg">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Generate Syllabus Dot Points
-                </h2>
-                <p className="text-sm text-muted">
-                  For sub-topic:{' '}
-                  <span className="font-semibold text-[rgb(var(--color-accent))]">
-                    {subTopicName}
-                  </span>
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={handleClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-muted group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <ListChecks className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            <p className={CREATOR_KICKER}>{subTopicName}</p>
+            <h2 id="dot-point-generator-title" className={CREATOR_TITLE}>
+              Generate dot points
+            </h2>
+          </div>
+          <button type="button" onClick={handleClose} aria-label="Close" className={CREATOR_CLOSE}>
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
-        <div className="p-8 text-center bg-[rgb(var(--color-bg-surface))] light:bg-white">
-          <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600">
-            Let AI draft suggested dot points for this sub-topic. For the exact NESA wording, use
-            the topic&apos;s Import Sub-Topics button with pasted syllabus text instead.
+        <div className={CREATOR_BODY}>
+          <p className="t-body text-[rgb(var(--color-text-secondary))]">
+            Draft suggested dot points for this sub-topic with AI. For NESA’s exact wording, paste
+            the syllabus text into Add from Syllabus on the topic instead.
           </p>
           {error && !isLoading && (
-            <div className="mt-4 text-left">
+            <div className="mt-4">
               <AiErrorNotice
-                title="Generation failed"
+                title="No dot points were drafted"
                 message={error}
                 onRetry={handleGenerate}
                 onDismiss={() => setError(null)}
@@ -136,31 +125,31 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
           )}
         </div>
 
-        <div className="px-6 py-5 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex items-center justify-end">
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleClose}
-              disabled={isLoading}
-              className="py-2.5 px-5 rounded-lg font-medium text-muted bg-[rgb(var(--color-bg-surface-inset))]/50 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 border border-transparent light:border-slate-200 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleGenerate}
-              disabled={isLoading}
-              className="py-2.5 px-5 rounded-lg font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg hover:shadow-[rgb(var(--color-accent))/0.4] active:scale-[0.98] transition-all duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              <Sparkles className="w-4 h-4" />
-              Generate
-            </button>
-          </div>
+        <div className={CREATOR_FOOTER}>
+          <button
+            type="button"
+            onClick={handleClose}
+            disabled={isLoading}
+            className={CREATOR_SECONDARY_BUTTON}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleGenerate}
+            disabled={isLoading}
+            className={CREATOR_PRIMARY_BUTTON}
+          >
+            <ListChecks className="w-4 h-4" aria-hidden="true" />
+            Generate dot points
+          </button>
         </div>
 
         <AiBusyOverlay show={isLoading}>
           <LoadingIndicator
             task="generation"
             message="Generating dot points"
-            messages={['Consulting syllabus...', 'Identifying dot points...']}
+            messages={['Reading the course and topic', 'Drafting 3 to 5 syllabus dot points']}
             duration={8}
             band={3}
           />

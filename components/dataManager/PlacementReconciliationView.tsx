@@ -253,7 +253,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   onChange={(e) => setBulkPlacement({ topicId: e.target.value || undefined })}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors"
                 >
-                  <option value="">Select topic...</option>
+                  <option value="">Select topic…</option>
                   {bulkCourse.topics.map((t) => (
                     <option key={t.id} value={t.id}>
                       {t.name}
@@ -280,7 +280,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   disabled={!bulkPlacement.topicId}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
                 >
-                  <option value="">{bulkPlacement.topicId ? 'Select sub-topic...' : '—'}</option>
+                  <option value="">{bulkPlacement.topicId ? 'Select sub-topic…' : '—'}</option>
                   {(
                     bulkCourse.topics.find((t) => t.id === bulkPlacement.topicId)?.subTopics || []
                   ).map((st) => (
@@ -310,7 +310,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   disabled={!bulkPlacement.subTopicId}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
                 >
-                  <option value="">{bulkPlacement.subTopicId ? 'Select dot point...' : '—'}</option>
+                  <option value="">{bulkPlacement.subTopicId ? 'Select dot point…' : '—'}</option>
                   {(
                     bulkCourse.topics
                       .find((t) => t.id === bulkPlacement.topicId)
@@ -318,7 +318,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   ).map((dp) => (
                     <option key={dp.id} value={dp.id}>
                       {dp.description.length > 60
-                        ? dp.description.slice(0, 60) + '...'
+                        ? dp.description.slice(0, 60) + '…'
                         : dp.description}
                     </option>
                   ))}
@@ -388,7 +388,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                         <ArrowRight className="w-3 h-3 inline mx-1.5 opacity-40" />
                         <span className="italic opacity-70 text-xs">
                           {group.sourceDotPointDescription.length > 80
-                            ? group.sourceDotPointDescription.slice(0, 80) + '...'
+                            ? group.sourceDotPointDescription.slice(0, 80) + '…'
                             : group.sourceDotPointDescription}
                         </span>
                       </p>
@@ -424,7 +424,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                               {i + 1}.
                             </span>
                             {prompt.question.length > 120
-                              ? prompt.question.slice(0, 120) + '...'
+                              ? prompt.question.slice(0, 120) + '…'
                               : prompt.question}
                             {prompt.totalMarks > 0 && (
                               <span className="ml-2 text-[10px] font-bold text-[rgb(var(--color-accent))]">
@@ -467,7 +467,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                             }
                             className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors"
                           >
-                            <option value="">Select topic...</option>
+                            <option value="">Select topic…</option>
                             {topics.map((t) => (
                               <option key={t.id} value={t.id}>
                                 {t.name}
@@ -495,7 +495,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                             className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors disabled:opacity-40"
                           >
                             <option value="">
-                              {placement.topicId ? 'Select sub-topic...' : '—'}
+                              {placement.topicId ? 'Select sub-topic…' : '—'}
                             </option>
                             {subTopics.map((st) => (
                               <option key={st.id} value={st.id}>
@@ -524,12 +524,12 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                             className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors disabled:opacity-40"
                           >
                             <option value="">
-                              {placement.subTopicId ? 'Select dot point...' : '—'}
+                              {placement.subTopicId ? 'Select dot point…' : '—'}
                             </option>
                             {dotPoints.map((dp) => (
                               <option key={dp.id} value={dp.id}>
                                 {dp.description.length > 60
-                                  ? dp.description.slice(0, 60) + '...'
+                                  ? dp.description.slice(0, 60) + '…'
                                   : dp.description}
                               </option>
                             ))}

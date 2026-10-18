@@ -48,7 +48,7 @@ const openAndAnalyse = async (onImport = vi.fn()) => {
   fireEvent.change(screen.getByPlaceholderText(/paste dot points, sub-topics/i), {
     target: { value: 'some syllabus text' },
   });
-  fireEvent.click(screen.getByRole('button', { name: /Analyse Syllabus/ }));
+  fireEvent.click(screen.getByRole('button', { name: /Analyse syllabus/ }));
   await waitFor(() => expect(screen.getByLabelText('Topic 1 name')).toBeTruthy());
   return onImport;
 };
@@ -71,7 +71,7 @@ describe('creating a course by importing a syllabus', () => {
     fireEvent.change(screen.getByPlaceholderText(/paste dot points, sub-topics/i), {
       target: { value: 'some syllabus text' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /Analyse Syllabus/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Analyse syllabus/ }));
 
     // Import matching pairs courses by name, so two of them split a subject
     // across entries that look identical in every picker.
@@ -144,7 +144,7 @@ describe('the structure preview', () => {
     fireEvent.change(screen.getByPlaceholderText(/paste dot points, sub-topics/i), {
       target: { value: 'some syllabus text' },
     });
-    fireEvent.click(screen.getByRole('button', { name: /Analyse Syllabus/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Analyse syllabus/ }));
     await waitFor(() => expect(screen.getByLabelText('Topic 1 name')).toBeTruthy());
     fireEvent.click(screen.getByRole('button', { name: /Confirm & Import/ }));
 

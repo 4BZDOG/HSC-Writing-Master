@@ -344,9 +344,9 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
             task="generation"
             message={`Recalibrating to Band ${targetBand}`}
             messages={[
-              'Analysing original response...',
-              'Adjusting quality and depth...',
-              'Aligning to new mark criteria...',
+              'Analysing original response…',
+              'Adjusting quality and depth…',
+              'Aligning to new mark criteria…',
             ]}
             duration={10}
             band={targetBand}

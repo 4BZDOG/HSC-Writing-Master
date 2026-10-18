@@ -1070,7 +1070,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const makeQuestionTask = (node: TreeNode): BatchTask<void> => ({
     id: `q-${node.id}`,
-    description: `Generating question: ${node.label.slice(0, 30)}...`,
+    description: `Generating question: ${node.label.slice(0, 30)}…`,
     action: async () => {
       const path = node.path;
       const course = coursesRef.current.find((c) => c.id === path.courseId);
@@ -1128,7 +1128,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const makeSampleTask = (node: TreeNode): BatchTask<void> => ({
     id: `sa-${node.id}`,
-    description: `Drafting sample answer: ${node.label.slice(0, 30)}...`,
+    description: `Drafting sample answer: ${node.label.slice(0, 30)}…`,
     action: async () => {
       // Read live: under "Fix All Gaps" the marking guide for this same
       // question is written earlier in the run, and the exemplar should be
@@ -1154,7 +1154,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const makeRubricTask = (node: TreeNode): BatchTask<void> => ({
     id: `rubric-${node.id}`,
-    description: `Writing marking guide: ${node.label.slice(0, 30)}...`,
+    description: `Writing marking guide: ${node.label.slice(0, 30)}…`,
     action: async () => {
       const prompt = requireLivePrompt(node.path);
       const course = coursesRef.current.find((c) => c.id === node.path.courseId);
@@ -1171,7 +1171,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const makeRubricRevisionTask = (node: TreeNode): BatchTask<void> => ({
     id: `revise-rubric-${node.id}`,
-    description: `Reformatting marking guide: ${node.label.slice(0, 30)}...`,
+    description: `Reformatting marking guide: ${node.label.slice(0, 30)}…`,
     action: async () => {
       const prompt = requireLivePrompt(node.path);
       if (!prompt.markingCriteria) return;
@@ -1187,7 +1187,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
   const makeOutcomeTask = (node: TreeNode): BatchTask<void> => ({
     id: `link-${node.id}`,
-    description: `Linking outcomes: ${node.label.slice(0, 30)}...`,
+    description: `Linking outcomes: ${node.label.slice(0, 30)}…`,
     action: async () => {
       const prompt = requireLivePrompt(node.path);
       const course = coursesRef.current.find((c) => c.id === node.path.courseId);
@@ -1218,7 +1218,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       // Tier, not band: `verbTier` is the command verb's cognitive tier, which
       // is what caps the band. Calling it "Band 4" in the log said the sample
       // was being marked to Band 4.
-      description: `Recalibrating sample (tier ${verbTier} rules): ${node.label.slice(0, 20)}...`,
+      description: `Recalibrating sample (tier ${verbTier} rules): ${node.label.slice(0, 20)}…`,
       action: async () => {
         const current = requireLivePrompt(node.path);
         const liveSample = (current.sampleAnswers ?? []).find((s) => s.id === sample.id);
@@ -1260,7 +1260,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
    */
   const makeScreeningTask = (node: TreeNode): BatchTask<void> => ({
     id: `screen-${node.id}`,
-    description: `Scoring quality: ${node.label.slice(0, 30)}...`,
+    description: `Scoring quality: ${node.label.slice(0, 30)}…`,
     action: async () => {
       const prompt = requireLivePrompt(node.path);
       const quality = await screenContentQuality(prompt.question, 'question');
@@ -1540,7 +1540,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
 
     const tasks: BatchTask<void>[] = entries.map((t) => ({
       id: `sync-${t.promptAppId}`,
-      description: `Syncing to library: ${t.label.slice(0, 30)}...`,
+      description: `Syncing to library: ${t.label.slice(0, 30)}…`,
       action: async () => {
         // Read the CURRENT prompt from the tree — it carries every repair
         // applied since the touch was recorded.

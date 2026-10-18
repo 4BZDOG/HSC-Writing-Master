@@ -92,7 +92,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       const docsToImport = localDocs.filter((d) => selectedIds.has(d.id));
       const success = await onImport(docsToImport);
       if (success) onClose();
-      else setError('Import sequence failed. Re-initiating discovery...');
+      else setError('Import sequence failed. Re-initiating discovery…');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Internal system fault during data synthesis.');
     } finally {

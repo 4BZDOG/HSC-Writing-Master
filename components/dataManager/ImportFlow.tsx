@@ -494,7 +494,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                             >
                               <option value="create_new">Create New Course</option>
                               {existingCourses.length > 0 && (
-                                <optgroup label="Merge into Existing...">
+                                <optgroup label="Merge into Existing…">
                                   {existingCourses.map((ex) => (
                                     <option key={ex.id} value={ex.id}>
                                       {ex.name}
@@ -574,7 +574,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
               options={existingCourses.map((c) => ({ id: c.id, label: c.name }))}
               value={targetCourseId || ''}
               onChange={setTargetCourseId}
-              placeholder="Select a course..."
+              placeholder="Select a course…"
             />
 
             <div className="bg-[rgb(var(--color-bg-surface))] p-4 rounded-xl border border-[rgb(var(--color-border-secondary))]">

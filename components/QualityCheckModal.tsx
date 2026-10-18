@@ -164,11 +164,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
               <LoadingIndicator
                 task="enrichment"
                 message="Running quality check"
-                messages={[
-                  'Parsing content...',
-                  'Checking syntax...',
-                  'Validating against standards...',
-                ]}
+                messages={['Parsing content…', 'Checking syntax…', 'Validating against standards…']}
                 duration={5}
                 band={4}
               />

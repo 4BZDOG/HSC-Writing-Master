@@ -91,7 +91,7 @@ const renderModal = (props: Partial<React.ComponentProps<typeof ManualPromptModa
   );
 
 const typeIdea = (text = 'ask about CPU caching') =>
-  fireEvent.change(screen.getByLabelText(/Your Rough Question Idea/i), {
+  fireEvent.change(screen.getByLabelText(/Your question idea/i), {
     target: { value: text },
   });
 
@@ -148,7 +148,7 @@ describe('ManualPromptModal — composing', () => {
     renderModal();
     typeIdea();
 
-    fireEvent.click(screen.getByRole('switch', { name: /Scenario On/i }));
+    fireEvent.click(screen.getByRole('switch', { name: /^Scenario$/i }));
     await refine();
 
     expect(lastOptions()).toMatchObject({ includeScenario: false });

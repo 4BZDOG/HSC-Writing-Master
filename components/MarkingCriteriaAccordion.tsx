@@ -308,7 +308,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
               onChange={(e) => setEditText(e.target.value)}
               rows={8}
               className="w-full bg-white dark:bg-[rgb(var(--color-bg-surface-inset))] border border-slate-200 dark:border-white/10 rounded-xl p-4 text-xs font-mono leading-relaxed resize-y text-slate-800 dark:text-slate-200 outline-none focus:border-indigo-500 transition-colors"
-              placeholder="e.g. 5 marks: Analyses effectively..."
+              placeholder="e.g. 5 marks: Analyses effectively…"
             />
           </div>
         ) : (

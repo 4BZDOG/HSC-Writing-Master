@@ -87,6 +87,18 @@ const openingTagAround = (src: string, labelAt: number): string => {
   return '';
 };
 
+/**
+ * The creator dialogs take their close button from `utils/creatorChrome.ts`
+ * (`className={CREATOR_CLOSE}`), so a scan that reads only literal class
+ * strings would find those buttons with no class at all. Resolve the constant
+ * to its string so the check still reads the classes the button renders.
+ */
+const chromeSource = withoutComments(readFileSync('utils/creatorChrome.ts', 'utf8'));
+const resolveChromeConstant = (name: string): string => {
+  const decl = new RegExp(`export const ${name}\\s*=([\\s\\S]*?);`).exec(chromeSource);
+  return decl ? [...decl[1].matchAll(/'([^']*)'/g)].map((m) => m[1]).join(' ') : '';
+};
+
 /** Every `aria-label="Close…"` control, with the className of its own element. */
 const closeButtons = (): CloseButton[] => {
   const found: CloseButton[] = [];
@@ -94,8 +106,10 @@ const closeButtons = (): CloseButton[] => {
     const src = withoutComments(readFileSync(file, 'utf8'));
     for (const match of src.matchAll(/aria-label="Close[^"]*"/g)) {
       const tag = openingTagAround(src, match.index);
-      const cls = /className=(?:"([^"]*)"|\{`([^`]*)`\})/.exec(tag);
-      found.push({ file, className: (cls?.[1] ?? cls?.[2] ?? '').replace(/\s+/g, ' ').trim() });
+      const cls = /className=(?:"([^"]*)"|\{`([^`]*)`\}|\{([A-Z][A-Z0-9_]*)\})/.exec(tag);
+      const literal = cls?.[1] ?? cls?.[2];
+      const resolved = literal ?? resolveChromeConstant(cls?.[3] ?? '');
+      found.push({ file, className: resolved.replace(/\s+/g, ' ').trim() });
     }
   }
   return found;

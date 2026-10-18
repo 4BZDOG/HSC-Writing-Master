@@ -113,9 +113,9 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
             task="generation"
             message={`Lifting your answer ${gapWords}`}
             messages={[
-              'Keeping your wording and structure...',
-              'Adding what the marker asked for...',
-              'Sharpening the syllabus terminology...',
+              'Keeping your wording and structure…',
+              'Adding what the marker asked for…',
+              'Sharpening the syllabus terminology…',
             ]}
             duration={12}
             band={exemplarBand}

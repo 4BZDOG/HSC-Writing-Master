@@ -19,7 +19,7 @@ import {
 import {
   X,
   Sparkles,
-  PenTool,
+  PenLine,
   Save,
   Wand2,
   Target,
@@ -45,6 +45,19 @@ import DiscardConfirmBar from './DiscardConfirmBar';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import { deleteScenarioImage } from '../utils/scenarioImageStorage';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+} from '../utils/creatorChrome';
 
 interface ManualPromptModalProps {
   isOpen: boolean;
@@ -61,15 +74,6 @@ interface ManualPromptModalProps {
   showToast?: (message: string, type: ToastType) => void;
 }
 
-const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
-  <div
-    className={`absolute inset-0 ${opacity} pointer-events-none mix-blend-overlay z-0`}
-    style={{
-      backgroundImage: `url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v12M0 1h12' stroke='%23ffffff' stroke-width='0.5' fill='none'/%3E%3C/svg%3E")`,
-    }}
-  />
-);
-
 /** Section shell — one heading vocabulary for every control group. */
 const Section: React.FC<{
   icon: React.ElementType;
@@ -84,7 +88,7 @@ const Section: React.FC<{
       <div className="flex flex-col gap-1 min-w-0">
         <span className="t-label text-muted">{eyebrow}</span>
         <h4 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-3">
-          <Icon className={`w-5 h-5 ${iconClass}`} /> {title}
+          <Icon className={`w-5 h-5 ${iconClass}`} aria-hidden="true" /> {title}
         </h4>
       </div>
       {action}
@@ -231,7 +235,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
 
   const handleRefine = async () => {
     if (!draftQuestion.trim()) {
-      setError('Please enter a draft question first.');
+      setError('Enter a draft question first.');
       return;
     }
     // Refining is a plan-gated AI Content Studio call. Checked here so a
@@ -379,130 +383,122 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
     );
   };
 
+  const stepLabels = [
+    ['input', '1', 'Compose'],
+    ['preview', '2', 'Review and save'],
+  ] as const;
+
   try {
     return createPortal(
-      <div
-        className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal p-4 transition-all duration-300"
-        onClick={guard.requestCloseFromBackdrop}
-      >
+      <div className={CREATOR_BACKDROP} onClick={guard.requestCloseFromBackdrop}>
         <div
           ref={dialogRef}
           tabIndex={-1}
           role="dialog"
           aria-modal="true"
           aria-labelledby="manual-prompt-title"
-          className={`
- bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-panel shadow-lg
-                        w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300
-                        clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh] relative
-                    `}
+          className={`${CREATOR_SHELL} max-w-4xl`}
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div
-            className={`px-6 sm:px-10 py-6 sm:py-8 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 light:from-indigo-50 light:to-purple-50 relative flex-shrink-0`}
-          >
-            <MeshOverlay />
-            <div className="flex justify-between items-center gap-4 relative z-10">
-              <div className="flex items-center gap-5 min-w-0">
-                <div className="w-14 h-14 rounded-tile bg-gradient-to-br from-indigo-500 to-purple-600 tile-bevel flex items-center justify-center flex-shrink-0">
-                  <PenTool className="w-7 h-7 text-white" />
-                </div>
-                <div className="min-w-0">
-                  <h2
-                    id="manual-prompt-title"
-                    className="text-2xl font-black text-white light:text-slate-900 tracking-tight leading-none italic"
-                  >
-                    Manual Entry
-                  </h2>
-                  {/* The breadcrumb the question will be filed under — the same
-                    reassurance the AI generator gives before it writes. */}
-                  <div className="t-label flex flex-wrap items-center gap-1.5 text-muted mt-1.5">
-                    <span className="truncate max-w-[10rem]">{courseName || 'Course'}</span>
-                    <ChevronRight className="w-3 h-3 opacity-30" />
-                    <span className="truncate max-w-[10rem]">{topicName || 'Topic'}</span>
-                    {subTopicName && (
-                      <>
-                        <ChevronRight className="w-3 h-3 opacity-30" />
-                        <span className="text-indigo-400 light:text-indigo-700 truncate max-w-[10rem]">
-                          {subTopicName}
-                        </span>
-                      </>
-                    )}
-                  </div>
-                </div>
+          <header className={CREATOR_HEADER}>
+            <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+              <PenLine className="w-5 h-5" />
+            </div>
+            <div className="min-w-0 flex-1">
+              {/* The breadcrumb the question will be filed under — the same
+                  reassurance the AI generator gives before it writes. */}
+              <div className={`${CREATOR_KICKER} flex flex-wrap items-center gap-x-1.5 gap-y-1`}>
+                <span className="truncate max-w-[10rem]">{courseName || 'Course'}</span>
+                <ChevronRight
+                  className="w-3 h-3 flex-shrink-0 text-[rgb(var(--color-text-muted))]"
+                  aria-hidden="true"
+                />
+                <span className="truncate max-w-[10rem]">{topicName || 'Topic'}</span>
+                {subTopicName && (
+                  <>
+                    <ChevronRight
+                      className="w-3 h-3 flex-shrink-0 text-[rgb(var(--color-text-muted))]"
+                      aria-hidden="true"
+                    />
+                    <span className="text-indigo-600 dark:text-indigo-400 truncate max-w-[10rem]">
+                      {subTopicName}
+                    </span>
+                  </>
+                )}
               </div>
-              <button
-                onClick={guard.requestClose}
-                aria-label="Close"
-                className="p-3 rounded-xl hover:bg-white/10 light:hover:bg-slate-200 text-muted hover:text-white light:hover:text-slate-900 transition-colors flex-shrink-0"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
+              <h2 id="manual-prompt-title" className={CREATOR_TITLE}>
+                Write a question
+              </h2>
 
-            {/* Two named steps rather than a changing subtitle: the teacher can
-              see that the AI's draft still has to be reviewed. */}
-            <div className="flex items-center gap-3 mt-5 relative z-10">
-              {(
-                [
-                  ['input', '1', 'Compose'],
-                  ['preview', '2', 'Review & Save'],
-                ] as const
-              ).map(([id, num, label]) => {
-                const active = step === id;
-                const done = id === 'input' && step === 'preview';
-                return (
-                  <div key={id} className="flex items-center gap-2">
-                    <span
-                      className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold transition-colors ${
-                        active
-                          ? 'bg-indigo-600 text-white shadow-lg'
-                          : done
-                            ? 'bg-emerald-700 text-white'
-                            : 'bg-white/10 light:bg-slate-200 text-muted'
-                      }`}
-                    >
-                      {done ? <Check className="w-3.5 h-3.5" strokeWidth={4} /> : num}
-                    </span>
-                    <span
-                      className={`t-label ${
-                        active ? 'text-white light:text-slate-900' : 'text-muted'
-                      }`}
-                    >
-                      {label}
-                    </span>
-                    {id === 'input' && <ChevronRight className="w-3.5 h-3.5 text-muted ml-1" />}
-                  </div>
-                );
-              })}
+              {/* Two named steps rather than a changing subtitle: the teacher can
+                see that the AI's draft still has to be reviewed. */}
+              <div className="flex flex-wrap items-center gap-3 mt-4">
+                {stepLabels.map(([id, num, label]) => {
+                  const active = step === id;
+                  const done = id === 'input' && step === 'preview';
+                  return (
+                    <div key={id} className="flex items-center gap-2">
+                      <span
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold transition-colors ${
+                          active
+                            ? 'bg-indigo-600 text-white shadow-lg'
+                            : done
+                              ? 'bg-emerald-700 text-white'
+                              : 'bg-slate-200 dark:bg-white/10 text-muted'
+                        }`}
+                      >
+                        {done ? <Check className="w-3.5 h-3.5" strokeWidth={4} /> : num}
+                      </span>
+                      <span
+                        className={`t-label ${
+                          active ? 'text-[rgb(var(--color-text-primary))]' : 'text-muted'
+                        }`}
+                      >
+                        {label}
+                      </span>
+                      {id === 'input' && (
+                        <ChevronRight className="w-3.5 h-3.5 text-muted ml-1" aria-hidden="true" />
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
+            <button
+              type="button"
+              onClick={guard.requestClose}
+              aria-label="Close"
+              className={CREATOR_CLOSE}
+            >
+              <X className="w-5 h-5" aria-hidden="true" />
+            </button>
+          </header>
 
           {/* Body */}
-          <div className="flex-1 overflow-y-auto p-6 sm:p-10 bg-[rgb(var(--color-bg-surface))] light:bg-white custom-scrollbar">
+          <div className={CREATOR_BODY}>
             {step === 'input' && (
               <div className="flex flex-col animate-fade-in space-y-6">
                 {/* Your idea comes first: everything below it is calibration. */}
                 <div className="flex flex-col">
                   <div className="flex justify-between items-end mb-3">
                     <label htmlFor="manual-prompt-draft" className="t-label text-muted block">
-                      Your Rough Question Idea
+                      Your question idea
                     </label>
                     <span className="text-xs font-mono font-bold text-muted tabular-nums">
-                      {draftQuestion.trim().length} chars
+                      {draftQuestion.trim().length} characters
                     </span>
                   </div>
                   <textarea
                     id="manual-prompt-draft"
                     value={draftQuestion}
                     onChange={(e) => setDraftQuestion(e.target.value)}
-                    placeholder="e.g. Ask the student about how caching works in a CPU and why it's faster..."
+                    placeholder="e.g. Ask the student about how caching works in a CPU and why it’s faster…"
                     className="w-full h-32 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-2xl p-6 text-lg font-medium text-white light:text-slate-900 placeholder:text-dim focus:outline-none focus:ring-2 focus:ring-indigo-500/50 resize-none transition-shadow shadow-inner"
                   />
                   {dotPoint && (
                     <p className="t-label mt-2 text-muted flex items-start gap-2">
-                      <ListChecks className="w-3.5 h-3.5 flex-shrink-0 mt-px opacity-60" />
+                      <ListChecks className="w-3.5 h-3.5 flex-shrink-0 mt-px" aria-hidden="true" />
                       <span className="normal-case tracking-normal font-medium text-muted leading-relaxed">
                         Grounded in this syllabus point: {dotPoint}
                       </span>
@@ -515,7 +511,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   icon={Target}
                   iconClass={markBandColor}
                   eyebrow="Difficulty"
-                  title="Allocated Marks"
+                  title="Allocated marks"
                   action={
                     <div className="text-right">
                       <span
@@ -523,7 +519,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       >
                         {marks}
                       </span>
-                      <span className="t-label text-muted ml-2">Marks</span>
+                      <span className="t-label text-muted ml-2">marks</span>
                     </div>
                   }
                 >
@@ -535,7 +531,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       value={marks}
                       aria-label="Allocated marks"
                       onChange={(e) => setMarks(Number(e.target.value))}
-                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                      className="peer absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
                     />
                     {/* Recommended range zone */}
                     <div
@@ -546,7 +542,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       }}
                     />
                     <div
-                      className={`h-full bg-gradient-to-r ${markGradient} rounded-full transition-all duration-300 relative`}
+                      className={`h-full bg-gradient-to-r ${markGradient} rounded-full transition-all duration-300 relative peer-focus-visible:[&>div]:ring-4 peer-focus-visible:[&>div]:ring-white/60`}
                       style={{ width: `${((marks - 1) / 19) * 100}%` }}
                     >
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-white shadow-lg scale-125 group-hover/slider:scale-150 transition-transform" />
@@ -564,7 +560,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       role="status"
                       className="mt-3 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 flex items-start gap-2"
                     >
-                      <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-700 flex-shrink-0 mt-0.5" />
+                      <AlertTriangle
+                        className="w-4 h-4 text-amber-400 light:text-amber-700 flex-shrink-0 mt-0.5"
+                        aria-hidden="true"
+                      />
                       <div className="text-xs text-amber-300 light:text-amber-700 leading-relaxed">
                         <p>{lengthMismatchNote(pinnedVerb, marks)}</p>
                         <button
@@ -579,7 +578,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   )}
                   {outOfRange && !lengthFix && (
                     <div className="mt-3 p-3 rounded-lg bg-amber-500/10 light:bg-amber-50 border border-amber-500/20 light:border-amber-200 flex items-start gap-2">
-                      <AlertTriangle className="w-4 h-4 text-amber-400 light:text-amber-700 flex-shrink-0 mt-0.5" />
+                      <AlertTriangle
+                        className="w-4 h-4 text-amber-400 light:text-amber-700 flex-shrink-0 mt-0.5"
+                        aria-hidden="true"
+                      />
                       <p className="text-xs text-amber-300 light:text-amber-700 leading-relaxed">
                         <strong>{marks} marks</strong> is outside the typical range for{' '}
                         <strong>&apos;{activeVerb.term}&apos;</strong> ({activeVerb.markRange[0]}–
@@ -598,7 +600,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   icon={Brain}
                   iconClass="text-purple-400 light:text-purple-700"
                   eyebrow="Cognitive demand"
-                  title="Command Verb"
+                  title="Command verb"
                   action={
                     <div
                       className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border ${markTierConfig.bg} ${markTierConfig.border}`}
@@ -619,9 +621,9 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                           : 'bg-white/[0.03] light:bg-white border-white/10 light:border-slate-300 text-slate-400 light:text-muted hover:border-white/25'
                       }`}
                     >
-                      <Sparkles className="w-3 h-3" /> AI Chooses
+                      <Sparkles className="w-3 h-3" aria-hidden="true" /> AI chooses
                     </button>
-                    <span className="w-px h-5 bg-white/10 light:bg-slate-300" />
+                    <span className="w-px h-5 bg-white/10 light:bg-slate-300" aria-hidden="true" />
                     {leadVerbs.map((v) => verbButton(v, pinnedVerb === v.term))}
                     <button
                       type="button"
@@ -665,13 +667,13 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     icon={Briefcase}
                     iconClass="text-blue-400 light:text-blue-700"
                     eyebrow="Framing"
-                    title="Context Scenario"
+                    title="Context scenario"
                     action={
                       <Toggle
                         checked={includeScenario}
                         onChange={() => setIncludeScenario((v) => !v)}
-                        onLabel="Scenario On"
-                        offLabel="No Scenario"
+                        onLabel="Scenario"
+                        offLabel="No scenario"
                         title={
                           includeScenario
                             ? 'Scenario on — a context paragraph will be written'
@@ -691,7 +693,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     icon={Landmark}
                     iconClass="text-amber-400 light:text-amber-700"
                     eyebrow="Provenance"
-                    title="Past HSC Paper"
+                    title="Past HSC paper"
                     action={
                       <Toggle
                         checked={isPastHSC}
@@ -725,7 +727,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         </div>
                         <div className="flex flex-col gap-1.5">
                           <label htmlFor="manual-hsc-question" className="t-label text-muted">
-                            Question No.
+                            Question no.
                           </label>
                           <input
                             id="manual-hsc-question"
@@ -741,7 +743,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                             className="t-label flex items-center gap-1 mb-2 px-2 py-1 rounded-lg border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40"
                             title={previewPastHsc.title}
                           >
-                            <Landmark className="w-2.5 h-2.5" />
+                            <Landmark className="w-2.5 h-2.5" aria-hidden="true" />
                             {previewPastHsc.text}
                           </span>
                         )}
@@ -762,7 +764,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                     icon={Link2}
                     iconClass="text-emerald-400 light:text-emerald-700"
                     eyebrow="What's assessed"
-                    title="Syllabus Outcomes"
+                    title="Syllabus outcomes"
                     action={
                       pinnedOutcomes.length > 0 ? (
                         <button
@@ -774,7 +776,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         </button>
                       ) : (
                         <span className="t-label text-indigo-400 light:text-indigo-700 flex items-center gap-1.5">
-                          <Sparkles className="w-3 h-3" /> AI Chooses
+                          <Sparkles className="w-3 h-3" aria-hidden="true" /> AI chooses
                         </span>
                       )
                     }
@@ -805,7 +807,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
 
                 {error && (
                   <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-700 text-sm flex items-center gap-3">
-                    <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                    <span
+                      className="w-2 h-2 rounded-full bg-red-500 animate-pulse"
+                      aria-hidden="true"
+                    />
                     {error}
                   </div>
                 )}
@@ -814,15 +819,12 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
 
             {step === 'preview' && result && (
               <div className="space-y-6 animate-fade-in">
-                <div className="bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-100 rounded-2xl p-6 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity pointer-events-none">
-                    <Sparkles className="w-12 h-12 text-indigo-400 light:text-indigo-700 rotate-12" />
-                  </div>
+                <div className="bg-indigo-500/10 light:bg-indigo-50 border border-indigo-500/20 light:border-indigo-100 rounded-2xl p-6">
                   <label
                     htmlFor="manual-preview-question"
                     className="t-label text-indigo-400 light:text-indigo-700 mb-2 block"
                   >
-                    Polished Question · edit before saving
+                    Polished question · edit before saving
                   </label>
                   <MathSymbolToolbar
                     textareaRef={previewQuestionTextareaRef}
@@ -839,7 +841,8 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   />
                   {editedQuestion !== result.question && (
                     <p className="t-label mt-2 text-amber-400 light:text-amber-700 flex items-center gap-1.5">
-                      <AlertTriangle className="w-3 h-3" /> Edited — the AI wrote:{' '}
+                      <AlertTriangle className="w-3 h-3" aria-hidden="true" /> Edited — the AI
+                      wrote:{' '}
                       <span className="font-medium normal-case tracking-normal text-muted truncate">
                         {renderFormattedText(result.question, result.keywords, result.verb)}
                       </span>
@@ -850,10 +853,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                       {result.verb}
                     </div>
                     <div className="t-label px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/20">
-                      {result.totalMarks} Marks
+                      {result.totalMarks} marks
                     </div>
                     <div className="t-label px-3 py-1 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-500/20">
-                      Max Band{' '}
+                      Max band{' '}
                       {getTargetBand(result.totalMarks, getCommandTermInfo(result.verb).tier)}
                     </div>
                     {previewPastHsc && (
@@ -861,7 +864,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         className="t-label px-3 py-1 rounded-lg bg-amber-500/15 text-amber-400 light:text-amber-800 border border-amber-500/40 flex items-center gap-1.5"
                         title={previewPastHsc.title}
                       >
-                        <Landmark className="w-3 h-3" />
+                        <Landmark className="w-3 h-3" aria-hidden="true" />
                         {previewPastHsc.text}
                       </div>
                     )}
@@ -884,10 +887,10 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                             : 'text-slate-400 light:text-muted hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100'
                         }`}
                         title={
-                          result.scenarioImage ? 'Manage Scenario Image' : 'Add Scenario Image'
+                          result.scenarioImage ? 'Manage scenario image' : 'Add scenario image'
                         }
                       >
-                        <ImagePlus className="w-3.5 h-3.5" />
+                        <ImagePlus className="w-3.5 h-3.5" aria-hidden="true" />
                       </button>
                     </div>
 
@@ -917,14 +920,14 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                         />
                       </>
                     ) : (
-                      <div className="p-5 rounded-2xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs text-muted italic font-medium">
+                      <div className="p-5 rounded-2xl border border-dashed border-white/15 light:border-slate-300 text-xs text-muted italic font-medium">
                         No scenario — this is a direct question.
                       </div>
                     )}
                   </div>
                   <div className="space-y-2">
                     <label htmlFor="manual-preview-criteria" className="t-label text-muted block">
-                      Marking Criteria
+                      Marking criteria
                     </label>
                     <MathSymbolToolbar
                       textareaRef={previewCriteriaTextareaRef}
@@ -947,7 +950,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <span className="t-label text-muted flex items-center gap-2">
-                      <Link2 className="w-3.5 h-3.5" /> Linked Outcomes
+                      <Link2 className="w-3.5 h-3.5" aria-hidden="true" /> Linked outcomes
                     </span>
                     <div className="flex flex-wrap gap-2">
                       {result.linkedOutcomes?.length ? (
@@ -967,7 +970,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
                   </div>
                   <div className="space-y-2">
                     <span className="t-label text-muted flex items-center gap-2">
-                      <Tag className="w-3.5 h-3.5" /> Syllabus Keywords
+                      <Tag className="w-3.5 h-3.5" aria-hidden="true" /> Syllabus keywords
                     </span>
                     <div className="flex flex-wrap gap-2">
                       {result.keywords?.length ? (
@@ -990,49 +993,42 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
           </div>
 
           {/* Footer */}
-          <div className="px-6 sm:px-10 py-6 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-slate-50 backdrop-blur-md flex justify-between items-center gap-4 relative z-20">
-            {step === 'preview' ? (
+          <div className={CREATOR_FOOTER}>
+            {step === 'preview' && (
               <button
+                type="button"
                 onClick={() => setStep('input')}
-                className="text-xs font-bold text-muted hover:text-white light:hover:text-slate-900 transition-colors"
+                className={CREATOR_SECONDARY_BUTTON}
               >
-                Back to Edit
+                Back to edit
               </button>
-            ) : (
-              <div />
             )}
 
             {step === 'input' ? (
               <button
+                type="button"
                 onClick={handleRefine}
                 disabled={!draftQuestion.trim() || isRefining}
-                className={`
-                                    t-label group px-8 py-3 rounded-2xl shadow-lg transition-all flex items-center gap-3
-                                    ${
-                                      !draftQuestion.trim() || isRefining
-                                        ? 'bg-[rgb(var(--color-bg-surface-light))] text-muted cursor-not-allowed'
-                                        : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:scale-105 active:scale-[0.98]'
-                                    }
-                                `}
+                className={CREATOR_PRIMARY_BUTTON}
               >
                 {isRefining ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" /> Polishing...
+                    <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> Polishing…
                   </>
                 ) : (
                   <>
-                    <Wand2 className="w-4 h-4 group-hover:rotate-12 transition-transform" /> Refine
-                    with AI
+                    <Wand2 className="w-4 h-4" aria-hidden="true" /> Refine with AI
                   </>
                 )}
               </button>
             ) : (
               <button
+                type="button"
                 onClick={handleConfirm}
                 disabled={!editedQuestion.trim()}
-                className="t-label group px-10 py-3 rounded-2xl text-white bg-gradient-to-r from-emerald-700 to-teal-700 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-3 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className={CREATOR_PRIMARY_BUTTON}
               >
-                <Save className="w-4 h-4" /> Save to Syllabus
+                <Save className="w-4 h-4" aria-hidden="true" /> Save to syllabus
               </button>
             )}
           </div>
@@ -1048,13 +1044,13 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
           <AiBusyOverlay show={isRefining}>
             <LoadingIndicator
               task="generation"
-              message="Structuring your question"
+              message="Polishing your question"
               messages={[
-                'Analysing draft concept...',
-                `Calibrating for ${marks} marks...`,
-                pinnedVerb ? `Building on '${pinnedVerb}'...` : 'Selecting appropriate verb...',
-                includeScenario ? 'Constructing scenario...' : 'Sharpening the question stem...',
-                'Drafting rubric...',
+                'Reading your idea',
+                `Sizing it for ${marks} marks`,
+                pinnedVerb ? `Keeping your verb, '${pinnedVerb}'` : 'Choosing a command verb',
+                includeScenario ? 'Writing a scenario' : 'Sharpening the question',
+                'Drafting the marking guidelines',
               ]}
               duration={8}
               band={ceilingBand}

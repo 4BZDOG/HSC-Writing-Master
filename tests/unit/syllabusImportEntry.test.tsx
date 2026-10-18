@@ -80,6 +80,14 @@ describe('Syllabus import entry points (PromptSelector)', () => {
     expect(onImportSyllabus).toHaveBeenCalledTimes(1);
   });
 
+  it('names an icon-only action by what it acts on, not by its bare label', () => {
+    // Below `2xl` the label is hidden, so a name of just "Add" left the course
+    // and sub-topic buttons indistinguishable to a screen reader.
+    renderSelector('admin');
+    expect(screen.getByRole('button', { name: 'Add Course' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Add' })).toBeNull();
+  });
+
   it('withholds course and topic CREATION from teachers, keeping the rest', () => {
     // Courses and topics are the shared skeleton — see canCreateCurriculum.
     // A teacher curates everything below a topic but does not get to add a
@@ -181,7 +189,9 @@ describe('SyllabusImportModal input validation', () => {
 describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
   beforeEach(() => vi.clearAllMocks());
 
-  const renderModal = (overrides: Partial<React.ComponentProps<typeof TopicSyllabusImportModal>> = {}) =>
+  const renderModal = (
+    overrides: Partial<React.ComponentProps<typeof TopicSyllabusImportModal>> = {}
+  ) =>
     render(
       <TopicSyllabusImportModal
         isOpen={true}
