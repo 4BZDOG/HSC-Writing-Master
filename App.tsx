@@ -1499,10 +1499,13 @@ const App: React.FC = () => {
       authService
         .handleOAuthCallback()
         .then((oauthUser) => {
-          if (oauthUser) {
-            setUser(oauthUser);
-            showToast(`Signed in as ${oauthUser.displayName}`, 'success');
-          }
+          // No "Signed in as …" toast here or on the form below. A first
+          // sign-in lands on the agreement, the quick start and the syllabus
+          // picker, and on a phone the toast sat over each one's title and
+          // close button for its whole life, to say what the screen already
+          // shows (the same reasoning that retired the "Marking complete"
+          // toast in #389).
+          if (oauthUser) setUser(oauthUser);
         })
         // A rejected sign-in must SAY so. This used to swallow everything,
         // which was survivable while the only failures were transient — but
@@ -1561,12 +1564,7 @@ const App: React.FC = () => {
     <div className="min-h-screen relative z-10 selection:bg-indigo-500/30 selection:text-white">
       <AnimatedBackground />
       {!user ? (
-        <LoginPage
-          onLogin={(u) => {
-            setUser(u);
-            showToast(`Signed in as ${u.displayName}`, 'success');
-          }}
-        />
+        <LoginPage onLogin={setUser} />
       ) : isBlockedByAgreement ? null : (
         <AuthenticatedApp
           user={user}

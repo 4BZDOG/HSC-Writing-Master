@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
-import { ChevronDown, ChevronUp, History, LogOut, ArrowRight, ScrollText } from 'lucide-react';
+import { ChevronDown, ChevronUp, History, LogOut, ScrollText } from 'lucide-react';
 import type { User } from '../types';
 import { CHARTER_ICONS } from './agreementIcons';
 import LegalDocumentReader from './LegalDocumentReader';
@@ -244,19 +244,13 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             <button
               onClick={blocking ? onAccept : onDismiss}
               disabled={!canContinue}
-              className="t-label flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
+              className="text-sm font-semibold flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
-              {isSaving ? (
-                'Saving…'
-              ) : blocking ? (
-                <>
-                  Agree and continue <ArrowRight className="w-4 h-4" />
-                </>
-              ) : (
-                <>
-                  Got it — let me look around <ArrowRight className="w-4 h-4" />
-                </>
-              )}
+              {isSaving
+                ? 'Saving…'
+                : blocking
+                  ? 'Agree and continue'
+                  : 'Got it, let me look around'}
             </button>
             {blocking && (
               <button
