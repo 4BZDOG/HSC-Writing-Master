@@ -67,6 +67,7 @@ import FlagContentModal from './FlagContentModal';
 import { TERM_CHIP_RESTING } from '../utils/termChrome';
 import { withIndefiniteArticle } from '../utils/grammar';
 import { canStepReadingSize, stepReadingSize } from '../utils/readingSize';
+import { capOutcomeLinks } from '../utils/outcomeCodes';
 
 interface PromptDisplayProps {
   prompt: Prompt;
@@ -478,9 +479,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // hierarchy ribbon); targetBand stays purely numeric copy ("Band 2").
   const bandConfig = useMemo(() => getTierScaleConfig(verbInfo.tier), [verbInfo.tier]);
 
+  // In the question's own order, which puts the outcome it most directly assesses
+  // first, and no more than two: a question that still carries a longer list
+  // (an older import) shows its first two.
   const linkedOutcomes = useMemo(() => {
     if (examMode || !prompt.linkedOutcomes) return [];
-    return courseOutcomes.filter((o) => prompt.linkedOutcomes?.includes(o.code));
+    const byCode = new Map(courseOutcomes.map((o) => [o.code, o]));
+    return capOutcomeLinks(prompt.linkedOutcomes.filter((code) => byCode.has(code))).map(
+      (code) => byCode.get(code)!
+    );
   }, [courseOutcomes, prompt.linkedOutcomes, examMode]);
 
   useEffect(() => {
@@ -1214,15 +1221,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           pinned to the bottom instead of scrolling out of reach when a long
           scenario overflows.
 
-          Two rows, and nothing scrolls. The first is the ACTIONS: the brief
-          button, which takes the row's width, and the two tools (the AI wand for
-          those who can use it, and the flag) as square tiles of the chips' own
-          height. The second is the OUTCOME chips, in a grid of equal cells, so a
-          set of codes fills each line edge to edge instead of leaving a ragged
-          right side with the flag stranded above it. It used to be one wrapping
-          row of mixed parts, with the flag pinned top-right, which on a phone
-          left the chips in a stair-step and the tools floating. A code is never
-          clipped: a cell is wide enough for the longest one the courses carry. */}
+          One row from `sm`, and nothing scrolls: the brief button, which takes
+          what width is left, then the outcome chips at their own width, then the
+          two tools (the AI wand for those who can use it, and the flag) as square
+          tiles of the chips' own height. A question links one outcome, or two at
+          most (`MAX_LINKED_OUTCOMES`), so the chips fit beside the button; they
+          used to take a second row of their own, a grid sized for five. Where the
+          footer is too narrow for that (a phone, or two chips in the card's
+          two-column width), the chips drop to a line of their own beneath, so the
+          button keeps its label: `.outcome-footer` in index.css, a container query
+          on the footer's own width. */}
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
@@ -1237,85 +1245,46 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {/* Inner wrapper carries the layout so its height stays
               content-driven — the outer box is inflated by the synced
               minFooterHeight and cannot be measured. */}
-            <div ref={footerContentRef} className="w-full flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                {/* The whole label is the entry point, not just the chips. The
+            <div
+              ref={footerContentRef}
+              className="outcome-footer w-full flex flex-wrap items-center gap-2"
+            >
+              {/* The whole label is the entry point, not just the chips. The
                   chips say WHICH outcomes apply; this says what opening them
                   gets you: what the marker is looking for in this question, and
                   a plain-English brief on the outcomes, worth reading before the
                   first sentence is written. */}
-                {linkedOutcomes.length > 0 ? (
-                  <button
-                    type="button"
-                    onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
-                    title="Open the outcome brief — what this question is assessing and what the marker is looking for"
-                    className={`${FOOTER_CHIP} flex-1 min-w-0 justify-between gap-2 px-3 band-fill border-[rgb(var(--band-rgb)/0.85)] ${bandConfig.text} text-xs font-bold hover:brightness-110`}
-                  >
-                    <span className="inline-flex items-center gap-2">
-                      <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                      Read before you write
-                    </span>
-                    <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70" aria-hidden="true" />
-                  </button>
-                ) : (
-                  <div className="flex-1 min-w-0">
-                    {!examMode && (
-                      // No `opacity`: a muted tone says "nothing to see" and stays
-                      // readable for whoever needs to read it.
-                      <span className="inline-flex items-center gap-2 min-h-9 text-xs text-[rgb(var(--color-text-muted))] italic font-medium">
-                        <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                        No outcomes linked
-                      </span>
-                    )}
-                  </div>
-                )}
-                {canGenerate && onSuggestOutcomes && !examMode && (
-                  <button
-                    type="button"
-                    onClick={studioAction(onSuggestOutcomes)}
-                    disabled={isSuggestingOutcomes}
-                    aria-label="Auto-link outcomes with AI"
-                    className={`${FOOTER_TOOL} ${
-                      studioChrome ||
-                      'bg-[rgb(var(--color-accent))]/10 border-[rgb(var(--color-accent))]/40 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20'
-                    } ${isSuggestingOutcomes ? 'animate-pulse' : ''}`}
-                    title={studioTitle('Auto-link Outcomes with AI')}
-                  >
-                    <Wand2
-                      className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`}
-                      aria-hidden="true"
-                    />
-                  </button>
-                )}
+              {linkedOutcomes.length > 0 ? (
                 <button
                   type="button"
-                  onClick={() => setIsFlagModalOpen(true)}
-                  aria-label={
-                    hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
-                  }
-                  className={`${FOOTER_TOOL} ${
-                    hasOpenFlag
-                      ? 'bg-amber-500/15 border-amber-500/50 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25'
-                      : 'bg-[rgb(var(--color-bg-surface-light))] border-[rgb(var(--band-rgb)/0.45)] text-[rgb(var(--color-text-secondary))] hover:text-amber-600 hover:border-amber-500/60'
-                  }`}
-                  title={
-                    hasOpenFlag
-                      ? 'This question is flagged for review — click to view'
-                      : 'Something off about this question? Flag it for review'
-                  }
+                  onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
+                  title="Open the outcome brief — what this question is assessing and what the marker is looking for"
+                  className={`${FOOTER_CHIP} flex-1 min-w-0 justify-between gap-2 px-3 band-fill border-[rgb(var(--band-rgb)/0.85)] ${bandConfig.text} text-xs font-bold hover:brightness-110`}
                 >
-                  <Flag
-                    className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`}
-                    aria-hidden="true"
-                  />
+                  <span className="inline-flex items-center gap-2">
+                    <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    Read before you write
+                  </span>
+                  <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70" aria-hidden="true" />
                 </button>
-              </div>
-
+              ) : (
+                <div className="flex-1 min-w-0">
+                  {!examMode && (
+                    // No `opacity`: a muted tone says "nothing to see" and stays
+                    // readable for whoever needs to read it.
+                    <span className="inline-flex items-center gap-2 min-h-9 text-xs text-[rgb(var(--color-text-muted))] italic font-medium">
+                      <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                      No outcomes linked
+                    </span>
+                  )}
+                </div>
+              )}
               {linkedOutcomes.length > 0 && (
                 <div
                   role="group"
                   aria-label="Linked outcomes"
-                  className="grid grid-cols-[repeat(auto-fill,minmax(8.25rem,1fr))] gap-2"
+                  data-count={linkedOutcomes.length}
+                  className="outcome-footer-chips flex gap-2"
                 >
                   {linkedOutcomes.map((outcome) => (
                     <OutcomeChip
@@ -1327,6 +1296,46 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   ))}
                 </div>
               )}
+              {canGenerate && onSuggestOutcomes && !examMode && (
+                <button
+                  type="button"
+                  onClick={studioAction(onSuggestOutcomes)}
+                  disabled={isSuggestingOutcomes}
+                  aria-label="Auto-link outcomes with AI"
+                  className={`${FOOTER_TOOL} ${
+                    studioChrome ||
+                    'bg-[rgb(var(--color-accent))]/10 border-[rgb(var(--color-accent))]/40 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20'
+                  } ${isSuggestingOutcomes ? 'animate-pulse' : ''}`}
+                  title={studioTitle('Auto-link Outcomes with AI')}
+                >
+                  <Wand2
+                    className={`w-3.5 h-3.5 ${isSuggestingOutcomes ? 'animate-spin' : ''}`}
+                    aria-hidden="true"
+                  />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => setIsFlagModalOpen(true)}
+                aria-label={
+                  hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
+                }
+                className={`${FOOTER_TOOL} ${
+                  hasOpenFlag
+                    ? 'bg-amber-500/15 border-amber-500/50 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25'
+                    : 'bg-[rgb(var(--color-bg-surface-light))] border-[rgb(var(--band-rgb)/0.45)] text-[rgb(var(--color-text-secondary))] hover:text-amber-600 hover:border-amber-500/60'
+                }`}
+                title={
+                  hasOpenFlag
+                    ? 'This question is flagged for review — click to view'
+                    : 'Something off about this question? Flag it for review'
+                }
+              >
+                <Flag
+                  className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`}
+                  aria-hidden="true"
+                />
+              </button>
             </div>
           </div>
         )}

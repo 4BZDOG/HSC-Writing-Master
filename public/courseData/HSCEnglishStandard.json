@@ -6383,11 +6383,7 @@
                     "totalMarks": 20,
                     "verb": "DISCUSS",
                     "linkedOutcomes": [
-                      "EST-12-04",
-                      "EST-12-05",
-                      "EST-12-01",
-                      "EST-12-02",
-                      "EST-12-03"
+                      "EST-12-01"
                     ],
                     "markerNotes": [
                       "Strong answers hold the benefits and challenges together rather than listing them in two halves. Eliza's gain in mobility is the same thing that costs her a settled place in her old world.",
@@ -8629,9 +8625,6 @@
                     "totalMarks": 20,
                     "verb": "CONSTRUCT",
                     "linkedOutcomes": [
-                      "EST-12-04",
-                      "EST-12-06",
-                      "EST-12-03",
                       "EST-12-05"
                     ],
                     "markerNotes": [

@@ -1049,6 +1049,33 @@ a:focus-visible,
     display: inline;
   }
 }
+/*
+ * The question card's footer: the brief button, the outcome chips (one, or two at
+ * most) and the tools. One line when the FOOTER has the width for it, and the chips
+ * on a line of their own beneath when it does not. Measured on the footer, not the
+ * viewport: the card is at its narrowest at 1280px, in two columns, where a
+ * viewport query would say "wide" and the tools would wrap to a line by
+ * themselves. The button keeps its label (11rem), and a chip is about 7rem.
+ */
+.outcome-footer {
+  container-type: inline-size;
+}
+.outcome-footer-chips {
+  order: 99;
+  flex-basis: 100%;
+}
+@container (min-width: 25rem) {
+  .outcome-footer-chips[data-count='1'] {
+    order: 0;
+    flex-basis: auto;
+  }
+}
+@container (min-width: 32rem) {
+  .outcome-footer-chips {
+    order: 0;
+    flex-basis: auto;
+  }
+}
 .band-header-wash {
   background-image: linear-gradient(
     90deg,

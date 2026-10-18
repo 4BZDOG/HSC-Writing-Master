@@ -31,3 +31,19 @@ export const withoutDuplicateCodes = (outcomes: CourseOutcome[]): CourseOutcome[
   const repeats = duplicateCodeRows(outcomes);
   return outcomes.filter((_, index) => !repeats.has(index));
 };
+
+/**
+ * The most outcomes a question links. A question assesses the outcome its verb
+ * and content most directly demand, and occasionally a second; a strip of three
+ * to five codes said nothing about which one mattered and crowded the question's
+ * footer. Shipped questions keep to it, the AI paths that link outcomes are told
+ * it and held to it (`capOutcomeLinks`), and the question card shows no more.
+ */
+export const MAX_LINKED_OUTCOMES = 2;
+
+/** What every AI path that links outcomes is told. One is usually right. */
+export const OUTCOME_LINK_RULE =
+  'Link the ONE outcome this question most directly assesses. Add a second only if the question genuinely assesses two distinct outcomes. Never link more than two.';
+
+/** A list of linked codes held to `MAX_LINKED_OUTCOMES`, in the order given. */
+export const capOutcomeLinks = (codes: string[]): string[] => codes.slice(0, MAX_LINKED_OUTCOMES);

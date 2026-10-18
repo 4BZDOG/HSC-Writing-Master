@@ -42,6 +42,7 @@ import { generateId } from '../utils/idUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
 import { guideLadderProblem } from '../utils/markingGuideLadder';
+import { capOutcomeLinks, OUTCOME_LINK_RULE } from '../utils/outcomeCodes';
 import {
   formatMarkingCriteria,
   normalizeSyllabusStructure,
@@ -692,6 +693,7 @@ Course: ${context.name}
 Question: "${prompt.question}"
 Command verb: ${termInfo.term} (${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}, targets Band ${targetBand})
 Available Outcomes: ${JSON.stringify(context.outcomes.map((o) => o.code))}
+Outcomes: ${OUTCOME_LINK_RULE}
 ${contextBlock}
 ${keywordInstruction(targetBand, !!contextBlock)}
 
@@ -712,8 +714,10 @@ Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": strin
     scenario: typeof data.scenario === 'string' ? data.scenario : '',
     keywords: groundKeywords(data.keywords || [], context.syllabus, termInfo.term),
     linkedOutcomes: Array.isArray(data.linkedOutcomes)
-      ? data.linkedOutcomes.filter(
-          (c: unknown): c is string => typeof c === 'string' && validCodes.has(c)
+      ? capOutcomeLinks(
+          data.linkedOutcomes.filter(
+            (c: unknown): c is string => typeof c === 'string' && validCodes.has(c)
+          )
         )
       : [],
   };
@@ -924,9 +928,10 @@ export const suggestOutcomesForPrompt = async (
     contents: {
       parts: [
         {
-          text: `Select the most relevant outcome codes for this question: "${question}".
+          text: `Select the outcome codes this question assesses: "${question}".
+                       ${OUTCOME_LINK_RULE}
                        Outcomes: ${JSON.stringify(outcomes)}.
-                       Return JSON string array of codes.`,
+                       Return a JSON string array of one or two codes, the most directly assessed first.`,
         },
       ],
     },
@@ -940,7 +945,9 @@ export const suggestOutcomesForPrompt = async (
   // Only return codes that exist in the course — the model occasionally
   // invents plausible-looking outcome codes.
   const validCodes = new Set(outcomes.map((o) => o.code));
-  return parsed.filter((c): c is string => typeof c === 'string' && validCodes.has(c));
+  return capOutcomeLinks(
+    parsed.filter((c): c is string => typeof c === 'string' && validCodes.has(c))
+  );
 };
 
 /**
@@ -1378,7 +1385,7 @@ export const refineManualPrompt = async (
   const outcomeInstruction = pinnedOutcomes.length
     ? `4. **Outcomes (FIXED)**: The teacher has already chosen the outcomes this question assesses: ${pinnedOutcomes.join(', ')}. ` +
       `Return exactly these codes, and make sure the question genuinely assesses them.`
-    : `4. **Select Outcomes**: Pick 1-3 outcome codes from the provided list that best match the question.`;
+    : `4. **Select Outcomes**: From the provided list. ${OUTCOME_LINK_RULE}`;
 
   const dotPointBlock = dotPoint
     ? `Syllabus Dot Point: "${dotPoint}" — the question must sit within this content, not beside it.`
@@ -1470,7 +1477,9 @@ export const refineManualPrompt = async (
     // (or a table, or with escaped newlines) is what the teacher sees and saves.
     markingCriteria: formatMarkingCriteria(data.markingCriteria),
     keywords: data.keywords || [],
-    linkedOutcomes: pinnedOutcomes.length ? pinnedOutcomes : data.linkedOutcomes || [],
+    linkedOutcomes: pinnedOutcomes.length
+      ? pinnedOutcomes
+      : capOutcomeLinks(data.linkedOutcomes || []),
     sampleAnswers: [],
     isPastHSC: false,
   };
@@ -1579,7 +1588,7 @@ export const generateNewPrompt = async (
                     ${scenarioLine}
                     - markingCriteria (${buildMarkingCriteriaInstruction(marks, primaryTier, primaryVerb)})
                     - keywords (List of 5-10 technical terms)
-                    - linkedOutcomes (Array of outcome codes relevant to this question from: ${JSON.stringify(outcomes.map((o) => o.code))})
+                    - linkedOutcomes (Array of outcome codes from: ${JSON.stringify(outcomes.map((o) => o.code))}. ${OUTCOME_LINK_RULE})
                 `,
         },
       ],
@@ -1626,7 +1635,7 @@ export const generateNewPrompt = async (
     scenario: includeScenario ? data.scenario : '',
     markingCriteria: formatMarkingCriteria(data.markingCriteria),
     keywords: data.keywords || [],
-    linkedOutcomes: data.linkedOutcomes || [],
+    linkedOutcomes: capOutcomeLinks(data.linkedOutcomes || []),
     sampleAnswers: [],
     isPastHSC: false,
   });
