@@ -79,30 +79,30 @@ const STUDENT_TRACK: QuickStartTrack = {
       body: 'Use the navigator across the top. It follows the syllabus exactly, so you can go straight to the dot point you are stuck on.',
       detail: [
         'Course → Topic → Sub-topic → Dot point → Question.',
-        'The coloured strip underneath shows the command-term tiers — from Identify at the bottom to Evaluate at the top. The question you pick lights up its tier.',
+        'The command verb hierarchy under it shows the six tiers of command verbs, from Identify to Evaluate. The question you pick lights up its tier.',
         'No question there yet? Load the curriculum library from the home screen, or ask your teacher for an assignment link.',
       ],
     },
     {
       icon: 'pen',
       title: 'Write like it is the real exam',
-      body: 'Answer in the writing area. The panel beside it is watching for the things markers actually reward.',
+      body: 'Answer in the writing area. Draft check, under it, keeps an eye on the basics as you write.',
       detail: [
-        'Syllabus terms you have used — and the ones you are missing.',
-        'Whether your verbs match the command term the question asked for.',
-        'Logic connectors ("therefore", "however") that signal a developed argument.',
-        'A live estimate of the band you are writing at.',
-        'Hit Focus Mode when you want the rest of the screen to disappear.',
+        'Whether the length suits the marks on offer.',
+        'Syllabus terms you have used, and the ones still missing. Tap a missing term to add it.',
+        'Sentences that run on, and an answer that needs breaking into paragraphs.',
+        'A readiness bar beside Evaluate fills as the draft takes shape. It measures completeness, not the band you will get.',
+        'Turn on Focus mode when you want the rest of the screen to disappear.',
       ],
     },
     {
       icon: 'gauge',
       title: 'Get it marked',
-      body: 'Press Evaluate. In a few seconds you get a mark out of the question’s total, a band, and the reasoning behind both.',
+      body: 'Press Evaluate. In under a minute you get a mark out of the question’s total, a band, and the reasoning behind both.',
       detail: [
         'A criterion-by-criterion breakdown — which parts earned marks and which did not.',
         'What you did well, and the specific things to fix next time.',
-        'Marker notes: the mistakes real HSC markers see most often on this question.',
+        'The marker’s commentary: why the answer sits in that band.',
       ],
     },
     {
@@ -111,8 +111,8 @@ const STUDENT_TRACK: QuickStartTrack = {
       body: 'This is the part that actually moves your marks. Do not skip it.',
       detail: [
         'Read the sample answers at each band and compare them to yours — the difference between Band 4 and Band 6 is usually structural, not effort.',
-        'Use the answer upgrade to see your own words rewritten one band higher, with the changes called out.',
-        'Open the Command Term Guide to see what "Evaluate" demands that "Describe" does not.',
+        'Use the answer upgrade to see your own words rewritten one step higher (the next band, or one more mark on a long question), with each change explained.',
+        'Tap the question’s command verb to open its guide, and see what "Evaluate" demands that "Describe" does not.',
       ],
       planNote: 'Full band-by-band exemplars and answer upgrades are part of Band 6 Plus.',
     },
@@ -150,7 +150,7 @@ const TEACHER_TRACK: QuickStartTrack = {
       title: 'Generate questions worth setting',
       body: 'Pick a dot point and generate exam-style questions with rubrics, or write your own and have them refined.',
       detail: [
-        'Generated questions come with marking criteria, marker notes, common student errors and linked outcomes.',
+        'Generated questions come with marking criteria and the syllabus outcome they assess.',
         'Generate band-level sample answers for any question — useful for modelling in class, not just for students.',
         'Run Quality Check before you publish anything: it screens a question or sample against the syllabus and flags problems.',
       ],
@@ -202,7 +202,7 @@ const GUEST_TRACK: QuickStartTrack = {
     {
       icon: 'eye',
       title: 'Read a question properly',
-      body: 'Open one and look at the marking criteria, the marker notes and the common student errors. That is the part teachers usually care about.',
+      body: 'Open one and read its marking guide, the criteria a marker works through. That is the part teachers usually care about.',
     },
     {
       icon: 'sparkles',
@@ -250,7 +250,7 @@ export interface PowerTip {
 export const POWER_TIPS: PowerTip[] = [
   {
     label: 'Esc',
-    body: 'Closes any panel, and leaves Focus Mode.',
+    body: 'Closes any panel, and leaves Focus mode.',
   },
   {
     label: 'Collapse to breadcrumb',
