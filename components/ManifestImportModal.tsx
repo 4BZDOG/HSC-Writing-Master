@@ -92,7 +92,10 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       const docsToImport = localDocs.filter((d) => selectedIds.has(d.id));
       const success = await onImport(docsToImport);
       if (success) onClose();
-      else setError('Import sequence failed. Re-initiating discovery…');
+      // The hook has already raised a notice saying why (no course for a topic,
+      // or a failure that changed nothing). This names the outcome, not a
+      // pipeline stage, and promises no retry it does not make.
+      else setError('Nothing was added. The notice that just appeared says why.');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Internal system fault during data synthesis.');
     } finally {
@@ -191,20 +194,22 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       aria-labelledby="manifest-import-title"
       className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal-elevated p-3 sm:p-6 animate-fade-in"
     >
-      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[94vh] sm:max-h-[90vh] relative group">
+      <div className="bg-[rgb(var(--color-bg-surface))]/90 light:bg-white/95 rounded-surface shadow-[0_64px_128px_-24px_rgba(0,0,0,0.7)] w-full max-w-[1200px] border border-white/10 light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[calc(100dvh-1.5rem)] sm:max-h-[90dvh] relative">
         <MeshOverlay opacity="opacity-[0.03]" />
-
-        {/* Global Banner Glow */}
-        <div className="absolute -top-40 -left-40 w-[600px] h-[600px] bg-indigo-500/10 blur-[120px] rounded-full pointer-events-none" />
 
         {/* Dynamic Header */}
         <div className="px-5 sm:px-12 pt-6 sm:pt-12 pb-6 sm:pb-10 flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-10 relative z-10">
           <div className="flex items-center gap-4 sm:gap-8">
-            <div className="relative group/icon shrink-0">
-              <div className="absolute inset-0 bg-indigo-500 blur-2xl opacity-20 group-hover/icon:opacity-40 transition-opacity duration-700" />
-              <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-tile bg-gradient-to-br from-indigo-500 to-sky-500 tile-bevel flex items-center justify-center transform transition-transform duration-500 group-hover/icon:scale-105">
-                <Library className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
-              </div>
+            {/* A quiet tile, as on the creator dialogs (utils/creatorChrome.ts).
+                It was an indigo-to-sky gradient with a blur behind it that
+                brightened and grew on hover, on an icon that does nothing: the
+                generic mark finding 8 of the design review took off the login
+                page, on the screen a new account meets straight after it. */}
+            <div
+              aria-hidden="true"
+              className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-tile flex items-center justify-center border bg-indigo-100 text-indigo-700 border-indigo-200 dark:bg-indigo-500/15 dark:text-indigo-300 dark:border-indigo-500/30"
+            >
+              <Library className="w-6 h-6 sm:w-8 sm:h-8" />
             </div>
             {/* The eyebrow above the heading read "Content Library" and the
                 heading read "Content Library". A label that repeats the thing
