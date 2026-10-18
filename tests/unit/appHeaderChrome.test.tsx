@@ -101,7 +101,7 @@ const openTools = (): HTMLElement => {
 
 /** The nine admin/moderator tools, by the labels the e2e specs select on. */
 const ADMIN_TOOLS = [
-  'Data Vault (Import/Export/Reorder)',
+  'Data vault (import, export, reorder)',
   'Content Audit Studio',
   'Review Queue (approve/reject contributions)',
   'Class Insights (where the cohort is struggling)',

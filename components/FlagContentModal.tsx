@@ -212,7 +212,7 @@ const FlagContentModal: React.FC<FlagContentModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-secondary))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-secondary))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-white/10 light:hover:bg-slate-200 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             {hasOpenFlag ? 'Close' : 'Cancel'}
           </button>

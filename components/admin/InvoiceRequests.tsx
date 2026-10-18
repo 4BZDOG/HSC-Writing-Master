@@ -70,7 +70,7 @@ const TONE_BUTTON = {
     'border-emerald-500/30 bg-emerald-500/10 text-emerald-500 light:text-emerald-800 hover:bg-emerald-500/20',
   decline: 'border-red-500/30 bg-red-500/10 text-red-400 light:text-red-700 hover:bg-red-500/20',
   quiet:
-    'border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 text-[rgb(var(--color-text-primary))] light:text-slate-900 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300',
+    'border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 text-[rgb(var(--color-text-primary))] light:text-slate-900 hover:bg-white/10 light:hover:bg-slate-300',
 } as const;
 
 /** Every button here is 44px tall on a phone, as the other overview controls are. */
@@ -163,7 +163,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
           className={`shrink-0 inline-flex items-center gap-1.5 px-2 py-1 rounded-full border text-xs font-bold ${
             request.overdue
               ? 'border-amber-500/40 bg-amber-500/10 light:bg-amber-50 light:border-amber-300 text-amber-400 light:text-amber-800'
-              : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700'
+              : 'border-white/10 light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700'
           }`}
           title={
             request.overdue ? `Older than ${INVOICE_WAIT_WORKING_DAYS} working days` : undefined
@@ -234,7 +234,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
   return (
     <li
       aria-busy={calling || undefined}
-      className="p-4 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]"
+      className="p-4 rounded-xl border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]"
     >
       {detail}
 
@@ -279,7 +279,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
           ref={answerRef}
           tabIndex={-1}
           role="status"
-          className="mt-4 p-3 rounded-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface))] outline-none"
+          className="mt-4 p-3 rounded-lg border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface))] outline-none"
         >
           <p className="flex items-center gap-2 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
             <CircleX
@@ -368,7 +368,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
                 value={daysUntilDue}
                 disabled={busy || hasSubscription}
                 onChange={(e) => setDaysUntilDue(Number(e.target.value))}
-                className="w-full sm:w-auto min-h-[44px] sm:min-h-0 px-3 py-2 rounded-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-60"
+                className="w-full sm:w-auto min-h-[44px] sm:min-h-0 px-3 py-2 rounded-lg border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-60"
               >
                 {DUE_DAY_CHOICES.map((days) => (
                   <option key={days} value={days}>
@@ -445,7 +445,7 @@ const InvoiceRequestCard: React.FC<CardProps> = ({ request, outcome, deciding, o
               disabled={busy}
               aria-describedby={ids.noteHint}
               onChange={(e) => setNote(e.target.value)}
-              className="w-full px-3 py-2 rounded-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-60"
+              className="w-full px-3 py-2 rounded-lg border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-60"
             />
             <p
               id={ids.noteHint}
@@ -507,7 +507,7 @@ export const InvoiceRequestsGroup: React.FC<InvoiceRequestsProps> = ({
           <Receipt className="w-4 h-4" aria-hidden="true" />
           Invoice requests
           {waiting > 0 && (
-            <span className="text-xs font-bold tabular-nums px-2 py-0.5 rounded-full border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+            <span className="text-xs font-bold tabular-nums px-2 py-0.5 rounded-full border border-white/10 light:border-slate-300 text-[rgb(var(--color-text-secondary))] light:text-slate-700">
               {waiting} waiting
             </span>
           )}

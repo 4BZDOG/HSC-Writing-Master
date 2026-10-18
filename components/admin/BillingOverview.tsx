@@ -562,7 +562,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
           type="button"
           onClick={load}
           disabled={loading}
-          className="mt-4 min-h-[44px] sm:min-h-0 px-4 py-2 rounded-lg text-sm font-bold bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-50 transition-all"
+          className="mt-4 min-h-[44px] sm:min-h-0 px-4 py-2 rounded-lg text-sm font-bold bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 hover:bg-white/10 light:hover:bg-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-50 transition-all"
         >
           Try again
         </button>
@@ -631,7 +631,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
       onClick={deciding === null ? onClose : undefined}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-4xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-surface shadow-lg w-full max-w-4xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -666,7 +666,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
                   ? `Read again (last read ${relativeTo(overview.asOf, Date.now())})`
                   : 'Refresh'
               }
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-white/10 light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
             >
               <RefreshCw
                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${loading ? 'animate-spin' : ''}`}

@@ -55,7 +55,7 @@ const TONE = {
 } as const;
 
 const INPUT =
-  'w-full min-h-[44px] sm:min-h-0 sm:py-1.5 px-3 rounded-lg border text-sm border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-light))] light:bg-white text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-60';
+  'w-full min-h-[44px] sm:min-h-0 sm:py-1.5 px-3 rounded-lg border text-sm border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-light))] light:bg-white text-[rgb(var(--color-text-primary))] light:text-slate-900 disabled:opacity-60';
 
 const BUTTON =
   'min-h-[44px] sm:min-h-0 px-4 py-2 sm:py-1.5 rounded-lg border text-sm font-bold transition-all disabled:opacity-60 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 border-emerald-500/30 bg-emerald-500/10 text-emerald-500 light:text-emerald-800 hover:bg-emerald-500/20';

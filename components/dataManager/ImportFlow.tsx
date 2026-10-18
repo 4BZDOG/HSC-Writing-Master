@@ -399,7 +399,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
               </div>
               <button
                 onClick={handleDownloadTemplate}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-elevated))] hover:bg-[rgb(var(--color-border-secondary))] border border-[rgb(var(--color-border-secondary))] text-xs font-bold text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] transition-all hover-scale whitespace-nowrap"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[rgb(var(--color-bg-surface-elevated))] hover:bg-white/10 light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] text-xs font-bold text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] transition-all hover-scale whitespace-nowrap"
               >
                 <FileJson className="w-4 h-4" /> Download Template
               </button>

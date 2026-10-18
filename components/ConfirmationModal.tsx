@@ -104,7 +104,7 @@ const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
         <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-elevated border-t border-[rgb(var(--color-border-secondary))] light:border-slate-300 flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+            className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-100 transition"
           >
             Cancel
           </button>

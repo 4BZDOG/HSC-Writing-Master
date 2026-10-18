@@ -439,7 +439,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-5xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-surface shadow-lg w-full max-w-5xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div
@@ -744,7 +744,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                                 aria-hidden="true"
                               />
                             </button>
-                            <div className="w-px h-4 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300 mx-1"></div>
+                            <div className="w-px h-4 bg-white/10 light:bg-slate-300 mx-1"></div>
                             <button
                               onClick={() => handleDeleteBackup(backup.key, backup.date)}
                               disabled={isRestoring}

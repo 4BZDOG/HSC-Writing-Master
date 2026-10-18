@@ -28,7 +28,7 @@ const DiscardConfirmBar: React.FC<DiscardConfirmBarProps> = ({ summary, onKeep, 
         type="button"
         onClick={onKeep}
         autoFocus
-        className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+        className="py-2 px-4 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 hover:bg-white/10 light:hover:bg-slate-100 transition"
       >
         Keep editing
       </button>

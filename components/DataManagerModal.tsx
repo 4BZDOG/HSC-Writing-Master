@@ -187,7 +187,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                   below md, so the compact header carries the close control. */}
               <button
                 onClick={onClose}
-                aria-label="Close Data Vault"
+                aria-label="Close Data vault"
                 className="md:hidden p-2.5 min-h-11 min-w-11 flex items-center justify-center rounded-xl bg-white/5 light:bg-surface hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition-colors border border-white/5 light:border-slate-300"
               >
                 <X className="w-5 h-5" />

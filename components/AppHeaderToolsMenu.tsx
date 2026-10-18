@@ -71,7 +71,7 @@ const PANEL_WIDTH = 256;
 const ESTIMATED_PANEL_HEIGHT = 360;
 
 /**
- * `Data Vault (Import/Export/Reorder)` → `['Data Vault', 'Import/Export/Reorder']`.
+ * `Data vault (import, export, reorder)` → `['Data vault', 'import, export, reorder']`.
  *
  * The whole string is the `title` and the accessible name, byte for byte, because
  * that is what the e2e specs select on. Showing it whole would need a panel
@@ -315,7 +315,7 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
               <ToolGroup label="Library">
                 <ToolItem
                   icon={Database}
-                  label="Data Vault (Import/Export/Reorder)"
+                  label="Data vault (import, export, reorder)"
                   onSelect={() => runTool(() => openModal('dataManager'))}
                 />
                 <ToolItem

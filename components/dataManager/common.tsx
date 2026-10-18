@@ -38,7 +38,7 @@ export const ActionButtons: React.FC<{
     )}
     <button
       onClick={onCancel}
-      className="py-2 px-4 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] active:scale-[0.98] transition"
+      className="py-2 px-4 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition"
     >
       Cancel
     </button>
