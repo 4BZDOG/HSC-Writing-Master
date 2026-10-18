@@ -36,7 +36,7 @@ describe('AmbientAurora', () => {
   });
 
   it('paints soft orbs with gradients, not a blur filter', () => {
-    const { container } = render(<AmbientAurora variant="auth" />);
+    const { container } = render(<AmbientAurora />);
     for (const orb of orbs(container)) {
       expect(orb.className).not.toMatch(/blur-/);
       expect(orb.style.backgroundImage).toContain('radial-gradient');

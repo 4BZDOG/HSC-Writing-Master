@@ -206,7 +206,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
 
   return (
     <div
-      className={`ai-wait-card relative w-full max-w-[400px] mx-auto overflow-x-hidden overflow-y-auto overscroll-contain rounded-panel shadow-lg backdrop-blur-3xl border flex flex-col animate-in ${
+      className={`ai-wait-card relative w-full max-w-[400px] mx-auto overflow-x-hidden overflow-y-auto overscroll-contain rounded-panel shadow-lg border flex flex-col animate-in ${
         isError
           ? 'bg-red-50/90 dark:bg-slate-900/90 border-red-200 dark:border-red-500/30'
           : 'bg-white/90 dark:bg-slate-900/90 border-slate-200/80 dark:border-white/10'

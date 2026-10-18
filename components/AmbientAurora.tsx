@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 /**
- * The drifting colour behind the app and the signed-out screens.
+ * The drifting colour behind the app, the signed-out screens included.
  *
  * DesignSpec §1 asks for "Aurora Motion: deep-layer animated blobs in the
  * background to prevent a static feel". What it had was four identical circles
@@ -75,24 +75,6 @@ const APP_ORBS: Orb[] = [
   },
 ];
 
-/** The signed-out screens: two orbs, slower, behind a card rather than a workspace. */
-const AUTH_ORBS: Orb[] = [
-  {
-    box: '-top-48 -left-44 w-[46rem] h-[46rem]',
-    dark: [79, 70, 229, 0.3],
-    light: [165, 180, 252, 0.6],
-    path: 'a',
-    seconds: 47,
-  },
-  {
-    box: '-bottom-56 -right-40 w-[44rem] h-[44rem]',
-    dark: [14, 165, 233, 0.24],
-    light: [125, 211, 252, 0.55],
-    path: 'c',
-    seconds: 59,
-  },
-];
-
 /**
  * A soft orb as a radial gradient, not a solid circle under `filter: blur`.
  * Large blur radii are rasterised in tiles, and at these sizes the tiles
@@ -128,8 +110,8 @@ const OrbLayer: React.FC<{
   </div>
 );
 
-const AmbientAurora: React.FC<{ variant?: 'app' | 'auth' }> = ({ variant = 'app' }) => {
-  const orbs = variant === 'auth' ? AUTH_ORBS : APP_ORBS;
+const AmbientAurora: React.FC = () => {
+  const orbs = APP_ORBS;
   // Chosen once per mount: a different sky each visit, a steady one within it.
   const [delays] = useState(() => orbs.map((orb) => Math.random() * orb.seconds));
   return (

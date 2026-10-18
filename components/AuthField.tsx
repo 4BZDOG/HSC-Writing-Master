@@ -68,10 +68,10 @@ const AuthField: React.FC<AuthFieldProps> = ({
           {label}
         </label>
         <div
-          className={`relative group/input flex items-center border-2 rounded-2xl transition-[border-color,background-color,box-shadow] duration-300 ease-out ${
+          className={`relative group/input flex items-center border-2 rounded-2xl transition-[border-color,background-color] duration-300 ease-out ${
             error
-              ? 'bg-red-500/[0.06] light:bg-red-50 border-red-500/50 light:border-red-400 shadow-[0_0_20px_rgba(239,68,68,0.15)]'
-              : 'bg-black/50 light:bg-surface-inset border-white/10 light:border-slate-300 hover:border-white/20 light:hover:border-slate-400 focus-within:border-indigo-500 focus-within:bg-black/70 light:focus-within:bg-white focus-within:shadow-[0_0_30px_rgba(99,102,241,0.25)]'
+              ? 'bg-red-500/[0.06] light:bg-red-50 border-red-500/50 light:border-red-400'
+              : 'bg-black/50 light:bg-surface-inset border-white/10 light:border-slate-300 hover:border-white/20 light:hover:border-slate-400 focus-within:border-indigo-500 focus-within:bg-black/70 light:focus-within:bg-white'
           }`}
         >
           <Icon

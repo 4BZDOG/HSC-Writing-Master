@@ -73,17 +73,6 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
       className={`absolute inset-0 ${z} ${rounded} cursor-wait animate-fade-in bg-surface/95`}
       role="presentation"
     >
-      {/* A soft accent bloom behind the card so it lifts off the veil rather
-          than floating on a flat pane. It is the app accent, not a fixed
-          indigo, so it moves with the theme like the wait's own ink. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none opacity-40"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 45% at 50% 50%, rgb(var(--color-accent) / 0.18), transparent 70%)',
-        }}
-      />
       {/* The stage is its own layer, not the veil, and the gutter round the
           card (`ai-wait-frame`) is inside it: a container query cannot style
           the container, so a gutter on the veil could never give way in a box
