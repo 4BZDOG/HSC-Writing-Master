@@ -495,7 +495,7 @@ const ReportDialog: React.FC<ReportDialogProps> = ({
       >
         {/* Paper head, washed with the accent the way the profile's head is washed
             with its band. The desk body and paper foot frame the choices. */}
-        <header className="shrink-0 flex items-start gap-4 px-5 sm:px-8 pt-5 sm:pt-7 pb-5 bg-surface bg-gradient-to-r from-accent/10 to-accent/0 border-b border-slate-300 dark:border-white/10">
+        <header className="shrink-0 flex items-start gap-4 px-5 sm:px-8 pt-5 sm:pt-7 pb-5 bg-surface border-b border-slate-300 dark:border-white/10">
           <div
             aria-hidden="true"
             className="w-11 h-11 shrink-0 rounded-tile bg-accent/15 text-accent flex items-center justify-center"

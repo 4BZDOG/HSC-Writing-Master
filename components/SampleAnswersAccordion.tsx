@@ -197,7 +197,7 @@ const AI_LOCKED =
   'flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-amber-500/50 bg-amber-50 text-amber-800 shadow-sm dark:border-amber-400/40 dark:bg-amber-400/10 dark:text-amber-300 t-label transition-[box-shadow] duration-200 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-amber-600/50 dark:focus-visible:ring-amber-300/60';
 
 /** The upgrade button's fill, added to the chrome's shape on the locked card. */
-const LOCK_CTA = 'bg-gradient-to-r from-amber-400 to-orange-500 shadow-lg';
+const LOCK_CTA = 'bg-amber-400 hover:bg-amber-300';
 
 /** The hover of the destructive action, "Delete": red, on a device that hovers, so a tap
  *  does not leave it red. Red is also Band 1's hue, which is why it is drawn here with

@@ -21,10 +21,8 @@ import { PLAN_LABELS, getUserPlan } from '../services/entitlements';
  * from `data/quickStartContent.ts` and the live entitlement rules, so a new
  * step or a changed plan needs no work here.
  *
- * Ladder: the body is paper, each step and each plan is a well cut into it, and
- * the header is the one coloured surface. Its gradient is held to the tones
- * where white text clears AA at both ends, so the hero is legible on a bright
- * monitor without going flat.
+ * The header is the same surface as the body, set off by a hairline, so the
+ * dialog reads as one quiet document rather than a coloured banner.
  */
 
 type QuickStartTab = 'guide' | 'plans' | 'tips';
@@ -98,8 +96,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
     >
       <div className="clip-stable w-full max-w-3xl rounded-surface bg-[rgb(var(--color-bg-surface))] border border-white/10 light:border-slate-300 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh]">
         {/* Header */}
-        <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-700 via-indigo-600 to-sky-700 text-white overflow-hidden shrink-0">
-          <div className="absolute -top-12 -right-12 w-48 h-48 bg-white/20 blur-3xl rounded-full pointer-events-none" />
+        <div className="relative px-6 sm:px-8 py-6 bg-[rgb(var(--color-bg-surface))] light:bg-white border-b border-white/10 light:border-slate-200 shrink-0">
           <button
             onClick={onClose}
             aria-label="Close"
@@ -112,39 +109,40 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                working — Playwright reported the wrapper "intercepts pointer
                events" for every click on it. The only way out of the guide on
                a phone was "Start writing" at the bottom, or Escape. */
-            className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-xl bg-black/10 hover:bg-black/20 text-white transition-colors z-20"
+            className="absolute top-3 right-3 w-11 h-11 flex items-center justify-center rounded-xl text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors z-20"
           >
             <X className="w-4 h-4" />
           </button>
           <div className="relative z-10 pr-10">
-            <span className="t-label text-white/85 flex items-center gap-2">
+            <span className="t-label text-[rgb(var(--color-text-muted))] flex items-center gap-2">
               {header.eyebrow}
               {header.timeToRead && (
-                <span className="inline-flex items-center gap-1 text-white/85">
+                <span className="inline-flex items-center gap-1 text-[rgb(var(--color-text-muted))]">
                   <Clock className="w-3 h-3" /> {header.timeToRead}
                 </span>
               )}
             </span>
             <h2
               id="quickstart-title"
-              className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1"
+              className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1 text-white light:text-slate-900"
             >
               {header.title}
             </h2>
-            <p className="text-sm text-white/90 leading-relaxed mt-2 max-w-xl font-medium">
+            <p className="text-sm text-slate-300 light:text-slate-600 leading-relaxed mt-2 max-w-xl font-medium">
               {header.intro}
             </p>
           </div>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs. A row of 44px tabs that scrolls sideways when it is wider than the
+            phone, rather than wrapping into a second line or clipping the last tab. */}
         <div className="flex border-b border-white/5 light:border-slate-200 px-2 sm:px-6 shrink-0 overflow-x-auto custom-scrollbar">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setTab(id)}
               aria-pressed={tab === id}
-              className={`t-label px-4 sm:px-5 py-4 border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
+              className={`t-label shrink-0 min-h-11 px-4 sm:px-5 py-4 border-b-2 transition-all flex items-center gap-2 whitespace-nowrap ${
                 tab === id
                   ? 'border-indigo-500 text-[rgb(var(--color-text-primary))]'
                   : 'border-transparent text-[rgb(var(--color-text-muted))] hover:text-[rgb(var(--color-text-primary))]'

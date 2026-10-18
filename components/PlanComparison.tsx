@@ -235,7 +235,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
               // very button that asked for it.
               onDone?.();
             }}
-            className="t-label min-h-11 shrink-0 px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all flex items-center gap-2"
+            className="t-label min-h-11 shrink-0 px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 active:scale-[0.98] transition-all flex items-center gap-2"
           >
             <Crown className="w-3.5 h-3.5" /> {upgradeCta.ctaLabel}
           </button>

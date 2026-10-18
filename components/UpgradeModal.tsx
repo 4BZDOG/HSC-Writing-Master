@@ -121,7 +121,7 @@ export const ContentLockOverlay: React.FC<{
             onClick={() =>
               window.dispatchEvent(new CustomEvent(UPGRADE_REQUEST_EVENT, { detail: { feature } }))
             }
-            className="t-label min-h-11 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
+            className="t-label min-h-11 px-4 py-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-900 active:scale-[0.98] transition-all"
           >
             {access.ctaLabel}
           </button>
@@ -344,8 +344,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
     >
       <div className="clip-stable w-full max-w-md rounded-surface bg-[rgb(var(--color-bg-surface))] border-2 border-amber-400/40 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.7)] overflow-hidden animate-fade-in-up flex flex-col max-h-[90vh]">
         {/* Golden header */}
-        <div className="relative px-6 py-6 bg-gradient-to-br from-amber-400 via-amber-500 to-orange-500 text-slate-900 overflow-hidden shrink-0">
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
+        <div className="relative px-6 py-6 bg-amber-400 text-slate-900 overflow-hidden shrink-0">
           <button
             onClick={close}
             aria-label="Close"
@@ -515,7 +514,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               <button
                 onClick={alreadySubscribed ? handleManageSubscription : handleUpgrade}
                 disabled={isRedirecting}
-                className="min-h-11 flex-1 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-sm font-bold text-slate-900 shadow-lg shadow-amber-900/20 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
+                className="min-h-11 flex-1 px-5 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-sm font-bold text-slate-900 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 <Crown className="w-4 h-4" />{' '}
                 {isRedirecting

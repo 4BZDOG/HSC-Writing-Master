@@ -250,7 +250,7 @@ export const SAMPLE_LOCKED =
  *  and its ink added at the call site (`LOCK_CTA`). It is 44px on a phone. Painted
  *  on the locked card. */
 export const SAMPLE_LOCKED_CTA =
-  't-label min-h-11 sm:min-h-0 inline-flex items-center px-4 py-2 rounded-xl text-slate-900 dark:text-slate-900 can-hover:hover:scale-105 active:scale-[0.98] transition-transform duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/60 dark:focus-visible:ring-slate-900/60';
+  't-label min-h-11 sm:min-h-0 inline-flex items-center px-4 py-2 rounded-xl text-slate-900 dark:text-slate-900 active:scale-[0.98] transition-transform duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/60 dark:focus-visible:ring-slate-900/60';
 
 /** The empty state of the panel, when a question has no exemplars yet: a dashed well
  *  with what is missing. Painted on the panel body. */
