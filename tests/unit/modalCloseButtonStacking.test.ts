@@ -89,15 +89,25 @@ const openingTagAround = (src: string, labelAt: number): string => {
 
 /**
  * The creator dialogs take their close button from `utils/creatorChrome.ts`
- * (`className={CREATOR_CLOSE}`), so a scan that reads only literal class
- * strings would find those buttons with no class at all. Resolve the constant
- * to its string so the check still reads the classes the button renders.
+ * (`className={CREATOR_CLOSE}`) and the staff tools from `utils/adminChrome.ts`
+ * (`className={TOOL_CLOSE}`, or `${TOOL_CLOSE} disabled:…` in a template), so a
+ * scan that reads only literal class strings would find those buttons with no
+ * class at all. Resolve each constant to its string so the check still reads the
+ * classes the button renders.
  */
-const chromeSource = withoutComments(readFileSync('utils/creatorChrome.ts', 'utf8'));
+const chromeSources = ['utils/creatorChrome.ts', 'utils/adminChrome.ts'].map((path) =>
+  withoutComments(readFileSync(path, 'utf8'))
+);
 const resolveChromeConstant = (name: string): string => {
-  const decl = new RegExp(`export const ${name}\\s*=([\\s\\S]*?);`).exec(chromeSource);
-  return decl ? [...decl[1].matchAll(/'([^']*)'/g)].map((m) => m[1]).join(' ') : '';
+  for (const source of chromeSources) {
+    const decl = new RegExp(`export const ${name}\\s*=([\\s\\S]*?);`).exec(source);
+    if (decl) return [...decl[1].matchAll(/'([^']*)'/g)].map((m) => m[1]).join(' ');
+  }
+  return '';
 };
+/** Expand `${NAME}` references inside a template-literal className. */
+const expandChromeRefs = (literal: string): string =>
+  literal.replace(/\$\{([A-Z][A-Z0-9_]*)\}/g, (_m, name: string) => resolveChromeConstant(name));
 
 /** Every `aria-label="Close…"` control, with the className of its own element. */
 const closeButtons = (): CloseButton[] => {
@@ -108,7 +118,8 @@ const closeButtons = (): CloseButton[] => {
       const tag = openingTagAround(src, match.index);
       const cls = /className=(?:"([^"]*)"|\{`([^`]*)`\}|\{([A-Z][A-Z0-9_]*)\})/.exec(tag);
       const literal = cls?.[1] ?? cls?.[2];
-      const resolved = literal ?? resolveChromeConstant(cls?.[3] ?? '');
+      const resolved =
+        literal !== undefined ? expandChromeRefs(literal) : resolveChromeConstant(cls?.[3] ?? '');
       found.push({ file, className: resolved.replace(/\s+/g, ' ').trim() });
     }
   }

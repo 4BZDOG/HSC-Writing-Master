@@ -27,6 +27,27 @@ export const TOOL_RAIL = 'bg-surface-elevated';
  *  cards. Painted on the paper of the head or shell it sits in. */
 export const TOOL_WELL = 'bg-surface-inset';
 
+/** A tool's icon tile: a small square the tool's hue is tinted into, not a gradient.
+ *  Each dashboard keeps the hue its gradient had, so the tools stay told apart at a
+ *  glance, but the hue is a quiet fill and a border the icon sits on. A gradient
+ *  tile was the template tell the design review named (finding 11). The tile is
+ *  40px and `shrink-0`, so it keeps its shape when the title beside it wraps on a
+ *  phone. `tone` is the light-base pair with its `dark:` partner, written at the
+ *  call site so Tailwind sees each class, for example
+ *  `toolIconTile('bg-sky-100 text-sky-800 border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30')`.
+ *  Light text is the -700/-800 step on a -100 fill, and the dark text is the
+ *  lighter step, so the pair runs the direction DesignSpec §2 asks for. Painted on
+ *  the head it sits in. Call it while rendering, never at module scope
+ *  (`npm run check:eager-reads`). */
+export const toolIconTile = (tone: string): string =>
+  `w-10 h-10 rounded-tile flex items-center justify-center shrink-0 border ${tone}`;
+
+/** The close button of a staff tool's head. The same 44px target as CREATOR_CLOSE
+ *  in creatorChrome.ts, at every width, restated here and not imported so the staff
+ *  tools' chrome does not move when a content dialog's close does. */
+export const TOOL_CLOSE =
+  'flex-shrink-0 flex items-center justify-center min-h-11 min-w-11 rounded-lg text-[rgb(var(--color-text-secondary))] hover:text-[rgb(var(--color-text-primary))] hover:bg-[rgb(var(--color-bg-surface-inset))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent';
+
 /** A section's title. It is the `.t-section` voice (Inter 900 italic, the display
  *  face and weight that divide a panel into named parts), but in sentence case
  *  with no tracking, because a section title here is a sentence the reader reads

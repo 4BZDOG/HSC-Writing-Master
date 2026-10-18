@@ -32,7 +32,13 @@ import {
 } from '../../services/invoiceDecisionService';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import { PLAN_LABELS } from '../../services/entitlements';
-import { TOOL_HEAD, TOOL_WELL, SECTION_TITLE } from '../../utils/adminChrome';
+import {
+  SECTION_TITLE,
+  TOOL_CLOSE,
+  TOOL_HEAD,
+  TOOL_WELL,
+  toolIconTile,
+} from '../../utils/adminChrome';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
@@ -176,7 +182,7 @@ const StatTile: React.FC<{
   value: number;
   sub: string;
 }> = ({ icon, label, value, sub }) => (
-  <div className="p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+  <div className="p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))] border border-slate-200 dark:border-white/10">
     <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-1.5">
       {icon}
       {label}
@@ -355,7 +361,7 @@ const WindowLine: React.FC<{ label: string; counts: WindowCount }> = ({ label, c
 );
 
 const UpcomingRow: React.FC<{ item: UpcomingRenewal }> = ({ item }) => (
-  <li className="flex flex-wrap items-baseline gap-x-3 gap-y-1 py-2.5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 last:border-b-0">
+  <li className="flex flex-wrap items-baseline gap-x-3 gap-y-1 py-2.5 border-b border-slate-200 dark:border-white/10 last:border-b-0">
     <span className="w-32 shrink-0 text-sm font-bold tabular-nums text-[rgb(var(--color-text-primary))] light:text-slate-900">
       {dateLabel(item.endsAt)}
     </span>
@@ -431,7 +437,7 @@ const WebhookSection: React.FC<{ overview: BillingOverview; asOfMs: number }> = 
           {recentEvents.map((e) => (
             <li
               key={e.id}
-              className="flex flex-wrap justify-between gap-x-3 gap-y-0.5 py-2 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 last:border-b-0"
+              className="flex flex-wrap justify-between gap-x-3 gap-y-0.5 py-2 border-b border-slate-200 dark:border-white/10 last:border-b-0"
             >
               <span className="text-xs font-mono break-all text-[rgb(var(--color-text-primary))] light:text-slate-900">
                 {e.type}
@@ -625,16 +631,20 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
       onClick={deciding === null ? onClose : undefined}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-4xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-4xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`px-5 sm:px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between gap-3`}
+          className={`px-5 sm:px-6 py-5 border-b border-slate-200 dark:border-white/10 ${TOOL_HEAD} flex items-start justify-between gap-3 sm:gap-4 min-w-0`}
         >
-          <div className="flex items-center gap-3 min-w-0">
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0">
             {/* Decorative on a phone: the words need the width more than the tile. */}
-            <div className="hidden sm:flex w-12 h-12 shrink-0 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg items-center justify-center">
-              <CreditCard className="w-6 h-6 text-white" />
+            <div
+              className={`${toolIconTile(
+                'bg-emerald-100 text-emerald-800 border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30'
+              )} hidden sm:flex`}
+            >
+              <CreditCard className="w-5 h-5" aria-hidden="true" />
             </div>
             <div className="min-w-0">
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
@@ -667,7 +677,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
               onClick={onClose}
               disabled={deciding !== null}
               aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
+              className={`${TOOL_CLOSE} disabled:opacity-50`}
             >
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>

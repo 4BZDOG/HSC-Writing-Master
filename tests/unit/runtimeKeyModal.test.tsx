@@ -103,6 +103,6 @@ describe('RuntimeKeyModal', () => {
 
   it('does not render when closed', () => {
     render(<RuntimeKeyModal isOpen={false} onClose={vi.fn()} showToast={showToast} />);
-    expect(screen.queryByText('Runtime AI Keys')).toBeNull();
+    expect(screen.queryByText('Runtime AI keys')).toBeNull();
   });
 });

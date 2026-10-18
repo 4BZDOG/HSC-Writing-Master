@@ -47,7 +47,13 @@ import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
 import DataLoading from '../DataLoading';
-import { railTabClass, TOOL_HEAD, TOOL_RAIL } from '../../utils/adminChrome';
+import {
+  railTabClass,
+  TOOL_CLOSE,
+  TOOL_HEAD,
+  TOOL_RAIL,
+  toolIconTile,
+} from '../../utils/adminChrome';
 
 interface BackupSummary {
   key: string;
@@ -70,7 +76,7 @@ type DashboardView = 'overview' | 'snapshots' | 'inspector';
 const SnapshotPreview: React.FC<{ data: Course[] | null }> = ({ data }) => {
   if (!data) return null;
   return (
-    <div className="mt-3 p-4 bg-[rgb(var(--color-bg-surface-inset))] rounded-xl border border-[rgb(var(--color-border-secondary))] animate-fade-in">
+    <div className="mt-3 p-4 bg-[rgb(var(--color-bg-surface-inset))] rounded-xl border border-slate-200 dark:border-white/10 animate-fade-in">
       <h4 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] mb-3 flex items-center gap-2">
         <Eye className="w-3 h-3" /> Backup Contents Preview
       </h4>
@@ -433,42 +439,34 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-5xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <div
-          className={`flex-shrink-0 px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} relative`}
+          className={`flex-shrink-0 px-6 py-5 border-b border-slate-200 dark:border-white/10 ${TOOL_HEAD}`}
         >
-          {/* Cubic Mesh Texture Overlay */}
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-
           {/* The title block gives way before the close does: it can shrink and its
               subtitle wraps, and the close keeps a 44px target on a phone. Without
               `min-w-0` the subtitle ran under the close button at 390px. */}
-          <div className="flex items-center justify-between gap-3 relative z-10">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-12 h-12 shrink-0 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 shadow-lg flex items-center justify-center">
-                <Database className="w-6 h-6 text-white" />
+          <div className="flex items-start justify-between gap-3 sm:gap-4 min-w-0">
+            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+              <div
+                className={toolIconTile(
+                  'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-500/15 dark:text-blue-300 dark:border-blue-500/30'
+                )}
+              >
+                <Database className="w-5 h-5" aria-hidden="true" />
               </div>
               <div className="min-w-0">
                 <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Database Manager
+                  Database health
                 </h2>
                 <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
-                  Storage Management & Recovery
+                  Storage management and recovery
                 </p>
               </div>
             </div>
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
+            <button onClick={onClose} aria-label="Close" className={`${TOOL_CLOSE} group`}>
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-600 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
             </button>
           </div>
@@ -480,7 +478,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             cut "Data Browser" off at that width, so the tabs fit instead. */}
         <div className="flex flex-col md:flex-row flex-1 min-h-0 overflow-hidden">
           <div
-            className={`w-full md:w-64 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 md:p-4 grid grid-cols-3 md:flex md:flex-col gap-2 flex-shrink-0`}
+            className={`w-full md:w-64 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-b md:border-b-0 md:border-r border-slate-200 dark:border-white/10 p-3 md:p-4 grid grid-cols-3 md:flex md:flex-col gap-2 flex-shrink-0`}
           >
             <button
               onClick={() => setView('overview')}
@@ -550,7 +548,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         </p>
                       </div>
 
-                      <div className="p-5 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex flex-col">
+                      <div className="p-5 rounded-xl border border-slate-200 dark:border-white/10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex flex-col">
                         <div className="flex items-center gap-2 mb-2">
                           <HardDrive className="w-5 h-5 text-blue-400 light:text-blue-600" />
                           <span className="text-sm font-bold text-blue-400 light:text-blue-700">
@@ -575,7 +573,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         </p>
                       </div>
 
-                      <div className="p-5 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex flex-col">
+                      <div className="p-5 rounded-xl border border-slate-200 dark:border-white/10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 flex flex-col">
                         <div className="flex items-center gap-2 mb-2">
                           <Server className="w-5 h-5 text-purple-400 light:text-purple-600" />
                           <span className="text-sm font-bold text-purple-400 light:text-purple-700">
@@ -596,7 +594,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         <Archive className="w-5 h-5 text-[rgb(var(--color-accent))]" /> Object
                         Stores
                       </h3>
-                      <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
+                      <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 rounded-xl border border-slate-200 dark:border-white/10 overflow-hidden">
                         <table className="w-full text-left text-sm">
                           <thead className="t-label bg-[rgb(var(--color-bg-surface-elevated))] light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
                             <tr>
@@ -681,7 +679,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 {isLoadingBackups ? (
                   <DataLoading label="Reading backups" />
                 ) : backups.length === 0 ? (
-                  <div className="text-center py-12 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 rounded-xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300">
+                  <div className="text-center py-12 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 rounded-xl border border-dashed border-slate-300 dark:border-white/10">
                     <History className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
                     <p className="text-[rgb(var(--color-text-secondary))] light:text-slate-600 font-medium">
                       No backups found.
@@ -694,7 +692,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                   <div className="space-y-3">
                     {backups.map((backup) => (
                       <div key={backup.key}>
-                        <div className="flex items-center justify-between p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 hover:border-[rgb(var(--color-accent))] light:hover:border-blue-400 transition-all group">
+                        <div className="flex items-center justify-between p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-slate-200 dark:border-white/10 hover:border-[rgb(var(--color-accent))] light:hover:border-blue-400 transition-all group">
                           <div className="flex items-center gap-4">
                             <div className="w-10 h-10 rounded-lg bg-purple-500/10 light:bg-purple-100 flex items-center justify-center text-purple-400 light:text-purple-700">
                               <Calendar className="w-5 h-5" />
@@ -783,7 +781,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         aria-label="Object store"
                         value={inspectStoreName ?? 'main_store'}
                         onChange={(e) => handleInspectStore(e.target.value)}
-                        className="bg-transparent min-h-11 sm:min-h-0 text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 font-mono tracking-tight cursor-pointer focus:outline-none border-b border-dashed border-[rgb(var(--color-border-secondary))] hover:border-[rgb(var(--color-accent))]"
+                        className="bg-transparent min-h-11 sm:min-h-0 text-lg font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 font-mono tracking-tight cursor-pointer focus:outline-none border-b border-dashed border-slate-200 dark:border-white/10 hover:border-[rgb(var(--color-accent))]"
                       >
                         {(
                           stats?.stores.map((s) => s.name) ?? [inspectStoreName ?? 'main_store']
@@ -811,19 +809,19 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                         aria-label="Search raw data"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full pl-9 pr-4 py-1.5 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-base sm:text-sm focus:border-[rgb(var(--color-accent))] focus:outline-none"
+                        className="w-full pl-9 pr-4 py-1.5 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 border border-slate-300 dark:border-white/10 text-base sm:text-sm focus:border-[rgb(var(--color-accent))] focus:outline-none"
                       />
                     </div>
                     <button
                       onClick={handleCopyData}
-                      className="flex items-center gap-2 px-3 py-1.5 min-h-11 sm:min-h-0 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 transition-colors flex-shrink-0"
+                      className="flex items-center gap-2 px-3 py-1.5 min-h-11 sm:min-h-0 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-200 border border-slate-300 dark:border-white/10 text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 transition-colors flex-shrink-0"
                     >
                       <Copy className="w-3.5 h-3.5" /> Copy JSON
                     </button>
                   </div>
                 </div>
 
-                <div className="flex-1 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 p-4 overflow-auto custom-scrollbar relative shadow-inner">
+                <div className="flex-1 rounded-xl border border-slate-300 dark:border-white/10 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 p-4 overflow-auto custom-scrollbar relative shadow-inner">
                   {isLoadingData ? (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <DataLoading label="Reading records" />
@@ -841,7 +839,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
         </div>
 
         <div
-          className={`flex-shrink-0 px-6 py-5 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center`}
+          className={`flex-shrink-0 px-6 py-5 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-t border-slate-200 dark:border-white/10 flex justify-between items-center`}
         >
           <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600">
             Local Database: {isLoading || isRestoring ? 'Busy…' : 'Ready'}

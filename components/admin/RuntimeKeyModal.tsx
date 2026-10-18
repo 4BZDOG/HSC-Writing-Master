@@ -22,7 +22,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import AiEngineSelector from './AiEngineSelector';
-import { TOOL_HEAD } from '../../utils/adminChrome';
+import { TOOL_CLOSE, TOOL_HEAD, toolIconTile } from '../../utils/adminChrome';
 
 interface RuntimeKeyModalProps {
   isOpen: boolean;
@@ -105,31 +105,31 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-lg border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div
-          className={`px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between`}
+          className={`px-6 py-5 border-b border-slate-200 dark:border-white/10 ${TOOL_HEAD} flex items-start justify-between gap-3 sm:gap-4 min-w-0`}
         >
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 shadow-lg flex items-center justify-center">
-              <KeyRound className="w-6 h-6 text-white" />
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+            <div
+              className={toolIconTile(
+                'bg-sky-100 text-sky-800 border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30'
+              )}
+            >
+              <KeyRound className="w-5 h-5" aria-hidden="true" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                Runtime AI Keys
+                Runtime AI keys
               </h2>
               <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 Paste a provider key to test the models without a restart
               </p>
             </div>
           </div>
-          <button
-            onClick={onClose}
-            aria-label="Close"
-            className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
-          >
+          <button onClick={onClose} aria-label="Close" className={TOOL_CLOSE}>
             <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
           </button>
         </div>
@@ -319,7 +319,7 @@ const RuntimeKeyModal: React.FC<RuntimeKeyModalProps> = ({ isOpen, onClose, show
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface-elevated flex items-center justify-between gap-3">
+        <div className="px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface-elevated flex items-center justify-between gap-3">
           <button
             onClick={handleClear}
             className="flex items-center gap-2 px-3 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-surface text-[rgb(var(--color-text-muted))] border border-[rgb(var(--color-border-secondary))]/40 light:border-slate-300 hover:text-[rgb(var(--color-text-primary))] text-xs font-bold transition-all"
