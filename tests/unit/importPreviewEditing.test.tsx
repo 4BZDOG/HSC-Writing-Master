@@ -94,7 +94,7 @@ describe('the structure preview', () => {
       target: { value: 'describes cell structure' },
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /Confirm & Import/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Import syllabus/ }));
 
     const structure = onImport.mock.calls[0][1];
     expect(structure[0].name).toBe('Module 5: Heredity');
@@ -106,7 +106,7 @@ describe('the structure preview', () => {
     const onImport = await openAndAnalyse();
 
     fireEvent.change(screen.getByLabelText('Topic 1 name'), { target: { value: '   ' } });
-    fireEvent.click(screen.getByRole('button', { name: /Confirm & Import/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Import syllabus/ }));
 
     // A topic called "" is unselectable in every picker afterwards.
     expect(onImport).not.toHaveBeenCalled();
@@ -117,7 +117,7 @@ describe('the structure preview', () => {
     const onImport = await openAndAnalyse();
 
     fireEvent.change(screen.getByLabelText('Dot point 1'), { target: { value: '  ' } });
-    fireEvent.click(screen.getByRole('button', { name: /Confirm & Import/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Import syllabus/ }));
 
     expect(onImport.mock.calls[0][1][0].subTopics[0].dotPoints).toEqual([]);
   });
@@ -146,7 +146,7 @@ describe('the structure preview', () => {
     });
     fireEvent.click(screen.getByRole('button', { name: /Analyse syllabus/ }));
     await waitFor(() => expect(screen.getByLabelText('Topic 1 name')).toBeTruthy());
-    fireEvent.click(screen.getByRole('button', { name: /Confirm & Import/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Import syllabus/ }));
 
     expect(onImport.mock.calls[0][5]).toBe('year11');
   });

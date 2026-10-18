@@ -36,7 +36,7 @@ const withTwoTopics = async () => {
       defaultYear="year12"
     />
   );
-  fireEvent.click(screen.getByRole('button', { name: /Add Topic/ }));
+  fireEvent.click(screen.getByRole('button', { name: /Add topic/ }));
   await waitFor(() => expect(screen.getByRole('button', { name: /^2\s*Topic 2$/ })).toBeTruthy());
 };
 

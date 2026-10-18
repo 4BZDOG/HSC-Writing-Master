@@ -1,8 +1,23 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Edit3, X, Target, AlertTriangle } from 'lucide-react';
+import { Tag, X, Target, AlertTriangle } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import {
+  creatorBackdrop,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+  CREATOR_FIELD_LABEL,
+  CREATOR_INPUT,
+} from '../utils/creatorChrome';
 
 /**
  * Focus-area protection for a dot-point rename.
@@ -95,9 +110,11 @@ const RenameModal: React.FC<RenameModalProps> = ({
     }
   }, [newName, initialName, existingNames, targetType]);
 
-  const fieldStyles = error
-    ? 'border-red-500 light:border-red-400 ring-1 ring-red-500'
-    : 'border-[rgb(var(--color-border-secondary))] light:border-slate-300 focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]';
+  // The shared field border stays as it is on an error; the red ring carries the
+  // error, so the two never fight over the same border colour.
+  const fieldClass = `${CREATOR_INPUT}${error ? ' ring-1 ring-red-500' : ''}${
+    multiline ? ' resize-y font-mono leading-relaxed' : ''
+  }`;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -116,100 +133,82 @@ const RenameModal: React.FC<RenameModalProps> = ({
   const isButtonDisabled = !newName.trim() || !!error;
 
   return (
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Rename"
-      // z-critical (2200): matches ConfirmationModal — must out-rank every other
-      // modal/overlay since rename can be requested while another is open.
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-critical p-4"
-      onClick={onClose}
-    >
+    // The critical layer: rename can be requested while another dialog is open,
+    // so it must sit above every other modal.
+    <div className={creatorBackdrop('z-critical')} onClick={onClose}>
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-md border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="rename-title"
+        className={`${CREATOR_SHELL} max-w-md`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* The head is a strip on the paper, so it takes the elevated rung. */}
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface))] light:bg-surface-elevated flex-shrink-0">
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
-                <Edit3 className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Rename {targetType}
-                </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] truncate max-w-xs">
-                  "{initialName}"
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="w-9 h-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-light hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <Tag className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            {/* The name being changed, in the kicker, so the title can say what kind of item it is. */}
+            <p className={`${CREATOR_KICKER} truncate`}>“{initialName}”</p>
+            <h2 id="rename-title" className={CREATOR_TITLE}>
+              Rename {targetType.toLowerCase()}
+            </h2>
+          </div>
+          <button type="button" onClick={onClose} aria-label="Close" className={CREATOR_CLOSE}>
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
-        <form onSubmit={handleSubmit}>
-          <div className="p-6 bg-[rgb(var(--color-bg-surface))]">
-            <label
-              htmlFor="rename-input"
-              className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
-            >
-              New Name
-            </label>
-            {multiline ? (
-              <textarea
-                id="rename-input"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                onKeyDown={(e) => {
-                  // Enter belongs to the text here — it is how the list below
-                  // the statement gets its lines. Cmd/Ctrl+Enter saves.
-                  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-                    e.preventDefault();
-                    handleSubmit(e);
-                  }
-                }}
-                rows={6}
-                className={`block w-full resize-y bg-[rgb(var(--color-bg-surface-light))] light:bg-surface-inset border rounded-xl shadow-sm py-3 px-4 font-mono text-[13px] leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
-                autoFocus
-              />
-            ) : (
-              <input
-                type="text"
-                id="rename-input"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                className={`block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-surface-inset border rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none transition ${fieldStyles}`}
-                autoFocus
-                onFocus={(e) => e.target.select()}
-              />
-            )}
-            {multiline && (
-              <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))]">
-                Line breaks are kept. Put the statement on the first line and its focus areas
-                underneath — one per line, or as a bulleted list — and only the statement is used as
-                the label. Cmd/Ctrl + Enter saves.
-              </p>
-            )}
-            {error && <p className="text-red-400 light:text-red-600 text-xs mt-2">{error}</p>}
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 flex flex-col overflow-hidden">
+          <div className={`${CREATOR_BODY} space-y-4`}>
+            <div>
+              <label htmlFor="rename-input" className={CREATOR_FIELD_LABEL}>
+                New name
+              </label>
+              {multiline ? (
+                <textarea
+                  id="rename-input"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  onKeyDown={(e) => {
+                    // Enter belongs to the text here — it is how the list below
+                    // the statement gets its lines. Cmd/Ctrl+Enter saves.
+                    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+                      e.preventDefault();
+                      handleSubmit(e);
+                    }
+                  }}
+                  rows={6}
+                  aria-invalid={!!error}
+                  className={fieldClass}
+                  autoFocus
+                />
+              ) : (
+                <input
+                  type="text"
+                  id="rename-input"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  aria-invalid={!!error}
+                  className={fieldClass}
+                  autoFocus
+                  onFocus={(e) => e.target.select()}
+                />
+              )}
+              {multiline && (
+                <p className="mt-2 text-xs text-[rgb(var(--color-text-muted))]">
+                  Line breaks are kept. Put the statement on the first line and its focus areas
+                  underneath — one per line, or as a bulleted list — and only the statement is used
+                  as the label. Cmd/Ctrl + Enter saves.
+                </p>
+              )}
+              {error && <p className="text-red-600 dark:text-red-400 text-xs mt-2">{error}</p>}
+            </div>
 
             {focusAreaChange && (
-              <div className="mt-4 p-4 rounded-xl bg-amber-500/10 light:bg-amber-100/60 border border-amber-500/30 light:border-amber-300 animate-fade-in">
+              <div className="p-4 rounded-xl bg-amber-500/10 light:bg-amber-100/60 border border-amber-500/30 light:border-amber-300 animate-fade-in">
                 <p className="t-label flex items-center gap-2 text-amber-600 light:text-amber-700 dark:text-amber-400 mb-2">
                   <AlertTriangle className="w-3.5 h-3.5" /> This changes the focus areas
                 </p>
@@ -251,20 +250,12 @@ const RenameModal: React.FC<RenameModalProps> = ({
             )}
           </div>
 
-          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-elevated border-t border-[rgb(var(--color-border-secondary))] light:border-slate-300 flex justify-end gap-3">
-            <button
-              type="button"
-              onClick={onClose}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-            >
+          <div className={CREATOR_FOOTER}>
+            <button type="button" onClick={onClose} className={CREATOR_SECONDARY_BUTTON}>
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={isButtonDisabled}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Save Changes
+            <button type="submit" disabled={isButtonDisabled} className={CREATOR_PRIMARY_BUTTON}>
+              Save changes
             </button>
           </div>
         </form>

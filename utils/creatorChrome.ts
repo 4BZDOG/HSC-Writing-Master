@@ -21,6 +21,14 @@
 export const CREATOR_BACKDROP =
   'fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-3 sm:p-4';
 
+/** The same backdrop on a higher layer, for the dialogs that open over other
+ *  dialogs (rename, quality check, recalibrate, focus areas). Pass the layer
+ *  as a literal class (`'z-critical'`) so Tailwind sees it. Call it while
+ *  rendering, never at module scope: a module-level read of an imported value
+ *  is how a chunk cycle renders the page blank (`npm run check:eager-reads`). */
+export const creatorBackdrop = (layer: string): string =>
+  CREATOR_BACKDROP.replace('z-modal', layer);
+
 /** The outer box of a creator dialog. The caller adds its own `max-w-*`. It is
  *  capped to the dynamic viewport, so on a phone the header and footer stay in
  *  view and only the body scrolls. */
@@ -55,9 +63,12 @@ export const CREATOR_BODY = 'flex-1 overflow-y-auto px-5 sm:px-6 py-5 custom-scr
 
 /** The fixed foot of a creator dialog. Buttons stack on a phone, with the
  *  primary action on the bottom edge where the thumb reaches it, and sit in a
- *  row from `sm` up. */
+ *  row from `sm` up. Every footer writes Cancel first and the primary last, so
+ *  plain source order is right both ways: last at the bottom of a column, last
+ *  at the right of a row. It was `flex-col-reverse`, which put the primary at
+ *  the TOP of a phone's stack, the opposite of what this note promised. */
 export const CREATOR_FOOTER =
-  'flex-shrink-0 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 px-5 sm:px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated';
+  'flex-shrink-0 flex flex-col sm:flex-row sm:items-center sm:justify-end gap-2 sm:gap-3 px-5 sm:px-6 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated';
 
 /** The cancel action beside the primary one. Quiet, so the primary still reads
  *  as the one thing to do. */

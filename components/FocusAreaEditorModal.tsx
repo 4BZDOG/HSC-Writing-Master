@@ -5,6 +5,29 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
+import {
+  creatorBackdrop,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+  CREATOR_INPUT,
+} from '../utils/creatorChrome';
+
+/**
+ * The header tile in the focus-area colour.
+ *
+ * Focus areas are emerald across the picker (the sub-item tiles, the edit
+ * trigger and its chips), so this keeps CREATOR_ICON_TILE's shape in emerald
+ * rather than the indigo default. The primary action stays the shared one.
+ */
+const FOCUS_ICON_TILE =
+  'w-10 h-10 rounded-tile flex items-center justify-center shrink-0 bg-emerald-100 text-emerald-700 border border-emerald-200 dark:bg-emerald-500/15 dark:text-emerald-300 dark:border-emerald-500/30';
 
 interface FocusAreaEditorModalProps {
   isOpen: boolean;
@@ -97,52 +120,37 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
   };
 
   return createPortal(
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Edit focus areas"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-focus-editor p-4"
-      onClick={onClose}
-    >
+    <div className={creatorBackdrop('z-focus-editor')} onClick={onClose}>
       <div
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-emerald-500/30 light:border-emerald-600/30 animate-fade-in-up overflow-hidden flex flex-col max-h-[88vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="focus-area-editor-title"
+        className={`${CREATOR_SHELL} max-w-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-700 to-teal-700 flex items-center justify-center shadow-lg">
-                <Target className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Edit Focus Areas
-                </h2>
-                <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                  {isOverridden
-                    ? 'Set by hand — the automatic reading is ignored'
-                    : 'Read automatically from the syllabus wording'}
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))]/40 light:hover:bg-slate-300 transition-all flex items-center justify-center"
-            >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={FOCUS_ICON_TILE}>
+            <Target className="w-5 h-5" />
           </div>
-        </div>
-
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-5 bg-[rgb(var(--color-bg-surface))] light:bg-white">
-          <div className="p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200">
-            <p className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
-              Syllabus dot point
+          <div className="min-w-0 flex-1">
+            <p className={CREATOR_KICKER}>
+              {isOverridden ? 'Set by hand' : 'Read from the syllabus wording'}
             </p>
-            <p className="text-sm leading-relaxed text-[rgb(var(--color-text-secondary))] light:text-slate-700 font-serif">
+            <h2 id="focus-area-editor-title" className={CREATOR_TITLE}>
+              Edit focus areas
+            </h2>
+          </div>
+          <button type="button" onClick={onClose} aria-label="Close" className={CREATOR_CLOSE}>
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
+
+        <div className={`${CREATOR_BODY} space-y-5`}>
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))]/50 border border-slate-200 dark:border-white/10">
+            <p className="t-label text-[rgb(var(--color-text-muted))] mb-2">Syllabus dot point</p>
+            <p className="text-sm leading-relaxed text-[rgb(var(--color-text-secondary))] font-serif">
               {description}
             </p>
           </div>
@@ -151,14 +159,15 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
             <div className="flex items-center justify-between gap-3 mb-3">
               <label
                 htmlFor="focus-area-input"
-                className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500"
+                className="t-label text-[rgb(var(--color-text-muted))]"
               >
                 Focus areas ({items.length})
               </label>
               {differsFromParsed && parsed.length > 0 && (
                 <button
+                  type="button"
                   onClick={() => setItems(parsed)}
-                  className="t-label px-2.5 py-1 rounded-lg text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-emerald-500 transition-colors flex items-center gap-1.5"
+                  className="t-label min-h-11 sm:min-h-0 px-2.5 py-1 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-emerald-500 transition-colors flex items-center gap-1.5"
                   title={`Automatic reading: ${parsed.join(', ')}`}
                 >
                   <RotateCcw className="w-3 h-3" /> Use the automatic reading
@@ -174,6 +183,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                 >
                   <div className="flex flex-col shrink-0">
                     <button
+                      type="button"
                       onClick={() => move(index, -1)}
                       disabled={index === 0}
                       aria-label={`Move "${item}" up`}
@@ -182,6 +192,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                       ▲
                     </button>
                     <button
+                      type="button"
                       onClick={() => move(index, 1)}
                       disabled={index === items.length - 1}
                       aria-label={`Move "${item}" down`}
@@ -197,9 +208,10 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                     onChange={(e) =>
                       setItems((prev) => prev.map((v, i) => (i === index ? e.target.value : v)))
                     }
-                    className="flex-1 min-w-0 bg-transparent text-base sm:text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:outline-none"
+                    className="flex-1 min-w-0 bg-transparent text-base sm:text-sm font-medium text-[rgb(var(--color-text-primary))] outline-none focus:outline-none"
                   />
                   <button
+                    type="button"
                     onClick={() => setItems((prev) => prev.filter((_, i) => i !== index))}
                     aria-label={`Remove "${item}"`}
                     className="p-1.5 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 inline-flex items-center justify-center rounded-lg text-[rgb(var(--color-text-muted))] hover:text-red-500 hover:bg-red-500/10 transition-all shrink-0"
@@ -210,7 +222,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
               ))}
 
               {items.length === 0 && (
-                <p className="py-6 text-center text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 border-2 border-dashed border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 rounded-xl">
+                <p className="py-6 text-center text-xs text-[rgb(var(--color-text-muted))] border-2 border-dashed border-slate-300 dark:border-white/15 rounded-xl">
                   No focus areas. Questions will be written against the whole dot point.
                 </p>
               )}
@@ -228,9 +240,10 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                   }
                 }}
                 placeholder="Add a focus area…"
-                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))]/30 light:border-slate-300 rounded-xl py-2.5 px-4 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 outline-none focus:border-emerald-500 transition-colors"
+                className={`${CREATOR_INPUT} min-w-0 flex-1 py-2.5`}
               />
               <button
+                type="button"
                 onClick={addDraft}
                 disabled={!draft.trim()}
                 className="t-label px-4 min-h-11 sm:min-h-0 rounded-xl bg-emerald-500/15 text-emerald-800 dark:text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25 transition-all disabled:opacity-40 flex items-center gap-1.5"
@@ -240,7 +253,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-start gap-2.5 text-[11px] leading-relaxed text-[rgb(var(--color-text-muted))] light:text-slate-500">
+          <div className="flex items-start gap-2.5 text-[11px] leading-relaxed text-[rgb(var(--color-text-muted))]">
             <Info className="w-3.5 h-3.5 shrink-0 mt-0.5" />
             <p>
               These narrow what a generated question is about, and they ground the syllabus terms
@@ -250,8 +263,9 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
           </div>
         </div>
 
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 flex flex-wrap justify-between items-center gap-3">
+        <div className={CREATOR_FOOTER}>
           <button
+            type="button"
             onClick={handleReset}
             disabled={!isOverridden}
             title={
@@ -259,24 +273,16 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
                 ? 'Discard the hand-set list and read the syllabus wording again'
                 : 'This dot point is already using the automatic reading'
             }
-            className="t-label py-2.5 px-4 min-h-11 sm:min-h-0 rounded-lg text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-red-500 transition disabled:opacity-40 disabled:hover:text-[rgb(var(--color-text-muted))] flex items-center gap-2"
+            className="t-label min-h-11 sm:min-h-0 py-2.5 px-4 rounded-lg text-[rgb(var(--color-text-muted))] hover:text-red-500 transition disabled:opacity-40 disabled:hover:text-[rgb(var(--color-text-muted))] flex items-center justify-center gap-2 sm:mr-auto"
           >
             <RotateCcw className="w-3.5 h-3.5" /> Reset to automatic
           </button>
-          <div className="flex gap-3 ml-auto">
-            <button
-              onClick={onClose}
-              className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))]/40 light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))]/20 light:hover:bg-slate-100 transition"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSave}
-              className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-emerald-700 to-teal-700 hover:shadow-lg active:scale-[0.98] transition"
-            >
-              Save Focus Areas
-            </button>
-          </div>
+          <button type="button" onClick={onClose} className={CREATOR_SECONDARY_BUTTON}>
+            Cancel
+          </button>
+          <button type="button" onClick={handleSave} className={CREATOR_PRIMARY_BUTTON}>
+            Save focus areas
+          </button>
         </div>
       </div>
     </div>,

@@ -34,7 +34,12 @@ describe('QualityCheckModal retry', () => {
       .mockResolvedValueOnce(okResult);
 
     render(
-      <QualityCheckModal isOpen onClose={vi.fn()} content="Explain photosynthesis." contentType="question" />
+      <QualityCheckModal
+        isOpen
+        onClose={vi.fn()}
+        content="Explain photosynthesis."
+        contentType="question"
+      />
     );
 
     // First run fails → error card.
@@ -44,7 +49,7 @@ describe('QualityCheckModal retry', () => {
     // Retry succeeds → result card, error gone.
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
 
-    await screen.findByText('Quality Score');
+    await screen.findByText('Quality score');
     expect(screen.getByText('92')).toBeTruthy();
     expect(screen.queryByText('Check failed')).toBeNull();
   });
@@ -55,7 +60,12 @@ describe('QualityCheckModal retry', () => {
       .mockRejectedValueOnce(new Error('Second failure'));
 
     render(
-      <QualityCheckModal isOpen onClose={vi.fn()} content="Explain photosynthesis." contentType="question" />
+      <QualityCheckModal
+        isOpen
+        onClose={vi.fn()}
+        content="Explain photosynthesis."
+        contentType="question"
+      />
     );
 
     await screen.findByText('First failure');
@@ -77,7 +87,12 @@ describe('QualityCheckModal retry', () => {
     const onClose = vi.fn();
 
     render(
-      <QualityCheckModal isOpen onClose={onClose} content="Explain photosynthesis." contentType="question" />
+      <QualityCheckModal
+        isOpen
+        onClose={onClose}
+        content="Explain photosynthesis."
+        contentType="question"
+      />
     );
 
     const dialog = await screen.findByRole('dialog');
@@ -94,6 +109,6 @@ describe('QualityCheckModal retry', () => {
 
     // Let the check settle so the component leaves its loading state cleanly.
     resolveCheck(okResult);
-    await screen.findByText('Quality Score');
+    await screen.findByText('Quality score');
   });
 });

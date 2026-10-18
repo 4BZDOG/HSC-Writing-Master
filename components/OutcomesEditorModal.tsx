@@ -20,6 +20,19 @@ import { Target, X, Sparkles, Plus, Trash2 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+  CREATOR_INPUT,
+} from '../utils/creatorChrome';
 
 interface OutcomesEditorModalProps {
   isOpen: boolean;
@@ -165,7 +178,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
       absorb(await parseOutcomesFromText(pastedText), 'in that text');
       setPastedText('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to parse outcomes.');
+      setError(err instanceof Error ? err.message : 'Could not parse the outcomes. Try again.');
     } finally {
       setIsParsing(false);
     }
@@ -180,7 +193,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
       absorb(await parseOutcomesFromText(content), 'on that page');
       setUrl('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to read that page.');
+      setError(err instanceof Error ? err.message : 'Could not read that page. Try again.');
     } finally {
       setIsFetching(false);
     }
@@ -246,64 +259,54 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   const repeatedRows = duplicateCodeRows(outcomes);
 
   return (
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Edit course outcomes"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={guard.requestCloseFromBackdrop}
-    >
+    <div className={CREATOR_BACKDROP} onClick={guard.requestCloseFromBackdrop}>
       <div
-        className="relative bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-5xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="outcomes-editor-title"
+        className={`${CREATOR_SHELL} max-w-5xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
-                <Target className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Edit Outcomes
-                </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                  {courseName} · both years
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={guard.requestClose}
-              aria-label="Close"
-              className="w-9 h-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <Target className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            <p className={CREATOR_KICKER}>{courseName}</p>
+            <h2 id="outcomes-editor-title" className={CREATOR_TITLE}>
+              Edit outcomes
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={guard.requestClose}
+            aria-label="Close"
+            className={CREATOR_CLOSE}
+          >
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
-        {/* Content — stacks vertically on mobile, side-by-side on desktop */}
-        <div className="flex-grow flex flex-col md:flex-row overflow-hidden">
+        {/* Body. Not CREATOR_BODY: it is two panes from md up, each with its own
+            scroll, and CREATOR_BODY's padding would sit around both. On a phone
+            the panes stack and this wrapper is the one that scrolls. */}
+        <div className="flex-1 min-h-0 flex flex-col md:flex-row overflow-y-auto md:overflow-hidden custom-scrollbar">
           {/* Import panel */}
-          <div className="md:w-80 lg:w-96 flex-shrink-0 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50">
-            <div className="p-5 flex flex-col h-full gap-4">
+          <div className="md:w-80 lg:w-96 flex-shrink-0 border-b md:border-b-0 md:border-r border-slate-200 dark:border-white/10 flex flex-col bg-slate-50/50 dark:bg-[rgb(var(--color-bg-surface-inset))]/30 md:overflow-y-auto custom-scrollbar">
+            <div className="p-5 flex flex-col gap-4">
               <div>
                 <div className="flex items-center gap-2 mb-2">
-                  <Sparkles className="w-4 h-4 text-[rgb(var(--color-accent))]" />
-                  <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                  <Sparkles
+                    className="w-4 h-4 text-[rgb(var(--color-accent))]"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))]">
                     From the NESA outcomes page
                   </h3>
                 </div>
-                <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2.5">
+                <p className="text-xs text-[rgb(var(--color-text-muted))] mb-2.5">
                   A NESA page lists both years together, and each outcome goes to the year it
                   belongs to.
                 </p>
@@ -321,8 +324,8 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
               </div>
 
               <div className="flex flex-col flex-grow min-h-0">
-                <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2">
-                  …or paste the text
+                <h3 className="text-sm font-semibold text-[rgb(var(--color-text-primary))] mb-2">
+                  Or paste the text
                 </h3>
                 <textarea
                   value={pastedText}
@@ -333,14 +336,15 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                   // outcomes under a placeholder reading SE-12-01 invites the
                   // wrong list.
                   placeholder={`e.g.\nSE-${stem}-01 Describes methods used to plan, develop…\nSE-${stem}-02 Applies appropriate development…`}
-                  className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none min-h-[100px] md:min-h-0 leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60"
+                  className={`${CREATOR_INPUT} flex-grow resize-none min-h-[100px] md:min-h-[140px] leading-relaxed`}
                 />
                 <button
+                  type="button"
                   onClick={handleParseText}
                   disabled={isBusy || !pastedText.trim()}
-                  className="mt-3 w-full py-2.5 px-4 rounded-lg text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.98] transition-all"
+                  className={`${CREATOR_SECONDARY_BUTTON} mt-3 w-full flex items-center justify-center gap-2 text-[rgb(var(--color-accent))]`}
                 >
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4" aria-hidden="true" />
                   {isParsing ? 'Parsing…' : 'Parse with AI'}
                 </button>
               </div>
@@ -350,12 +354,12 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
           </div>
 
           {/* Manual editor, one tab per year */}
-          <div className="flex-1 flex flex-col overflow-hidden min-h-0">
-            <div className="px-5 pt-5 pb-3 flex-shrink-0 border-b border-[rgb(var(--color-border-secondary))]/50 light:border-slate-100 space-y-3">
+          <div className="flex-1 flex flex-col min-h-0 md:overflow-hidden">
+            <div className="px-5 pt-5 pb-3 flex-shrink-0 border-b border-slate-200 dark:border-white/10 space-y-3">
               <div
                 role="tablist"
                 aria-label="Outcome year"
-                className="flex items-center gap-1 p-1 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100"
+                className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-[rgb(var(--color-bg-surface-inset))]/50"
               >
                 {SYLLABUS_YEARS.map((y) => {
                   const selected = y.id === activeYear;
@@ -369,10 +373,10 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                       aria-selected={selected}
                       aria-controls="outcomes-editor-panel"
                       onClick={() => setActiveYear(y.id)}
-                      className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold border transition-colors ${
+                      className={`min-h-11 sm:min-h-0 flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
                         selected
-                          ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
-                          : 'border-transparent text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900'
+                          ? 'bg-white border-slate-300 text-slate-900 shadow-sm dark:bg-[rgb(var(--color-bg-surface-light))] dark:border-white/15 dark:text-[rgb(var(--color-text-primary))]'
+                          : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-[rgb(var(--color-text-muted))] dark:hover:text-[rgb(var(--color-text-primary))]'
                       }`}
                     >
                       {y.label}
@@ -385,34 +389,39 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                   );
                 })}
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-500">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <span className="text-xs font-medium text-[rgb(var(--color-text-muted))]">
                   {validCount} valid {yearShortLabel(activeYear)} outcome
                   {validCount === 1 ? '' : 's'}
                 </span>
                 <button
                   type="button"
                   onClick={handleAddOutcome}
-                  className="py-1.5 px-3.5 rounded-lg text-xs font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition flex items-center gap-1.5 border border-[rgb(var(--color-accent))]/20"
+                  className="min-h-11 sm:min-h-0 py-1.5 px-3.5 rounded-lg text-xs font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 hover:bg-[rgb(var(--color-accent))]/20 transition flex items-center gap-1.5 border border-[rgb(var(--color-accent))]/20"
                 >
-                  <Plus className="w-3.5 h-3.5" /> Add Row
+                  <Plus className="w-3.5 h-3.5" aria-hidden="true" /> Add row
                 </button>
               </div>
+              {/* Says what the footer used to say, now that the footer is the
+                  dialog's action row and holds only the buttons. */}
+              <p className="text-[11px] text-[rgb(var(--color-text-muted))]">
+                Incomplete rows are ignored on save. Both years are saved together.
+              </p>
             </div>
 
             <div
               role="tabpanel"
               id="outcomes-editor-panel"
               aria-labelledby={`outcomes-editor-tab-${activeYear}`}
-              className="flex-grow overflow-y-auto px-5 py-4"
+              className="flex-1 min-h-0 overflow-y-auto px-5 py-4"
             >
               <div className="space-y-3">
                 {outcomes.map((outcome, index) => (
                   <div
                     key={index}
-                    className="group flex items-start gap-2.5 p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50/80 border border-[rgb(var(--color-border-secondary))]/60 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
+                    className="group flex items-start gap-2.5 p-3 sm:p-4 rounded-xl bg-slate-50/80 dark:bg-[rgb(var(--color-bg-surface-inset))]/40 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/15 transition-colors"
                   >
-                    <span className="hidden sm:flex items-center justify-center w-6 h-6 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-500 flex-shrink-0 mt-1.5">
+                    <span className="hidden sm:flex items-center justify-center w-6 h-6 rounded-lg bg-slate-200/80 dark:bg-[rgb(var(--color-bg-surface-inset))] text-[10px] font-bold text-slate-500 dark:text-[rgb(var(--color-text-muted))]/60 flex-shrink-0 mt-1.5">
                       {index + 1}
                     </span>
                     <div className="flex flex-col gap-2.5 flex-1 min-w-0">
@@ -421,17 +430,19 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                         value={outcome.code}
                         onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
                         placeholder={`e.g., SE-${stem}-01`}
-                        className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-40 font-mono text-sm font-semibold flex-shrink-0"
+                        aria-label={`Outcome ${index + 1} code`}
+                        className={`${CREATOR_INPUT} font-mono font-semibold w-full sm:w-40 flex-shrink-0`}
                       />
                       <textarea
                         value={outcome.description}
                         onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
                         placeholder="Outcome description…"
+                        aria-label={`Outcome ${index + 1} description`}
                         rows={2}
-                        className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[56px] leading-relaxed"
+                        className={`${CREATOR_INPUT} resize-y min-h-[56px] leading-relaxed`}
                       />
                       {repeatedRows.has(index) && (
-                        <p className="text-[11px] text-amber-400 light:text-amber-600">
+                        <p className="text-[11px] text-amber-600 dark:text-amber-400">
                           {outcome.code.trim()} is already listed above — this row will be ignored.
                         </p>
                       )}
@@ -439,19 +450,21 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                     <button
                       type="button"
                       onClick={() => handleDeleteOutcome(index)}
-                      className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-500 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0 mt-1"
-                      title="Delete Outcome"
+                      className="min-w-11 min-h-11 sm:min-w-0 sm:min-h-0 p-2 flex items-center justify-center text-slate-500 dark:text-[rgb(var(--color-text-muted))] hover:text-red-500 dark:hover:text-red-400 transition rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10 flex-shrink-0 -mt-1 sm:mt-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      title="Delete outcome"
+                      aria-label={`Delete outcome ${index + 1}`}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" aria-hidden="true" />
                     </button>
                   </div>
                 ))}
                 <button
                   type="button"
                   onClick={handleAddOutcome}
-                  className="w-full py-3 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
+                  className="min-h-11 sm:min-h-0 w-full py-3 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
                 >
-                  <Plus className="inline w-4 h-4 mr-1" /> Add {yearShortLabel(activeYear)} Outcome
+                  <Plus className="inline w-4 h-4 mr-1" aria-hidden="true" /> Add{' '}
+                  {yearShortLabel(activeYear)} outcome
                 </button>
               </div>
             </div>
@@ -466,33 +479,28 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
             onDiscard={guard.confirmDiscard}
           />
         ) : (
-          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex items-center justify-between flex-shrink-0">
-            <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 hidden sm:block">
-              Incomplete rows are ignored on save. Both years are saved together.
-            </p>
-            <div className="flex items-center gap-3 ml-auto">
-              <button
-                type="button"
-                onClick={guard.requestClose}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                onClick={handleSave}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition"
-              >
-                Save Changes
-              </button>
-            </div>
+          <div className={CREATOR_FOOTER}>
+            <button type="button" onClick={guard.requestClose} className={CREATOR_SECONDARY_BUTTON}>
+              Cancel
+            </button>
+            <button type="button" onClick={handleSave} className={CREATOR_PRIMARY_BUTTON}>
+              Save outcomes
+            </button>
           </div>
         )}
 
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator
-            message={isFetching ? 'Reading the page…' : 'Parsing outcomes…'}
             task="enrichment"
+            message={isFetching ? 'Reading the outcomes page' : 'Parsing the outcomes'}
+            messages={
+              isFetching
+                ? ['Fetching the page', 'Picking out each outcome and the year it belongs to']
+                : [
+                    'Reading the outcomes text',
+                    'Picking out each outcome and the year it belongs to',
+                  ]
+            }
           />
         </AiBusyOverlay>
       </div>

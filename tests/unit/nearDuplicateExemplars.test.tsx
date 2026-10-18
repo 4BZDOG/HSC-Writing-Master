@@ -144,7 +144,7 @@ describe('a generated answer that repeats one already at that mark', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Clear' }));
     fireEvent.click(markButton(TOTAL));
-    fireEvent.click(screen.getByText(`Generate Band ${bandOf(TOTAL)} Answer`));
+    fireEvent.click(screen.getByText(`Generate a Band ${bandOf(TOTAL)} answer`));
     await waitFor(() => expect(mockGenerate).toHaveBeenCalledTimes(1));
   };
 

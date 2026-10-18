@@ -271,7 +271,9 @@ const ApiMonitorDisplay: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-4 right-4 z-overlay-status select-none font-sans">
+    // Under every dialog (z-usage-pill, tailwind.config.js): it is a counter for
+    // an admin, and over a dialog on a phone it covered the primary action.
+    <div className="fixed bottom-4 right-4 z-usage-pill select-none font-sans">
       {!isExpanded ? (
         // On a phone the chip is a 44px round button holding the bolt alone: its
         // two counts sat over the content beneath it at 390px. The counts stay in

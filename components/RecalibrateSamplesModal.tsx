@@ -3,11 +3,24 @@ import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
-import { RefreshCw, X, AlertTriangle, Loader2, Check } from 'lucide-react';
+import { Scale, X, AlertTriangle, Loader2, Check } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
+import {
+  creatorBackdrop,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+} from '../utils/creatorChrome';
 
 interface RecalibrateSamplesModalProps {
   isOpen: boolean;
@@ -57,9 +70,10 @@ const QuickPick: React.FC<{
   onPick: (ids: string[]) => void;
 }> = ({ label, ids, disabled, onPick }) => (
   <button
+    type="button"
     onClick={() => onPick(ids)}
     disabled={disabled}
-    className="min-h-11 sm:min-h-0 t-label px-2.5 py-1 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-slate-100 text-muted border border-[rgb(var(--color-border-secondary))]/25 light:border-slate-200 hover:text-indigo-500 transition-colors disabled:opacity-40"
+    className="min-h-11 sm:min-h-0 t-label px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-[rgb(var(--color-bg-surface-inset))]/60 text-muted border border-slate-200 dark:border-white/10 hover:text-indigo-500 transition-colors disabled:opacity-40"
   >
     {label}
   </button>
@@ -133,44 +147,39 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
   };
 
   return createPortal(
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Recalibrate sample answers"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-recalibrate p-4"
-      onClick={isRunning ? undefined : onClose}
-    >
+    <div className={creatorBackdrop('z-recalibrate')} onClick={isRunning ? undefined : onClose}>
       <div
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-indigo-500/30 animate-fade-in-up overflow-hidden flex flex-col max-h-[88vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="recalibrate-title"
+        className={`${CREATOR_SHELL} max-w-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="px-6 py-5 border-b border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-10 h-10 shrink-0 rounded-xl bg-gradient-to-br from-indigo-500 to-sky-500 flex items-center justify-center shadow-lg">
-              <RefreshCw className="w-5 h-5 text-white" />
-            </div>
-            <div className="min-w-0">
-              <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                Recalibrate Sample Answers
-              </h2>
-              <p className="text-xs text-muted truncate">
-                Re-mark against the rubric — choose which ones
-              </p>
-            </div>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <Scale className="w-5 h-5" />
+          </div>
+          <div className="min-w-0 flex-1">
+            {/* The question the samples belong to, so the title can name the action. */}
+            <p className={`${CREATOR_KICKER} truncate`}>{prompt.question}</p>
+            <h2 id="recalibrate-title" className={CREATOR_TITLE}>
+              Recalibrate sample answers
+            </h2>
           </div>
           <button
+            type="button"
             onClick={onClose}
             disabled={isRunning}
             aria-label="Close"
-            className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))]/30 light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-40"
+            className={`${CREATOR_CLOSE} disabled:opacity-40 disabled:cursor-not-allowed`}
           >
-            <X className="w-4 h-4 text-muted" />
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
-        </div>
+        </header>
 
-        <div className="px-6 py-3 border-b border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 flex flex-wrap items-center gap-2 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50">
+        <div className="px-5 sm:px-6 py-3 border-b border-slate-200 dark:border-white/10 flex flex-wrap items-center gap-2 bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))]/30">
           <span className="t-label text-muted mr-1">Select</span>
           <QuickPick
             label="All"
@@ -193,7 +202,9 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
           />
         </div>
 
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 space-y-2 bg-[rgb(var(--color-bg-surface))] light:bg-white">
+        <div
+          className={`${CREATOR_BODY} space-y-2 bg-[rgb(var(--color-bg-surface))] light:bg-white`}
+        >
           {rows.length === 0 && (
             <p className="py-10 text-center text-xs text-muted">
               This question has no sample answers to recalibrate.
@@ -208,7 +219,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                 className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
                   isSelected
                     ? `${config.bg} ${config.border}`
-                    : 'bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 hover:border-indigo-500/30'
+                    : 'bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border-slate-200 dark:border-white/10 hover:border-indigo-500/30'
                 }`}
               >
                 <input
@@ -252,11 +263,13 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
           })}
         </div>
 
-        <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 flex flex-wrap items-center justify-between gap-3">
+        {/* The run's status sits on its own line above the buttons, so the
+            footer can keep the shared layout. */}
+        <div className="flex-shrink-0 px-5 sm:px-6 py-3 border-t border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))]/40">
           {isRunning && progress ? (
-            <div className="flex-1 min-w-[12rem]">
+            <div>
               <div className="flex items-center justify-between text-xs mb-1.5">
-                <span className="font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                <span className="font-semibold text-[rgb(var(--color-text-primary))]">
                   Recalibrating…
                 </span>
                 <span className="font-mono text-muted">
@@ -264,7 +277,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                 </span>
               </div>
               <div
-                className="h-2 rounded-full bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 overflow-hidden"
+                className="h-2 rounded-full bg-slate-200 dark:bg-[rgb(var(--color-bg-surface-inset))] overflow-hidden"
                 role="progressbar"
                 aria-valuenow={progress.done}
                 aria-valuemin={0}
@@ -285,30 +298,36 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                 : `Re-marks ${selected.length} answer${selected.length === 1 ? '' : 's'} — uses ${selected.length} marking credit${selected.length === 1 ? '' : 's'}.`}
             </p>
           )}
-          <div className="flex items-center gap-3 ml-auto">
-            <button
-              onClick={onClose}
-              disabled={isRunning}
-              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted hover:text-[rgb(var(--color-text-primary))] transition disabled:opacity-40"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleRun}
-              disabled={isRunning || selected.length === 0}
-              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-sky-700 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-40 flex items-center gap-2"
-            >
-              {isRunning ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" /> Recalibrating…
-                </>
-              ) : (
-                <>
-                  <Check className="w-4 h-4" /> Recalibrate {selected.length || ''}
-                </>
-              )}
-            </button>
-          </div>
+        </div>
+
+        <div className={CREATOR_FOOTER}>
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={isRunning}
+            className={CREATOR_SECONDARY_BUTTON}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleRun}
+            disabled={isRunning || selected.length === 0}
+            className={CREATOR_PRIMARY_BUTTON}
+          >
+            {isRunning ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> Recalibrating…
+              </>
+            ) : (
+              <>
+                <Check className="w-4 h-4" aria-hidden="true" />
+                {selected.length > 0
+                  ? `Recalibrate ${selected.length} answer${selected.length === 1 ? '' : 's'}`
+                  : 'Recalibrate answers'}
+              </>
+            )}
+          </button>
         </div>
       </div>
     </div>,

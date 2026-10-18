@@ -31,6 +31,10 @@ export default {
       //   header            │  60  │ sticky app header / top nav bar
       //   header-pill       │  70  │ floating action pill above the header
       //                     │      │   (exit-focus-mode pill)
+      //   usage-pill        │  90  │ admin API usage pill (ApiMonitorDisplay):
+      //                     │      │   over the page, UNDER every dialog. At
+      //                     │      │   500 it sat on a phone dialog's primary
+      //                     │      │   button, which stacks at bottom-right
       //   modal             │ 100  │ BASE tier — standard modal scrim + panel
       //   dropdown          │ 100  │ co-tier: portal listbox/menu (Combobox)
       //   tooltip           │ 100  │ co-tier: portal hover tooltip
@@ -40,7 +44,7 @@ export default {
       //                     │      │   (must clear popovers)
       //   skip-link         │ 200  │ co-tier: keyboard skip-to-content link
       //   background-task   │ 400  │ persistent background-task indicator
-      //   overlay-status    │ 500  │ persistent status chips (API health/monitor)
+      //   overlay-status    │ 500  │ persistent status chip (API health)
       //   modal-data        │ 500  │ co-tier: Data Manager modal
       //   upgrade           │ 900  │ upgrade / paywall modal
       //   quickstart        │ 940  │ first-run quick-start modal
@@ -72,6 +76,7 @@ export default {
       zIndex: {
         header: '60',
         'header-pill': '70',
+        'usage-pill': '90',
         modal: '100',
         dropdown: '100',
         tooltip: '100',

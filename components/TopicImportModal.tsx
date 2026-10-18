@@ -9,7 +9,6 @@ import {
 import { parseJsonWithRepair } from '../utils/jsonRepair';
 import FileDropzone from './dataManager/FileDropzone';
 import {
-  UploadCloud,
   X,
   Award,
   ChevronRight,
@@ -27,6 +26,19 @@ import {
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+} from '../utils/creatorChrome';
 
 interface TopicImportModalProps {
   isOpen: boolean;
@@ -135,7 +147,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       const parsed = parseJsonWithRepair(text);
 
       if (parsed.data === null) {
-        setError(parsed.error || 'Failed to parse JSON file.');
+        setError(parsed.error || 'This file is not valid JSON. Choose a topic file and try again.');
         setFileName(null);
         return;
       }
@@ -153,7 +165,10 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       }
 
       if (!validatedTopic) {
-        setError(analysis.error || 'The imported file is not a valid single topic object.');
+        setError(
+          analysis.error ||
+            'This file does not contain exactly one topic. Choose a file with one topic in it.'
+        );
         setFileName(null);
         return;
       }
@@ -166,7 +181,9 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
       const report = generateValidationReport([tempCourseWrapper]);
 
       if (!report.isValid) {
-        setError(`The file has structural errors: ${report.errors.join(', ')}`);
+        setError(
+          `The file has structural errors: ${report.errors.join(', ')}. Fix them in the file, then choose it again.`
+        );
         setFileName(null);
         return;
       }
@@ -352,53 +369,36 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Import a topic file"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={handleClose}
-    >
+    <div className={CREATOR_BACKDROP} onClick={handleClose}>
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="topic-import-title"
+        className={`${CREATOR_SHELL} max-w-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
-                <UploadCloud className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Import Topic
-                </h2>
-                <p className="text-sm text-muted">into "{courseName}"</p>
-              </div>
-            </div>
-            <button
-              onClick={handleClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-muted group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <FolderTree className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            <p className={CREATOR_KICKER}>Into "{courseName}"</p>
+            <h2 id="topic-import-title" className={CREATOR_TITLE}>
+              Import a topic
+            </h2>
+          </div>
+          <button type="button" onClick={handleClose} aria-label="Close" className={CREATOR_CLOSE}>
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
-        <div className="flex-grow p-6 flex flex-col overflow-hidden bg-[rgb(var(--color-bg-surface))] light:bg-white">
+        <div className={`${CREATOR_BODY} space-y-4`}>
           {step === 'upload' && (
-            <div className="space-y-4">
-              <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600">
-                Select a single topic JSON file to add to the current course.
+            <>
+              <p className="text-sm text-[rgb(var(--color-text-secondary))]">
+                Choose one topic JSON file to add to this course.
               </p>
               <FileDropzone onFileDrop={handleFileDrop} />
               {isAnalysing ? (
@@ -419,14 +419,14 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                   {error}
                 </p>
               )}
-            </div>
+            </>
           )}
 
           {step === 'preview' && importedTopic && mergePlan && (
-            <div className="space-y-4 h-full flex flex-col overflow-hidden">
-              <p className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-600">
+            <>
+              <p className="text-sm text-[rgb(var(--color-text-secondary))]">
                 Review the contents of{' '}
-                <span className="font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                <span className="font-semibold text-[rgb(var(--color-text-primary))]">
                   "{fileName}"
                 </span>{' '}
                 before importing.
@@ -451,7 +451,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed">
+                    <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] leading-relaxed">
                       {describeMergePlan(importedTopic.name, mergePlan)}
                     </p>
                     {mergePlan.matchedTopic &&
@@ -468,24 +468,24 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 </div>
 
                 {/* Stats row */}
-                <div className="flex gap-4 mt-3 pt-3 border-t border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200/60">
+                <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 pt-3 border-t border-slate-200 dark:border-white/10">
                   <div className="flex items-center gap-1.5 text-xs text-muted">
                     <Layers className="w-3 h-3" />
-                    <span className="font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700">
+                    <span className="font-bold text-[rgb(var(--color-text-primary))]">
                       {treeStats.subTopics}
                     </span>{' '}
                     sub-topics
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-muted">
                     <Hash className="w-3 h-3" />
-                    <span className="font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700">
+                    <span className="font-bold text-[rgb(var(--color-text-primary))]">
                       {treeStats.dotPoints}
                     </span>{' '}
                     dot points
                   </div>
                   <div className="flex items-center gap-1.5 text-xs text-muted">
                     <FileText className="w-3 h-3" />
-                    <span className="font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700">
+                    <span className="font-bold text-[rgb(var(--color-text-primary))]">
                       {treeStats.prompts}
                     </span>{' '}
                     questions
@@ -494,10 +494,10 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
               </div>
 
               {existingTopics.length > 0 && (
-                <div className="flex items-center gap-3 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 px-4 py-3">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 rounded-xl border border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))]/30 px-4 py-3">
                   <label
                     htmlFor="topic-merge-target"
-                    className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] light:text-slate-600 flex-shrink-0"
+                    className="text-xs font-semibold text-[rgb(var(--color-text-secondary))] flex-shrink-0"
                   >
                     Merge into
                   </label>
@@ -505,7 +505,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                     id="topic-merge-target"
                     value={topicTargetId}
                     onChange={(e) => handleTopicTargetChange(e.target.value)}
-                    className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg px-3 py-1.5 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                    className="flex-1 min-w-0 min-h-11 sm:min-h-0 bg-white dark:bg-[rgb(var(--color-bg-surface-light))] border border-slate-300 dark:border-white/15 rounded-lg px-3 py-1.5 text-sm text-[rgb(var(--color-text-primary))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
                   >
                     <option value="auto">Auto-detect by name (default)</option>
                     {existingTopics.map((t) => (
@@ -521,9 +521,9 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 <div className="rounded-xl border border-sky-500/30 light:border-sky-200 bg-sky-500/5 light:bg-sky-50/50 p-3 flex items-start gap-2">
                   <Wrench className="w-3.5 h-3.5 text-sky-400 light:text-sky-700 flex-shrink-0 mt-0.5" />
                   <p className="text-xs text-sky-300 light:text-sky-700 leading-relaxed">
-                    The JSON had formatting issues (missing commas, unquoted keys, etc.) that were
-                    automatically repaired. Review the preview below to make sure everything looks
-                    right.
+                    The JSON had formatting issues (missing commas, unquoted keys and similar) that
+                    were repaired automatically. Review the preview below to make sure everything
+                    looks right.
                   </p>
                 </div>
               )}
@@ -555,13 +555,13 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 className={`rounded-xl border transition-colors ${
                   markAsPastHSC
                     ? 'border-amber-500/30 light:border-amber-200 bg-amber-500/5 light:bg-amber-50/50'
-                    : 'border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50'
+                    : 'border-slate-200 dark:border-white/10 bg-slate-50 dark:bg-[rgb(var(--color-bg-surface-inset))]/30'
                 }`}
               >
-                <label className="flex items-center justify-between cursor-pointer p-4">
-                  <div className="flex items-center gap-2.5 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                <label className="flex items-center justify-between cursor-pointer p-4 min-h-11">
+                  <div className="flex items-center gap-2.5 text-sm font-semibold text-[rgb(var(--color-text-primary))]">
                     <Award className="w-4 h-4 text-amber-400 light:text-amber-700" />
-                    <span>Mark as Past HSC Questions</span>
+                    <span>Mark as past HSC questions</span>
                   </div>
                   <input
                     type="checkbox"
@@ -573,13 +573,16 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                 {markAsPastHSC && (
                   <div className="px-4 pb-4 pt-0 flex items-center gap-3 animate-fade-in">
                     <div className="ml-7 pl-3 border-l-2 border-amber-500/30 light:border-amber-200 flex items-center gap-2">
-                      <span className="text-xs font-medium text-muted">Year:</span>
+                      <label htmlFor="topic-bulk-year" className="text-xs font-medium text-muted">
+                        Year
+                      </label>
                       <input
+                        id="topic-bulk-year"
                         type="number"
                         value={bulkYear}
                         onChange={(e) => setBulkYear(e.target.value)}
                         placeholder="e.g. 2023"
-                        className="w-24 bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg px-3 py-1.5 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                        className="w-24 min-h-11 sm:min-h-0 bg-white dark:bg-[rgb(var(--color-bg-surface-light))] border border-slate-300 dark:border-white/15 rounded-lg px-3 py-1.5 text-sm text-[rgb(var(--color-text-primary))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
                       />
                     </div>
                   </div>
@@ -588,24 +591,24 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
 
               {/* Editable structure preview — remove anything the source file
                   got wrong before it lands in the course. */}
-              <div className="flex-grow overflow-hidden flex flex-col bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl">
-                <div className="px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center flex-shrink-0">
+              <div className="flex flex-col overflow-hidden bg-slate-50/50 dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border border-slate-200 dark:border-white/10 rounded-xl">
+                <div className="px-4 py-2.5 bg-slate-100 dark:bg-[rgb(var(--color-bg-surface-elevated))] border-b border-slate-200 dark:border-white/10 flex flex-wrap justify-between items-center gap-x-3 gap-y-1">
                   <div className="flex items-center gap-2 min-w-0">
                     <FolderTree className="w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] flex-shrink-0" />
-                    <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] light:text-slate-700 truncate">
+                    <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] truncate">
                       {importedTopic.name}
                     </span>
                   </div>
-                  <span className="text-xs text-muted flex-shrink-0 ml-2">
-                    Remove items you don't want to import
+                  <span className="text-xs text-muted flex-shrink-0">
+                    Remove anything you do not want to import
                   </span>
                 </div>
                 {importedTopic.subTopics.length === 0 ? (
                   <div className="p-8 text-center text-sm text-muted">
-                    Nothing left to import. Go back and pick a different file, or cancel.
+                    Nothing left to import. Go back and choose a different file, or cancel.
                   </div>
                 ) : (
-                  <div className="p-2 overflow-y-auto custom-scrollbar">
+                  <div className="p-2 max-h-[45vh] sm:max-h-[50vh] overflow-y-auto custom-scrollbar">
                     {importedTopic.subTopics.map((st, stIdx) => {
                       const isExpanded = expandedSubTopics.has(stIdx);
                       return (
@@ -613,7 +616,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                           <div className="group flex items-center gap-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))] light:hover:bg-slate-100 transition">
                             <button
                               onClick={() => toggleSubTopicExpanded(stIdx)}
-                              className="flex-1 flex items-center gap-2 p-2 text-left min-w-0"
+                              className="flex-1 flex items-center gap-2 p-2 min-h-11 sm:min-h-0 text-left min-w-0"
                             >
                               <ChevronRight
                                 className={`w-3.5 h-3.5 text-[rgb(var(--color-text-muted))] transition-transform flex-shrink-0 ${isExpanded ? 'rotate-90' : ''}`}
@@ -634,7 +637,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                             </button>
                             <button
                               onClick={() => removeSubTopic(stIdx)}
-                              className="p-1.5 mr-1 rounded-lg opacity-0 group-hover:opacity-100 text-red-400 light:text-red-700 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
+                              className="p-1.5 mr-1 min-w-11 min-h-11 sm:min-w-0 sm:min-h-0 flex items-center justify-center rounded-lg opacity-100 sm:opacity-0 sm:group-hover:opacity-100 text-red-400 light:text-red-700 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
                               title="Remove this sub-topic from import"
                               aria-label={`Remove sub-topic ${st.name}`}
                             >
@@ -648,7 +651,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                                 aria-label={`Merge sub-topic "${st.name}" into`}
                                 value={subTopicTargets[stIdx] ?? ''}
                                 onChange={(e) => setSubTopicTarget(stIdx, e.target.value)}
-                                className="flex-1 min-w-0 bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg px-2 py-1 text-xs text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
+                                className="flex-1 min-w-0 min-h-11 sm:min-h-0 bg-white dark:bg-[rgb(var(--color-bg-surface-light))] border border-slate-300 dark:border-white/15 rounded-lg px-2 py-1 text-xs text-[rgb(var(--color-text-primary))] focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))]"
                               >
                                 <option value="">New sub-topic (auto)</option>
                                 {resolvedTargetTopic.subTopics.map((s) => (
@@ -660,7 +663,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                             </div>
                           )}
                           {isExpanded && st.dotPoints.length > 0 && (
-                            <div className="ml-8 pl-3 border-l-2 border-[rgb(var(--color-border-secondary))]/20 light:border-slate-200 mt-0.5 space-y-px">
+                            <div className="ml-8 pl-3 border-l-2 border-slate-200 dark:border-white/10 mt-0.5 space-y-px">
                               {st.dotPoints.map((dp, dpIdx) => (
                                 <div
                                   key={dp.id ?? dpIdx}
@@ -678,7 +681,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                                   </span>
                                   <button
                                     onClick={() => removeDotPoint(stIdx, dpIdx)}
-                                    className="p-0.5 rounded-lg opacity-0 group-hover/dp:opacity-100 text-red-400 light:text-red-700 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
+                                    className="p-0.5 rounded-lg opacity-100 sm:opacity-0 sm:group-hover/dp:opacity-100 text-red-400 light:text-red-700 hover:bg-red-500/20 light:hover:bg-red-50 transition-all flex-shrink-0"
                                     title="Remove this dot point from import"
                                     aria-label={`Remove dot point ${dp.description}`}
                                   >
@@ -694,39 +697,34 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
                   </div>
                 )}
               </div>
-            </div>
+            </>
           )}
         </div>
 
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
+        <div className={CREATOR_FOOTER}>
           {step === 'preview' ? (
             <>
-              <button
-                onClick={resetState}
-                className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
+              <button type="button" onClick={resetState} className={CREATOR_SECONDARY_BUTTON}>
                 Back
               </button>
               <button
+                type="button"
                 onClick={handleConfirmImport}
                 disabled={!importedTopic || importedTopic.subTopics.length === 0}
-                className="py-2.5 px-5 rounded-lg text-sm text-white dark:text-slate-950 font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className={CREATOR_PRIMARY_BUTTON}
               >
                 {mergePlan?.matchedTopic ? (
-                  <GitMerge className="w-4 h-4" />
+                  <GitMerge className="w-4 h-4" aria-hidden="true" />
                 ) : (
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4" aria-hidden="true" />
                 )}
                 {mergePlan?.matchedTopic
                   ? `Merge into "${mergePlan.matchedTopic.name}"`
-                  : `Import "${importedTopic?.name}"`}
+                  : 'Import topic'}
               </button>
             </>
           ) : (
-            <button
-              onClick={handleClose}
-              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-            >
+            <button type="button" onClick={handleClose} className={CREATOR_SECONDARY_BUTTON}>
               Cancel
             </button>
           )}

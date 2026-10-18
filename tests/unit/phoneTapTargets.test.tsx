@@ -56,32 +56,23 @@ describe('UrlFetchField on a phone', () => {
 });
 
 describe('close buttons on a phone', () => {
-  // A 36px square becomes 44px on a phone. The min-size idiom is used where the
-  // title can take the extra width; the Topic import modal's title cannot, so
-  // its target is a pseudo-element and the chip stays 36px.
-  it.each(['QualityCheckModal.tsx', 'RenameModal.tsx', 'OutcomesEditorModal.tsx'])(
-    '%s grows its close button to 44px below sm',
-    (file) => {
-      expect(source(file)).toContain('w-9 h-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0');
-    }
-  );
-
-  it('CourseCreatorModal closes with the shared 44px close button at every width', () => {
-    // The creator dialogs share one chrome file. Its close button is the 44px
-    // FlagContentModal one, so it is a 44px target from every width, not only below sm.
-    expect(source('CourseCreatorModal.tsx')).toContain('CREATOR_CLOSE');
+  // The creator dialogs share one chrome file, and its close button is the
+  // 44px FlagContentModal one: a 44px target at every width, not only below
+  // sm. The 36px squares that grew to 44px on a phone, and the Topic import
+  // modal's 36px chip with a pseudo-element hit area, all went with it.
+  it.each([
+    'CourseCreatorModal.tsx',
+    'OutcomesEditorModal.tsx',
+    'TopicImportModal.tsx',
+    'TopicSyllabusImportModal.tsx',
+    'SyllabusImportModal.tsx',
+    'QualityCheckModal.tsx',
+    'RenameModal.tsx',
+  ])('%s closes with the shared 44px close button at every width', (file) => {
+    expect(source(file)).toContain('CREATOR_CLOSE');
     expect(readFileSync(resolve(COMPONENTS, '../utils/creatorChrome.ts'), 'utf8')).toContain(
       'min-h-11 min-w-11'
     );
-  });
-
-  it('TopicSyllabusImportModal keeps the 36px chip and adds a 44px hit area', () => {
-    const src = source('TopicSyllabusImportModal.tsx');
-
-    expect(src).toContain('relative z-20 shrink-0 w-9 h-9');
-    expect(src).toContain("before:absolute before:-inset-1 before:content-['']");
-    // Off from `sm`, so the desktop hit area is the one it was.
-    expect(src).toContain('sm:before:content-none');
   });
 });
 

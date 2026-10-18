@@ -26,11 +26,24 @@ import {
   Globe,
   GitMerge,
   Wand2,
+  BookOpen,
 } from 'lucide-react';
 import { generateId } from '../utils/idUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+} from '../utils/creatorChrome';
 
 type PreviewNode = SyllabusPreviewNode;
 
@@ -198,7 +211,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
         );
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to parse outcomes.');
+      setError(err instanceof Error ? err.message : 'Could not parse the outcomes. Try again.');
     } finally {
       setIsParsingOutcomes(false);
     }
@@ -251,7 +264,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
         handleUpdateTab('content', content);
       }
     } catch (err) {
-      setUrlError(err instanceof Error ? err.message : 'Failed to read that page.');
+      setUrlError(err instanceof Error ? err.message : 'Could not read that page. Try again.');
     } finally {
       setIsFetchingUrl(false);
     }
@@ -279,7 +292,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
       });
       setActiveTabId(newTabs[0].id);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to split topics.');
+      setError(
+        err instanceof Error ? err.message : 'Could not split the text into topics. Try again.'
+      );
     } finally {
       setIsSplitting(false);
     }
@@ -287,7 +302,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   const handleAnalyze = async () => {
     if (!targetCourseId && !courseName.trim()) {
-      setError('Course name is required.');
+      setError('Enter a course name.');
       return;
     }
 
@@ -315,7 +330,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     // Filter out empty tabs
     const validTabs = topicTabs.filter((t) => t.content.trim().length > 0);
     if (validTabs.length === 0) {
-      setError('Please enter syllabus content for at least one topic.');
+      setError('Enter syllabus content for at least one topic.');
       return;
     }
 
@@ -365,7 +380,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
       aggregatedPreview.forEach((_t, idx) => initialExpand.add(`topic-${idx}`));
       setExpandedPreviewIds(initialExpand);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to analyse syllabus structure.');
+      setError(err instanceof Error ? err.message : 'Could not analyse the syllabus. Try again.');
     } finally {
       setIsAnalyzing(false);
     }
@@ -487,55 +502,43 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Import a full syllabus"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={guard.requestCloseFromBackdrop}
-    >
+    <div className={CREATOR_BACKDROP} onClick={guard.requestCloseFromBackdrop}>
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-6xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden relative flex flex-col max-h-[90vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="syllabus-import-title"
+        className={`${CREATOR_SHELL} max-w-6xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
-                <UploadCloud className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Full Syllabus Import
-                </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                  {step === 'input'
-                    ? 'Construct your course structure.'
-                    : 'Review the identified structure before importing.'}
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={guard.requestClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <BookOpen className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            <p className={CREATOR_KICKER}>
+              {effectiveCourseName || 'A new course'} · {yearShortLabel(year)}
+            </p>
+            <h2 id="syllabus-import-title" className={CREATOR_TITLE}>
+              Import a syllabus
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={guard.requestClose}
+            aria-label="Close"
+            className={CREATOR_CLOSE}
+          >
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
-        {/* Content */}
-        <div className="flex-grow overflow-hidden flex flex-col">
+        {/* Content. Not CREATOR_BODY: step one is a topic builder with its own
+            panes, and each block carries its own padding. This region scrolls
+            at every width, so a short window shows the whole builder by
+            scrolling rather than by clipping its editor. */}
+        <div className="flex-1 min-h-0 flex flex-col overflow-y-auto custom-scrollbar">
           {/* Step 1: Input */}
           {draft.offered && (
             <DraftRestoreBanner
@@ -551,7 +554,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           )}
 
           {step === 'input' && (
-            <div className="flex flex-col h-full overflow-hidden animate-fade-in">
+            <div className="flex flex-col animate-fade-in">
               {/* Top Controls */}
               <div className="p-5 pb-3 grid grid-cols-1 lg:grid-cols-2 gap-5 flex-shrink-0">
                 {/* Destination */}
@@ -560,7 +563,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     htmlFor="import-target"
                     className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800"
                   >
-                    Import Into
+                    Import into
                   </label>
                   <select
                     id="import-target"
@@ -568,9 +571,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     onChange={(e) =>
                       handleChangeTargetCourse(e.target.value === '__new__' ? null : e.target.value)
                     }
-                    className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                    className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-slate-300 dark:border-white/15 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                   >
-                    <option value="__new__">+ New course…</option>
+                    <option value="__new__">New course…</option>
                     {courses.length > 0 && (
                       <optgroup label="Merge into existing course">
                         {courses.map((c) => (
@@ -590,7 +593,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           onChange={(e) =>
                             setTargetTopicId(e.target.value === '__auto__' ? null : e.target.value)
                           }
-                          className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2 px-4 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                          className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-slate-300 dark:border-white/15 rounded-lg py-2 px-4 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                         >
                           <option value="__auto__">
                             Auto — match topic names / add new topics
@@ -617,7 +620,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={courseName}
                       onChange={(e) => setCourseName(e.target.value)}
                       placeholder="New course name, e.g., HSC Software Engineering"
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-slate-300 dark:border-white/15 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                     />
                   )}
                   {/* A NESA document is one year's. Everything in this import
@@ -636,7 +639,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                         onClick={() => setYear(y.id)}
                         className={`flex-1 py-1.5 px-3 min-h-11 sm:min-h-0 rounded-lg text-xs font-semibold border transition-colors ${
                           y.id === year
-                            ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
+                            ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-slate-300 dark:border-white/15 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
                             : 'border-transparent text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900'
                         }`}
                       >
@@ -649,7 +652,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                 {/* Outcomes */}
                 <div className="space-y-2">
                   <label className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
-                    Import Outcomes
+                    Import outcomes
                     <span className="ml-1.5 text-xs font-normal text-[rgb(var(--color-text-muted))] light:text-slate-500">
                       (optional)
                     </span>
@@ -660,13 +663,13 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={outcomesText}
                       onChange={(e) => setOutcomesText(e.target.value)}
                       placeholder={`Paste outcomes text here, e.g.:\nSE-12-01 Describes methods used to plan…\nSE-12-02 Applies appropriate development…`}
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y min-h-[72px] leading-relaxed font-mono"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-slate-300 dark:border-white/15 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y min-h-[72px] leading-relaxed font-mono"
                     />
                     <div className="flex items-center gap-2">
                       <button
                         onClick={handleParseOutcomes}
                         disabled={isParsingOutcomes || !outcomesText.trim()}
-                        className="px-4 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
+                        className="px-4 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-slate-300 dark:border-white/15 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                       >
                         <Sparkles className="w-3.5 h-3.5" />
                         {isParsingOutcomes ? 'Parsing…' : 'Parse with AI'}
@@ -681,11 +684,11 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                 </div>
               </div>
 
-              <div className="mx-6 mb-4 pt-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+              <div className="mx-6 mb-4 pt-4 border-t border-slate-200 dark:border-white/10">
                 <label className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2">
                   <span className="flex items-center gap-2">
                     <Globe className="w-4 h-4 text-[rgb(var(--color-accent))]" />
-                    Fetch Syllabus from URL
+                    Fetch from URL
                     <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full normal-case">
                       experimental
                     </span>
@@ -700,7 +703,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   isFetching={isFetchingUrl}
                   disabled={isFetchingUrl}
                   label="Syllabus page URL"
-                  placeholder="https://educationstandards.nsw.edu.au/..."
+                  placeholder="https://educationstandards.nsw.edu.au/…"
                 />
                 <p className="mt-2 text-[10px] text-[rgb(var(--color-text-muted))]">
                   {NESA_HOST_HINT}
@@ -708,15 +711,18 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               </div>
 
               {/* Topic Builder Interface */}
-              <div className="flex flex-col md:flex-row flex-1 overflow-hidden border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50">
+              {/* A floor, not a height: the builder is as tall as its editor
+                  needs, and never shorter than this, so the textarea is not
+                  squeezed under the footer. */}
+              <div className="flex flex-col md:flex-row md:min-h-[24rem] border-t border-slate-200 dark:border-white/10 bg-slate-50/50 dark:bg-[rgb(var(--color-bg-surface-inset))]/30">
                 {/* Sidebar Tabs — horizontal scroll on mobile, vertical sidebar on desktop */}
-                <div className="md:w-64 flex-shrink-0 border-b md:border-b-0 md:border-r border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-x-auto md:overflow-x-visible md:overflow-y-auto bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100/50 flex md:flex-col">
+                <div className="md:w-64 flex-shrink-0 border-b md:border-b-0 md:border-r border-slate-200 dark:border-white/10 overflow-x-auto md:overflow-x-visible md:overflow-y-auto bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100/50 flex md:flex-col">
                   <div className="p-2 md:p-3 flex-shrink-0">
                     <button
                       onClick={handleAddTab}
-                      className="w-full py-2 px-3 min-h-11 sm:min-h-0 rounded-lg border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:border-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all text-sm font-medium flex items-center justify-center gap-2 whitespace-nowrap"
+                      className="w-full py-2 px-3 min-h-11 sm:min-h-0 rounded-lg border border-dashed border-slate-300 dark:border-white/15 text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:border-[rgb(var(--color-accent))] hover:text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/5 transition-all text-sm font-medium flex items-center justify-center gap-2 whitespace-nowrap"
                     >
-                      <Plus className="w-4 h-4" /> Add Topic
+                      <Plus className="w-4 h-4" /> Add topic
                     </button>
                   </div>
                   <div className="flex md:flex-col flex-1 px-2 pb-2 md:pb-4 gap-1 md:gap-0 md:space-y-1">
@@ -733,7 +739,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           group flex items-center justify-between px-3 py-2.5 rounded-lg transition-all flex-shrink-0
                           ${
                             activeTabId === tab.id
-                              ? 'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white text-white light:text-slate-900 shadow-sm border border-[rgb(var(--color-border-secondary))] light:border-slate-300'
+                              ? 'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white text-white light:text-slate-900 shadow-sm border border-slate-300 dark:border-white/15'
                               : 'text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-white/50 hover:text-[rgb(var(--color-text-secondary))] light:hover:text-slate-700 border border-transparent'
                           }
                         `}
@@ -773,21 +779,21 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
                 {/* Content Editor Area */}
                 <div className="flex-1 flex flex-col p-4 md:p-5 overflow-hidden bg-[rgb(var(--color-bg-surface))]/30 light:bg-white min-h-0">
-                  <div className="mb-4 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200">
+                  <div className="mb-4 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-slate-200 dark:border-white/10">
                     <label className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-2">
-                      Topic Name
+                      Topic name
                     </label>
                     <input
                       type="text"
                       value={activeTab.name}
                       onChange={(e) => handleUpdateTab('name', e.target.value)}
-                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                      className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-slate-300 dark:border-white/15 rounded-lg py-2.5 px-4 text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
                     />
                   </div>
                   <div className="flex-1 flex flex-col min-h-0">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
                       <label className="t-label block text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                        Syllabus Content
+                        Syllabus content
                       </label>
                       <button
                         onClick={handleSplitActiveTab}
@@ -803,7 +809,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       value={activeTab.content}
                       onChange={(e) => handleUpdateTab('content', e.target.value)}
                       placeholder={`Paste dot points, sub-topics, or raw text here…\n\ne.g.:\nInquiry Question 1\n• describes the features of…\n• outlines the importance of…`}
-                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-base sm:text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
+                      className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-slate-300 dark:border-white/15 rounded-xl p-4 text-base sm:text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
                     />
                   </div>
                 </div>
@@ -813,15 +819,18 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
           {/* Step 2: Preview Tree */}
           {step === 'preview' && (
-            <div className="animate-fade-in p-6 overflow-y-auto h-full">
-              <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl overflow-hidden">
-                <div className="t-label px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex justify-between items-center">
+            <div className="animate-fade-in p-6">
+              <div className="bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/50 border border-slate-200 dark:border-white/10 rounded-xl overflow-hidden">
+                <div className="t-label px-4 py-2.5 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-slate-100 border-b border-slate-200 dark:border-white/10 text-[rgb(var(--color-text-muted))] light:text-slate-500 flex flex-wrap justify-between items-center gap-x-3 gap-y-1">
                   <span>
-                    {targetCourse ? `Merge into "${targetCourse.name}"` : 'Structure Preview'}
+                    {targetCourse ? `Merge into "${targetCourse.name}"` : 'Structure preview'}
                   </span>
                   <span className="bg-[rgb(var(--color-bg-surface-inset))] px-2 py-0.5 rounded-full normal-case font-semibold">
-                    {previewStats.topics} topics · {previewStats.subTopics} sub-topics ·{' '}
-                    {previewStats.dotPoints} dot points
+                    {previewStats.topics} {previewStats.topics === 1 ? 'topic' : 'topics'} ·{' '}
+                    {previewStats.subTopics}{' '}
+                    {previewStats.subTopics === 1 ? 'sub-topic' : 'sub-topics'} ·{' '}
+                    {previewStats.dotPoints}{' '}
+                    {previewStats.dotPoints === 1 ? 'dot point' : 'dot points'}
                   </span>
                 </div>
                 {previewData.length === 0 ? (
@@ -851,7 +860,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                               value={topic.name}
                               onChange={(e) => renameTopic(tIdx, e.target.value)}
                               aria-label={`Topic ${tIdx + 1} name`}
-                              className="flex-1 min-w-0 bg-transparent font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 rounded-lg px-1.5 py-1 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
+                              className="flex-1 min-w-0 bg-transparent font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 rounded-lg px-1.5 py-1 border border-transparent hover:border-slate-300 dark:hover:border-white/15 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
                             />
                             <span className="flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
                               {topic.subTopics?.length || 0} sub-topics
@@ -867,7 +876,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                           </div>
 
                           {isExpanded && (
-                            <div className="ml-6 pl-2 border-l border-[rgb(var(--color-border-secondary))]/30 light:border-slate-200 mt-1 space-y-1">
+                            <div className="ml-6 pl-2 border-l border-slate-200 dark:border-white/10 mt-1 space-y-1">
                               {(topic.subTopics || []).map((st, stIdx) => (
                                 <div key={stIdx} className="py-1">
                                   <div className="group/st flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-slate-100">
@@ -876,7 +885,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                                       value={st.name}
                                       onChange={(e) => renameSubTopic(tIdx, stIdx, e.target.value)}
                                       aria-label={`Sub-topic ${stIdx + 1} name`}
-                                      className="flex-1 min-w-0 bg-transparent text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 rounded-lg px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
+                                      className="flex-1 min-w-0 bg-transparent text-sm font-medium text-[rgb(var(--color-text-secondary))] light:text-slate-700 rounded-lg px-1.5 py-0.5 border border-transparent hover:border-slate-300 dark:hover:border-white/15 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
                                     />
                                     <button
                                       onClick={() => removeSubTopic(tIdx, stIdx)}
@@ -902,7 +911,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                                             }
                                             rows={1}
                                             aria-label={`Dot point ${dpIdx + 1}`}
-                                            className="flex-1 min-w-0 bg-transparent resize-y rounded-lg px-1.5 py-0.5 border border-transparent hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white text-[rgb(var(--color-text-dim))] light:text-slate-600"
+                                            className="flex-1 min-w-0 bg-transparent resize-y rounded-lg px-1.5 py-0.5 border border-transparent hover:border-slate-300 dark:hover:border-white/15 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white text-[rgb(var(--color-text-dim))] light:text-slate-600"
                                           />
                                           <button
                                             onClick={() => removeDotPoint(tIdx, stIdx, dpIdx)}
@@ -929,10 +938,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               <div className="mt-4 p-3 rounded-lg bg-blue-500/10 light:bg-blue-50 border border-blue-500/20 light:border-blue-200 text-xs text-blue-200 light:text-blue-700 flex items-start gap-2">
                 <Sparkles className="w-4 h-4 flex-shrink-0 mt-0.5 text-blue-400 light:text-blue-500" />
                 <p>
-                  Every name and dot point here is editable — fix them now rather than after they
-                  become content, since this text is what question generation reads. Hover a row for
-                  its delete button. If content is missing, go back and clean up the raw text before
-                  re-analysing.
+                  Every name and dot point here is editable. Fix them now, because this text is what
+                  question generation reads. If content is missing, go back and clean up the raw
+                  text before analysing again.
                 </p>
               </div>
             </div>
@@ -950,26 +958,23 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           <DiscardConfirmBar
             summary={
               previewData.length > 0
-                ? `this import — ${previewStats.topics} topics, ${previewStats.dotPoints} dot points`
+                ? `this import — ${previewStats.topics} ${previewStats.topics === 1 ? 'topic' : 'topics'}, ${previewStats.dotPoints} ${previewStats.dotPoints === 1 ? 'dot point' : 'dot points'}`
                 : 'the syllabus content you have entered'
             }
             onKeep={guard.cancelDiscard}
             onDiscard={guard.confirmDiscard}
           />
         ) : (
-          <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
+          <div className={CREATOR_FOOTER}>
             {step === 'input' ? (
               <>
-                <button
-                  onClick={guard.requestClose}
-                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-                >
+                <button onClick={guard.requestClose} className={CREATOR_SECONDARY_BUTTON}>
                   Cancel
                 </button>
                 <button
                   onClick={handleAnalyze}
                   disabled={isBusy}
-                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm text-white dark:text-slate-950 font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                  className={CREATOR_PRIMARY_BUTTON}
                 >
                   <Sparkles className="w-4 h-4" />
                   {isAnalyzing
@@ -981,23 +986,20 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
               </>
             ) : (
               <>
-                <button
-                  onClick={() => setStep('input')}
-                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-                >
-                  Back to Edit
+                <button onClick={() => setStep('input')} className={CREATOR_SECONDARY_BUTTON}>
+                  Back to edit
                 </button>
                 <button
                   onClick={handleConfirmImport}
                   disabled={previewData.length === 0}
-                  className="py-2.5 px-5 min-h-11 sm:min-h-0 rounded-lg text-sm text-white font-semibold bg-gradient-to-r from-green-800 to-green-700 hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className={CREATOR_PRIMARY_BUTTON}
                 >
                   {targetCourse ? (
                     <GitMerge className="w-4 h-4" />
                   ) : (
                     <UploadCloud className="w-4 h-4" />
                   )}
-                  {targetCourse ? `Merge into ${targetCourse.name}` : 'Confirm & Import'}
+                  {targetCourse ? `Merge into ${targetCourse.name}` : 'Import syllabus'}
                 </button>
               </>
             )}
@@ -1009,12 +1011,24 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
             task="enrichment"
             message={
               isFetchingUrl
-                ? 'Visiting URL & splitting into topics…'
+                ? 'Reading the syllabus page'
                 : isSplitting
-                  ? 'Splitting into topics…'
+                  ? 'Splitting the text into topics'
                   : isAnalyzing
-                    ? 'Analysing syllabus structure…'
-                    : 'Parsing outcomes…'
+                    ? 'Analysing the syllabus'
+                    : 'Reading the outcomes'
+            }
+            messages={
+              isFetchingUrl
+                ? ['Fetching the page', 'Finding the topic headings']
+                : isSplitting
+                  ? ['Finding the topic headings', "Keeping each topic's text as written"]
+                  : isAnalyzing
+                    ? ['Reading each topic', 'Sorting it into sub-topics and dot points']
+                    : [
+                        'Reading the outcomes text',
+                        'Picking out each outcome and the year it belongs to',
+                      ]
             }
           />
         </AiBusyOverlay>

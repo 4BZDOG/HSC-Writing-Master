@@ -37,7 +37,7 @@ const renderRename = (over: Partial<React.ComponentProps<typeof RenameModal>> = 
 };
 
 const retype = (value: string) =>
-  fireEvent.change(screen.getByLabelText('New Name'), { target: { value } });
+  fireEvent.change(screen.getByLabelText('New name'), { target: { value } });
 
 describe('rename guards a dot point’s focus areas', () => {
   it('says nothing while the wording still yields the same focus areas', () => {
@@ -62,10 +62,12 @@ describe('rename guards a dot point’s focus areas', () => {
     const { onRename, onKeep } = renderRename();
 
     retype('investigate data structures including arrays and hash tables');
-    fireEvent.click(screen.getByText('Save Changes'));
+    fireEvent.click(screen.getByText('Save changes'));
 
     expect(onKeep).toHaveBeenCalledWith(parseSubItemsFromDescription(DESCRIPTION));
-    expect(onRename).toHaveBeenCalledWith('investigate data structures including arrays and hash tables');
+    expect(onRename).toHaveBeenCalledWith(
+      'investigate data structures including arrays and hash tables'
+    );
   });
 
   it('lets the teacher accept the new reading instead', () => {
@@ -73,7 +75,7 @@ describe('rename guards a dot point’s focus areas', () => {
 
     retype('investigate data structures including arrays and hash tables');
     fireEvent.click(screen.getByText(/Keep the focus areas I have now/));
-    fireEvent.click(screen.getByText('Save Changes'));
+    fireEvent.click(screen.getByText('Save changes'));
 
     expect(onKeep).not.toHaveBeenCalled();
     expect(onRename).toHaveBeenCalled();
