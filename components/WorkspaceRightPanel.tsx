@@ -323,7 +323,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     () => ({
       course: breadcrumbItems[0]?.label || 'Course',
       topic: breadcrumbItems[1]?.label || 'Topic',
-      subTopic: breadcrumbItems[2]?.label || 'Sub-Topic',
+      subTopic: breadcrumbItems[2]?.label || 'Sub-topic',
       dotPoint: breadcrumbItems[3]?.label || 'Syllabus Dot Point',
     }),
     [breadcrumbItems]

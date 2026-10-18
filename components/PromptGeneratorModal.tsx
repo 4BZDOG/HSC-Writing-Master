@@ -289,9 +289,9 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
           part.toLowerCase() === syllabusVerbInfo.term.toLowerCase() ? (
             <span
               key={i}
-              className={`relative inline-block px-1.5 py-0.5 mx-1 rounded-lg shadow-sm bg-gradient-to-r ${verbConfig.gradient} ${verbConfig.solidText} font-bold tracking-wide transform -skew-x-3 decoration-clone`}
+              className={`relative inline-block px-1.5 py-0.5 mx-1 rounded-lg bg-gradient-to-r ${verbConfig.gradient} ${verbConfig.solidText} font-bold tracking-wide decoration-clone`}
             >
-              <span className="block transform skew-x-3">{part.toUpperCase()}</span>
+              <span className="block">{part.toUpperCase()}</span>
             </span>
           ) : (
             <span
@@ -722,7 +722,7 @@ const PromptGeneratorModal: React.FC<PromptGeneratorModalProps> = ({
                               ? `${bConf.solidBg} ${bConf.solidText} shadow-lg scale-110 border border-white/20`
                               : isCappedOut
                                 ? 'bg-black/20 light:bg-slate-100 text-slate-700 border border-white/5 light:border-slate-200 cursor-not-allowed line-through'
-                                : 'bg-black/40 light:bg-slate-200 text-muted hover:scale-110 hover:text-white light:hover:text-slate-900 border border-white/5 light:border-slate-300'
+                                : 'bg-black/40 light:bg-slate-200 text-muted hover:text-white light:hover:text-slate-900 border border-white/5 light:border-slate-300'
                           }`}
                         >
                           {b}

@@ -165,7 +165,7 @@ const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
           x2={TREND_W}
           y2={y3}
           strokeDasharray="4 4"
-          className="stroke-[rgb(var(--color-border-secondary))]"
+          className="stroke-white/20 light:stroke-slate-300"
         />
         <polyline
           points={line}
@@ -308,7 +308,7 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
       onClick={isLoading ? undefined : onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-3xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-surface shadow-lg w-full max-w-3xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

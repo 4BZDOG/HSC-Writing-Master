@@ -22,8 +22,7 @@ const BackgroundTaskIndicator: React.FC<BackgroundTaskIndicatorProps> = ({ task 
             />
           ),
           borderColor: 'border-[rgb(var(--color-accent))]/30',
-          progressBar:
-            'bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))]',
+          progressBar: 'bg-[rgb(var(--color-primary))]',
           textColor: 'text-[rgb(var(--color-text-primary))]',
         };
       case 'completed':

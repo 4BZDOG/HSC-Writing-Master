@@ -285,7 +285,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
                 aria-label="Recalibration progress"
               >
                 <div
-                  className="h-full bg-gradient-to-r from-indigo-600 to-sky-500 transition-all"
+                  className="h-full bg-[rgb(var(--color-primary))] transition-all"
                   style={{ width: `${(progress.done / Math.max(progress.total, 1)) * 100}%` }}
                 />
               </div>

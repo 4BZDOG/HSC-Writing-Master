@@ -66,7 +66,7 @@ const TONE: Record<SeatVerdict, { icon: LucideIcon; box: string; ink: string }> 
   },
   unknown: {
     icon: Info,
-    box: 'border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 light:border-slate-300',
+    box: 'border-white/10 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 light:border-slate-300',
     ink: 'text-[rgb(var(--color-text-secondary))] light:text-slate-800',
   },
 };
@@ -145,7 +145,7 @@ const SeatRow: React.FC<{
   const tone = verdictWords(figures.verdict, costSet);
   return (
     <tr
-      className={`border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${
+      className={`border-t border-white/10 light:border-slate-200 ${
         totals ? 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50' : ''
       }`}
     >
@@ -193,7 +193,7 @@ const SeatTable: React.FC<{
 }> = ({ usage, costPerCallAud, seatPriceAud }) => {
   const costSet = costPerCallAud !== null;
   return (
-    <div className="overflow-x-auto custom-scrollbar rounded-lg border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+    <div className="overflow-x-auto custom-scrollbar rounded-lg border border-white/10 light:border-slate-200">
       <table className="w-full min-w-[40rem]">
         <caption className="sr-only">
           Seat usage by licensed school over the last {usage.days} days
@@ -314,7 +314,7 @@ const SeatEconomics: React.FC = () => {
               className={`min-h-[44px] px-4 py-2 rounded-lg text-sm font-bold transition-all ${
                 days === window
                   ? 'bg-[rgb(var(--color-text-primary))] text-[rgb(var(--color-bg-surface))] light:bg-slate-900 light:text-white'
-                  : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 text-[rgb(var(--color-text-primary))] light:text-slate-900 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300'
+                  : 'bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 text-[rgb(var(--color-text-primary))] light:text-slate-900 hover:bg-white/10 light:hover:bg-slate-300'
               }`}
             >
               Last {window} days
@@ -346,7 +346,7 @@ const SeatEconomics: React.FC = () => {
         )}
 
         {!loading && result?.status === 'unavailable' && (
-          <div className="p-4 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100">
+          <div className="p-4 rounded-xl border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100">
             <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
               Re-apply the database schema to see seat usage.
             </p>
@@ -366,7 +366,7 @@ const SeatEconomics: React.FC = () => {
             <button
               type="button"
               onClick={() => load(days)}
-              className="mt-3 min-h-[44px] px-4 py-2 rounded-lg text-sm font-bold bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900"
+              className="mt-3 min-h-[44px] px-4 py-2 rounded-lg text-sm font-bold bg-[rgb(var(--color-bg-surface-light))] light:bg-slate-200 hover:bg-white/10 light:hover:bg-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900"
             >
               Try again
             </button>
@@ -393,7 +393,7 @@ const SeatEconomics: React.FC = () => {
   return (
     <section
       aria-labelledby="billing-seat-economics"
-      className="p-4 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-white"
+      className="p-4 rounded-xl border border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-white"
     >
       <h3>
         <button

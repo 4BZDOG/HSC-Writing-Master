@@ -13,8 +13,9 @@
  *                      writing area underneath it — derived below rather than
  *                      chosen.
  *  - MAX_CARD_HEIGHT   absolute ceiling, whatever the viewport.
- *  - VIEWPORT_RESERVE  room left for the app header, breadcrumb and the page
- *                      margins around the cards.
+ *  - VIEWPORT_RESERVE  room left for everything above the cards (the app
+ *                      header, the breadcrumb and the verb ribbon) and a margin
+ *                      under them, so the pair ends on screen.
  */
 
 /**
@@ -49,7 +50,16 @@ const MIN_WRITING_SURFACE = 240;
  */
 export const MIN_CARD_HEIGHT = WRITING_CARD_CHROME + MIN_WRITING_SURFACE;
 export const MAX_CARD_HEIGHT = 900;
-const VIEWPORT_RESERVE = 180;
+/**
+ * 296: the cards start 273px down the page at every two-column width (measured
+ * in Chromium at 1280px and 1440px: a 64px header, the breadcrumb and the folded
+ * verb ribbon, with their margins), plus 23px under them.
+ *
+ * It was 180, from before the verb ribbon sat above the cards. The cap then let
+ * the pair run about 90px past the bottom of the window, so a long question put
+ * the Evaluate button below the fold, and on a laptop even a short one did.
+ */
+const VIEWPORT_RESERVE = 296;
 
 /**
  * The width at which the workspace becomes two columns — Tailwind's `xl`, the

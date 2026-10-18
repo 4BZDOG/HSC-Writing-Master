@@ -169,7 +169,7 @@ const Trajectory: React.FC<{ points: (number | null)[] }> = ({ points }) => {
         y1={half}
         x2={SPARK_W}
         y2={half}
-        className="stroke-[rgb(var(--color-border-secondary))]"
+        className="stroke-white/20 light:stroke-slate-300"
         strokeWidth={1}
       />
       {coords.length > 1 && (
@@ -278,7 +278,7 @@ const ActivityChart: React.FC<{ cohort: ClassCohort; days: number }> = ({ cohort
         <Activity className="w-3.5 h-3.5" />
         Cohort activity
       </h3>
-      <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 p-3 bg-black/10 light:bg-surface">
+      <div className="rounded-xl border border-white/10 light:border-slate-200 p-3 bg-black/10 light:bg-surface">
         <svg
           viewBox={`0 0 ${VOL_W} ${VOL_H}`}
           width="100%"
@@ -392,7 +392,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
           <Grid3x3 className="w-3.5 h-3.5" />
           Marks achieved by student and verb group
         </h3>
-        <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
+        <div className="rounded-xl border border-white/10 light:border-slate-200 light:bg-surface overflow-x-auto">
           <table className="w-full text-left text-sm min-w-[620px]">
             <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
               <tr>
@@ -465,7 +465,7 @@ const CohortBreakdown: React.FC<CohortBreakdownProps> = ({ cohort, days, tierOf 
           <TrendingUp className="w-3.5 h-3.5" />
           Weekly trajectories
         </h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgb(var(--color-border-secondary))]/40 light:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgb(var(--color-border-secondary))]/40 light:bg-slate-200 border border-white/10 light:border-slate-200 rounded-xl overflow-hidden">
           {rows.map((row) => {
             const trajectory = trajectoryFor.get(row.username);
             const delta = trajectory ? trajectoryDelta(trajectory.points) : null;

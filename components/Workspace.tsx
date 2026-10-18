@@ -102,7 +102,7 @@ const LockedQuestionNotice: React.FC<{ verb: string; marks: number; question: st
       </p>
       <button
         onClick={() => requestUpgrade('advancedQuestions')}
-        className="t-label px-6 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-lg hover:scale-105 active:scale-[0.98] transition-all"
+        className="t-label px-6 py-3 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-900 active:scale-[0.98] transition-all"
       >
         {describeAccess('advancedQuestions').ctaLabel}
       </button>

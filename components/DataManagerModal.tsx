@@ -7,6 +7,7 @@ import ExportFlow from './dataManager/ExportFlow';
 import TopicReorderList from './dataManager/TopicReorderList';
 import MicroLabel from './MicroLabel';
 import { SECTION_TITLE, TOOL_HEAD, TOOL_RAIL, TOOL_WELL } from '../utils/adminChrome';
+import { CREATOR_ICON_TILE } from '../utils/creatorChrome';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -104,7 +105,7 @@ const NavButton = ({
             t-label min-w-0 w-full flex flex-col md:flex-row items-center justify-center md:justify-start gap-1 md:gap-4 px-2 md:px-6 py-2.5 md:py-4 rounded-2xl whitespace-nowrap transition-all duration-300
             ${
               activeTab === tab
-                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-900/20 scale-[1.02] border border-white/20'
+                ? 'bg-indigo-600 text-white border border-white/20'
                 : 'text-slate-400 light:text-slate-600 hover:text-slate-300 light:hover:text-slate-700 hover:bg-white/5 light:hover:bg-slate-100 border border-transparent'
             }
         `}
@@ -173,8 +174,8 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
         >
           <div className="p-5 md:p-10 border-b border-white/5 light:border-slate-200">
             <div className="flex items-center gap-4 md:mb-2">
-              <div className="w-10 h-10 md:w-12 md:h-12 shrink-0 rounded-tile bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center tile-bevel">
-                <Database className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <div className={`${CREATOR_ICON_TILE} md:w-12 md:h-12`}>
+                <Database className="w-5 h-5 md:w-6 md:h-6" />
               </div>
               <div className="flex-1 min-w-0">
                 <h2 className="text-xl font-black text-white light:text-slate-900 tracking-tighter italic leading-none">
@@ -186,7 +187,7 @@ const DataManagerModal: React.FC<DataManagerModalProps> = ({
                   below md, so the compact header carries the close control. */}
               <button
                 onClick={onClose}
-                aria-label="Close Data Vault"
+                aria-label="Close Data vault"
                 className="md:hidden p-2.5 min-h-11 min-w-11 flex items-center justify-center rounded-xl bg-white/5 light:bg-surface hover:bg-white/10 light:hover:bg-slate-200 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 transition-colors border border-white/5 light:border-slate-300"
               >
                 <X className="w-5 h-5" />

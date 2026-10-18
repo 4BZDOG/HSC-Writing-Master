@@ -108,19 +108,18 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
         className="clip-stable w-full max-w-2xl rounded-surface bg-[rgb(var(--color-bg-surface))] border border-white/10 light:border-slate-300 shadow-[0_32px_96px_-16px_rgba(0,0,0,0.75)] overflow-hidden animate-fade-in-up flex flex-col max-h-[92vh] outline-none"
       >
         {/* Header */}
-        <div className="relative px-6 sm:px-8 py-6 bg-gradient-to-br from-indigo-700 via-indigo-600 to-sky-700 text-white overflow-hidden shrink-0">
-          <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/20 blur-3xl rounded-full pointer-events-none" />
-          <div className="relative z-10">
-            <span className="t-label text-white/85 block">
+        <div className="relative px-6 sm:px-8 py-6 bg-[rgb(var(--color-bg-surface))] light:bg-white border-b border-white/10 light:border-slate-200 shrink-0">
+          <div className="relative">
+            <span className="t-label text-[rgb(var(--color-text-muted))] block">
               {charter.eyebrow} · v{AGREEMENT_VERSION}
             </span>
             <h2
               id="agreement-title"
-              className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1"
+              className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1 text-white light:text-slate-900"
             >
               {heading}
             </h2>
-            <p className="text-sm text-white/90 leading-relaxed mt-2 max-w-lg font-medium">
+            <p className="text-sm text-slate-300 light:text-slate-600 leading-relaxed mt-2 max-w-lg font-medium">
               {lede}
             </p>
           </div>
@@ -244,7 +243,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
             <button
               onClick={blocking ? onAccept : onDismiss}
               disabled={!canContinue}
-              className="text-sm font-semibold flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-900/30 hover:scale-[1.01] active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:hover:scale-100 disabled:cursor-not-allowed"
+              className="text-sm font-semibold flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {isSaving
                 ? 'Saving…'

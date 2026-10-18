@@ -263,7 +263,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
                   aria-valuemax={progress.total}
                 >
                   <div
-                    className="h-full bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] transition-all"
+                    className="h-full bg-[rgb(var(--color-primary))] transition-all"
                     style={{
                       width: `${((progress.completed + progress.failed) / Math.max(progress.total, 1)) * 100}%`,
                     }}

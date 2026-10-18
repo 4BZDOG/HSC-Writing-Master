@@ -37,7 +37,7 @@ export const AUTH_CARD =
 export const AUTH_PRIMARY_BUTTON =
   'w-full py-4 rounded-2xl font-bold text-sm text-white flex items-center justify-center gap-3 ' +
   'bg-indigo-600 hover:bg-indigo-500 border-2 border-white/10 hover:border-white/20 ' +
-  'shadow-lg shadow-indigo-900/40 active:scale-[0.98] ' +
+  'shadow-sm active:scale-[0.98] ' +
   'transition-[background-color,border-color,transform] disabled:opacity-50 disabled:cursor-not-allowed';
 
 /** An inline text action — "Forgot your password?", "Back to sign in". */

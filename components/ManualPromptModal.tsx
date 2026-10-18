@@ -807,10 +807,7 @@ const ManualPromptModal: React.FC<ManualPromptModalProps> = ({
 
                 {error && (
                   <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 light:text-red-700 text-sm flex items-center gap-3">
-                    <span
-                      className="w-2 h-2 rounded-full bg-red-500 animate-pulse"
-                      aria-hidden="true"
-                    />
+                    <span className="w-2 h-2 shrink-0 rounded-full bg-red-500" aria-hidden="true" />
                     {error}
                   </div>
                 )}

@@ -38,14 +38,14 @@ export const ActionButtons: React.FC<{
     )}
     <button
       onClick={onCancel}
-      className="py-2 px-4 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-[rgb(var(--color-border-secondary))] active:scale-[0.98] transition"
+      className="py-2 px-4 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] bg-[rgb(var(--color-bg-surface-light))] hover:bg-white/10 light:hover:bg-slate-200 active:scale-[0.98] transition"
     >
       Cancel
     </button>
     <button
       onClick={onConfirm}
       disabled={isConfirmDisabled}
-      className="py-2 px-4 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50"
+      className="py-2 px-4 min-h-11 sm:min-h-0 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-500 active:scale-[0.98] transition disabled:opacity-50"
     >
       {confirmText}
     </button>

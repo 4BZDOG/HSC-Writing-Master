@@ -42,11 +42,6 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
   return createPortal(
     <div className="ai-wait-stage fixed inset-0 z-loading bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in cursor-wait">
       <div className="relative">
-        {/* Animated Glow Background */}
-        <div
-          className={`absolute inset-0 bg-gradient-to-r ${isErrorState ? 'from-red-500 to-orange-500' : 'from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))]'} rounded-panel blur-xl opacity-20 animate-pulse-glow`}
-        ></div>
-
         <LoadingIndicator message={message} error={error} isError={isErrorState} />
 
         {/* Close button for error state */}

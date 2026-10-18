@@ -107,15 +107,24 @@ test.describe('a modal can be closed by its close button', () => {
     await clearOnboarding(page);
     for (const width of [390, 1280]) {
       await page.setViewportSize({ width, height: 844 });
-      await page.evaluate(() =>
-        window.dispatchEvent(
-          new CustomEvent('writing-studio:upgrade-request', {
-            detail: { feature: 'fullFeedback' },
-          })
-        )
-      );
       const prompt = page.getByRole('dialog', { name: /full marking feedback/i });
-      await prompt.waitFor({ state: 'visible', timeout: 20_000 });
+      // Sent until the prompt is up, not once. The request is a window event,
+      // and one sent before the app is listening is simply lost: `signIn` does
+      // not wait for the app, and every wait in `clearOnboarding` gives up
+      // quietly, so on a loaded runner the single dispatch could land before
+      // the prompt's listener was attached, and the spec waited 20s for a
+      // dialog nothing had asked for. A second request for the same feature
+      // while the prompt is open changes nothing.
+      await expect(async () => {
+        await page.evaluate(() =>
+          window.dispatchEvent(
+            new CustomEvent('writing-studio:upgrade-request', {
+              detail: { feature: 'fullFeedback' },
+            })
+          )
+        );
+        await expect(prompt).toBeVisible({ timeout: 2_000 });
+      }).toPass({ timeout: 30_000 });
       await prompt.getByRole('button', { name: /^close$/i }).click();
       await expect(prompt).toHaveCount(0);
     }

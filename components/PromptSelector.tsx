@@ -321,7 +321,7 @@ const RailNode = ({
   if (isComplete) {
     return (
       <div
-        className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 shadow-[0_0_10px_rgba(16,185,129,0.45)] ${justCompleted ? 'animate-fade-in-up-sm' : ''}`}
+        className={`${base} w-[1.15rem] h-[1.15rem] bg-emerald-500 border-2 border-emerald-400/60 ${justCompleted ? 'animate-fade-in-up-sm' : ''}`}
         title="Step complete"
       >
         <Check className="w-3 h-3 text-white" strokeWidth={4} />
@@ -389,7 +389,7 @@ const ActionButton = ({
     onClick={locked ? () => requestUpgrade('aiContentStudio') : onClick}
     // 44px tall and wide on a phone, the touch floor the rest of the app keeps;
     // it steps down to the 32px it was from `sm`, where a pointer is the input.
-    className={`relative p-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 ${label ? '2xl:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 hover:scale-105 active:scale-[0.98] border flex items-center justify-center gap-1.5 ${
+    className={`relative p-2 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 ${label ? '2xl:px-3' : ''} rounded-lg transition-all duration-200 flex-shrink-0 active:scale-[0.98] border flex items-center justify-center gap-1.5 ${
       locked
         ? 'bg-amber-400/10 border-amber-400/40 text-amber-500 light:text-amber-800'
         : variant === 'danger'
@@ -397,7 +397,7 @@ const ActionButton = ({
           : variant === 'special'
             ? 'bg-amber-500/10 border-amber-500/20 text-yellow-400 light:text-amber-800'
             : variant === 'primary'
-              ? 'bg-gradient-to-r from-indigo-600 to-sky-700 border-transparent text-white shadow-sm'
+              ? 'bg-indigo-600 hover:bg-indigo-500 border-transparent text-white shadow-sm'
               : variant === 'vault'
                 ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
                 : 'bg-[rgb(var(--color-bg-surface-inset))] border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
@@ -1497,7 +1497,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <button
                       onClick={handleInlineTopicCreate}
                       disabled={!inlineTopicName.trim() || inlineParsing}
-                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-purple-600 hover:bg-purple-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                      className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-all"
                     >
                       {inlineParsing ? (
                         <>
@@ -1921,9 +1921,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <div className="flex gap-2 flex-wrap justify-end">
                       <button
                         onClick={onManualEntry}
-                        className="t-label flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 border border-purple-500/30 transition-all"
+                        className="t-label flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-200 light:text-slate-700 border border-white/10 light:border-slate-300 transition-all"
                       >
-                        <PenTool className="w-4 h-4" /> Manual
+                        <PenTool className="w-4 h-4" /> Write a question
                       </button>
                       {canGenerate && (
                         <button
@@ -1935,10 +1935,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           title={
                             studioLocked ? describeAccess('aiContentStudio').explanation : undefined
                           }
-                          className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-lg hover:scale-105 active:scale-[0.98] transition-all ${
+                          className={`t-label flex items-center gap-2 px-6 py-2.5 rounded-xl shadow-sm active:scale-[0.98] transition-all ${
                             studioLocked
                               ? 'bg-amber-400/15 text-amber-500 light:text-amber-800 border border-amber-400/40'
-                              : 'bg-gradient-to-r from-indigo-700 to-indigo-600 text-white'
+                              : 'bg-indigo-600 hover:bg-indigo-500 text-white'
                           }`}
                         >
                           <Sparkles className="w-4 h-4" /> Generate

@@ -1,30 +1,22 @@
 import React from 'react';
-import AmbientAurora from './AmbientAurora';
 
 /**
  * The backdrop shared by every signed-out screen (sign-in, password reset).
  *
- * It deliberately does NOT paint an opaque base. The app's AnimatedBackground
- * is already mounted behind these pages; the sign-in screen used to cover it
- * with a flat `--color-bg-base` panel and then lay two `mix-blend-screen` blobs
- * over the top — a blend mode that does nothing against a near-white ground, so
- * the light theme resolved to a bare white sheet while the dark theme got its
- * aurora. These layers are defined per theme in index.css instead, so both are
- * composed on purpose.
+ * It paints no ground of its own: the app's AnimatedBackground is already
+ * mounted behind these pages, so sign-in sits on the same quiet aurora as the
+ * rest of the app. All it adds is the ruling of an HSC writing booklet, faint
+ * horizontal lines that give the empty space a texture from the thing a
+ * student is here to do.
  *
- * Layer order: wash → ruling → aurora → vignette. All of it is
- * `pointer-events-none` and sits under the page's own `z-10` content.
+ * It used to lay a second, heavier sky over the app's: an indigo-and-violet
+ * wash, two more drifting orbs, a 44px grid fading out from the centre and a
+ * vignette. That is the stock look of a generated landing page, and it said
+ * nothing about writing an answer.
  */
 const AuthBackdrop: React.FC = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-    <div className="auth-ambient absolute inset-0" />
-    <div className="auth-grid absolute inset-0" />
-
-    {/* Two slow orbs for depth, from the same aurora as the app behind — see
-        AmbientAurora for why each drifts on its own path and clock. */}
-    <AmbientAurora variant="auth" />
-
-    <div className="auth-vignette absolute inset-0" />
+    <div className="auth-ruling absolute inset-0" />
   </div>
 );
 

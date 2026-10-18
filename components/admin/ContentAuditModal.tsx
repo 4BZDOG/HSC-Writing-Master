@@ -1857,7 +1857,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
              (`relative z-10`, later in the DOM) and were silently unclickable.
              Declaring the z-index brings this one under the same rule, which
              `tests/unit/modalCloseButtonStacking.test.ts` now enforces. */
-          className="absolute top-4 right-4 md:right-6 z-20 w-11 h-11 sm:w-9 sm:h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
+          className="absolute top-4 right-4 md:right-6 z-20 w-11 h-11 sm:w-9 sm:h-9 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-white/10 light:hover:bg-slate-300 transition-all flex items-center justify-center"
         >
           <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
         </button>
