@@ -254,7 +254,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   value,
   onChange,
   label,
-  placeholder = 'Select...',
+  placeholder = 'Select…',
   disabled = false,
   color = 'default',
   emptyAction,

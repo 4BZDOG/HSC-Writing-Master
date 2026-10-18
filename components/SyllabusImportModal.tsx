@@ -570,7 +570,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     }
                     className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                   >
-                    <option value="__new__">+ New course...</option>
+                    <option value="__new__">+ New course…</option>
                     {courses.length > 0 && (
                       <optgroup label="Merge into existing course">
                         {courses.map((c) => (
@@ -659,7 +659,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       rows={3}
                       value={outcomesText}
                       onChange={(e) => setOutcomesText(e.target.value)}
-                      placeholder={`Paste outcomes text here, e.g.:\nSE-12-01 Describes methods used to plan...\nSE-12-02 Applies appropriate development...`}
+                      placeholder={`Paste outcomes text here, e.g.:\nSE-12-01 Describes methods used to plan…\nSE-12-02 Applies appropriate development…`}
                       className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] resize-y min-h-[72px] leading-relaxed font-mono"
                     />
                     <div className="flex items-center gap-2">
@@ -669,7 +669,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                         className="px-4 py-2 min-h-11 sm:min-h-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-[rgb(var(--color-bg-surface-elevated))] light:hover:bg-slate-200 border border-[rgb(var(--color-border-secondary))] light:border-slate-300 transition text-xs font-bold text-[rgb(var(--color-text-secondary))] light:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5"
                       >
                         <Sparkles className="w-3.5 h-3.5" />
-                        {isParsingOutcomes ? 'Parsing...' : 'Parse with AI'}
+                        {isParsingOutcomes ? 'Parsing…' : 'Parse with AI'}
                       </button>
                       {parsedOutcomes.length > 0 && (
                         <span className="text-xs text-green-400 light:text-green-700 font-medium">
@@ -802,7 +802,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     <textarea
                       value={activeTab.content}
                       onChange={(e) => handleUpdateTab('content', e.target.value)}
-                      placeholder={`Paste dot points, sub-topics, or raw text here...\n\ne.g.:\nInquiry Question 1\n• describes the features of...\n• outlines the importance of...`}
+                      placeholder={`Paste dot points, sub-topics, or raw text here…\n\ne.g.:\nInquiry Question 1\n• describes the features of…\n• outlines the importance of…`}
                       className="flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-base sm:text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none leading-relaxed min-h-[140px]"
                     />
                   </div>
@@ -976,7 +976,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     ? analysed && analysed.total > 1
                       ? `Analysing ${Math.min(analysed.done + 1, analysed.total)} of ${analysed.total}…`
                       : 'Analysing…'
-                    : 'Analyse Syllabus'}
+                    : 'Analyse syllabus'}
                 </button>
               </>
             ) : (
@@ -1009,12 +1009,12 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
             task="enrichment"
             message={
               isFetchingUrl
-                ? 'Visiting URL & splitting into topics...'
+                ? 'Visiting URL & splitting into topics…'
                 : isSplitting
-                  ? 'Splitting into topics...'
+                  ? 'Splitting into topics…'
                   : isAnalyzing
-                    ? 'Analysing Syllabus Structure...'
-                    : 'Parsing Outcomes...'
+                    ? 'Analysing syllabus structure…'
+                    : 'Parsing outcomes…'
             }
           />
         </AiBusyOverlay>

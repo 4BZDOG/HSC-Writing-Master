@@ -697,8 +697,8 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 <Loader2 className="w-5 h-5 animate-spin" />
                 <span>
                   {progress && progress.total > 1
-                    ? `Writing ${progress.done + 1} of ${progress.total} — ${progress.mark}/${prompt.totalMarks}...`
-                    : 'Crafting Response...'}
+                    ? `Writing ${progress.done + 1} of ${progress.total} — ${progress.mark}/${prompt.totalMarks}…`
+                    : 'Crafting response…'}
                 </span>
               </>
             ) : (
@@ -723,11 +723,11 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                 : `Crafting a Band ${selectedBand} response`
             }
             messages={[
-              `Analysing ${prompt.verb} requirements...`,
-              `Targeting ${progress?.mark ?? selectedMarks[0]}/${prompt.totalMarks} marks...`,
-              `Calibrating for Band ${progressBand} standard...`,
-              'Drafting response content...',
-              'Validating against NESA criteria...',
+              `Analysing ${prompt.verb} requirements…`,
+              `Targeting ${progress?.mark ?? selectedMarks[0]}/${prompt.totalMarks} marks…`,
+              `Calibrating for Band ${progressBand} standard…`,
+              'Drafting response content…',
+              'Validating against NESA criteria…',
             ]}
             duration={8}
             band={progressBand}

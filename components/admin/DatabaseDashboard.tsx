@@ -280,7 +280,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
             );
             return;
           }
-          showToast('Backup restored. Reloading application...', 'success');
+          showToast('Backup restored. Reloading application…', 'success');
           setTimeout(() => window.location.reload(), 1500);
         } catch (e) {
           showToast('The restore failed. Your existing data is unchanged.', 'error');
@@ -523,7 +523,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 {isLoading && !stats ? (
                   <div className="h-full flex items-center justify-center">
                     <LoadingIndicator
-                      messages={['Querying IndexedDB...', 'Calculating Quotas...']}
+                      messages={['Querying IndexedDB…', 'Calculating quotas…']}
                       duration={3}
                     />
                   </div>
@@ -684,7 +684,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 {isLoadingBackups ? (
                   <div className="h-32 flex items-center justify-center">
                     <LoadingIndicator
-                      messages={['Scanning timeline...', 'Retrieving snapshots...']}
+                      messages={['Scanning timeline…', 'Retrieving snapshots…']}
                       duration={2}
                     />
                   </div>
@@ -812,7 +812,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[rgb(var(--color-text-muted))]" />
                       <input
                         type="text"
-                        placeholder="Search raw data..."
+                        placeholder="Search raw data…"
                         aria-label="Search raw data"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -832,7 +832,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                   {isLoadingData ? (
                     <div className="absolute inset-0 flex items-center justify-center">
                       <LoadingIndicator
-                        messages={['Fetching records...', 'Formatting JSON...']}
+                        messages={['Fetching records…', 'Formatting JSON…']}
                         duration={1}
                       />
                     </div>
@@ -852,7 +852,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
           className={`flex-shrink-0 px-6 py-5 ${TOOL_RAIL} dark:bg-[rgb(var(--color-bg-surface-inset))]/30 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center`}
         >
           <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-600">
-            Local Database: {isLoading || isRestoring ? 'Busy...' : 'Ready'}
+            Local Database: {isLoading || isRestoring ? 'Busy…' : 'Ready'}
           </div>
           <div className="flex gap-3">
             {view === 'overview' && (
@@ -862,7 +862,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 className={`px-4 py-2 min-h-11 sm:min-h-0 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 transition flex items-center gap-2 ${isSyncing ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
-                {isSyncing ? 'Syncing...' : 'Force Sync'}
+                {isSyncing ? 'Syncing…' : 'Force sync'}
               </button>
             )}
             <button

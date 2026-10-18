@@ -332,7 +332,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                   // the example follows the tab on screen — pasting Year 11
                   // outcomes under a placeholder reading SE-12-01 invites the
                   // wrong list.
-                  placeholder={`e.g.\nSE-${stem}-01 Describes methods used to plan, develop...\nSE-${stem}-02 Applies appropriate development...`}
+                  placeholder={`e.g.\nSE-${stem}-01 Describes methods used to plan, develop…\nSE-${stem}-02 Applies appropriate development…`}
                   className="flex-grow bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-3 px-4 text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-none min-h-[100px] md:min-h-0 leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60"
                 />
                 <button
@@ -341,7 +341,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                   className="mt-3 w-full py-2.5 px-4 rounded-lg text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-lg active:scale-[0.98] transition-all"
                 >
                   <Sparkles className="w-4 h-4" />
-                  {isParsing ? 'Parsing...' : 'Parse with AI'}
+                  {isParsing ? 'Parsing…' : 'Parse with AI'}
                 </button>
               </div>
 
@@ -426,7 +426,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                       <textarea
                         value={outcome.description}
                         onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
-                        placeholder="Outcome description..."
+                        placeholder="Outcome description…"
                         rows={2}
                         className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[56px] leading-relaxed"
                       />
@@ -491,7 +491,7 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
 
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator
-            message={isFetching ? 'Reading the page...' : 'Parsing outcomes...'}
+            message={isFetching ? 'Reading the page…' : 'Parsing outcomes…'}
             task="enrichment"
           />
         </AiBusyOverlay>

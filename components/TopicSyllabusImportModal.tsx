@@ -403,7 +403,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   value={syllabusText}
                   onChange={(e) => setSyllabusText(e.target.value)}
                   rows={10}
-                  placeholder={`Paste the topic's sub-topics and dot points here...\n\ne.g.:\nInquiry Question 1: How do we describe motion?\n• describes uniform straight-line motion...\n• analyses the relative motion of objects...\n\nInquiry Question 2: How is motion measured?\n• measures displacement, velocity and acceleration...`}
+                  placeholder={`Paste the topic's sub-topics and dot points here…\n\ne.g.:\nInquiry Question 1: How do we describe motion?\n• describes uniform straight-line motion…\n• analyses the relative motion of objects…\n\nInquiry Question 2: How is motion measured?\n• measures displacement, velocity and acceleration…`}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-sm font-mono text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))]/60 light:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y leading-relaxed min-h-[180px]"
                 />
               </div>
@@ -550,7 +550,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   className="py-2.5 px-5 rounded-lg text-sm text-white dark:text-slate-950 font-semibold bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 >
                   <Sparkles className="w-4 h-4" />
-                  {isAnalysing ? 'Analysing...' : 'Analyse Syllabus'}
+                  {isAnalysing ? 'Analysing…' : 'Analyse syllabus'}
                 </button>
               </>
             ) : (
@@ -585,9 +585,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator
             task="enrichment"
-            message={
-              isFetchingUrl ? 'Visiting URL & extracting content...' : 'Analysing syllabus...'
-            }
+            message={isFetchingUrl ? 'Visiting URL & extracting content…' : 'Analysing syllabus…'}
           />
         </AiBusyOverlay>
       </div>

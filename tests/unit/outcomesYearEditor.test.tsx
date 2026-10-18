@@ -58,7 +58,9 @@ const openEditor = (
   );
 
 const codeBoxes = () =>
-  screen.getAllByPlaceholderText(/^e\.g\., SE-\d\d-01$/).map((el) => (el as HTMLInputElement).value);
+  screen
+    .getAllByPlaceholderText(/^e\.g\., SE-\d\d-01$/)
+    .map((el) => (el as HTMLInputElement).value);
 
 describe('editing both years of outcomes', () => {
   it('opens on the navigator’s year but keeps the other one a tab away', () => {
@@ -80,7 +82,7 @@ describe('editing both years of outcomes', () => {
     fireEvent.change(screen.getByPlaceholderText('e.g., SE-11-01'), {
       target: { value: 'BI-11-01' },
     });
-    fireEvent.change(screen.getByPlaceholderText('Outcome description...'), {
+    fireEvent.change(screen.getByPlaceholderText('Outcome description…'), {
       target: { value: 'Prelim one' },
     });
     fireEvent.click(screen.getByText('Save Changes'));
@@ -108,7 +110,9 @@ describe('editing both years of outcomes', () => {
 
     await waitFor(() => expect(codeBoxes()).toEqual(['BIO11-8']));
     // A bare domain is normalised rather than refused.
-    expect(fetchSyllabusContentFromUrl).toHaveBeenCalledWith('https://curriculum.nsw.edu.au/biology');
+    expect(fetchSyllabusContentFromUrl).toHaveBeenCalledWith(
+      'https://curriculum.nsw.edu.au/biology'
+    );
 
     fireEvent.click(screen.getByRole('tab', { name: /Year 12/ }));
     expect(codeBoxes()).toEqual(['BIO12-12']);
