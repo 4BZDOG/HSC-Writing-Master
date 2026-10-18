@@ -176,7 +176,10 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
                     disabled={isImproving}
                     className={`${SECONDARY_ACTION} sm:ml-auto`}
                   >
-                    <RefreshCw className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`} />
+                    <RefreshCw
+                      className={`w-4 h-4 ${isImproving ? 'animate-spin' : ''}`}
+                      aria-hidden="true"
+                    />
                     {isImproving ? 'Regenerating…' : 'Regenerate'}
                   </button>
                 )}

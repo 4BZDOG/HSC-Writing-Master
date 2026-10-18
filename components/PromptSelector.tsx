@@ -1501,7 +1501,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     >
                       {inlineParsing ? (
                         <>
-                          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                          <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
                           Parsing…
                         </>
                       ) : (

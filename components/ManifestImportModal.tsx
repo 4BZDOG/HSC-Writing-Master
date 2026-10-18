@@ -516,7 +516,7 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
           >
             {isImporting ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
                 Adding…
               </>
             ) : (

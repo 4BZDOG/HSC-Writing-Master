@@ -1090,6 +1090,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
                 disabled={isRecalibrating || !prompt.sampleAnswers?.length}
                 className={`${SAMPLE_AI_BUTTON} sm:px-2.5 sm:h-[30px]`}
                 aria-label="Recalibrate samples with AI"
+                aria-busy={isRecalibrating || undefined}
                 title="Recalibrate samples with AI — choose which ones"
               >
                 <RefreshCw

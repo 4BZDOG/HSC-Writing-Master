@@ -158,7 +158,10 @@ const ScenarioImageUploader: React.FC<ScenarioImageUploaderProps> = ({
         className="relative flex flex-col items-center justify-center gap-2 px-4 py-6 rounded-xl border border-dashed border-slate-500/40 light:border-slate-300 text-center focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/40 transition-colors"
       >
         {isBusy ? (
-          <Loader2 className="w-5 h-5 text-[rgb(var(--color-accent))] animate-spin" />
+          <Loader2
+            className="w-5 h-5 text-[rgb(var(--color-accent))] animate-spin"
+            aria-hidden="true"
+          />
         ) : (
           <>
             <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">

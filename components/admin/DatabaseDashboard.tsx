@@ -46,7 +46,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
-import LoadingIndicator from '../LoadingIndicator';
+import DataLoading from '../DataLoading';
 import { railTabClass, TOOL_HEAD, TOOL_RAIL } from '../../utils/adminChrome';
 
 interface BackupSummary {
@@ -522,10 +522,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
               <>
                 {isLoading && !stats ? (
                   <div className="h-full flex items-center justify-center">
-                    <LoadingIndicator
-                      messages={['Querying IndexedDB…', 'Calculating quotas…']}
-                      duration={3}
-                    />
+                    <DataLoading label="Reading the database" />
                   </div>
                 ) : stats ? (
                   <div className="space-y-8 animate-fade-in">
@@ -682,12 +679,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 </div>
 
                 {isLoadingBackups ? (
-                  <div className="h-32 flex items-center justify-center">
-                    <LoadingIndicator
-                      messages={['Scanning timeline…', 'Retrieving snapshots…']}
-                      duration={2}
-                    />
-                  </div>
+                  <DataLoading label="Reading backups" />
                 ) : backups.length === 0 ? (
                   <div className="text-center py-12 bg-[rgb(var(--color-bg-surface-inset))]/20 light:bg-slate-50 rounded-xl border border-dashed border-[rgb(var(--color-border-secondary))] light:border-slate-300">
                     <History className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />
@@ -745,10 +737,13 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                               onClick={() => handleRestoreBackup(backup.key, backup.date)}
                               disabled={isRestoring}
                               className="p-2 rounded-lg hover:bg-blue-500/10 light:hover:bg-blue-100 text-blue-400 light:text-blue-600 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                              aria-label="Restore this version"
+                              aria-busy={isRestoring || undefined}
                               title="Restore this version"
                             >
                               <RotateCcw
                                 className={`w-4 h-4 ${isRestoring ? 'animate-spin' : ''}`}
+                                aria-hidden="true"
                               />
                             </button>
                             <div className="w-px h-4 bg-[rgb(var(--color-border-secondary))] light:bg-slate-300 mx-1"></div>
@@ -831,10 +826,7 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 <div className="flex-1 rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-50 p-4 overflow-auto custom-scrollbar relative shadow-inner">
                   {isLoadingData ? (
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <LoadingIndicator
-                        messages={['Fetching records…', 'Formatting JSON…']}
-                        duration={1}
-                      />
+                      <DataLoading label="Reading records" />
                     </div>
                   ) : (
                     <pre className="text-xs font-mono text-gray-300 light:text-slate-800 whitespace-pre-wrap break-all leading-relaxed">
@@ -861,7 +853,10 @@ const DatabaseDashboard: React.FC<DatabaseDashboardProps> = ({
                 disabled={isSyncing}
                 className={`px-4 py-2 min-h-11 sm:min-h-0 rounded-lg text-sm font-bold text-white bg-blue-600 hover:bg-blue-500 transition flex items-center gap-2 ${isSyncing ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                <RefreshCw className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} />
+                <RefreshCw
+                  className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`}
+                  aria-hidden="true"
+                />
                 {isSyncing ? 'Syncing…' : 'Force sync'}
               </button>
             )}

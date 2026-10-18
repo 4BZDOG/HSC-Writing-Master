@@ -426,7 +426,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     >
       {isEvaluating ? (
         <>
-          <Loader2 className="w-4 h-4 animate-spin text-white/60" />
+          <Loader2 className="w-4 h-4 animate-spin text-white/60" aria-hidden="true" />
           <span className="text-slate-400">Evaluating</span>
         </>
       ) : (

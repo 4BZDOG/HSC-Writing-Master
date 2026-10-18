@@ -650,6 +650,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
               onClick={load}
               disabled={loading || !remote || deciding !== null}
               aria-label="Refresh"
+              aria-busy={loading || undefined}
               title={
                 overview
                   ? `Read again (last read ${relativeTo(overview.asOf, Date.now())})`
@@ -659,6 +660,7 @@ const BillingOverviewDialog: React.FC<BillingOverviewProps> = ({ isOpen, onClose
             >
               <RefreshCw
                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${loading ? 'animate-spin' : ''}`}
+                aria-hidden="true"
               />
             </button>
             <button

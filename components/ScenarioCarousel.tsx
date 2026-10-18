@@ -90,7 +90,7 @@ const ScenarioCarousel: React.FC<ScenarioCarouselProps> = ({
     <div key="image" className="animate-fade-in flex items-center justify-center min-h-[8rem]">
       {isLoadingImage ? (
         <div className="flex flex-col items-center gap-3 text-indigo-500 dark:text-indigo-400 py-6">
-          <Loader2 className="w-8 h-8 animate-spin" />
+          <Loader2 className="w-8 h-8 animate-spin" aria-hidden="true" />
           <span className="t-label">Loading image…</span>
         </div>
       ) : imageDataUrl ? (

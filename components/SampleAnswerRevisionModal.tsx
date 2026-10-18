@@ -333,7 +333,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
                 flex items-center gap-2
               `}
             >
-              {isLoading && <RefreshCw className="w-4 h-4 animate-spin" />}
+              {isLoading && <RefreshCw className="w-4 h-4 animate-spin" aria-hidden="true" />}
               <span>Revise with AI</span>
             </button>
           </div>

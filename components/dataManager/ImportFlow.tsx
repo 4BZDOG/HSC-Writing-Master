@@ -367,7 +367,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
                 role="status"
                 className="flex items-center gap-2 justify-center text-sky-400 light:text-sky-700 bg-sky-500/10 py-2 px-4 rounded-lg border border-sky-500/20"
               >
-                <Loader2 className="w-4 h-4 animate-spin" />
+                <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                 <span className="text-sm font-medium">Analysing {fileName ?? 'file'}…</span>
               </div>
             ) : (
