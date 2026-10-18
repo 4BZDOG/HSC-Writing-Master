@@ -365,6 +365,11 @@ const StepHeader = ({
   );
 };
 
+/** An ActionButton's accessible name: its title when that contains the visible
+ *  label, so the name says what the button acts on, else the label. */
+const actionName = (title: string, label?: string): string =>
+  !label || title.toLowerCase().includes(label.toLowerCase()) ? title : label;
+
 const ActionButton = ({
   onClick,
   icon: Icon,
@@ -399,9 +404,11 @@ const ActionButton = ({
     }`}
     title={locked ? `${title} — ${describeAccess('aiContentStudio').explanation}` : title}
     // An icon-only button has no visible name, and its title alone is a weak one.
-    // The visible label when there is one, so the name matches what is read on
-    // screen; the label itself only shows from `2xl`.
-    aria-label={label ?? title}
+    // The label only shows from `2xl`, so below that a bare label left several
+    // buttons all called "Add" or "Generate". The title is the name whenever it
+    // contains the label ("Add Course"), which keeps the visible word inside
+    // the name where the label does show; otherwise the label.
+    aria-label={actionName(title, label)}
   >
     {Icon && <Icon className="w-4 h-4" />}
     {label && <span className="t-label hidden 2xl:inline whitespace-nowrap">{label}</span>}

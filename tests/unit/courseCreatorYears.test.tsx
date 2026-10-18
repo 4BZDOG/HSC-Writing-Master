@@ -16,15 +16,13 @@ import type { CourseOutcome } from '../../types';
 afterEach(cleanup);
 
 const openCreator = (onCourseCreated: (name: string, outcomes: CourseOutcome[]) => void) =>
-  render(
-    <CourseCreatorModal isOpen onClose={vi.fn()} onCourseCreated={onCourseCreated} />
-  );
+  render(<CourseCreatorModal isOpen onClose={vi.fn()} onCourseCreated={onCourseCreated} />);
 
 const fillRow = (code: string, description: string) => {
   fireEvent.change(screen.getByPlaceholderText(/^e\.g\. SE-\d\d-01$/), {
     target: { value: code },
   });
-  fireEvent.change(screen.getByPlaceholderText('Outcome description...'), {
+  fireEvent.change(screen.getByPlaceholderText('Outcome description…'), {
     target: { value: description },
   });
 };
@@ -34,7 +32,7 @@ describe('creating a course with two years of outcomes', () => {
     const created: { name: string; outcomes: CourseOutcome[] }[] = [];
     openCreator((name, outcomes) => created.push({ name, outcomes }));
 
-    fireEvent.change(screen.getByLabelText('Course Name'), { target: { value: 'HSC Physics' } });
+    fireEvent.change(screen.getByLabelText('Course name'), { target: { value: 'HSC Physics' } });
 
     // Year 12 is the tab on open — it is what creating a course usually means.
     expect(screen.getByRole('tab', { name: /Year 12/ })).toHaveProperty('ariaSelected', 'true');
@@ -45,7 +43,7 @@ describe('creating a course with two years of outcomes', () => {
     expect(screen.queryByDisplayValue('PH-12-01')).toBeNull();
     fillRow('PH-11-01', 'Prelim one');
 
-    fireEvent.click(screen.getByRole('button', { name: 'Create Course' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Create course' }));
 
     expect(created).toHaveLength(1);
     expect(created[0].outcomes).toEqual([
@@ -58,7 +56,7 @@ describe('creating a course with two years of outcomes', () => {
   it('counts both years in the section header, so collapsing it does not read as lost work', () => {
     openCreator(vi.fn());
 
-    fireEvent.change(screen.getByLabelText('Course Name'), { target: { value: 'HSC Physics' } });
+    fireEvent.change(screen.getByLabelText('Course name'), { target: { value: 'HSC Physics' } });
     fillRow('PH-12-01', 'HSC one');
     fireEvent.click(screen.getByRole('tab', { name: /Year 11/ }));
     fillRow('PH-11-01', 'Prelim one');
@@ -78,13 +76,13 @@ describe('creating a course with two years of outcomes', () => {
     const created: CourseOutcome[][] = [];
     openCreator((_name, outcomes) => created.push(outcomes));
 
-    fireEvent.change(screen.getByLabelText('Course Name'), { target: { value: 'HSC Physics' } });
+    fireEvent.change(screen.getByLabelText('Course name'), { target: { value: 'HSC Physics' } });
     fillRow('PH-12-01', 'HSC one');
-    fireEvent.click(screen.getByRole('button', { name: /Add Year 12 Outcome/ }));
+    fireEvent.click(screen.getByRole('button', { name: /Add Year 12 outcome/ }));
 
     const codes = screen.getAllByPlaceholderText('e.g. SE-12-01');
     fireEvent.change(codes[1], { target: { value: 'PH-12-01' } });
-    fireEvent.change(screen.getAllByPlaceholderText('Outcome description...')[1], {
+    fireEvent.change(screen.getAllByPlaceholderText('Outcome description…')[1], {
       target: { value: 'A second row with the same code' },
     });
 
@@ -92,7 +90,7 @@ describe('creating a course with two years of outcomes', () => {
     // rows sharing one make the link ambiguous.
     expect(screen.getByText(/already listed above/)).toBeTruthy();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Create Course' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Create course' }));
     expect(created[0]).toEqual([{ code: 'PH-12-01', description: 'HSC one' }]);
   });
 
@@ -100,8 +98,8 @@ describe('creating a course with two years of outcomes', () => {
     const created: CourseOutcome[][] = [];
     openCreator((_name, outcomes) => created.push(outcomes));
 
-    fireEvent.change(screen.getByLabelText('Course Name'), { target: { value: 'Bare Course' } });
-    fireEvent.click(screen.getByRole('button', { name: 'Create Course' }));
+    fireEvent.change(screen.getByLabelText('Course name'), { target: { value: 'Bare Course' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Create course' }));
 
     // A blank row on each tab is not an outcome.
     expect(created[0]).toEqual([]);

@@ -72,7 +72,7 @@ describe('AI modals render failures through the shared AiErrorNotice', () => {
     fireEvent.click(screen.getByRole('button', { name: /generate/i }));
 
     const alert = await screen.findByRole('alert');
-    expect(alert.textContent).toContain('Generation failed');
+    expect(alert.textContent).toContain('No dot points were drafted');
     expect(alert.textContent).toContain('Network error.');
 
     // Dismiss removes the notice.

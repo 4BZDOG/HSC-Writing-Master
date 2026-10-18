@@ -63,7 +63,7 @@ describe('PromptGeneratorModal band/tier alignment', () => {
 
     expect(screen.getByText(`These verbs support up to Band ${tier2.maxBand}`)).toBeTruthy();
     // Footer reflects the clamped target — it can never still say Band 6.
-    expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
+    expect(screen.queryByText(/aimed at/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
   });
 
   it('raises the target band to follow the tier when the user aims higher', () => {
@@ -71,11 +71,11 @@ describe('PromptGeneratorModal band/tier alignment', () => {
     // raise the target, not leave it stuck at the lower band.
     renderModal('describe the features of a relational database');
     const tier2 = TIER_GROUPS.find((t) => t.tier === 2)!;
-    expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
+    expect(screen.queryByText(/aimed at/i)?.textContent).toContain(`Band ${tier2.maxBand}`);
 
     const tier6 = TIER_GROUPS.find((t) => t.tier === 6)!;
     fireEvent.click(screen.getByText(tier6.title));
-    expect(screen.queryByText(/targeting/i)?.textContent).toContain(`Band ${tier6.maxBand}`);
+    expect(screen.queryByText(/aimed at/i)?.textContent).toContain(`Band ${tier6.maxBand}`);
   });
 
   it('caps the marks slider to the verb markRange', () => {
@@ -168,7 +168,7 @@ describe('PromptGeneratorModal focus refinements', () => {
     );
 
     // The active-focus banner and one pill per item must render.
-    expect(screen.getByText(/Active Focus: 2 Refinements/i)).toBeTruthy();
+    expect(screen.getByText(/Focused on 2 parts/i)).toBeTruthy();
     expect(screen.getByText('primary keys')).toBeTruthy();
     expect(screen.getByText('normalisation')).toBeTruthy();
   });
@@ -188,18 +188,18 @@ describe('PromptGeneratorModal focus refinements', () => {
     );
 
     // Nothing selected yet — no banner, but every parsed sub-item is offered.
-    expect(screen.queryByText(/Active Focus/i)).toBeNull();
+    expect(screen.queryByText(/Focused on/i)).toBeNull();
     const chip = screen.getByRole('button', { name: 'indexing' });
     expect(chip.getAttribute('aria-pressed')).toBe('false');
 
     // Toggling a chip activates the focus and updates the count.
     fireEvent.click(chip);
     expect(chip.getAttribute('aria-pressed')).toBe('true');
-    expect(screen.getByText(/Active Focus: 1 Refinement/i)).toBeTruthy();
+    expect(screen.getByText(/Focused on 1 part/i)).toBeTruthy();
 
     // Toggling again clears it.
     fireEvent.click(chip);
-    expect(screen.queryByText(/Active Focus/i)).toBeNull();
+    expect(screen.queryByText(/Focused on/i)).toBeNull();
   });
 
   it('pre-selects the navigator’s focus items as pressed chips', () => {
@@ -223,7 +223,7 @@ describe('PromptGeneratorModal focus refinements', () => {
     expect(screen.getByRole('button', { name: 'primary keys' }).getAttribute('aria-pressed')).toBe(
       'false'
     );
-    expect(screen.getByText(/Active Focus: 1 Refinement/i)).toBeTruthy();
+    expect(screen.getByText(/Focused on 1 part/i)).toBeTruthy();
   });
 });
 
@@ -245,15 +245,15 @@ describe('PromptGeneratorModal scenario toggle', () => {
   it('shows scenario options by default and hides them when toggled off', () => {
     renderModal();
     // Scenario type options are visible by default.
-    expect(screen.getByText('Time Pressure')).toBeTruthy();
+    expect(screen.getByText('Time pressure')).toBeTruthy();
 
     // Toggle the switch (labelled "Scenario On" initially).
     fireEvent.click(screen.getByRole('switch'));
 
     // The type grid is replaced by the direct-question explainer.
-    expect(screen.queryByText('Time Pressure')).toBeNull();
+    expect(screen.queryByText('Time pressure')).toBeNull();
     expect(screen.getByText(/direct question/i)).toBeTruthy();
-    expect(screen.getByText('No Scenario')).toBeTruthy();
+    expect(screen.getByText('No scenario')).toBeTruthy();
   });
 });
 

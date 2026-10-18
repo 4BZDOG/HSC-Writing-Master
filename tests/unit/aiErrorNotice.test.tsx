@@ -74,7 +74,7 @@ describe('PromptGeneratorModal surfaces generation failures', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: 'Generate' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Generate question' }));
 
     await waitFor(() => {
       expect(screen.getByRole('alert')).toBeTruthy();

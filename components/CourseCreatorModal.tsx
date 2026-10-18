@@ -8,6 +8,21 @@ import { useScrollLock } from '../hooks/useScrollLock';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
 import DiscardConfirmBar from './DiscardConfirmBar';
 import { useFocusTrap } from '../hooks/useFocusTrap';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+  CREATOR_FIELD_LABEL,
+  CREATOR_INPUT,
+} from '../utils/creatorChrome';
 
 interface CourseCreatorModalProps {
   isOpen: boolean;
@@ -53,7 +68,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!courseName.trim()) {
-      setError('Please enter a course name.');
+      setError('Enter a course name.');
       return;
     }
     // Duplicate course names break import auto-mapping, which matches by name.
@@ -129,64 +144,43 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   const repeatedRows = duplicateCodeRows(outcomes);
 
   return (
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Create a new course"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={guard.requestCloseFromBackdrop}
-    >
+    <div className={CREATOR_BACKDROP} onClick={guard.requestCloseFromBackdrop}>
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="course-creator-title"
+        className={`${CREATOR_SHELL} max-w-3xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
-                <BookOpen className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Create New Course
-                </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                  Define a course and its syllabus outcomes.
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={guard.requestClose}
-              aria-label="Close"
-              className="w-9 h-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <BookOpen className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            <p className={CREATOR_KICKER}>New course</p>
+            <h2 id="course-creator-title" className={CREATOR_TITLE}>
+              Create a course
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={guard.requestClose}
+            aria-label="Close"
+            className={CREATOR_CLOSE}
+          >
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
         {/* Form */}
-        <form
-          onSubmit={handleSubmit}
-          className="flex-grow flex flex-col overflow-hidden bg-[rgb(var(--color-bg-surface))] light:bg-white"
-        >
-          <div className="p-6 space-y-5 flex-grow overflow-y-auto">
-            {/* Course Name */}
+        <form onSubmit={handleSubmit} className="flex-1 min-h-0 flex flex-col overflow-hidden">
+          <div className={`${CREATOR_BODY} space-y-5`}>
+            {/* Course name */}
             <div>
-              <label
-                htmlFor="course-name"
-                className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
-              >
-                Course Name
+              <label htmlFor="course-name" className={CREATOR_FIELD_LABEL}>
+                Course name
               </label>
               <input
                 type="text"
@@ -196,145 +190,162 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                   setCourseName(e.target.value);
                   if (error) setError(null);
                 }}
-                className="block w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl shadow-sm py-3 px-4 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] text-base"
+                className={CREATOR_INPUT}
                 placeholder="e.g., HSC Chemistry"
                 autoFocus
               />
             </div>
 
-            {/* Outcomes Section */}
-            <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 overflow-hidden">
-              {/* Outcomes Header — collapsible */}
+            {/* Outcomes section */}
+            <div className="rounded-panel border border-slate-200 dark:border-white/15 overflow-hidden">
+              {/* Outcomes header — collapsible */}
               <button
                 type="button"
                 onClick={() => setOutcomesExpanded(!outcomesExpanded)}
-                className="w-full flex items-center justify-between px-4 py-3 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 hover:bg-[rgb(var(--color-bg-surface-inset))]/60 light:hover:bg-slate-100 transition-colors"
+                aria-expanded={outcomesExpanded}
+                aria-controls="course-outcomes-panel"
+                className="w-full flex items-center justify-between gap-3 px-4 py-3 bg-slate-50 hover:bg-slate-100 dark:bg-[rgb(var(--color-bg-surface-inset))]/40 dark:hover:bg-[rgb(var(--color-bg-surface-inset))]/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
-                    Syllabus Outcomes
+                  <span className="text-sm font-semibold text-[rgb(var(--color-text-primary))]">
+                    Syllabus outcomes
                   </span>
-                  <span className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
+                  <span className="t-label text-[rgb(var(--color-text-muted))] bg-slate-200 dark:bg-[rgb(var(--color-bg-surface-inset))] px-2 py-0.5 rounded-full">
                     {validOutcomeCount > 0 ? `${validOutcomeCount} added` : 'optional'}
                   </span>
                 </div>
                 {outcomesExpanded ? (
-                  <ChevronUp className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
+                  <ChevronUp
+                    className="w-4 h-4 text-[rgb(var(--color-text-muted))] flex-shrink-0"
+                    aria-hidden="true"
+                  />
                 ) : (
-                  <ChevronDown className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500" />
+                  <ChevronDown
+                    className="w-4 h-4 text-[rgb(var(--color-text-muted))] flex-shrink-0"
+                    aria-hidden="true"
+                  />
                 )}
               </button>
 
-              {outcomesExpanded && (
-                <div className="p-4 space-y-4">
-                  {/* Year 11 and Year 12 have entirely separate outcomes. */}
-                  <div
-                    role="tablist"
-                    aria-label="Outcome year"
-                    className="flex items-center gap-1 p-1 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-100"
-                  >
-                    {SYLLABUS_YEARS.map((y) => {
-                      const selected = y.id === outcomeYear;
-                      const count = countFor(y.id);
-                      return (
-                        <button
-                          key={y.id}
-                          type="button"
-                          role="tab"
-                          id={`outcome-year-tab-${y.id}`}
-                          aria-selected={selected}
-                          aria-controls="outcome-year-panel"
-                          onClick={() => setOutcomeYear(y.id)}
-                          // The selected tab carries a border as well as a
-                          // lighter fill: in the light theme white-on-slate-100
-                          // alone is too near a difference to read at a glance.
-                          className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold border transition-colors ${
-                            selected
-                              ? 'bg-[rgb(var(--color-bg-surface-light))] light:bg-white border-[rgb(var(--color-border-secondary))] light:border-slate-300 text-[rgb(var(--color-text-primary))] light:text-slate-900 shadow-sm'
-                              : 'border-transparent text-[rgb(var(--color-text-muted))] light:text-slate-600 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900'
-                          }`}
-                        >
-                          {y.label}
-                          {count > 0 && (
-                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))]">
-                              {count}
-                            </span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                    {yearShortLabel(outcomeYear)} outcomes. Add them now, or use the Outcomes Editor
-                    later to paste and parse them with AI.
-                  </p>
-
-                  <div
-                    role="tabpanel"
-                    id="outcome-year-panel"
-                    aria-labelledby={`outcome-year-tab-${outcomeYear}`}
-                    className="space-y-3"
-                  >
-                    {outcomes.map((outcome, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start gap-2.5 p-3.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50/80 border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-200 hover:border-[rgb(var(--color-border-secondary))] light:hover:border-slate-300 transition-colors"
+              <div
+                id="course-outcomes-panel"
+                hidden={!outcomesExpanded}
+                className="p-3 sm:p-4 space-y-4 border-t border-slate-200 dark:border-white/15"
+              >
+                {/* Year 11 and Year 12 have entirely separate outcomes. */}
+                <div
+                  role="tablist"
+                  aria-label="Outcome year"
+                  className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-[rgb(var(--color-bg-surface-inset))]/50"
+                >
+                  {SYLLABUS_YEARS.map((y) => {
+                    const selected = y.id === outcomeYear;
+                    const count = countFor(y.id);
+                    return (
+                      <button
+                        key={y.id}
+                        type="button"
+                        role="tab"
+                        id={`outcome-year-tab-${y.id}`}
+                        aria-selected={selected}
+                        aria-controls="outcome-year-panel"
+                        onClick={() => setOutcomeYear(y.id)}
+                        // The selected tab carries a border as well as a
+                        // lighter fill: in the light theme white-on-slate-100
+                        // alone is too near a difference to read at a glance.
+                        className={`min-h-11 sm:min-h-0 flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-semibold border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent ${
+                          selected
+                            ? 'bg-white border-slate-300 text-slate-900 shadow-sm dark:bg-[rgb(var(--color-bg-surface-light))] dark:border-white/15 dark:text-[rgb(var(--color-text-primary))]'
+                            : 'border-transparent text-slate-600 hover:text-slate-900 dark:text-[rgb(var(--color-text-muted))] dark:hover:text-[rgb(var(--color-text-primary))]'
+                        }`}
                       >
-                        <span className="hidden sm:flex items-center justify-center w-5 h-5 rounded-lg bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200/80 text-[10px] font-bold text-[rgb(var(--color-text-muted))]/60 light:text-slate-500 flex-shrink-0 mt-2">
+                        {y.label}
+                        {count > 0 && (
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-[rgb(var(--color-accent))]/15 text-[rgb(var(--color-accent))]">
+                            {count}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <p className="t-label text-[rgb(var(--color-text-muted))]">
+                  {yearShortLabel(outcomeYear)} outcomes. Add them now, or use the Outcomes Editor
+                  later to paste and parse them with AI.
+                </p>
+
+                <div
+                  role="tabpanel"
+                  id="outcome-year-panel"
+                  aria-labelledby={`outcome-year-tab-${outcomeYear}`}
+                  className="space-y-3"
+                >
+                  {outcomes.map((outcome, index) => (
+                    // The code and its remove button share the first line, and the
+                    // description takes the row's full width under them. Beside a
+                    // number and a delete column, a phone left the description
+                    // about 190px wide.
+                    <div
+                      key={index}
+                      className="flex flex-col gap-2 p-3 sm:p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:border-slate-300 dark:bg-[rgb(var(--color-bg-surface-inset))]/30 dark:border-white/10 dark:hover:border-white/20 transition-colors"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="hidden sm:flex items-center justify-center w-5 h-5 rounded-lg bg-slate-200 dark:bg-[rgb(var(--color-bg-surface-inset))] text-[10px] font-bold text-[rgb(var(--color-text-muted))] flex-shrink-0">
                           {index + 1}
                         </span>
-                        <div className="flex flex-col gap-2 flex-1 min-w-0">
-                          <input
-                            type="text"
-                            value={outcome.code}
-                            onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
-                            placeholder={`e.g. SE-${stem}-01`}
-                            className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full sm:w-48 font-mono text-sm font-semibold flex-shrink-0"
-                          />
-                          <textarea
-                            value={outcome.description}
-                            onChange={(e) =>
-                              handleOutcomeChange(index, 'description', e.target.value)
-                            }
-                            placeholder="Outcome description..."
-                            rows={2}
-                            className="bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-lg py-2.5 px-3.5 text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] w-full text-sm resize-y min-h-[52px] leading-relaxed"
-                          />
-                          {repeatedRows.has(index) && (
-                            <p className="text-[11px] text-amber-400 light:text-amber-600">
-                              {outcome.code.trim()} is already listed above — this row will be
-                              ignored.
-                            </p>
-                          )}
-                        </div>
+                        <input
+                          type="text"
+                          value={outcome.code}
+                          onChange={(e) => handleOutcomeChange(index, 'code', e.target.value)}
+                          placeholder={`e.g. SE-${stem}-01`}
+                          aria-label={`Outcome ${index + 1} code`}
+                          className="min-w-0 flex-1 sm:flex-none sm:w-48 rounded-lg border border-slate-300 dark:border-white/15 bg-white dark:bg-[rgb(var(--color-bg-surface-light))] py-2.5 px-3.5 font-mono text-base sm:text-sm font-semibold text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-dim))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))]"
+                        />
                         <button
                           type="button"
                           onClick={() => handleDeleteOutcome(index)}
-                          className="p-2 text-[rgb(var(--color-text-muted))]/50 light:text-slate-500 hover:text-red-400 light:hover:text-red-500 transition rounded-lg flex items-center hover:bg-red-500/10 light:hover:bg-red-50 flex-shrink-0 mt-1"
-                          title="Delete Outcome"
+                          aria-label={`Remove outcome ${index + 1}`}
+                          title={`Remove outcome ${index + 1}`}
+                          className="ml-auto min-w-11 min-h-11 sm:min-w-0 sm:min-h-0 p-2 flex items-center justify-center flex-shrink-0 rounded-lg text-slate-500 hover:text-red-500 hover:bg-red-50 dark:text-[rgb(var(--color-text-muted))] dark:hover:text-red-400 dark:hover:bg-red-500/10 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                         >
-                          <Trash2 className="h-4 w-4" />
+                          <Trash2 className="h-4 w-4" aria-hidden="true" />
                         </button>
                       </div>
-                    ))}
+                      <textarea
+                        value={outcome.description}
+                        onChange={(e) => handleOutcomeChange(index, 'description', e.target.value)}
+                        placeholder="Outcome description…"
+                        aria-label={`Outcome ${index + 1} description`}
+                        rows={2}
+                        className="w-full min-h-[52px] rounded-lg border border-slate-300 dark:border-white/15 bg-white dark:bg-[rgb(var(--color-bg-surface-light))] py-2.5 px-3.5 text-base sm:text-sm leading-relaxed text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-dim))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y"
+                      />
+                      {repeatedRows.has(index) && (
+                        <p className="t-label text-amber-600 dark:text-amber-400">
+                          {outcome.code.trim()} is already listed above — this row will be ignored.
+                        </p>
+                      )}
+                    </div>
+                  ))}
 
-                    <button
-                      type="button"
-                      onClick={handleAddOutcome}
-                      className="w-full py-2.5 px-4 rounded-xl text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 transition text-sm font-semibold border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50"
-                    >
-                      <Plus className="inline w-4 h-4 mr-1" /> Add {yearShortLabel(outcomeYear)}{' '}
-                      Outcome
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={handleAddOutcome}
+                    className="min-h-11 sm:min-h-0 w-full flex items-center justify-center gap-1.5 py-2.5 px-4 rounded-xl text-sm font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/5 hover:bg-[rgb(var(--color-accent))]/10 border border-dashed border-[rgb(var(--color-accent))]/30 hover:border-[rgb(var(--color-accent))]/50 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    <Plus className="w-4 h-4" aria-hidden="true" />
+                    Add {yearShortLabel(outcomeYear)} outcome
+                  </button>
                 </div>
-              )}
+              </div>
             </div>
           </div>
 
           {error && (
-            <p className="mx-6 mb-4 text-red-400 light:text-red-600 text-sm bg-red-900/30 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200">
+            <p
+              role="alert"
+              className="mx-5 sm:mx-6 mb-4 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 p-3 rounded-lg border border-red-200 dark:border-red-500/20"
+            >
               {error}
             </p>
           )}
@@ -347,20 +358,20 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
               onDiscard={guard.confirmDiscard}
             />
           ) : (
-            <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-end gap-3 flex-shrink-0">
+            <div className={CREATOR_FOOTER}>
               <button
                 type="button"
                 onClick={guard.requestClose}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
+                className={CREATOR_SECONDARY_BUTTON}
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={!courseName.trim()}
-                className="py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed"
+                className={CREATOR_PRIMARY_BUTTON}
               >
-                Create Course
+                Create course
               </button>
             </div>
           )}
