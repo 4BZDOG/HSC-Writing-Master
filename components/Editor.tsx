@@ -33,7 +33,7 @@ import {
 import { PromptVerb, WritingMode } from '../types';
 import { getReadinessChroma, type ReadinessResult } from '../utils/draftReadiness';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { MAX_CARD_HEIGHT } from '../utils/layoutConstants';
+import { MAX_CARD_HEIGHT, cappedCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { PlusLockChip } from './UpgradeModal';
 import { useOpenedOnce } from './PanelDisclosure';
@@ -580,8 +580,8 @@ const Editor = forwardRef<
         // applies before the prompt has been measured, so a long saved draft
         // cannot stretch the page during the first paint.
         style={{
-          minHeight: `${minTotalHeight || 300}px`,
-          maxHeight: `${minTotalHeight || MAX_CARD_HEIGHT}px`,
+          minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : '300px',
+          maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : `${MAX_CARD_HEIGHT}px`,
         }}
       >
         <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">

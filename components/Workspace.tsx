@@ -20,7 +20,6 @@ import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import {
-  cardHeightCap,
   MIN_CARD_HEIGHT,
   isTwoColumnWidth,
   isMeaningfulHeightChange,
@@ -260,11 +259,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
     if (max > 0) setSyncedHeaderHeight(max);
   }, [promptHeaderHeight, editorHeaderHeight]);
 
-  // The viewport ceiling, refreshed on resize: how tall the pair may grow
-  // before a longer prompt would start pushing the writing area off screen.
-  const [heightCap, setHeightCap] = useState(() =>
-    cardHeightCap(typeof window === 'undefined' ? 900 : window.innerHeight)
-  );
   // Whether the two cards are actually side by side. Below `xl` the grid stacks
   // them, and in Focus Mode there is only ever one column, so in both cases the
   // cross-card sync has nothing to align and is suppressed entirely.
@@ -272,10 +266,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
     typeof window === 'undefined' ? true : isTwoColumnWidth(window.innerWidth)
   );
   useEffect(() => {
-    const update = () => {
-      setHeightCap(cardHeightCap(window.innerHeight));
-      setIsSideBySide(isTwoColumnWidth(window.innerWidth));
-    };
+    const update = () => setIsSideBySide(isTwoColumnWidth(window.innerWidth));
     update();
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
@@ -292,14 +283,15 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const syncedTotal = syncChrome ? syncedTotalHeight : undefined;
 
   // The prompt's own content height, floored so a one-line question still
-  // leaves somewhere to write and capped so a very long scenario scrolls
-  // inside its card instead of pushing the writing area below the fold.
+  // leaves somewhere to write. The viewport cap that makes a very long
+  // scenario scroll inside its card is applied by each card in CSS
+  // (`cappedCardHeight`), so it follows a window drag in the same frame.
   // Nothing the student types feeds back into this.
   useEffect(() => {
     if (promptTotalHeight > 0) {
-      setSyncedTotalHeight(Math.min(heightCap, Math.max(MIN_CARD_HEIGHT, promptTotalHeight)));
+      setSyncedTotalHeight(Math.max(MIN_CARD_HEIGHT, promptTotalHeight));
     }
-  }, [promptTotalHeight, heightCap]);
+  }, [promptTotalHeight]);
 
   useEffect(() => {
     const max = Math.max(promptFooterHeight, editorFooterHeight);

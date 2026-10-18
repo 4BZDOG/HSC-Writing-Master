@@ -111,14 +111,25 @@ export const isTwoColumnWidth = (viewportWidth: number): boolean =>
   viewportWidth >= TWO_COLUMN_BREAKPOINT;
 
 /**
- * The tallest the pair may grow on this viewport. A fixed ceiling either wastes
- * a large display or, on a laptop, buries the writing area below the fold — so
- * it is derived from the window and then clamped. When the floor wins (a short
- * window), a long prompt scrolls at MIN_CARD_HEIGHT rather than the pair
- * collapsing to something unusable.
+ * The height both cards are pinned to: the prompt's own height, capped by the
+ * viewport.
+ *
+ * The cap is the tallest the pair may grow on this window. A fixed ceiling
+ * either wastes a large display or, on a laptop, buries the writing area below
+ * the fold — so it is derived from the window and then clamped. When the floor
+ * wins (a short window), a long prompt scrolls at MIN_CARD_HEIGHT rather than
+ * the pair collapsing to something unusable.
+ *
+ * In CSS, not in state, because the cap has to move with the window in the
+ * same frame. As state it arrived through a resize listener, a render and then
+ * an effect's second render, so while the cards were at the cap (a prompt
+ * longer than the window has room for) every step of a window drag painted
+ * them at the previous height first and corrected a frame later: the bottom of
+ * the pair shuddered whenever it reached the bottom of the window. `100vh` is
+ * the same measure as `window.innerHeight`, scrollbars included.
  */
-export const cardHeightCap = (viewportHeight: number): number =>
-  Math.max(MIN_CARD_HEIGHT, Math.min(MAX_CARD_HEIGHT, viewportHeight - VIEWPORT_RESERVE));
+export const cappedCardHeight = (naturalHeight: number): string =>
+  `min(${naturalHeight}px, clamp(${MIN_CARD_HEIGHT}px, 100vh - ${VIEWPORT_RESERVE}px, ${MAX_CARD_HEIGHT}px))`;
 
 /**
  * Natural (content-driven) height of the prompt card — the single value the
