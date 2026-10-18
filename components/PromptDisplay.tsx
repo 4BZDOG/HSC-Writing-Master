@@ -63,6 +63,7 @@ import {
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import AiBusyOverlay from './AiBusyOverlay';
+import LoadingIndicator from './LoadingIndicator';
 import FlagContentModal from './FlagContentModal';
 import { TERM_CHIP_RESTING } from '../utils/termChrome';
 import { withIndefiniteArticle } from '../utils/grammar';
@@ -1130,10 +1131,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       z="z-10"
                       maxWidth="max-w-xs"
                     >
-                      <div className="flex flex-col items-center gap-3 text-indigo-500 dark:text-indigo-400">
-                        <Loader2 className="w-10 h-10 animate-spin" />
-                        <span className="t-label">Generating context…</span>
-                      </div>
+                      {/* The same wait card as every other AI request. It was a bare
+                          spinner here because the card did not fit a box this small;
+                          it now sizes itself to the veil (index.css, `.ai-wait-stage`). */}
+                      <LoadingIndicator
+                        task="generation"
+                        message="Writing a scenario"
+                        messages={[
+                          'Reading the question',
+                          'Choosing a setting for it',
+                          'Writing the scenario',
+                        ]}
+                        duration={8}
+                      />
                     </AiBusyOverlay>
                   </div>
                 )}

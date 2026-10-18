@@ -5,6 +5,7 @@ import Workspace from './components/Workspace';
 import AppHeader from './components/AppHeader';
 import MeshOverlay from './components/MeshOverlay';
 import Toast from './components/Toast';
+import BootSplash from './components/BootSplash';
 import ApiHealthIndicator from './components/ApiHealthIndicator';
 import AmbientAurora from './components/AmbientAurora';
 import ApiStatusIndicator from './components/ApiStatusIndicator';
@@ -498,11 +499,15 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     // with a modal for it froze the UI whenever the AI was slow or unreachable.
     // It now surfaces as a subtle, non-blocking inline indicator in the prompt
     // header instead (PromptDisplay `isEnriching`).
-    if (isGeneratingScenario) return 'Modelling environment...';
-    if (isRegeneratingKeywords) return 'Analysing syllabus keywords...';
-    if (isSuggestingKeywords) return 'Discovering terminology...';
+    // NOTE: `isGeneratingScenario` is deliberately NOT here for the same
+    // reason. The question card covers its own scenario with a wait while it is
+    // written (PromptDisplay), and the whole-screen card on top hid it.
+    // The two left say what is happening in the reader's words; "analysing"
+    // also tells LoadingIndicator which drawing to show (its `sniffTask`).
+    if (isRegeneratingKeywords) return 'Analysing the syllabus terms';
+    if (isSuggestingKeywords) return 'Analysing the syllabus for more terms';
     return null;
-  }, [isGeneratingScenario, isRegeneratingKeywords, isSuggestingKeywords]);
+  }, [isRegeneratingKeywords, isSuggestingKeywords]);
 
   const quotaError = useMemo(() => {
     const errors = [
@@ -1511,7 +1516,17 @@ const App: React.FC = () => {
     }
   }, []);
 
-  if (isLoadingAuth) return null;
+  // A saved session is being restored. Show the boot splash on the shared
+  // background rather than a blank page; BootSplash waits before it shows the
+  // mark, so a fast restore looks exactly as it did.
+  if (isLoadingAuth) {
+    return (
+      <div className="relative z-10 selection:bg-indigo-500/30 selection:text-white">
+        <AnimatedBackground />
+        <BootSplash />
+      </div>
+    );
+  }
 
   if (isPasswordRecovery) {
     return (

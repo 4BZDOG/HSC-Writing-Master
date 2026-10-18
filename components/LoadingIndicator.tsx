@@ -26,8 +26,14 @@ import WaitNoteFigure from './WaitNoteFigure';
  *    selection), and an optional `band` that inks the drawing and bar in that
  *    band's colour.
  *
- * On a phone shorter than the card, the card scrolls inside the viewport rather
- * than having its top and bottom cut off by the veil.
+ * The card sizes itself to the box it covers (the `ai-wait-stage` of
+ * AiBusyOverlay or GlobalLoadingOverlay, see index.css). As that box gets
+ * shorter it drops the results chart, then the note and engine line, then the
+ * step list (a one-line current step takes its place, and the drawing shrinks),
+ * then the clock, and last the drawing. So a wait over a small dialog is a
+ * compact card rather than a tall one with its top and bottom cut off, and a
+ * phone gets the full card when it has the height for it. Each part that can go
+ * carries an `ai-wait-*` class for that.
  */
 
 export type AiTaskType = 'evaluation' | 'generation' | 'enrichment' | 'default';
@@ -200,20 +206,20 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
 
   return (
     <div
-      className={`relative w-full max-w-[400px] max-h-[calc(100dvh-2rem)] mx-auto overflow-x-hidden overflow-y-auto overscroll-contain rounded-panel shadow-lg backdrop-blur-3xl border p-8 sm:p-9 flex flex-col gap-6 animate-in ${
+      className={`ai-wait-card relative w-full max-w-[400px] mx-auto overflow-x-hidden overflow-y-auto overscroll-contain rounded-panel shadow-lg backdrop-blur-3xl border flex flex-col animate-in ${
         isError
           ? 'bg-red-50/90 dark:bg-slate-900/90 border-red-200 dark:border-red-500/30'
           : 'bg-white/90 dark:bg-slate-900/90 border-slate-200/80 dark:border-white/10'
       }`}
     >
       {isError ? (
-        <div className="h-[92px] flex items-center justify-center" aria-hidden="true">
+        <div className="h-[92px] flex items-center justify-center ai-wait-glyph" aria-hidden="true">
           <div className="w-16 h-16 rounded-tile flex items-center justify-center bg-red-100 dark:bg-red-500/15">
             <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
           </div>
         </div>
       ) : (
-        <AiWaitGlyph task={taskType} accent={accent} />
+        <AiWaitGlyph task={taskType} accent={accent} className="ai-wait-glyph" />
       )}
 
       {/* The one live region: the title, and the current step for a screen
@@ -223,7 +229,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
           own schedule. */}
       <div role="status" aria-live="polite" aria-atomic="true" className="text-center">
         <h3
-          className={`text-lg font-semibold tracking-tight ${
+          className={`ai-wait-title text-lg font-semibold tracking-tight ${
             isError ? 'text-red-700 dark:text-red-300' : 'text-slate-900 dark:text-slate-100'
           }`}
         >
@@ -242,9 +248,20 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
 
       {!isError && (
         <>
+          {/* The current step in one line, for a card too short for the whole
+              timeline. Outside the live region, like the timeline: the sr-only
+              line above is what a screen reader hears. Hidden until the card
+              shrinks to it (index.css). */}
+          <p
+            aria-hidden="true"
+            className="ai-wait-current-step text-sm text-center text-slate-600 dark:text-slate-300 truncate"
+          >
+            {visibleSteps[stepIndex]}
+          </p>
+
           {/* The steps as a short timeline — it IS a sequence, so it is drawn
               as one: a thread down the left, filled where it has been. */}
-          <ul aria-hidden="true" className="relative space-y-2 pl-1">
+          <ul aria-hidden="true" className="relative space-y-2 pl-1 ai-wait-steps">
             <span className="absolute left-[8px] top-2 bottom-2 w-px bg-slate-200 dark:bg-slate-700" />
             {visibleSteps.map((step, i) => {
               const state = i < stepIndex ? 'done' : i === stepIndex ? 'active' : 'pending';
@@ -307,7 +324,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
               )}
             </div>
             {elapsed >= 2 && (
-              <p className="flex justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 tabular-nums">
+              <p className="ai-wait-clock flex justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 tabular-nums">
                 <span>{formatSeconds(elapsed)}</span>
                 {hasEstimate && (
                   <span className="text-right">
@@ -324,12 +341,21 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
             <>
               {/* The note, in the margin (see WaitNoteFigure). Outside the live
                   region, so it is never announced on its own clock. */}
-              <WaitNoteFigure key={note.text} note={note} accent={accent} />
+              <WaitNoteFigure
+                key={note.text}
+                note={note}
+                accent={accent}
+                className="ai-wait-note"
+              />
 
-              {showResultsChart && <HscResultsCard />}
+              {showResultsChart && (
+                <div className="ai-wait-results">
+                  <HscResultsCard />
+                </div>
+              )}
 
               <p
-                className={`text-center text-xs text-slate-500 dark:text-slate-400 ${
+                className={`ai-wait-engine text-center text-xs text-slate-500 dark:text-slate-400 ${
                   showResultsChart ? '' : '-mt-2'
                 }`}
               >

@@ -10,6 +10,8 @@ interface WaitNoteFigureProps {
    * alpha to the value, so a theme token works as well as a hex.
    */
   accent: string;
+  /** Extra classes for the figure, e.g. `ai-wait-note`, which lets the wait card drop the note when it is short. */
+  className?: string;
 }
 
 /**
@@ -23,9 +25,9 @@ interface WaitNoteFigureProps {
  * Callers keep this OUTSIDE their live region, so the note is never announced
  * on its own clock.
  */
-const WaitNoteFigure: React.FC<WaitNoteFigureProps> = ({ note, accent }) => (
+const WaitNoteFigure: React.FC<WaitNoteFigureProps> = ({ note, accent, className }) => (
   <figure
-    className="flex gap-3 pl-3 border-l-2 animate-fade-in"
+    className={`flex gap-3 pl-3 border-l-2 animate-fade-in${className ? ` ${className}` : ''}`}
     style={{ borderColor: `color-mix(in srgb, ${accent} 40%, transparent)` }}
   >
     <PenLine

@@ -40,11 +40,11 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
   if (!shouldShow || !mounted || typeof document === 'undefined' || !document.body) return null;
 
   return createPortal(
-    <div className="fixed inset-0 z-loading bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in cursor-wait">
+    <div className="ai-wait-stage fixed inset-0 z-loading bg-white/80 dark:bg-[rgb(var(--color-bg-base))]/75 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in cursor-wait">
       <div className="relative">
         {/* Animated Glow Background */}
         <div
-          className={`absolute inset-0 bg-gradient-to-r ${isErrorState ? 'from-red-500 to-orange-500' : 'from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))]'} rounded-2xl blur-xl opacity-20 animate-pulse-glow`}
+          className={`absolute inset-0 bg-gradient-to-r ${isErrorState ? 'from-red-500 to-orange-500' : 'from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))]'} rounded-panel blur-xl opacity-20 animate-pulse-glow`}
         ></div>
 
         <LoadingIndicator message={message} error={error} isError={isErrorState} />
@@ -60,7 +60,7 @@ const GlobalLoadingOverlay: React.FC<GlobalLoadingOverlayProps> = ({ message, er
                were silently unclickable, so the rule is declared rather than
                left to DOM order. Enforced by
                tests/unit/modalCloseButtonStacking.test.ts. */
-            className="absolute top-3 right-3 z-20 p-1.5 rounded-full hover:bg-white/10 light:hover:bg-slate-200 transition-colors text-[rgb(var(--color-text-muted))]"
+            className="absolute top-3 right-3 z-20 p-1.5 rounded-full hover:bg-slate-900/5 dark:hover:bg-white/10 transition-colors text-[rgb(var(--color-text-muted))]"
             aria-label="Close"
           >
             <X className="w-4 h-4" />

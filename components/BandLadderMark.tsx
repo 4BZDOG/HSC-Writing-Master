@@ -29,9 +29,17 @@ interface BandLadderMarkProps {
   /** Overrides the band fill — the header tile sits ON the brand gradient, so
    *  purple-on-indigo would disappear and it takes white instead. */
   fillClass?: string;
+  /** Waiting cue: each rung dips in turn, staggered left to right (the boot
+   *  splash while a saved session is restored). Opacity only, and it is stilled
+   *  under reduced motion. Off everywhere the mark is a mark, not a wait. */
+  animated?: boolean;
 }
 
-const BandLadderMark: React.FC<BandLadderMarkProps> = ({ size = 'hero', fillClass }) => {
+const BandLadderMark: React.FC<BandLadderMarkProps> = ({
+  size = 'hero',
+  fillClass,
+  animated = false,
+}) => {
   const fill = fillClass ?? getBandConfig(6).solidBg;
   const isHero = size === 'hero';
   return (
@@ -40,12 +48,16 @@ const BandLadderMark: React.FC<BandLadderMarkProps> = ({ size = 'hero', fillClas
       aria-label="The NESA band ladder, filled to Band 6"
       className={`flex items-center ${isHero ? 'gap-2 w-[224px]' : 'gap-[2px] w-7 sm:w-8'}`}
     >
-      {BAND_RUNGS.map((band) => (
+      {BAND_RUNGS.map((band, i) => (
         // Square, with no radius at all: `drawBandScale` prints these as
         // `doc.rect`, and the radius scale starts at `rounded-lg` — 8px on a
         // 4px rung is a capsule, which is a different mark. See
         // `tests/unit/surfaceScale.test.ts`.
-        <span key={band} className={`flex-1 ${isHero ? 'h-3' : 'h-2'} ${fill}`} />
+        <span
+          key={band}
+          className={`flex-1 ${isHero ? 'h-3' : 'h-2'} ${fill}${animated ? ' ladder-boot-rung' : ''}`}
+          style={animated ? { animationDelay: `${i * 120}ms` } : undefined}
+        />
       ))}
     </div>
   );

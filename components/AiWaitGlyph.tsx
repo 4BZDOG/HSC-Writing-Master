@@ -361,10 +361,15 @@ interface AiWaitGlyphProps {
   task: AiTaskType;
   /** Ink colour for the writing and highlighting glyphs. */
   accent: string;
+  /** Extra classes for the box, e.g. `ai-wait-glyph`, which lets the wait card scale it down. */
+  className?: string;
 }
 
-const AiWaitGlyph: React.FC<AiWaitGlyphProps> = ({ task, accent }) => (
-  <div className="h-[92px] flex items-center justify-center" aria-hidden="true">
+const AiWaitGlyph: React.FC<AiWaitGlyphProps> = ({ task, accent, className }) => (
+  <div
+    className={`h-[92px] flex items-center justify-center${className ? ` ${className}` : ''}`}
+    aria-hidden="true"
+  >
     {task === 'evaluation' ? (
       <WeighingLadder />
     ) : task === 'generation' ? (
