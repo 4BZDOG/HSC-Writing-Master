@@ -108,7 +108,7 @@ const UrlFetchField: React.FC<UrlFetchFieldProps> = ({
           className="min-h-11 sm:min-h-0 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 light:bg-blue-600 light:hover:bg-blue-700 text-white text-sm font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 flex-shrink-0"
         >
           {isFetching ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
+            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
           ) : (
             <Globe className="w-4 h-4" />
           )}

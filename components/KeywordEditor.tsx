@@ -290,6 +290,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
                 onClick={studioLocked ? () => requestUpgrade('aiContentStudio') : onRegenerate}
                 disabled={isLoading}
                 aria-label={regenerateTitle}
+                aria-busy={isRegenerating || undefined}
                 title={regenerateTitle}
                 className={toolIconClass(studioLocked)}
               >

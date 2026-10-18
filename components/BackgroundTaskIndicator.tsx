@@ -15,7 +15,12 @@ const BackgroundTaskIndicator: React.FC<BackgroundTaskIndicatorProps> = ({ task 
     switch (task.status) {
       case 'running':
         return {
-          icon: <Loader2 className="w-4 h-4 text-[rgb(var(--color-accent))] animate-spin" />,
+          icon: (
+            <Loader2
+              className="w-4 h-4 text-[rgb(var(--color-accent))] animate-spin"
+              aria-hidden="true"
+            />
+          ),
           borderColor: 'border-[rgb(var(--color-accent))]/30',
           progressBar:
             'bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))]',

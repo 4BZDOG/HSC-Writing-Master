@@ -667,7 +667,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       className="t-label inline-flex items-center gap-1 leading-none bg-black/20 border border-white/20 rounded-full px-1.5 py-0.5 animate-fade-in"
                       title="Fetching this question's scenario and syllabus terms in the background — you can start writing now."
                     >
-                      <Loader2 className="w-2.5 h-2.5 animate-spin" />
+                      <Loader2 className="w-2.5 h-2.5 animate-spin" aria-hidden="true" />
                       <span className="hidden 2xl:inline">Enhancing</span>
                     </span>
                   )}
@@ -982,10 +982,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                           className={`max-sm:size-11 p-1.5 rounded-lg transition-colors ${
                             studioChrome || 'text-indigo-400 hover:bg-indigo-500/10'
                           }`}
+                          aria-label={studioTitle('Regenerate Scenario')}
+                          aria-busy={isGeneratingScenario || undefined}
                           title={studioTitle('Regenerate Scenario')}
                         >
                           <RefreshCw
                             className={`w-3.5 h-3.5 ${isGeneratingScenario ? 'animate-spin' : ''}`}
+                            aria-hidden="true"
                           />
                         </button>
                       )}
@@ -1312,6 +1315,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   onClick={studioAction(onSuggestOutcomes)}
                   disabled={isSuggestingOutcomes}
                   aria-label="Auto-link outcomes with AI"
+                  aria-busy={isSuggestingOutcomes || undefined}
                   className={`${FOOTER_TOOL} ${
                     studioChrome ||
                     'bg-[rgb(var(--color-accent))]/10 border-[rgb(var(--color-accent))]/40 text-[rgb(var(--color-accent))] hover:bg-[rgb(var(--color-accent))]/20'

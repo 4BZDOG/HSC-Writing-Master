@@ -22,16 +22,25 @@ import { getBandConfig } from '../utils/renderUtils';
  */
 const BAND_RUNGS = [1, 2, 3, 4, 5, 6];
 
+/** Row gap and width, and rung height, for each size. */
+const LAYOUT = {
+  hero: { row: 'gap-2 w-[224px]', rung: 'h-3' },
+  mark: { row: 'gap-[2px] w-7 sm:w-8', rung: 'h-2' },
+  compact: { row: 'gap-1.5 w-28', rung: 'h-2' },
+} as const;
+
 interface BandLadderMarkProps {
   /** `hero` is the login page's full-width lockup; `mark` is the header tile,
-   *  where the same six segments have to survive being 40px wide. */
-  size?: 'hero' | 'mark';
+   *  where the same six segments have to survive being 40px wide; `compact` is
+   *  the 112px ladder a local data read shows while it waits (DataLoading). */
+  size?: 'hero' | 'mark' | 'compact';
   /** Overrides the band fill — the header tile sits ON the brand gradient, so
    *  purple-on-indigo would disappear and it takes white instead. */
   fillClass?: string;
   /** Waiting cue: each rung dips in turn, staggered left to right (the boot
-   *  splash while a saved session is restored). Opacity only, and it is stilled
-   *  under reduced motion. Off everywhere the mark is a mark, not a wait. */
+   *  splash while a saved session is restored, and DataLoading while a local
+   *  read runs). Opacity only, and it is stilled under reduced motion. Off
+   *  everywhere the mark is a mark, not a wait. */
   animated?: boolean;
 }
 
@@ -41,12 +50,12 @@ const BandLadderMark: React.FC<BandLadderMarkProps> = ({
   animated = false,
 }) => {
   const fill = fillClass ?? getBandConfig(6).solidBg;
-  const isHero = size === 'hero';
+  const layout = LAYOUT[size];
   return (
     <div
       role="img"
       aria-label="The NESA band ladder, filled to Band 6"
-      className={`flex items-center ${isHero ? 'gap-2 w-[224px]' : 'gap-[2px] w-7 sm:w-8'}`}
+      className={`flex items-center ${layout.row}`}
     >
       {BAND_RUNGS.map((band, i) => (
         // Square, with no radius at all: `drawBandScale` prints these as
@@ -55,7 +64,7 @@ const BandLadderMark: React.FC<BandLadderMarkProps> = ({
         // `tests/unit/surfaceScale.test.ts`.
         <span
           key={band}
-          className={`flex-1 ${isHero ? 'h-3' : 'h-2'} ${fill}${animated ? ' ladder-boot-rung' : ''}`}
+          className={`flex-1 ${layout.rung} ${fill}${animated ? ' ladder-boot-rung' : ''}`}
           style={animated ? { animationDelay: `${i * 120}ms` } : undefined}
         />
       ))}

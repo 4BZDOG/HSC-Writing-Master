@@ -71,7 +71,7 @@ import { AGREEMENT_VERSION } from '../../data/legalContent';
 import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
-import LoadingIndicator from '../LoadingIndicator';
+import DataLoading from '../DataLoading';
 
 interface UsageDashboardProps {
   isOpen: boolean;
@@ -718,11 +718,13 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
             <button
               onClick={load}
               disabled={isLoading || isBusy || !remote}
+              aria-busy={isLoading || undefined}
               aria-label="Refresh"
               className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center disabled:opacity-50"
             >
               <RefreshCw
                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${isLoading ? 'animate-spin' : ''}`}
+                aria-hidden="true"
               />
             </button>
             <button
@@ -750,9 +752,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
               </p>
             </div>
           ) : isLoading ? (
-            <div className="h-48 flex items-center justify-center">
-              <LoadingIndicator messages={['Loading usage data…']} duration={2} />
-            </div>
+            <DataLoading label="Loading usage" />
           ) : (
             <>
               {/* Headline numbers */}

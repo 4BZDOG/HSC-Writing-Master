@@ -336,6 +336,14 @@ export default defineConfig(({ mode }) => {
               return 'core';
             }
 
+            // The band ladder mark is eager (AppHeader, AuthBrand, BootSplash),
+            // and DataLoading now imports it too, from inside the admin tooling.
+            // Without a home of its own Rollup folded it into `admin`, and the
+            // entry had to import that whole chunk to draw the header tile.
+            if (id.includes('/components/BandLadderMark')) {
+              return 'core';
+            }
+
             if (id.includes('/components/admin/')) {
               return 'admin';
             }

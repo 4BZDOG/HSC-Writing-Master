@@ -69,7 +69,7 @@ const BillingAlertBanner: React.FC = () => {
         className="min-h-11 sm:min-h-0 t-label flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 text-slate-900 shadow-sm hover:brightness-105 active:scale-[0.98] transition-all disabled:opacity-60"
       >
         {isOpeningPortal ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          <Loader2 className="w-3.5 h-3.5 animate-spin" aria-hidden="true" />
         ) : (
           <CreditCard className="w-3.5 h-3.5" />
         )}

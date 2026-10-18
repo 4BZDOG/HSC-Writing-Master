@@ -28,7 +28,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import ConfirmationModal from '../ConfirmationModal';
-import LoadingIndicator from '../LoadingIndicator';
+import DataLoading from '../DataLoading';
 import { TOOL_HEAD } from '../../utils/adminChrome';
 
 type KindFilter = 'all' | 'prompt' | 'sample_answer' | 'structure';
@@ -260,11 +260,13 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
             <button
               onClick={load}
               disabled={isLoading}
+              aria-busy={isLoading || undefined}
               aria-label="Refresh"
               className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
             >
               <RefreshCw
                 className={`w-4 h-4 text-[rgb(var(--color-text-muted))] ${isLoading ? 'animate-spin' : ''}`}
+                aria-hidden="true"
               />
             </button>
             <button
@@ -318,9 +320,7 @@ const ReviewQueueModal: React.FC<ReviewQueueModalProps> = ({ isOpen, onClose, sh
           )}
 
           {isLoading ? (
-            <div className="h-40 flex items-center justify-center">
-              <LoadingIndicator messages={['Loading review queue…']} duration={2} />
-            </div>
+            <DataLoading label="Loading the review queue" />
           ) : visibleItems.length === 0 ? (
             <div className="text-center py-16">
               <Inbox className="w-12 h-12 text-[rgb(var(--color-text-muted))] mx-auto mb-3" />

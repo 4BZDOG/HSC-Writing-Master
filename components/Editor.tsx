@@ -1040,7 +1040,10 @@ const Editor = forwardRef<
                       {draftSaved ? (
                         <Check className="w-3.5 h-3.5" />
                       ) : (
-                        <Loader2 className="w-3.5 h-3.5 animate-spin opacity-50" />
+                        <Loader2
+                          className="w-3.5 h-3.5 animate-spin opacity-50"
+                          aria-hidden="true"
+                        />
                       )}
                       {draftSaved ? 'Saved' : 'Saving'}
                     </span>

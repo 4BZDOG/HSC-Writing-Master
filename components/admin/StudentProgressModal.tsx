@@ -25,7 +25,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
-import LoadingIndicator from '../LoadingIndicator';
+import DataLoading from '../DataLoading';
 import { TOOL_HEAD } from '../../utils/adminChrome';
 
 interface StudentProgressModalProps {
@@ -398,18 +398,14 @@ const StudentProgressModal: React.FC<StudentProgressModalProps> = ({
               </div>
 
               {isLoading ? (
-                <div className="h-48 flex items-center justify-center">
-                  <LoadingIndicator messages={['Loading progress…']} duration={2} />
-                </div>
+                <DataLoading label="Loading progress" />
               ) : !data ? (
                 <section>
                   <h3 className="t-section !normal-case !tracking-normal !text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-3 flex items-center gap-2">
                     <Users className="w-3.5 h-3.5" /> Students · pick one
                   </h3>
                   {isRosterLoading ? (
-                    <div className="h-24 flex items-center justify-center">
-                      <LoadingIndicator messages={['Loading roster…']} duration={1} />
-                    </div>
+                    <DataLoading label="Loading the class list" />
                   ) : roster.length === 0 ? (
                     <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600 italic py-6 text-center">
                       No students have submitted marked responses in this window. You can still look
