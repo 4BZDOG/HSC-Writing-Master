@@ -364,7 +364,7 @@ const FocusHarness: React.FC<{ collapsed: boolean; jumps: number }> = ({ collaps
       {/* The wrapper `App` puts the `onFocusCapture` on, so "has anyone ever
           stood in the navigator?" is answered the same way here. */}
       <div onFocusCapture={noteNavigatorFocused}>
-        <div ref={navigatorRef} tabIndex={-1} data-testid="navigator" />
+        <nav ref={navigatorRef} tabIndex={-1} data-testid="navigator" />
       </div>
       <button ref={expandButtonRef}>Change</button>
       <button data-testid="crumb">Topic</button>

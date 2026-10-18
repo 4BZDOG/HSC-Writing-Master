@@ -1,5 +1,9 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-18 (The rest of the navigator redesign, #151)
+
+- **Fixed.** The syllabus navigator is a `<nav>` landmark ("Syllabus navigator"), so a screen reader can reach it from its landmark list beside the breadcrumb. The question picker's tier runs are named groups that own their questions; their headings were `role="presentation"`, so a screen reader heard twenty questions and none of the six kinds they are sorted into. These were the two parts of #151 (August) still missing from main: that branch's history is unrelated to main's and its navigator predates about 250 PRs, and the rest of it (the cascade notice, the picker's focus return and level names, the fold's focus hand-off, the focus trap's `preventScroll`, the navigator contrast checks) had landed by other routes (#417).
+
 ## [Unreleased] - 2026-10-18 (Round four: the purple and the gradients, the cards on a laptop, and the round-three follow-ups)
 
 - **Changed.** The decoration that read as generated rather than designed is gone from the onboarding, the navigator, the data vault and the paywall. The quick start and the user agreement opened on an indigo-to-sky gradient band with a blurred white blob; their headers are the dialog's own surface with a hairline under it, and the text is the normal text colours in both themes. Primary actions are solid indigo (the navigator's Generate and its inline topic button were a gradient and a purple fill), "Manual" is a neutral secondary called "Write a question", and the paywall's buttons and header are solid amber rather than amber-to-orange. Hover lifts (`hover:scale-105` and its kin), coloured glow shadows, the loading overlay's pulsing halo and the brand-gradient progress fills went with them. Band and verb gradients, which say which band something is, stay (#416).

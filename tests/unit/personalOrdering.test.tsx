@@ -196,11 +196,12 @@ const renderPicker = async (attempts: [string, AttemptSummary][]): Promise<HTMLE
   return screen.getByRole('listbox');
 };
 
-/** The group headings, in order, as the open list currently shows them. */
+/** The groups' names, in order, as the open list currently shows them. Read
+ *  from the groups themselves, which is what a screen reader announces. */
 const headings = (list: HTMLElement): string[] =>
   within(list)
-    .getAllByRole('presentation')
-    .map((h) => h.textContent ?? '');
+    .getAllByRole('group')
+    .map((g) => g.getAttribute('aria-label') ?? '');
 
 describe('the question picker, once it knows how the reader went', () => {
   beforeEach(() => {
