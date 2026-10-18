@@ -273,7 +273,7 @@ describe('SampleAnswerGeneratorModal mark reset across prompts', () => {
 
     // Marks toggle, so adding 7 to the default (full marks) makes a batch of two.
     fireEvent.click(screen.getByText('7'));
-    expect(screen.getByText('Generate 2 Sample Answers')).toBeTruthy();
+    expect(screen.getByText('Generate 2 sample answers')).toBeTruthy();
 
     // Close, switch prompt, reopen — the modal stays mounted in the real app.
     rerender(
@@ -296,7 +296,7 @@ describe('SampleAnswerGeneratorModal mark reset across prompts', () => {
     // The stale marks (7 and 10, both > 4 total) must be gone; default is full marks.
     const tier = getCommandTermInfo(small.verb).tier;
     const bandFull = getBandForMark(4, 4, tier);
-    expect(screen.getByText(`Generate Band ${bandFull} Answer`)).toBeTruthy();
+    expect(screen.getByText(`Generate a Band ${bandFull} answer`)).toBeTruthy();
     expect(screen.getByText(/4\/4 marks/)).toBeTruthy();
   });
 });

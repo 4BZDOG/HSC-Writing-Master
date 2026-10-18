@@ -4,20 +4,28 @@ import { QualityCheckResult } from '../types';
 import { performQualityCheck } from '../services/geminiService';
 import { resolveTarget } from '../services/aiConfig';
 import { getModelById } from '../services/aiModels';
-import {
-  X,
-  ShieldCheck,
-  CheckCircle,
-  AlertTriangle,
-  Sparkles,
-  RefreshCw,
-  Check,
-} from 'lucide-react';
+import { X, ClipboardCheck, CheckCircle, AlertTriangle, Sparkles } from 'lucide-react';
 import LoadingIndicator from './LoadingIndicator';
 import AiErrorNotice from './AiErrorNotice';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+} from '../utils/creatorChrome';
+
+/** The shared backdrop, lifted above the modal layer this check can open over. */
+const QUALITY_BACKDROP = CREATOR_BACKDROP.replace('z-modal', 'z-modal-elevated');
 
 interface QualityCheckModalProps {
   isOpen: boolean;
@@ -110,61 +118,57 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
   const reviewEngineLabel =
     getModelById(resolveTarget('reasoning').model)?.label ?? 'the selected AI engine';
 
+  // What the prompt in `performQualityCheck` asks the model to do, in order: read
+  // the content, score it, and list each issue with its fix.
+  const subject = contentType === 'code' ? 'code' : 'question';
+
   return createPortal(
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Quality check"
-      className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-modal-elevated p-4"
-      onClick={handleClose}
-    >
+    <div className={QUALITY_BACKDROP} onClick={handleClose}>
       <div
-        className="bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="quality-check-title"
+        className={`${CREATOR_SHELL} max-w-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center shadow-lg">
-                <ShieldCheck className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Content Quality Check
-                </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-500">
-                  Automated review against best practices
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={handleClose}
-              disabled={isLoading}
-              aria-label="Close"
-              className="w-9 h-9 min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-[rgb(var(--color-text-muted))] light:text-slate-500 group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <ClipboardCheck className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            <p className={CREATOR_KICKER}>{contentType === 'code' ? 'Code' : 'Question'}</p>
+            <h2 id="quality-check-title" className={CREATOR_TITLE}>
+              Quality check
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={handleClose}
+            disabled={isLoading}
+            aria-label="Close"
+            className={`${CREATOR_CLOSE} disabled:opacity-40 disabled:cursor-not-allowed`}
+          >
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className={CREATOR_BODY}>
           {isLoading ? (
-            <div className="h-64 flex items-center justify-center">
+            // A minimum height, not a fixed one: the wait card is taller than
+            // 256px, and a fixed box centred it out of the top of the body.
+            <div className="min-h-[16rem] py-2 flex items-center justify-center">
               <LoadingIndicator
                 task="enrichment"
-                message="Running quality check"
-                messages={['Parsing content…', 'Checking syntax…', 'Validating against standards…']}
+                message="Checking quality"
+                messages={[
+                  `Reading the ${subject}`,
+                  'Scoring its quality',
+                  'Listing the issues and how to fix them',
+                ]}
                 duration={5}
                 band={4}
               />
@@ -211,7 +215,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
                       {result.status}
                     </span>
                     <span className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                      Quality Score
+                      Quality score
                     </span>
                   </div>
                   <p className="text-sm text-[rgb(var(--color-text-secondary))] leading-relaxed">
@@ -237,7 +241,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
                     {result.issues.map((issue, idx) => (
                       <div
                         key={idx}
-                        className="p-4 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 border border-[rgb(var(--color-border-secondary))] hover:border-[rgb(var(--color-border-primary))] transition-colors group"
+                        className="p-4 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 border border-slate-200 dark:border-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-colors group"
                       >
                         <div className="flex items-start gap-3">
                           <div
@@ -262,31 +266,28 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
               </div>
             </div>
           ) : null}
+
+          <p className="mt-6 t-label text-[rgb(var(--color-text-dim))] italic">
+            Review generated by {reviewEngineLabel}
+          </p>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 flex justify-between items-center flex-shrink-0">
-          <div className="text-xs text-[rgb(var(--color-text-dim))] light:text-slate-500 italic">
-            Review generated by {reviewEngineLabel}
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={handleClose}
-              disabled={isLoading}
-              className="py-2.5 px-5 rounded-lg text-sm font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              Close
+        <div className={CREATOR_FOOTER}>
+          <button
+            type="button"
+            onClick={handleClose}
+            disabled={isLoading}
+            className={CREATOR_SECONDARY_BUTTON}
+          >
+            Close
+          </button>
+          {result?.refinedContent && onUpdateContent && (
+            <button type="button" onClick={handleAutoFix} className={CREATOR_PRIMARY_BUTTON}>
+              <Sparkles className="w-4 h-4" aria-hidden="true" />
+              Apply auto-fixes
             </button>
-            {result?.refinedContent && onUpdateContent && (
-              <button
-                onClick={handleAutoFix}
-                className="px-5 py-2 rounded-lg text-sm font-bold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
-              >
-                <Sparkles className="w-4 h-4" />
-                Apply Auto-Fixes
-              </button>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </div>,

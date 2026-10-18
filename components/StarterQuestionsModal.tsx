@@ -15,7 +15,22 @@ import {
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
-import { Sparkles, X, CheckCircle2, AlertTriangle, Wand2 } from 'lucide-react';
+import { Sparkles, X, CheckCircle2, AlertTriangle, CircleHelp } from 'lucide-react';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+  CREATOR_FIELD_LABEL,
+  CREATOR_INPUT,
+} from '../utils/creatorChrome';
 
 interface StarterQuestionsModalProps {
   isOpen: boolean;
@@ -145,61 +160,50 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
   const stoppedEarly = ended && progress.completed + progress.failed < progress.total;
 
   return (
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Generate starter questions"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={handleClose}
-    >
+    <div className={CREATOR_BACKDROP} onClick={handleClose}>
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-2xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="starter-questions-title"
+        className={`${CREATOR_SHELL} max-w-2xl`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-300 bg-[rgb(var(--color-bg-surface))] light:bg-surface-elevated flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-accent))] flex items-center justify-center shadow-lg">
-                <Wand2 className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Starter Questions
-                </h2>
-                <p className="text-sm text-[rgb(var(--color-text-muted))]">
-                  {course.name} — one question for each empty syllabus point.
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={handleClose}
-              aria-label="Close"
-              disabled={isRunning}
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-light hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition flex items-center justify-center disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              <X className="w-4 h-4 text-muted" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <CircleHelp className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            <p className={`${CREATOR_KICKER} truncate`}>{course.name}</p>
+            <h2 id="starter-questions-title" className={CREATOR_TITLE}>
+              Write starter questions
+            </h2>
+          </div>
+          <button
+            type="button"
+            onClick={handleClose}
+            aria-label="Close"
+            disabled={isRunning}
+            className={`${CREATOR_CLOSE} disabled:opacity-40 disabled:cursor-not-allowed`}
+          >
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
-        <div className="p-6 space-y-5 overflow-y-auto flex-grow">
+        <div className={`${CREATOR_BODY} space-y-5`}>
           {!progress && (
             <>
               <div>
-                <label
-                  htmlFor="starter-scope"
-                  className="block text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800 mb-2"
-                >
+                <label htmlFor="starter-scope" className={CREATOR_FIELD_LABEL}>
                   Cover
                 </label>
                 <select
                   id="starter-scope"
                   value={topicId}
                   onChange={(e) => setTopicId(e.target.value)}
-                  className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-surface-inset border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-2.5 px-4 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
+                  className={CREATOR_INPUT}
                 >
                   <option value="__all__">The whole course</option>
                   <optgroup label="One topic">
@@ -212,7 +216,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
                 </select>
               </div>
 
-              <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 p-4 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface-inset">
+              <div className="rounded-xl border border-slate-300 dark:border-white/15 p-4 bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-surface-inset">
                 {targets.length === 0 ? (
                   <p className="text-sm text-muted flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-green-400 light:text-green-700" />
@@ -282,7 +286,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
               )}
 
               {progress.logs.length > 0 && (
-                <div className="rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface-inset border border-[rgb(var(--color-border-secondary))] light:border-slate-300 p-3 max-h-48 overflow-y-auto">
+                <div className="rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface-inset border border-slate-300 dark:border-white/15 p-3 max-h-48 overflow-y-auto">
                   <ul className="space-y-1 font-mono text-xs text-[rgb(var(--color-text-muted))]">
                     {progress.logs.slice(0, 30).map((line, i) => (
                       <li key={i}>{line}</li>
@@ -295,23 +299,19 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-surface-elevated border-t border-[rgb(var(--color-border-secondary))] light:border-slate-300 flex justify-end gap-3 flex-shrink-0">
+        <div className={CREATOR_FOOTER}>
           {!progress && (
             <>
-              <button
-                type="button"
-                onClick={handleClose}
-                className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-              >
+              <button type="button" onClick={handleClose} className={CREATOR_SECONDARY_BUTTON}>
                 Not now
               </button>
               <button
                 type="button"
                 onClick={handleStart}
                 disabled={targets.length === 0}
-                className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 hover:shadow-lg active:scale-[0.98] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                className={CREATOR_PRIMARY_BUTTON}
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4" aria-hidden="true" />
                 Write {targets.length} question{targets.length === 1 ? '' : 's'}
               </button>
             </>
@@ -320,7 +320,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
             <button
               type="button"
               onClick={stop}
-              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition"
+              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-xl text-sm font-semibold text-white bg-red-600 hover:bg-red-700 transition"
             >
               Stop
             </button>
@@ -329,11 +329,7 @@ const StarterQuestionsModal: React.FC<StarterQuestionsModalProps> = ({
               last task. A stopped or halted run leaves questions written and a
               person who needs to leave the modal. */}
           {ended && (
-            <button
-              type="button"
-              onClick={handleFinish}
-              className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white bg-green-700 hover:shadow-lg transition"
-            >
+            <button type="button" onClick={handleFinish} className={CREATOR_PRIMARY_BUTTON}>
               Done
             </button>
           )}

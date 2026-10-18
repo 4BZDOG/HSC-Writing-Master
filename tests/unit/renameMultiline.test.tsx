@@ -43,7 +43,7 @@ const renderRename = (over: Partial<React.ComponentProps<typeof RenameModal>> = 
       {...over}
     />
   );
-  return { onRename, onKeep, field: screen.getByLabelText('New Name') };
+  return { onRename, onKeep, field: screen.getByLabelText('New name') };
 };
 
 describe('renaming a multi-line dot point', () => {
@@ -62,7 +62,7 @@ describe('renaming a multi-line dot point', () => {
 
     const edited = DOT_POINT.replace('Influences on', 'Influences upon');
     fireEvent.change(field, { target: { value: edited } });
-    fireEvent.click(screen.getByText('Save Changes'));
+    fireEvent.click(screen.getByText('Save changes'));
 
     expect(onRename).toHaveBeenCalledWith(edited);
     expect(onRename.mock.calls[0][0].split('\n')).toHaveLength(6);
@@ -74,7 +74,7 @@ describe('renaming a multi-line dot point', () => {
     const { onRename, onKeep, field } = renderRename();
 
     fireEvent.change(field, { target: { value: 'Influences on the global economic activity' } });
-    fireEvent.click(screen.getByText('Save Changes'));
+    fireEvent.click(screen.getByText('Save changes'));
 
     expect(onKeep).toHaveBeenCalledWith([
       'biophysical',
@@ -105,6 +105,6 @@ describe('renaming a multi-line dot point', () => {
         initialName="Programming Fundamentals"
       />
     );
-    expect(screen.getByLabelText('New Name').tagName).toBe('INPUT');
+    expect(screen.getByLabelText('New name').tagName).toBe('INPUT');
   });
 });

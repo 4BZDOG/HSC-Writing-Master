@@ -69,7 +69,7 @@ describe('FocusAreaEditorModal', () => {
       target: { value: 'records and trees' },
     });
     fireEvent.click(screen.getByLabelText('Remove "trees"'));
-    fireEvent.click(screen.getByText('Save Focus Areas'));
+    fireEvent.click(screen.getByText('Save focus areas'));
 
     expect(onSave).toHaveBeenCalledWith(['arrays', 'records and trees']);
   });
@@ -81,7 +81,7 @@ describe('FocusAreaEditorModal', () => {
       target: { value: 'linked lists' },
     });
     fireEvent.click(screen.getByText('Add'));
-    fireEvent.click(screen.getByText('Save Focus Areas'));
+    fireEvent.click(screen.getByText('Save focus areas'));
 
     expect(onSave).toHaveBeenCalledWith(['linked lists']);
   });
@@ -91,7 +91,7 @@ describe('FocusAreaEditorModal', () => {
 
     fireEvent.click(screen.getByLabelText('Remove "arrays"'));
     expect(screen.getByText(/No focus areas/)).toBeTruthy();
-    fireEvent.click(screen.getByText('Save Focus Areas'));
+    fireEvent.click(screen.getByText('Save focus areas'));
 
     expect(onSave).toHaveBeenCalledWith([]);
   });

@@ -2,11 +2,26 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
-import { X, Save, AlertCircle, Award } from 'lucide-react';
+import { X, Save, AlertCircle, Award, FileText } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
+import {
+  CREATOR_BACKDROP,
+  CREATOR_SHELL,
+  CREATOR_HEADER,
+  CREATOR_ICON_TILE,
+  CREATOR_KICKER,
+  CREATOR_TITLE,
+  CREATOR_CLOSE,
+  CREATOR_BODY,
+  CREATOR_FOOTER,
+  CREATOR_SECONDARY_BUTTON,
+  CREATOR_PRIMARY_BUTTON,
+  CREATOR_FIELD_LABEL,
+  CREATOR_INPUT,
+} from '../utils/creatorChrome';
 
 interface SampleAnswerEditorModalProps {
   isOpen: boolean;
@@ -77,75 +92,51 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
   if (!isOpen || !sampleToEdit) return null;
 
   return createPortal(
-    <div
-      ref={dialogRef}
-      tabIndex={-1}
-      role="dialog"
-      aria-modal="true"
-      aria-label="Edit sample answer"
-      className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-4"
-      onClick={onClose}
-    >
+    <div className={CREATOR_BACKDROP} onClick={onClose}>
       <div
-        className="
-          bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-2xl shadow-lg
-          w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200
-          clip-stable animate-fade-in-up overflow-hidden
-          flex flex-col max-h-[90vh]
-        "
+        ref={dialogRef}
+        tabIndex={-1}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sample-editor-title"
+        className={`${CREATOR_SHELL} max-w-3xl`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="relative px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface))] light:bg-slate-50/50 flex-shrink-0">
-          <div
-            className="absolute inset-0 opacity-[0.08] light:opacity-[0.04] pointer-events-none mix-blend-overlay"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0v20M0 1h20' stroke='%23ffffff' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E")`,
-            }}
-          />
-          <div className="flex items-center justify-between relative z-10">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[rgb(var(--color-accent))] to-[rgb(var(--color-primary))] flex items-center justify-center shadow-lg">
-                <Save className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                  Edit Sample Answer
-                </h2>
-                <p className="text-sm text-muted">
-                  Manually adjust the answer details and performance level.
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all duration-200 flex items-center justify-center group"
-            >
-              <X className="w-4 h-4 text-muted group-hover:text-[rgb(var(--color-text-primary))] light:group-hover:text-slate-900 transition-colors" />
-            </button>
+        <header className={CREATOR_HEADER}>
+          <div aria-hidden="true" className={CREATOR_ICON_TILE}>
+            <FileText className="w-5 h-5" />
           </div>
-        </div>
+          <div className="min-w-0 flex-1">
+            {/* The question the answer belongs to, so the title can name the answer. */}
+            <p className={`${CREATOR_KICKER} truncate`}>{prompt.question}</p>
+            <h2 id="sample-editor-title" className={CREATOR_TITLE}>
+              Edit sample answer
+            </h2>
+          </div>
+          <button type="button" onClick={onClose} aria-label="Close" className={CREATOR_CLOSE}>
+            <X className="w-5 h-5" aria-hidden="true" />
+          </button>
+        </header>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-8 bg-[rgb(var(--color-bg-surface))] light:bg-white">
+        <div className={`${CREATOR_BODY} space-y-6 sm:space-y-8`}>
           <div>
-            <label htmlFor="answer-text" className="block text-sm font-bold text-muted mb-2">
-              Answer Text
+            <label htmlFor="answer-text" className={CREATOR_FIELD_LABEL}>
+              Answer text
             </label>
             <textarea
               id="answer-text"
               value={answerText}
               onChange={(e) => setAnswerText(e.target.value)}
               rows={10}
-              className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl p-4 text-base sm:text-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition font-serif leading-relaxed text-[rgb(var(--color-text-primary))] light:text-slate-900"
+              className={`${CREATOR_INPUT} font-serif leading-relaxed`}
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <div>
-              <label htmlFor="mark-input" className="block text-sm font-bold text-muted mb-3">
-                Mark ({`out of ${prompt.totalMarks}`})
+              <label htmlFor="mark-input" className={CREATOR_FIELD_LABEL}>
+                Mark (out of {prompt.totalMarks})
               </label>
               <div className="flex items-center gap-4">
                 <input
@@ -155,7 +146,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                   onChange={(e) => handleMarkChange(parseInt(e.target.value, 10) || 0)}
                   min="0"
                   max={prompt.totalMarks}
-                  className="w-24 bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-[rgb(var(--color-border-secondary))] light:border-slate-300 rounded-xl py-3 px-4 text-center text-lg font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition"
+                  className="w-24 rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-[rgb(var(--color-bg-surface-inset))] py-3 px-4 text-center text-lg font-black text-[rgb(var(--color-text-primary))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] transition"
                 />
                 <div className="h-1.5 flex-1 bg-white/5 light:bg-slate-200 rounded-full overflow-hidden border border-white/5 light:border-slate-300">
                   <div
@@ -167,7 +158,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-muted mb-3">Performance Band</label>
+              <span className={`block ${CREATOR_FIELD_LABEL}`}>Performance band</span>
               <div className="flex items-center gap-1.5">
                 {[1, 2, 3, 4, 5, 6].map((b) => {
                   const isSelected = band === b;
@@ -179,6 +170,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
                       onClick={() => !isCappedOut && setBand(b)}
                       disabled={isCappedOut && !isSelected}
                       type="button"
+                      aria-label={`Band ${b}`}
                       title={
                         isCappedOut
                           ? `'${prompt.verb}' caps this question at Band ${tierMaxBand}`
@@ -223,19 +215,13 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-50 flex items-center justify-end gap-3 flex-shrink-0">
-          <button
-            onClick={onClose}
-            className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-muted bg-[rgb(var(--color-bg-surface-light))] light:bg-[rgb(var(--color-bg-surface-inset))] border border-transparent light:border-slate-300 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-100 transition"
-          >
+        <div className={CREATOR_FOOTER}>
+          <button type="button" onClick={onClose} className={CREATOR_SECONDARY_BUTTON}>
             Cancel
           </button>
-          <button
-            onClick={handleSave}
-            className="min-h-11 sm:min-h-0 py-2.5 px-5 rounded-lg text-sm font-semibold text-white dark:text-slate-950 bg-gradient-to-r from-[rgb(var(--color-accent-dark))] to-[rgb(var(--color-accent))] hover:shadow-lg active:scale-[0.98] transition flex items-center gap-2"
-          >
-            <Save className="w-4 h-4" />
-            Save Changes
+          <button type="button" onClick={handleSave} className={CREATOR_PRIMARY_BUTTON}>
+            <Save className="w-4 h-4" aria-hidden="true" />
+            Save changes
           </button>
         </div>
       </div>

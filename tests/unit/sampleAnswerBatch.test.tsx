@@ -73,9 +73,9 @@ describe('SampleAnswerGeneratorModal batch generation', () => {
     // Default selection is full marks; add 1 and 2.
     fireEvent.click(markButton(1));
     fireEvent.click(markButton(2));
-    expect(screen.getByText('Generate 3 Sample Answers')).toBeTruthy();
+    expect(screen.getByText('Generate 3 sample answers')).toBeTruthy();
 
-    fireEvent.click(screen.getByText('Generate 3 Sample Answers'));
+    fireEvent.click(screen.getByText('Generate 3 sample answers'));
 
     await waitFor(() => expect(mockGenerate).toHaveBeenCalledTimes(3));
     expect(mockGenerate.mock.calls.map((c) => c[1])).toEqual([1, 2, TOTAL]);
@@ -85,7 +85,7 @@ describe('SampleAnswerGeneratorModal batch generation', () => {
   it('shows each answer to the next one so the ladder is graduated', async () => {
     renderModal();
     fireEvent.click(markButton(1));
-    fireEvent.click(screen.getByText('Generate 2 Sample Answers'));
+    fireEvent.click(screen.getByText('Generate 2 sample answers'));
 
     await waitFor(() => expect(mockGenerate).toHaveBeenCalledTimes(2));
 
@@ -103,14 +103,14 @@ describe('SampleAnswerGeneratorModal batch generation', () => {
     renderModal(onGenerated);
 
     fireEvent.click(markButton(2));
-    fireEvent.click(screen.getByText('Generate 2 Sample Answers'));
+    fireEvent.click(screen.getByText('Generate 2 sample answers'));
 
     await waitFor(() => expect(screen.getByText(/could not be generated/)).toBeTruthy());
     // The full-mark answer still landed in the library.
     expect(onGenerated).toHaveBeenCalledTimes(1);
     expect(onGenerated).toHaveBeenCalledWith(sample(TOTAL));
     // Only the failed mark stays selected, so "Generate" retries exactly that.
-    expect(screen.getByText(`Generate Band ${bandOf(2)} Answer`)).toBeTruthy();
+    expect(screen.getByText(`Generate a Band ${bandOf(2)} answer`)).toBeTruthy();
     expect(screen.getByText(/Model unavailable/)).toBeTruthy();
   });
 
@@ -118,7 +118,7 @@ describe('SampleAnswerGeneratorModal batch generation', () => {
     renderModal(vi.fn(), { sampleAnswers: [sample(TOTAL)] });
 
     fireEvent.click(screen.getByTitle(/every band that has no exemplar yet/));
-    fireEvent.click(screen.getByText(/^Generate \d+ Sample Answers$/));
+    fireEvent.click(screen.getByText(/^Generate \d+ sample answers$/));
 
     await waitFor(() => expect(mockGenerate).toHaveBeenCalled());
     const requested = mockGenerate.mock.calls.map((c) => c[1]);
