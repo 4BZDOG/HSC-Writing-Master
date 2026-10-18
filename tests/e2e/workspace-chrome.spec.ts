@@ -355,6 +355,55 @@ test.describe('workspace card chrome', () => {
   });
 
   /**
+   * Dragging the window's bottom edge up past the question. Below the height
+   * where the question fits, both cards are held at a cap taken from the
+   * window. The cap used to reach them through a resize listener and an
+   * effect, two renders after the resize, so every step of the drag painted
+   * the pair at the previous step's height before correcting it: the bottom of
+   * the cards shuddered against the bottom of the window. The first layout
+   * after a resize must already be the final one.
+   */
+  test('the pair follows a window drag in the same frame once it reaches the cap', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await openWorkspace(page);
+    await page.waitForTimeout(900);
+
+    const heights = () =>
+      page.evaluate(async () => {
+        const card = (text: string) => {
+          const h3 = Array.from(document.querySelectorAll('h3')).find((h) =>
+            h.textContent?.includes(text)
+          );
+          const box = h3?.closest('[class*="rounded-surface"]') as HTMLElement | null;
+          return box ? Math.round(box.getBoundingClientRect().height) : null;
+        };
+        const read = () => ({ prompt: card('Writing Prompt'), response: card('Written Response') });
+        const first = read();
+        for (let i = 0; i < 4; i++) await new Promise((r) => requestAnimationFrame(r));
+        return { first, settled: read() };
+      });
+
+    const open = await heights();
+    expect(open.settled.prompt).not.toBeNull();
+    // Shrink until the cap is well below the question, a few pixels at a time.
+    const capped = (open.settled.prompt ?? 0) + 180 - 60;
+    for (let h = capped + 40; h >= capped; h -= 8) {
+      await page.setViewportSize({ width: 1440, height: h });
+      const { first, settled } = await heights();
+      expect(first, `the first frame is the final one at ${h}px`).toEqual(settled);
+      expect(settled.response, `the writing area matches the question at ${h}px`).toBe(
+        settled.prompt
+      );
+    }
+    const last = await heights();
+    expect(last.settled.prompt!, 'the question is held at the cap').toBeLessThan(
+      open.settled.prompt!
+    );
+  });
+
+  /**
    * A response is only worth marking if the student wrote it, so the writing
    * surface refuses pasted text — and the exemplars offer a student no
    * one-click route around it.

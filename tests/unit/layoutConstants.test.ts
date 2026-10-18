@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   naturalCardHeight,
   naturalChromeHeight,
-  cardHeightCap,
+  cappedCardHeight,
   isMeaningfulHeightChange,
   isTwoColumnWidth,
   HEIGHT_SYNC_TOLERANCE,
@@ -62,7 +62,39 @@ describe('naturalCardHeight', () => {
   });
 });
 
-describe('cardHeightCap', () => {
+/**
+ * Resolves `cappedCardHeight`'s CSS for a given window height, as the browser
+ * would. Only the one shape it emits is understood, so a change to that shape
+ * fails here rather than passing untested.
+ */
+const resolveCss = (css: string, viewportHeight: number): number => {
+  const m = css.match(/^min\((\d+)px, clamp\((\d+)px, 100vh - (\d+)px, (\d+)px\)\)$/);
+  if (!m) throw new Error(`unexpected card height CSS: ${css}`);
+  const [natural, floor, reserve, ceiling] = m.slice(1).map(Number);
+  return Math.min(natural, Math.max(floor, Math.min(viewportHeight - reserve, ceiling)));
+};
+
+// The cap alone: a prompt taller than any window, so only the window decides.
+const cardHeightCap = (viewportHeight: number) =>
+  resolveCss(cappedCardHeight(10_000), viewportHeight);
+
+describe('cappedCardHeight', () => {
+  it('is the prompt itself when the window has room for it', () => {
+    expect(resolveCss(cappedCardHeight(520), 1000)).toBe(520);
+  });
+
+  /**
+   * The cap is CSS so it moves with the window in the same frame. As React
+   * state it reached the cards a render late, and a window drag painted the
+   * pair at the previous step's height first: the shudder at the bottom of the
+   * window. Nothing in the string may depend on the window size it was built at.
+   */
+  it('is one string for every window size, so a resize needs no render', () => {
+    expect(cappedCardHeight(700)).toContain('100vh');
+    expect(resolveCss(cappedCardHeight(700), 700)).toBeLessThan(700);
+    expect(resolveCss(cappedCardHeight(700), 1000)).toBe(700);
+  });
+
   it('leaves room for the app chrome on a typical window', () => {
     const cap = cardHeightCap(1000);
     expect(cap).toBeLessThan(1000);

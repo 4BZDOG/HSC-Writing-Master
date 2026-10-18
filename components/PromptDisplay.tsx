@@ -42,7 +42,7 @@ import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
 import ScenarioCarousel from './ScenarioCarousel';
 import { getCommandTermInfo, getRecommendedTime, getTargetBand } from '../data/commandTerms';
-import { naturalCardHeight } from '../utils/layoutConstants';
+import { cappedCardHeight, naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import {
   CARD_FOOTER_BOX,
@@ -586,8 +586,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
       // it doesn't. A question that outruns the cap scrolls in its body rather
       // than pushing the writing area below the fold.
       style={{
-        minHeight: minTotalHeight || undefined,
-        maxHeight: minTotalHeight ? `${minTotalHeight}px` : undefined,
+        minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
+        maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
       }}
     >
       <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
