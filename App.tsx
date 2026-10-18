@@ -5,6 +5,7 @@ import Workspace from './components/Workspace';
 import AppHeader from './components/AppHeader';
 import MeshOverlay from './components/MeshOverlay';
 import Toast from './components/Toast';
+import BootSplash from './components/BootSplash';
 import ApiHealthIndicator from './components/ApiHealthIndicator';
 import AmbientAurora from './components/AmbientAurora';
 import ApiStatusIndicator from './components/ApiStatusIndicator';
@@ -1511,7 +1512,17 @@ const App: React.FC = () => {
     }
   }, []);
 
-  if (isLoadingAuth) return null;
+  // A saved session is being restored. Show the boot splash on the shared
+  // background rather than a blank page; BootSplash waits before it shows the
+  // mark, so a fast restore looks exactly as it did.
+  if (isLoadingAuth) {
+    return (
+      <div className="relative z-10 selection:bg-indigo-500/30 selection:text-white">
+        <AnimatedBackground />
+        <BootSplash />
+      </div>
+    );
+  }
 
   if (isPasswordRecovery) {
     return (

@@ -118,8 +118,11 @@ const EvaluationProgressBar: React.FC<{ verb?: string }> = ({ verb }) => {
   // and its top edge is the header's own edge.
   return (
     <AiBusyOverlay show rounded="rounded-b-surface-inner">
-      <div ref={contentRef} className="flex flex-col items-center gap-5 text-center">
-        <AiWaitGlyph task="evaluation" accent={WAIT_INK} />
+      {/* `w-full`: the veil's inner box is a flex row now (so it can be capped at
+          the veil's height), and this block must still fill the width it always
+          has rather than shrink to its text. */}
+      <div ref={contentRef} className="w-full flex flex-col items-center gap-5 text-center">
+        <AiWaitGlyph task="evaluation" accent={WAIT_INK} className="ai-wait-glyph" />
 
         <div role="status" aria-live="polite" aria-atomic="true" className="space-y-1">
           <p className="text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-100">
@@ -136,7 +139,7 @@ const EvaluationProgressBar: React.FC<{ verb?: string }> = ({ verb }) => {
               }`}
             />
           </div>
-          <p className="flex justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 tabular-nums">
+          <p className="ai-wait-clock flex justify-between gap-3 text-xs text-slate-500 dark:text-slate-400 tabular-nums">
             <span>{formatTime(elapsedSec)}</span>
             <span className="text-right">
               {overdue
@@ -150,7 +153,7 @@ const EvaluationProgressBar: React.FC<{ verb?: string }> = ({ verb }) => {
             live region, so it is never announced on its own clock. No results
             chart here: this is the wait where the student's own band is decided. */}
         <div className="w-full max-w-sm">
-          <WaitNoteFigure key={note.text} note={note} accent={WAIT_INK} />
+          <WaitNoteFigure key={note.text} note={note} accent={WAIT_INK} className="ai-wait-note" />
         </div>
       </div>
     </AiBusyOverlay>

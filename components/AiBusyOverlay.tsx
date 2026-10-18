@@ -50,6 +50,14 @@ interface AiBusyOverlayProps {
  * The veil takes the surface token rather than a literal white, so a veil over
  * a white card lands on the paper's own ground in light and the card's surface
  * in dark, with no `light:` twin to keep in step.
+ *
+ * THE VEIL IS A SIZE CONTAINER (`ai-wait-stage`, index.css). The card inside it
+ * reads its height and width from this box and drops its least essential parts
+ * as the box shrinks, so a wait over a small dialog is a compact card rather
+ * than a tall one with both ends clipped. The inner wrapper is capped at the
+ * veil's height for the same reason: a child taller than the veil is centred
+ * and clipped on both ends, so the card is held inside the box and scrolls if
+ * it still has to.
  */
 const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
   show,
@@ -62,7 +70,7 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
 
   return (
     <div
-      className={`absolute inset-0 ${z} ${rounded} flex items-center justify-center p-4 sm:p-6 cursor-wait animate-fade-in bg-surface/95`}
+      className={`ai-wait-stage absolute inset-0 ${z} ${rounded} flex items-center justify-center p-4 sm:p-6 cursor-wait animate-fade-in bg-surface/95`}
       role="presentation"
     >
       {/* A soft accent bloom behind the card so it lifts off the veil rather
@@ -76,7 +84,7 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
             'radial-gradient(ellipse 60% 45% at 50% 50%, rgb(var(--color-accent) / 0.18), transparent 70%)',
         }}
       />
-      <div className={`relative w-full ${maxWidth} animate-in`}>{children}</div>
+      <div className={`relative w-full ${maxWidth} max-h-full flex animate-in`}>{children}</div>
     </div>
   );
 };

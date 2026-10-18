@@ -1076,6 +1076,123 @@ a:focus-visible,
     flex-basis: auto;
   }
 }
+
+/*
+ * The AI wait card sizes itself to the box it covers.
+ *
+ * A wait is laid over whatever surface started the request (components/AiBusyOverlay,
+ * or the full-screen GlobalLoadingOverlay). Those boxes run from a phone screen down to
+ * a small dialog about 300px tall, and the card was a fixed ~600px. In a small box the
+ * card overflowed the veil and both its ends were cut off. So the stage is a size
+ * container and the card reads its tiers from it. As the box gets shorter the least
+ * essential parts go first: the HSC chart, then the margin note and engine line, then
+ * the step timeline (the live region still announces the step, and a one-line current
+ * step takes the timeline's place) while the drawing shrinks, then the elapsed clock,
+ * and only in a box too short for anything else, the drawing itself.
+ *
+ * It is the box's size that decides, not the screen's, because the question is how much
+ * room the wait actually has. Without a stage the cq units fall back to the small
+ * viewport, so the card still fits a phone when it is used on its own.
+ *
+ * Every selector is a single class, so it beats the Tailwind utilities the components no
+ * longer carry. This block sits after @tailwind utilities, so the tiers that come later
+ * in the source win where two of them match (the narrow-width padding is last on
+ * purpose). The tiers only hide or shrink. Nothing here animates.
+ */
+.ai-wait-stage {
+  container: ai-wait / size;
+}
+.ai-wait-card {
+  padding: 2rem;
+  gap: 1.5rem;
+  max-height: calc(100cqh - 2rem);
+}
+@media (min-width: 640px) {
+  .ai-wait-card {
+    padding: 2.25rem;
+  }
+}
+/* The current step, shown in one line in place of the timeline once it is too short for that. */
+.ai-wait-current-step {
+  display: none;
+}
+@container ai-wait (max-height: 44rem) {
+  .ai-wait-results {
+    display: none;
+  }
+}
+@container ai-wait (max-height: 34rem) {
+  .ai-wait-note,
+  .ai-wait-engine {
+    display: none;
+  }
+  .ai-wait-card {
+    padding: 1.5rem;
+    gap: 1.25rem;
+  }
+}
+@container ai-wait (max-height: 26rem) {
+  .ai-wait-steps {
+    display: none;
+  }
+  .ai-wait-current-step {
+    display: block;
+  }
+  .ai-wait-glyph {
+    height: 64px;
+    transform: scale(0.72);
+  }
+}
+@container ai-wait (max-height: 18rem) {
+  .ai-wait-clock {
+    display: none;
+  }
+  .ai-wait-card {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+}
+@container ai-wait (max-height: 13rem) {
+  .ai-wait-glyph {
+    display: none;
+  }
+}
+@container ai-wait (max-width: 22rem) {
+  .ai-wait-card {
+    padding: 1.25rem;
+  }
+}
+
+/*
+ * The boot splash's ladder (components/BootSplash, BandLadderMark `animated`).
+ *
+ * Each rung dips to a quarter opacity and comes back, staggered by its index, so a
+ * wave passes along the ladder while a saved session is restored. Only opacity moves:
+ * no size, no position, nothing that repaints the layout. The rung rests at full
+ * opacity, so the reduced-motion rule (which ends every animation at once and drops
+ * its fill) leaves a complete, fully visible ladder rather than a dimmed one.
+ */
+@keyframes ladder-boot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+.ladder-boot-rung {
+  opacity: 1;
+  animation: ladder-boot 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* The stagger is an inline delay, which the global rule does not touch. Under
+     reduced motion the rungs should all be there at once, so the delay goes too. */
+  .ladder-boot-rung {
+    animation-delay: 0ms !important;
+  }
+}
+
 .band-header-wash {
   background-image: linear-gradient(
     90deg,
