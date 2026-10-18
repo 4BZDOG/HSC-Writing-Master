@@ -425,14 +425,28 @@ export const useSyllabusData = ({
       try {
         if (docsToImport.length === 0) return false;
 
-        let importedCount = 0;
-        let coursesAdded = 0;
-        let skippedTopics = 0;
+        const courseDocs = docsToImport.filter((doc) => doc.type === 'course');
+        const topicDocs = docsToImport.filter((doc) => doc.type === 'topic');
+
+        // Counted HERE, from the courses as they stand plus the ones being
+        // added, and not inside the updater below. React runs an updater on the
+        // spot only when nothing else is queued on that state; with another
+        // courses update pending it runs later, so counters it set read 0 when
+        // checked on the next line, this returned false, and the syllabus
+        // picker said the import had failed while the syllabuses were being
+        // added behind it. A topic finds its course among the same list the
+        // updater will see once the course documents are in.
+        const withIncoming = [
+          ...courses,
+          ...courseDocs.map((doc) => ({ ...(doc.data as Course), subject: doc.subject })),
+        ];
+        const coursesAdded = courseDocs.length;
+        const skippedTopics = topicDocs.filter(
+          (doc) => !resolveTopicTargetCourse(doc, withIncoming)
+        ).length;
+        const importedCount = coursesAdded + topicDocs.length - skippedTopics;
 
         updateCourses((draft) => {
-          const courseDocs = docsToImport.filter((doc) => doc.type === 'course');
-          const topicDocs = docsToImport.filter((doc) => doc.type === 'topic');
-
           courseDocs.forEach((doc) => {
             const importedCourse = { ...(doc.data as Course), subject: doc.subject };
             const existingCourseIndex = draft.findIndex(
@@ -449,22 +463,13 @@ export const useSyllabusData = ({
             } else {
               draft.push(importedCourse);
             }
-
-            importedCount++;
-            coursesAdded++;
           });
 
           topicDocs.forEach((doc) => {
             const targetCourse = resolveTopicTargetCourse(doc, draft);
-            if (!targetCourse) {
-              skippedTopics++;
-              return;
-            }
-
+            if (!targetCourse) return;
             const importedTopic = regenerateTopicIds(doc.data as Topic);
             mergeOrAddTopic(targetCourse.topics, importedTopic);
-
-            importedCount++;
           });
         });
 
@@ -511,7 +516,7 @@ export const useSyllabusData = ({
         return false;
       }
     },
-    [updateCourses, showToast]
+    [courses, updateCourses, showToast]
   );
 
   useEffect(() => {

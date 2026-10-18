@@ -92,7 +92,10 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
       const docsToImport = localDocs.filter((d) => selectedIds.has(d.id));
       const success = await onImport(docsToImport);
       if (success) onClose();
-      else setError('Import sequence failed. Re-initiating discovery…');
+      // The hook has already raised a notice saying why (no course for a topic,
+      // or a failure that changed nothing). This names the outcome, not a
+      // pipeline stage, and promises no retry it does not make.
+      else setError('Nothing was added. The notice that just appeared says why.');
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Internal system fault during data synthesis.');
     } finally {
