@@ -165,7 +165,7 @@ const BandTrend: React.FC<{ points: TrendPoint[] }> = ({ points }) => {
           x2={TREND_W}
           y2={y3}
           strokeDasharray="4 4"
-          className="stroke-[rgb(var(--color-border-secondary))]"
+          className="stroke-white/20 light:stroke-slate-300"
         />
         <polyline
           points={line}

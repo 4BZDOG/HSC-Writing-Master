@@ -169,7 +169,7 @@ const Trajectory: React.FC<{ points: (number | null)[] }> = ({ points }) => {
         y1={half}
         x2={SPARK_W}
         y2={half}
-        className="stroke-[rgb(var(--color-border-secondary))]"
+        className="stroke-white/20 light:stroke-slate-300"
         strokeWidth={1}
       />
       {coords.length > 1 && (

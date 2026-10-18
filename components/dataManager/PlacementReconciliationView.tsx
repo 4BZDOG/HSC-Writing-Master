@@ -280,7 +280,9 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                   disabled={!bulkPlacement.topicId}
                   className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-emerald-500 transition-colors disabled:opacity-40"
                 >
-                  <option value="">{bulkPlacement.topicId ? 'Select sub-topic…' : '—'}</option>
+                  <option value="">
+                    {bulkPlacement.topicId ? 'Select sub-topic…' : 'Choose a topic first'}
+                  </option>
                   {(
                     bulkCourse.topics.find((t) => t.id === bulkPlacement.topicId)?.subTopics || []
                   ).map((st) => (
@@ -497,7 +499,7 @@ const PlacementReconciliationView: React.FC<PlacementReconciliationViewProps> = 
                             className="w-full bg-[rgb(var(--color-bg-surface-inset))] text-xs text-[rgb(var(--color-text-primary))] border border-[rgb(var(--color-border-secondary))] rounded-lg p-2.5 sm:p-2 focus:outline-none focus:ring-1 focus:ring-[rgb(var(--color-accent))] transition-colors disabled:opacity-40"
                           >
                             <option value="">
-                              {placement.topicId ? 'Select sub-topic…' : '—'}
+                              {placement.topicId ? 'Select sub-topic…' : 'Choose a topic first'}
                             </option>
                             {subTopics.map((st) => (
                               <option key={st.id} value={st.id}>
