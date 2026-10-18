@@ -499,11 +499,15 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     // with a modal for it froze the UI whenever the AI was slow or unreachable.
     // It now surfaces as a subtle, non-blocking inline indicator in the prompt
     // header instead (PromptDisplay `isEnriching`).
-    if (isGeneratingScenario) return 'Modelling environment...';
-    if (isRegeneratingKeywords) return 'Analysing syllabus keywords...';
-    if (isSuggestingKeywords) return 'Discovering terminology...';
+    // NOTE: `isGeneratingScenario` is deliberately NOT here for the same
+    // reason. The question card covers its own scenario with a wait while it is
+    // written (PromptDisplay), and the whole-screen card on top hid it.
+    // The two left say what is happening in the reader's words; "analysing"
+    // also tells LoadingIndicator which drawing to show (its `sniffTask`).
+    if (isRegeneratingKeywords) return 'Analysing the syllabus terms';
+    if (isSuggestingKeywords) return 'Analysing the syllabus for more terms';
     return null;
-  }, [isGeneratingScenario, isRegeneratingKeywords, isSuggestingKeywords]);
+  }, [isRegeneratingKeywords, isSuggestingKeywords]);
 
   const quotaError = useMemo(() => {
     const errors = [

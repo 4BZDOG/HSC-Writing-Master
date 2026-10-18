@@ -229,7 +229,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
           own schedule. */}
       <div role="status" aria-live="polite" aria-atomic="true" className="text-center">
         <h3
-          className={`text-lg font-semibold tracking-tight ${
+          className={`ai-wait-title text-lg font-semibold tracking-tight ${
             isError ? 'text-red-700 dark:text-red-300' : 'text-slate-900 dark:text-slate-100'
           }`}
         >

@@ -70,7 +70,7 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
 
   return (
     <div
-      className={`ai-wait-stage absolute inset-0 ${z} ${rounded} flex items-center justify-center p-4 sm:p-6 cursor-wait animate-fade-in bg-surface/95`}
+      className={`absolute inset-0 ${z} ${rounded} cursor-wait animate-fade-in bg-surface/95`}
       role="presentation"
     >
       {/* A soft accent bloom behind the card so it lifts off the veil rather
@@ -84,7 +84,15 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
             'radial-gradient(ellipse 60% 45% at 50% 50%, rgb(var(--color-accent) / 0.18), transparent 70%)',
         }}
       />
-      <div className={`relative w-full ${maxWidth} max-h-full flex animate-in`}>{children}</div>
+      {/* The stage is its own layer, not the veil, and the gutter round the
+          card (`ai-wait-frame`) is inside it: a container query cannot style
+          the container, so a gutter on the veil could never give way in a box
+          only a line or two tall. */}
+      <div className="ai-wait-stage absolute inset-0">
+        <div className="ai-wait-frame h-full flex items-center justify-center">
+          <div className={`relative w-full ${maxWidth} max-h-full flex animate-in`}>{children}</div>
+        </div>
+      </div>
     </div>
   );
 };
