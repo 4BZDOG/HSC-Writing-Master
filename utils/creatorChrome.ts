@@ -21,6 +21,14 @@
 export const CREATOR_BACKDROP =
   'fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-modal p-3 sm:p-4';
 
+/** The same backdrop on a higher layer, for the dialogs that open over other
+ *  dialogs (rename, quality check, recalibrate, focus areas). Pass the layer
+ *  as a literal class (`'z-critical'`) so Tailwind sees it. Call it while
+ *  rendering, never at module scope: a module-level read of an imported value
+ *  is how a chunk cycle renders the page blank (`npm run check:eager-reads`). */
+export const creatorBackdrop = (layer: string): string =>
+  CREATOR_BACKDROP.replace('z-modal', layer);
+
 /** The outer box of a creator dialog. The caller adds its own `max-w-*`. It is
  *  capped to the dynamic viewport, so on a phone the header and footer stay in
  *  view and only the body scrolls. */

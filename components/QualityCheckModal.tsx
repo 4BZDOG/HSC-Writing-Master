@@ -11,7 +11,7 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import {
-  CREATOR_BACKDROP,
+  creatorBackdrop,
   CREATOR_SHELL,
   CREATOR_HEADER,
   CREATOR_ICON_TILE,
@@ -23,9 +23,6 @@ import {
   CREATOR_SECONDARY_BUTTON,
   CREATOR_PRIMARY_BUTTON,
 } from '../utils/creatorChrome';
-
-/** The shared backdrop, lifted above the modal layer this check can open over. */
-const QUALITY_BACKDROP = CREATOR_BACKDROP.replace('z-modal', 'z-modal-elevated');
 
 interface QualityCheckModalProps {
   isOpen: boolean;
@@ -123,7 +120,7 @@ const QualityCheckModal: React.FC<QualityCheckModalProps> = ({
   const subject = contentType === 'code' ? 'code' : 'question';
 
   return createPortal(
-    <div className={QUALITY_BACKDROP} onClick={handleClose}>
+    <div className={creatorBackdrop('z-modal-elevated')} onClick={handleClose}>
       <div
         ref={dialogRef}
         tabIndex={-1}

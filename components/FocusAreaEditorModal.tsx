@@ -6,7 +6,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { parseSubItemsFromDescription } from '../utils/dataManagerUtils';
 import {
-  CREATOR_BACKDROP,
+  creatorBackdrop,
   CREATOR_SHELL,
   CREATOR_HEADER,
   CREATOR_KICKER,
@@ -18,11 +18,6 @@ import {
   CREATOR_PRIMARY_BUTTON,
   CREATOR_INPUT,
 } from '../utils/creatorChrome';
-
-/**
- * The shared backdrop, lifted to this dialog's layer.
- */
-const FOCUS_BACKDROP = CREATOR_BACKDROP.replace('z-modal', 'z-focus-editor');
 
 /**
  * The header tile in the focus-area colour.
@@ -125,7 +120,7 @@ const FocusAreaEditorModal: React.FC<FocusAreaEditorModalProps> = ({
   };
 
   return createPortal(
-    <div className={FOCUS_BACKDROP} onClick={onClose}>
+    <div className={creatorBackdrop('z-focus-editor')} onClick={onClose}>
       <div
         ref={dialogRef}
         tabIndex={-1}

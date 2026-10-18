@@ -4,7 +4,7 @@ import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import {
-  CREATOR_BACKDROP,
+  creatorBackdrop,
   CREATOR_SHELL,
   CREATOR_HEADER,
   CREATOR_ICON_TILE,
@@ -18,12 +18,6 @@ import {
   CREATOR_FIELD_LABEL,
   CREATOR_INPUT,
 } from '../utils/creatorChrome';
-
-/**
- * The shared backdrop, lifted to the critical layer. Rename can be requested
- * while another dialog is open, so it must sit above every other modal.
- */
-const RENAME_BACKDROP = CREATOR_BACKDROP.replace('z-modal', 'z-critical');
 
 /**
  * Focus-area protection for a dot-point rename.
@@ -139,7 +133,9 @@ const RenameModal: React.FC<RenameModalProps> = ({
   const isButtonDisabled = !newName.trim() || !!error;
 
   return (
-    <div className={RENAME_BACKDROP} onClick={onClose}>
+    // The critical layer: rename can be requested while another dialog is open,
+    // so it must sit above every other modal.
+    <div className={creatorBackdrop('z-critical')} onClick={onClose}>
       <div
         ref={dialogRef}
         tabIndex={-1}

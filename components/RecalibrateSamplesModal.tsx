@@ -9,7 +9,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useUnsavedChanges } from '../hooks/useUnsavedChanges';
 import {
-  CREATOR_BACKDROP,
+  creatorBackdrop,
   CREATOR_SHELL,
   CREATOR_HEADER,
   CREATOR_ICON_TILE,
@@ -21,9 +21,6 @@ import {
   CREATOR_SECONDARY_BUTTON,
   CREATOR_PRIMARY_BUTTON,
 } from '../utils/creatorChrome';
-
-/** The shared backdrop, lifted to this dialog's layer. */
-const RECALIBRATE_BACKDROP = CREATOR_BACKDROP.replace('z-modal', 'z-recalibrate');
 
 interface RecalibrateSamplesModalProps {
   isOpen: boolean;
@@ -150,7 +147,7 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
   };
 
   return createPortal(
-    <div className={RECALIBRATE_BACKDROP} onClick={isRunning ? undefined : onClose}>
+    <div className={creatorBackdrop('z-recalibrate')} onClick={isRunning ? undefined : onClose}>
       <div
         ref={dialogRef}
         tabIndex={-1}
