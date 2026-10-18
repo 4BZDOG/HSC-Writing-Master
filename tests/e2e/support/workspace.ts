@@ -190,7 +190,7 @@ const DOT_POINTS_TO_TRY = 8;
  * closes the question list and takes the next dot point.
  */
 const pickOpenableQuestion = async (page: Page): Promise<void> => {
-  const questionTrigger = pickerNamed(page, 'Select Question...');
+  const questionTrigger = pickerNamed(page, 'Select question…');
 
   for (let index = 0; index < DOT_POINTS_TO_TRY; index++) {
     // The dot point may already be taken (the app selects the first one for a
@@ -233,7 +233,7 @@ const FOCUS_PICKER_LABEL = /^(All of this syllabus point|\d+ focus areas?)$/;
 const dotPointPicker = async (page: Page): Promise<Locator> => {
   const pickers = page.locator('button[aria-haspopup="listbox"]');
   const labels = await pickers.allTextContents();
-  const question = labels.findIndex((label) => label.includes('Select Question...'));
+  const question = labels.findIndex((label) => label.includes('Select question…'));
   const above = question < 0 ? labels.length : question;
   for (let i = above - 1; i >= 0; i--) {
     if (!FOCUS_PICKER_LABEL.test(labels[i].trim())) return pickers.nth(i);
@@ -247,7 +247,7 @@ const dotPointPicker = async (page: Page): Promise<Locator> => {
  * bundled curriculum can change without this needing to know any ids.
  */
 export const openFirstQuestion = async (page: Page): Promise<void> => {
-  for (const placeholder of ['Select Course...', 'Select Topic...', 'Select Sub-Topic...']) {
+  for (const placeholder of ['Select course…', 'Select topic…', 'Select sub-topic…']) {
     const trigger = pickerNamed(page, placeholder);
     if (!(await trigger.count())) continue; // already chosen for us
     if (!(await openPicker(page, trigger))) {

@@ -91,19 +91,18 @@ describe('question filter model', () => {
 
   it('says in words what it is holding back', () => {
     const bounds = describeQuestions(facets);
-    expect(summariseFilter(
+    expect(
+      summariseFilter(
         { tier: [4, 5], marks: [3, 8], pastHscOnly: false, unattemptedOnly: false },
         bounds
-      )).toEqual([
-      'Analyse → Discuss',
-    ]);
-    expect(summariseFilter(
+      )
+    ).toEqual(['Analyse → Discuss']);
+    expect(
+      summariseFilter(
         { tier: [2, 5], marks: [6, 6], pastHscOnly: true, unattemptedOnly: false },
         bounds
-      )).toEqual([
-      '6 marks',
-      'Past HSC only',
-    ]);
+      )
+    ).toEqual(['6 marks', 'Past HSC only']);
   });
 });
 
@@ -194,7 +193,7 @@ const renderPicker = (prompts: Prompt[], path: StatePath = statePath) =>
   render(<PromptSelector {...baseProps} courses={coursesWith(prompts)} statePath={path} />);
 
 const openQuestionList = (): HTMLElement => {
-  const trigger = screen.getByText('Select Question...');
+  const trigger = screen.getByText('Select question…');
   fireEvent.click(trigger.closest('button') as HTMLElement);
   return screen.getByRole('listbox');
 };

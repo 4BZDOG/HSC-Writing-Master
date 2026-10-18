@@ -143,7 +143,7 @@ describe('PromptSelector', () => {
 
   it('counts questions on each syllabus point', () => {
     renderAt({ courseId: 'c1', topicId: 't1', subTopicId: 's1' });
-    const list = openPicker(/select dot point/i);
+    const list = openPicker(/select syllabus point/i);
     expect(list.getByText(/^2 questions/)).toBeTruthy();
     expect(list.getByText(/^No questions yet/)).toBeTruthy();
   });

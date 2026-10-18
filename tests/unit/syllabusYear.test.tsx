@@ -321,7 +321,7 @@ const openYearList = () => {
 };
 
 const topicList = () => {
-  fireEvent.click(screen.getByText('Select Topic...').closest('button') as HTMLElement);
+  fireEvent.click(screen.getByText('Select topic…').closest('button') as HTMLElement);
   return screen.getByRole('listbox');
 };
 
@@ -448,7 +448,7 @@ describe('a curator filling an empty year', () => {
 
 describe('the sub-topic question count', () => {
   const openSubTopicList = () => {
-    fireEvent.click(screen.getByText('Select Sub-Topic...').closest('button') as HTMLElement);
+    fireEvent.click(screen.getByText('Select sub-topic…').closest('button') as HTMLElement);
     return screen.getByRole('listbox');
   };
 
