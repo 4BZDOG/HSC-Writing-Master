@@ -100,7 +100,10 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
           >
             <PanelReadChip show={read && !open} />
             <ListOrdered className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-            <span>How to answer</span>
+            {/* Icon-only below 375px, where the label left the verb beside it
+                too little room: "IDENTIFY" ran under the button at 320px. The
+                name stays whole for a screen reader. */}
+            <span className="max-[374px]:sr-only">How to answer</span>
             {/* The verb is in the name, not the visible label, which already
                 sits beside the term. */}
             <span className="sr-only"> {withIndefiniteArticle(info.term)} question</span>

@@ -119,18 +119,41 @@ describe('the reading size in the question card header', () => {
 });
 
 describe('the band chip in the question card header', () => {
+  // There are two: the corner bar's, from `sm`, and a chip on the meta line on a
+  // phone. jsdom applies no media queries, so both are in the document here, and
+  // each is hidden by CSS where the other shows.
   it('opens the verb guide, so a touch screen can reach what the tooltip says', () => {
     const props = baseProps();
     render(<PromptDisplay {...props} />);
 
-    fireEvent.click(screen.getByRole('button', { name: /band 5 is the target/i }));
-    expect(props.onVerbClick).toHaveBeenCalledTimes(1);
+    const bands = screen.getAllByRole('button', { name: /band 5 is the target/i });
+    expect(bands).toHaveLength(2);
+    bands.forEach((band) => fireEvent.click(band));
+    expect(props.onVerbClick).toHaveBeenCalledTimes(2);
+  });
+
+  it('shows one band at a time: the bar from sm, the meta-line chip below it', () => {
+    const { container } = render(<PromptDisplay {...baseProps()} />);
+    const bar = container.querySelector('[data-card-bar]') as HTMLElement;
+    expect(bar.className.split(/\s+/)).toContain('max-sm:hidden');
+
+    const [inBar, onMeta] = [
+      screen.getAllByRole('button', { name: /band 5 is the target/i }).find((b) => bar.contains(b)),
+      screen
+        .getAllByRole('button', { name: /band 5 is the target/i })
+        .find((b) => !bar.contains(b)),
+    ];
+    expect(inBar).toBeTruthy();
+    expect(onMeta!.className.split(/\s+/)).toContain('sm:hidden');
+    // The meta-line chip is on the verb's own line, so it wraps with it.
+    const verb = screen.getByRole('button', { name: /open the command verb guide/i });
+    expect(onMeta!.parentElement).toBe(verb.parentElement);
   });
 
   it('is plain text in Exam Mode, where the guide is assistance', () => {
     render(<PromptDisplay {...baseProps()} examMode />);
     expect(screen.queryByRole('button', { name: /is the target/i })).toBeNull();
-    expect(screen.getByText(/Band 5/)).toBeTruthy();
+    expect(screen.getAllByText(/Band 5/).length).toBeGreaterThan(0);
   });
 });
 

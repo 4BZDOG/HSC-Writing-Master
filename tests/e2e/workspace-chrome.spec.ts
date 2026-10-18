@@ -268,6 +268,68 @@ test.describe('workspace card chrome', () => {
    * questions that can be first), so the margin has to cover the longest of them.
    * 600 is still under the 620 that was the complaint.
    */
+  // On a phone the question's verb, marks and band share one line under the title,
+  // and the writing card's verb shares one with "How to answer". Both were laid out
+  // in grid cells that could meet: "IDENTIFY" ran under the marks bar and under the
+  // button at 320px, and "CRITICALLY EVALUATE" under the bar at 390px. Every control
+  // in those lines must stay clear of the others, whatever the verb.
+  for (const width of [320, 360, 390]) {
+    test(`a phone's header lines never overlap at ${width}px`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 900 });
+      await openWorkspace(page);
+      await page.waitForTimeout(700);
+
+      const m = await page.evaluate(() => {
+        const box = (el: Element | Range) => {
+          const r = el.getBoundingClientRect();
+          return { left: r.left, right: r.right, top: r.top, bottom: r.bottom, w: r.width };
+        };
+        const h3 = Array.from(document.querySelectorAll('h3')).find((h) =>
+          h.textContent?.includes('Writing Prompt')
+        ) as HTMLElement;
+        const header = h3.closest('[class*="rounded-t-"]') as HTMLElement;
+        const verb = header.querySelector('button[aria-label^="Open the command verb guide"]')!;
+        const meta = verb.parentElement!;
+        // Everything drawn on the verb's line, the heading, the reading size and the
+        // stat bar (hidden on a phone, where its stats are on the verb's line).
+        const pieces = [
+          ...Array.from(meta.children),
+          h3,
+          header.querySelector('[role="group"][aria-label="Reading size"]')!,
+          header.querySelector('[data-card-bar]')!,
+        ]
+          .map((el) => ({ name: (el.textContent ?? '').trim(), ...box(el) }))
+          .filter((b) => b.w > 0);
+        const how = Array.from(document.querySelectorAll('button')).find(
+          (b) => b.getAttribute('aria-controls') && /How to answer/.test(b.textContent ?? '')
+        )!;
+        // The verb's TEXT, not its box: the box is its grid column's width, and the
+        // word ran out of it and under the button without the box moving.
+        const range = document.createRange();
+        range.selectNodeContents(how.parentElement!.querySelector('span.t-label')!);
+        return { header: box(header), pieces, how: box(how), term: box(range) };
+      });
+      const at = `at ${width}px`;
+      const overlaps = (
+        a: { left: number; right: number; top: number; bottom: number },
+        b: typeof a
+      ) =>
+        a.left < b.right - 1 &&
+        a.right > b.left + 1 &&
+        a.top < b.bottom - 1 &&
+        a.bottom > b.top + 1;
+
+      for (let i = 0; i < m.pieces.length; i += 1) {
+        const a = m.pieces[i];
+        expect(a.right, `${a.name} inside the header ${at}`).toBeLessThanOrEqual(m.header.right);
+        for (const b of m.pieces.slice(i + 1)) {
+          expect(overlaps(a, b), `${a.name} clear of ${b.name} ${at}`).toBe(false);
+        }
+      }
+      expect(overlaps(m.term, m.how), `the verb clear of How to answer ${at}`).toBe(false);
+    });
+  }
+
   test('a one-line question does not open a screenful of empty card', async ({ page }) => {
     await page.setViewportSize({ width: 1600, height: 1000 });
     await openWorkspace(page);

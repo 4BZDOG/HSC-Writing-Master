@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { rewriteSampleNote, rewriteTarget } from '../../components/feedback/rewriteText';
-import { getBandForMark, getNextLevelTarget } from '../../data/commandTerms';
+import { getBandForMark, getNextLevelTarget, MAX_BAND_STEP_MARKS } from '../../data/commandTerms';
 import type { EvaluationResult } from '../../types';
 
 /**
@@ -122,5 +122,53 @@ describe('rewriteSampleNote', () => {
     expect(rewriteSampleNote({ mark: 5, band: 4, totalMarks: 8, originalMark: 3 })).toBe(
       "The student's own answer, lifted from 3/8 to 5/8 (Band 4) by the marker's edits."
     );
+  });
+});
+
+/**
+ * One step up: a band where the next band starts within two marks, otherwise a
+ * mark. A long question used to jump to the first mark of the next band, which
+ * was three or four marks (7/20 to 11/20), and to full marks from its ceiling band
+ * (17/20 to 20/20).
+ */
+describe('getNextLevelTarget lifts by one band or one mark', () => {
+  it('goes up one band on a short question, where a band is at most two marks', () => {
+    // 6 marks, Tier 4: 2/6 is Band 2, and Band 3 starts at 4/6.
+    expect(getNextLevelTarget(2, 6, 4)).toEqual({ targetMark: 4, targetBand: 3 });
+    // 12 marks, Tier 6: 5/12 is Band 3, and Band 4 starts at 7/12.
+    expect(getNextLevelTarget(5, 12, 6).targetMark).toBe(7);
+  });
+
+  it('goes up one mark when the next band is more than two marks away', () => {
+    expect(getNextLevelTarget(7, 20, 6).targetMark).toBe(8);
+    expect(getNextLevelTarget(0, 25, 6).targetMark).toBe(1);
+  });
+
+  it('goes up one mark in the ceiling band, not straight to full marks', () => {
+    expect(getNextLevelTarget(17, 20, 6).targetMark).toBe(18);
+    expect(getNextLevelTarget(21, 25, 6).targetMark).toBe(22);
+  });
+
+  it('never lifts by more than MAX_BAND_STEP_MARKS, at any mark on any question', () => {
+    for (const [total, tier] of [
+      [3, 2],
+      [6, 4],
+      [8, 5],
+      [10, 5],
+      [12, 6],
+      [15, 6],
+      [20, 6],
+      [25, 6],
+    ]) {
+      for (let mark = 0; mark < total; mark += 1) {
+        const step = getNextLevelTarget(mark, total, tier).targetMark - mark;
+        expect(step).toBeGreaterThanOrEqual(1);
+        expect(step).toBeLessThanOrEqual(MAX_BAND_STEP_MARKS);
+      }
+    }
+  });
+
+  it('leaves full marks where it is', () => {
+    expect(getNextLevelTarget(20, 20, 6).targetMark).toBe(20);
   });
 });

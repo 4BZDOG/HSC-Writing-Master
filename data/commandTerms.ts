@@ -1137,35 +1137,39 @@ export const markForBand = (targetBand: number, totalMarks: number, tier: number
 };
 
 /**
- * The next marking level up from a student's current mark: the lowest mark that
- * reaches the NEXT BAND, and that band.
+ * The furthest a rewrite may lift a mark and still count as "one band up". A
+ * wider step than this shows the student a different answer, not the next one.
+ */
+export const MAX_BAND_STEP_MARKS = 2;
+
+/**
+ * The next marking level up from a student's current mark: ONE band or ONE mark,
+ * whichever is the more appropriate step, and the band that mark is worth.
  *
- * This used to be "one more mark". The band was the honest reason to change it:
- * an improved response that lifts 2/6 to 3/6 and is still labelled Band 2 ·
- * Limited has shown the student a bigger answer, not a better grade, and the
- * report says so twice — in the header and on the ladder.
+ *   - One band, when the next band starts within `MAX_BAND_STEP_MARKS` of the
+ *     student's mark: the lowest mark of that band. On a question of 12 marks or
+ *     fewer that is every step, because no band there is wider than two marks.
+ *   - One mark otherwise: on a long question, where a band is three or four marks
+ *     wide, and in the question's ceiling band, where there is no band above.
  *
- * A band jump WAS tried before and reverted, because the rewrites came back
- * several times longer than the student's own answer. What makes it safe now is
- * that length is no longer governed by the target mark:
- * `getUpgradeCharCeiling` takes the SMALLER of the target's scope ceiling and
- * the student's own length plus a working margin, so a three-line answer gets
- * back four lines whether the target is one mark up or one band up. The ceiling
- * is anchored to the student, and moving the target does not move it.
+ * It was "the first mark of the next band, and full marks once in the ceiling
+ * band", which on long questions was a jump the student could not see in their
+ * own answer: 7/20 was rewritten to 11/20, 0/25 to 5/25, and 17/20 straight to
+ * 20/20. The point of the rewrite is the student's own answer, a step better,
+ * so the step is kept small.
  *
- * Two edges the old "+1" never had to think about:
+ * It was "one more mark" before that, and the band was the reason to move away:
+ * 2/6 lifted to 3/6 and still labelled Band 2 had shown a bigger answer, not a
+ * better grade. That is still honoured where it is cheap, which is the short
+ * questions: there the next band is never more than two marks away.
  *
- *   - A question whose ceiling band the student has already reached has no next
- *     band to aim at — a Tier 1 verb caps at Band 1, so EVERY mark on it is
- *     Band 1. There the target is full marks: still a real lift, still the
- *     honest ceiling, and never a band number the question cannot award.
- *   - `markForBand` returns the LOWEST mark reaching a band, so on a question
- *     where the student sits high inside their band it can only ever be above
- *     them — but the fallback it returns when no mark reaches the asked-for band
- *     is `totalMarks`, which CAN equal the mark they already have. The target is
- *     therefore never allowed below `currentMark`, and a student already on full
- *     marks gets `targetMark === totalMarks`, which every caller already reads
- *     as "nothing to lift".
+ * Length is not governed by the target: `getUpgradeCharCeiling` takes the
+ * SMALLER of the target's scope ceiling and the student's own length plus a
+ * working margin, so the rewrite is anchored to what the student wrote.
+ *
+ * The target is never below `currentMark`, and a student already on full marks
+ * gets `targetMark === totalMarks`, which every caller reads as "nothing to
+ * lift".
  *
  * Every surface that names the improvement target (the AI brief, the saved
  * exemplar's mark, the "Improved Response" header, the PDF) reads it from here
@@ -1183,13 +1187,15 @@ export const getNextLevelTarget = (
   // ceiling, not Band 6.
   const ceilingBand = getBandForMark(safeTotal, safeTotal, tier);
 
+  const oneMark = Math.min(safeTotal, safeCurrent + 1);
+  const nextBandStart =
+    currentBand < ceilingBand
+      ? Math.max(markForBand(currentBand + 1, safeTotal, tier), oneMark)
+      : undefined;
   const targetMark =
-    currentBand >= ceilingBand
-      ? safeTotal
-      : Math.min(
-          safeTotal,
-          Math.max(markForBand(currentBand + 1, safeTotal, tier), safeCurrent + 1)
-        );
+    nextBandStart !== undefined && nextBandStart - safeCurrent <= MAX_BAND_STEP_MARKS
+      ? nextBandStart
+      : oneMark;
 
   return { targetMark, targetBand: getBandForMark(targetMark, safeTotal, tier) };
 };
