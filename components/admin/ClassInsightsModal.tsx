@@ -37,7 +37,7 @@ import { useScrollLock } from '../../hooks/useScrollLock';
 import type { PromptVerb } from '../../types';
 import DataLoading from '../DataLoading';
 import CohortBreakdown from './CohortBreakdown';
-import { TOOL_HEAD } from '../../utils/adminChrome';
+import { TOOL_CLOSE, TOOL_HEAD, toolIconTile } from '../../utils/adminChrome';
 
 interface ClassInsightsModalProps {
   isOpen: boolean;
@@ -64,7 +64,7 @@ const StatTile: React.FC<{ icon: React.ReactNode; label: string; value: string; 
   value,
   sub,
 }) => (
-  <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface border border-[rgb(var(--color-border-secondary))] light:border-slate-200">
+  <div className="flex-1 min-w-[140px] p-4 rounded-xl bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface border border-slate-200 dark:border-white/10">
     <div className="t-label flex items-center gap-2 text-[rgb(var(--color-text-muted))] light:text-slate-600 mb-1.5">
       {icon}
       {label}
@@ -316,27 +316,31 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
       onClick={onClose}
     >
       <div
-        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-3xl border border-[rgb(var(--color-border-secondary))] light:border-slate-300 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
+        className="bg-[rgb(var(--color-bg-surface))] rounded-2xl shadow-lg w-full max-w-3xl border border-slate-300 dark:border-white/10 clip-stable animate-fade-in-up overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div
-          className={`px-6 py-5 border-b border-[rgb(var(--color-border-secondary))] light:border-slate-200 ${TOOL_HEAD} flex items-center justify-between`}
+          className={`px-6 py-5 border-b border-slate-200 dark:border-white/10 ${TOOL_HEAD} flex items-start justify-between gap-3 sm:gap-4 min-w-0`}
         >
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-500 shadow-lg flex items-center justify-center">
-              <BarChart3 className="w-6 h-6 text-white" />
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+            <div
+              className={toolIconTile(
+                'bg-sky-100 text-sky-800 border-sky-200 dark:bg-sky-500/15 dark:text-sky-300 dark:border-sky-500/30'
+              )}
+            >
+              <BarChart3 className="w-5 h-5" aria-hidden="true" />
             </div>
-            <div>
+            <div className="min-w-0">
               <h2 className="text-xl font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900">
-                Class Insights
+                Class insights
               </h2>
               <p className="text-sm text-[rgb(var(--color-text-muted))] light:text-slate-600">
                 Where the cohort is struggling, by verb or topic
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={load}
               disabled={isLoading || !remote}
@@ -349,11 +353,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                 aria-hidden="true"
               />
             </button>
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-[rgb(var(--color-bg-surface-inset))]/50 light:bg-slate-200 hover:bg-[rgb(var(--color-border-secondary))] light:hover:bg-slate-300 transition-all flex items-center justify-center"
-            >
+            <button onClick={onClose} aria-label="Close" className={TOOL_CLOSE}>
               <X className="w-4 h-4 text-[rgb(var(--color-text-muted))]" />
             </button>
           </div>
@@ -385,7 +385,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   student work will change, so saying so is the only useful
                   thing this panel can do in that state. */}
               {classes.length === 0 ? (
-                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface p-4">
+                <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface p-4">
                   <p className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-800">
                     You do not teach a class yet
                   </p>
@@ -459,7 +459,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                   does not push the analytics down the page for the teacher who
                   came to read them. */}
               {rollOpen && members !== null && (
-                <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface p-3">
+                <div className="rounded-xl border border-slate-200 dark:border-white/10 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-surface p-3">
                   {members.length === 0 ? (
                     <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
                       Nobody is enrolled yet. Add a student above and they will appear in these
@@ -623,7 +623,7 @@ const ClassInsightsModal: React.FC<ClassInsightsModalProps> = ({ isOpen, onClose
                           No marked responses in this window yet.
                         </p>
                       ) : (
-                        <div className="rounded-xl border border-[rgb(var(--color-border-secondary))] light:border-slate-200 light:bg-surface overflow-x-auto">
+                        <div className="rounded-xl border border-slate-200 dark:border-white/10 light:bg-surface overflow-x-auto">
                           <table className="w-full text-left text-sm min-w-[500px]">
                             <thead className="t-label bg-[rgb(var(--color-bg-surface-inset))]/60 light:bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-muted))] light:text-slate-600">
                               <tr>

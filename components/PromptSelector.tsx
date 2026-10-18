@@ -406,7 +406,7 @@ const ActionButton = ({
     // An icon-only button has no visible name, and its title alone is a weak one.
     // The label only shows from `2xl`, so below that a bare label left several
     // buttons all called "Add" or "Generate". The title is the name whenever it
-    // contains the label ("Add Course"), which keeps the visible word inside
+    // contains the label ("Add course"), which keeps the visible word inside
     // the name where the label does show; otherwise the label.
     aria-label={actionName(title, label)}
   >
@@ -1197,7 +1197,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     })
                   }
                   disabled={isLoading}
-                  placeholder={isLoading ? 'Loading courses…' : 'Select Course...'}
+                  placeholder={isLoading ? 'Loading courses…' : 'Select course…'}
                   color="blue"
                   appearance="quiet"
                   caption="Course"
@@ -1222,7 +1222,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     optionNoun="years"
                     value={syllabusYear}
                     onChange={handleYearChange}
-                    placeholder="Select Year..."
+                    placeholder="Select year…"
                     color="blue"
                     appearance="quiet"
                   />
@@ -1238,14 +1238,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     course that isn't here uses the request link below the
                     picker instead. */}
                 {canCreateTree && (
-                  <ActionButton onClick={onAddCourse} icon={Plus} title="Add Course" label="Add" />
+                  <ActionButton onClick={onAddCourse} icon={Plus} title="Add course" label="Add" />
                 )}
                 {canCreateTree && canGenerate && (
                   <ActionButton
                     onClick={onImportSyllabus}
                     icon={UploadCloud}
-                    title="Import Syllabus (AI) — build or update a course from NESA syllabus text or a URL"
-                    label="Import Syllabus"
+                    title="Import a syllabus (AI) — build or update a course from NESA syllabus text or a URL"
+                    label="Import syllabus"
                     variant="special"
                     locked={studioLocked}
                   />
@@ -1254,7 +1254,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   <ActionButton
                     onClick={onOpenDataManager}
                     icon={Database}
-                    title="Data Vault (Import/Export/Reorder)"
+                    title="Data vault (import, export, reorder)"
                     variant="vault"
                   />
                 )}
@@ -1278,7 +1278,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 )}
                 {selectedCourse && (
                   <>
-                    <ActionButton onClick={onEditOutcomes} icon={Settings} title="Edit Outcomes" />
+                    <ActionButton onClick={onEditOutcomes} icon={Settings} title="Edit outcomes" />
                     <ActionButton
                       onClick={() => onRenameItem('course', selectedCourse.id, selectedCourse.name)}
                       icon={Edit3}
@@ -1339,7 +1339,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     content reads as data loss rather than as an empty year. */}
                 No {yearShortLabel(syllabusYear)} topics yet.{' '}
                 {canCurate
-                  ? 'Use From Syllabus to build a topic from pasted NESA text or a syllabus URL, add one manually, or import a topic file.'
+                  ? 'Use From syllabus to build a topic from pasted NESA text or a syllabus URL, add one manually, or import a topic file.'
                   : 'Ask a teacher or admin to add content for this course.'}
               </p>
             )}
@@ -1359,7 +1359,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       selectedSubItems: undefined,
                     })
                   }
-                  placeholder="Select Topic..."
+                  placeholder="Select topic…"
                   color="purple"
                   appearance="quiet"
                   caption="Topic"
@@ -1383,7 +1383,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                           onClick={onAddTopicFromSyllabus}
                           icon={UploadCloud}
                           title={`Add sub-topics and dot points into "${selectedTopic.name}" from NESA syllabus text or a URL (AI)`}
-                          label="Add from Syllabus"
+                          label="Add from syllabus"
                           variant="special"
                           locked={studioLocked}
                         />
@@ -1415,7 +1415,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         <ActionButton
                           onClick={() => setInlineTopicOpen((v) => !v)}
                           icon={inlineTopicOpen ? X : Plus}
-                          title={inlineTopicOpen ? 'Cancel' : 'Add Topic'}
+                          title={inlineTopicOpen ? 'Cancel' : 'Add topic'}
                           label={inlineTopicOpen ? 'Cancel' : 'Add'}
                         />
                         {canGenerate && (
@@ -1423,7 +1423,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                             onClick={onAddTopicFromSyllabus}
                             icon={UploadCloud}
                             title="Build a new topic from NESA syllabus text or a URL (AI)"
-                            label="From Syllabus"
+                            label="From syllabus"
                             variant="special"
                             locked={studioLocked}
                           />
@@ -1431,7 +1431,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         <ActionButton
                           onClick={onImportTopic}
                           icon={Upload}
-                          title="Import Topic (.json)"
+                          title="Import a topic (.json)"
                           label="Import"
                         />
                       </>
@@ -1507,7 +1507,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       ) : (
                         <>
                           <Check className="w-3.5 h-3.5" />
-                          {inlineSyllabusText.trim() ? 'Create & Parse' : 'Create Topic'}
+                          {inlineSyllabusText.trim() ? 'Create & parse' : 'Create topic'}
                         </>
                       )}
                     </button>
@@ -1533,7 +1533,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               />
             </div>
             {!isSubTopicSelected && (
-              <StepHeader icon={FolderOpen} label="Sub-Topic" colorKey={LEVEL_HUE.subTopic} />
+              <StepHeader icon={FolderOpen} label="Sub-topic" colorKey={LEVEL_HUE.subTopic} />
             )}
             {/* Same shape and the same curator/student split as the Topic stage
                 above: a picker that opens onto a bare "No options available."
@@ -1543,7 +1543,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 <FolderOpen className="w-3.5 h-3.5" />
                 No sub-topics in this topic yet.{' '}
                 {canCurate
-                  ? 'Use Add to create one, or Add from Syllabus to build them from NESA text.'
+                  ? 'Use Add to create one, or Add from syllabus to build them from NESA text.'
                   : 'Ask a teacher or admin to add content for this topic.'}
               </p>
             )}
@@ -1562,7 +1562,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       selectedSubItems: undefined,
                     })
                   }
-                  placeholder="Select Sub-Topic..."
+                  placeholder="Select sub-topic…"
                   color="teal"
                   appearance="quiet"
                   caption="Sub-topic"
@@ -1598,7 +1598,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <ActionButton
                       onClick={onAddSubTopic}
                       icon={Plus}
-                      title="Add Sub-Topic"
+                      title="Add sub-topic"
                       label="Add"
                     />
                   )}
@@ -1650,7 +1650,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       selectedSubItems: undefined,
                     })
                   }
-                  placeholder="Select Dot Point..."
+                  placeholder="Select syllabus point…"
                   color="pink"
                   appearance="quiet"
                   // Beside the focus picker the step already has a label above
@@ -1722,7 +1722,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         <button
                           onClick={() => onPathChange({ selectedSubItems: undefined })}
                           className="inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-2 rounded-lg bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500 hover:text-white transition-all shadow-sm"
-                          title="Reset Focus"
+                          title="Reset focus"
                           aria-label="Reset focus"
                         >
                           <RotateCcw className="w-4 h-4" />
@@ -1871,7 +1871,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     }
                     onPathChange({ promptId: id });
                   }}
-                  placeholder="Select Question..."
+                  placeholder="Select question…"
                   color="amber"
                   caption="Question"
                 />
@@ -1886,7 +1886,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         <ActionButton
                           onClick={onGeneratePrompt}
                           icon={Sparkles}
-                          title="Generate New"
+                          title="Generate new"
                           variant="primary"
                           locked={studioLocked}
                         />
@@ -1894,7 +1894,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       <ActionButton
                         onClick={onManualEntry}
                         icon={PenTool}
-                        title="Manual Input"
+                        title="Write a question"
                         variant="special"
                       />
                       {onShareAssignment && (

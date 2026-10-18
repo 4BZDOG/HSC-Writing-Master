@@ -297,8 +297,8 @@ describe('BillingOverview: the dialog itself', () => {
     const dialog = screen.getByRole('dialog', { name: 'Billing overview' });
     expect(dialog.getAttribute('aria-modal')).toBe('true');
     const close = screen.getByRole('button', { name: 'Close' });
-    // w-11 h-11 on phones, which is 44px.
-    expect(close.className).toContain('w-11 h-11');
+    // min-h-11 min-w-11 at every width, which is 44px (TOOL_CLOSE).
+    expect(close.className).toContain('min-h-11 min-w-11');
   });
 
   it('closes from the close button, from Escape, and from a press on the scrim', async () => {

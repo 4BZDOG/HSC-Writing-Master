@@ -215,9 +215,9 @@ describe('the cleared-question notice', () => {
 
     // Walk back down to a question; the notice is about a gap that no longer
     // exists the moment one is filled.
-    pick(/Select Sub-Topic/, /Designing Software/);
-    pick(/Select Dot Point/, /security by design/);
-    pick(/Select Question/, /threat modelling/);
+    pick(/Select sub-topic/i, /Designing Software/);
+    pick(/Select syllabus point/i, /security by design/);
+    pick(/Select question/i, /threat modelling/);
 
     expect(screen.queryByRole('status')).toBeNull();
   });
@@ -225,7 +225,7 @@ describe('the cleared-question notice', () => {
   it('stays quiet on first-time navigation, where nothing was discarded', () => {
     render(<LiveSelector initial={{ courseId: 'c1' }} />);
 
-    pick(/Select Topic/, /Programming for the Web/);
+    pick(/Select topic/i, /Programming for the Web/);
 
     expect(screen.queryByRole('status')).toBeNull();
   });
@@ -337,8 +337,8 @@ describe('the cleared-question notice, driven from the breadcrumb', () => {
     clickCrumb('Sub-Topic');
     expect(screen.getByRole('status')).toBeTruthy();
 
-    pick(/Select Dot Point/, /applications of web programming/);
-    pick(/Select Question/, /emerging technologies/);
+    pick(/Select syllabus point/i, /applications of web programming/);
+    pick(/Select question/i, /emerging technologies/);
 
     expect(screen.queryByRole('status')).toBeNull();
   });
@@ -449,7 +449,7 @@ describe('the sub-topic empty state', () => {
     );
 
     const notice = screen.getByText(/No sub-topics in this topic yet/);
-    expect(notice.textContent).toContain('Add from Syllabus');
+    expect(notice.textContent).toContain('Add from syllabus');
     expect(notice.textContent).not.toContain('Ask a teacher');
   });
 
@@ -466,7 +466,7 @@ describe('the sub-topic empty state', () => {
 
     const notice = screen.getByText(/No sub-topics in this topic yet/);
     expect(notice.textContent).toContain('Ask a teacher or admin to add content for this topic.');
-    expect(notice.textContent).not.toContain('Add from Syllabus');
+    expect(notice.textContent).not.toContain('Add from syllabus');
   });
 });
 
@@ -492,7 +492,7 @@ describe('the course picker while the course list is still arriving', () => {
   it('goes back to offering the request route once the list has landed', () => {
     render(<PromptSelector {...loadingProps} />);
 
-    const trigger = screen.getByRole('button', { name: /Select Course/ });
+    const trigger = screen.getByRole('button', { name: /Select course/i });
     expect((trigger as HTMLButtonElement).disabled).toBe(false);
     expect(screen.getByText(/Request it/)).toBeTruthy();
   });

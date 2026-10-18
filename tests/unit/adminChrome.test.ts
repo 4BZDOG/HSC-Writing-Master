@@ -1,11 +1,25 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'fs';
+import { join } from 'path';
 import {
   railTabClass,
   SECTION_TITLE,
+  TOOL_CLOSE,
   TOOL_HEAD,
   TOOL_RAIL,
   TOOL_WELL,
+  toolIconTile,
 } from '../../utils/adminChrome';
+
+const ADMIN_HEADERS = [
+  'UsageDashboard',
+  'StudentProgressModal',
+  'ClassInsightsModal',
+  'ReviewQueueModal',
+  'BillingOverview',
+  'DatabaseDashboard',
+  'RuntimeKeyModal',
+];
 
 /**
  * The staff tools' shared chrome. These are class strings, so the checks are on
@@ -37,6 +51,33 @@ describe('admin tool chrome', () => {
     expect(SECTION_TITLE).toContain('!normal-case');
     expect(SECTION_TITLE).toContain('!tracking-normal');
     expect(SECTION_TITLE).toContain('!text-sm');
+  });
+
+  it('draws a tool’s icon tile as a quiet tint, with the tone it is given', () => {
+    const tone = 'bg-sky-100 text-sky-800 border-sky-200 dark:bg-sky-500/15 dark:text-sky-300';
+    const tile = toolIconTile(tone);
+    expect(tile).toContain('w-10 h-10');
+    expect(tile).toContain('rounded-tile');
+    expect(tile).toContain('shrink-0');
+    expect(tile).toContain(tone);
+    // A gradient tile was the template tell (finding 11), and a tile that can be
+    // squeezed by the title beside it clips its icon at 375px.
+    expect(tile).not.toContain('gradient');
+  });
+
+  it('holds the close button at 44px at every width, as the content dialogs do', () => {
+    expect(TOOL_CLOSE).toContain('min-h-11');
+    expect(TOOL_CLOSE).toContain('min-w-11');
+    expect(TOOL_CLOSE).not.toMatch(/\bw-9\b|\bh-9\b/);
+  });
+
+  it('keeps the seven admin heads free of gradient tiles and the hand-rolled mesh', () => {
+    const dir = join(process.cwd(), 'components', 'admin');
+    for (const name of ADMIN_HEADERS) {
+      const src = readFileSync(join(dir, `${name}.tsx`), 'utf8');
+      expect(src, name).not.toMatch(/w-12 h-12 rounded-xl bg-gradient-to-br/);
+      expect(src, name).not.toContain("data:image/svg+xml,%3Csvg width='20'");
+    }
   });
 
   describe('the rail tab', () => {

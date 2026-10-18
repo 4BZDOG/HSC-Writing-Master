@@ -101,7 +101,7 @@ const props = {
 };
 
 const openQuestionList = () => {
-  const trigger = screen.getByText('Select Question...');
+  const trigger = screen.getByText('Select question…');
   fireEvent.click(trigger.closest('button') as HTMLElement);
   return screen.getByRole('listbox');
 };
@@ -111,7 +111,9 @@ describe('past HSC chip in the question picker', () => {
     render(<PromptSelector {...props} />);
     const list = openQuestionList();
 
-    const option = within(list).getByText(/emerging technologies/i).closest('li') as HTMLElement;
+    const option = within(list)
+      .getByText(/emerging technologies/i)
+      .closest('li') as HTMLElement;
     expect(within(option).getByText('HSC 2023 · Q12')).toBeTruthy();
   });
 
@@ -119,7 +121,9 @@ describe('past HSC chip in the question picker', () => {
     render(<PromptSelector {...props} />);
     const list = openQuestionList();
 
-    const option = within(list).getByText(/open standards/i).closest('li') as HTMLElement;
+    const option = within(list)
+      .getByText(/open standards/i)
+      .closest('li') as HTMLElement;
     expect(within(option).getByText('HSC 2019')).toBeTruthy();
   });
 
@@ -127,7 +131,9 @@ describe('past HSC chip in the question picker', () => {
     render(<PromptSelector {...props} />);
     const list = openQuestionList();
 
-    const option = within(list).getByText(/automated testing/i).closest('li') as HTMLElement;
+    const option = within(list)
+      .getByText(/automated testing/i)
+      .closest('li') as HTMLElement;
     expect(within(option).queryByText(/HSC/)).toBeNull();
   });
 });

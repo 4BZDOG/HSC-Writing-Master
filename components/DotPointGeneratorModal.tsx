@@ -111,7 +111,7 @@ const DotPointGeneratorModal: React.FC<DotPointGeneratorModalProps> = ({
         <div className={CREATOR_BODY}>
           <p className="t-body text-[rgb(var(--color-text-secondary))]">
             Draft suggested dot points for this sub-topic with AI. For NESA’s exact wording, paste
-            the syllabus text into Add from Syllabus on the topic instead.
+            the syllabus text into Add from syllabus on the topic instead.
           </p>
           {error && !isLoading && (
             <div className="mt-4">
