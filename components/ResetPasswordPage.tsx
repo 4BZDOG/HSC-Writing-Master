@@ -7,7 +7,7 @@ import {
   MIN_PASSWORD_LENGTH,
   type SignupFieldErrors,
 } from '../services/signupPolicy';
-import { Lock, ArrowRight, AlertCircle, Loader2, KeyRound } from 'lucide-react';
+import { Lock, AlertCircle, Loader2, KeyRound } from 'lucide-react';
 import AuthBackdrop from './AuthBackdrop';
 import AuthBrand from './AuthBrand';
 import AuthField from './AuthField';
@@ -59,7 +59,11 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
     } catch (err) {
       // completePasswordReset already restates an expired/used link and a
       // reused password in terms the reader can act on.
-      setError(err instanceof Error ? err.message : 'Could not set the new password.');
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'The new password was not saved. Check your connection and try again.'
+      );
     } finally {
       setIsLoading(false);
     }
@@ -75,7 +79,8 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
         <div className="w-full max-w-[420px] relative z-10 animate-fade-in-up">
           <div className={AUTH_CARD}>
             <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
-            <div className="p-10 relative z-10">
+            {/* Matches the sign-in card: 24px a side below `sm`, 40px from there. */}
+            <div className="p-6 sm:p-10 relative z-10">
               <form onSubmit={handleSubmit} className="space-y-7" data-testid="reset-password-form">
                 <div className="space-y-3">
                   <div className="w-14 h-14 rounded-2xl bg-indigo-500/15 border-2 border-indigo-500/30 flex items-center justify-center">
@@ -107,6 +112,7 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
                   // generate and store one instead of filling in the old one.
                   autoComplete="new-password"
                   error={fieldErrors.password}
+                  revealable
                 />
 
                 <AuthField
@@ -122,12 +128,13 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
                   icon={Lock}
                   autoComplete="new-password"
                   error={fieldErrors.confirmPassword}
+                  revealable
                 />
 
                 {error && (
                   <div
                     role="alert"
-                    className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
+                    className="flex items-start gap-2 text-red-400 light:text-red-600 text-sm font-medium py-1 px-1 animate-fade-in"
                   >
                     <AlertCircle className="w-4 h-4 shrink-0 mt-px" aria-hidden="true" /> {error}
                   </div>
@@ -142,12 +149,10 @@ const ResetPasswordPage: React.FC<ResetPasswordPageProps> = ({ onComplete, onCan
                   {isLoading ? (
                     <>
                       <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
-                      <span className="sr-only">Setting password…</span>
+                      Setting password…
                     </>
                   ) : (
-                    <>
-                      Set password <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                    </>
+                    'Set password'
                   )}
                 </button>
 

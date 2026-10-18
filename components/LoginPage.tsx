@@ -145,7 +145,9 @@ const signupAllowedDomains = (): string[] => resolveAllowedDomains(import.meta.e
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // Which action is in flight. One flag for every action spun the Sign in button
+  // while Continue as guest was the one working, so each action names itself.
+  const [pending, setPending] = useState<'submit' | 'guest' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [oauthLoading, setOauthLoading] = useState<Provider | null>(null);
 
@@ -198,7 +200,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       return;
     }
     setFieldErrors({});
-    setIsLoading(true);
+    setPending('submit');
     try {
       await authService.requestPasswordReset(email);
       // Shown whether or not an account exists — see requestPasswordReset. The
@@ -207,9 +209,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       formChanged.current = true;
       setResetSentTo(email);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Could not send the reset email.');
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'The reset email was not sent. Check your connection and try again.'
+      );
     } finally {
-      setIsLoading(false);
+      setPending(null);
     }
   };
 
@@ -224,7 +230,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     setFieldErrors(errors);
     if (hasSignupErrors(errors)) return;
 
-    setIsLoading(true);
+    setPending('submit');
     try {
       const result = await authService.signUp(username.trim(), password, displayName);
       if (result.status === 'confirmation-required') {
@@ -236,9 +242,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     } catch (err) {
       // authService.signUp already restates Supabase's wording for a school
       // audience, so show it rather than flattening it to something generic.
-      setError(err instanceof Error ? err.message : 'Could not create the account.');
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'The account was not created. Check your connection and try again.'
+      );
     } finally {
-      setIsLoading(false);
+      setPending(null);
     }
   };
 
@@ -270,7 +280,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     setFieldErrors(errors);
     if (hasSignupErrors(errors)) return;
 
-    setIsLoading(true);
+    setPending('submit');
     try {
       const user = await authService.login(trimmedUsername, password);
       onLogin(user);
@@ -288,20 +298,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             : 'That username and password do not match an account. Check both and try again.'
       );
     } finally {
-      setIsLoading(false);
+      setPending(null);
     }
   };
 
   const handleGuestLogin = async () => {
     setError(null);
-    setIsLoading(true);
+    setPending('guest');
     try {
       const user = await authService.loginAsGuest();
       onLogin(user);
     } catch {
       setError('Could not start a guest session. Try again in a moment.');
     } finally {
-      setIsLoading(false);
+      setPending(null);
     }
   };
 
@@ -311,7 +321,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     try {
       await authService.loginWithOAuth(provider);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'OAuth login failed.');
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Sign-in with that provider did not start. Try again, or use your email and password.'
+      );
       setOauthLoading(null);
     }
   };
@@ -331,7 +345,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           <div className={AUTH_CARD}>
             <MeshOverlay opacity="opacity-[0.04] light:opacity-[0.06]" />
 
-            <div className="p-10 relative z-10">
+            {/* 24px a side below `sm`. At 40px the padding alone took 80px of a
+                360px screen from the fields. */}
+            <div className="p-6 sm:p-10 relative z-10">
               {resetSentTo ? (
                 /* Deliberately does NOT say whether an account exists — see
                  authService.requestPasswordReset. "No account with that email"
@@ -493,6 +509,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         icon={Lock}
                         autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
                         error={fieldErrors.password}
+                        revealable
                       />
                     </div>
 
@@ -510,13 +527,16 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         icon={Lock}
                         autoComplete="new-password"
                         error={fieldErrors.confirmPassword}
+                        revealable
                       />
                     )}
 
                     {error && (
+                      // A sentence, so medium weight rather than bold (DesignSpec §4):
+                      // the wording carries the message.
                       <div
                         role="alert"
-                        className="flex items-start gap-2 text-red-400 light:text-red-600 text-xs font-bold py-1 px-1 animate-fade-in"
+                        className="flex items-start gap-2 text-red-400 light:text-red-600 text-sm font-medium py-1 px-1 animate-fade-in"
                       >
                         <AlertCircle className="w-4 h-4 shrink-0 mt-px" aria-hidden="true" />{' '}
                         {error}
@@ -525,22 +545,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
                     <button
                       type="submit"
-                      disabled={isLoading || oauthLoading !== null}
-                      aria-busy={isLoading || undefined}
+                      disabled={pending !== null || oauthLoading !== null}
+                      aria-busy={pending === 'submit' || undefined}
                       className={AUTH_PRIMARY_BUTTON}
                     >
-                      {isLoading ? (
+                      {/* A spinner alone left the button with no name while it
+                          worked, so the words it is working on show beside it. */}
+                      {pending === 'submit' ? (
                         <>
                           <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
-                          {/* The spinner alone left the button with no name at all
-                          while it worked. */}
-                          <span className="sr-only">
-                            {mode === 'signup'
-                              ? 'Creating account…'
-                              : mode === 'reset'
-                                ? 'Sending reset link…'
-                                : 'Signing in…'}
-                          </span>
+                          {mode === 'signup'
+                            ? 'Creating account…'
+                            : mode === 'reset'
+                              ? 'Sending reset link…'
+                              : 'Signing in…'}
                         </>
                       ) : (
                         <>
@@ -615,8 +633,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         key={id}
                         type="button"
                         onClick={() => handleOAuthLogin(id)}
-                        disabled={isLoading || oauthLoading !== null}
-                        className="flex-1 py-3.5 rounded-2xl font-bold text-xs text-slate-300 light:text-slate-600 bg-white/5 light:bg-surface-inset border-2 border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={pending !== null || oauthLoading !== null}
+                        aria-busy={oauthLoading === id || undefined}
+                        className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-slate-300 light:text-slate-600 bg-white/5 light:bg-surface-inset border-2 border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         title={`Sign in with ${label}`}
                       >
                         {oauthLoading === id ? (
@@ -634,19 +653,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
               )}
 
               <div className="mt-7">
+                {/* Its own busy state: the spinner and words say this button is
+                    the one working, and the Sign in button is left as it was. */}
                 <button
                   type="button"
                   onClick={handleGuestLogin}
-                  disabled={isLoading || oauthLoading !== null}
-                  className="t-label w-full py-4 rounded-2xl text-slate-300 light:text-slate-600 bg-white/5 light:bg-surface-inset border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={pending !== null || oauthLoading !== null}
+                  aria-busy={pending === 'guest' || undefined}
+                  className="text-sm font-semibold w-full py-4 rounded-2xl text-slate-300 light:text-slate-600 bg-white/5 light:bg-surface-inset border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <BookOpen className="w-4 h-4" aria-hidden="true" /> Continue as guest
+                  {pending === 'guest' ? (
+                    <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+                  ) : (
+                    <BookOpen className="w-4 h-4" aria-hidden="true" />
+                  )}
+                  {pending === 'guest' ? 'Opening guest session…' : 'Continue as guest'}
                 </button>
               </div>
             </div>
 
             {/* Footer Info */}
-            <div className="t-label bg-black/40 light:bg-surface-elevated px-10 py-5 border-t border-white/10 light:border-slate-300 flex justify-between items-center text-slate-400 light:text-slate-600">
+            <div className="t-label bg-black/40 light:bg-surface-elevated px-6 sm:px-10 py-5 border-t border-white/10 light:border-slate-300 flex justify-between items-center text-slate-400 light:text-slate-600">
               <button
                 type="button"
                 onClick={() => setIsLegalOpen(true)}
