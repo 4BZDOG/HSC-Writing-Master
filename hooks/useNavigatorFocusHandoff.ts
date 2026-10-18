@@ -30,7 +30,7 @@ import { useCallback, useEffect, useRef } from 'react';
  * @param crumbJumps     A monotonically increasing count of breadcrumb presses.
  */
 export const useNavigatorFocusHandoff = (isNavCollapsed: boolean, crumbJumps: number) => {
-  const navigatorRef = useRef<HTMLDivElement>(null);
+  const navigatorRef = useRef<HTMLElement>(null);
   const expandButtonRef = useRef<HTMLButtonElement>(null);
   /**
    * Only a navigator the user has actually stood in can have cost them their

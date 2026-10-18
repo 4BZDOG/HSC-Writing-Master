@@ -302,6 +302,18 @@ const Combobox: React.FC<ComboboxProps> = ({
     [options, deferredQuery, isSearchable]
   );
 
+  /** The visible options as consecutive runs of one group, each keeping its
+   *  index in `visibleOptions` (the highlight and the keyboard work in those). */
+  const optionRuns = useMemo(() => {
+    const runs: { group?: string; options: { option: ComboboxOption; index: number }[] }[] = [];
+    visibleOptions.forEach((option, index) => {
+      const current = runs[runs.length - 1];
+      if (current && current.group === option.group) current.options.push({ option, index });
+      else runs.push({ group: option.group, options: [{ option, index }] });
+    });
+    return runs;
+  }, [visibleOptions]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -654,45 +666,59 @@ const Combobox: React.FC<ComboboxProps> = ({
               aria-labelledby={label ? labelId : undefined}
               className="max-h-72 py-1 overflow-auto custom-scrollbar"
             >
-              {visibleOptions.length > 0 ? (
-                visibleOptions.map((option, index) => {
+              {optionRuns.length > 0 ? (
+                optionRuns.map((run) => {
+                  const rows = run.options.map(({ option, index }) => (
+                    <ComboboxOptionRow
+                      key={option.id}
+                      option={option}
+                      index={index}
+                      listboxId={listboxId}
+                      isSelected={option.id === value}
+                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
+                        index === highlightedIndex
+                          ? `${getListItemClasses(option, true)}`
+                          : getListItemClasses(option, option.id === value)
+                      }`}
+                      onClick={() => {
+                        if (option.disabled) return;
+                        commit(option.id);
+                      }}
+                      onMouseEnter={() => setHighlightedIndex(index)}
+                    />
+                  ));
+
+                  // No group: every other picker in the app. The rows go
+                  // straight into the listbox.
+                  if (!run.group) {
+                    return (
+                      <React.Fragment key={`run-${run.options[0].index}`}>{rows}</React.Fragment>
+                    );
+                  }
+
                   // A dot point can carry twenty questions, and twenty tinted
-                  // cards in a row are a wall rather than a choice. Where the
+                  // cards in a row are a wall rather than a choice; where the
                   // caller supplies groups, the list breaks into named runs so
-                  // the length is read as "six kinds of question" instead.
-                  // Sticky, so the heading of the run being scrolled through is
-                  // always the one on screen.
-                  const heading =
-                    option.group && option.group !== visibleOptions[index - 1]?.group ? (
-                      <li
-                        key={`group-${option.group}`}
-                        role="presentation"
+                  // it reads as "six kinds of question" instead. Each run is a
+                  // real group, named, so a screen reader announces the kind as
+                  // it enters the run. The heading was `role="presentation"`,
+                  // which took the one thing the grouping buys out of the
+                  // accessibility tree. It stays sticky, so the heading of the
+                  // run being scrolled through is always on screen.
+                  //
+                  // The inner `<ul role="none">` is for the HTML (an `<li>` may
+                  // not hold an `<li>`); being presentational it drops out, so
+                  // listbox > group > option, as ARIA 1.2 allows.
+                  return (
+                    <li key={`group-${run.group}`} role="group" aria-label={run.group}>
+                      <div
+                        aria-hidden="true"
                         className="t-label sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
                       >
-                        {option.group}
-                      </li>
-                    ) : null;
-
-                  return (
-                    <React.Fragment key={option.id}>
-                      {heading}
-                      <ComboboxOptionRow
-                        option={option}
-                        index={index}
-                        listboxId={listboxId}
-                        isSelected={option.id === value}
-                        className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
-                          index === highlightedIndex
-                            ? `${getListItemClasses(option, true)}`
-                            : getListItemClasses(option, option.id === value)
-                        }`}
-                        onClick={() => {
-                          if (option.disabled) return;
-                          commit(option.id);
-                        }}
-                        onMouseEnter={() => setHighlightedIndex(index)}
-                      />
-                    </React.Fragment>
+                        {run.group}
+                      </div>
+                      <ul role="none">{rows}</ul>
+                    </li>
                   );
                 })
               ) : (

@@ -986,9 +986,16 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                 there's 6rem of slack on each side before anything is close to
                 the box boundary. */}
             <div className="overflow-hidden -mx-24 px-24">
-              {/* `tabIndex={-1}` for the same reason the main landmark carries
-                  one: a programmatic focus target, never a tab stop. */}
-              <div ref={navigatorRef} tabIndex={-1} className="relative z-50">
+              {/* The navigator's own landmark, so it can be reached from a
+                  screen reader's landmark list; the collapsed breadcrumb names
+                  its own. `tabIndex={-1}` for the same reason the main landmark
+                  carries one: a programmatic focus target, never a tab stop. */}
+              <nav
+                ref={navigatorRef}
+                tabIndex={-1}
+                aria-label="Syllabus navigator"
+                className="relative z-50"
+              >
                 <PromptSelector
                   courses={navigatorCourses}
                   statePath={statePath}
@@ -1047,7 +1054,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                   isLoading={!isReady}
                   curationOpenOnPhone={isEditingSyllabus}
                 />
-              </div>
+              </nav>
 
               {/* The foot of the navigator. The phone-only edit toggle sits
                   beside "Hide navigator", and it has to render with NO question
