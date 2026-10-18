@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { createEvent, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 /**
@@ -14,6 +14,7 @@ import userEvent from '@testing-library/user-event';
  */
 
 const loginMock = vi.fn();
+const loginAsGuestMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
   isSupabaseConfigured: false,
@@ -26,7 +27,7 @@ vi.mock('../../services/authService', () => ({
   authService: {
     signUp: vi.fn(),
     login: (...args: unknown[]) => loginMock(...args),
-    loginAsGuest: vi.fn(),
+    loginAsGuest: (...args: unknown[]) => loginAsGuestMock(...args),
     loginWithOAuth: vi.fn(),
   },
 }));
@@ -128,5 +129,80 @@ describe('LoginPage sign-in', () => {
 
     expect(await screen.findByText(/could not reach the sign-in service/i)).toBeTruthy();
     expect(screen.queryByText(/do not match an account/i)).toBeNull();
+  });
+
+  it('shows guest as the one working, and leaves Sign in named as it was', async () => {
+    // One busy flag for every action spun the Sign in button while guest was
+    // the one working. Each action now shows its own state.
+    loginAsGuestMock.mockImplementationOnce(() => new Promise(() => {}));
+    const user = userEvent.setup();
+    render(<LoginPage onLogin={onLogin} />);
+
+    await user.click(screen.getByRole('button', { name: /continue as guest/i }));
+
+    const guest = await screen.findByRole('button', { name: /opening guest session/i });
+    expect(guest.getAttribute('aria-busy')).toBe('true');
+    const signIn = screen.getByRole('button', { name: /^sign in$/i });
+    expect(signIn.getAttribute('aria-busy')).toBeNull();
+    expect((signIn as HTMLButtonElement).disabled).toBe(true);
+    expect(onLogin).not.toHaveBeenCalled();
+  });
+
+  it('says what the sign-in button is doing, in words, while it works', async () => {
+    loginMock.mockImplementationOnce(() => new Promise(() => {}));
+    const user = userEvent.setup();
+    render(<LoginPage onLogin={onLogin} />);
+
+    await user.type(screen.getByLabelText(/username/i), 'user');
+    await user.type(screen.getByLabelText(/^password$/i), 'user');
+    await user.click(screen.getByRole('button', { name: /^sign in$/i }));
+
+    const busy = await screen.findByRole('button', { name: 'Signing in…' });
+    expect(busy.getAttribute('aria-busy')).toBe('true');
+    expect(
+      screen.getByRole('button', { name: /continue as guest/i }).getAttribute('aria-busy')
+    ).toBeNull();
+  });
+
+  it('reveals the typed password on request, as a toggle with one name', async () => {
+    const user = userEvent.setup();
+    render(<LoginPage onLogin={onLogin} />);
+    const password = screen.getByLabelText(/^password$/i) as HTMLInputElement;
+    expect(password.type).toBe('password');
+
+    const show = screen.getByRole('button', { name: 'Show password' });
+    expect(show.getAttribute('aria-pressed')).toBe('false');
+    expect(show.getAttribute('aria-controls')).toBe('password');
+
+    // One name throughout; the state is aria-pressed's to report.
+    await user.click(show);
+    expect(password.type).toBe('text');
+    expect(show.getAttribute('aria-pressed')).toBe('true');
+    expect(screen.queryByRole('button', { name: 'Hide password' })).toBeNull();
+
+    await user.click(show);
+    expect(password.type).toBe('password');
+    expect(show.getAttribute('aria-pressed')).toBe('false');
+  });
+
+  it('says so while Caps Lock is on, in the hint slot the field already has', () => {
+    render(<LoginPage onLogin={onLogin} />);
+    const password = screen.getByLabelText(/^password$/i);
+    // The modifier state is read from the key event, so the event is given it.
+    const key = (type: 'keyDown' | 'keyUp', capsLock: boolean) => {
+      const event = createEvent[type](password, { key: 'A' });
+      Object.assign(event, {
+        getModifierState: (name: string) => name === 'CapsLock' && capsLock,
+      });
+      fireEvent(password, event);
+    };
+
+    key('keyDown', true);
+    expect(screen.getByText('Caps Lock is on.')).toBeTruthy();
+    expect(password.getAttribute('aria-describedby')).toBe('password-hint');
+
+    key('keyUp', false);
+    expect(screen.queryByText('Caps Lock is on.')).toBeNull();
+    expect(password.getAttribute('aria-describedby')).toBeNull();
   });
 });

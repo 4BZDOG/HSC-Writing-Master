@@ -15,9 +15,10 @@
 /** The page. `my-auto` on `AUTH_COLUMN`, not `justify-center` here: centring
  *  with justify-content pushes a column taller than the viewport off BOTH ends,
  *  and the top half cannot be scrolled back to. Auto margins centre when there
- *  is room and fall back to top-down flow when there is not. */
+ *  is room and fall back to top-down flow when there is not.
+ *  The gutter is 16px below `sm` and 24px from there up. */
 export const AUTH_PAGE =
-  'min-h-screen w-full flex flex-col items-center relative px-6 py-10 sm:py-14 ' +
+  'min-h-screen w-full flex flex-col items-center relative px-4 sm:px-6 py-8 sm:py-14 ' +
   'selection:bg-indigo-500/30';
 
 /** The centred column inside `AUTH_PAGE`. */

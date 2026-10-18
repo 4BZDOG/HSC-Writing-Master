@@ -17,15 +17,16 @@ import BandLadderMark from './BandLadderMark';
  * is an `<h2>`.
  */
 const AuthBrand: React.FC<{ tagline?: React.ReactNode }> = ({ tagline }) => (
-  <div className="text-center mb-10 sm:mb-12 relative z-10 animate-fade-in">
+  <div className="text-center mb-8 sm:mb-12 relative z-10 animate-fade-in">
     <div className="inline-block mb-6">
       <BandLadderMark />
     </div>
     {/* The same name the header sets, set the same way. `t-display` carries the
         face and the weight; the caps, slope and tracking are the wordmark's own
         and are repeated here rather than shared, because the two differ in
-        size and nothing else. */}
-    <h1 className="t-display text-4xl tracking-tighter uppercase italic text-white light:text-slate-900 leading-none">
+        size and nothing else. Below `sm` the wordmark and the gap under the
+        ladder are smaller, so the card starts higher on a phone. */}
+    <h1 className="t-display text-3xl sm:text-4xl tracking-tighter uppercase italic text-white light:text-slate-900 leading-none">
       Band 6
     </h1>
     {tagline && (
