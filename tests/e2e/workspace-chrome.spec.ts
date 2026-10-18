@@ -387,9 +387,9 @@ test.describe('workspace card chrome', () => {
 
     const open = await heights();
     expect(open.settled.prompt).not.toBeNull();
-    // Shrink until the cap is well below the question, a few pixels at a time.
-    const capped = (open.settled.prompt ?? 0) + 180 - 60;
-    for (let h = capped + 40; h >= capped; h -= 8) {
+    // Shrink a few pixels at a time to a laptop-short window, where the cap is
+    // well below any question's own height.
+    for (let h = 760; h >= 640; h -= 8) {
       await page.setViewportSize({ width: 1440, height: h });
       const { first, settled } = await heights();
       expect(first, `the first frame is the final one at ${h}px`).toEqual(settled);
@@ -401,6 +401,33 @@ test.describe('workspace card chrome', () => {
     expect(last.settled.prompt!, 'the question is held at the cap').toBeLessThan(
       open.settled.prompt!
     );
+  });
+
+  /**
+   * The cap exists so the pair ends on screen: the Evaluate button sits in the
+   * writing card's foot. It left room for the header and breadcrumb but not the
+   * verb ribbon added above the cards since, so the foot ran about 90px below
+   * the window, Evaluate with it.
+   */
+  test('the pair ends on screen on a laptop-height window', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 760 });
+    await openWorkspace(page);
+    await page.waitForTimeout(900);
+    await page.evaluate(() => window.scrollTo(0, 0));
+
+    const bottoms = await page.evaluate(() =>
+      ['Writing Prompt', 'Written Response'].map((text) => {
+        const h3 = Array.from(document.querySelectorAll('h3')).find((h) =>
+          h.textContent?.includes(text)
+        );
+        const box = h3?.closest('[class*="rounded-surface"]') as HTMLElement | null;
+        return box ? Math.round(box.getBoundingClientRect().bottom) : null;
+      })
+    );
+    for (const bottom of bottoms) {
+      expect(bottom).not.toBeNull();
+      expect(bottom!, 'the card ends inside the window').toBeLessThanOrEqual(760);
+    }
   });
 
   /**
