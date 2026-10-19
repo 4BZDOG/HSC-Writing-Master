@@ -1,0 +1,573 @@
+[
+  {
+    "id": "course-hsc-health-and-movement-science",
+    "name": "HSC Health and Movement Science",
+    "outcomes": [
+      {
+        "code": "HM-11-01",
+        "description": "interprets meanings, measures and patterns of health experienced by Australians",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-02",
+        "description": "analyses methods and resources to improve and advocate for the health of young Australians",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-03",
+        "description": "analyses the systems of the body in relation to movement",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-04",
+        "description": "investigates movement skills and psychology to improve participation and performance",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-05",
+        "description": "Collaboration: demonstrates strategies to positively interact with others to develop an understanding of health and movement concepts",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-06",
+        "description": "Analysis: analyses the relationships and implications of health and movement concepts",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-07",
+        "description": "Communication: communicates health and movement concepts to audiences and contexts, using a variety of modes",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-08",
+        "description": "Creative thinking: generates new ideas that are meaningful and relevant to health and movement contexts",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-09",
+        "description": "Problem-solving: proposes and evaluates solutions to health and movement issues",
+        "year": "year11"
+      },
+      {
+        "code": "HM-11-10",
+        "description": "Research: analyses a range of sources to make conclusions about health and movement concepts",
+        "year": "year11"
+      },
+      {
+        "code": "HM-12-01",
+        "description": "analyses the health status of Australians at a national and international level"
+      },
+      {
+        "code": "HM-12-02",
+        "description": "examines how technology and data can achieve better health for all Australians"
+      },
+      {
+        "code": "HM-12-03",
+        "description": "evaluates how the Sustainable Development Goals can be used to improve the health of a community"
+      },
+      {
+        "code": "HM-12-04",
+        "description": "investigates factors that impact movement and performance"
+      },
+      {
+        "code": "HM-12-05",
+        "description": "analyses individual and group training programs to improve performance"
+      },
+      {
+        "code": "HM-12-06",
+        "description": "Analysis: critically analyses the relationships and implications of health and movement concepts"
+      },
+      {
+        "code": "HM-12-07",
+        "description": "Communication: communicates health and movement concepts using modes appropriate to a range of audiences and contexts"
+      },
+      {
+        "code": "HM-12-08",
+        "description": "Creative thinking: generates and assesses new ideas that are meaningful and relevant to health and movement contexts"
+      },
+      {
+        "code": "HM-12-09",
+        "description": "Problem-solving: proposes and evaluates solutions to complex health and movement issues"
+      },
+      {
+        "code": "HM-12-10",
+        "description": "Research: analyses a range of sources to make conclusions and judgements about health and movement concepts"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-hms-11-health-for-individuals-and-communities",
+        "name": "Health for individuals and communities",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-hms-11-health-for-individuals-and-communities-1",
+            "name": "How do we understand and measure Australia’s health?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-1-1",
+                "description": "Compare meanings of health, using various sources, including the World Health Organization’s (WHO) definition, and explain why people give different meanings to health",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-1-2",
+                "description": "Explain the dynamic nature of health by exploring the interactions between the dimensions of health, the concept of good health, the health continuum, how health changes over time, and how an individual’s circumstances affect their health",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-1-3",
+                "description": "Discuss the use of epidemiology, mortality, infant mortality, morbidity, incidence and prevalence to explain the health status of Australians using tables and graphs from Australia’s Health and other health reports",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-1-4",
+                "description": "Investigate the role of social justice principles, participation, equity, access and rights, in promoting an individual and community’s health status",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-1-5",
+                "description": "Discuss the range of determinants (broad features of society, environmental factors, socioeconomic characteristics, health behaviours and biomedical factors), that influence the health and wellbeing of Australians (how do the determinants interact to affect the health of population groups?; what are the sociological causes of risky health behaviours?; where do inequities exist and what can we do about them?)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-11-health-for-individuals-and-communities-2",
+            "name": "What are young people’s meanings of health?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-2-1",
+                "description": "Explore across generations aspects of young people’s lives that make them similar and different to the young people of previous generations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-2-2",
+                "description": "Investigate the meanings of health for young people (creating a research question; developing a method(s) to collect data; considering how the determinants of health impact on a young person’s meaning of health; analysing the different ways young people define what is important to their own health; discussing ethical considerations; discussing validity, reliability and credibility of data collection; presenting findings and drawing conclusions; identifying further research questions that could be explored)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-11-health-for-individuals-and-communities-3",
+            "name": "What key issues affect the health of young people and how can they protect and promote good health?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-3-1",
+                "description": "Examine the health status of young people, including Aboriginal and Torres Strait Islander young people, using Australia’s Health and other health reports, graphs and tables (what are the trends in key health issues?; what are the causes and protective factors of key health issues?; how do the determinants of health affect health-related behaviours?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-3-2",
+                "description": "Research ONE health-related issue for young people (what is the nature of the issue?; what does the data tell us?; why is this an issue?; what are the protective factors to prevent the issue?; what strategies are currently in place to improve the health of young people?; what new strategies would be most effective to improve young people’s health?; what further research questions could be explored to build understanding and advocacy?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-3-3",
+                "description": "Analyse how the skills for strengthening the individual can protect and enhance the health and wellbeing of themselves and others using the health issue researched (self-efficacy; health literacy; help-seeking behaviours; problem-solving; resilience; coping strategies; sense of purpose; ethical behaviour; connectedness)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-3-4",
+                "description": "Reflect on their own personal health and health behaviours and indicate courses of action for improved health and wellbeing",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-11-health-for-individuals-and-communities-4",
+            "name": "What are the opportunities for improving and promoting young people’s health?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-4-1",
+                "description": "Examine how young people advocate for their own and others’ health using various sources considering past, current and future advocacy and the role of individuals within their communities",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-4-2",
+                "description": "Discuss how organisations and communities advocate for the health of young people (the role government and non-government organisations and communities have in promoting the health of young people, including Aboriginal and/or Torres Strait Islander young people; the impact of organisations and communities on the health of young people)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-4-3",
+                "description": "Explain the nature of health promotion in Australia (how have various approaches to health influenced health promotion?; what global health policies have impacted health promotion in Australia?; how has the Ottawa Charter been used to improve Australia’s health?; how does health promotion in partnerships with communities strengthen the health of individuals and communities across a range of cultural groups including Aboriginal and Torres Strait Islander Peoples?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-health-for-individuals-and-communities-4-4",
+                "description": "Examine how the United Nations Sustainable Development Goals (SDGs) are being used to improve health (what are the SDGs?; how has the World Health Organization applied a health lens to the SDGs?; how are the SDGs being used in Australia?; how could the SDGs be used to promote the health of young people in a local community?)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hms-11-the-body-and-mind-in-motion",
+        "name": "The body and mind in motion",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-hms-11-the-body-and-mind-in-motion-1",
+            "name": "How do the systems of the body influence and respond to movement?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-1-1",
+                "description": "Explain the interrelationship between the skeletal and muscular systems and movement (structure and function; major bones and synovial joints; joint actions; major muscles; characteristics and functions of muscle fibres; types of muscle contractions; muscle relationship)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-1-2",
+                "description": "Outline the interrelationship between biomechanical principles and the muscles, bones and joints of the body for safe movement (how biomechanical principles are applied to human movement, including motion, balance and stability, fluid mechanics and force; how biomechanical principles can be used to enhance safe movements; how biomechanical principles can be used to increase movement efficiency)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-1-3",
+                "description": "Explain the interrelationship between the respiratory and circulatory systems and movement (structure and function; pulmonary and systemic blood circulation and gaseous exchange; factors that impact on the efficiency of the cardiovascular system)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-1-4",
+                "description": "Explain the interrelationship between the digestive and endocrine systems and movement, including structure and function and factors that impact on the efficiency of the systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-1-5",
+                "description": "Explain the interrelationship between the nervous system and movement, including structure and function",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-1-6",
+                "description": "Demonstrate and analyse how the systems of the body work together in a variety of movements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-1-7",
+                "description": "Discuss the role first aid plays in response to movement",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-11-the-body-and-mind-in-motion-2",
+            "name": "What factors influence movement and performance?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-2-1",
+                "description": "Analyse the ATP-PCr, Glycolytic (Lactic Acid) and Aerobic energy systems of the body including fuel source and efficiency of ATP production, duration, intensity and rate of recovery, causes of fatigue and interplay of the energy systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-2-2",
+                "description": "Explain the role nutrition plays in enabling the energy systems to function efficiently, including macronutrient and micronutrient requirements of active people",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-2-3",
+                "description": "Compare the difference between aerobic and anaerobic training for individuals and group sports, including differentiated training programs and contemporary methods of training",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-2-4",
+                "description": "Design an aerobic or anaerobic training program based on the FITT principle",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-2-5",
+                "description": "Explain the immediate physiological responses to training, heart rate, ventilation rate, stroke volume, cardiac output and lactate levels",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-2-6",
+                "description": "Investigate the physiological responses in relation to aerobic training (creating a research question; selecting a method to collect data; discussing the ethical considerations of the methods chosen; discussing the validity, reliability and credibility of data collection; presenting findings and drawing conclusions; identifying further research questions that could be explored)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-2-7",
+                "description": "Debate the purpose and outcomes of testing physical fitness for different groups in the population",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-11-the-body-and-mind-in-motion-3",
+            "name": "How are movement skills acquired, developed and improved?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-3-1",
+                "description": "Apply an understanding of how movement skills are acquired, developed and improved for recreational and elite athletes (characteristics of learners; stages of learning/skill acquisition; characteristics of motor skills, including gross and fine, continuous, discrete and serial, open and closed, self-paced and externally paced; practice methods for the different stages of learning, including massed, distributed, whole, part, blocked and random; performance elements, including decision-making, strategic and tactical development; types of feedback for different stages of learning, including task-intrinsic, augmented, concurrent, delayed, knowledge of results, knowledge of performance)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-3-2",
+                "description": "Research how movement skills are acquired, developed and improved in a sport of choice (what does the research tell us about acquiring, developing and improving the movement skill?; how is this applied in practice?; what further research questions can be proposed to further understand skill development?)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-11-the-body-and-mind-in-motion-4",
+            "name": "What is the relationship between psychology, movement and performance?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-4-1",
+                "description": "Analyse the relationship between psychology, movement and performance for individuals and groups (how does personal identity affect an individual’s participation and performance in sport?; how does motivation support participation, including positive and negative, intrinsic and extrinsic motivation?; why is self-regulation essential for sports performance and exercise behaviour change?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-11-the-body-and-mind-in-motion-4-2",
+                "description": "Investigate how communities of exercise motivate individuals and groups to participate in and improve performance (what are contemporary forms of exercise?; how do contemporary forms of exercise encourage group dynamics, group cohesion, social interaction and a sense of belonging?)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hms-12-health-in-an-australian-and-global-context",
+        "name": "Health in an Australian and global context",
+        "subTopics": [
+          {
+            "id": "subtopic-hms-12-health-in-an-australian-and-global-context-1",
+            "name": "How healthy are Australians?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-1-1",
+                "description": "Analyse the current health status of Australians from Australia’s Health and other health reports, tables and graphs (what does the data tell us?; what are the major causes of morbidity and mortality, and the life expectancy for males, females and the general population?; what are the sociological causes of risky health behaviours?; where do inequities exist and what can we do about them?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-1-2",
+                "description": "Analyse groups experiencing inequities in health, including Aboriginal and Torres Strait Islander Peoples and one other group (socioeconomically disadvantaged people, rural and remote, culturally and linguistically diverse populations, people with disability or older people) (what does the data tell us?; how do the determinants interact to affect the health of population groups?; what are some of the causes that underpin the inequities in health?; what actions can be implemented to improve the health status of these groups?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-1-3",
+                "description": "Compare the health status of Australia with that of other OECD countries (where does Australia rank in relation to other OECD countries?; why might this be the case?; why do some countries rank higher or lower than Australia?; what can we learn from other countries that may be applied to the Australian context?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-1-4",
+                "description": "Examine cardiovascular disease, cancer and ONE other condition in Australia using Australia’s Health and other health reports (what does the data tell us about the mortality and morbidity, prevalence and incidence rates of these conditions?; what are the risk and protective factors for these conditions?; where and for whom are these conditions changing?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-1-5",
+                "description": "Investigate the impact of an ageing population on Australia’s health (what does the data tell us?; what is healthy ageing?; what are the opportunities and challenges for an ageing population?; what are current and future strategies to support healthy ageing?; what do government and non-government agencies need to consider to address the future needs of a growing and ageing population?)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-12-health-in-an-australian-and-global-context-2",
+            "name": "How does Australia’s healthcare system work towards achieving better health for all Australians?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-2-1",
+                "description": "Assess the effectiveness of the healthcare system in Australia (the role of the healthcare system; equity of access to the healthcare system; future opportunities for the healthcare system)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-2-2",
+                "description": "Explain how government and non-government organisations share responsibility for the health system (federal, state and territory and local government; non-government sector – private and not-for-profit)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-2-3",
+                "description": "Outline how government and non-government organisations collaborate to provide person-centred healthcare",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-2-4",
+                "description": "Discuss health expenditure and its impact on current and future populations (healthcare versus prevention; sustainability, access and equity; Medicare, private health insurance and related Commonwealth-funded programs)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-2-5",
+                "description": "Explain complementary healthcare approaches (products and services available; as a preventative measure; treating the health issue; as a supplement to other medical treatments)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-2-6",
+                "description": "Explain the importance of being a critical health consumer (how do you know whom to believe?; what do you need to know to make informed decisions?; how do you assess the accuracy and credibility of health information, products and services?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-2-7",
+                "description": "Investigate the current and emerging changes and challenges to the healthcare system",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-12-health-in-an-australian-and-global-context-3",
+            "name": "How is the growing and changing use of technology and data impacting Australia’s healthcare system?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-3-1",
+                "description": "Discuss the relationship between technology and health",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-3-2",
+                "description": "Investigate new technologies and treatments in the healthcare system",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-3-3",
+                "description": "Evaluate the impact of digital health on the healthcare system (what is digital heath?; what services exist?; to what extent has digital health been successful in connecting health information?; what challenges and opportunities does digital health provide for individuals and organisations?)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-3-4",
+                "description": "Examine how big data is shaping the health of Australians (how is it being used?; how is it reducing healthcare spending?; how is it being used to cure and manage diseases?; what measures need to be taken to ensure privacy and confidentiality of personal information?)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-12-health-in-an-australian-and-global-context-4",
+            "name": "What actions are needed to promote and improve the health of Australians?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-4-1",
+                "description": "Describe the key features of Sustainable Development Goals (SDGs) (SDG 3: Good Health and Wellbeing; SDG 4: Quality Education; SDG 10: Reduced Inequalities; SDG 11: Sustainable Cities and Communities)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-health-in-an-australian-and-global-context-4-2",
+                "description": "Evaluate the application of SDGs 3, 4, 10 and 11 to inform strategies to improve the health status of a community (how have these goals been applied in other communities?; what lessons can be drawn from other communities and applied to their own community context?; what are the major health issues for a community?; what strategies are needed to advocate and improve a community’s health status?; how do you know these strategies may be effective?)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hms-12-training-for-improved-performance",
+        "name": "Training for improved performance",
+        "subTopics": [
+          {
+            "id": "subtopic-hms-12-training-for-improved-performance-1",
+            "name": "How can exercise assessment and prescription be personalised?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-training-for-improved-performance-1-1",
+                "description": "Explain the importance of using a pre-exercise questionnaire and undertaking relevant health screening by exercise and fitness professionals",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-1-2",
+                "description": "Discuss the use of performance/fitness testing for recreational participants and elite athletes to improve their health, participation and performance",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-1-3",
+                "description": "Explain how exercise assessment can assist in developing training programs",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-12-training-for-improved-performance-2",
+            "name": "How does training influence movement and performance?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-training-for-improved-performance-2-1",
+                "description": "Assess the types of training and training methods and their relevance for a variety of sports (anaerobic training, including anaerobic interval, High Intensity Interval Training (HIIT), Sprint Interval Training (SIT), plyometric, and resistance training; aerobic training, including continuous, fartlek, aerobic interval, and circuit training; flexibility training, including static, dynamic, ballistic, and Proprioceptive Neuromuscular Facilitation (PNF); strength training, including free/fixed weights, body weight exercises and elastics; skill and tactical development, including drills, modified games and games for specific outcomes)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-2-2",
+                "description": "Evaluate the application of the principles of training to both aerobic and strength training (progressive overload; training thresholds; reversibility; specificity; variety; warm-up and cool-down)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-2-3",
+                "description": "Examine the relationship between the principles of training, physiological adaptations and improved performance (heart rate; stroke volume and cardiac output; oxygen uptake and lung capacity; haemoglobin level; muscle hypertrophy; fast/slow twitch muscle fibres)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-12-training-for-improved-performance-3",
+            "name": "How does training differ for individual and group sports?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-training-for-improved-performance-3-1",
+                "description": "Compare aspects that need to be considered when designing a training session for individual and group sports (health and safety considerations; overview/aim of the session (goal specific); warm-up and cool-down; skill instruction and practice; conditioning; strategies and tactics; athlete reflection and/or coach evaluation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-3-2",
+                "description": "Compare a yearly training program for an individual and a group sport (phases of competition: pre-season, in-season and off-season; sub-phases; peaking and tapering; sport-specific attributes: fitness components, skill requirements)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-3-3",
+                "description": "Investigate how individual and group sports apply psychological strategies, optimising arousal and management of stress and anxiety, to improve participation and performance",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-3-4",
+                "description": "Discuss the factors that influence how strategies and tactics are applied to individual and group sports",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-12-training-for-improved-performance-4",
+            "name": "What impact does sleep, nutrition and supplementation have on movement and performance?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-training-for-improved-performance-4-1",
+                "description": "Using research, analyse the dietary requirements, pre, during and post performance needed and fluid intake requirements of athletes from different sports",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-4-2",
+                "description": "Explain how sleep, nutrition and hydration can be used to reduce fatigue and positively influence movement and injury prevention (guidelines; planning; routines; monitoring)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-4-3",
+                "description": "Discuss the use of supplements, micronutrients, protein, caffeine and creatine products for improved performance",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hms-12-training-for-improved-performance-5",
+            "name": "How do individuals train for sustained movement and performance?",
+            "dotPoints": [
+              {
+                "id": "dp-hms-12-training-for-improved-performance-5-1",
+                "description": "Explain how biomechanics can be used to develop efficient movements for sustained movement and improved performance",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-5-2",
+                "description": "Justify recovery strategies used for sustained movement and performance (physiological, including cool-down, hydrotherapy; psychological, including relaxation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-5-3",
+                "description": "Examine the role technology can play to improve performance (training innovations; equipment advances; recording and monitoring training and performance)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-5-4",
+                "description": "Explain the management and prevention of sporting injuries (classification of sports injuries, including direct and indirect, soft and hard tissue or overuse; assessment of injuries, including the Talk, Observe, Touch, Active movement, Passive movement, Skill (TOTAPS) test; management of injuries; rehabilitation procedures, including progressive mobilisation, graduated exercise, training, use of heat and cold; return-to-play policy and procedures, including application to different sports, responsibility)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hms-12-training-for-improved-performance-5-5",
+                "description": "Discuss the impact of drug use on injury management and improving performance (health implications; ethical considerations; drug testing)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,1744 @@
+[
+  {
+    "id": "course-hsc-biology",
+    "name": "HSC Biology",
+    "outcomes": [
+      {
+        "code": "BI-11-01",
+        "description": "explains how cell structures enable biological processes needed for life",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11-02",
+        "description": "explains how cells, tissues and systems contribute to complex multicellular organisms",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11-03",
+        "description": "analyses the relationships between organisms and their environment using the theory of evolution by natural selection",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11WS-02",
+        "description": "designs and evaluates scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11WS-03",
+        "description": "conducts scientific investigations to collect data and information",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11WS-04",
+        "description": "selects and processes qualitative and quantitative data and information",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11WS-05",
+        "description": "analyses and evaluates primary and secondary data and information",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11WS-06",
+        "description": "uses scientific processes to solve scientific problems",
+        "year": "year11"
+      },
+      {
+        "code": "BI-11WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience",
+        "year": "year11"
+      },
+      {
+        "code": "BI-12-01",
+        "description": "analyses the role of DNA in the transmission of heritable characteristics"
+      },
+      {
+        "code": "BI-12-02",
+        "description": "analyses causes and effects of diseases and strategies for disease prevention and management"
+      },
+      {
+        "code": "BI-12-03",
+        "description": "analyses changes in ecosystems and strategies for biodiversity conservation"
+      },
+      {
+        "code": "BI-12-04",
+        "description": "evaluates the use of biotechnologies in medicine, agriculture and biodiversity conservation"
+      },
+      {
+        "code": "BI-12WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations"
+      },
+      {
+        "code": "BI-12WS-02",
+        "description": "designs and evaluates scientific investigations"
+      },
+      {
+        "code": "BI-12WS-03",
+        "description": "conducts scientific investigations to collect data and information"
+      },
+      {
+        "code": "BI-12WS-04",
+        "description": "selects and processes qualitative and quantitative data and information"
+      },
+      {
+        "code": "BI-12WS-05",
+        "description": "analyses and evaluates primary and secondary data and information"
+      },
+      {
+        "code": "BI-12WS-06",
+        "description": "uses scientific processes to solve scientific problems"
+      },
+      {
+        "code": "BI-12WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-bio-11-year-11-working-scientifically",
+        "name": "Year 11: Working scientifically",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-11-year-11-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-year-11-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-year-11-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-year-11-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-year-11-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-year-11-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-year-11-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-year-11-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-11-cells-as-the-basis-of-life",
+        "name": "Cells as the basis of life",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-11-cells-as-the-basis-of-life-1",
+            "name": "Cell structures and functions",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-1-1",
+                "description": "Use a variety of sources to compare the cellular structures of eukaryotic and prokaryotic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-1-2",
+                "description": "Conduct a practical investigation to prepare a wet mount slide and identify the cytoplasm, cell wall and nucleus under a light microscope",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-1-3",
+                "description": "Describe the structure and function of the capsule, cell wall, cell membrane, cytoplasm, nucleoid, plasmid, ribosomes, flagella and pili in prokaryotic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-1-4",
+                "description": "Contrast the cell structure and organelles of plant and animal cells based on the function of the cell",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-1-5",
+                "description": "Describe the structure and function of the cell wall, cell membrane, cytoplasm, nucleus, mitochondria, chloroplast, endoplasmic reticulum, Golgi body, ribosomes, lysosomes and vacuoles in eukaryotic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-1-6",
+                "description": "Conduct a practical investigation to calculate the size of a variety of specialised cells under the microscope using a mini-grid and the equation Cell size = diameter of field of view / number of cells across the field of view",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-1-7",
+                "description": "Assess the impact of technological developments in microscopy on scientific understanding of cell structure and function",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-cells-as-the-basis-of-life-2",
+            "name": "Cells and their environments",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-2-1",
+                "description": "Use the fluid mosaic model of the cell membrane to explain the structure and function of protein channels, phospholipids, peripheral proteins, integral proteins, cholesterol and glycoproteins",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-2-2",
+                "description": "Explain the processes of simple diffusion, osmosis and facilitated diffusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-2-3",
+                "description": "Conduct practical investigations to demonstrate the processes of diffusion and osmosis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-2-4",
+                "description": "Predict the effects of hypertonic, hypotonic and isotonic solutions on animal and plant cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-2-5",
+                "description": "Explain the processes of active transport, exocytosis and endocytosis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-2-6",
+                "description": "Relate the movement of glucose, oxygen, carbon dioxide, salts and wastes across membranes to concentration gradients and the characteristics of the materials being exchanged",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-cells-as-the-basis-of-life-3",
+            "name": "Biochemical processes",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-3-1",
+                "description": "Relate carbon dioxide, oxygen, water, ions, amino acids and glucose to cell requirements",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-3-2",
+                "description": "Use the summary equation C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energy to describe the process of cellular respiration",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-3-3",
+                "description": "Use the summary equation 6CO₂ + 6H₂O —(light, chlorophyll)→ C₆H₁₂O₆ + 6O₂ to describe the process of photosynthesis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-3-4",
+                "description": "Explain the role of enzymes in cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-3-5",
+                "description": "Use diagrams of the induced fit model and the lock and key model to explain the interaction between enzymes and specific substrates",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-3-6",
+                "description": "Plan and conduct laboratory experiments to demonstrate the effect of temperature, pH and substrate concentration on the efficiency of a selected enzyme",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-3-7",
+                "description": "Analyse graphs to explain the effect of temperature, pH and substrate concentration on enzyme activity",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-cells-as-the-basis-of-life-4",
+            "name": "Cell division",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-1",
+                "description": "Use the deoxyribonucleic acid (DNA) double helix model to demonstrate the structure of DNA, including nucleotide composition, complementary base pairing and hydrogen bonding",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-2",
+                "description": "Conduct a practical investigation to model the process of DNA replication, demonstrating the role of complementary bases, the replication fork with leading and lagging strands, and the enzymes of helicase, primase, DNA polymerases and ligase",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-3",
+                "description": "Assess the use of models to demonstrate DNA replication",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-4",
+                "description": "Construct diagrams to compare the forms in which DNA exists in prokaryotic and eukaryotic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-5",
+                "description": "Compare the structures and roles of somatic and gametic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-6",
+                "description": "Account for the phases of gap 1 (G1), synthesis, gap 2 (G2) and mitosis in the cell cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-7",
+                "description": "Conduct a practical investigation to model the named phases of mitosis and cytokinesis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-8",
+                "description": "Describe the processes of crossing over, independent assortment and random segregation during meiosis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-9",
+                "description": "Conduct a practical investigation to model the named phases of meiosis and cytokinesis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-as-the-basis-of-life-4-10",
+                "description": "Evaluate the importance of DNA replication, mitosis, meiosis and cytokinesis in cell division",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-11-cells-to-systems",
+        "name": "Cells to systems",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-11-cells-to-systems-1",
+            "name": "Cell organisation",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-to-systems-1-1",
+                "description": "Compare the characteristics and structures of cells in unicellular, colonial and multicellular organisms",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-1-2",
+                "description": "Explain the effect of the surface-area-to-volume ratio on the rate of movement of materials into and out of a cell",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-1-3",
+                "description": "Conduct a laboratory experiment to predict the effect of the surface-area-to-volume ratio on the rate of movement of materials into and out of a cell",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-1-4",
+                "description": "Explain the hierarchical organisation of organelles, cells, tissues, organs and systems in organisms",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-cells-to-systems-2",
+            "name": "Plants as autotrophic organisms",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-to-systems-2-1",
+                "description": "Describe the nutrient, water and gas requirements of plants for photosynthesis and respiration",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-2",
+                "description": "Discuss the conditions required for photosynthesis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-3",
+                "description": "Conduct a practical investigation to predict how changes in conditions affect photosynthesis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-4",
+                "description": "Use a variety of sources to compare the structures and functions of xylem and phloem in the plant transport system",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-5",
+                "description": "Use the translocation theory to explain the movement of nutrients through phloem tissue",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-6",
+                "description": "Use the cohesion-tension theory to explain how osmotic pressure, transpiration stream and the cohesion of water molecules control the movement of water and dissolved minerals through the xylem",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-7",
+                "description": "Explain how light, temperature, wind and humidity affect the rate of transpiration in plants",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-8",
+                "description": "Conduct a practical investigation to demonstrate the effect of an environmental factor on the rate of transpiration",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-2-9",
+                "description": "Conduct a practical investigation to explain the functions of gas exchange, water and nutrient transport in microscopic leaf, stem and root structures",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-cells-to-systems-3",
+            "name": "Animals as heterotrophic organisms",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-to-systems-3-1",
+                "description": "Describe the organ systems required for nutrient, water, gas and waste management in animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-2",
+                "description": "Use a variety of sources to describe how the processes of mechanical, physical and chemical digestion, absorption and elimination in the human digestive system enable cellular functions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-3",
+                "description": "Account for changes in the concentration of gases, nutrients and wastes in blood as it travels through the lungs, liver, small intestine, large intestine, kidneys and muscles organs in mammals",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-4",
+                "description": "Use models to demonstrate the relationship between the structure and function of arteries, capillaries and veins",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-5",
+                "description": "Explain the relationship between the structure of plasma, red blood cells, white blood cells and platelets and their function within blood",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-6",
+                "description": "Use models to demonstrate how the organisation of alveoli and capillaries in the lungs allows for efficient gas exchange",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-7",
+                "description": "Explain how glomerular filtration, selective reabsorption and secretion contribute to the removal of waste in nephrons",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-8",
+                "description": "Use models to explain how the glomerulus, Bowman’s capsule and nephron tubules contribute to filtration and reabsorption for waste removal in the kidney",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-3-9",
+                "description": "Conduct a secondary-source investigation to compare the process of renal dialysis to the function of the kidney",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-cells-to-systems-4",
+            "name": "Homeostasis in humans",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-cells-to-systems-4-1",
+                "description": "Describe the key components of a typical feedback system, including stimulus, receptor, control centre, effector and response",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-4-2",
+                "description": "Construct and interpret diagrams of negative feedback loops to demonstrate maintenance of homeostasis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-4-3",
+                "description": "Discuss the role of the hypothalamus and pituitary gland in regulating the secretion of hormones",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-4-4",
+                "description": "Describe the function of the primary hormones that regulate blood sugar levels and the stress response",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-4-5",
+                "description": "Conduct a secondary-source investigation to analyse the impact of diabetes on the body’s ability to maintain homeostasis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-4-6",
+                "description": "Analyse data on hormone levels and physiological processes to illustrate the role of an endocrine hormone in regulating a specific function",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-cells-to-systems-4-7",
+                "description": "Using a physiological condition discuss the optimal range for functioning and critical tolerance limit",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-11-evolution-and-ecosystems",
+        "name": "Evolution and ecosystems",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-11-evolution-and-ecosystems-1",
+            "name": "Natural selection",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-1",
+                "description": "Discuss the role of genetic variation, inheritance and selective pressures in contributing to the process of evolution by natural selection",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-2",
+                "description": "Use examples to demonstrate how abiotic and biotic factors exert selective pressures on populations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-3",
+                "description": "Explain how human-induced changes may function as selective pressures",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-4",
+                "description": "Analyse how evolution causes species diversity",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-5",
+                "description": "Describe examples from Aboriginal palaeontological evidence that demonstrate the existence of Australian megafauna",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-6",
+                "description": "Evaluate the role of isolation and adaptation in the evolution of Australian monotremes and marsupials",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-7",
+                "description": "Conduct a practical investigation to model the processes involved in natural selection",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-8",
+                "description": "Discuss the validity of various models that demonstrate natural selection",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-1-9",
+                "description": "Use examples to explain convergent and divergent evolution",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-evolution-and-ecosystems-2",
+            "name": "Evolution and adaptations",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-1",
+                "description": "Use plant and animal examples to explain how structural, physiological and behavioural adaptations shaped by evolution enable survival in their environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-2",
+                "description": "Conduct a practical investigation to examine structural adaptations for water balance in Australian plants",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-3",
+                "description": "Use examples to explain behavioural adaptations used by ectotherms and endotherms to survive in the Australian environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-4",
+                "description": "Analyse data to compare how the external environment and body temperature are related in endotherms and ectotherms",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-5",
+                "description": "Explain physiological adaptations of aquatic animals to regulate water and salt balance",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-6",
+                "description": "Explain how Aboriginal and Torres Strait Islander Peoples use the adaptations of local plants and animals for specific purposes",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-7",
+                "description": "Use phylogenetic trees to compare the gradualism model with the punctuated equilibrium model of evolution",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-8",
+                "description": "Conduct a secondary-source investigation to analyse how human-induced pressures can drive the emergence of antibiotic-resistant strains of bacteria and Dichloro-Diphenyl-Trichloroethane (DDT)-resistant mosquitoes",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-9",
+                "description": "Analyse information on how transitional fossils, fossil assemblages and relative dating have provided palaeontological and geological evidence for past changes in life forms",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-10",
+                "description": "Conduct a scientific investigation to infer evolutionary relationships between species using DNA and amino acid sequences",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-2-11",
+                "description": "Evaluate comparative anatomy, genetic phylogeny, biogeography and biochemistry as evidence for the theory of evolution by natural selection",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-11-evolution-and-ecosystems-3",
+            "name": "Ecosystem dynamics",
+            "dotPoints": [
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-1",
+                "description": "Conduct a practical investigation to collect and analyse abiotic and biotic data, to discuss the features of an ecosystem",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-2",
+                "description": "Compare abiotic data from a variety of aquatic and terrestrial ecosystems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-3",
+                "description": "Explain how abiotic and biotic factors influence the abundance, distribution and diversity of species in an ecosystem",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-4",
+                "description": "Compare sampling techniques to estimate distribution and abundance of organisms",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-5",
+                "description": "Conduct a practical investigation to examine the distribution and abundance of a plant or animal using belt transect, line transect or quadrat sampling techniques",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-6",
+                "description": "Conduct a practical investigation to model the mark-release-recapture method and estimate abundance of mobile organisms",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-7",
+                "description": "Use examples to determine relationships between organisms, including predation, competition, mutualism, commensalism, allelopathy and parasitism",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-8",
+                "description": "Analyse data on the impact of predator–prey relationships and competition on populations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-9",
+                "description": "Explain how the carrying capacity of a selected ecosystem is affected by biotic and abiotic factors",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-11-evolution-and-ecosystems-3-10",
+                "description": "Evaluate the validity, reliability and accuracy of ecological sampling data when drawing conclusions about ecosystem dynamics",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-12-year-12-working-scientifically",
+        "name": "Year 12: Working scientifically",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-12-year-12-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-year-12-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-year-12-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-year-12-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-year-12-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-year-12-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena, and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-year-12-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-year-12-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-12-heredity",
+        "name": "Heredity",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-12-heredity-1",
+            "name": "Polypeptide synthesis",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-heredity-1-1",
+                "description": "Interpret models of the structure and composition of eukaryotic DNA, messenger ribonucleic acid (mRNA) and transfer ribonucleic acid (tRNA)",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-2",
+                "description": "Conduct a practical investigation to model the process of polypeptide synthesis, demonstrating the role of the template strand, coding strand, uracil, ribonucleic acid (RNA) polymerase, free-floating RNA nucleotides, mRNA, ribosomal ribonucleic acid (rRNA), start codon, stop codon, tRNA, peptide bonds and amino acids",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-3",
+                "description": "Explain the roles of mRNA and tRNA in transcription and translation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-4",
+                "description": "Explain the role of introns and exons in alternative splicing of mRNA sequences",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-5",
+                "description": "Solve problems using nitrogenous base pairing rules and codon tables to model the expression of a given exonic DNA coding strand, determining the sequence of the template strand, the mRNA and the amino acid sequence",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-6",
+                "description": "Use an example to explain the relationship between a protein’s primary, secondary, tertiary and quaternary structure and function",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-7",
+                "description": "Explain the function of proteins in living things",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-8",
+                "description": "Explain the role of protein synthesis in the relationship between DNA sequence and phenotype",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-9",
+                "description": "Assess how environmental factors influence phenotype",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-10",
+                "description": "Conduct a scientific investigation to demonstrate the effect of environment on gene expression",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-11",
+                "description": "Discuss the role of regulatory RNA in gene expression and its potential biotechnological application",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-12",
+                "description": "Assess how epigenetic changes influence phenotype",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-1-13",
+                "description": "Evaluate the importance of polypeptide synthesis in living things",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-heredity-2",
+            "name": "Inheritance patterns",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-heredity-2-1",
+                "description": "Distinguish between alleles, genes and genotypes",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-2-2",
+                "description": "Analyse the processes and the implications of meiosis, crossing over, independent assortment, random segregation and fertilisation in creating genetic variation in offspring",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-2-3",
+                "description": "Use examples to distinguish between autosomal dominant/recessive, codominant and incomplete dominant inheritance",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-2-4",
+                "description": "Compare autosomal, sex-linked and multiple allele inheritance",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-2-5",
+                "description": "Use Punnett squares to solve inheritance problems, including autosomal dominant/recessive, codominance, incomplete dominance, multiple alleles and sex-linked",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-2-6",
+                "description": "Explain the difference in genotype and phenotype ratios observed in Punnett squares for sex-linked and autosomal inheritance",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-2-7",
+                "description": "Construct and interpret pedigree charts involving autosomal and sex-linked inheritance",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-heredity-3",
+            "name": "Genetic variants",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-heredity-3-1",
+                "description": "Explain how electromagnetic radiation, chemicals and naturally occurring mutagens may result in mutations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-2",
+                "description": "Explain how mutations in coding DNA affects the function of a protein",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-3",
+                "description": "Use diagrams to distinguish between base substitutions, insertions and deletions as point mutations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-4",
+                "description": "Compare silent, missense, nonsense and frameshift mutations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-5",
+                "description": "Use diagrams to distinguish between duplications, deletions, inversions and translocations as chromosomal mutations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-6",
+                "description": "Compare point mutations and chromosomal mutations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-7",
+                "description": "Interpret images of karyotypes, showing how chromosomes arranged as homologous pairs explain non-disjunction",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-8",
+                "description": "Analyse the implications of somatic and germline variants in the context of tumour formation, genetic disease and genetic diversity",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-9",
+                "description": "Conduct a secondary-source investigation on single nucleotide polymorphisms (SNPs) in populations and their association with a genetic disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-heredity-3-10",
+                "description": "Assess potential limitations and constraints of SNP testing and databases in diagnostic medicine",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-12-diseases",
+        "name": "Diseases",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-12-diseases-1",
+            "name": "Non-infectious diseases",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-diseases-1-1",
+                "description": "Use examples to explain the impact of genetics, environment and nutrition on the development of non-infectious diseases in humans",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-1-2",
+                "description": "Compare the causes and effects of a range of non-infectious diseases in humans",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-1-3",
+                "description": "Explain the Aboriginal Cultural Practices of using native grasses to prevent nutritional disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-1-4",
+                "description": "Conduct a secondary-source investigation to evaluate the effectiveness of a campaign to prevent a non-infectious disease",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-diseases-2",
+            "name": "Infectious diseases",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-diseases-2-1",
+                "description": "Use examples of infectious diseases to classify infectious agents as macroorganisms, microorganisms or non-cellular pathogens",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-2",
+                "description": "Describe the adaptive features of prions, viruses, bacteria, protozoans, fungi and macroparasites",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-3",
+                "description": "Compare direct contact, indirect contact and vector transmission of pathogens that facilitate entry into and transmission between hosts",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-4",
+                "description": "Conduct a laboratory experiment to assess the effect of antimicrobial treatment on the growth of microorganisms found in food or water",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-5",
+                "description": "Distinguish between innate and adaptive immune response",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-6",
+                "description": "Interpret and construct diagrams of the innate immune system including barriers, secretions, phagocytic leukocytes, antimicrobial proteins, inflammatory response and fever",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-7",
+                "description": "Conduct a scientific investigation to determine the effect of temperature on the viability of a non pathogenic E. coli",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-8",
+                "description": "Discuss the role of interleukin communication between innate and adaptive cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-9",
+                "description": "Describe the roles of helper T cells, cytotoxic T cells, memory T cells and suppressor T cells of the cell-mediated immune response within the adaptive immune system",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-10",
+                "description": "Describe the roles of plasma cells, memory B cells and antibodies of the humoral immune response within the adaptive immune system",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-11",
+                "description": "Interpret and construct diagrams of the adaptive immune system to demonstrate how the cell-mediated and humoral components of the immune system respond after primary and secondary exposure to a pathogen",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-12",
+                "description": "Distinguish between passive and active immunity",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-13",
+                "description": "Use data to demonstrate how vaccinations support adaptive immunity",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-14",
+                "description": "Compare pharmaceutical treatments for viral and bacterial diseases",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-15",
+                "description": "Describe the use of an Aboriginal bush medicine in treating disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-2-16",
+                "description": "Explain procedures that can be employed to limit transmission of infectious diseases in humans",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-diseases-3",
+            "name": "Epidemiological studies",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-diseases-3-1",
+                "description": "Explain the role of epidemiology in public health and disease control",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-2",
+                "description": "Compare the features of observational, analytical and experimental epidemiological studies",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-3",
+                "description": "Discuss the features of randomised clinical trials, cross-sectional studies, case studies and cohort studies",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-4",
+                "description": "Assess surveillance methods used in the management of disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-5",
+                "description": "Distinguish between incidence, prevalence, morbidity and mortality as used in epidemiological studies",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-6",
+                "description": "Analyse data of the incidence, prevalence, morbidity and mortality rates for a non-infectious and an infectious disease in humans",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-7",
+                "description": "Explain how epidemiological information is used to create strategies that prevent and treat a selected disease in humans",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-8",
+                "description": "Outline the impact of the work of selected scientists on current disease management",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-9",
+                "description": "Distinguish between causal and correlational relationships",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-10",
+                "description": "Interpret evidence from secondary sources about herpes, human papillomavirus (HPV) and cervical cancer to discuss scientific causation and correlation",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-11",
+                "description": "Analyse data that demonstrates a causal relationship for a selected environmental disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-12",
+                "description": "Assess approaches taken to reduce selection error and confounding factors in an epidemiological study",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-13",
+                "description": "Interpret data and information to outline causes of error, information bias, measurement bias and limitations in data relating to a disease during an epidemic or pandemic",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-diseases-3-14",
+                "description": "Evaluate, using examples, the benefits of engaging in an epidemiological study on preventing and managing disease",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-12-biodiversity",
+        "name": "Biodiversity",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-12-biodiversity-1",
+            "name": "Changing ecosystems",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-biodiversity-1-1",
+                "description": "Explain ecosystem changes that have occurred as a result of the introduction of invasive species",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-1-2",
+                "description": "Explain impacts of monoculture, pesticide use, land clearing and habitat loss on the health of ecosystems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-1-3",
+                "description": "Interpret data to demonstrate the effects of invasive species on the local environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-1-4",
+                "description": "Conduct a secondary-source investigation to analyse the natural and human-induced causes for a selected Australian species becoming threatened, endangered or extinct",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-1-5",
+                "description": "Describe the role of a keystone species in the health of an ecosystem",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-1-6",
+                "description": "Analyse data on a keystone species and predict the outcomes of removing the species from an Australian ecosystem",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-biodiversity-2",
+            "name": "Genetic diversity",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-biodiversity-2-1",
+                "description": "Discuss biodiversity in relation to the diversity of genes and species in ecosystems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-2",
+                "description": "Assess the importance of gene pool size for the ongoing survival of a population",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-3",
+                "description": "Use examples to compare asexual and sexual reproduction methods of plants for creating variation in a species",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-4",
+                "description": "Use examples to compare external and internal fertilisation methods for creating variation in a species",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-5",
+                "description": "Explain how asexual reproductive methods of budding, spore formation, parthenogenesis and binary fission impact on the continuity of species in changing environments",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-6",
+                "description": "Explain how the founder effect and bottlenecks result in genetic drift",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-7",
+                "description": "Discuss genetic drift, gene flow and selection pressures in relation to allele frequency in a population",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-8",
+                "description": "Conduct a practical investigation to model how allele frequencies can be affected by different factors over successive generations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-9",
+                "description": "Analyse data on the effect of reduced genetic diversity on the survival of Tasmanian devil populations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-10",
+                "description": "Evaluate the effect of mutation, natural selection, non-random mating, gene flow and genetic drift on allele frequencies in populations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-11",
+                "description": "Relate changes in the frequency of genetic variants to the genetic diversity, stability and evolution of a population",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-12",
+                "description": "Explain the physical and chemical changes of a plant in response to the presence of pathogens",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-13",
+                "description": "Conduct a scientific investigation to evaluate the effect of Panama disease on bananas",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-14",
+                "description": "Use examples to assess the effects of infectious diseases on plants",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-15",
+                "description": "Analyse data to justify the choice of an indicator species to determine a change in an Australian ecosystem",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-2-16",
+                "description": "Explain the importance of genetic diversity in a species, species diversity and ecosystem diversity for ecosystem health, and the continuity of life in a changing environment",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-biodiversity-3",
+            "name": "Sustainable ecosystems",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-biodiversity-3-1",
+                "description": "Discuss the concept of ecological sustainability",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-2",
+                "description": "Describe how Aboriginal and Torres Strait Islander Peoples’ Practices focus on sustainability and maintaining the health of Country/Place",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-3",
+                "description": "Explain procedures employed in Australia to limit transmission of infectious diseases in animals and plants",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-4",
+                "description": "Use examples to evaluate environmental management and quarantine methods used to control and prevent an epidemic in plants or animals in Australian ecosystems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-5",
+                "description": "Evaluate the success of physical, chemical and biological strategies used to control an invasive species in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-6",
+                "description": "Assess the role of national parks and marine reserves in maintaining biodiversity in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-7",
+                "description": "Analyse the benefits, limitations and ethical issues associated with the reintroduction of an extinct Australian species",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-8",
+                "description": "Conduct a scientific investigation to evaluate an Australian conservation program that aims to improve genetic diversity of a threatened population",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biodiversity-3-9",
+                "description": "Predict future impacts of human-induced and natural selection pressures on the biodiversity of an ecosystem",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bio-12-biotechnology",
+        "name": "Biotechnology",
+        "subTopics": [
+          {
+            "id": "subtopic-bio-12-biotechnology-1",
+            "name": "Modern biotechnologies",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-biotechnology-1-1",
+                "description": "Discuss the roles of biological knowledge, genetic engineering and bioinformatics techniques used in biotechnology",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-1-2",
+                "description": "Use examples to explain how biotechnology is currently used in Australian research, agriculture, biodiversity conservation and health",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-1-3",
+                "description": "Use examples to compare transgenic organisms and genetically modified organisms",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-1-4",
+                "description": "Compare germline genetic changes in reproductive and genetic engineering biotechnologies",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-1-5",
+                "description": "Assess the role of data and modelling in developing and using biotechnology",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-biotechnology-2",
+            "name": "Biotechnology in human diseases",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-biotechnology-2-1",
+                "description": "Use examples to explain how biotechnologies diagnose genetic diseases",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-2",
+                "description": "Assess the use of genetic databases for the analysis of the prevalence of a genetic disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-3",
+                "description": "Discuss the risks and benefits of using biotechnologies to provide personalised information about the risk of developing, and management of, a non-infectious disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-4",
+                "description": "Outline the method and outcome of 2 selected gene therapies used to reduce the impact of genetic conditions",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-5",
+                "description": "Conduct a scientific investigation to model the process of using recombinant DNA technology to produce human insulin",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-6",
+                "description": "Analyse data to evaluate a biotechnology used for a selected non-infectious disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-7",
+                "description": "Discuss current and future applications of biotechnology to improve outcomes of a selected non-infectious disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-8",
+                "description": "Assess the ethical and legal implications of using gene therapies in health care",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-9",
+                "description": "Compare the processes of 2 current biotechnologies used in diagnosing infectious diseases",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-10",
+                "description": "Conduct a secondary-source investigation to evaluate the use of biotechnologies on the prevalence of mosquito-borne diseases",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-2-11",
+                "description": "Evaluate the potential societal benefits of using genetic technologies to manage infectious diseases",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bio-12-biotechnology-3",
+            "name": "Biotechnology in agriculture and biodiversity",
+            "dotPoints": [
+              {
+                "id": "dp-bio-12-biotechnology-3-1",
+                "description": "Discuss Aboriginal and Torres Strait Islander Peoples' uses and applications of biotechnologies",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-3-2",
+                "description": "Account for the use of artificial pollination in Australian agriculture, including its methods and outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-3-3",
+                "description": "Conduct a secondary-source investigation on a current plant reproductive technology used to support biodiversity in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-3-4",
+                "description": "Discuss how bioinformatics is used to determine the health of an ecosystem",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-3-5",
+                "description": "Use an example to account for the use of bioinformatics to inform decisions about the conservation of an Australian species",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-3-6",
+                "description": "Discuss the benefits and ethical implications of using a genetically modified plant to address a nutritional deficiency",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-3-7",
+                "description": "Evaluate the release of a genetically modified organism into the wild and predict the impacts on natural populations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bio-12-biotechnology-3-8",
+                "description": "Assess the influence of social, economic and cultural contexts on the use of a biotechnology in agriculture",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

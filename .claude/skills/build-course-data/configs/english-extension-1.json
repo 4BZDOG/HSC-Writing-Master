@@ -1,0 +1,21 @@
+{
+  "syllabus": "English Extension 11–12 Syllabus (2024), Extension 1 only; Year 12 from Term 4 2026, first HSC 2027",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/english/english-extension-11-12-2024",
+  "startFocusAreas": ["content/year-11/fa2bd9cd77", "content/year-12/faa5982718"],
+  "id": "course-hsc-english-extension-1",
+  "name": "HSC English Extension 1",
+  "prefix": "ee1",
+  "allOutcomes": true,
+  "outcomePattern": "^EE1-1[12][A-Z]*-\\d\\d$",
+  "topics": [
+    {
+      "title": "Texts, culture and value",
+      "year": "year11"
+    },
+    {
+      "title": "Literary worlds",
+      "year": "year12",
+      "electives": true
+    }
+  ]
+}

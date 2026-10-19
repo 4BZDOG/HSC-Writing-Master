@@ -50,6 +50,12 @@ describe('subject areas — filing a course under a faculty', () => {
     ['Mathematics Extension 1', 'Mathematics'],
     ['Visual Arts', 'Creative Arts'],
     ['PDHPE', 'PDHPE'],
+    ['HSC Health and Movement Science', 'PDHPE'],
+    ['Community and Family Studies', 'PDHPE'],
+    ['Aboriginal Studies', 'HSIE'],
+    ['Dance', 'Creative Arts'],
+    ['HSC History Extension', 'HSIE'],
+    ['HSC English Extension 1', 'English'],
   ])('reads %s as %s', (name, area) => {
     expect(detectSubjectArea(name)).toBe(area);
   });

@@ -71,6 +71,30 @@ python3 .claude/skills/build-course-data/tools/build_course.py \
   `topics/*-topic.json` file identical to its course topic and derives sample-answer bands.
 - Commit this on its own branch before launching agents (see 3).
 
+### 2b. A new course with structure only (no questions)
+
+For a course the seed does not have yet, `build_structure.py` writes topics, sub-topics, dot points and
+outcomes straight from `nesa.json`, every dot point with `"prompts": []` (teachers fill them with the
+Starter questions tool, or a later authoring pass with section 3):
+
+```
+python3 .claude/skills/build-course-data/tools/build_structure.py \
+  --nesa <out_dir>/nesa.json --config <course>.config.json --out public/courseData/<CourseFile>.json
+```
+
+The config names the course and lists, in order, exactly which focus areas become topics
+(`{"title", "year", "name"?, "electives"?}`), or expands an options list (`{"optionsList", "year",
+"nameFormat": "Year 11 {title}"}`). Everything not listed is printed as excluded, so a left-out focus area
+is a decision you can see. Topic names must be unique in a course (import matches topics by name), so a
+focus area NESA repeats in both years needs a `name` ("Year 11: Working scientifically"). `allOutcomes`
+keeps outcomes from parts you excluded (History Extension's project outcome). The configs used for the
+October 2026 round (HMS, Biology, English Studies, EAL/D, Extension 1, History Extension) are in
+`.claude/skills/build-course-data/configs/`; each file's top-level keys are the course id, name and prefix.
+
+`fetch_nesa.py` also fetches options-list focus areas (English Studies electives, History Extension case
+studies), records prescriptions as `electives` (Extension 1 Literary worlds), flattens statements that
+hold an equation (Biology), and re-parses saved pages with `NESA_REUSE=1`.
+
 ## 3. Author the questions with agents
 
 ```
@@ -119,9 +143,9 @@ English; NESA's command-term wording (`data/commandTerms.ts` matches NESA's glos
 
 ## 5. Ship
 
-- Bump `DATA_VERSION` in `utils/storageUtils.ts` **and** the sync gate `isOlderThan(savedVersion, '…')` in
-  `hooks/useSyllabusData.ts` to the same version — shipped-course changes only reach browsers that already
-  synced when the version moves. Unedited copies are refreshed; edited copies are backed up as
+- Bump `DATA_VERSION` in `utils/storageUtils.ts` — shipped-course changes only reach browsers that
+  already synced when the version moves (the sync in `hooks/useSyllabusData.ts` runs whenever the saved
+  version is older than `DATA_VERSION`). Unedited copies are refreshed; edited copies are backed up as
   "(before refresh)" and hidden from the navigator (`supersededBy`).
 - Add a `projectDocs/changeLog.md` entry. Several open PRs adding a top entry conflict — merge main, keep
   both entries.
