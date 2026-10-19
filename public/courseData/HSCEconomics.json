@@ -42,9 +42,939 @@
       {
         "code": "ECO-12-10",
         "description": "communicates economic ideas, perspectives and information in a range of forms appropriate to purpose and audience"
+      },
+      {
+        "code": "ECO-11-01",
+        "description": "uses economic terms, concepts and principles in a range of contexts",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-02",
+        "description": "explains the economic role of individuals, businesses, institutions and government",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-03",
+        "description": "explains the role and operation of markets in the Australian and global economy",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-04",
+        "description": "explains the causes of economic issues and their consequences for individuals, businesses, government and the economy",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-05",
+        "description": "discusses the perspectives of individuals, businesses, institutions and government on a range of economic issues",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-06",
+        "description": "explains how policies are used to manage the economy",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-07",
+        "description": "discusses policy measures to address economic issues in actual or hypothetical contexts",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-08",
+        "description": "analyses data for patterns and relationships to support economic arguments and decision-making",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-09",
+        "description": "applies mathematical concepts, formulas and techniques in economic contexts",
+        "year": "year11"
+      },
+      {
+        "code": "ECO-11-10",
+        "description": "communicates economic ideas and information in a range of forms appropriate to purpose and audience",
+        "year": "year11"
       }
     ],
     "topics": [
+      {
+        "id": "topic-eco-11-introduction-to-economics",
+        "name": "Introduction to economics",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eco-11-introduction-to-economics-1",
+            "name": "Economic thinking",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-1",
+                "description": "What is an economy and what is economics?",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-2",
+                "description": "The economic problem, including wants, resources and scarcity, and economic decision-making as the choice between alternatives",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-3",
+                "description": "Economic agents responsible for economic decision-making, including consumers, producers and government",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-4",
+                "description": "Opportunity cost and other trade-offs in economic decision-making",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-5",
+                "description": "Cost–benefit principle in economic decision-making, including marginal costs and benefits, and short-term versus long-term factors",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-6",
+                "description": "Incentives and disincentives in economic decision-making, including intended and unintended consequences",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-7",
+                "description": "Role of data in economic decision-making, including informing public policy, monitoring economic performance and forecasting",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-8",
+                "description": "Role of models in economic decision-making, including the key assumptions of economic models",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-9",
+                "description": "Challenge of behavioural economics to conventional assumptions of rational behaviour and self-interest in economic decision-making, including cognitive biases and ethical considerations",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-10",
+                "description": "Relationship between microeconomics and macroeconomics",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-1-11",
+                "description": "Contribution of economics to understanding and solving real-world problems",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-introduction-to-economics-2",
+            "name": "Operation of an economy",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-introduction-to-economics-2-1",
+                "description": "Factors of production, including natural resources (land), labour, capital and entrepreneurship",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-2-2",
+                "description": "Factor incomes, specifically rent, wages, interest and profit",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-2-3",
+                "description": "Key questions for any economy, including ‘What to produce?’, ‘How to produce?’, ‘How much to produce?’, ‘How to distribute production?’",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-2-4",
+                "description": "How the key questions for any economy are addressed in different economic systems, including pre-industrial, planned, free market and mixed market economies",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-2-5",
+                "description": "Importance of money to the operation of an economy, including its forms and functions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-introduction-to-economics-3",
+            "name": "Economic model: production possibilities",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-introduction-to-economics-3-1",
+                "description": "Production possibilities model and opportunity cost, including production possibilities frontiers (PPF) and production possibilities schedules",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-3-2",
+                "description": "Interpret PPFs and production possibilities schedules, including shifts of the frontier",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-3-3",
+                "description": "Assumptions of the production possibilities model",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-3-4",
+                "description": "Identify opportunity costs from PPFs and production possibilities schedules",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-3-5",
+                "description": "Economic efficiency and reasons for an economy operating on, inside or outside its PPF, including underemployment of resources and technological advances",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-3-6",
+                "description": "Opportunity costs of producing consumer and capital goods",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-introduction-to-economics-4",
+            "name": "Economic model: circular flow of income",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-introduction-to-economics-4-1",
+                "description": "Roles of the household, business, financial, government and international sectors in the circular flow of income model",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-4-2",
+                "description": "Income flows into the economy (injections) and out of the economy (leakages) from different sectors via investment (I), government spending (G), exports (X), savings (S), taxation (T) and imports (M)",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-4-3",
+                "description": "Interpret circular flow of income diagrams",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-4-4",
+                "description": "Identify equilibrium and disequilibrium positions in an economy using the formula S + T + M = I + G + X",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-4-5",
+                "description": "Effects of change to injections and leakages on the circular flow of income model and the overall economy",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-introduction-to-economics-5",
+            "name": "Economic model: business cycle",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-introduction-to-economics-5-1",
+                "description": "Gross domestic product (GDP), including contributions of the private and public sectors",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-5-2",
+                "description": "Reasons economies pursue higher GDP",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-5-3",
+                "description": "Contributions of Aboriginal and Torres Strait Islander businesses to GDP",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-5-4",
+                "description": "Stages of the business cycle, including expansion/upturn, contraction/downturn, peak, trough",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-5-5",
+                "description": "Relationship between stages of the business cycle and economic conditions, including unemployment and inflation",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-5-6",
+                "description": "Reasons for fluctuations in the business cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-introduction-to-economics-5-7",
+                "description": "Effects of business cycle fluctuations on households, businesses and government",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eco-11-household-and-business-sector",
+        "name": "Household and business sector",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eco-11-household-and-business-sector-1",
+            "name": "Households: the consumption of goods and services",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-1",
+                "description": "Role of households in the economy",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-2",
+                "description": "Consumers as utility-maximising agents, including choices at the margin and the law of diminishing marginal utility",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-3",
+                "description": "Consumers as socially and ethically motivated agents, including the influence of collective values, culture and social norms",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-4",
+                "description": "Relationship between consumption, savings and income, including the marginal propensity to consume (MPC), marginal propensity to save (MPS), and MPC + MPS = 1",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-5",
+                "description": "Determine the marginal propensity to consume ∆C / ∆Y",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-6",
+                "description": "Savings as deferred consumption, dissaving and the paradox of thrift",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-7",
+                "description": "Role of consumer sovereignty and factors that challenge its functioning, including marketing and behavioural sludges",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-8",
+                "description": "Effect of changes in income on types of consumption, including expenditure on normal goods, inferior goods and Veblen goods",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-1-9",
+                "description": "Contribution of consumption and income to wellbeing",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-household-and-business-sector-2",
+            "name": "Households: the provision of labour",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-household-and-business-sector-2-1",
+                "description": "Factors affecting supply of labour from households, including wage and non-wage benefits, working conditions, population, workforce participation, education, training and skills, occupational and geographic mobility of labour",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-2-2",
+                "description": "Disincentives to participation in the workforce, including workplace inflexibility and culture, inadequate leave entitlements, and affordability and availability of care",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-household-and-business-sector-3",
+            "name": "Businesses: production of goods and services",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-household-and-business-sector-3-1",
+                "description": "Role of businesses in the economy",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-3-2",
+                "description": "Producers as profit-maximising agents, including the differences between economic profit and accounting profit",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-3-3",
+                "description": "Classification of businesses, including public enterprises, private enterprises and industries",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-3-4",
+                "description": "Relationship between production and productivity, and the importance of productivity to profitability and living standards",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-3-5",
+                "description": "Factors affecting the productivity of businesses, including technological innovation, capital deepening, worker skills, internal and external economies and diseconomies of scale",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-3-6",
+                "description": "Interpret long-run average cost (LRAC) curves that model economies and diseconomies of scale, including the technical optimum",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-household-and-business-sector-4",
+            "name": "Businesses: the provision of income",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-household-and-business-sector-4-1",
+                "description": "Income earned by labour, including wage benefits, non-wage benefits and the role of the minimum wage",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-4-2",
+                "description": "Arguments for and against the equitable distribution of income from work",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-household-and-business-sector-4-3",
+                "description": "Factors affecting demand for labour by businesses, including total output, relative cost of labour and capital, artificial intelligence (AI) and automation, profitability of businesses and government policy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eco-11-government-sector",
+        "name": "Government sector",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eco-11-government-sector-1",
+            "name": "Role of government",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-government-sector-1-1",
+                "description": "Role of government in the economy, including redistribution, reallocation, stabilisation and correction of market failure",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-1-2",
+                "description": "Role of Aboriginal and Torres Strait Islander advisory bodies in shaping government policy for economic outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-1-3",
+                "description": "Governments as social welfare-maximising agents, including improving quality of life",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-1-4",
+                "description": "Features of the Australian federal Budget and tax-transfer system",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-1-5",
+                "description": "Regulation as a government tool to manage the economy and minimise, mitigate or eliminate harm",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-1-6",
+                "description": "Government use of nudges and incentives to alter the economic behaviour of households and businesses",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-1-7",
+                "description": "Arguments for and against the privatisation and nationalisation of businesses",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-government-sector-2",
+            "name": "Taxation",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-government-sector-2-1",
+                "description": "Purposes of taxation for the economy and society",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-2-2",
+                "description": "Major sources of Australian Government revenue",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-2-3",
+                "description": "Features of the tax base, including income, wealth and consumption",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-2-4",
+                "description": "Types of taxation, including personal income, profit, sales taxes and excise duty",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-2-5",
+                "description": "Characteristics and types of direct and indirect taxes, including the economic and legal incidence of tax",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-2-6",
+                "description": "Features of a good tax, including simplicity, fairness and efficiency",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-2-7",
+                "description": "Rationale for reform of the Australian taxation system",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-government-sector-3",
+            "name": "Government spending",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-government-sector-3-1",
+                "description": "Purpose of recurrent and non-recurrent government spending, including transfer payments, essential services and infrastructure",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-3-2",
+                "description": "Major areas of Australian Government expenditure",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-government-sector-3-3",
+                "description": "Rationale for reform of Australian Government spending",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eco-11-financial-sector",
+        "name": "Financial sector",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eco-11-financial-sector-1",
+            "name": "Role of financial sector",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-financial-sector-1-1",
+                "description": "Role of financial sector in the economy, including facilitating savings and investment",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-1-2",
+                "description": "Types of financial intermediaries, including banks, insurers, fund managers and the central bank",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-1-3",
+                "description": "Role of superannuation in the Australian economy as a source of savings and investment",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-financial-sector-2",
+            "name": "Types of financial markets: equity markets",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-financial-sector-2-1",
+                "description": "Characteristics of equity markets",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-2-2",
+                "description": "Primary and secondary share markets, including their functions and effects on the economy",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-financial-sector-3",
+            "name": "Types of financial markets: debt markets",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-financial-sector-3-1",
+                "description": "Characteristics of debt markets",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-3-2",
+                "description": "Primary and secondary bond markets, including their functions and effects on the economy",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-3-3",
+                "description": "Role of interest rates in the economy, including the price of money, the cost of credit, the return on savings, and as an indicator of risk",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-3-4",
+                "description": "Factors affecting the demand for funds, including consumer and business confidence, investment opportunities and government policies",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-3-5",
+                "description": "Factors affecting the supply of funds, including domestic savings, alternative investment opportunities, foreign investment and government policies",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-3-6",
+                "description": "Interpret a loanable funds graph to demonstrate the effect of changes in demand for funds and supply of funds on the rate of interest",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-financial-sector-3-7",
+                "description": "Effects of interest rate changes on housing affordability",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eco-11-markets",
+        "name": "Markets",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eco-11-markets-1",
+            "name": "Role of markets",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-1-1",
+                "description": "Role of the price mechanism in a market economy, including the signalling, incentive and rationing functions of relative prices",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-1-2",
+                "description": "Contribution of self-interest and institutions to the functioning of markets, including the rule of law and enforcement of property rights and contracts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-1-3",
+                "description": "Relationship between factor markets and product markets",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-2",
+            "name": "Demand",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-2-1",
+                "description": "Effective individual demand and market demand",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-2-2",
+                "description": "Law of demand and the corresponding negatively sloping demand curve",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-2-3",
+                "description": "Movements along the demand curve, specifically expansions and contractions of demand for a good or service due to a change in price",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-2-4",
+                "description": "Movements (shifts) of the demand curve, including increases and decreases in demand for a good or service due to changes in non-price factors involving income, population, tastes, prices of substitutes and complements, and expected future prices",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-2-5",
+                "description": "Construct and interpret demand schedules and graphs",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-3",
+            "name": "Supply",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-3-1",
+                "description": "Effective individual and market supply",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-3-2",
+                "description": "Law of supply and corresponding positively sloping supply curve",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-3-3",
+                "description": "Movements along the supply curve, specifically expansions and contractions of supply for a good or service due to a change in price",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-3-4",
+                "description": "Movements (shifts) of the supply curve, including increases and decreases of supply for a good or service due to changes in non-price factors involving the cost of factors of production, expected future prices, number of suppliers, and technology",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-3-5",
+                "description": "Construct and interpret supply schedules and graphs",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-4",
+            "name": "Market equilibrium",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-4-1",
+                "description": "Effects of changes in demand and supply on equilibrium market price and equilibrium quantity",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-4-2",
+                "description": "Construct and interpret demand and supply graphs that demonstrate changes to market equilibrium",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-4-3",
+                "description": "Contribution of market equilibrium and market outcomes to efficiency",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-5",
+            "name": "Price elasticity of demand",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-5-1",
+                "description": "Degrees of price elasticity of demand, including perfectly elastic, relatively elastic, unitary elastic, relatively inelastic and perfectly inelastic",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-5-2",
+                "description": "Interpret demand graphs for price elasticity of demand",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-5-3",
+                "description": "Calculate price elasticity of demand using the percentage method formula Percentage change in quantity demanded / Percentage change in price",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-5-4",
+                "description": "Factors affecting price elasticity of demand, including degree of necessity, closeness and number of available substitutes, proportion of income spent on an item, time horizon and addictiveness of the item",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-5-5",
+                "description": "Significance of price elasticity of demand for businesses in terms of pricing, product differentiation and output",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-6",
+            "name": "Price elasticity of supply",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-6-1",
+                "description": "Degrees of price elasticity of supply, including perfectly elastic, relatively elastic, unitary elastic, relatively inelastic and perfectly inelastic",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-6-2",
+                "description": "Interpret supply graphs for price elasticity of supply",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-6-3",
+                "description": "Factors affecting price elasticity of supply, including time horizon, excess capacity, durability of goods and factor mobility",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-6-4",
+                "description": "Significance of price elasticity of supply for businesses",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-7",
+            "name": "Market structures and competition for sellers",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-7-1",
+                "description": "Role of competition in markets and degrees of competition",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-7-2",
+                "description": "Characteristics of perfect competition, monopolistic competition, oligopolies and monopolies, including number of businesses, types of goods and services, barriers to entry and pricing power",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-7-3",
+                "description": "Economic implications of increases in the level of market concentration on the price, quantity and quality of goods and services, and the innovation and profit of businesses",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-7-4",
+                "description": "Effects of technological innovation and the digital economy on market power, including first-mover advantage and network effects associated with digital platforms",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-8",
+            "name": "Nature and types of market failure",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-8-1",
+                "description": "Limitations of the price mechanism in achieving economic and social objectives",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-8-2",
+                "description": "Challenges faced by Aboriginal and Torres Strait Islander businesses in accessing capital and markets",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-8-3",
+                "description": "Features of positive externalities and negative externalities from consumption and production in relation to market failure, including marginal private costs and benefits, marginal social costs and benefits, property rights, common-pool resources, merit goods and demerit goods",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-8-4",
+                "description": "Interpret demand and supply graphs that demonstrate negative externalities from production and positive externalities from consumption",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-8-5",
+                "description": "Features of public goods in relation to market failure, including non-excludability, non-rivalry, and the free rider problem",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-8-6",
+                "description": "Features of market power abuse in relation to market failure, including predatory pricing and collusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-8-7",
+                "description": "Features of asymmetric information in relation to market failure, including lack of disclosure and adverse selection",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-8-8",
+                "description": "Features of income and wealth inequality in relation to market failure, including social exclusion",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-markets-9",
+            "name": "Government intervention in market failures",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-markets-9-1",
+                "description": "Rationale for government intervention to address market failure",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-9-2",
+                "description": "Forms and features of government policy interventions to correct market failure, including taxes, subsidies, direct provision of goods, regulations, price controls (binding ceiling and floor prices), quantity controls (quotas) and nudges",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-9-3",
+                "description": "Interpret demand and supply graphs that demonstrate the effects of taxes and price controls",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-9-4",
+                "description": "Limitations of government intervention into market failure",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-markets-9-5",
+                "description": "Government failure, including unintended consequences of policy interventions and rent-seeking behaviour",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eco-11-international-sector",
+        "name": "International sector",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eco-11-international-sector-1",
+            "name": "International trade",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-international-sector-1-1",
+                "description": "Role and basis of international trade in the economy, including voluntary exchange for mutual benefit and the efficient allocation of resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-international-sector-1-2",
+                "description": "Value, direction and composition of Australia’s international trade",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-international-sector-1-3",
+                "description": "Features of Aboriginal and Torres Strait Islander trade, including major exports and historical international trade routes",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-international-sector-1-4",
+                "description": "Identify trade outcomes, including balanced, surplus and deficit",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-international-sector-2",
+            "name": "International investment",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-international-sector-2-1",
+                "description": "Features of international investment flows, including foreign debt and foreign equity",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-international-sector-2-2",
+                "description": "Value, direction and composition of Australia’s international investment",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-international-sector-3",
+            "name": "Exchange rates",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-international-sector-3-1",
+                "description": "Role of exchange rates in facilitating international trade and investment flows",
+                "prompts": []
+              },
+              {
+                "id": "dp-eco-11-international-sector-3-2",
+                "description": "Measurement of the relative value of the Australian dollar using bilateral exchange rates",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eco-11-international-sector-4",
+            "name": "Balance of payments",
+            "dotPoints": [
+              {
+                "id": "dp-eco-11-international-sector-4-1",
+                "description": "Purpose of the balance of payments as a record of international economic transactions",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
       {
         "id": "topic-ec-1",
         "name": "Economic issues in the Australian economy",

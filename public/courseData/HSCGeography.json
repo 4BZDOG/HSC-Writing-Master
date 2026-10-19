@@ -18688,7 +18688,7 @@
               },
               {
                 "id": "dp-geo-9-1-2",
-                "description": "Acquire quantitative and/or qualitative data and information using ethical practices by:\n\n\n  collecting and recording primary geographical data using a range of tools\n\n  gathering and organising geographical information from secondary sources",
+                "description": "Acquire quantitative and/or qualitative data and information using ethical practices by: collecting and recording primary geographical data using a range of tools; gathering and organising geographical information from secondary sources",
                 "prompts": [
                   {
                     "id": "prompt-geo-309",
@@ -18806,7 +18806,7 @@
             "dotPoints": [
               {
                 "id": "dp-geo-9-2-1",
-                "description": "Represent data and information in appropriate forms, and where appropriate, by:\n\n\n  using digital and spatial technologies\n\n  conforming to cartographic conventions",
+                "description": "Represent data and information in appropriate forms, and where appropriate, by: using digital and spatial technologies; conforming to cartographic conventions",
                 "prompts": [
                   {
                     "id": "prompt-geo-311",
@@ -18919,7 +18919,7 @@
               },
               {
                 "id": "dp-geo-9-2-2",
-                "description": "Interpret, synthesise and analyse data and information, using quantitative and qualitative methods to:\n\n\n  make reasoned generalisations and inferences\n\n  propose explanations for patterns, trends, relationships and anomalies, using geographical models and theories where relevant\n\n  draw conclusions and predict future trends",
+                "description": "Interpret, synthesise and analyse data and information, using quantitative and qualitative methods to: make reasoned generalisations and inferences; propose explanations for patterns, trends, relationships and anomalies, using geographical models and theories where relevant; draw conclusions and predict future trends",
                 "prompts": [
                   {
                     "id": "prompt-geo-313",
@@ -19320,7 +19320,7 @@
             "dotPoints": [
               {
                 "id": "dp-geo-9-3-1",
-                "description": "Evaluate options in response to a geographical challenge by:\n\n\n  developing evaluation criteria based on environmental, social and economic considerations\n\n  making an on-balance judgement about the most appropriate option(s)",
+                "description": "Evaluate options in response to a geographical challenge by: developing evaluation criteria based on environmental, social and economic considerations; making an on-balance judgement about the most appropriate option(s)",
                 "prompts": [
                   {
                     "id": "prompt-geo-320",
@@ -19783,7 +19783,7 @@
             "dotPoints": [
               {
                 "id": "dp-geo-9-4-1",
-                "description": "Communicate geographical understanding, findings, conclusions and/or ideas by using:\n\n\n  a variety of presentation methods appropriate to purpose and audience\n\n  digital and spatial technologies where appropriate\n\n  ethical practices as relevant",
+                "description": "Communicate geographical understanding, findings, conclusions and/or ideas by using: a variety of presentation methods appropriate to purpose and audience; digital and spatial technologies where appropriate; ethical practices as relevant",
                 "prompts": [
                   {
                     "id": "prompt-geo-328",

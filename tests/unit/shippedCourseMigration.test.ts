@@ -47,23 +47,29 @@ const shippedCourse = (file: string): Course => {
   return (analysis.data as Course[])[0];
 };
 
-/** The first question of a course, by where it sits, so a test can write on it. */
-const firstPrompt = (c: Course) => c.topics[0].subTopics[0].dotPoints[0].prompts[0];
+/**
+ * The first question of a course, by where it sits, so a test can write on it. A
+ * shipped course can open on topics that carry structure only, with no questions yet,
+ * so it is the first dot point that has one.
+ */
+const firstQuestionDotPoint = (c: Course) =>
+  c.topics
+    .flatMap((t) => t.subTopics.flatMap((st) => st.dotPoints))
+    .find((dp) => dp.prompts.length > 0)!;
+const firstPrompt = (c: Course) => firstQuestionDotPoint(c).prompts[0];
 
 /** A copy of `c` with a student's draft written on its first question. */
 const withDraft = (c: Course, draft = 'My first paragraph.', seconds = 240): Course => {
-  const topics = c.topics.map((topic, ti) => ({
+  const target = firstPrompt(c).id;
+  const topics = c.topics.map((topic) => ({
     ...topic,
-    subTopics: topic.subTopics.map((st, si) => ({
+    subTopics: topic.subTopics.map((st) => ({
       ...st,
-      dotPoints: st.dotPoints.map((dp, di) => ({
+      dotPoints: st.dotPoints.map((dp) => ({
         ...dp,
-        prompts:
-          ti === 0 && si === 0 && di === 0
-            ? dp.prompts.map((p, pi) =>
-                pi === 0 ? { ...p, userDraft: draft, draftElapsedSeconds: seconds } : p
-              )
-            : dp.prompts,
+        prompts: dp.prompts.map((p) =>
+          p.id === target ? { ...p, userDraft: draft, draftElapsedSeconds: seconds } : p
+        ),
       })),
     })),
   }));
@@ -243,7 +249,7 @@ describe('carrying a student’s words onto a newer course', () => {
     const modernHistory = shippedCourse('HSCModernHistory.json');
     const from = withDraft(modernHistory);
     const to = withDraft(modernHistory); // same ids…
-    to.topics[0].subTopics[0].dotPoints[0].prompts = []; // …but that question is gone
+    firstQuestionDotPoint(to).prompts = []; // …but that question is gone
 
     expect(carryPersonalFields(from, to).orphaned).toBe(true);
   });

@@ -1,5 +1,30 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-19 (The rest of five syllabuses, and topics that match within their own year)
+
+Five shipped courses had questions for one slice of their syllabus and nothing for the rest: Modern History
+and Ancient History carried one option of each section and (Modern) no Year 11, and Legal Studies,
+Economics and English Advanced had no Year 11. The rest of each syllabus is now there as structure, read
+from NESA's page data like the new courses, with no questions. Nothing that was there has changed: every
+existing topic, question and outcome is identical, and the new topics are added around them.
+
+| Course           | Topics | Dot points | Outcomes | Added                                                                                     |
+| ---------------- | ------ | ---------- | -------- | ----------------------------------------------------------------------------------------- |
+| Modern History   | 4 → 49 | 48 → 510   | 7 → 15   | Year 11 (all of it), every national study, peace and conflict and change option           |
+| Ancient History  | 4 → 54 | 74 → 698   | 15       | Year 11 case studies and nature of ancient history; every society, personality and period |
+| Legal Studies    | 7 → 14 | 157 → 290  | 8 → 16   | Year 11, and Legal themes and skills in both years                                        |
+| Economics        | 3 → 9  | 131 → 265  | 10 → 20  | Year 11                                                                                   |
+| English Advanced | 4 → 7  | 37 → 64    | 6 → 12   | Year 11                                                                                   |
+
+- **Fixed.** A topic name used in both years ("Close study of text", "Working scientifically") could merge
+  into the wrong year. The course import matched names within a year; the topic import, its preview, the
+  orphan check and the placement step matched names alone, so the preview could promise a merge into the
+  Year 12 topic that the import then did not make. They all match by id, then by name within the same year
+  (`findMatchingTopic`), and a placement into a Year 11 topic keeps its year.
+- **Fixed.** Five Geography inquiry-skills dot points carried raw line breaks from the syllabus document
+  ("…by:\n\n\n collecting…"). They read as one line, the list joined with semicolons, NESA's words unchanged.
+- **Library version 2.19.0**, so returning browsers pick up the added topics.
+
 ## [Unreleased] - 2026-10-19 (Six more courses, structure only, from NESA's current syllabuses)
 
 The next round of seeded courses, picked for how well they suit written, verb-marked answers and how many

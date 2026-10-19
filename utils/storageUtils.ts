@@ -67,7 +67,9 @@ import {
 // kept because of a draft sync again.
 // 2.18.0: six structure-only courses added from NESA's current syllabuses (Health and Movement
 // Science, Biology, English Studies, English EAL/D, English Extension 1, History Extension).
-export const DATA_VERSION = '2.18.0';
+// 2.19.0: the rest of the Modern History, Ancient History, Legal Studies, Economics and English
+// Advanced syllabuses added as structure, and five Geography dot points put on one line.
+export const DATA_VERSION = '2.19.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
