@@ -78,6 +78,13 @@ interface SyllabusImportModalProps {
   defaultYear: SyllabusYear;
 }
 
+/** Sets a textarea's height to its content, so a long dot point is read whole. */
+const autoSize = (el: HTMLTextAreaElement | null) => {
+  if (!el) return;
+  el.style.height = 'auto';
+  el.style.height = `${el.scrollHeight}px`;
+};
+
 interface TopicTab {
   id: string;
   name: string;
@@ -400,7 +407,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           failed.push({
             path: choice.path,
             label: choice.title || choice.path,
-            reason: 'NESA did not send its structure for that page',
+            // A focus area such as Collaborative Investigation describes a task and
+            // lists no content statements, so there is nothing to import from it.
+            reason: 'the page has no content statements to import',
           });
         }
       } catch (err) {
@@ -894,7 +903,11 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       </button>
                       {parsedOutcomes.length > 0 && (
                         <span className="text-xs text-green-400 light:text-green-700 font-medium">
-                          {parsedOutcomes.length} outcomes found
+                          {/* Says where they came from: beside an empty box, a bare
+                              "10 outcomes found" read as the result of a paste. */}
+                          {exactAreas.length > 0
+                            ? `${parsedOutcomes.length} outcomes from NESA`
+                            : `${parsedOutcomes.length} outcomes found`}
                         </span>
                       )}
                     </div>
@@ -1271,8 +1284,12 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                                               editDotPoint(tIdx, stIdx, dpIdx, e.target.value)
                                             }
                                             rows={1}
+                                            // Grown to its text: at one row, most NESA dot points
+                                            // showed only their first line, and on a phone a few words.
+                                            ref={autoSize}
+                                            onInput={(e) => autoSize(e.currentTarget)}
                                             aria-label={`Dot point ${dpIdx + 1}`}
-                                            className="flex-1 min-w-0 bg-transparent resize-y rounded-lg px-1.5 py-0.5 border border-transparent hover:border-slate-300 dark:hover:border-white/15 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white text-[rgb(var(--color-text-dim))] light:text-slate-600"
+                                            className="flex-1 min-w-0 bg-transparent resize-none overflow-hidden rounded-lg px-1.5 py-0.5 border border-transparent hover:border-slate-300 dark:hover:border-white/15 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white text-[rgb(var(--color-text-dim))] light:text-slate-600"
                                           />
                                           <button
                                             onClick={() => removeDotPoint(tIdx, stIdx, dpIdx)}
@@ -1371,6 +1388,8 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
         <AiBusyOverlay show={isBusy}>
           <LoadingIndicator
+            // Reading a page is not an AI call; the card must not say "Working with Gemini".
+            noAi={siblingProgress !== null || isFetchingUrl}
             task="enrichment"
             message={
               siblingProgress

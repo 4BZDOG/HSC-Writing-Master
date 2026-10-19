@@ -778,7 +778,22 @@ export const useGemini = ({
         }
         return result;
       } catch (error) {
-        handleApiError(error);
+        const message = handleApiError(error);
+        // This runs after the sub-topic dialog has closed, so a failure had no
+        // screen to appear on and the sub-topic was simply left empty. The
+        // errors handleApiError already announces (key, quota, plan) are not
+        // repeated; anything else is said here.
+        const announced =
+          error instanceof gemini.ApiKeyError ||
+          error instanceof gemini.QuotaExceededError ||
+          error instanceof gemini.EvaluationLimitError ||
+          error instanceof gemini.FeatureLockedError;
+        if (!announced) {
+          showToast(
+            `The sub-topic was added, but no dot points were generated: ${message}`,
+            'error'
+          );
+        }
         return null;
       }
     },

@@ -143,6 +143,57 @@ describe('English Studies option page', () => {
   });
 });
 
+describe('siblings in the other year', () => {
+  it('lists the other year’s focus areas from the syllabus record', () => {
+    // A Year 11 page lists only Year 11 in stageFocusAreas; the syllabus record
+    // holds both years, so a Year 12 focus area is offered too.
+    const fa = (code: string, title: string, years: string[], type = 'mainstream') => ({
+      system: { codename: code, type: 'focusarea' },
+      elements: {
+        title: { value: title },
+        stages__stage_years: { value: years.map((codename) => ({ codename })) },
+        syllabus_type__items: { value: [{ codename: type }] },
+      },
+    });
+    const record = {
+      props: {
+        pageProps: {
+          data: {
+            stageFocusAreas: [fa('fa1', 'Year 11 one', ['n11']), fa('fa2', 'Year 11 two', ['n11'])],
+            syllabus: {
+              linkedItems: {
+                fa3: fa('fa3', 'Year 12 one', ['n12']),
+                fa4: fa('fa4', 'Year 12 one', ['n11', 'n12'], 'life_skills'),
+              },
+            },
+            focusArea: {
+              item: {
+                system: { codename: 'fa1', type: 'focusarea' },
+                elements: {
+                  title: { value: 'Year 11 one' },
+                  outcomes: { value: [] },
+                  contentgroups: { value: ['g1'] },
+                },
+              },
+              linkedItems: {
+                g1: { elements: { title: { value: 'G' }, content_items: { value: ['c1'] } } },
+                c1: { elements: { code: { value: '' }, title: { value: 'A statement' } } },
+              },
+            },
+          },
+        },
+      },
+    };
+    const html = `<script id="__NEXT_DATA__" type="application/json">${JSON.stringify(record)}</script>`;
+    const base = 'https://curriculum.nsw.edu.au/learning-areas/x/y-11-12-2024';
+    const page = parseNesaPage(html, `${base}/content/year-11/fa1`)!;
+    expect(page.siblings).toEqual([
+      { path: `${base}/content/year-11/fa2`, title: 'Year 11 two', year: 'year11' },
+      { path: `${base}/content/year-12/fa3`, title: 'Year 12 one', year: 'year12' },
+    ]);
+  });
+});
+
 describe('a syllabus landing page', () => {
   const landing = (defaults: Record<string, string>, focusArea?: unknown) =>
     `<script id="__NEXT_DATA__" type="application/json">${JSON.stringify({

@@ -160,7 +160,7 @@ describe('reading a NESA page', () => {
     expect(screen.getByRole('radio', { name: 'Year 11' }).getAttribute('aria-checked')).toBe(
       'true'
     );
-    expect(screen.getByText('1 outcomes found')).toBeTruthy();
+    expect(screen.getByText('1 outcomes from NESA')).toBeTruthy();
   });
 
   it('lists the other focus areas of the syllabus, grouped by year', async () => {
@@ -223,10 +223,10 @@ describe('adding more focus areas', () => {
 
     fireEvent.click(screen.getByLabelText('Movement'));
     fireEvent.click(screen.getByRole('button', { name: /add selected/i }));
-    await screen.findByText('2 outcomes found');
+    await screen.findByText('2 outcomes from NESA');
 
     fireEvent.click(screen.getByRole('button', { name: 'Remove Movement' }));
-    expect(screen.getByText('1 outcomes found')).toBeTruthy();
+    expect(screen.getByText('1 outcomes from NESA')).toBeTruthy();
   });
 });
 
@@ -235,7 +235,7 @@ describe('reviewing and importing', () => {
     await openHealthIssues();
     fireEvent.click(screen.getByLabelText('Movement'));
     fireEvent.click(screen.getByRole('button', { name: /add selected/i }));
-    await screen.findByText('2 outcomes found');
+    await screen.findByText('2 outcomes from NESA');
 
     fireEvent.click(screen.getByRole('button', { name: /review import/i }));
 
@@ -253,7 +253,7 @@ describe('reviewing and importing', () => {
     await screen.findByText(/Read from NESA/);
     fireEvent.click(screen.getByLabelText('Movement'));
     fireEvent.click(screen.getByRole('button', { name: /add selected/i }));
-    await screen.findByText('2 outcomes found');
+    await screen.findByText('2 outcomes from NESA');
     fireEvent.click(screen.getByRole('button', { name: /review import/i }));
     await screen.findByDisplayValue('Health Issues');
 

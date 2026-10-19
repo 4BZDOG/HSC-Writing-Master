@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-19 (Adding a sub-topic makes no AI call unless asked, and the new import read in a browser)
+
+- **Fixed.** "Generate dot points with AI" on Add sub-topic was ticked by default, so a curator who only wanted
+  a heading got dot points invented for it. With no AI available the call failed silently after three retries,
+  each counted against the circuit breaker (four such sub-topics in a minute blocked every AI feature for two
+  minutes). The box is unticked by default, and a failure now says the sub-topic was added without dot points.
+  Real dot points go in with "Add dot points".
+- **Fixed.** From a visual check of the new tools at 1280px and 390px: "Add more from this syllabus" offered
+  only the page's own year (the page lists one year; the syllabus record, now read too, lists both); reading
+  NESA pages showed "Working with Gemini" though no AI was asked (`LoadingIndicator` takes `noAi`); "10
+  outcomes found" beside an empty paste box now says "from NESA"; a focus area with no content statements
+  (HMS Collaborative Investigation) is reported as that rather than as NESA withholding it; preview dot points
+  grow to their text (one clipped row showed a few words on a phone); Create a course's faculty guess fits a
+  phone's select and its paste note scrolls into view.
+
 ## [Unreleased] - 2026-10-19 (The course and topic tools read NESA exactly, and need no AI to set up a course)
 
 A review of the admin tools for creating courses and topics, made after building eleven courses from NESA's

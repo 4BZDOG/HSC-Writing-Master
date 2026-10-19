@@ -39,14 +39,19 @@ const SubTopicCreatorModal: React.FC<SubTopicCreatorModalProps> = ({
   const dialogRef = useFocusTrap<HTMLDivElement>(isOpen);
   useScrollLock(isOpen);
   const [newItemName, setNewItemName] = useState('');
-  const [shouldGenerate, setShouldGenerate] = useState(true);
+  // Off until asked for. NSW dot points are NESA's own wording, so inventing
+  // them is the exception, and when it was on by default a curator who only
+  // wanted a heading got an AI call they never chose (and, on a failure, four
+  // retries counted against the AI circuit breaker). "Add dot points" now
+  // takes the real ones typed or pasted.
+  const [shouldGenerate, setShouldGenerate] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isOpen) {
       setNewItemName('');
       setValidationError(null);
-      setShouldGenerate(true);
+      setShouldGenerate(false);
     }
   }, [isOpen]);
 
