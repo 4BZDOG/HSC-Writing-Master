@@ -769,9 +769,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               >
                 <Target className="w-4 h-4" />
               </div>
-              <span className={`font-medium ${isSelected ? 'text-white' : ''}`}>{item}</span>
+              {/* The theme's own text colour, not white: in the light theme the list
+                  and the picker are white, and a chosen focus area vanished. */}
+              <span
+                className={`font-medium ${isSelected ? 'font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900' : ''}`}
+              >
+                {item}
+              </span>
             </div>
-            {isSelected && <Check className="w-4 h-4 text-emerald-400" />}
+            {isSelected && <Check className="w-4 h-4 text-emerald-400 light:text-emerald-700" />}
           </div>
         ),
       };
