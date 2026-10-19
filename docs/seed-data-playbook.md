@@ -24,6 +24,11 @@ Related: `docs/hsc-exam-profiles.md` (what a real paper looks like per course),
 | Modern History       | 2024 (new)                     | none                                                                                           | As above                                                                                   |
 | Ancient History      | 2024 (new)                     | none                                                                                           | As above                                                                                   |
 
+Structure-only courses (October 2026, no questions yet): Health and Movement Science (2023, first HSC 2026),
+Biology (2025, first HSC 2028), English Studies, English EAL/D, English Extension 1 and History Extension (all
+2024, first HSC 2027). Built with `build_structure.py` from the configs in
+`.claude/skills/build-course-data/configs/`.
+
 **Rule used throughout:** ship only questions from the exams that apply to the syllabus
 the seed follows. A paper from an older syllabus is a guide for style, marks and ladders,
 not content to ship. Before a course is worked on, check which syllabus its seed follows

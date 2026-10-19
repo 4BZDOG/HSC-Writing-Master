@@ -65,7 +65,9 @@ import {
 // 2.17.0: a student's draft no longer makes a shipped course count as edited, so the sync
 // can refresh it, and it carries the draft across. Browsers at 2.16.0 whose courses were
 // kept because of a draft sync again.
-export const DATA_VERSION = '2.17.0';
+// 2.18.0: six structure-only courses added from NESA's current syllabuses (Health and Movement
+// Science, Biology, English Studies, English EAL/D, English Extension 1, History Extension).
+export const DATA_VERSION = '2.18.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

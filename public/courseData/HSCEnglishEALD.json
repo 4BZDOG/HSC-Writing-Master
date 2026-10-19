@@ -1,0 +1,503 @@
+[
+  {
+    "id": "course-hsc-english-eald",
+    "name": "HSC English EAL/D",
+    "outcomes": [
+      {
+        "code": "EEA-11-01",
+        "description": "analyses the ways an author’s choice of textual forms and features shapes meaning in texts from different modes and mediums",
+        "year": "year11"
+      },
+      {
+        "code": "EEA-11-02",
+        "description": "explains the ways context, cultural references and perspectives influence composition and audience response",
+        "year": "year11"
+      },
+      {
+        "code": "EEA-11-03",
+        "description": "explains the connections between texts",
+        "year": "year11"
+      },
+      {
+        "code": "EEA-11-04",
+        "description": "communicates information, ideas and opinions in a range of modes for a variety of purposes, audiences and contexts",
+        "year": "year11"
+      },
+      {
+        "code": "EEA-11-05",
+        "description": "composes critical and creative texts that use textual form and language features to shape meaning for a range of purposes and audiences",
+        "year": "year11"
+      },
+      {
+        "code": "EEA-11-06",
+        "description": "identifies how choices of language, form and structure can shape meaning in own compositions",
+        "year": "year11"
+      },
+      {
+        "code": "EEA-12-01",
+        "description": "evaluates the ways an author’s choice of textual forms and features shapes meaning in texts from different modes and mediums"
+      },
+      {
+        "code": "EEA-12-02",
+        "description": "analyses the ways context, cultural references and perspectives influence composition and audience response"
+      },
+      {
+        "code": "EEA-12-03",
+        "description": "analyses the connections between texts"
+      },
+      {
+        "code": "EEA-12-04",
+        "description": "communicates ideas, perspectives and arguments in a range of modes for a variety of purposes, audiences and contexts"
+      },
+      {
+        "code": "EEA-12-05",
+        "description": "composes critical and creative texts that use textual form and language features to shape meaning for a range of purposes and audiences"
+      },
+      {
+        "code": "EEA-12-06",
+        "description": "explains how choices of language, form and structure can shape meaning in own compositions"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-eald-11-reading-to-write-transition-to-english-eal-d",
+        "name": "Reading to write: Transition to English EAL/D",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eald-11-reading-to-write-transition-to-english-eal-d-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-1-1",
+                "description": "The language forms, text structures and stylistic features in spoken and written texts to shape ideas and perspectives, including parts of speech and verb forms and tenses",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-1-2",
+                "description": "Synonyms and antonyms",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-1-3",
+                "description": "The use of discourse markers to show cause and effect",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-1-4",
+                "description": "The ways ideas, attitudes and perspectives are represented in spoken and written texts and how these shape meaning",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-1-5",
+                "description": "The conventions of genre and the ways texts may conform or subvert these conventions",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-1-6",
+                "description": "The impact of language forms, conventions and literary devices in familiar and unfamiliar texts",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eald-11-reading-to-write-transition-to-english-eal-d-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-2-1",
+                "description": "Compose texts that experiment with tone, modality and register for different purposes and audiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-2-2",
+                "description": "Compose imaginative texts that experiment with point of view, form and setting to represent a range of personal, social, historical or cultural contexts and perspectives",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-2-3",
+                "description": "Select and use appropriate structure to communicate ideas and opinions for different purposes, audiences and contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-2-4",
+                "description": "Compose critical and creative texts that use accurate spelling, punctuation and syntax in a range of modes and mediums",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-2-5",
+                "description": "Plan, draft and refine ideas and language in own texts for a range of purposes and audiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-reading-to-write-transition-to-english-eal-d-2-6",
+                "description": "Assess their choices of language and textual form in their own critical and creative compositions",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eald-11-texts-and-society",
+        "name": "Texts and society",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eald-11-texts-and-society-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-11-texts-and-society-1-1",
+                "description": "The impact of variations in style and register in spoken and written texts in semi-formal and formal texts and contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-texts-and-society-1-2",
+                "description": "The use of active and passive voice",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-texts-and-society-1-3",
+                "description": "Clause types, including declarative, interrogative, imperative and exclamative",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-texts-and-society-1-4",
+                "description": "The ways in which verbal and nonverbal elements interact to shape meaning",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eald-11-texts-and-society-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-11-texts-and-society-2-1",
+                "description": "Compose texts in a range of modes and mediums with appropriate application of language conventions including syntax, spelling and grammar",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-texts-and-society-2-2",
+                "description": "Compose a variety of texts in different modes and mediums to present ideas and opinions for different purposes and audiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-texts-and-society-2-3",
+                "description": "Use technical terminology, semantic fields, appropriacy and jargon in spoken and written texts particular to specific areas of society",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-texts-and-society-2-4",
+                "description": "Use the information and ideas gathered from a range of texts to present and support ideas in analytical, expressive and imaginative ways",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-texts-and-society-2-5",
+                "description": "Plan, draft and refine ideas and language in own texts for a range of purposes and audiences",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eald-11-year-11-close-study-of-text",
+        "name": "Year 11: Close study of text",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eald-11-year-11-close-study-of-text-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-11-year-11-close-study-of-text-1-1",
+                "description": "The aesthetic qualities, themes and representation of ideas, values and attitudes in a text",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-year-11-close-study-of-text-1-2",
+                "description": "The ways the context of the author and the audience shape meaning",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-year-11-close-study-of-text-1-3",
+                "description": "Language for making connections, posing questions, affirming, challenging, speculating and generalising",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eald-11-year-11-close-study-of-text-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-11-year-11-close-study-of-text-2-1",
+                "description": "Compose sustained texts that experiment with appropriate metalanguage and structural choices to shape perspectives and opinions in a range of modes and mediums",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-year-11-close-study-of-text-2-2",
+                "description": "Use descriptive, rhetorical and persuasive language to express ideas, attitudes and evaluations of texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-year-11-close-study-of-text-2-3",
+                "description": "Apply the conventions of syntax, spelling and grammar accurately in own compositions for specific purposes, audiences and contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-11-year-11-close-study-of-text-2-4",
+                "description": "Plan, draft, reflect, edit and refine texts using accurate syntax in clauses and sentences for a range of purposes and audiences",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eald-12-texts-and-human-experiences",
+        "name": "Texts and human experiences",
+        "subTopics": [
+          {
+            "id": "subtopic-eald-12-texts-and-human-experiences-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-1-1",
+                "description": "Comparative, temporal and consequential conjunctions",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-1-2",
+                "description": "The impact of direct and indirect speech",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-1-3",
+                "description": "The use of literary and persuasive features, including rhetorical devices, figurative language and dramatic irony, in familiar and unfamiliar texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-1-4",
+                "description": "The ways arguments are presented in nonfiction texts",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eald-12-texts-and-human-experiences-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-2-1",
+                "description": "Compose creative, informed and sustained interpretations of texts supported by integrated textual evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-2-2",
+                "description": "Apply a range of language features in own compositions",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-2-3",
+                "description": "Make connections with other texts through language, form and structure",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-2-4",
+                "description": "Use cohesive links and discourse markers to show cause and effect in spoken and written texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-texts-and-human-experiences-2-5",
+                "description": "Use metalanguage to interpret texts and evaluate their own learning",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eald-12-language-identity-and-culture",
+        "name": "Language, identity and culture",
+        "subTopics": [
+          {
+            "id": "subtopic-eald-12-language-identity-and-culture-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-language-identity-and-culture-1-1",
+                "description": "The ways cultural perspectives and identities are represented in texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-language-identity-and-culture-1-2",
+                "description": "The ways in which texts created by authors from diverse backgrounds represent people, places, histories and experiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-language-identity-and-culture-1-3",
+                "description": "Culturally specific phrases, idioms, colloquialisms, collocations and references in a range of texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-language-identity-and-culture-1-4",
+                "description": "The different perspectives on personal, social and historical issues represented in texts",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eald-12-language-identity-and-culture-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-language-identity-and-culture-2-1",
+                "description": "Compose texts that use forms and features to represent a range of perspectives on culture and identity",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-language-identity-and-culture-2-2",
+                "description": "Compose critical texts that affirm and challenge ideas, values and perspectives that are represented in text",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-language-identity-and-culture-2-3",
+                "description": "Use accurate syntax in clauses and sentences in own spoken and written texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-language-identity-and-culture-2-4",
+                "description": "Make connections with other texts through language, form and structure",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eald-12-year-12-close-study-of-text",
+        "name": "Year 12: Close study of text",
+        "subTopics": [
+          {
+            "id": "subtopic-eald-12-year-12-close-study-of-text-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-1-1",
+                "description": "The ways language features, text structures and stylistic choices create particular effects for specific purposes",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-1-2",
+                "description": "The ways context shapes meaning",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-1-3",
+                "description": "The influence of narrative point(s) of view to convey ideas, attitudes and values in literary texts",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eald-12-year-12-close-study-of-text-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-2-1",
+                "description": "Compose extended texts that explain the use and effects of particular textual forms and language choices",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-2-2",
+                "description": "Compose a range of critical and analytical texts that explore complex ideas about the relationship between content, form and language",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-2-3",
+                "description": "Compose informed arguments about texts supported by appropriate textual analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-2-4",
+                "description": "Use descriptive, persuasive and rhetorical vocabulary to construct sustained interpretations of texts in a range of modes",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-year-12-close-study-of-text-2-5",
+                "description": "Use lexical chains and referential devices to achieve cohesion in spoken and written texts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eald-12-writing",
+        "name": "Writing",
+        "subTopics": [
+          {
+            "id": "subtopic-eald-12-writing-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-writing-1-1",
+                "description": "The ways language forms, features and structures are adapted for different purposes, audiences and contexts in a range of forms, modes and mediums",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-writing-1-2",
+                "description": "The impact of descriptive, rhetorical and persuasive language",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-writing-1-3",
+                "description": "Synonyms and antonyms",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-writing-1-4",
+                "description": "The impact of conventions of form and structure in their own spoken and written compositions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eald-12-writing-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eald-12-writing-2-1",
+                "description": "Compose sustained imaginative, persuasive, discursive texts that affirm and challenge the ideas, perspectives and values represented in other texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-writing-2-2",
+                "description": "Recreate existing texts as new texts by changing context and perspective",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-writing-2-3",
+                "description": "Select and apply a range of language, structural and stylistic features to shape meaning and influence readers",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-writing-2-4",
+                "description": "Use referencing skills to support ideas, arguments and perspectives in own compositions",
+                "prompts": []
+              },
+              {
+                "id": "dp-eald-12-writing-2-5",
+                "description": "Plan, draft and refine spoken and written texts applying accurate conventions of syntax, spelling and grammar for their purpose, audience and context",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

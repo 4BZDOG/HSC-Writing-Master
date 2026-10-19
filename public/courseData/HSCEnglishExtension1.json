@@ -1,0 +1,261 @@
+[
+  {
+    "id": "course-hsc-english-extension-1",
+    "name": "HSC English Extension 1",
+    "outcomes": [
+      {
+        "code": "EE1-11-01",
+        "description": "analyses the relationship between author, purpose, form, language, audience and context",
+        "year": "year11"
+      },
+      {
+        "code": "EE1-11-02",
+        "description": "analyses the ways meaning is made through an author’s choice of textual form and language features",
+        "year": "year11"
+      },
+      {
+        "code": "EE1-11-03",
+        "description": "analyses how texts are valued in a range of contexts and cultures for different purposes and audiences",
+        "year": "year11"
+      },
+      {
+        "code": "EE1-11-04",
+        "description": "uses independent inquiry skills to analyse key texts and compose texts",
+        "year": "year11"
+      },
+      {
+        "code": "EE1-11-05",
+        "description": "crafts extended texts that experiment with textual form and language features for a range of purposes and audiences",
+        "year": "year11"
+      },
+      {
+        "code": "EE1-11-06",
+        "description": "analyses choices in textual form and language, and their influence on the crafting of texts",
+        "year": "year11"
+      },
+      {
+        "code": "EE1-12-01",
+        "description": "evaluates the relationship between author, purpose, form, language, audience and context"
+      },
+      {
+        "code": "EE1-12-02",
+        "description": "evaluates the ways meaning is made through an author’s choice of textual form and language features"
+      },
+      {
+        "code": "EE1-12-03",
+        "description": "analyses how texts are valued in a range of contexts and cultures for different purposes and audiences"
+      },
+      {
+        "code": "EE1-12-04",
+        "description": "uses independent inquiry skills to analyse key texts and compose complex texts"
+      },
+      {
+        "code": "EE1-12-05",
+        "description": "crafts extended texts that experiment with textual form and language features for a range of purposes and audiences"
+      },
+      {
+        "code": "EE1-12-06",
+        "description": "analyses choices in textual form and language, and their influence on the crafting of texts"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-ee1-11-texts-culture-and-value",
+        "name": "Texts, culture and value",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ee1-11-texts-culture-and-value-2",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-2-1",
+                "description": "The relationship between text, author, reader and context, and the ways they shape meaning",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-2-2",
+                "description": "The relationship between a text and the culture it is composed in and responded to",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-2-3",
+                "description": "The ways texts are appropriated or manifested in a range of social, historical and cultural contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-2-4",
+                "description": "The ways values are shaped in and through texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-2-5",
+                "description": "The ways that textual forms, language and stylistic choices shape meaning",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-2-6",
+                "description": "Intertextual connections that offer multiple interpretations",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-2-7",
+                "description": "Sophisticated metalanguage in textual analysis and reflection",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ee1-11-texts-culture-and-value-3",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-3-1",
+                "description": "Craft texts that experiment with traditional and emerging literary forms in familiar or new contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-3-2",
+                "description": "Craft arguments that support critical interpretations with textual analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-3-3",
+                "description": "Craft texts that re-imagine and re-create other texts, experimenting with perspective, point of view, style and context to show how values are maintained and changed",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-3-4",
+                "description": "Craft reflective texts that evaluate and assess the influence of stylistic choices on meaning",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-11-texts-culture-and-value-3-5",
+                "description": "Craft critical and creative texts that demonstrate skills in research methodology and independent investigation",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ee1-12-literary-worlds",
+        "name": "Literary worlds",
+        "subTopics": [
+          {
+            "id": "subtopic-ee1-12-literary-worlds-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-12-literary-worlds-1-1",
+                "description": "The aesthetic qualities of language and the ways they shape meaning and communicate values",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-12-literary-worlds-1-2",
+                "description": "Changing contexts and values, and how they influence the ways meaning is made",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-12-literary-worlds-1-3",
+                "description": "A range of critical perspectives that shape personal responses to complex texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-12-literary-worlds-1-4",
+                "description": "Social, historical and personal values in texts, and how they shape meaning and influence responses",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ee1-12-literary-worlds-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-12-literary-worlds-2-1",
+                "description": "Craft extended texts in a variety of modes and mediums to communicate an understanding of evolving literary conventions and genres",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-12-literary-worlds-2-2",
+                "description": "Craft original texts that experiment with and manipulate textual form and stylistic features to shape meaning and present informed perspectives",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-12-literary-worlds-2-3",
+                "description": "Craft sustained arguments that synthesise a range of critical perspectives about a text’s cultural assumptions and values, informed by analysis of textual evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-12-literary-worlds-2-4",
+                "description": "Craft texts that reflect on stylistic and language choices to represent the complex relationship between texts, authors, readers and contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-ee1-12-literary-worlds-2-5",
+                "description": "Use sophisticated and controlled language with clarity to express informed perspectives",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ee1-12-literary-worlds-3",
+            "name": "Elective 1: Confessional worlds",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-12-literary-worlds-3-1",
+                "description": "In this elective, students consider the interplay of performance, intimacy and artifice in confessional worlds. They explore and evaluate the construction of voices used in confessional worlds as representations of revelation and evaluate the implications of unreliability, subjectivity and bias. In reading and engaging with texts students explore how the auto-biographical nature of confession challenges, enlightens and personalises significant cultural, historical, and political contexts and can reveal insights about authenticity, identity, memory, and self-representation. Students explore the way writers adapt, reshape, and experiment with textual forms, language features and voice to interact with their socio-cultural contexts. They examine how language can both reveal and conceal an author’s culture, context, and personality. In their responding and composing, students explore, analyse, experiment with, and critically evaluate, their prescribed texts and other appropriate texts. They write imaginative compositions that use textual forms and language to represent confessional worlds. In this elective, students are required to study THREE of the prescribed texts, which must include at least TWO extended print texts. Students are also required to study ONE related text of their own choosing. Texts can be drawn from a range of contexts and media to explore how writers continue to construct and interrogate confessional worlds.",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ee1-12-literary-worlds-4",
+            "name": "Elective 2: Historical worlds",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-12-literary-worlds-4-1",
+                "description": "In this elective, students consider the interplay between truth and reality in historical worlds. They explore and evaluate the ways historical worlds represent events, periods, and people, shape our understanding of the past, and can challenge notions of bias, authority, legitimacy and truth. Students explore texts that are a representation of the past and texts that use the past to make sense of our time and place. In reading and engaging with historical texts they explore the representation of memory and the relationship between personal and collective experiences. Students critically evaluate the ways historical worlds can represent shifting political, social and cultural values, contexts and attitudes. In reading and engaging with texts students reconsider their own values and assumptions about the past and the ways in which we come to know it. In their responding and composing, students explore, analyse, experiment with, and critically evaluate their prescribed texts and other appropriate texts. They write imaginative compositions that use textual forms and language to represent historical worlds. In this elective, students are required to study THREE of the prescribed texts, which must include at least TWO extended print texts. Students are also required to study ONE related text of their own choosing. Texts can be drawn from a range of contexts and media to explore how texts continue to construct and interrogate historical worlds.",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ee1-12-literary-worlds-5",
+            "name": "Elective 3: Hybrid worlds",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-12-literary-worlds-5-1",
+                "description": "In this elective, students consider literary worlds that experiment with and manipulate form and language to explore new possibilities for structure, time and hybridity. They explore and evaluate a range of hybrid literature that can represent notions of exploration, experimentation, vulnerability and exaltation. Students also examine the ways texts call attention to their form and the ways the reader and writer participate in shaping meaning. They explore experimental writing that tests the limits of genre to draw attention to textuality and the way we read. In their responding and composing, students explore, analyse, experiment with, and critically evaluate their prescribed texts and other appropriate texts. They write imaginative compositions that use textual forms and language to represent hybrid worlds. In this elective, students are required to study THREE of the prescribed texts, which must include at least TWO extended print texts. Students are also required to study ONE related text of their own choosing. Texts can be drawn from a range of contexts and media to explore how texts construct hybrid worlds to explore new possibilities.",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ee1-12-literary-worlds-6",
+            "name": "Elective 4: Natural worlds",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-12-literary-worlds-6-1",
+                "description": "In this elective, students consider the relationship between literature and the natural environment. By exploring and evaluating natural worlds that can celebrate nature, the wilderness and our place within it, students consider notions of self-renewal and the pastoral. They encounter a range of local and global authors who build literary worlds to show the intersection of culture and nature. Students also consider natural worlds for their beauty and fragility and the role they play in shaping culture, identity and purpose. Students explore texts that represent the relationship between literature and the natural world in a changing ecological context. In their responding and composing, students explore, analyse, experiment with, and critically evaluate their prescribed texts and other appropriate texts. They write imaginative compositions that use textual forms and language to represent natural worlds. In this elective, students are required to study THREE of the prescribed texts, which must include at least TWO extended print texts. Students are also required to study ONE related text of their own choosing. Texts can be drawn from a range of contexts and media to explore how texts construct natural worlds to explore the relationship between beauty and fragility.",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ee1-12-literary-worlds-7",
+            "name": "Elective 5: Shakespearean worlds",
+            "dotPoints": [
+              {
+                "id": "dp-ee1-12-literary-worlds-7-1",
+                "description": "In this elective, students consider the nature and characteristics of the worlds of Shakespeare's works. They explore, interrogate and evaluate the ways these worlds can be referenced, reconstructed, extended or subverted in other texts. Students consider the enduring nature of Shakespeare’s work, and the way his work is valued across a range of cultures and contexts. They examine how Shakespeare’s worlds can represent concepts of individualism and subjectivity. In reading and engaging with Shakespearean worlds through texts other than those written by Shakespeare, they will deepen their understanding of the ways structure, ideas, content, and language are adapted and appropriated in new ways. Students evaluate Shakespearean worlds that represent moments of crisis and new ways of understanding the world. In their responding and composing, students explore, analyse, experiment with, and critically evaluate, their prescribed texts and other appropriate texts. They write imaginative compositions that use textual forms and language to represent Shakespearean worlds. In this elective, students are required to study THREE of the prescribed texts, which must include at least TWO extended print texts. Students are also required to study ONE related text of their own choosing. Texts can be drawn from a range of contexts and media to explore how Shakespearean worlds have endured.",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

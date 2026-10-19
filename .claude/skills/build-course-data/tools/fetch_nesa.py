@@ -17,7 +17,10 @@ Mainstream Year 11/12 focus areas are fetched; "(aligned to ...)" Life Skills it
 An options list (type optionslist, e.g. "Elective focus areas") is not emitted itself. Each option in its
 focus_area_options is fetched at content/year-NN/<optionslist>/<option> and emitted as a focus area.
 
-Needs the agent proxy CA: curl --cacert /root/.ccr/ca-bundle.crt (retries on resets).
+Needs the agent proxy CA: curl --cacert /root/.ccr/ca-bundle.crt (retries on resets). Set NESA_REUSE=1 to
+re-parse the pages already saved in <out_dir> rather than download them again.
+Statements holding an equation are rich-text components with MathML; they are flattened to plain text
+(C₆H₁₂O₆, a / b, —(light, chlorophyll)→).
 Output: <out_dir>/nesa.json = [{year, codename, title, intro, outcomes:[{code,description}],
   groups:[{title, intro, items:[{code,title,including[],examples[]}]}],
   electives?:[{title, description}],
@@ -25,7 +28,8 @@ Output: <out_dir>/nesa.json = [{year, codename, title, intro, outcomes:[{code,de
   year is 'year11' or 'year12'. codename is the CMS codename (faXXXX, or faoXXXX for an option), unique per entry.
   electives is present only when the page has prescriptions (linked items: title + content); it is the
   Extension 'Elective N' list, but English Studies / EALD prescription groups also appear here.
-  optionsList and optionsListIntro are present only on entries that came from an options list.
+  optionsList, optionsListIntro and optionIndex are present only on entries that came from an options list;
+  optionIndex is the option's 0-based position in that list's focus_area_options.
 Prints one summary line per entry, then one line per options list with fetched/expected counts.
 """
 import html, json, os, re, subprocess, sys, time
@@ -34,10 +38,44 @@ CA = '/root/.ccr/ca-bundle.crt'
 STAGE_YEARS = {'n11': 'year-11', 'n12': 'year-12'}
 
 
+# Rich-text components of the page being parsed (codename -> elements). A statement whose text holds an
+# equation is stored as an <object data-codename=...> placeholder pointing at one of these; without
+# resolving it the statement comes out blank (Biology "Use the summary equation ...").
+COMPONENTS = {}
+SUB = str.maketrans('0123456789+-', '₀₁₂₃₄₅₆₇₈₉₊₋')
+SUP = str.maketrans('0123456789+-', '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻')
+
+
+def mathml(m):
+    """Flatten a MathML fragment to plain text: subscripts and superscripts as Unicode, fractions as a/b."""
+    s = m
+    for _ in range(6):  # innermost first, so nested msub/mfrac resolve outwards
+        s = re.sub(r'<msub>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*</msub>',
+                   lambda x: re.sub(r'<[^>]+>', '', x.group(1)) + re.sub(r'<[^>]+>', '', x.group(2)).translate(SUB), s, flags=re.S)
+        s = re.sub(r'<msup>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*</msup>',
+                   lambda x: re.sub(r'<[^>]+>', '', x.group(1)) + re.sub(r'<[^>]+>', '', x.group(2)).translate(SUP), s, flags=re.S)
+        s = re.sub(r'<mfrac>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*</mfrac>',
+                   lambda x: re.sub(r'<[^>]+>', '', x.group(1)).strip() + ' / ' + re.sub(r'<[^>]+>', '', x.group(2)).strip(), s, flags=re.S)
+    # Reaction conditions written over an arrow: "→" with "light / chlorophyll" above it.
+    s = re.sub(r'<mover[^>]*>\s*<mo>\s*(→)\s*</mo>(.*?)</mover>',
+               lambda x: ' —(' + ', '.join(t for t in (re.sub(r'<[^>]+>', '', c).strip() for c in re.findall(r'<mtd>(.*?)</mtd>', x.group(2), re.S)) if t) + ')→ ', s, flags=re.S)
+    s = re.sub(r'<mo>\s*([=+→×])\s*</mo>', r' \1 ', s)
+    s = re.sub(r'</?(mtr|mtd|mtable)[^>]*>', ' ', s)
+    return re.sub(r'<[^>]+>', '', s)
+
+
+def components(s):
+    def sub(m):
+        el = COMPONENTS.get(m.group(1)) or {}
+        return components(str((el.get('content') or {}).get('value') or ''))
+    s = re.sub(r'<object[^>]*data-codename="([^"]+)"[^>]*>\s*</object>', sub, s)
+    return re.sub(r'<math[^>]*>(.*?)</math>', lambda m: mathml(m.group(1)), s, flags=re.S)
+
+
 def txt(v):
     if v is None:
         return ''
-    s = str(v)
+    s = components(str(v))
     s = re.sub(r'</(li|p)>', '\n', s)
     s = re.sub(r'<br\s*/?>', '\n', s)
     s = re.sub(r'<[^>]+>', '', s)
@@ -55,6 +93,9 @@ def tax_codes(el, key):
 
 
 def fetch(url, dest):
+    # NESA_REUSE=1 re-parses pages already in <out_dir> instead of downloading them again (2-3MB each).
+    if os.environ.get('NESA_REUSE') and os.path.exists(dest) and os.path.getsize(dest) > 100000:
+        return
     for _ in range(5):
         r = subprocess.run(['curl', '-sS', '--cacert', CA, '-L', '--max-time', '90', '-o', dest, url])
         if r.returncode == 0 and os.path.getsize(dest) > 100000:
@@ -82,7 +123,8 @@ def discover(data, todo, olists):
                 todo.append(f'content/{yr}/{code}')
             else:
                 opts = (el.get('focus_area_options') or {}).get('value') or []
-                olists.setdefault(code, {'title': title, 'year': yr, 'expected': len(opts), 'fetched': 0})
+                olists.setdefault(code, {'title': title, 'year': yr, 'expected': len(opts), 'fetched': 0, 'index': {}})
+                olists[code]['index'].update({o: i for i, o in enumerate(opts)})
                 todo.extend(f'content/{yr}/{code}/{o}' for o in opts)
 
 
@@ -90,6 +132,13 @@ def parse(data, year, code=None):
     """Parse a focus-area page (code=None) or one option of an options-list page (code=option codename)."""
     fa = data['focusArea']
     li = fa['linkedItems']
+    COMPONENTS.clear()
+    for k, v in li.items():
+        COMPONENTS[k] = v.get('elements', {})
+    for v in li.values():  # components may also hang off the fields that use them
+        for f in v.get('elements', {}).values():
+            for k, c in (f.get('linkedItems') or {}).items() if isinstance(f.get('linkedItems'), dict) else []:
+                COMPONENTS.setdefault(k, c.get('elements', {}))
     item = fa['item'] if code is None else li[code]
     el = item['elements']
     outcomes = []
@@ -163,6 +212,9 @@ def main():
             fa = parse(data, year, code)
             fa['optionsList'] = txt(head['elements']['title']['value'])
             fa['optionsListIntro'] = txt(head['elements']['content']['value'])
+            idx = olists.get(ol, {}).get('index', {}).get(code)
+            if idx is not None:
+                fa['optionIndex'] = idx
             if ol in olists:
                 olists[ol]['fetched'] += 1
             result.append(fa)

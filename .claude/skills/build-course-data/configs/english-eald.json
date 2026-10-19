@@ -1,0 +1,44 @@
+{
+  "syllabus": "English EAL/D 11–12 Syllabus (2024); Year 12 from Term 4 2026, first HSC 2027",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/english/english-eald-11-12-2024",
+  "startFocusAreas": ["content/year-11/fa1ef6c784", "content/year-12/fa1cdf0291"],
+  "id": "course-hsc-english-eald",
+  "name": "HSC English EAL/D",
+  "prefix": "eald",
+  "outcomePattern": "^[A-Z0-9]+-1[12][A-Z]*-\\d\\d$",
+  "topics": [
+    {
+      "title": "Reading to write: Transition to English EAL/D",
+      "year": "year11"
+    },
+    {
+      "title": "Texts and society",
+      "year": "year11"
+    },
+    {
+      "title": "Close study of text",
+      "year": "year11",
+      "name": "Year 11: Close study of text"
+    },
+    {
+      "title": "Texts and human experiences",
+      "year": "year12",
+      "electives": true
+    },
+    {
+      "title": "Language, identity and culture",
+      "year": "year12",
+      "electives": true
+    },
+    {
+      "title": "Close study of text",
+      "year": "year12",
+      "name": "Year 12: Close study of text",
+      "electives": true
+    },
+    {
+      "title": "Writing",
+      "year": "year12"
+    }
+  ]
+}

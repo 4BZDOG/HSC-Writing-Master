@@ -1,0 +1,740 @@
+[
+  {
+    "id": "course-hsc-history-extension",
+    "name": "HSC History Extension",
+    "outcomes": [
+      {
+        "code": "HX-12-01",
+        "description": "analyses different approaches to history and the complexity of factors that shape historiographical perspectives in different eras"
+      },
+      {
+        "code": "HX-12-02",
+        "description": "constructs a position about an area of historiographical interpretation, and discusses and challenges other positions"
+      },
+      {
+        "code": "HX-12-03",
+        "description": "plans, conducts and presents a substantial investigation involving analysis, synthesis and evaluation of information from historical sources of differing perspectives and historiographical approaches"
+      },
+      {
+        "code": "HX-12-04",
+        "description": "communicates through detailed, well-structured texts to explain, argue, discuss, analyse or evaluate historiographical issues"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-hx-12-constructing-history-key-questions",
+        "name": "Constructing history – Key questions",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-constructing-history-key-questions-1",
+            "name": "Key question: What is history?",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-1-1",
+                "description": "The nature, role and status of history in different eras",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-1-2",
+                "description": "Differing interpretations and perspectives of the aims and purposes of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-1-3",
+                "description": "The issues of truth, objectivity and causation",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-1-4",
+                "description": "The use and misuse of history",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hx-12-constructing-history-key-questions-2",
+            "name": "Key question: Who are the producers of history in different eras?",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-2-1",
+                "description": "The credibility and legitimacy of producers of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-2-2",
+                "description": "The identity of specific producers of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-2-3",
+                "description": "The context of producers of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-2-4",
+                "description": "The aims and purposes of the producers of history and their work(s)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hx-12-constructing-history-key-questions-3",
+            "name": "Key question: How has history been constructed, recorded and presented in different eras?",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-3-1",
+                "description": "The differing methods of the producers of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-3-2",
+                "description": "The use and significance of evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-3-3",
+                "description": "Subject matter and structure of historical works",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-3-4",
+                "description": "Forms of historical communication",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-hx-12-constructing-history-key-questions-4",
+            "name": "Key question: Why have approaches to history changed in different eras?",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-4-1",
+                "description": "The changing nature and availability of evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-4-2",
+                "description": "Differing identities and contexts of the producers of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-4-3",
+                "description": "Differing perspectives about approaches to the construction of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-4-4",
+                "description": "Different philosophies of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-4-5",
+                "description": "The role of new technologies in the research, construction and production of history",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-constructing-history-key-questions-4-6",
+                "description": "Different audiences and consumers of history",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-cleopatra-vii",
+        "name": "Case study: Cleopatra VII",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-cleopatra-vii-1",
+            "name": "Cleopatra VII",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-cleopatra-vii-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-cleopatra-vii-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-cleopatra-vii-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-athenian-democracy",
+        "name": "Case study: Athenian democracy",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-athenian-democracy-1",
+            "name": "Athenian democracy",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-athenian-democracy-1-1",
+                "description": "The origins, nature and development of Athenian democracy",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-athenian-democracy-1-2",
+                "description": "The relationship between Athenian democracy, war and empire",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-athenian-democracy-1-3",
+                "description": "The impact of Athenian democracy on later political thinking",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-rome-and-the-provinces",
+        "name": "Case study: Rome and the provinces",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-rome-and-the-provinces-1",
+            "name": "Rome and the provinces",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-rome-and-the-provinces-1-1",
+                "description": "The reasons for Roman imperialism",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-rome-and-the-provinces-1-2",
+                "description": "The nature of Rome’s relationships with the provinces",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-rome-and-the-provinces-1-3",
+                "description": "The impact of Rome on the provinces",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-early-christianity",
+        "name": "Case study: Early Christianity",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-early-christianity-1",
+            "name": "Early Christianity",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-early-christianity-1-1",
+                "description": "The historical Jesus",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-early-christianity-1-2",
+                "description": "Roman treatment of Christians in the empire",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-early-christianity-1-3",
+                "description": "The reasons for and impact of Constantine I’s adoption of Christianity",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-the-collapse-of-the-western-roman-empire",
+        "name": "Case study: The collapse of the Western Roman Empire",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-the-collapse-of-the-western-roman-empire-1",
+            "name": "The collapse of the Western Roman Empire",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-the-collapse-of-the-western-roman-empire-1-1",
+                "description": "The reasons for the ‘decline and fall’",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-collapse-of-the-western-roman-empire-1-2",
+                "description": "The extent of ‘decline’",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-collapse-of-the-western-roman-empire-1-3",
+                "description": "The origins and nature of ‘barbarian’ groups",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-the-crusades",
+        "name": "Case study: The Crusades",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-the-crusades-1",
+            "name": "The Crusades",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-the-crusades-1-1",
+                "description": "Definitions and use of the term ‘crusade’",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-crusades-1-2",
+                "description": "The reasons for the Crusades and motivations of the crusaders",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-crusades-1-3",
+                "description": "The impact and legacy of the Crusades",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-genghis-khan",
+        "name": "Case study: Genghis Khan",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-genghis-khan-1",
+            "name": "Genghis Khan",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-genghis-khan-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-genghis-khan-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-genghis-khan-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-witch-hunts-and-trials-in-early-modern-europe-and",
+        "name": "Case study: Witch hunts and trials in early modern Europe and/or New England",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-witch-hunts-and-trials-in-early-modern-europe-and-1",
+            "name": "Witch hunts and trials in early modern Europe and/or New England",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-witch-hunts-and-trials-in-early-modern-europe-and-1-1",
+                "description": "The nature and role of witchcraft in society",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-witch-hunts-and-trials-in-early-modern-europe-and-1-2",
+                "description": "The reasons for and extent of persecution",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-witch-hunts-and-trials-in-early-modern-europe-and-1-3",
+                "description": "The reasons for the decline of witch hunts/trials",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-elizabeth-i",
+        "name": "Case study: Elizabeth I",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-elizabeth-i-1",
+            "name": "Elizabeth I",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-elizabeth-i-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-elizabeth-i-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-elizabeth-i-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-spain-and-the-mexica",
+        "name": "Case study: Spain and the Mexica",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-spain-and-the-mexica-1",
+            "name": "Spain and the Mexica",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-spain-and-the-mexica-1-1",
+                "description": "The nature of Mexica society",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-spain-and-the-mexica-1-2",
+                "description": "The reasons for the collapse of the Mexica Empire",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-spain-and-the-mexica-1-3",
+                "description": "The impact and legacy of Spanish colonisation",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-catherine-the-great",
+        "name": "Case study: Catherine the Great",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-catherine-the-great-1",
+            "name": "Catherine the Great",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-catherine-the-great-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-catherine-the-great-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-catherine-the-great-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-napoleon",
+        "name": "Case study: Napoleon",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-napoleon-1",
+            "name": "Napoleon",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-napoleon-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-napoleon-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-napoleon-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-western-imperialism-in-the-19th-century",
+        "name": "Case study: Western imperialism in the 19th century",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-western-imperialism-in-the-19th-century-1",
+            "name": "Western imperialism in the 19th century",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-western-imperialism-in-the-19th-century-1-1",
+                "description": "The origins and aims of imperialism",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-western-imperialism-in-the-19th-century-1-2",
+                "description": "Resistance and control",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-western-imperialism-in-the-19th-century-1-3",
+                "description": "The impact and legacy of Western imperialism",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-the-opium-wars",
+        "name": "Case study: The Opium Wars",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-the-opium-wars-1",
+            "name": "The Opium Wars",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-the-opium-wars-1-1",
+                "description": "Reasons for the Opium Wars",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-opium-wars-1-2",
+                "description": "The impact of the Opium Wars on China",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-opium-wars-1-3",
+                "description": "The influence of the Opium Wars on China’s relations with the West",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-winston-churchill",
+        "name": "Case study: Winston Churchill",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-winston-churchill-1",
+            "name": "Winston Churchill",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-winston-churchill-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-winston-churchill-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-winston-churchill-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-appeasement",
+        "name": "Case study: Appeasement",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-appeasement-1",
+            "name": "Appeasement",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-appeasement-1-1",
+                "description": "The nature of and motivations for appeasement",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-appeasement-1-2",
+                "description": "The successes and/or failures of appeasement",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-appeasement-1-3",
+                "description": "The lessons of appeasement",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-the-partition-of-india",
+        "name": "Case study: The partition of India",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-the-partition-of-india-1",
+            "name": "The partition of India",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-the-partition-of-india-1-1",
+                "description": "Reasons for partition",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-partition-of-india-1-2",
+                "description": "The nature of partition: implementation and experiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-partition-of-india-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-john-fitzgerald-kennedy",
+        "name": "Case study: John Fitzgerald Kennedy",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-john-fitzgerald-kennedy-1",
+            "name": "John Fitzgerald Kennedy",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-john-fitzgerald-kennedy-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-john-fitzgerald-kennedy-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-john-fitzgerald-kennedy-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-margaret-thatcher",
+        "name": "Case study: Margaret Thatcher",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-margaret-thatcher-1",
+            "name": "Margaret Thatcher",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-margaret-thatcher-1-1",
+                "description": "Character, identity and motivations",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-margaret-thatcher-1-2",
+                "description": "Leadership and achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-margaret-thatcher-1-3",
+                "description": "Impact and legacy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-the-frontier-in-australia",
+        "name": "Case study: The frontier in Australia",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-the-frontier-in-australia-1",
+            "name": "The frontier in Australia",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-the-frontier-in-australia-1-1",
+                "description": "The nature of interactions on the frontier",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-frontier-in-australia-1-2",
+                "description": "The roles and experiences of Aboriginal People(s)",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-frontier-in-australia-1-3",
+                "description": "The impact and representations of interactions on the frontier",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-women-convicts-in-new-south-wales",
+        "name": "Case study: Women convicts in New South Wales",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-women-convicts-in-new-south-wales-1",
+            "name": "Women convicts in New South Wales",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-women-convicts-in-new-south-wales-1-1",
+                "description": "The origins of women convicts and reasons for transportation",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-women-convicts-in-new-south-wales-1-2",
+                "description": "The character of women convicts",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-women-convicts-in-new-south-wales-1-3",
+                "description": "Roles and experiences in convict society",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-hx-12-case-study-the-anzacs",
+        "name": "Case study: The Anzacs",
+        "subTopics": [
+          {
+            "id": "subtopic-hx-12-case-study-the-anzacs-1",
+            "name": "The Anzacs",
+            "dotPoints": [
+              {
+                "id": "dp-hx-12-case-study-the-anzacs-1-1",
+                "description": "The identity, experiences and achievements of Anzac soldiers",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-anzacs-1-2",
+                "description": "The political and cultural impact of the Anzacs",
+                "prompts": []
+              },
+              {
+                "id": "dp-hx-12-case-study-the-anzacs-1-3",
+                "description": "The legacy and commemoration of the Anzacs",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

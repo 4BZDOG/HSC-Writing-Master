@@ -1,0 +1,27 @@
+{
+  "syllabus": "Health and Movement Science 11–12 Syllabus (2023); first HSC 2026",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/pdhpe/health-and-movement-science-11-12-2023",
+  "startFocusAreas": ["content/year-11/fa345f6f19", "content/year-12/fa544450d1"],
+  "id": "course-hsc-health-and-movement-science",
+  "name": "HSC Health and Movement Science",
+  "prefix": "hms",
+  "outcomePattern": "^[A-Z0-9]+-1[12][A-Z]*-\\d\\d$",
+  "topics": [
+    {
+      "title": "Health for individuals and communities",
+      "year": "year11"
+    },
+    {
+      "title": "The body and mind in motion",
+      "year": "year11"
+    },
+    {
+      "title": "Health in an Australian and global context",
+      "year": "year12"
+    },
+    {
+      "title": "Training for improved performance",
+      "year": "year12"
+    }
+  ]
+}

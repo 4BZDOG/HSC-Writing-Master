@@ -315,8 +315,10 @@ export const useSyllabusData = ({
           // A returning browser never runs discovery again, so shipped courses it is
           // missing are added here, and unedited copies are brought up to date. The
           // version only advances once that has worked, so a failed fetch is retried.
+          // Gated on DATA_VERSION itself: a second literal here had to be bumped by hand
+          // alongside it, and a bump that missed it shipped courses no returning browser saw.
           let libraryReady = true;
-          if (isOlderThan(savedVersion, '2.17.0')) {
+          if (isOlderThan(savedVersion, DATA_VERSION)) {
             const synced = await syncShippedCourses(dataToLoad);
             dataToLoad = synced.courses;
             libraryReady = synced.complete;

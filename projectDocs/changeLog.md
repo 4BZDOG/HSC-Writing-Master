@@ -1,5 +1,36 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-19 (Six more courses, structure only, from NESA's current syllabuses)
+
+The next round of seeded courses, picked for how well they suit written, verb-marked answers and how many
+students sit them. Each is the syllabus NESA currently publishes on the curriculum site, read from the page
+data rather than a summary, and ships its topics, sub-topics, dot points and outcomes with **no questions**:
+a teacher fills a dot point with Starter questions or writes their own.
+
+| Course                      | Syllabus (NESA)       | First HSC | Topics (Y11 + Y12) | Dot points | Outcomes |
+| --------------------------- | --------------------- | --------- | ------------------ | ---------- | -------- |
+| Health and Movement Science | 2023 (replaces PDHPE) | 2026      | 2 + 2              | 69         | 20       |
+| Biology                     | 2025                  | 2028      | 4 + 5              | 272        | 21       |
+| English Studies             | 2024                  | 2027      | 12 + 13            | 228        | 10       |
+| English EAL/D               | 2024                  | 2027      | 3 + 4              | 62         | 12       |
+| English Extension 1         | 2024                  | 2027      | 1 + 1              | 26         | 12       |
+| History Extension           | 2024                  | 2027      | 0 + 23             | 84         | 4        |
+
+- **Added.** English Studies' elective focus areas (11 per year) and History Extension's 22 case studies are
+  topics; English Extension 1's five Literary worlds electives are sub-topics. Left out on purpose: HMS's
+  Collaborative Investigation (no content statements), English Extension 2 (a major work, not an exam), and
+  History Extension's History project (project rules rather than content); its outcome HX-12-03 is kept.
+  Biology follows the 2025 syllabus, as Legal Studies and Economics follow theirs: students now in Year 11 sit
+  the 2017 syllabus.
+- **Fixed.** "Health and Movement Science" was filed under Science: the faculty guess checked "science"
+  before "health". Community and Family Studies, Aboriginal Studies and Dance are recognised too.
+- **Fixed.** The shipped-course sync was gated on its own version literal, which had to be bumped by hand
+  beside `DATA_VERSION`; a bump that missed it would ship courses no returning browser received. It is gated
+  on `DATA_VERSION` now (2.18.0).
+- **Tools.** `fetch_nesa.py` finds options-list focus areas and electives, and flattens statements whose text
+  is an equation (three Biology statements came out blank). New `build_structure.py` builds a
+  structure-only course from a config; the six configs are in `.claude/skills/build-course-data/configs/`.
+
 ## [Unreleased] - 2026-10-18 (The rest of the navigator redesign, #151)
 
 - **Fixed.** The syllabus navigator is a `<nav>` landmark ("Syllabus navigator"), so a screen reader can reach it from its landmark list beside the breadcrumb. The question picker's tier runs are named groups that own their questions; their headings were `role="presentation"`, so a screen reader heard twenty questions and none of the six kinds they are sorted into. These were the two parts of #151 (August) still missing from main: that branch's history is unrelated to main's and its navigator predates about 250 PRs, and the rest of it (the cascade notice, the picker's focus return and level names, the fold's focus hand-off, the focus trap's `preventScroll`, the navigator contrast checks) had landed by other routes (#417).
