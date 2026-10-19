@@ -1,5 +1,34 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-19 (Focus areas read the way NESA writes them, and stay visible in the light theme)
+
+From a teacher's review of the navigator's focus areas on the new courses, then an audit of all 3,232 shipped
+dot points.
+
+- **Fixed.** A chosen focus area was white text on the light theme's white list and picker, so it vanished
+  once selected. It takes the theme's text colour.
+- **Fixed.** "Aboriginal and Torres Strait Islander Peoples" became two focus areas: the parser split every
+  list on every "and". Only the last "and" of a list joins two items now, and a few phrases NESA always names
+  together are held as one.
+- **Fixed.** NESA's bracketed sub-points are split on their semicolons only, so a sub-point that is a question
+  with commas in it stays whole ("what are the major causes of morbidity and mortality, and the life
+  expectancy for males, females and the general population?"). A nested bracket is one group, so "(Infrastructure
+  as a Service (IaaS); Software as a Service (SaaS))" is not cut at "(IaaS)"; "(UI)", "(G1)" and "option(s)"
+  are no longer offered as focus areas.
+- **Added.** A series written without "including" becomes focus areas: "Select qualitative and quantitative
+  information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources" gives
+  seven. Mid-sentence series are read too ("the movement of glucose, oxygen, carbon dioxide, salts and wastes
+  across membranes…"), shared adjectives take their noun ("hypertonic, hypotonic and isotonic solutions"), and
+  a semicolon list after a colon is read ("…using criteria. These include: a; b; c"). Only verb-led statements
+  are searched for an unmarked series: content written as a noun phrase gave items such as "the concepts of
+  Ma'at" and "Isfet", and is left alone.
+- **Changed.** A dot point whose list is its focus areas is labelled by its statement: the bracket of
+  sub-points, the list after a colon, or a series that ends it ("Select qualitative and quantitative
+  information from …") is left to the focus areas instead of being read twice. A series mid-sentence keeps the
+  full wording. The description itself is unchanged, so questions and the AI still see all of it.
+- **Audit.** Across the shipped courses 150 dot points gain focus areas, and 38 lose one that was never a
+  focus area: an abbreviation ("(WTO)", "(ICIP)") or a ratio formula in brackets. A teacher can still set a dot point's focus areas by hand.
+
 ## [Unreleased] - 2026-10-19 (Adding a sub-topic makes no AI call unless asked, and the new import read in a browser)
 
 - **Fixed.** "Generate dot points with AI" on Add sub-topic was ticked by default, so a curator who only wanted

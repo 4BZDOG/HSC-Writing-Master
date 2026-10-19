@@ -79,8 +79,216 @@ const parseBulletedSubItems = (description: string): string[] => {
 };
 
 /**
- * Heuristic engine to extract sub-items (examples) from NESA syllabus descriptions.
- * Detects patterns like "including X, Y and Z", "including: A; B; C", or "(A, B, C)".
+ * Phrases that read as one item although they contain "and". Splitting on every
+ * "and" turned "Aboriginal and Torres Strait Islander Peoples" into two focus
+ * areas, and a NESA list names these together far more often than apart.
+ */
+const PROTECTED_PHRASES: RegExp[] = [
+  /\bAboriginal\s+and\s+Torres\s+Strait\s+Islander\b/gi,
+  /\bTorres\s+Strait\s+Islander\s+and\s+Aboriginal\b/gi,
+  /\bcontinuity\s+and\s+change\b/gi,
+  /\bcause\s+and\s+effect\b/gi,
+  /\bsupply\s+and\s+demand\b/gi,
+  /\brights\s+and\s+responsibilities\b/gi,
+  /\btrial\s+and\s+error\b/gi,
+  /\bresearch\s+and\s+development\b/gi,
+];
+const JOINED = '\u0000';
+
+/**
+ * One list, split into its items.
+ *
+ * A semicolon list is split on semicolons alone: NESA's sub-points are joined
+ * that way, and each is often a question or clause with commas of its own ("what
+ * are the major causes of morbidity and mortality, and the life expectancy for
+ * males, females and the general population?"). Otherwise the commas separate
+ * the items and only the LAST "and"/"or" joins two of them — "motion, balance
+ * and stability, fluid mechanics and force" is motion; balance and stability;
+ * fluid mechanics; force. An "and" inside an earlier item belongs to it.
+ */
+const splitList = (list: string): string[] => {
+  const tidy = (items: string[]) =>
+    items
+      .map((item) =>
+        item
+          .split(JOINED)
+          .join(' and ')
+          .replace(/^(?:and|or)\s+/i, '')
+          .replace(
+            /^(?:e\.g\.?|i\.e\.?|including|includes|such as|for example|namely)\s*:?\s+/i,
+            ''
+          )
+          .replace(/[.:;,]+$/, '')
+          .trim()
+      )
+      .filter((item) => item.length > 1 && !['etc', 'and', 'or'].includes(item.toLowerCase()));
+
+  if (list.includes(';')) return tidy(list.split(';'));
+
+  let protectedList = list;
+  for (const phrase of PROTECTED_PHRASES) {
+    protectedList = protectedList.replace(phrase, (m) => m.replace(/\s+and\s+/i, JOINED));
+  }
+  const parts = protectedList.split(/,\s*/);
+  const last = (parts.pop() ?? '').replace(/^(?:and|or)\s+/i, '');
+  const joiner = /\s+(?:and\/or|and|or)\s+(?!.*\s(?:and\/or|and|or)\s)/i.exec(last);
+  const tail = joiner
+    ? [last.slice(0, joiner.index), last.slice(joiner.index + joiner[0].length)]
+    : [last];
+  return tidy([...parts, ...tail]);
+};
+
+/**
+ * The bracketed group that ends a description, matched with nesting, so that
+ * "(Infrastructure as a Service (IaaS); Software as a Service (SaaS))" is one
+ * group rather than cut at the inner "(IaaS)".
+ */
+const trailingBracket = (text: string): { index: number; inner: string } | null => {
+  const end = text.replace(/[\s.;:,]+$/, '').length - 1;
+  if (end < 0 || text[end] !== ')') return null;
+  let depth = 0;
+  for (let i = end; i >= 0; i--) {
+    if (text[i] === ')') depth++;
+    else if (text[i] === '(' && --depth === 0) return { index: i, inner: text.slice(i + 1, end) };
+  }
+  return null;
+};
+
+// Words that open the run of items in a series written without a lead-in:
+// "…information FROM texts, diagrams, flow charts, … and multimedia resources".
+const SERIES_PREPOSITION =
+  /\b(?:from|in|using|of|through|by|with|on|across|to|for|about|into|between|among|via|as|how|whether)\s+|[:–—]\s+/gi;
+// Where the last item of a series stops when the sentence carries on after it.
+const SERIES_STOP =
+  /\s+(?:from|in|using|through|by|with|on|across|to|for|about|into|between|among|via|as|during|within|that|which|when|where|while|can|have|has|is|are|control|controls|enable|enables|provide|provided|contribute|contributes|impact|impacts|shape|shaped|used|interact|interacts|influence|influences|affect|affects)\b/i;
+// A word that reads as an adjective, so a series of them shares the noun that
+// ends it: "hypertonic, hypotonic and isotonic solutions".
+const ADJECTIVE = /(?:al|ic|ive|ent|ant|ar|ous|ary|ed|ful|ian|ile)$/i;
+// The verbs an infinitive opens with in NESA statements ("to identify…").
+const INFINITIVE =
+  /^(?:achieve|analyse|calculate|collect|communicate|compare|convey|create|demonstrate|describe|determine|develop|evaluate|explain|explore|express|identify|illustrate|improve|integrate|interpret|make|organise|present|record|reflect|represent|shape|show|support|use)$/i;
+// An item opening like this is a clause, not a member of the list.
+const CLAUSE_OPENING =
+  /^(?:its|their|his|her|this|these|those|which|that|how|why|what|when|where|who|to|in|supported|including|using|considering|demonstrating)\b/i;
+/**
+ * A statement led by a verb, as NESA writes its skills and science content
+ * ("Select…", "Relate…", "Analyse…"). Only these are searched for an unmarked
+ * series. Content written as a noun phrase ("The roles and images of the king,
+ * the concepts of Ma'at and Isfet, the roles of…") is a list of topics whose
+ * items cannot be told apart from their own "of" and "and", and guessing there
+ * produced focus areas such as "the concepts of Ma'at" and "Isfet".
+ */
+const STATEMENT_VERB =
+  /^(?:Account|Acquire|Analyse|Apply|Assess|Calculate|Classify|Collect|Communicate|Compare|Compose|Conduct|Construct|Contrast|Create|Deduce|Define|Demonstrate|Describe|Design|Develop|Discuss|Distinguish|Evaluate|Examine|Experiment|Explain|Explore|Extract|Gather|Identify|Implement|Interpret|Investigate|Justify|Model|Organise|Outline|Plan|Predict|Present|Process|Propose|Recognise|Recommend|Relate|Represent|Research|Select|Solve|Summarise|Synthesise|Use)\b/;
+const balanced = (s: string) => s.split('(').length === s.split(')').length;
+const words = (s: string) => s.split(/\s+/).filter(Boolean).length;
+
+/**
+ * A series of three or more items written with no "including" before it, read
+ * from the preposition that opens it: "Select … information from texts,
+ * diagrams, flow charts, tables, databases, graphs and multimedia resources", or
+ * mid-sentence, "Relate the movement of glucose, oxygen, carbon dioxide, salts
+ * and wastes across membranes…". Returns where it starts, whether it ends the
+ * description (only then can the label be shortened), and its items.
+ *
+ * Held to a strict shape so ordinary sentences are left alone: a verb-led
+ * statement; the first comma within five words of the preposition; every item
+ * before the last at most four words, none opening like a clause ("its
+ * causes"); the last segment joined by "and"/"or"; three or more items.
+ */
+const seriesIn = (text: string): { index: number; trailing: boolean; items: string[] } | null => {
+  if (!STATEMENT_VERB.test(text)) return null;
+  const firstComma = text.indexOf(',');
+  if (firstComma === -1) return null;
+  let start = -1;
+  for (const m of text.slice(0, firstComma).matchAll(SERIES_PREPOSITION)) {
+    start = (m.index ?? 0) + m[0].length;
+  }
+  if (start === -1) return null;
+  // "…to identify main ideas, information and purposes": after "to" the first
+  // word is the infinitive's verb, not part of the first item.
+  const afterTo =
+    /\bto\s+$/i.test(text.slice(0, start)) && /^([a-z]+)\s+\S/.exec(text.slice(start));
+  if (afterTo && INFINITIVE.test(afterTo[1])) start += afterTo[1].length + 1;
+  const all0 = text.slice(start).split(/,\s+/);
+  // The series ends at the first segment that carries its "and"/"or"; any
+  // commas after it belong to the rest of the sentence.
+  const end = all0.findIndex(
+    (seg, i) => i > 0 && (/^(?:and|or)\s+/i.test(seg) || /\s(?:and\/or|and|or)\s/i.test(seg))
+  );
+  const segments = end === -1 ? all0 : all0.slice(0, end + 1);
+  const cutShort = end !== -1 && end < all0.length - 1;
+  if (segments.length < 2) return null;
+  const items = segments.slice(0, -1).map((seg) => seg.replace(/^(?:and|or)\s+/i, '').trim());
+  if (items.some((seg) => words(seg) > 4 || !balanced(seg) || /[.;]/.test(seg))) return null;
+
+  // The last segment holds the end of the series, and perhaps the rest of the
+  // sentence. "…, and fertilisation" (an Oxford comma) is one last item;
+  // "salts and wastes across membranes to…" is two, the second cut where the
+  // sentence carries on. A last item of five words or fewer that ends the text
+  // is kept whole ("tombs of the nobility").
+  const lastSeg = segments[segments.length - 1].replace(/[.;:]+\s*$/, '');
+  const cut = (rest: string) => rest.split(SERIES_STOP)[0];
+  let tail: string[];
+  let rest: string;
+  const oxford = /^(?:and|or)\s+/i.exec(lastSeg);
+  if (oxford) {
+    rest = lastSeg.slice(oxford[0].length).trim();
+    tail = [cut(rest)];
+  } else {
+    const joiner = /\s+(?:and\/or|and|or)\s+/i.exec(lastSeg);
+    if (!joiner) return null;
+    const before = lastSeg.slice(0, joiner.index);
+    if (words(before) > 4) return null;
+    rest = lastSeg.slice(joiner.index + joiner[0].length).trim();
+    tail = [before, cut(rest)];
+  }
+  let all = [...items, ...tail].map((x) => x.trim()).filter(Boolean);
+  // The series ends the description only if its last item was not cut short.
+  const trailing = !cutShort && tail[tail.length - 1].trim() === rest;
+  // Adjectives before a shared noun take it with them, so each focus area is a
+  // thing: "independent, dependent and controlled variables" gives three kinds
+  // of variable, not "independent" and "dependent".
+  const lastWords = all[all.length - 1].split(/\s+/);
+  const leading = all.slice(0, -1);
+  if (
+    lastWords.length >= 2 &&
+    ADJECTIVE.test(lastWords[0]) &&
+    leading.every((x) => words(x) === 1 && ADJECTIVE.test(x))
+  ) {
+    const noun = lastWords.slice(1).join(' ');
+    all = [...leading.map((x) => `${x} ${noun}`), all[all.length - 1]];
+  }
+  if (all.length < 3 || all.some((x) => CLAUSE_OPENING.test(x) || !balanced(x) || words(x) > 6)) {
+    return null;
+  }
+  return { index: start, trailing, items: all };
+};
+
+/**
+ * A list after a colon (or a dash), written with semicolons: "…by: collecting and recording
+ * primary data…; gathering and organising…" or "…using criteria. These include:
+ * accessibility of the law; achievement of justice; …". Returns where the colon
+ * is and the items, or null.
+ */
+const colonList = (text: string): { index: number; items: string[] } | null => {
+  // A dash does the colon's job in Business Studies: "profitability – gross
+  // profit ratio (…); net profit ratio (…); return on equity ratio (…)".
+  const m = /:|\s[–—]\s/.exec(text);
+  if (!m || !text.slice(m.index).includes(';')) return null;
+  // Semicolons inside a bracket are a bracketed list, handled on its own.
+  if (/\([^)]*;/.test(text.slice(m.index))) return null;
+  const items = splitList(text.slice(m.index + m[0].length));
+  return items.length >= 2 ? { index: m.index, items } : null;
+};
+
+/**
+ * Heuristic engine to extract sub-items (focus areas) from NESA syllabus descriptions.
+ *
+ * In order, the first that finds a list wins: lines the author bulleted; a
+ * trailing bracket of semicolon-separated sub-points (how the shipped courses
+ * carry NESA's "including" points); an "including/such as/e.g." list; any other
+ * bracketed list; then a series of three or more that ends the sentence.
  */
 export const parseSubItemsFromDescription = (description: string): string[] => {
   if (!description) return [];
@@ -90,60 +298,42 @@ export const parseSubItemsFromDescription = (description: string): string[] => {
   const bulleted = parseBulletedSubItems(description);
   if (bulleted.length > 0) return Array.from(new Set(bulleted));
 
-  // Normalise string: remove extra spaces and standardise punctuation
   const cleanDesc = description.replace(/\s+/g, ' ').trim();
+  const unique = (items: string[]) => Array.from(new Set(items));
 
-  let items: string[] = [];
-
-  // Pattern 1: Keywords like "including", "includes", "such as", "e.g."
-  // We look for everything after these keywords until the next major stop (period, semicolon if outside the list)
-  const listPatterns = [
-    /\bincl(?:uding|udes):?\s+([^.]+)/i,
-    /\bsuch\s+as:?\s+([^.]+)/i,
-    /\bfor\s+example:?\s+([^.]+)/i,
-    /\be\.g\.?\s+([^.]+)/i,
-    /\bnamely:?\s+([^.]+)/i,
-  ];
-
-  listPatterns.forEach((pattern) => {
-    const match = cleanDesc.match(pattern);
-    if (match && match[1]) {
-      const listPart = match[1];
-      const splitItems = listPart
-        .split(/,|;|\band\b/)
-        .map((s) => s.trim())
-        .filter((s) => s.length > 2);
-      items = [...items, ...splitItems];
-    }
-  });
-
-  // Pattern 2: Content inside brackets
-  const bracketMatch = cleanDesc.match(/\(([^)]+)\)/);
-  if (bracketMatch && bracketMatch[1]) {
-    const bracketContents = bracketMatch[1]
-      .split(/,|;|\band\b/)
-      .map((s) => s.trim())
-      .filter((s) => s.length > 2);
-    items = [...items, ...bracketContents];
+  const bracket = trailingBracket(cleanDesc);
+  if (bracket && bracket.inner.includes(';')) {
+    const items = splitList(bracket.inner);
+    if (items.length >= 2) return unique(items);
   }
 
-  // Deduplicate and clean common artifacts
-  const uniqueItems = Array.from(
-    new Set(
-      items.map((item) =>
-        item
-          .replace(/^(e\.g\.|including|such as|includes)\s+/i, '')
-          .replace(/[.:]$/, '')
-          .trim()
-      )
-    )
-  );
+  const colon = colonList(cleanDesc);
+  if (colon) return unique(colon.items);
 
-  // Final filter: remove common non-content words
-  return uniqueItems.filter((item) => {
-    const lower = item.toLowerCase();
-    return !['etc', 'etc.', 'and', 'or'].includes(lower) && item.length > 1;
-  });
+  const listPatterns = [
+    /\bincl(?:uding|udes):?\s+([^.()]+)/i,
+    /\bsuch\s+as:?\s+([^.()]+)/i,
+    /\bfor\s+example:?\s+([^.()]+)/i,
+    /\be\.g\.?\s+([^.()]+)/i,
+    /\bnamely:?\s+([^.()]+)/i,
+  ];
+  for (const pattern of listPatterns) {
+    const match = cleanDesc.match(pattern);
+    if (match && match[1]) {
+      const items = splitList(match[1]);
+      if (items.length > 0) return unique(items);
+    }
+  }
+
+  // Any other bracket counts only as a list of two or more: "(UI)", "(G1)" and
+  // "solution(s)" are an abbreviation and a plural, not focus areas.
+  const inner = bracket?.inner ?? /\(([^()]+)\)/.exec(cleanDesc)?.[1];
+  if (inner) {
+    const items = splitList(inner);
+    if (items.length >= 2) return unique(items);
+  }
+
+  return unique(seriesIn(cleanDesc)?.items ?? []);
 };
 
 /**
@@ -233,8 +423,31 @@ export const splitDotPointDescription = (
   );
 
   let stem: string;
+  const flat = full.replace(/\s+/g, ' ');
+  const bracket = trailingBracket(flat);
+  const series = seriesIn(flat);
   if (firstListLine > 0) {
     stem = lines.slice(0, firstListLine).join(' ');
+  } else if (colonList(flat)) {
+    // "Evaluate options in response to a geographical challenge by: a; b" reads
+    // as the words before the colon; the list after it is the focus areas.
+    stem = flat.slice(0, colonList(flat)!.index).replace(/\.?\s*These include$/i, '');
+    // A stem left ending on its preposition ("…challenge by") says the list follows.
+    if (/\b(?:by|using|to|from|of|in|with|for)$/i.test(stem.trim())) {
+      return { stem: `${stem.trim()} …`, items };
+    }
+  } else if (bracket && splitList(bracket.inner).length >= 2) {
+    // "Analyse the current health status of Australians from … (what does the
+    // data tell us?; what are …?)" reads as its statement; the bracket's points
+    // are the focus areas beside it.
+    stem = flat.slice(0, bracket.index);
+  } else if (!LIST_LEAD_IN.test(flat) && series?.trailing) {
+    // A series with no lead-in keeps its opening words and an ellipsis, so the
+    // label still says what kind of thing the focus areas are: "Select
+    // qualitative and quantitative information from …".
+    const kept = flat.slice(0, series.index).replace(/\s+$/, '');
+    if (kept.split(/\s+/).filter(Boolean).length < 3) return fallback;
+    return { stem: `${kept} …`, items };
   } else {
     const match = LIST_LEAD_IN.exec(full);
     // Only a TRAILING list is furniture. A lead-in mid-sentence is part of the

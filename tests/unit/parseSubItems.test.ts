@@ -61,9 +61,7 @@ describe('parseSubItemsFromDescription', () => {
   });
 
   it('returns empty array for descriptions without sub-items', () => {
-    const result = parseSubItemsFromDescription(
-      'Analyse the impact of AI on modern society'
-    );
+    const result = parseSubItemsFromDescription('Analyse the impact of AI on modern society');
     expect(result).toEqual([]);
   });
 
@@ -215,15 +213,121 @@ describe('getDotPointLabel', () => {
   it('labels a dot point by its statement alone', () => {
     expect(
       getDotPointLabel({
-        description: 'Influences on the global economic activity\nIncluding:\n * biophysical\n * economic',
+        description:
+          'Influences on the global economic activity\nIncluding:\n * biophysical\n * economic',
       })
     ).toBe('Influences on the global economic activity');
   });
 
   it('never returns the focus areas the Active Focus menu already shows', () => {
     const label = getDotPointLabel({
-      description: 'Influences on the global economic activity\nIncluding:\n * biophysical\n * economic',
+      description:
+        'Influences on the global economic activity\nIncluding:\n * biophysical\n * economic',
     });
     expect(label).not.toMatch(/biophysical|economic activity\n/);
+  });
+});
+
+describe('focus areas from the shapes NESA writes (October 2026 review)', () => {
+  it('keeps "Aboriginal and Torres Strait Islander Peoples" as one item', () => {
+    expect(
+      parseSubItemsFromDescription(
+        'Investigate the role of communities, including Aboriginal and Torres Strait Islander Peoples, families and schools'
+      )
+    ).toEqual(['Aboriginal and Torres Strait Islander Peoples', 'families', 'schools']);
+  });
+
+  it('splits a series with no "including" into one focus area each, and shortens the label', () => {
+    const d =
+      'Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources';
+    expect(parseSubItemsFromDescription(d)).toEqual([
+      'texts',
+      'diagrams',
+      'flow charts',
+      'tables',
+      'databases',
+      'graphs',
+      'multimedia resources',
+    ]);
+    expect(splitDotPointDescription(d).stem).toBe(
+      'Select qualitative and quantitative information from …'
+    );
+  });
+
+  it('takes bracketed sub-points whole, split on semicolons only, and labels the statement', () => {
+    const d =
+      'Analyse the current health status of Australians from Australia’s Health and other health reports, tables and graphs (what does the data tell us?; what are the major causes of morbidity and mortality, and the life expectancy for males, females and the general population?; where do inequities exist and what can we do about them?)';
+    expect(parseSubItemsFromDescription(d)).toEqual([
+      'what does the data tell us?',
+      'what are the major causes of morbidity and mortality, and the life expectancy for males, females and the general population?',
+      'where do inequities exist and what can we do about them?',
+    ]);
+    expect(splitDotPointDescription(d).stem).toBe(
+      'Analyse the current health status of Australians from Australia’s Health and other health reports, tables and graphs'
+    );
+  });
+
+  it('reads a series mid-sentence without shortening the label', () => {
+    const d =
+      'Relate the movement of glucose, oxygen, carbon dioxide, salts and wastes across membranes to concentration gradients';
+    expect(parseSubItemsFromDescription(d)).toEqual([
+      'glucose',
+      'oxygen',
+      'carbon dioxide',
+      'salts',
+      'wastes',
+    ]);
+    expect(splitDotPointDescription(d).stem).toBe(d);
+  });
+
+  it('gives adjectives in a series the noun they share', () => {
+    expect(
+      parseSubItemsFromDescription(
+        'Predict the effects of hypertonic, hypotonic and isotonic solutions on animal and plant cells'
+      )
+    ).toEqual(['hypertonic solutions', 'hypotonic solutions', 'isotonic solutions']);
+  });
+
+  it('reads a semicolon list after a colon', () => {
+    const d =
+      'Evaluate the effectiveness of the law using criteria. These include: accessibility of the law; achievement of justice; application of the rule of law';
+    expect(parseSubItemsFromDescription(d)).toEqual([
+      'accessibility of the law',
+      'achievement of justice',
+      'application of the rule of law',
+    ]);
+    expect(splitDotPointDescription(d).stem).toBe(
+      'Evaluate the effectiveness of the law using criteria'
+    );
+  });
+
+  it('keeps a nested bracket whole', () => {
+    expect(
+      parseSubItemsFromDescription(
+        'Explore cloud computing services (Infrastructure as a Service (IaaS); Software as a Service (SaaS))'
+      )
+    ).toEqual(['Infrastructure as a Service (IaaS)', 'Software as a Service (SaaS)']);
+  });
+
+  it('does not take an abbreviation or a plural in brackets as a focus area', () => {
+    expect(
+      parseSubItemsFromDescription(
+        'Explain how the user interface (UI) impacts on the user experience (UX)'
+      )
+    ).toEqual([]);
+    expect(parseSubItemsFromDescription('Propose the most appropriate option(s)')).toEqual([]);
+  });
+
+  it('leaves sentences and noun-phrase content alone', () => {
+    expect(
+      parseSubItemsFromDescription(
+        'Analyse the extent of inequality in Australia, its causes and consequences'
+      )
+    ).toEqual([]);
+    expect(
+      parseSubItemsFromDescription(
+        'The roles and images of the king, the concepts of Ma’at and Isfet, the roles of the official class and the roles of women'
+      )
+    ).toEqual([]);
   });
 });
