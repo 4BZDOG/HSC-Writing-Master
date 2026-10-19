@@ -9,6 +9,7 @@ import {
   SampleAnswer,
   CourseOutcome,
   DataValidationResult,
+  SyllabusYear,
 } from '../types';
 import { yearOfOutcome, yearOfTopic } from './syllabusYear';
 import {
@@ -1664,6 +1665,11 @@ export const getLLMImportTemplate = () =>
 export interface SyllabusPreviewNode {
   name: string;
   subTopics: { name: string; dotPoints: string[] }[];
+  /**
+   * The year this topic belongs to, when its source says so (a NESA focus area
+   * does). Absent means the import's own year decides.
+   */
+  year?: SyllabusYear;
 }
 
 /** Coerce a single dot-point of unknown shape (string or { description|text|... }) to text. */
@@ -1774,7 +1780,10 @@ export const normalizeSyllabusStructure = (raw: unknown): SyllabusPreviewNode[] 
     }
 
     if (!name && subTopics.length === 0) continue;
-    result.push({ name: name || 'Untitled Topic', subTopics });
+    // Only a year the model named exactly is kept. Anything else is dropped rather
+    // than guessed at, and the import's own year then applies to the topic.
+    const year = topic.year === 'year11' || topic.year === 'year12' ? topic.year : undefined;
+    result.push({ name: name || 'Untitled Topic', subTopics, ...(year ? { year } : {}) });
   }
 
   return result;

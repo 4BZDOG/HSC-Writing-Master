@@ -206,8 +206,8 @@ const AppModals: React.FC<AppModalsProps> = ({
         isOpen={isModalOpen('courseCreator')}
         onClose={() => closeModal('courseCreator')}
         existingNames={courses.map((c) => c.name)}
-        onCourseCreated={(name, outcomes) => {
-          const newCourse = syllabusHandlers.handleCreateCourse(name, outcomes);
+        onCourseCreated={(name, outcomes, subject) => {
+          const newCourse = syllabusHandlers.handleCreateCourse(name, outcomes, subject);
           if (newCourse) {
             setStatePath({ courseId: newCourse.id });
             setNewlyAddedIds((prev) => new Set(prev).add(newCourse.id));
@@ -733,6 +733,7 @@ const AppModals: React.FC<AppModalsProps> = ({
           courseName={currentCourse?.name || ''}
           topicName={currentTopic?.name || ''}
           subTopicName={currentSubTopic.name}
+          existingDotPoints={(currentSubTopic.dotPoints || []).map((dp) => dp.description)}
           onDotPointsGenerated={(dotPoints) => {
             syllabusHandlers.handleAddDotPoints(statePath, dotPoints);
           }}

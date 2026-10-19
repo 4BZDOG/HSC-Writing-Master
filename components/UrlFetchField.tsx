@@ -7,7 +7,14 @@ import { Globe, Loader2 } from 'lucide-react';
  * refusal is accurate but arrives after a round trip and a spinner.
  */
 export const NESA_HOST_HINT =
-  'Works with NESA pages — educationstandards.nsw.edu.au and curriculum.nsw.edu.au.';
+  'A syllabus page on curriculum.nsw.edu.au is read exactly, with no AI. Older NESA pages on nsw.gov.au are read as text.';
+
+/**
+ * What the URL box suggests typing. NESA's current syllabuses live on the
+ * curriculum site, and educationstandards.nsw.edu.au, which the boxes used to
+ * suggest, now only redirects to nsw.gov.au.
+ */
+export const NESA_URL_PLACEHOLDER = 'https://curriculum.nsw.edu.au/learning-areas/…';
 
 interface UrlFetchFieldProps {
   value: string;

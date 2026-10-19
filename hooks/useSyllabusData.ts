@@ -117,6 +117,20 @@ const parseManifestEntries = (manifest: {
     .filter((entry): entry is ManifestDocEntry => Boolean(entry?.file));
 };
 
+/** The shipped course ids this browser has been offered, or undefined if it never recorded any. */
+const readOfferedShipped = (): ReadonlySet<string> | undefined => {
+  const ids = safeGetItem<string[] | null>(STORAGE_KEYS.OFFERED_SHIPPED, null, (v) =>
+    Array.isArray(v)
+  );
+  return ids ? new Set(ids) : undefined;
+};
+
+/** Adds to the offered record; never removes, so a course offered once stays declined. */
+const recordOfferedShipped = (ids: string[]): void => {
+  const known = readOfferedShipped() ?? new Set<string>();
+  safeSetItem(STORAGE_KEYS.OFFERED_SHIPPED, [...new Set([...known, ...ids])]);
+};
+
 /**
  * Brings a saved library up to the shipped courses. A shipped course the library
  * lacks is added. A saved copy the user has not edited is replaced by the newer
@@ -127,12 +141,20 @@ const parseManifestEntries = (manifest: {
  * read, so the caller knows to try again.
  */
 export const syncShippedCourses = async (
-  saved: Course[]
-): Promise<{ courses: Course[]; complete: boolean }> => {
+  saved: Course[],
+  /**
+   * The shipped course ids this browser was offered before. A shipped course the
+   * library lacks is added only when it is NOT among them: one the user unticked
+   * in the first-run picker, or deleted later, was offered already, and adding it
+   * back at every version bump undid their choice. Undefined for a browser that
+   * predates the record, which gets every missing course once, as it always did.
+   */
+  offered?: ReadonlySet<string>
+): Promise<{ courses: Course[]; complete: boolean; shippedIds: string[] }> => {
   const courseDataBase = `${import.meta.env.BASE_URL}courseData`;
   try {
     const manifestRes = await fetch(`${courseDataBase}/manifest.json`);
-    if (!manifestRes.ok) return { courses: saved, complete: false };
+    if (!manifestRes.ok) return { courses: saved, complete: false, shippedIds: [] };
     const entries = parseManifestEntries(await manifestRes.json()).filter(
       (entry) => entry.type !== 'topic'
     );
@@ -182,11 +204,14 @@ export const syncShippedCourses = async (
         if (orphaned) backups.push(backup());
       }
     }
-    for (const next of pending.values()) courses.push(stampShipped(next));
-    return { courses: [...courses, ...backups], complete: true };
+    const shippedIds = shipped.flat().map((c) => c.id);
+    for (const next of pending.values()) {
+      if (!offered?.has(next.id)) courses.push(stampShipped(next));
+    }
+    return { courses: [...courses, ...backups], complete: true, shippedIds };
   } catch (err) {
     console.warn('[Curriculum] Could not sync shipped courses; will retry on next load.', err);
-    return { courses: saved, complete: false };
+    return { courses: saved, complete: false, shippedIds: [] };
   }
 };
 
@@ -319,9 +344,11 @@ export const useSyllabusData = ({
           // alongside it, and a bump that missed it shipped courses no returning browser saw.
           let libraryReady = true;
           if (isOlderThan(savedVersion, DATA_VERSION)) {
-            const synced = await syncShippedCourses(dataToLoad);
+            const offered = readOfferedShipped();
+            const synced = await syncShippedCourses(dataToLoad, offered);
             dataToLoad = synced.courses;
             libraryReady = synced.complete;
+            if (synced.complete) recordOfferedShipped(synced.shippedIds);
           }
           if (libraryReady) safeSetItem(STORAGE_KEYS.DATA_VERSION, DATA_VERSION);
         }
@@ -406,6 +433,11 @@ export const useSyllabusData = ({
           }
 
           untickUnplaceableTopics(potentialDocs);
+          // Everything the first-run picker lists counts as offered, ticked or not:
+          // a course left unticked there must not arrive uninvited at the next bump.
+          recordOfferedShipped(
+            potentialDocs.filter((d) => d.type === 'course').map((d) => (d.data as Course).id)
+          );
 
           setDiscoveredDocs(potentialDocs);
         } catch (error) {
@@ -562,8 +594,14 @@ export const useSyllabusData = ({
   }, [courses, isReady]);
 
   const handleCreateCourse = useCallback(
-    (name: string, outcomes: CourseOutcome[]) => {
-      const newCourse: Course = { id: generateId('course'), name, outcomes, topics: [] };
+    (name: string, outcomes: CourseOutcome[], subject?: string) => {
+      const newCourse: Course = {
+        id: generateId('course'),
+        name,
+        ...(subject ? { subject } : {}),
+        outcomes,
+        topics: [],
+      };
       updateCourses((draft) => {
         draft.push(newCourse);
       });

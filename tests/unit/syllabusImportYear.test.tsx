@@ -170,3 +170,148 @@ describe('a pasted syllabus keeps its year', () => {
     ]);
   });
 });
+
+/**
+ * A NESA focus area names its own year, and that year is what it lands in.
+ *
+ * The import's year is the default for a node that carries none. Without this, a
+ * Year 11 focus area read into a Year 12 import was filed as Year 12, where the
+ * student never meets it, and a same-named Year 12 topic absorbed its content.
+ */
+describe('a topic keeps the year its node names', () => {
+  const node = (name: string, year?: 'year11' | 'year12') => ({
+    name,
+    subTopics: [{ name: 'Sub-topic', dotPoints: ['a dot point'] }],
+    ...(year ? { year } : {}),
+  });
+
+  it('lands a Year 11 node as Year 11 when the import is Year 12', async () => {
+    const { state, props } = harness([]);
+    const { result } = renderHook(() => useGemini(props as never));
+
+    await act(async () => {
+      result.current.handleStartFullSyllabusImport(
+        'HSC Health and Movement Science',
+        [node('Health Issues', 'year11')] as never,
+        [],
+        undefined,
+        undefined,
+        'year12'
+      );
+    });
+
+    expect(state.courses[0].topics[0].year).toBe('year11');
+  });
+
+  it('lets a Year 12 node stay in Year 12 when the import is Year 11', async () => {
+    const { state, props } = harness([]);
+    const { result } = renderHook(() => useGemini(props as never));
+
+    await act(async () => {
+      result.current.handleStartFullSyllabusImport(
+        'HSC Health and Movement Science',
+        [node('Movement', 'year12'), node('Health Issues', 'year11')] as never,
+        [],
+        undefined,
+        undefined,
+        'year11'
+      );
+    });
+
+    const [movement, health] = state.courses[0].topics;
+    expect('year' in movement).toBe(false);
+    expect(health.year).toBe('year11');
+  });
+
+  it('uses the import year for a node that names none', async () => {
+    const { state, props } = harness([]);
+    const { result } = renderHook(() => useGemini(props as never));
+
+    await act(async () => {
+      result.current.handleStartFullSyllabusImport(
+        'HSC Health and Movement Science',
+        [node('Unlabelled')] as never,
+        [],
+        undefined,
+        undefined,
+        'year11'
+      );
+    });
+
+    expect(state.courses[0].topics[0].year).toBe('year11');
+  });
+
+  it('does not merge a Year 11 node into a Year 12 topic of the same name', async () => {
+    const existing: Course[] = [
+      {
+        id: 'c1',
+        name: 'HSC Health and Movement Science',
+        outcomes: [],
+        topics: [
+          {
+            id: 't12',
+            name: 'Health Issues',
+            subTopics: [{ id: 'st12', name: 'HSC sub-topic', dotPoints: [] }],
+          },
+        ],
+      } as Course,
+    ];
+    const { state, props } = harness(existing);
+    const { result } = renderHook(() => useGemini(props as never));
+
+    await act(async () => {
+      result.current.handleStartFullSyllabusImport(
+        'HSC Health and Movement Science',
+        [node('Health Issues', 'year11')] as never,
+        [],
+        'c1',
+        undefined,
+        'year12'
+      );
+    });
+
+    const topics = state.courses[0].topics;
+    expect(topics).toHaveLength(2);
+    const hsc = topics.find((t) => t.id === 't12');
+    expect(hsc?.subTopics.map((st) => st.name)).toEqual(['HSC sub-topic']);
+    const prelim = topics.find((t) => t.id !== 't12');
+    expect(prelim?.name).toBe('Health Issues');
+    expect(prelim?.year).toBe('year11');
+  });
+
+  it('merges a Year 11 node into the Year 11 topic of the same name', async () => {
+    const existing: Course[] = [
+      {
+        id: 'c1',
+        name: 'HSC Health and Movement Science',
+        outcomes: [],
+        topics: [
+          {
+            id: 't11',
+            name: 'Health Issues',
+            year: 'year11',
+            subTopics: [{ id: 'st11', name: 'Existing sub-topic', dotPoints: [] }],
+          },
+        ],
+      } as Course,
+    ];
+    const { state, props } = harness(existing);
+    const { result } = renderHook(() => useGemini(props as never));
+
+    await act(async () => {
+      result.current.handleStartFullSyllabusImport(
+        'HSC Health and Movement Science',
+        [node('Health Issues', 'year11')] as never,
+        [],
+        'c1',
+        undefined,
+        'year12'
+      );
+    });
+
+    const topics = state.courses[0].topics;
+    expect(topics).toHaveLength(1);
+    expect(topics[0].id).toBe('t11');
+    expect(topics[0].subTopics.map((st) => st.name)).toEqual(['Existing sub-topic', 'Sub-topic']);
+  });
+});

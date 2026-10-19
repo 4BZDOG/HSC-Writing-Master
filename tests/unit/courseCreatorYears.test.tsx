@@ -105,3 +105,55 @@ describe('creating a course with two years of outcomes', () => {
     expect(created[0]).toEqual([]);
   });
 });
+
+describe('pasting NESA’s outcome list, and the faculty', () => {
+  it('files a pasted list by the year each code names, with no AI', () => {
+    const onCreated = vi.fn();
+    render(<CourseCreatorModal isOpen onClose={vi.fn()} onCourseCreated={onCreated} />);
+    fireEvent.change(screen.getByLabelText('Course name'), {
+      target: { value: 'HSC Health and Movement Science' },
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Paste a list of outcomes' }));
+    fireEvent.change(screen.getByLabelText('Outcomes to paste'), {
+      target: { value: 'HM-11-01 explains health\nHM-12-01 analyses health\nHM-12-02 evaluates' },
+    });
+    fireEvent.click(screen.getByRole('button', { name: 'Add from list' }));
+    expect(screen.getByRole('status').textContent).toBe('Added 1 Year 11 and 2 Year 12.');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Create course' }));
+    const [, outcomes, subject] = onCreated.mock.calls[0];
+    expect(outcomes).toEqual([
+      { code: 'HM-12-01', description: 'analyses health' },
+      { code: 'HM-12-02', description: 'evaluates' },
+      { code: 'HM-11-01', description: 'explains health', year: 'year11' },
+    ]);
+    // Filed under PDHPE from the name, which once read as Science.
+    expect(subject).toBe('PDHPE');
+  });
+
+  it('stores a faculty chosen over the guess', () => {
+    const onCreated = vi.fn();
+    render(<CourseCreatorModal isOpen onClose={vi.fn()} onCourseCreated={onCreated} />);
+    fireEvent.change(screen.getByLabelText('Course name'), {
+      target: { value: 'HSC Investigating Science' },
+    });
+    fireEvent.change(screen.getByLabelText('Faculty'), { target: { value: 'TAS' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Create course' }));
+    expect(onCreated.mock.calls[0][2]).toBe('TAS');
+  });
+
+  it('offers to move a code typed under the other year', () => {
+    const onCreated = vi.fn();
+    render(<CourseCreatorModal isOpen onClose={vi.fn()} onCourseCreated={onCreated} />);
+    fireEvent.change(screen.getByLabelText('Course name'), { target: { value: 'HSC Physics' } });
+    fillRow('PH-11-01', 'Prelim one');
+    expect(screen.getByText(/PH-11-01 reads as a Year 11 code/)).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Move to Year 11' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Create course' }));
+    expect(onCreated.mock.calls[0][1]).toEqual([
+      { code: 'PH-11-01', description: 'Prelim one', year: 'year11' },
+    ]);
+  });
+});

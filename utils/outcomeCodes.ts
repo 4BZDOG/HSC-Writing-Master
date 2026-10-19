@@ -1,4 +1,4 @@
-import type { CourseOutcome } from '../types';
+import type { CourseOutcome, SyllabusYear } from '../types';
 
 /**
  * Which rows repeat a code already used above them.
@@ -47,3 +47,81 @@ export const OUTCOME_LINK_RULE =
 
 /** A list of linked codes held to `MAX_LINKED_OUTCOMES`, in the order given. */
 export const capOutcomeLinks = (codes: string[]): string[] => codes.slice(0, MAX_LINKED_OUTCOMES);
+
+/**
+ * Which year a NESA outcome code names, when it names one.
+ *
+ * Current syllabuses put the year in the middle segment (HM-11-01, BI-12WS-03,
+ * EE1-12-02); the 2017 sciences wrote it after the subject (BIO11-8); the
+ * oldest syllabuses still in force use P for Preliminary and H for HSC (P1, H10,
+ * H1.2). Anything else is left to the heading it sat under.
+ */
+export const yearOfOutcomeCode = (code: string): SyllabusYear | undefined => {
+  const c = code.trim().toUpperCase();
+  const middle = /(?:^|[-A-Z])(11|12)(?=[A-Z]*-\d)/.exec(c);
+  if (middle) return middle[1] === '11' ? 'year11' : 'year12';
+  if (/^P\d+(\.\d+)?$/.test(c)) return 'year11';
+  if (/^H\d+(\.\d+)?$/.test(c)) return 'year12';
+  return undefined;
+};
+
+// A code: capitals and digits, optionally joined by hyphens or dots, holding at
+// least one digit and no longer than any NESA code (BI-12WS-01 is the longest form).
+const CODE = /^([A-Z][A-Z0-9]*(?:[-.][A-Z0-9]+)*)$/;
+const looksLikeCode = (token: string): boolean =>
+  token.length <= 14 && CODE.test(token) && /\d/.test(token);
+const YEAR_HEADING = /^(?:year\s*(11|12)|(preliminary)|(hsc))\b/i;
+
+/**
+ * Outcomes read straight from pasted text, with no AI.
+ *
+ * NESA lists outcomes as a code and a description: on one line ("HM-12-01
+ * analyses…", with a space or a tab between, as a copied table gives), or the
+ * code on a line of its own and the description on the next (as the
+ * curriculum site's outcome cards copy). Headings such as "Year 11 outcomes"
+ * place the codes under them that do not carry a year themselves; "A student:"
+ * and other lead-ins are skipped. A description that wraps onto further lines
+ * is joined back together.
+ *
+ * Returns [] when the text has no codes in it, so a caller can fall back to the
+ * AI reader for prose it cannot parse.
+ */
+export const parseOutcomeList = (text: string): CourseOutcome[] => {
+  const out: CourseOutcome[] = [];
+  let heading: SyllabusYear | undefined;
+  let open: CourseOutcome | null = null;
+  const lines = text
+    .split(/\r?\n/)
+    .map((l) => l.replace(/^[\s•▪◦·*–-]+(?=[A-Z])/, '').trim())
+    .filter(Boolean);
+
+  for (const line of lines) {
+    const h = YEAR_HEADING.exec(line);
+    if (h && line.length < 40 && !looksLikeCode(line.split(/\s+/)[0])) {
+      heading = h[1] === '11' || h[2] ? 'year11' : 'year12';
+      open = null;
+      continue;
+    }
+    const [first, ...rest] = line.split(/[\s:]+/);
+    if (looksLikeCode(first)) {
+      const description = line.slice(line.indexOf(first) + first.length).replace(/^[\s:–-]+/, '');
+      const year = yearOfOutcomeCode(first) ?? heading;
+      open = {
+        code: first,
+        description: rest.length ? description.trim() : '',
+        ...(year ? { year } : {}),
+      };
+      out.push(open);
+      continue;
+    }
+    // A line with no code is the description of a code that stood alone, or
+    // the wrapped end of one (NESA descriptions are lower-case throughout, so a
+    // capitalised line is a heading or a note, not a continuation). Lead-ins
+    // such as "A student:" are neither.
+    if (!open || /^(a student|students?|outcomes?)\b.{0,12}:?$/i.test(line)) continue;
+    if (!open.description) open.description = line;
+    else if (/^[a-z(]/.test(line)) open.description = `${open.description} ${line}`;
+    else open = null;
+  }
+  return out.filter((o) => o.description.length > 0);
+};

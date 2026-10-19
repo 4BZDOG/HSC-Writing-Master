@@ -19,7 +19,7 @@ vi.mock('../../services/aiCore', async (importOriginal) => {
   return { ...actual, generateContentWithRetry: vi.fn() };
 });
 
-import { fetchSyllabusContentFromUrl } from '../../services/geminiService';
+import { fetchSyllabusContentFromUrl, fetchSyllabusPage } from '../../services/geminiService';
 import { generateContentWithRetry } from '../../services/aiCore';
 
 const URL_UNDER_TEST = 'https://curriculum.nsw.edu.au/biology';
@@ -110,5 +110,82 @@ describe('reading a syllabus page', () => {
     await expect(fetchSyllabusContentFromUrl(URL_UNDER_TEST)).rejects.toThrow(
       /no page reader.*Daily AI limit reached/s
     );
+  });
+});
+
+describe('reading a NESA page’s own structure', () => {
+  // The shape the reader sends for a NESA focus area: the text, and the record it was built from.
+  const nesa = {
+    syllabus: 'Biology 11–12 (2025)',
+    year: 'year11',
+    title: 'Cells as the basis of life',
+    outcomes: [
+      {
+        code: 'BI-11-01',
+        description: 'explains how cell structures enable biological processes needed for life',
+      },
+    ],
+    groups: [
+      {
+        title: 'Cell structures and functions',
+        statements: [{ code: 'BI_1', text: 'Describe a cell', including: ['organelles'] }],
+      },
+    ],
+    electives: [],
+    siblings: [
+      {
+        path: 'https://curriculum.nsw.edu.au/learning-areas/science/biology-11-12-2025/content/year-11/fa42935d20',
+        title: 'Working scientifically',
+        year: 'year11',
+      },
+    ],
+  };
+
+  it('passes the structure through alongside the text', async () => {
+    respondWith(200, { text: 'x'.repeat(400), nesa });
+
+    const page = await fetchSyllabusPage(URL_UNDER_TEST);
+
+    expect(page.text).toHaveLength(400);
+    expect(page.nesa).toEqual(nesa);
+    expect(generateContentWithRetry).not.toHaveBeenCalled();
+  });
+
+  it('drops a malformed structure and keeps the text', async () => {
+    respondWith(200, { text: 'x'.repeat(400), nesa: { ...nesa, year: 'year13' } });
+
+    const page = await fetchSyllabusPage(URL_UNDER_TEST);
+
+    expect(page.text).toHaveLength(400);
+    expect(page.nesa).toBeUndefined();
+  });
+
+  it('drops a structure whose sibling is not an https address', async () => {
+    respondWith(200, {
+      text: 'x'.repeat(400),
+      nesa: { ...nesa, siblings: [{ path: 'javascript:alert(1)', title: 'x', year: 'year11' }] },
+    });
+
+    const page = await fetchSyllabusPage(URL_UNDER_TEST);
+
+    expect(page.nesa).toBeUndefined();
+  });
+
+  it('has no structure when the AI fallback supplies the text', async () => {
+    respondWith(404, {});
+    vi.mocked(generateContentWithRetry).mockResolvedValue({
+      text: 'syllabus text from the model'.repeat(10),
+    } as never);
+
+    const page = await fetchSyllabusPage(URL_UNDER_TEST);
+
+    expect(page.text).toContain('syllabus text');
+    expect(page.nesa).toBeUndefined();
+  });
+
+  it('leaves fetchSyllabusContentFromUrl returning only the text', async () => {
+    respondWith(200, { text: 'x'.repeat(400), nesa });
+
+    await expect(fetchSyllabusContentFromUrl(URL_UNDER_TEST)).resolves.toHaveLength(400);
   });
 });

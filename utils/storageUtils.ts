@@ -89,6 +89,9 @@ export const STORAGE_KEYS = {
   COURSES: 'hsc-ai-evaluator-courses', // Legacy key for migration check
   STATE_PATH: 'hsc-ai-evaluator-path',
   DATA_VERSION: 'hsc-ai-evaluator-version',
+  // Every shipped course id this browser has been offered, so the sync adds only
+  // courses that are new, never one the user unticked in the picker or deleted.
+  OFFERED_SHIPPED: 'hsc-ai-evaluator-offered-shipped',
   BACKUP_PREFIX: 'hsc-ai-evaluator-backup-', // Legacy key
   API_STATS: 'hsc-ai-evaluator-api-stats',
   API_GUARD: 'hsc-ai-evaluator-api-guard', // Persisted circuit-breaker cooldown

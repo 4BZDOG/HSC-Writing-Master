@@ -185,6 +185,35 @@ describe('the 2.11.0 library migration', () => {
   });
 });
 
+describe('courses the browser was already offered', () => {
+  it('does not add back a course the user unticked or deleted, and adds one that is new', async () => {
+    serveShipped();
+    const saved = [course(SOFTWARE_ENGINEERING, 'HSC Software Engineering')];
+    // Offered before (the first-run picker listed them) but not kept.
+    const offered = new Set(['course-hsc-geography', 'course-hsc-english-standard']);
+
+    const result = await syncShippedCourses(saved, offered);
+
+    const ids = result.courses.map((c) => c.id);
+    expect(ids).not.toContain('course-hsc-geography');
+    expect(ids).not.toContain('course-hsc-english-standard');
+    // Never offered, so it is new to this browser and arrives.
+    expect(ids).toContain('course-hsc-ancient-history');
+    // Every shipped id comes back to be recorded, so the next bump knows them all.
+    expect(result.shippedIds).toEqual(
+      expect.arrayContaining(['course-hsc-geography', 'course-hsc-ancient-history'])
+    );
+  });
+
+  it('still refreshes a kept course that was offered', async () => {
+    serveShipped();
+    const shipped = shippedCourse('HSCEconomics.json');
+    const saved = [{ ...shipped, name: 'Old name', shippedHash: undefined }];
+    const result = await syncShippedCourses(saved, new Set([shipped.id]));
+    expect(result.courses.find((c) => c.id === shipped.id)?.name).toBe(shipped.name);
+  });
+});
+
 describe('the shipped-course fingerprint', () => {
   it('ignores its own stamp, and changes when the content changes', () => {
     const modernHistory = shippedCourse('HSCModernHistory.json');

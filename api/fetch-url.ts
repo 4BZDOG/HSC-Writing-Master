@@ -1,5 +1,6 @@
 import { verifyRequestAuth } from './_lib/auth';
 import { corsHeadersFor } from './_lib/cors';
+import { nesaPageToText, nesaStartPage, parseNesaPage } from './_lib/nesaCurriculum';
 
 /**
  * Vercel serverless function: POST /api/fetch-url
@@ -8,6 +9,11 @@ import { corsHeadersFor } from './_lib/cors';
  * This replaces the previous Gemini `googleSearch` grounding approach which
  * consumed a separate (often tiny) quota. The server fetches the page, strips
  * HTML to plain text, and returns it to the client for AI parsing.
+ *
+ * A NESA syllabus page on curriculum.nsw.edu.au is read from the CMS record the
+ * page embeds instead, which carries the exact wording. Its structured form is
+ * returned as `nesa` alongside the text, so the client need not ask an AI to
+ * re-read the text.
  */
 
 interface RequestLike {
@@ -32,9 +38,20 @@ const ALLOWED_HOSTS = [
   'www.boardofstudies.nsw.edu.au',
 ];
 
+// NESA's syllabus pages moved under www.nsw.gov.au. Only that section is a syllabus
+// source; the rest of the NSW government site is not something this reader should fetch.
+const NESA_ON_NSW_GOV = { host: 'www.nsw.gov.au', pathPrefix: '/education-and-training/nesa/' };
+
+const USER_AGENT =
+  'Mozilla/5.0 (compatible; HSCWritingMaster/1.0; +https://github.com/4BZDOG/HSC-Writing-Master)';
+
 function isAllowedUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
+    if (parsed.hostname === NESA_ON_NSW_GOV.host) {
+      // The path is checked after URL normalisation, so a "../" cannot climb out of the section.
+      return parsed.pathname.startsWith(NESA_ON_NSW_GOV.pathPrefix);
+    }
     return ALLOWED_HOSTS.some((h) => parsed.hostname === h || parsed.hostname.endsWith(`.${h}`));
   } catch {
     return false;
@@ -122,8 +139,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   try {
     const response = await fetch(url, {
       headers: {
-        'User-Agent':
-          'Mozilla/5.0 (compatible; HSCWritingMaster/1.0; +https://github.com/4BZDOG/HSC-Writing-Master)',
+        'User-Agent': USER_AGENT,
         Accept: 'text/html,application/xhtml+xml',
       },
       redirect: 'follow',
@@ -144,7 +160,35 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       return;
     }
 
-    const html = await response.text();
+    // The whole document goes to the parser: the CMS record is most of a 2–3 MB page,
+    // and slicing first could cut it off before the end.
+    let html = await response.text();
+    let pageUrl = url;
+
+    if (new URL(url).hostname === 'curriculum.nsw.edu.au') {
+      // A syllabus's own address holds no content; follow it, once, to the first focus
+      // area, whose sibling list then offers the rest of the syllabus.
+      const start = nesaStartPage(html, url);
+      if (start && isAllowedUrl(start)) {
+        const next = await fetch(start, {
+          headers: { 'User-Agent': USER_AGENT, Accept: 'text/html,application/xhtml+xml' },
+          redirect: 'follow',
+          signal: AbortSignal.timeout(15000),
+        }).catch(() => null);
+        if (next?.ok) {
+          html = await next.text();
+          pageUrl = start;
+        }
+      }
+      const nesa = parseNesaPage(html, pageUrl);
+      // Only a page that yields statements or outcomes counts. Anything else, such as a
+      // landing page or an unfamiliar layout, keeps the generic path below.
+      if (nesa && (nesa.outcomes.length > 0 || nesa.groups.some((g) => g.statements.length > 0))) {
+        res.status(200).json({ text: nesaPageToText(nesa).slice(0, 100000), nesa });
+        return;
+      }
+    }
+
     const text = stripHtmlToText(html);
 
     if (text.length < 50) {

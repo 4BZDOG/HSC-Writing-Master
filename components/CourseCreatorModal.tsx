@@ -1,8 +1,19 @@
 import React, { useState } from 'react';
 import { CourseOutcome, SyllabusYear } from '../types';
-import { SYLLABUS_YEARS, yearShortLabel } from '../utils/syllabusYear';
-import { duplicateCodeRows, withoutDuplicateCodes } from '../utils/outcomeCodes';
-import { BookOpen, Plus, Trash2, X, ChevronDown, ChevronUp } from 'lucide-react';
+import { SYLLABUS_YEARS, mergeParsedOutcomes, yearShortLabel } from '../utils/syllabusYear';
+import {
+  duplicateCodeRows,
+  parseOutcomeList,
+  withoutDuplicateCodes,
+  yearOfOutcomeCode,
+} from '../utils/outcomeCodes';
+import {
+  SUBJECT_AREAS,
+  SUBJECT_AREA_FULL_NAME,
+  detectSubjectArea,
+  type SubjectArea,
+} from '../utils/subjectAreas';
+import { BookOpen, Plus, Trash2, X, ChevronDown, ChevronUp, ClipboardPaste } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
@@ -27,7 +38,7 @@ import {
 interface CourseCreatorModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCourseCreated: (newCourseName: string, outcomes: CourseOutcome[]) => void;
+  onCourseCreated: (newCourseName: string, outcomes: CourseOutcome[], subject: SubjectArea) => void;
   existingNames?: string[];
 }
 
@@ -55,6 +66,18 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     year12: blankRow(),
   });
   const [outcomeYear, setOutcomeYear] = useState<SyllabusYear>('year12');
+  /**
+   * The faculty the course is filed under, or '' to go by its name.
+   *
+   * A course created here carried no faculty at all, so the navigator guessed
+   * one from the name every time — and the guess filed "Health and Movement
+   * Science" under Science. The guess is still the default, shown so it can be
+   * checked, and an override is stored on the course.
+   */
+  const [subject, setSubject] = useState<SubjectArea | ''>('');
+  const [pasteOpen, setPasteOpen] = useState(false);
+  const [pasteText, setPasteText] = useState('');
+  const [pasteNote, setPasteNote] = useState<string | null>(null);
   const [outcomesExpanded, setOutcomesExpanded] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -88,7 +111,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
         year: 'year11' as const,
       })),
     ];
-    onCourseCreated(courseName.trim(), validOutcomes);
+    onCourseCreated(courseName.trim(), validOutcomes, subject || detectSubjectArea(trimmedName));
     handleClose();
   };
 
@@ -109,8 +132,62 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
     setOutcomes(newOutcomes);
   };
 
+  /**
+   * A pasted list of codes and descriptions, filed by the year each code names.
+   *
+   * Typing twenty outcomes one box at a time is the slowest part of setting up
+   * a course, and NESA publishes them as exactly this list. No AI is involved:
+   * the codes are read as they stand, so it is instant and works on any plan.
+   */
+  const handleAddPasted = () => {
+    const parsed = parseOutcomeList(pasteText);
+    if (parsed.length === 0) {
+      setPasteNote('No outcome codes found. Each line should start with a code, e.g. HM-12-01.');
+      return;
+    }
+    const typedIn = (list: CourseOutcome[]) =>
+      list.filter((o) => o.code.trim() || o.description.trim());
+    const { tabs, added, duplicates } = mergeParsedOutcomes(
+      { year11: typedIn(outcomesByYear.year11), year12: typedIn(outcomesByYear.year12) },
+      parsed,
+      outcomeYear
+    );
+    setOutcomesByYear({
+      year11: tabs.year11.length ? tabs.year11 : blankRow(),
+      year12: tabs.year12.length ? tabs.year12 : blankRow(),
+    });
+    const parts = SYLLABUS_YEARS.filter((y) => added[y.id] > 0).map(
+      (y) => `${added[y.id]} ${y.short}`
+    );
+    setPasteNote(
+      (parts.length ? `Added ${parts.join(' and ')}.` : 'Nothing new to add.') +
+        (duplicates > 0 ? ` ${duplicates} already listed.` : '')
+    );
+    const gained = SYLLABUS_YEARS.find((y) => added[y.id] > 0);
+    if (gained && added[outcomeYear] === 0) setOutcomeYear(gained.id);
+    setPasteText('');
+  };
+
+  /** Move one row to the year its code names, from the hint under it. */
+  const moveRowToYear = (index: number, to: SyllabusYear) => {
+    const row = outcomes[index];
+    setOutcomesByYear((prev) => {
+      const target = prev[to].filter((o) => o.code.trim() || o.description.trim());
+      const rest = prev[outcomeYear].filter((_, i) => i !== index);
+      return {
+        ...prev,
+        [to]: [...target, row],
+        [outcomeYear]: rest.length ? rest : blankRow(),
+      };
+    });
+  };
+
   const handleClose = () => {
     setCourseName('');
+    setSubject('');
+    setPasteOpen(false);
+    setPasteText('');
+    setPasteNote(null);
     setOutcomesByYear({ year11: blankRow(), year12: blankRow() });
     setOutcomeYear('year12');
     setOutcomesExpanded(true);
@@ -124,7 +201,8 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
   const hasWork =
     courseName.trim().length > 0 ||
     complete(outcomesByYear.year11).length > 0 ||
-    complete(outcomesByYear.year12).length > 0;
+    complete(outcomesByYear.year12).length > 0 ||
+    pasteText.trim().length > 0;
   const guard = useDiscardGuard(isOpen, hasWork, handleClose);
 
   useEscapeKey(isOpen, guard.requestClose);
@@ -194,6 +272,29 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                 placeholder="e.g., HSC Chemistry"
                 autoFocus
               />
+            </div>
+
+            <div>
+              <label htmlFor="course-faculty" className={CREATOR_FIELD_LABEL}>
+                Faculty
+              </label>
+              <select
+                id="course-faculty"
+                value={subject}
+                onChange={(e) => setSubject(e.target.value as SubjectArea | '')}
+                className={CREATOR_INPUT}
+              >
+                <option value="">
+                  {courseName.trim()
+                    ? `From the name: ${SUBJECT_AREA_FULL_NAME[detectSubjectArea(courseName)]}`
+                    : 'From the course name'}
+                </option>
+                {SUBJECT_AREAS.filter((a) => a !== 'Other').map((a) => (
+                  <option key={a} value={a}>
+                    {SUBJECT_AREA_FULL_NAME[a]}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Outcomes section */}
@@ -271,9 +372,50 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                 </div>
 
                 <p className="t-label text-[rgb(var(--color-text-muted))]">
-                  {yearShortLabel(outcomeYear)} outcomes. Add them now, or use the Outcomes Editor
-                  later to paste and parse them with AI.
+                  {yearShortLabel(outcomeYear)} outcomes. Type them, or paste NESA's list and each
+                  code goes to its own year.
                 </p>
+
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setPasteOpen((v) => !v)}
+                    aria-expanded={pasteOpen}
+                    aria-controls="course-outcomes-paste"
+                    className="min-h-11 sm:min-h-0 inline-flex items-center gap-1.5 text-sm font-semibold text-[rgb(var(--color-accent))] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
+                  >
+                    <ClipboardPaste className="w-4 h-4" aria-hidden="true" />
+                    Paste a list of outcomes
+                  </button>
+                  <div id="course-outcomes-paste" hidden={!pasteOpen} className="mt-2 space-y-2">
+                    <textarea
+                      value={pasteText}
+                      onChange={(e) => {
+                        setPasteText(e.target.value);
+                        if (pasteNote) setPasteNote(null);
+                      }}
+                      aria-label="Outcomes to paste"
+                      rows={4}
+                      placeholder={`HM-11-01 explains…\nHM-12-01 analyses…`}
+                      className={`${CREATOR_INPUT} font-mono text-sm leading-relaxed`}
+                    />
+                    <div className="flex flex-wrap items-center gap-3">
+                      <button
+                        type="button"
+                        onClick={handleAddPasted}
+                        disabled={!pasteText.trim()}
+                        className={CREATOR_SECONDARY_BUTTON}
+                      >
+                        Add from list
+                      </button>
+                      {pasteNote && (
+                        <p role="status" className="t-label text-[rgb(var(--color-text-muted))]">
+                          {pasteNote}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
 
                 <div
                   role="tabpanel"
@@ -320,6 +462,24 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                         rows={2}
                         className="w-full min-h-[52px] rounded-lg border border-slate-300 dark:border-white/15 bg-white dark:bg-[rgb(var(--color-bg-surface-light))] py-2.5 px-3.5 text-base sm:text-sm leading-relaxed text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-dim))] focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))] focus:border-[rgb(var(--color-accent))] resize-y"
                       />
+                      {(() => {
+                        // A code that names the other year is almost always a row
+                        // typed under the wrong tab; offer to move it rather than
+                        // move it silently.
+                        const named = yearOfOutcomeCode(outcome.code);
+                        return named && named !== outcomeYear ? (
+                          <p className="t-label text-amber-600 dark:text-amber-400 flex flex-wrap items-center gap-2">
+                            {outcome.code.trim()} reads as a {yearShortLabel(named)} code.
+                            <button
+                              type="button"
+                              onClick={() => moveRowToYear(index, named)}
+                              className="min-h-11 sm:min-h-0 font-semibold underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
+                            >
+                              Move to {yearShortLabel(named)}
+                            </button>
+                          </p>
+                        ) : null;
+                      })()}
                       {repeatedRows.has(index) && (
                         <p className="t-label text-amber-600 dark:text-amber-400">
                           {outcome.code.trim()} is already listed above — this row will be ignored.
