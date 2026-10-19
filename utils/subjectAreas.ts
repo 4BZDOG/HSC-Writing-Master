@@ -138,6 +138,15 @@ export const detectSubjectArea = (name: string): SubjectArea => {
     n.includes('sdd')
   )
     return 'TAS';
+  // Before Science: "Health and Movement Science" is PDHPE's course, not a science.
+  if (
+    n.includes('pdhpe') ||
+    n.includes('health') ||
+    n.includes('sport') ||
+    n.includes('movement') ||
+    n.includes('family studies')
+  )
+    return 'PDHPE';
   if (
     n.includes('biology') ||
     n.includes('chemistry') ||
@@ -156,13 +165,18 @@ export const detectSubjectArea = (name: string): SubjectArea => {
     n.includes('geography') ||
     n.includes('society') ||
     n.includes('economics') ||
+    n.includes('aboriginal') ||
     n.includes('studies of religion')
   )
     return 'HSIE';
-  if (n.includes('music') || n.includes('art') || n.includes('drama') || n.includes('visual'))
+  if (
+    n.includes('music') ||
+    n.includes('art') ||
+    n.includes('drama') ||
+    n.includes('dance') ||
+    n.includes('visual')
+  )
     return 'Creative Arts';
-  if (n.includes('pdhpe') || n.includes('health') || n.includes('sport') || n.includes('movement'))
-    return 'PDHPE';
   return 'Other';
 };
 
