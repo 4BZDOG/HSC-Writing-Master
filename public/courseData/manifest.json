@@ -64,37 +64,37 @@
       "file": "HSCEnglishStudies.json",
       "type": "course",
       "subject": "English",
-      "selected": true
+      "selected": false
     },
     {
       "file": "HSCEnglishEALD.json",
       "type": "course",
       "subject": "English",
-      "selected": true
+      "selected": false
     },
     {
       "file": "HSCEnglishExtension1.json",
       "type": "course",
       "subject": "English",
-      "selected": true
+      "selected": false
     },
     {
       "file": "HSCHistoryExtension.json",
       "type": "course",
       "subject": "HSIE",
-      "selected": true
+      "selected": false
     },
     {
       "file": "HSCHealthAndMovementScience.json",
       "type": "course",
       "subject": "PDHPE",
-      "selected": true
+      "selected": false
     },
     {
       "file": "HSCBiology.json",
       "type": "course",
       "subject": "Science",
-      "selected": true
+      "selected": false
     },
     {
       "file": "topics/software-engineering-secure-architecture-topic.json",

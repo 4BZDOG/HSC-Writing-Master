@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """Build a structure-only course file (topics, sub-topics, dot points and outcomes; no questions) from nesa.json.
 
-usage: build_structure.py --nesa <nesa.json> --config <config.json> --out <course.json>
+usage: build_structure.py --nesa <nesa.json> --config <config.json> --out <course.json> [--append-to <course.json>]
 
 config.json = {"id", "name", "prefix", "outcomePattern", "topics": [...]}. topics is the explicit, ordered list of
 what goes in the course. Each entry is one of:
   {"title", "year", "name"?, "electives"?}              the nesa.json focus area with that exact title and year
                                                           (error if none or more than one); name defaults to the title
-  {"optionsList", "year", "nameFormat"?, "electives"?}  every nesa.json entry with that optionsList and year, ordered by
+  {"optionsList", "year", "nameFormat"?, "electives"?, "skip"?, "strip"?}
+                                                          every nesa.json entry with that optionsList and year, ordered by
                                                           optionIndex if present, else file order; name is nameFormat
-                                                          with {title} replaced (default "{title}")
+                                                          with {title} replaced (default "{title}"). "skip" lists NESA
+                                                          option titles to leave out (options the course already has under
+                                                          another name); "strip" is a suffix removed from each option
+                                                          title before nameFormat is applied.
 "year" is "year11" or "year12". Year 11 topics get "year": "year11"; Year 12 topics carry no year key.
 
 * Each content group with items becomes a sub-topic; a group with no items is skipped and reported.
@@ -25,6 +29,13 @@ what goes in the course. Each entry is one of:
 * Ids: topic-<prefix>-<11|12>-<slug>, subtopic-<prefix>-<11|12>-<topic slug>-<g>, dp-<prefix>-<11|12>-<topic slug>-<g>-<k>,
   where g is the 1-based index of the group (or elective) in the nesa.json focus area and k the 1-based item index.
 Writes [{"id", "name", "outcomes", "topics"}] (one course) and prints a summary.
+
+With --append-to <course.json> the output is that existing course, changed only by addition: every existing topic,
+sub-topic, dot point and outcome stays exactly as it is. A built topic whose name (case-insensitive, trimmed) already
+exists in the course is skipped and printed. Year 11 topics are inserted after the existing Year 11 topics (or first if
+there are none); Year 12 topics go at the end. A built outcome whose code is new is appended; an existing code whose
+description differs from NESA's is kept and warned about. The config id and name must match the file's. The whole
+resulting file is validated, existing ids included. The file keeps its form (one-course list or bare course object).
 """
 import argparse, json, re
 
@@ -41,7 +52,10 @@ def topic_slug(name):
 
 
 def desc_of(it):
-    d = it['title'].strip().rstrip('.')
+    # A statement whose own text holds a list ("…criteria. These include:" then one criterion per line,
+    # Legal Studies) keeps NESA's words on one line, the list joined as the sub-points are.
+    first, *rest = [l.strip() for l in it['title'].strip().split('\n') if l.strip()]
+    d = (first + (' ' + '; '.join(x.rstrip('.;') for x in rest) if rest else '')).rstrip('.')
     if it['including']:
         d += ' (' + '; '.join(x.strip().rstrip('.;') for x in it['including']) + ')'
     return d
@@ -58,8 +72,41 @@ def dupes(xs):
     return sorted(out)
 
 
+def norm(name): return name.strip().casefold()
+
+
+def suffix_matches(title, suffix):
+    """True if NESA's title ends with the config's suffix. NESA's text sometimes has a no-break space where a space
+    belongs (Legal Studies: 'Family law\xa0(option)' and 'Consumer law (option)'), so NBSP reads as a space here."""
+    return bool(suffix) and title.replace('\xa0', ' ').endswith(suffix)
+
+
+def validate(topics):
+    """The topic list as a whole: names unique (case-insensitive, trimmed), sub-topic names unique per topic, ids unique."""
+    for t in topics:
+        if not t['name'].strip(): die('blank topic name')
+    dd = dupes([norm(t['name']) for t in topics])
+    if dd: die(f'duplicate topic names: {dd}')
+    ids = []
+    for t in topics:
+        dd = dupes([s['name'] for s in t['subTopics']])
+        if dd: die(f"{t['name']!r}: duplicate sub-topic names {dd}")
+        ids.append(t['id'])
+        for s in t['subTopics']:
+            if not s['name'].strip(): die(f"{t['name']!r}: blank sub-topic name")
+            ids.append(s['id'])
+            for dp in s['dotPoints']:
+                if not dp['description'].strip(): die(f"{s['id']}: blank dot point")
+                ids.append(dp['id'])
+    dd = dupes(ids)
+    if dd: die(f'duplicate ids: {dd}')
+    for d in dupes([dp['description'] for t in topics for s in t['subTopics'] for dp in s['dotPoints']]):
+        print('warn: same dot point text appears more than once:', d[:100])
+
+
 ap = argparse.ArgumentParser()
 ap.add_argument('--nesa', required=True); ap.add_argument('--config', required=True); ap.add_argument('--out', required=True)
+ap.add_argument('--append-to', help='existing course file to add the built structure to (see the docstring)')
 a = ap.parse_args()
 nesa = json.load(open(a.nesa, encoding='utf-8'))
 cfg = json.load(open(a.config, encoding='utf-8'))
@@ -76,7 +123,16 @@ for n, t in enumerate(cfg['topics'], 1):
         if not hits: die(f'topics[{n}]: no nesa.json entry in options list {t["optionsList"]!r} for {t["year"]}')
         hits.sort(key=lambda h: (h[1].get('optionIndex', float('inf')), h[0]))
         fmt = t.get('nameFormat', '{title}')
-        picks += [(i, t, fmt.replace('{title}', fa['title'])) for i, fa in hits]
+        skip, strip = set(t.get('skip', [])), t.get('strip', '')
+        unknown = skip - {fa['title'] for _, fa in hits}
+        if unknown: die(f'topics[{n}]: "skip" names no option of {t["optionsList"]!r}: {sorted(unknown)}')
+        if strip and not any(suffix_matches(fa['title'], strip) for _, fa in hits):
+            die(f'topics[{n}]: "strip" {strip!r} ends no option title of {t["optionsList"]!r}')
+        for i, fa in hits:
+            if fa['title'] in skip: continue
+            title = fa['title']
+            if suffix_matches(title, strip): title = title.replace('\xa0', ' ')[:-len(strip)]
+            picks.append((i, t, fmt.replace('{title}', title)))
     else:
         hits = [(i, fa) for i, fa in enumerate(nesa) if fa['title'] == t.get('title') and fa['year'] == t['year']]
         if len(hits) != 1: die(f'topics[{n}]: {len(hits)} nesa.json entries titled {t.get("title")!r} for {t["year"]}, need exactly 1')
@@ -144,29 +200,44 @@ for code in sorted(outcomes):
     if re.search(r'-11[A-Z]*-\d\d$', code): o['year'] = 'year11'
     oc.append(o)
 
-# 3. Validate.
-dd = dupes([t['name'] for t in topics])
-if dd: die(f'duplicate topic names: {dd}')
-ids = []
-for t in topics:
-    if not t['name'].strip(): die('blank topic name')
-    dd = dupes([s['name'] for s in t['subTopics']])
-    if dd: die(f"{t['name']!r}: duplicate sub-topic names {dd}")
-    ids.append(t['id'])
-    for s in t['subTopics']:
-        if not s['name'].strip(): die(f"{t['name']!r}: blank sub-topic name")
-        ids.append(s['id'])
-        for dp in s['dotPoints']:
-            if not dp['description'].strip(): die(f"{s['id']}: blank dot point")
-            ids.append(dp['id'])
-dd = dupes(ids)
-if dd: die(f'duplicate ids: {dd}')
-for d in dupes([dp['description'] for t in topics for s in t['subTopics'] for dp in s['dotPoints']]):
-    print('warn: same dot point text appears more than once:', d[:100])
+# 3. Validate. With --append-to, the built topics and outcomes are merged into the existing course first, and the
+# whole resulting file is validated (existing ids included).
+added, skipped_existing, new_oc, as_list = topics, [], oc, True
+if a.append_to:
+    doc = json.load(open(a.append_to, encoding='utf-8'))
+    as_list = isinstance(doc, list)
+    if as_list and len(doc) != 1: die(f'{a.append_to}: expected exactly one course')
+    course0 = doc[0] if as_list else doc
+    for k in ('id', 'name'):
+        if course0.get(k) != cfg[k]: die(f"config {k} {cfg[k]!r} is not the course file's {k} {course0.get(k)!r}")
+    old_topics = course0['topics']
+    old_names = {norm(t['name']) for t in old_topics}
+    added = []
+    for t in topics:
+        if norm(t['name']) in old_names: skipped_existing.append(t['name'])
+        else: added.append(t)
+    y11 = [t for t in added if t.get('year') == 'year11']
+    y12 = [t for t in added if t.get('year') != 'year11']
+    last11 = max((i for i, t in enumerate(old_topics) if t.get('year') == 'year11'), default=-1)
+    all_topics = old_topics[:last11 + 1] + y11 + old_topics[last11 + 1:] + y12
+    old_oc = course0.get('outcomes', [])
+    have = {o['code']: o for o in old_oc}
+    new_oc = []
+    for o in oc:
+        if o['code'] in have:
+            if have[o['code']]['description'] != o['description']:
+                print(f"warn: {o['code']} description differs from NESA; existing text kept\n"
+                      f"  existing: {have[o['code']]['description']}\n  NESA:     {o['description']}")
+        else:
+            new_oc.append(o)
+    out_course = dict(course0, outcomes=old_oc + new_oc, topics=all_topics)
+else:
+    all_topics = topics
+    out_course = {'id': cfg['id'], 'name': cfg['name'], 'outcomes': oc, 'topics': topics}
+validate(all_topics)
 
 # 4. Output.
-course = {'id': cfg['id'], 'name': cfg['name'], 'outcomes': oc, 'topics': topics}
-open(a.out, 'w').write(json.dumps([course], indent=2, ensure_ascii=False) + '\n')
+open(a.out, 'w').write(json.dumps([out_course] if as_list else out_course, indent=2, ensure_ascii=False) + '\n')
 
 if blank:
     print('skipped statements with a blank title (NESA text missing, check the source):')
@@ -177,13 +248,21 @@ if skipped:
 if skipped_el:
     print('skipped electives with empty description:')
     for s in skipped_el: print('  ' + s)
-print('summary:')
+if skipped_existing:
+    print('skipped built topics whose name already exists in the course:')
+    for s in skipped_existing: print('  ' + s)
+print('added topics:' if a.append_to else 'summary:')
 n_sub = n_dp = 0
-for t in topics:
+for t in added:
     nd = sum(len(s['dotPoints']) for s in t['subTopics'])
     n_sub += len(t['subTopics']); n_dp += nd
     yl = 'Year 11' if t.get('year') == 'year11' else 'Year 12'
     print(f"  {yl}  {t['name']}: {len(t['subTopics'])} sub-topics, {nd} dot points")
-print(f'total: {len(topics)} topics, {n_sub} sub-topics, {n_dp} dot points')
-print(f"outcomes: {len(oc)} ({', '.join(o['code'] for o in oc)})")
+if a.append_to:
+    print(f'added: {len(added)} topics, {n_sub} sub-topics, {n_dp} dot points')
+    print(f'course now: {len(all_topics)} topics, {len(out_course["outcomes"])} outcomes')
+    print(f'outcomes added: {len(new_oc)} ({", ".join(o["code"] for o in new_oc)})')
+else:
+    print(f'total: {len(topics)} topics, {n_sub} sub-topics, {n_dp} dot points')
+    print(f"outcomes: {len(oc)} ({', '.join(o['code'] for o in oc)})")
 print('written', a.out)

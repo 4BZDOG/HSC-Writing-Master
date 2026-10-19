@@ -16,7 +16,7 @@ import type { Course, StatePath, UserRole } from '../../types';
 vi.mock('../../services/geminiService', () => ({
   parseOutcomesFromText: vi.fn(),
   parseSyllabusStructure: vi.fn(),
-  fetchSyllabusContentFromUrl: vi.fn(),
+  fetchSyllabusPage: vi.fn(),
   splitSyllabusIntoTopics: vi.fn(),
 }));
 
@@ -27,7 +27,7 @@ vi.mock('../../services/entitlements', async (importOriginal) => {
 });
 
 import {
-  fetchSyllabusContentFromUrl,
+  fetchSyllabusPage,
   parseSyllabusStructure,
   splitSyllabusIntoTopics,
 } from '../../services/geminiService';
@@ -148,21 +148,21 @@ describe('SyllabusImportModal input validation', () => {
 
   it('rejects an invalid URL without spending an AI call', () => {
     renderModal();
-    fireEvent.change(screen.getByPlaceholderText(/educationstandards/), {
+    fireEvent.change(screen.getByPlaceholderText(/curriculum\.nsw\.edu\.au/), {
       target: { value: 'not a url' },
     });
     fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
 
     expect(screen.getByText(/does not look like a web address/i)).toBeTruthy();
-    expect(fetchSyllabusContentFromUrl).not.toHaveBeenCalled();
+    expect(fetchSyllabusPage).not.toHaveBeenCalled();
   });
 
   it('surfaces a helpful error when a page returns no usable content', async () => {
-    vi.mocked(fetchSyllabusContentFromUrl).mockResolvedValue('   ');
+    vi.mocked(fetchSyllabusPage).mockResolvedValue({ text: '   ' });
     vi.mocked(splitSyllabusIntoTopics).mockResolvedValue([]);
     renderModal();
 
-    fireEvent.change(screen.getByPlaceholderText(/educationstandards/), {
+    fireEvent.change(screen.getByPlaceholderText(/curriculum\.nsw\.edu\.au/), {
       target: { value: 'https://educationstandards.nsw.edu.au/syllabus' },
     });
     fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
@@ -214,12 +214,12 @@ describe('TopicSyllabusImportModal (add a topic to an existing course)', () => {
 
   it('rejects an invalid URL without spending an AI call', () => {
     renderModal();
-    fireEvent.change(screen.getByPlaceholderText(/educationstandards/), {
+    fireEvent.change(screen.getByPlaceholderText(/curriculum\.nsw\.edu\.au/), {
       target: { value: 'not a url' },
     });
     fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
     expect(screen.getByText(/does not look like a web address/i)).toBeTruthy();
-    expect(fetchSyllabusContentFromUrl).not.toHaveBeenCalled();
+    expect(fetchSyllabusPage).not.toHaveBeenCalled();
   });
 
   it('creates a new topic with the AI-detected name when the name is left blank', async () => {

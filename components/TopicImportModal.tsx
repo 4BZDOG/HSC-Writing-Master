@@ -4,7 +4,7 @@ import {
   analyzeAndSanitizeImportData,
   generateValidationReport,
   previewTopicMergePlan,
-  normalizeText,
+  findMatchingTopic,
 } from '../utils/dataManagerUtils';
 import { parseJsonWithRepair } from '../utils/jsonRepair';
 import FileDropzone from './dataManager/FileDropzone';
@@ -276,11 +276,7 @@ const TopicImportModal: React.FC<TopicImportModalProps> = ({
     if (topicTargetId !== 'auto') {
       return existingTopics.find((t) => t.id === topicTargetId) ?? null;
     }
-    return (
-      existingTopics.find((t) => t.id === importedTopic.id) ??
-      existingTopics.find((t) => normalizeText(t.name) === normalizeText(importedTopic.name)) ??
-      null
-    );
+    return findMatchingTopic(existingTopics, importedTopic) ?? null;
   }, [importedTopic, topicTargetId, existingTopics]);
 
   // The topic actually handed to onImport / the merge plan: the edited

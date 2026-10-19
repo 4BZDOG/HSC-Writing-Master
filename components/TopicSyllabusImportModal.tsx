@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { parseSyllabusStructure, fetchSyllabusContentFromUrl } from '../services/geminiService';
+import { parseSyllabusStructure, fetchSyllabusPage } from '../services/geminiService';
+import { hasNesaStatements, nesaPageToPreviewNode } from '../utils/nesaSyllabus';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import {
@@ -12,7 +13,7 @@ import {
   GitMerge,
   FolderTree,
 } from 'lucide-react';
-import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
+import UrlFetchField, { NESA_HOST_HINT, NESA_URL_PLACEHOLDER } from './UrlFetchField';
 import DiscardConfirmBar from './DiscardConfirmBar';
 import DraftRestoreBanner from './DraftRestoreBanner';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
@@ -94,6 +95,9 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
   const [expandedIdx, setExpandedIdx] = useState<Set<number>>(new Set());
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  // Set when NESA's focus area is from another year than this modal's. The year
+  // is not changed; the warning says where the topic will actually land.
+  const [yearWarning, setYearWarning] = useState<string | null>(null);
 
   const isBusy = isFetchingUrl || isAnalysing;
   const targetTopic = topics.find((t) => t.id === targetTopicId);
@@ -121,6 +125,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     setStep('input');
     setError(null);
     setNotice(null);
+    setYearWarning(null);
     onClose();
   };
 
@@ -161,7 +166,28 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     setIsFetchingUrl(true);
     setUrlError(null);
     try {
-      const content = (await fetchSyllabusContentFromUrl(normalisedUrl)).trim();
+      const page = await fetchSyllabusPage(normalisedUrl);
+      /**
+       * NESA's own structure is used as it stands, so the dot points keep NESA's
+       * wording and sub-points. An AI would only paraphrase them, for a paid call.
+       */
+      if (page.nesa && hasNesaStatements(page.nesa)) {
+        const node = nesaPageToPreviewNode(page.nesa);
+        setDetectedName(node.name || 'Untitled Topic');
+        setPreviewSubTopics(node.subTopics);
+        setExpandedIdx(new Set(node.subTopics.map((_, i) => i)));
+        setNotice('Read from NESA — exact wording, no AI.');
+        setYearWarning(
+          node.year && node.year !== year
+            ? `This focus area is ${yearShortLabel(node.year)} content; it will be added to ${yearShortLabel(year)} because that is where you are.`
+            : null
+        );
+        setError(null);
+        setUrlInput('');
+        setStep('preview');
+        return;
+      }
+      const content = page.text.trim();
       if (content.length < 80) {
         throw new Error(
           "Couldn't read any syllabus content from that URL — some pages block automated readers. Open the page yourself and paste the topic text instead."
@@ -185,6 +211,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
     setIsAnalysing(true);
     setError(null);
     setNotice(null);
+    setYearWarning(null);
     try {
       const typedName = targetTopic?.name || newTopicName.trim();
       const content = typedName ? `Topic Name: ${typedName}\n\n${syllabusText}` : syllabusText;
@@ -365,9 +392,6 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                   <span className="t-label text-[rgb(var(--color-text-muted))]">
                     Fetch from URL
                   </span>
-                  <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] bg-slate-200 dark:bg-[rgb(var(--color-bg-surface-inset))] px-1.5 py-0.5 rounded-full">
-                    experimental
-                  </span>
                 </div>
                 <div className="p-4 space-y-2">
                   <UrlFetchField
@@ -379,7 +403,7 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                     isFetching={isFetchingUrl}
                     disabled={isBusy}
                     label="Syllabus page URL"
-                    placeholder="https://educationstandards.nsw.edu.au/…"
+                    placeholder={NESA_URL_PLACEHOLDER}
                   />
                   <p className="text-[10px] text-[rgb(var(--color-text-muted))]">
                     {NESA_HOST_HINT}
@@ -532,6 +556,15 @@ const TopicSyllabusImportModal: React.FC<TopicSyllabusImportModalProps> = ({
                     aria-hidden="true"
                   />
                   <p>{notice}</p>
+                </div>
+              )}
+
+              {yearWarning && (
+                <div
+                  role="status"
+                  className="p-3 rounded-lg bg-amber-50 dark:bg-amber-500/10 border border-amber-200 dark:border-amber-500/20 text-xs text-amber-800 dark:text-amber-200"
+                >
+                  <p>{yearWarning}</p>
                 </div>
               )}
 

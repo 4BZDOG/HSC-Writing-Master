@@ -800,21 +800,27 @@ export const useGemini = ({
     ) => {
       const taskId = generateId('task');
 
-      // Build fresh topics from the (already-normalised) preview structure.
-      const builtTopics: Topic[] = structure.map((topicNode) => ({
-        id: generateId('topic'),
-        name: topicNode.name,
-        ...(year && year !== 'year12' ? { year } : {}),
-        subTopics: (topicNode.subTopics || []).map((stNode) => ({
-          id: generateId('subTopic'),
-          name: stNode.name,
-          dotPoints: (stNode.dotPoints || []).map((dpText) => ({
-            id: generateId('dp'),
-            description: dpText,
-            prompts: [],
+      // Build fresh topics from the (already-normalised) preview structure. A node
+      // that names its own year keeps it: a NESA page can hold a Year 11 focus area
+      // in a Year 12 import, and filing that under the import's year would put it
+      // where the student never meets it. The import's year is only the default.
+      const builtTopics: Topic[] = structure.map((topicNode) => {
+        const topicYear = topicNode.year ?? year;
+        return {
+          id: generateId('topic'),
+          name: topicNode.name,
+          ...(topicYear && topicYear !== 'year12' ? { year: topicYear } : {}),
+          subTopics: (topicNode.subTopics || []).map((stNode) => ({
+            id: generateId('subTopic'),
+            name: stNode.name,
+            dotPoints: (stNode.dotPoints || []).map((dpText) => ({
+              id: generateId('dp'),
+              description: dpText,
+              prompts: [],
+            })),
           })),
-        })),
-      }));
+        };
+      });
 
       /**
        * The outcomes from the same paste belong to the same year.

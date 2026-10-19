@@ -1949,7 +1949,94 @@ class PageReaderError extends Error {
   }
 }
 
-export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> => {
+/**
+ * A NESA syllabus page as its own CMS describes it, when the reader could recover
+ * that structure. This mirrors `NesaPage` in `api/_lib/nesaCurriculum.ts`. Client code
+ * cannot import from `api/`, so the shape is repeated here, and `readNesaPage` checks
+ * it before anything trusts it.
+ */
+export interface NesaPage {
+  syllabus: string;
+  year: 'year11' | 'year12' | null;
+  title: string;
+  optionsList?: string;
+  outcomes: { code: string; description: string }[];
+  groups: { title: string; statements: { code: string; text: string; including: string[] }[] }[];
+  electives: { title: string; description: string }[];
+  /** `optionsList` names the options list an option belongs to; `title` is '' when unknown. */
+  siblings: { path: string; title: string; year: 'year11' | 'year12'; optionsList?: string }[];
+}
+
+/** What the page reader returns: always the text, and the structure when it sent one. */
+export interface SyllabusPage {
+  text: string;
+  nesa?: NesaPage;
+}
+
+type NesaGroup = NesaPage['groups'][number];
+
+const isRecord = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
+const isStringList = (v: unknown): v is string[] =>
+  Array.isArray(v) && v.every((x) => typeof x === 'string');
+const isYear = (v: unknown): v is 'year11' | 'year12' => v === 'year11' || v === 'year12';
+
+const isNesaStatement = (v: unknown): v is NesaGroup['statements'][number] =>
+  isRecord(v) &&
+  typeof v.code === 'string' &&
+  typeof v.text === 'string' &&
+  isStringList(v.including);
+const isNesaGroup = (v: unknown): v is NesaGroup =>
+  isRecord(v) &&
+  typeof v.title === 'string' &&
+  Array.isArray(v.statements) &&
+  v.statements.every(isNesaStatement);
+const isNesaOutcome = (v: unknown): v is NesaPage['outcomes'][number] =>
+  isRecord(v) && typeof v.code === 'string' && typeof v.description === 'string';
+const isNesaElective = (v: unknown): v is NesaPage['electives'][number] =>
+  isRecord(v) && typeof v.title === 'string' && typeof v.description === 'string';
+const isNesaSibling = (v: unknown): v is NesaPage['siblings'][number] =>
+  isRecord(v) &&
+  typeof v.path === 'string' &&
+  v.path.startsWith('https://') &&
+  typeof v.title === 'string' &&
+  isYear(v.year) &&
+  (v.optionsList === undefined || typeof v.optionsList === 'string');
+
+/**
+ * The structure, only when every part of it has the expected shape. Anything else is
+ * dropped whole: a partly-trusted record would be worse than the plain text alone.
+ */
+const readNesaPage = (value: unknown): NesaPage | undefined => {
+  if (!isRecord(value)) return undefined;
+  const { syllabus, year, title, optionsList, outcomes, groups, electives, siblings } = value;
+  if (typeof syllabus !== 'string' || typeof title !== 'string') return undefined;
+  const yearValue = year === null ? null : isYear(year) ? year : undefined;
+  if (yearValue === undefined) return undefined;
+  if (optionsList !== undefined && typeof optionsList !== 'string') return undefined;
+  if (!Array.isArray(outcomes) || !outcomes.every(isNesaOutcome)) return undefined;
+  if (!Array.isArray(groups) || !groups.every(isNesaGroup)) return undefined;
+  if (!Array.isArray(electives) || !electives.every(isNesaElective)) return undefined;
+  if (!Array.isArray(siblings) || !siblings.every(isNesaSibling)) return undefined;
+  return {
+    syllabus,
+    year: yearValue,
+    title,
+    ...(typeof optionsList === 'string' ? { optionsList } : {}),
+    outcomes,
+    groups,
+    electives,
+    siblings,
+  };
+};
+
+/**
+ * Reads a syllabus page through /api/fetch-url. The text is always returned. When the
+ * reader recovered the page's own structure (NESA's embedded CMS record, with the exact
+ * wording), that comes back as `nesa` as well, so callers can use it without asking an
+ * AI to re-read the text.
+ */
+export const fetchSyllabusPage = async (url: string): Promise<SyllabusPage> => {
   // Read the page server-side via /api/fetch-url. AI grounding is the fallback
   // for deployments that have no such endpoint — it costs a separate
   // googleSearch quota that exhausts almost immediately on the free tier, so it
@@ -1986,7 +2073,10 @@ export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> 
     const body = await res.json().catch(() => null);
     if (res.ok) {
       const text = typeof body?.text === 'string' ? body.text : '';
-      if (text.trim().length > 50) return text;
+      if (text.trim().length > 50) {
+        const nesa = readNesaPage(body?.nesa);
+        return nesa ? { text, nesa } : { text };
+      }
       throw new PageReaderError(
         'That page loaded but had almost no readable text on it — it may build its content with JavaScript. Open it yourself and paste the text in instead.'
       );
@@ -2025,7 +2115,7 @@ export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> 
   try {
     const response = await generateContentWithRetry(request);
     const text = response.text || '';
-    if (text.trim().length > 50) return text;
+    if (text.trim().length > 50) return { text };
     throw new PageReaderError(
       "The AI reader could not retrieve that page's content. Open it yourself and paste the text in instead."
     );
@@ -2041,6 +2131,13 @@ export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> 
     );
   }
 };
+
+/**
+ * The text of a syllabus page. Callers that need only the text use this; the
+ * structure, when the reader sent one, is available from fetchSyllabusPage.
+ */
+export const fetchSyllabusContentFromUrl = async (url: string): Promise<string> =>
+  (await fetchSyllabusPage(url)).text;
 
 /**
  * Splits a block of syllabus text into its top-level topics/modules, returning

@@ -26,9 +26,231 @@
       {
         "code": "EAV-12-06",
         "description": "evaluates own compositional processes and the ways choice of language, form and structure can shape meaning"
+      },
+      {
+        "code": "EAV-11-01",
+        "description": "analyses the ways an author’s choice of language, form and structure shapes meaning in texts of different modes and mediums",
+        "year": "year11"
+      },
+      {
+        "code": "EAV-11-02",
+        "description": "analyses the relationships between texts through context, form and language",
+        "year": "year11"
+      },
+      {
+        "code": "EAV-11-03",
+        "description": "analyses the ways context and values influence composition and audience response",
+        "year": "year11"
+      },
+      {
+        "code": "EAV-11-04",
+        "description": "composes texts using language forms and features in new and different contexts",
+        "year": "year11"
+      },
+      {
+        "code": "EAV-11-05",
+        "description": "composes critical and creative texts for a range of audiences and purposes",
+        "year": "year11"
+      },
+      {
+        "code": "EAV-11-06",
+        "description": "evaluates own compositional processes and the ways choice of language, form and structure can shape meaning",
+        "year": "year11"
       }
     ],
     "topics": [
+      {
+        "id": "topic-eav-11-reading-to-write-transition-to-english-advanced",
+        "name": "Reading to write: Transition to English Advanced",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eav-11-reading-to-write-transition-to-english-advanced-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-1-1",
+                "description": "The aesthetic qualities of quality texts and the power of language to express ideas and experiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-1-2",
+                "description": "The relationship between reader, writer, text and context, and how and why texts position readers",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-1-3",
+                "description": "The ways language features, text structures and stylistic choices shape ideas, perspectives and experiences in familiar and unfamiliar texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-1-4",
+                "description": "The conventions of genre and the ways texts may conform to or subvert these conventions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eav-11-reading-to-write-transition-to-english-advanced-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-2-1",
+                "description": "Compose persuasive, discursive, imaginative and reflective texts that experiment with language features and emerging textual forms",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-2-2",
+                "description": "Compose texts that explore a range of personal, social, historical and cultural meanings",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-2-3",
+                "description": "Use appropriate metalanguage and textual forms to reflect on the processes of writing",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-2-4",
+                "description": "Draft, edit, revise and refine texts for a range of audiences and purposes",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-reading-to-write-transition-to-english-advanced-2-5",
+                "description": "Use accurate spelling, punctuation, syntax and metalanguage in creating complex critical and creative texts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eav-11-narratives-that-shape-our-world",
+        "name": "Narratives that shape our world",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eav-11-narratives-that-shape-our-world-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-1-1",
+                "description": "The ways personal, social, historical and cultural contexts can shape meaning",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-1-2",
+                "description": "Mode, medium and form, and the ways they influence meaning and shape responses to texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-1-3",
+                "description": "The ways authors adapt textual form, language features and structures of texts from a range of genres, periods and cultures in new texts, including through appropriation, intertextuality and literary allusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-1-4",
+                "description": "The similarities and differences within and between texts linked by form, perspective or genre",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eav-11-narratives-that-shape-our-world-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-2-1",
+                "description": "Compare specific uses of language in a range of textual forms",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-2-2",
+                "description": "Compare perspectives in texts from a range of personal, social, historical and cultural contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-2-3",
+                "description": "Select and adapt particular aspects of texts to create new texts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-2-4",
+                "description": "Compose critical and creative texts that synthesise complex ideas",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-narratives-that-shape-our-world-2-5",
+                "description": "Use appropriate language to make connections between and speculate about texts, and to question, affirm and challenge texts with increasing clarity",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-eav-11-year-11-critical-study-of-literature",
+        "name": "Year 11: Critical study of literature",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-eav-11-year-11-critical-study-of-literature-1",
+            "name": "Understanding",
+            "dotPoints": [
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-1-1",
+                "description": "The ways a text can be valued for its themes, aesthetic qualities and representation of ideas, values and attitudes",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-1-2",
+                "description": "The ways particular texts are influenced by other texts and contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-1-3",
+                "description": "The ways a text may conform to or subvert conventions of form, genre or style",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-1-4",
+                "description": "Language, style and form, and the ways they support interpretations of a text",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-1-5",
+                "description": "The effect of language choices in a range of personal, social and cultural contexts, and how these choices can influence meaning",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-eav-11-year-11-critical-study-of-literature-2",
+            "name": "Responding",
+            "dotPoints": [
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-2-1",
+                "description": "Compose informed personal responses to texts, supported by critical perspectives and close textual analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-2-2",
+                "description": "Compose sustained, structured arguments that synthesise complex ideas, using relevant textual evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-2-3",
+                "description": "Compose texts that integrate elements of form, personal voice, language and content for a variety of audiences and purposes",
+                "prompts": []
+              },
+              {
+                "id": "dp-eav-11-year-11-critical-study-of-literature-2-4",
+                "description": "Use the language of analysis and literary criticism to shape their own interpretations of a complex text",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
       {
         "id": "topic-ea-1",
         "name": "Texts and human experiences",

@@ -4,13 +4,25 @@ import { SYLLABUS_YEARS, yearShortLabel } from '../utils/syllabusYear';
 import {
   parseOutcomesFromText,
   parseSyllabusStructure,
-  fetchSyllabusContentFromUrl,
+  fetchSyllabusPage,
   splitSyllabusIntoTopics,
 } from '../services/geminiService';
+import type { NesaPage } from '../services/geminiService';
 import type { SyllabusPreviewNode } from '../utils/dataManagerUtils';
+import {
+  comparablePath,
+  courseNameFromSyllabus,
+  groupSiblings,
+  hasNesaStatements,
+  mergeOutcomesByCode,
+  nesaOutcomes,
+  nesaPageToPreviewNode,
+  outcomesWithoutRemoved,
+  pendingSiblings,
+} from '../utils/nesaSyllabus';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
-import UrlFetchField, { NESA_HOST_HINT } from './UrlFetchField';
+import UrlFetchField, { NESA_HOST_HINT, NESA_URL_PLACEHOLDER } from './UrlFetchField';
 import DiscardConfirmBar from './DiscardConfirmBar';
 import DraftRestoreBanner from './DraftRestoreBanner';
 import { useDiscardGuard } from '../hooks/useDiscardGuard';
@@ -27,6 +39,7 @@ import {
   GitMerge,
   Wand2,
   BookOpen,
+  CircleCheck,
 } from 'lucide-react';
 import { generateId } from '../utils/idUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -69,6 +82,22 @@ interface TopicTab {
   id: string;
   name: string;
   content: string;
+}
+
+/**
+ * A focus area NESA sent as its own structure. It is kept exactly as read, with
+ * the page it came from, which is what stops the same page being added twice.
+ */
+interface ExactFocusArea {
+  path: string;
+  node: PreviewNode;
+  outcomes: CourseOutcome[];
+}
+
+/** The syllabus the exact focus areas belong to, and the rest of its focus areas. */
+interface ExactSource {
+  syllabus: string;
+  siblings: NesaPage['siblings'];
 }
 
 const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
@@ -119,12 +148,42 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
   const [error, setError] = useState<string | null>(null);
 
+  // Focus areas NESA read exactly. They skip the AI entirely, so they sit beside
+  // the pasted tabs rather than inside them.
+  const [exactAreas, setExactAreas] = useState<ExactFocusArea[]>([]);
+  const [exactSource, setExactSource] = useState<ExactSource | null>(null);
+  // Paths ticked in the "Add more" picker, and how far the reads have got.
+  const [selectedSiblings, setSelectedSiblings] = useState<Set<string>>(new Set());
+  const [siblingProgress, setSiblingProgress] = useState<{ done: number; total: number } | null>(
+    null
+  );
+  const [siblingNotice, setSiblingNotice] = useState<string | null>(null);
+
   const activeTab = topicTabs.find((t) => t.id === activeTabId) || topicTabs[0];
   const targetCourse = targetCourseId ? courses.find((c) => c.id === targetCourseId) : undefined;
   const targetTopic = targetCourse?.topics.find((t) => t.id === targetTopicId);
   // The course name the import will actually use (existing course's name when merging).
   const effectiveCourseName = targetCourse ? targetCourse.name : courseName;
-  const isBusy = isParsingOutcomes || isAnalyzing || isFetchingUrl || isSplitting;
+  const isBusy =
+    isParsingOutcomes || isAnalyzing || isFetchingUrl || isSplitting || siblingProgress !== null;
+
+  const exactNodes = exactAreas.map((area) => area.node);
+  const exactOutcomes = exactAreas.flatMap((area) => area.outcomes);
+  // The picker's rows: every focus area of the syllabus that is not in the import yet.
+  const siblingGroups = exactSource
+    ? pendingSiblings(
+        groupSiblings(exactSource.siblings),
+        exactAreas.map((area) => area.path)
+      )
+    : [];
+  const pendingChoices = siblingGroups
+    .flatMap((group) => [
+      ...group.items.map((item) => ({ path: item.path, title: item.title })),
+      ...group.lists.flatMap((list) =>
+        list.paths.map((path, index) => ({ path, title: list.titles[index] ?? '' }))
+      ),
+    ])
+    .filter((choice) => selectedSiblings.has(choice.path));
 
   // Switching target course invalidates any chosen target topic.
   const handleChangeTargetCourse = (id: string | null) => {
@@ -145,6 +204,10 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     setError(null);
     setUrlInput('');
     setUrlError(null);
+    setExactAreas([]);
+    setExactSource(null);
+    setSelectedSiblings(new Set());
+    setSiblingNotice(null);
     setYear(defaultYear);
     onClose();
   };
@@ -161,7 +224,8 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     previewData.length > 0 ||
     parsedOutcomes.length > 0 ||
     outcomesText.trim().length > 0 ||
-    courseName.trim().length > 0;
+    courseName.trim().length > 0 ||
+    exactAreas.length > 0;
 
   const guard = useDiscardGuard(isOpen, hasWork, handleClose);
 
@@ -170,11 +234,22 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
    *
    * Everything the analyse step reads plus everything the preview holds, so a
    * crash after a five-topic analysis does not cost those five AI calls again.
+   * The exact focus areas are part of that work too: they are fetched, not typed.
    */
   const draft = useImportDraft(
     'full-syllabus',
     isOpen,
-    { courseName, year, topicTabs, outcomesText, parsedOutcomes, previewData, step },
+    {
+      courseName,
+      year,
+      topicTabs,
+      outcomesText,
+      parsedOutcomes,
+      previewData,
+      step,
+      exactAreas,
+      exactSource,
+    },
     hasWork
   );
 
@@ -188,6 +263,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     setOutcomesText(saved.outcomesText);
     setParsedOutcomes(saved.parsedOutcomes);
     setPreviewData(saved.previewData);
+    // Drafts saved before exact focus areas existed have neither field.
+    setExactAreas(saved.exactAreas ?? []);
+    setExactSource(saved.exactSource ?? null);
     setStep(saved.step);
     setExpandedPreviewIds(new Set(saved.previewData.map((_, idx) => `topic-${idx}`)));
     draft.accept();
@@ -204,7 +282,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     setError(null);
     try {
       const parsed = await parseOutcomesFromText(outcomesText);
-      setParsedOutcomes(parsed);
+      // Replacing the list would drop the outcomes NESA read for the focus areas
+      // already added, while those areas still went into the import.
+      setParsedOutcomes(mergeOutcomesByCode(exactOutcomes, parsed));
       if (parsed.length === 0) {
         setError(
           'No outcomes were found in that text. Check it includes outcome codes (e.g. SE-11-01) with their descriptions, then parse again.'
@@ -242,13 +322,140 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
   const tabsFromTopics = (topics: { name: string; content: string }[]): TopicTab[] =>
     topics.map((t) => ({ id: generateId('tab'), name: t.name, content: t.content }));
 
+  /**
+   * Why a NESA page cannot join the import, or null when it can.
+   *
+   * One import is one syllabus. A focus area from another syllabus would be
+   * filed under this course's name, and the picker only offers focus areas of
+   * the syllabus already in the import, so that case is refused here.
+   */
+  const exactProblem = (path: string, nesa: NesaPage): string | null => {
+    if (exactAreas.some((area) => comparablePath(area.path) === comparablePath(path))) {
+      return 'That focus area is already in this import.';
+    }
+    if (exactSource && exactSource.syllabus !== nesa.syllabus) {
+      return `That page is from "${nesa.syllabus}", not "${exactSource.syllabus}". Start a new import for it, or remove the focus areas above first.`;
+    }
+    return null;
+  };
+
+  /**
+   * Adds one focus area's exact structure and its outcomes to the import.
+   *
+   * The outcomes are merged by code, so two focus areas that both list an outcome
+   * give one row, and the page's own title names the area when NESA sent no
+   * title for the node.
+   */
+  const appendExactArea = (path: string, nesa: NesaPage, fallbackName: string) => {
+    const built = nesaPageToPreviewNode(nesa);
+    const node: PreviewNode = built.name
+      ? built
+      : { ...built, name: fallbackName.trim() || 'Untitled focus area' };
+    const outcomes = nesaOutcomes(nesa);
+    setExactAreas((prev) => [...prev, { path, node, outcomes }]);
+    setParsedOutcomes((prev) => mergeOutcomesByCode(prev, outcomes));
+  };
+
+  const removeExactArea = (path: string) => {
+    const removed = exactAreas.find((area) => area.path === path);
+    const remaining = exactAreas.filter((area) => area.path !== path);
+    setExactAreas(remaining);
+    // Without any focus areas left there is no syllabus for the picker to draw
+    // from, so the source goes too.
+    if (remaining.length === 0) setExactSource(null);
+    if (removed) {
+      const stillHeld = remaining.flatMap((area) => area.outcomes);
+      setParsedOutcomes((prev) => outcomesWithoutRemoved(prev, removed.outcomes, stillHeld));
+    }
+    setSiblingNotice(null);
+  };
+
+  const setSiblingsSelected = (paths: string[], selected: boolean) =>
+    setSelectedSiblings((prev) => {
+      const next = new Set(prev);
+      paths.forEach((path) => (selected ? next.add(path) : next.delete(path)));
+      return next;
+    });
+
+  /**
+   * Reads each chosen focus area in turn and adds it.
+   *
+   * One at a time, because the reader is the slow part and a page that fails
+   * must not stop the rest. A failure is reported by name, and its box stays
+   * ticked so it can be tried again without ticking everything once more.
+   */
+  const handleAddSelected = async () => {
+    const chosen = pendingChoices;
+    if (chosen.length === 0) return;
+    setSiblingNotice(null);
+    const failed: { path: string; label: string; reason: string }[] = [];
+    for (let i = 0; i < chosen.length; i++) {
+      const choice = chosen[i];
+      setSiblingProgress({ done: i + 1, total: chosen.length });
+      try {
+        const page = await fetchSyllabusPage(choice.path);
+        if (page.nesa && hasNesaStatements(page.nesa)) {
+          appendExactArea(choice.path, page.nesa, choice.title);
+        } else {
+          failed.push({
+            path: choice.path,
+            label: choice.title || choice.path,
+            reason: 'NESA did not send its structure for that page',
+          });
+        }
+      } catch (err) {
+        failed.push({
+          path: choice.path,
+          label: choice.title || choice.path,
+          reason: err instanceof Error ? err.message : 'the page could not be read',
+        });
+      }
+    }
+    setSiblingProgress(null);
+    setSelectedSiblings(new Set(failed.map((f) => f.path)));
+    if (failed.length > 0) {
+      setSiblingNotice(
+        `${failed.length} of ${chosen.length} ${chosen.length === 1 ? 'page' : 'pages'} could not be added: ${failed
+          .map((f) => `${f.label} (${f.reason})`)
+          .join('; ')}.`
+      );
+    }
+  };
+
   const handleFetchFromUrl = async (normalisedUrl: string) => {
     setIsFetchingUrl(true);
     setUrlError(null);
     try {
+      const page = await fetchSyllabusPage(normalisedUrl);
+      /**
+       * NESA's own structure, when the reader found it, is used as it stands.
+       *
+       * Its wording is NESA's, so there is nothing for an AI to read. Sending it
+       * would paraphrase the dot points and drop their sub-points, for a paid call.
+       * The AI path below is only for a page that came without a structure.
+       */
+      if (page.nesa && hasNesaStatements(page.nesa)) {
+        const nesa = page.nesa;
+        const problem = exactProblem(normalisedUrl, nesa);
+        if (problem) throw new Error(problem);
+        if (exactAreas.length === 0) {
+          // The first focus area decides what this import is: its year, and the
+          // syllabus the rest of the picker is drawn from.
+          if (nesa.year) setYear(nesa.year);
+          setExactSource({ syllabus: nesa.syllabus, siblings: nesa.siblings });
+        }
+        if (!targetCourse && !courseName.trim()) {
+          const suggested = courseNameFromSyllabus(nesa.syllabus);
+          if (suggested) setCourseName(suggested);
+        }
+        appendExactArea(normalisedUrl, nesa, nesa.title);
+        setSiblingNotice(null);
+        setUrlInput('');
+        return;
+      }
       // Use AI to "read" the webpage via search grounding, then split it into
       // one editable tab per topic (falling back to a single tab).
-      const content = (await fetchSyllabusContentFromUrl(normalisedUrl)).trim();
+      const content = page.text.trim();
       if (content.length < 80) {
         throw new Error(
           "Couldn't read any syllabus content from that URL — some pages block automated readers. Open the page yourself and paste the topic text into a tab instead."
@@ -329,8 +536,18 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
 
     // Filter out empty tabs
     const validTabs = topicTabs.filter((t) => t.content.trim().length > 0);
-    if (validTabs.length === 0) {
+    if (validTabs.length === 0 && exactAreas.length === 0) {
       setError('Enter syllabus content for at least one topic.');
+      return;
+    }
+
+    // With no pasted text there is nothing for the AI to read. The focus areas
+    // NESA read are the whole import, so they go straight to the preview.
+    if (validTabs.length === 0) {
+      setError(null);
+      setPreviewData(exactNodes);
+      setStep('preview');
+      setExpandedPreviewIds(new Set(exactNodes.map((_t, idx) => `topic-${idx}`)));
       return;
     }
 
@@ -349,7 +566,8 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
         )
       );
 
-      const aggregatedPreview: PreviewNode[] = [];
+      // The exact focus areas lead, ahead of whatever the pasted tabs produced.
+      const aggregatedPreview: PreviewNode[] = [...exactNodes];
       const failedTabs: string[] = [];
       results.forEach((res, idx) => {
         if (res.status === 'fulfilled' && res.value.length > 0) {
@@ -689,9 +907,6 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   <span className="flex items-center gap-2">
                     <Globe className="w-4 h-4 text-[rgb(var(--color-accent))]" />
                     Fetch from URL
-                    <span className="text-[10px] font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-1.5 py-0.5 rounded-full normal-case">
-                      experimental
-                    </span>
                   </span>
                 </label>
                 <UrlFetchField
@@ -703,12 +918,151 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                   isFetching={isFetchingUrl}
                   disabled={isFetchingUrl}
                   label="Syllabus page URL"
-                  placeholder="https://educationstandards.nsw.edu.au/…"
+                  placeholder={NESA_URL_PLACEHOLDER}
                 />
                 <p className="mt-2 text-[10px] text-[rgb(var(--color-text-muted))]">
                   {NESA_HOST_HINT}
                 </p>
               </div>
+
+              {/* Focus areas NESA read exactly, and the picker for the rest of the
+                  syllabus. It appears only once there is one, so an import pasted by
+                  hand looks as it always has. */}
+              {exactAreas.length > 0 && exactSource && (
+                <section
+                  aria-labelledby="nesa-exact-title"
+                  className="mx-6 mb-4 rounded-xl border border-[rgb(var(--color-accent))]/30 bg-[rgb(var(--color-accent))]/5 p-4 space-y-4"
+                >
+                  <div className="flex items-start gap-3">
+                    <CircleCheck
+                      className="w-5 h-5 mt-0.5 flex-shrink-0 text-[rgb(var(--color-accent))]"
+                      aria-hidden="true"
+                    />
+                    <div className="min-w-0">
+                      <h3
+                        id="nesa-exact-title"
+                        className="text-sm font-semibold text-[rgb(var(--color-text-primary))] light:text-slate-900"
+                      >
+                        Read from NESA — exact wording, no AI
+                      </h3>
+                      <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600 break-words">
+                        {exactSource.syllabus}
+                      </p>
+                    </div>
+                  </div>
+
+                  <ul aria-label="Focus areas in this import" className="space-y-1.5">
+                    {exactAreas.map((area) => (
+                      <li
+                        key={area.path}
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-[rgb(var(--color-bg-surface))] light:bg-white border border-slate-200 dark:border-white/10"
+                      >
+                        <span className="flex-1 min-w-0 truncate text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-800">
+                          {area.node.name}
+                        </span>
+                        <span className="flex-shrink-0 text-[10px] font-semibold text-[rgb(var(--color-text-secondary))] bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 px-2 py-0.5 rounded-full">
+                          {yearShortLabel(area.node.year ?? year)}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => removeExactArea(area.path)}
+                          aria-label={`Remove ${area.node.name}`}
+                          title="Remove focus area"
+                          className="p-1.5 min-w-11 min-h-11 sm:min-w-0 sm:min-h-0 flex items-center justify-center rounded-lg text-[rgb(var(--color-text-muted))] hover:text-red-400 hover:bg-red-500/20 transition-colors flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
+                        >
+                          <X className="w-3.5 h-3.5" aria-hidden="true" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {exactSource.siblings.length > 0 && (
+                    <fieldset className="space-y-2 pt-3 border-t border-slate-200 dark:border-white/10">
+                      <legend className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 mb-1">
+                        Add more from this syllabus
+                      </legend>
+                      {siblingGroups.length === 0 ? (
+                        <p className="text-xs text-[rgb(var(--color-text-muted))] light:text-slate-600">
+                          Every focus area of this syllabus is in the import.
+                        </p>
+                      ) : (
+                        siblingGroups.map((group) => (
+                          <div key={group.year} className="space-y-1">
+                            <p className="text-[11px] font-semibold text-[rgb(var(--color-text-muted))] light:text-slate-500">
+                              {yearShortLabel(group.year)}
+                            </p>
+                            {group.items.map((item) => (
+                              <label
+                                key={item.path}
+                                className="flex items-center gap-2 px-2 py-1.5 min-h-11 sm:min-h-0 rounded-lg cursor-pointer hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-white/60"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={selectedSiblings.has(item.path)}
+                                  onChange={(e) =>
+                                    setSiblingsSelected([item.path], e.target.checked)
+                                  }
+                                  disabled={isBusy}
+                                  className="w-4 h-4 flex-shrink-0 accent-[rgb(var(--color-accent))]"
+                                />
+                                <span className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                  {item.title || item.path}
+                                </span>
+                              </label>
+                            ))}
+                            {group.lists.map((list) => {
+                              const allTicked = list.paths.every((p) => selectedSiblings.has(p));
+                              const count = list.paths.length;
+                              return (
+                                <label
+                                  key={`${group.year}:${list.optionsList}`}
+                                  className="flex items-center gap-2 px-2 py-1.5 min-h-11 sm:min-h-0 rounded-lg cursor-pointer hover:bg-[rgb(var(--color-bg-surface-light))]/50 light:hover:bg-white/60"
+                                >
+                                  <input
+                                    type="checkbox"
+                                    checked={allTicked}
+                                    onChange={(e) =>
+                                      setSiblingsSelected(list.paths, e.target.checked)
+                                    }
+                                    disabled={isBusy}
+                                    className="w-4 h-4 flex-shrink-0 accent-[rgb(var(--color-accent))]"
+                                  />
+                                  <span className="text-sm text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                                    {`${list.optionsList || 'Elective focus areas'} · ${count} ${count === 1 ? 'option' : 'options'}`}
+                                  </span>
+                                </label>
+                              );
+                            })}
+                          </div>
+                        ))
+                      )}
+                      {siblingGroups.length > 0 && (
+                        <div>
+                          <button
+                            type="button"
+                            onClick={handleAddSelected}
+                            disabled={isBusy || pendingChoices.length === 0}
+                            className="px-3 py-2 min-h-11 sm:min-h-0 rounded-lg text-xs font-bold bg-[rgb(var(--color-accent))]/10 text-[rgb(var(--color-accent))] border border-[rgb(var(--color-accent))]/20 hover:bg-[rgb(var(--color-accent))]/20 transition disabled:opacity-40 disabled:cursor-not-allowed"
+                          >
+                            {pendingChoices.length > 0
+                              ? `Add selected (${pendingChoices.length})`
+                              : 'Add selected'}
+                          </button>
+                        </div>
+                      )}
+                    </fieldset>
+                  )}
+
+                  {siblingNotice && (
+                    <p
+                      role="alert"
+                      className="text-red-400 light:text-red-600 text-xs bg-red-900/30 light:bg-red-50 p-3 rounded-lg border border-red-500/20 light:border-red-200"
+                    >
+                      {siblingNotice}
+                    </p>
+                  )}
+                </section>
+              )}
 
               {/* Topic Builder Interface */}
               {/* A floor, not a height: the builder is as tall as its editor
@@ -862,6 +1216,13 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                               aria-label={`Topic ${tIdx + 1} name`}
                               className="flex-1 min-w-0 bg-transparent font-bold text-sm text-[rgb(var(--color-text-primary))] light:text-slate-800 rounded-lg px-1.5 py-1 border border-transparent hover:border-slate-300 dark:hover:border-white/15 focus:outline-none focus:border-[rgb(var(--color-accent))] focus:bg-[rgb(var(--color-bg-surface-light))] light:focus:bg-white"
                             />
+                            {/* Shown only when the source names a year, so a topic
+                                that takes the import's year is not labelled at all. */}
+                            {topic.year && (
+                              <span className="flex-shrink-0 text-[10px] font-semibold text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10 border border-[rgb(var(--color-accent))]/20 px-2 py-0.5 rounded-full">
+                                {yearShortLabel(topic.year)}
+                              </span>
+                            )}
                             <span className="flex-shrink-0 text-xs text-[rgb(var(--color-text-muted))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-200 px-2 py-0.5 rounded-full">
                               {topic.subTopics?.length || 0} sub-topics
                             </span>
@@ -981,7 +1342,9 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                     ? analysed && analysed.total > 1
                       ? `Analysing ${Math.min(analysed.done + 1, analysed.total)} of ${analysed.total}…`
                       : 'Analysing…'
-                    : 'Analyse syllabus'}
+                    : exactAreas.length > 0
+                      ? 'Review import'
+                      : 'Analyse syllabus'}
                 </button>
               </>
             ) : (
@@ -1010,25 +1373,29 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
           <LoadingIndicator
             task="enrichment"
             message={
-              isFetchingUrl
-                ? 'Reading the syllabus page'
-                : isSplitting
-                  ? 'Splitting the text into topics'
-                  : isAnalyzing
-                    ? 'Analysing the syllabus'
-                    : 'Reading the outcomes'
+              siblingProgress
+                ? `Reading ${siblingProgress.done} of ${siblingProgress.total}…`
+                : isFetchingUrl
+                  ? 'Reading the syllabus page'
+                  : isSplitting
+                    ? 'Splitting the text into topics'
+                    : isAnalyzing
+                      ? 'Analysing the syllabus'
+                      : 'Reading the outcomes'
             }
             messages={
-              isFetchingUrl
-                ? ['Fetching the page', 'Finding the topic headings']
-                : isSplitting
-                  ? ['Finding the topic headings', "Keeping each topic's text as written"]
-                  : isAnalyzing
-                    ? ['Reading each topic', 'Sorting it into sub-topics and dot points']
-                    : [
-                        'Reading the outcomes text',
-                        'Picking out each outcome and the year it belongs to',
-                      ]
+              siblingProgress
+                ? ['Fetching the next focus area', 'Keeping its wording exactly as NESA wrote it']
+                : isFetchingUrl
+                  ? ['Fetching the page', 'Finding the topic headings']
+                  : isSplitting
+                    ? ['Finding the topic headings', "Keeping each topic's text as written"]
+                    : isAnalyzing
+                      ? ['Reading each topic', 'Sorting it into sub-topics and dot points']
+                      : [
+                          'Reading the outcomes text',
+                          'Picking out each outcome and the year it belongs to',
+                        ]
             }
           />
         </AiBusyOverlay>

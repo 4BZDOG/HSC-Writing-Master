@@ -15,6 +15,13 @@ vi.mock('../../services/geminiService', () => ({
   reviseSampleAnswer: vi.fn(),
 }));
 
+// The AI pass is plan-gated; this test is about the failure notice, so the
+// studio is treated as unlocked for it.
+vi.mock('../../services/entitlements', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../services/entitlements')>();
+  return { ...actual, isFeatureLocked: () => false };
+});
+
 const mockQualityCheck = vi.mocked(performQualityCheck);
 const mockDotPoints = vi.mocked(generateDotPointsForSubTopic);
 
@@ -69,7 +76,9 @@ describe('AI modals render failures through the shared AiErrorNotice', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: /generate/i }));
+    // The modal opens on Type or paste, so the AI pass is one tab across.
+    fireEvent.click(screen.getByRole('tab', { name: /suggest with ai/i }));
+    fireEvent.click(screen.getByRole('button', { name: /generate dot points/i }));
 
     const alert = await screen.findByRole('alert');
     expect(alert.textContent).toContain('No dot points were drafted');

@@ -1,0 +1,57 @@
+{
+  "syllabus": "Ancient History 11–12 Syllabus (2024); Year 11 from 2027, first HSC 2028",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/hsie/ancient-history-11-12-2024",
+  "startFocusAreas": ["content/year-11/fac737d866", "content/year-12/fa426bd6f2"],
+  "id": "course-hsc-ancient-history",
+  "name": "HSC Ancient History",
+  "prefix": "ah",
+  "outcomePattern": "^AH-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Historical concepts and skills 11–12",
+      "year": "year12"
+    },
+    {
+      "title": "Historical concepts and skills 11–12",
+      "year": "year11",
+      "name": "Year 11: Historical concepts and skills 11–12"
+    },
+    {
+      "title": "Historical investigation",
+      "year": "year11"
+    },
+    {
+      "title": "Features of ancient societies",
+      "year": "year11"
+    },
+    {
+      "optionsList": "Investigating ancient history – Case studies",
+      "year": "year11",
+      "nameFormat": "Case study: {title}"
+    },
+    {
+      "optionsList": "Investigating ancient history – The nature of ancient history",
+      "year": "year11",
+      "nameFormat": "The nature of ancient history: {title}"
+    },
+    {
+      "title": "Core study: Cities of Vesuvius – Pompeii and Herculaneum",
+      "year": "year12"
+    },
+    {
+      "optionsList": "Ancient societies",
+      "year": "year12",
+      "nameFormat": "Ancient societies: {title}"
+    },
+    {
+      "optionsList": "Historical personalities",
+      "year": "year12",
+      "nameFormat": "Historical personalities: {title}"
+    },
+    {
+      "optionsList": "Historical periods",
+      "year": "year12",
+      "nameFormat": "Historical periods: {title}"
+    }
+  ]
+}

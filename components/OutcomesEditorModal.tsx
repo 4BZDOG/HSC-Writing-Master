@@ -8,8 +8,13 @@ import {
   outcomesOfYear,
   yearShortLabel,
 } from '../utils/syllabusYear';
-import { duplicateCodeRows, withoutDuplicateCodes } from '../utils/outcomeCodes';
-import { parseOutcomesFromText, fetchSyllabusContentFromUrl } from '../services/geminiService';
+import {
+  duplicateCodeRows,
+  parseOutcomeList,
+  withoutDuplicateCodes,
+  yearOfOutcomeCode,
+} from '../utils/outcomeCodes';
+import { parseOutcomesFromText, fetchSyllabusPage } from '../services/geminiService';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
@@ -171,7 +176,17 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   };
 
   const handleParseText = async () => {
-    if (!pastedText.trim() || studioBlocked()) return;
+    if (!pastedText.trim()) return;
+    // A NESA list of codes and descriptions is read as it stands: exact, instant,
+    // and free, so it needs neither the AI nor the plan that pays for it. Only
+    // text with no codes in it goes to the AI reader.
+    const listed = parseOutcomeList(pastedText);
+    if (listed.length > 0) {
+      absorb(listed, 'in that text');
+      setPastedText('');
+      return;
+    }
+    if (studioBlocked()) return;
     setIsParsing(true);
     setError(null);
     try {
@@ -185,12 +200,25 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
   };
 
   const handleFetchUrl = async (normalisedUrl: string) => {
-    if (studioBlocked()) return;
     setIsFetching(true);
     setError(null);
     try {
-      const content = (await fetchSyllabusContentFromUrl(normalisedUrl)).trim();
-      absorb(await parseOutcomesFromText(content), 'on that page');
+      const page = await fetchSyllabusPage(normalisedUrl);
+      // A curriculum.nsw.edu.au page carries its outcomes exactly; read those
+      // rather than asking an AI to find them again in the page's text.
+      const exact: CourseOutcome[] =
+        page.nesa?.outcomes.map((o) => {
+          const year = yearOfOutcomeCode(o.code) ?? page.nesa?.year ?? undefined;
+          return { code: o.code, description: o.description, ...(year ? { year } : {}) };
+        }) ?? [];
+      const listed = exact.length > 0 ? exact : parseOutcomeList(page.text);
+      if (listed.length > 0) {
+        absorb(listed, 'on that page');
+        setUrl('');
+        return;
+      }
+      if (studioBlocked()) return;
+      absorb(await parseOutcomesFromText(page.text.trim()), 'on that page');
       setUrl('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not read that page. Try again.');
@@ -345,8 +373,12 @@ const OutcomesEditorModal: React.FC<OutcomesEditorModalProps> = ({
                   className={`${CREATOR_SECONDARY_BUTTON} mt-3 w-full flex items-center justify-center gap-2 text-[rgb(var(--color-accent))]`}
                 >
                   <Sparkles className="w-4 h-4" aria-hidden="true" />
-                  {isParsing ? 'Parsing…' : 'Parse with AI'}
+                  {isParsing ? 'Reading…' : 'Read outcomes'}
                 </button>
+                <p className="mt-2 text-[11px] text-[rgb(var(--color-text-muted))]">
+                  Lines that start with an outcome code are read as they are. Only text without
+                  codes is sent to the AI.
+                </p>
               </div>
 
               <p className="text-[10px] text-[rgb(var(--color-text-muted))]">{NESA_HOST_HINT}</p>

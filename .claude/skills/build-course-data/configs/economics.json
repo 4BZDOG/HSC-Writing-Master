@@ -1,0 +1,47 @@
+{
+  "syllabus": "Economics 11–12 Syllabus (2025); Year 11 from 2027, first HSC 2028",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/hsie/economics-11-12-2025",
+  "startFocusAreas": ["content/year-11/fa2593734b", "content/year-12/fa32ce3c4b"],
+  "id": "course-hsc-economics",
+  "name": "HSC Economics",
+  "prefix": "eco",
+  "outcomePattern": "^ECO-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Introduction to economics",
+      "year": "year11"
+    },
+    {
+      "title": "Household and business sector",
+      "year": "year11"
+    },
+    {
+      "title": "Government sector",
+      "year": "year11"
+    },
+    {
+      "title": "Financial sector",
+      "year": "year11"
+    },
+    {
+      "title": "Markets",
+      "year": "year11"
+    },
+    {
+      "title": "International sector",
+      "year": "year11"
+    },
+    {
+      "title": "Economic issues in the Australian economy",
+      "year": "year12"
+    },
+    {
+      "title": "Economic management of the Australian economy",
+      "year": "year12"
+    },
+    {
+      "title": "Australia and the global economy",
+      "year": "year12"
+    }
+  ]
+}

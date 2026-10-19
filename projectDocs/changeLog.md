@@ -1,5 +1,70 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-19 (The course and topic tools read NESA exactly, and need no AI to set up a course)
+
+A review of the admin tools for creating courses and topics, made after building eleven courses from NESA's
+syllabuses by hand. The lesson of that work was that NESA's curriculum site carries every syllabus as data
+(each page embeds its CMS record), so the exact wording is there to be read; the tools threw it away and
+asked an AI to retype it.
+
+- **Changed. Syllabus URLs are read exactly.** The page reader (`/api/fetch-url`) stripped every `<script>`
+  before reading a page, which removed the one block holding the syllabus, and passed the leftover text to an
+  AI that paraphrased dot points, dropped their "including" sub-points and cost a paid call. A
+  curriculum.nsw.edu.au page is now parsed from its own data (`api/_lib/nesaCurriculum.ts`, a port of the
+  seed tooling): focus area, year, outcomes, content groups, statements with their sub-points, electives,
+  equations flattened to text (C₆H₁₂O₆), and the syllabus's other focus areas. A syllabus's home page works
+  too: the reader follows it to its first focus area. NESA's pages under www.nsw.gov.au/education-and-training/nesa
+  are accepted (only that section of the site).
+- **Changed. Import a syllabus.** Fetching a curriculum page fills the course name, the year and the outcomes,
+  and shows the focus area under "Read from NESA — exact wording, no AI", with a checklist of the rest of the
+  syllabus ("Elective focus areas · 11 options" ticks all of them). "Add selected" reads them one at a time,
+  names any that fail and keeps the rest; "Review import" goes straight to the editable preview, with a year
+  badge per topic, and each topic is filed in its own year. No AI call is made for any of it. Pasted text
+  still goes through the AI as before. "Add a topic" reads a NESA page the same way, and warns when the page
+  is from the other year.
+- **Added. Outcomes from a list, with no AI.** Pasted lines that start with an outcome code (HM-12-01,
+  BI-11WS-03, BIO12-12, P1, H10) are read as they stand and filed by the year the code names; only text with
+  no codes goes to the AI. This works in the Outcomes editor (now "Read outcomes") and in Create a course,
+  which gains "Paste a list of outcomes" and a hint, with a button, when a row's code names the other year.
+  A fetched curriculum page fills the Outcomes editor from its own outcomes. None of these needs a paid plan.
+- **Added. Dot points by hand.** A curator could put dot points under a sub-topic only by asking an AI to
+  invent them. "Add dot points" opens on "Type or paste": one per line, bullets and numbering stripped, lines
+  already in the sub-topic skipped, a live preview, no AI and no plan gate. "Suggest with AI" is the old path.
+- **Added. A faculty for a new course.** Create a course stored no faculty, so the navigator guessed from the
+  name each time. It shows its guess ("From the name: Personal Development, Health and Physical Education")
+  and stores it, or the faculty chosen instead.
+- **Fixed.** The shipped-course sync added back, at every library version, any shipped course a teacher had
+  unticked in the first-run picker or deleted. The browser now records the courses it has been offered and
+  the sync adds only new ones.
+- **Changed.** The six structure-only courses are listed but not pre-ticked in the first-run picker, which had
+  grown to sixteen ticked rows. The URL boxes suggest a curriculum.nsw.edu.au address (educationstandards.nsw.edu.au
+  only redirects now) and lose their "experimental" tag.
+
+## [Unreleased] - 2026-10-19 (The rest of five syllabuses, and topics that match within their own year)
+
+Five shipped courses had questions for one slice of their syllabus and nothing for the rest: Modern History
+and Ancient History carried one option of each section and (Modern) no Year 11, and Legal Studies,
+Economics and English Advanced had no Year 11. The rest of each syllabus is now there as structure, read
+from NESA's page data like the new courses, with no questions. Nothing that was there has changed: every
+existing topic, question and outcome is identical, and the new topics are added around them.
+
+| Course           | Topics | Dot points | Outcomes | Added                                                                                     |
+| ---------------- | ------ | ---------- | -------- | ----------------------------------------------------------------------------------------- |
+| Modern History   | 4 → 49 | 48 → 510   | 7 → 15   | Year 11 (all of it), every national study, peace and conflict and change option           |
+| Ancient History  | 4 → 54 | 74 → 698   | 15       | Year 11 case studies and nature of ancient history; every society, personality and period |
+| Legal Studies    | 7 → 14 | 157 → 290  | 8 → 16   | Year 11, and Legal themes and skills in both years                                        |
+| Economics        | 3 → 9  | 131 → 265  | 10 → 20  | Year 11                                                                                   |
+| English Advanced | 4 → 7  | 37 → 64    | 6 → 12   | Year 11                                                                                   |
+
+- **Fixed.** A topic name used in both years ("Close study of text", "Working scientifically") could merge
+  into the wrong year. The course import matched names within a year; the topic import, its preview, the
+  orphan check and the placement step matched names alone, so the preview could promise a merge into the
+  Year 12 topic that the import then did not make. They all match by id, then by name within the same year
+  (`findMatchingTopic`), and a placement into a Year 11 topic keeps its year.
+- **Fixed.** Five Geography inquiry-skills dot points carried raw line breaks from the syllabus document
+  ("…by:\n\n\n collecting…"). They read as one line, the list joined with semicolons, NESA's words unchanged.
+- **Library version 2.19.0**, so returning browsers pick up the added topics.
+
 ## [Unreleased] - 2026-10-19 (Six more courses, structure only, from NESA's current syllabuses)
 
 The next round of seeded courses, picked for how well they suit written, verb-marked answers and how many

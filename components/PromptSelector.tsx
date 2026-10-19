@@ -1755,13 +1755,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       />
                     </>
                   ) : canGenerate ? (
+                    // Not locked by the plan: typing or pasting dot points is free.
+                    // The modal gates its own AI tab, so the lock lives there.
                     <ActionButton
                       onClick={onGenerateDotPoints}
                       icon={Sparkles}
-                      title="Generate dot points for this sub-topic (AI)"
-                      label="Generate"
+                      title="Add dot points"
+                      label="Add dot points"
                       variant="special"
-                      locked={studioLocked}
                     />
                   ) : null}
                 </div>

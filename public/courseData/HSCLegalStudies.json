@@ -34,9 +34,848 @@
       {
         "code": "LST-12-08",
         "description": "uses a range of legal concepts to communicate information and legal reasoning to form a judgement"
+      },
+      {
+        "code": "LST-11-01",
+        "description": "describes legal principles and judicial processes used in the legal system",
+        "year": "year11"
+      },
+      {
+        "code": "LST-11-02",
+        "description": "explains the key features of Australian and international law",
+        "year": "year11"
+      },
+      {
+        "code": "LST-11-03",
+        "description": "explains the role, formation and reform of law",
+        "year": "year11"
+      },
+      {
+        "code": "LST-11-04",
+        "description": "analyses differing perspectives of individuals, groups and society in influencing the law",
+        "year": "year11"
+      },
+      {
+        "code": "LST-11-05",
+        "description": "explains methods to resolve conflict and encourage cooperation between individuals, groups and nation-states",
+        "year": "year11"
+      },
+      {
+        "code": "LST-11-06",
+        "description": "analyses legal issues to determine the extent to which the law achieves justice for individuals, groups and society",
+        "year": "year11"
+      },
+      {
+        "code": "LST-11-07",
+        "description": "uses and analyses a range of sources to assess the effectiveness of the law in addressing issues",
+        "year": "year11"
+      },
+      {
+        "code": "LST-11-08",
+        "description": "uses legal concepts to communicate information and legal reasoning to form a judgement",
+        "year": "year11"
       }
     ],
     "topics": [
+      {
+        "id": "topic-ls-11-year-11-legal-themes-and-skills",
+        "name": "Year 11: Legal themes and skills",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ls-11-year-11-legal-themes-and-skills-1",
+            "name": "Legal themes",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-1-1",
+                "description": "Relationship between law, justice and society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-1-2",
+                "description": "Development of law as a reflection of society’s values",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-1-3",
+                "description": "Effectiveness of legal and non-legal measures in achieving justice for individuals, groups and society",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-year-11-legal-themes-and-skills-2",
+            "name": "Analysis and use of sources",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-2-1",
+                "description": "Use and integrate a range of evidence, including legislation, cases, media, international instruments, documents, expert opinions and statistics",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-2-2",
+                "description": "Analyse evidence to identify and account for the different perspectives of individuals and groups in society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-2-3",
+                "description": "Distinguish between fact and opinion",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-year-11-legal-themes-and-skills-3",
+            "name": "Interpretation",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-3-1",
+                "description": "Examine the nature of the relationship between law, justice and society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-3-2",
+                "description": "Analyse the development of law as a reflection of society’s values",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-3-3",
+                "description": "Form judgements about the effectiveness of legal and non-legal measures in achieving justice for individuals and society",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-year-11-legal-themes-and-skills-4",
+            "name": "Investigation and research",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-4-1",
+                "description": "Acknowledge sources appropriately",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-4-2",
+                "description": "Examine legal issues that illustrate how the law operates in practice",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-year-11-legal-themes-and-skills-5",
+            "name": "Evaluation",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-5-1",
+                "description": "Construct and develop reasoned arguments supported by relevant evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-5-2",
+                "description": "Evaluate the responsiveness of the legal system to changing values, events, the media, outdated laws and developments in technology",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-year-11-legal-themes-and-skills-5-3",
+                "description": "Evaluate the effectiveness of the law using criteria. These include: accessibility of the law; achievement of justice; application of the rule of law; capacity to meet society’s needs; capacity to uphold community standards; capacity to uphold the interests of justice; enforceability of legal measures; need for law reform; protection of individual rights; resource efficiency; responsiveness of the law",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ls-11-changing-the-law",
+        "name": "Changing the law",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ls-11-changing-the-law-1",
+            "name": "Reasons for change",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-changing-the-law-1-1",
+                "description": "Recognising changing values",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-1-2",
+                "description": "Maintaining relevance in society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-1-3",
+                "description": "Adapting to technological change",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-1-4",
+                "description": "Upholding international standards",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-1-5",
+                "description": "Amending existing or outdated laws",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-1-6",
+                "description": "Addressing the needs of individuals, groups or society",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-changing-the-law-2",
+            "name": "Drivers of change",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-changing-the-law-2-1",
+                "description": "Ways to influence change, including activism, advocacy, public opinion, investigations, findings and recommendations",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-2-2",
+                "description": "Informal methods of change by individuals, advocacy groups and the media",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-2-3",
+                "description": "Formal methods of change through the legislative process, judicial decisions, royal commissions, law reform commissions and inquiries",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-changing-the-law-3",
+            "name": "Processes of change",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-changing-the-law-3-1",
+                "description": "Legislative methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-3-2",
+                "description": "Executive methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-3-3",
+                "description": "Judicial methods",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-changing-the-law-4",
+            "name": "Outcomes of change",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-changing-the-law-4-1",
+                "description": "Benefits of reform",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-4-2",
+                "description": "Limitations of reform",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-changing-the-law-5",
+            "name": "Case study 1: The recognition of land rights in NSW and native title for Aboriginal and Torres Strait Islander Peoples",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-changing-the-law-5-1",
+                "description": "Overview of land rights, including the role and impact of legislation in NSW",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-5-2",
+                "description": "Overview of native title, including overturning the doctrine of terra nullius and the relationship to land rights",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-5-3",
+                "description": "Drivers of change to native title",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-5-4",
+                "description": "The process of developing laws through judicial decisions and legislation, including the Mabo and Wik decisions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-5-5",
+                "description": "Outcomes of change to native title law, including the benefits and limitations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-changing-the-law-6",
+            "name": "Case study 2: An area of law reform",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-changing-the-law-6-1",
+                "description": "Overview of the area of law reform",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-6-2",
+                "description": "Reasons for change to the law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-6-3",
+                "description": "Drivers of change in the area of law reform",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-6-4",
+                "description": "Processes of change used to address the area of law reform",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-changing-the-law-6-5",
+                "description": "Outcomes of the change, including benefits and limitations",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ls-11-investigating-the-law",
+        "name": "Investigating the law",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ls-11-investigating-the-law-1",
+            "name": "Legal foundations",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-investigating-the-law-1-1",
+                "description": "The meaning and function of the law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-1-2",
+                "description": "Characteristics of effective law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-1-3",
+                "description": "Ways to classify the law, including binding or non-binding, written or unwritten, public or private, criminal or civil, common or statute, and domestic or international",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-1-4",
+                "description": "Principles of justice, including equality, access and fairness",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-1-5",
+                "description": "The relationship between ethics and the law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-1-6",
+                "description": "Principles of procedural fairness, including a fair hearing and rules against bias",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-1-7",
+                "description": "The rule of law and its importance to individuals, groups, government and society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-1-8",
+                "description": "Consequences of an absence of law or a misuse of law",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-investigating-the-law-2",
+            "name": "Aboriginal and Torres Strait Islander Customary Lore",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-investigating-the-law-2-1",
+                "description": "The significance and diversity of Customary Lore for Aboriginal and Torres Strait Islander Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-2-2",
+                "description": "The roles of Elders in maintaining and upholding Customary Lore, including mediation and traditional dispute resolution",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-2-3",
+                "description": "The interconnectedness of Country, Peoples, Cultural Practices and kinship that underpins Customary Lore",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-2-4",
+                "description": "Responsibilities in caring for Country, including land and water management",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-investigating-the-law-3",
+            "name": "Sources of law",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-investigating-the-law-3-1",
+                "description": "The origin and development of common law in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-3-2",
+                "description": "Features of the doctrine of precedent and its application in law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-3-3",
+                "description": "Statute law and the steps in the legislative process",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-3-4",
+                "description": "The role and types of delegated legislation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-investigating-the-law-4",
+            "name": "Legal institutions",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-investigating-the-law-4-1",
+                "description": "The role, jurisdiction and hierarchy of courts in NSW and Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-4-2",
+                "description": "The purpose of specialist courts, including the Children’s Court and the Coroner’s Court",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-4-3",
+                "description": "Features of the adversarial system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-4-4",
+                "description": "The role and structure of parliament in NSW and Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-4-5",
+                "description": "The relationship between courts and parliament",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-investigating-the-law-5",
+            "name": "The constitutional framework",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-investigating-the-law-5-1",
+                "description": "The creation and function of the Australian Constitution",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-5-2",
+                "description": "The division of powers between federal, state and territory governments",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-5-3",
+                "description": "Reasons for the separation of powers",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-5-4",
+                "description": "The role of the High Court in interpreting the Constitution",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-5-5",
+                "description": "Amending the Constitution through referendums",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-investigating-the-law-6",
+            "name": "The global legal system",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-investigating-the-law-6-1",
+                "description": "The formation of international law through customary law and instruments",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-6-2",
+                "description": "The principle of state sovereignty and its impact on international and domestic law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-6-3",
+                "description": "Responsibilities of nation-states under international law, including Australia’s obligations",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-6-4",
+                "description": "The purpose of the United Nations and its participation in international law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-6-5",
+                "description": "The purpose of intergovernmental organisations in encouraging cooperation among nation-states",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-6-6",
+                "description": "The role of international courts and tribunals in resolving disputes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-6-7",
+                "description": "The participation of non-government organisations in international law",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-investigating-the-law-7",
+            "name": "Legal rights",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-investigating-the-law-7-1",
+                "description": "The relationship between the rights and responsibilities of individuals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-7-2",
+                "description": "Sources of rights derived from the Australian Constitution, statute law, common law and international law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-7-3",
+                "description": "Domestic and international protection of rights",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-investigating-the-law-7-4",
+                "description": "Consequences of a breach of rights",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ls-11-disputes-under-the-law",
+        "name": "Disputes under the law",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ls-11-disputes-under-the-law-1",
+            "name": "Criminal law",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-1",
+                "description": "The purpose and characteristics of criminal law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-2",
+                "description": "Elements of a crime, including actus reus, mens rea and causation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-3",
+                "description": "Types of crime, including strict liability, summary and indictable, and crimes against people and property",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-4",
+                "description": "The burden and standard of proof in criminal law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-5",
+                "description": "Procedures in NSW criminal courts, including legal representation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-6",
+                "description": "The role of legal personnel and the jury in a criminal trial",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-7",
+                "description": "Types and aims of punishments",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-1-8",
+                "description": "Key concepts of justice as illustrated through the operation of the law in a criminal case",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-disputes-under-the-law-2",
+            "name": "Civil law",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-1",
+                "description": "The purpose and characteristics of civil law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-2",
+                "description": "Elements of civil law, including breach, causation and loss",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-3",
+                "description": "Types of civil law, including torts and contracts",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-4",
+                "description": "The burden and standard of proof in civil law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-5",
+                "description": "Procedures in NSW tribunals and civil courts, including alternative methods of resolving disputes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-6",
+                "description": "The role of legal personnel and the jury in a civil trial",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-7",
+                "description": "Types and aims of remedies",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-2-8",
+                "description": "Key concepts of justice as illustrated through the operation of the law in a civil case",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-disputes-under-the-law-3",
+            "name": "Disputes with the state",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-1",
+                "description": "The purpose and characteristics of administrative law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-2",
+                "description": "Reasons individuals and groups have disputes with the state",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-3",
+                "description": "Ways to address disputes through non-government organisations and the media",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-4",
+                "description": "Ways to address disputes through government reviews, courts and tribunals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-5",
+                "description": "The role of the Ombudsman in investigating complaints and providing remedies",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-6",
+                "description": "The purpose of a royal commission",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-7",
+                "description": "The findings and recommendations of royal commissions, including the Royal Commission into Aboriginal Deaths in Custody and the Royal Commission into Misconduct in the Banking, Superannuation and Financial Services Industry",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-disputes-under-the-law-3-8",
+                "description": "Key concepts of justice as illustrated through the operation of a dispute between individuals or groups and the state",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ls-11-case-study-1-young-people",
+        "name": "Case study 1: Young people",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ls-11-case-study-1-young-people-1",
+            "name": "The nature of the experience",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-case-study-1-young-people-1-1",
+                "description": "The need for protection under the law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-1-young-people-1-2",
+                "description": "Reasons for encountering the legal system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-1-young-people-1-3",
+                "description": "Issues arising from contact with the law, including evolving capacity, the age of criminal responsibility and recidivism",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-case-study-1-young-people-2",
+            "name": "Access to justice",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-case-study-1-young-people-2-1",
+                "description": "Protection under domestic and international law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-1-young-people-2-2",
+                "description": "Authorities that advocate for the rights of young people",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-1-young-people-2-3",
+                "description": "Contact with legal processes, including police and the Children’s Court",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-1-young-people-2-4",
+                "description": "Alternative approaches to justice, including justice reinvestment, diversionary programs and Culturally inclusive processes for Aboriginal and Torres Strait Islander Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-1-young-people-2-5",
+                "description": "The role of non-government organisations that represent the interests of young people",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-case-study-1-young-people-3",
+            "name": "Responsiveness of the legal system",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-case-study-1-young-people-3-1",
+                "description": "Indicators of success in achieving justice",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-1-young-people-3-2",
+                "description": "Barriers to achieving justice",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ls-11-case-study-2-one-group-in-society",
+        "name": "Case study 2: ONE group in society",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ls-11-case-study-2-one-group-in-society-1",
+            "name": "The nature of the experience",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-1-1",
+                "description": "The need for protection under the law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-1-2",
+                "description": "Reasons for encountering the legal system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-1-3",
+                "description": "Issues arising from contact with the law",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-case-study-2-one-group-in-society-2",
+            "name": "Access to justice",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-2-1",
+                "description": "Protection under domestic and international law",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-2-2",
+                "description": "Authorities that advocate for the rights of the group",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-2-3",
+                "description": "Contact with legal processes, including law enforcement agencies, courts or tribunals, and dispute resolution methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-2-4",
+                "description": "Alternative approaches to justice",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-2-5",
+                "description": "The role of non-government organisations that represent the interests of the group",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-11-case-study-2-one-group-in-society-3",
+            "name": "Responsiveness of the legal system",
+            "dotPoints": [
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-3-1",
+                "description": "Indicators of success in achieving justice",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-11-case-study-2-one-group-in-society-3-2",
+                "description": "Barriers to achieving justice",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
       {
         "id": "topic-ls-1",
         "name": "The criminal justice system (core)",
@@ -18915,6 +19754,112 @@
                     "scenario": "Hypothetical: A group of international students and a casual kitchen worker have each been underpaid, but neither has made a complaint. The students have limited English and fear that a complaint could affect their visas. The kitchen worker has been told that complaints are not welcome during busy periods and does not know which body to contact."
                   }
                 ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ls-12-legal-themes-and-skills",
+        "name": "Legal themes and skills",
+        "subTopics": [
+          {
+            "id": "subtopic-ls-12-legal-themes-and-skills-1",
+            "name": "Legal themes",
+            "dotPoints": [
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-1-1",
+                "description": "Relationship between law, justice and society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-1-2",
+                "description": "Development of law as a reflection of society’s values",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-1-3",
+                "description": "Effectiveness of legal and non-legal measures in achieving justice for individuals, groups and society",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-12-legal-themes-and-skills-2",
+            "name": "Analysis and use of sources",
+            "dotPoints": [
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-2-1",
+                "description": "Use and integrate a range of evidence, including legislation, cases, media, international instruments, documents, expert opinions and statistics",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-2-2",
+                "description": "Analyse evidence to identify and account for the different perspectives of individuals and groups in society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-2-3",
+                "description": "Distinguish between fact and opinion",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-12-legal-themes-and-skills-3",
+            "name": "Interpretation",
+            "dotPoints": [
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-3-1",
+                "description": "Examine the nature of the relationship between law, justice and society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-3-2",
+                "description": "Analyse the development of law as a reflection of society’s values",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-3-3",
+                "description": "Form judgements about the effectiveness of legal and non-legal measures in achieving justice for individuals and society",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-12-legal-themes-and-skills-4",
+            "name": "Investigation and research",
+            "dotPoints": [
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-4-1",
+                "description": "Acknowledge sources appropriately",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-4-2",
+                "description": "Examine legal issues that illustrate how the law operates in practice",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ls-12-legal-themes-and-skills-5",
+            "name": "Evaluation",
+            "dotPoints": [
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-5-1",
+                "description": "Construct and develop reasoned arguments supported by relevant evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-5-2",
+                "description": "Evaluate the responsiveness of the legal system to changing values, events, the media, outdated laws and developments in technology",
+                "prompts": []
+              },
+              {
+                "id": "dp-ls-12-legal-themes-and-skills-5-3",
+                "description": "Evaluate the effectiveness of the law using criteria. These include: accessibility of the law; achievement of justice; application of the rule of law; capacity to meet society’s needs; capacity to uphold community standards; capacity to uphold the interests of justice; enforceability of legal measures; need for law reform; protection of individual rights; resource efficiency; responsiveness of the law",
+                "prompts": []
               }
             ]
           }

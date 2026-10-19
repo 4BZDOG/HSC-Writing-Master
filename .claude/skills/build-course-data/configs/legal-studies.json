@@ -1,0 +1,50 @@
+{
+  "syllabus": "Legal Studies 11–12 Syllabus (2025); Year 11 from 2027, first HSC 2028",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/hsie/legal-studies-11-12-2025",
+  "startFocusAreas": ["content/year-11/fa4182488f", "content/year-12/fa70029519"],
+  "id": "course-hsc-legal-studies",
+  "name": "HSC Legal Studies",
+  "prefix": "ls",
+  "outcomePattern": "^LST-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Legal themes and skills",
+      "year": "year11",
+      "name": "Year 11: Legal themes and skills"
+    },
+    {
+      "title": "Changing the law",
+      "year": "year11"
+    },
+    {
+      "title": "Investigating the law",
+      "year": "year11"
+    },
+    {
+      "title": "Disputes under the law",
+      "year": "year11"
+    },
+    {
+      "optionsList": "Experiences with the law",
+      "year": "year11",
+      "nameFormat": "{title}"
+    },
+    {
+      "title": "Legal themes and skills",
+      "year": "year12"
+    },
+    {
+      "title": "The criminal justice system (core)",
+      "year": "year12"
+    },
+    {
+      "title": "International relations and human rights (core)",
+      "year": "year12"
+    },
+    {
+      "optionsList": "Options",
+      "year": "year12",
+      "strip": " (option)"
+    }
+  ]
+}

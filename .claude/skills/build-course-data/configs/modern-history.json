@@ -1,0 +1,58 @@
+{
+  "syllabus": "Modern History 11–12 Syllabus (2024); Year 11 from 2027, first HSC 2028",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/hsie/modern-history-11-12-2024",
+  "startFocusAreas": ["content/year-11/fa8877a17b", "content/year-12/fa58f711f5"],
+  "id": "course-hsc-modern-history",
+  "name": "HSC Modern History",
+  "prefix": "mh",
+  "outcomePattern": "^MH-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Historical concepts and skills 11–12",
+      "year": "year11",
+      "name": "Year 11: Historical concepts and skills 11–12"
+    },
+    {
+      "title": "Historical investigation",
+      "year": "year11"
+    },
+    {
+      "optionsList": "The shaping of the modern world",
+      "year": "year11",
+      "nameFormat": "The shaping of the modern world: {title}"
+    },
+    {
+      "optionsList": "Investigating modern history – Case studies",
+      "year": "year11",
+      "nameFormat": "Case study: {title}"
+    },
+    {
+      "optionsList": "Investigating modern history – The nature of modern history",
+      "year": "year11",
+      "nameFormat": "The nature of modern history: {title}"
+    },
+    {
+      "title": "Historical concepts and skills 11–12",
+      "year": "year12"
+    },
+    {
+      "title": "Core study: Democracy and dictatorship 1919–1939",
+      "year": "year12"
+    },
+    {
+      "optionsList": "National studies",
+      "year": "year12",
+      "nameFormat": "National studies: {title}"
+    },
+    {
+      "optionsList": "Peace and conflict",
+      "year": "year12",
+      "nameFormat": "Peace and conflict: {title}"
+    },
+    {
+      "optionsList": "Change in the modern world",
+      "year": "year12",
+      "nameFormat": "Change in the modern world: {title}"
+    }
+  ]
+}

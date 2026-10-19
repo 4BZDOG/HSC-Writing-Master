@@ -1,0 +1,40 @@
+{
+  "syllabus": "English Advanced 11–12 Syllabus (2024); Year 12 from Term 4 2026, first HSC 2027",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/english/english-advanced-11-12-2024",
+  "startFocusAreas": ["content/year-11/fa5a098458", "content/year-12/fa9fce92f8"],
+  "id": "course-hsc-english-advanced",
+  "name": "HSC English Advanced",
+  "prefix": "eav",
+  "outcomePattern": "^EAV-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Reading to write: Transition to English Advanced",
+      "year": "year11"
+    },
+    {
+      "title": "Narratives that shape our world",
+      "year": "year11"
+    },
+    {
+      "title": "Critical study of literature",
+      "year": "year11",
+      "name": "Year 11: Critical study of literature"
+    },
+    {
+      "title": "Texts and human experiences",
+      "year": "year12"
+    },
+    {
+      "title": "Textual conversations",
+      "year": "year12"
+    },
+    {
+      "title": "Critical study of literature",
+      "year": "year12"
+    },
+    {
+      "title": "The craft of writing",
+      "year": "year12"
+    }
+  ]
+}

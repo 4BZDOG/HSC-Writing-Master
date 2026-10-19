@@ -19,7 +19,7 @@ import SyllabusImportModal from '../../components/SyllabusImportModal';
 vi.mock('../../services/geminiService', () => ({
   parseOutcomesFromText: vi.fn(),
   parseSyllabusStructure: vi.fn(),
-  fetchSyllabusContentFromUrl: vi.fn(),
+  fetchSyllabusPage: vi.fn(),
   splitSyllabusIntoTopics: vi.fn(),
 }));
 

@@ -9,6 +9,7 @@ import {
   SampleAnswer,
   CourseOutcome,
   DataValidationResult,
+  SyllabusYear,
 } from '../types';
 import { yearOfOutcome, yearOfTopic } from './syllabusYear';
 import {
@@ -1213,6 +1214,26 @@ export const mergeTopicContents = (existingTopic: Topic, importedTopic: Topic): 
 };
 
 /**
+ * The existing topic an incoming one lands in: the same id, or else the same
+ * name IN THE SAME YEAR. NSW syllabuses reuse topic names across the two years
+ * ("Working scientifically", "Close study of text", "Critical study of
+ * literature"), so matching on the name alone folds a Year 11 topic into the
+ * HSC one that shares it. The course import already matched this way; the
+ * topic import, its preview, the orphan check and the placement step did not,
+ * so the preview could promise a merge the import then did not make.
+ */
+export const findMatchingTopic = <T extends Pick<Topic, 'id' | 'name' | 'year'>>(
+  topics: readonly T[],
+  topic: Pick<Topic, 'id' | 'name' | 'year'>
+): T | undefined => {
+  const byId = topics.find((t) => t.id === topic.id);
+  if (byId) return byId;
+  const name = normalizeText(topic.name);
+  const year = yearOfTopic(topic);
+  return topics.find((t) => normalizeText(t.name) === name && yearOfTopic(t) === year);
+};
+
+/**
  * Merges `topic` into `topics` in place, matching an existing entry by id
  * or by normalized name — the same id-then-text rule every other import
  * path in this file uses. A match runs through `mergeTopicContents` and
@@ -1227,9 +1248,8 @@ export const mergeTopicContents = (existingTopic: Topic, importedTopic: Topic): 
  * not `syllabusHandlers`.
  */
 export const mergeOrAddTopic = (topics: Topic[], topic: Topic): Topic => {
-  const existingIndex = topics.findIndex(
-    (t) => t.id === topic.id || normalizeText(t.name) === normalizeText(topic.name)
-  );
+  const match = findMatchingTopic(topics, topic);
+  const existingIndex = match ? topics.indexOf(match) : -1;
   if (existingIndex !== -1) {
     const merged = mergeTopicContents(topics[existingIndex], topic);
     topics[existingIndex] = merged;
@@ -1268,12 +1288,7 @@ export const previewTopicMergePlan = (
   existingTopics: Topic[],
   importedTopic: Topic
 ): TopicMergePlan => {
-  const matchedTopic =
-    existingTopics.find((topic) => topic.id === importedTopic.id) ??
-    existingTopics.find(
-      (topic) => normalizeText(topic.name) === normalizeText(importedTopic.name)
-    ) ??
-    null;
+  const matchedTopic = findMatchingTopic(existingTopics, importedTopic) ?? null;
 
   const plan: TopicMergePlan = {
     matchedTopic,
@@ -1337,19 +1352,9 @@ export const mergeCourseContents = (existingCourse: Course, importedCourse: Cour
   newCourse.name = mergeScalarText(existingCourse.name, importedCourse.name) || existingCourse.name;
   newCourse.subject = mergeScalarText(existingCourse.subject, importedCourse.subject);
   importedCourse.topics.forEach((importedTopic) => {
-    let existingTopic = newCourse.topics.find((t: Topic) => t.id === importedTopic.id);
-    if (!existingTopic) {
-      // Matching on name is a guess, so it may only guess within one year.
-      // NSW syllabuses reuse topic names across the two — "Working
-      // Scientifically" is both a Year 11 and a Year 12 module — and merging on
-      // the name alone would fold a Year 11 import into the HSC topic that
-      // happens to share it, moving content into the wrong year with no trace.
-      const importedName = normalizeText(importedTopic.name);
-      const importedYear = yearOfTopic(importedTopic);
-      existingTopic = newCourse.topics.find(
-        (t: Topic) => normalizeText(t.name) === importedName && yearOfTopic(t) === importedYear
-      );
-    }
+    // Matching on name is a guess, so it may only guess within one year
+    // (findMatchingTopic).
+    const existingTopic = findMatchingTopic(newCourse.topics as Topic[], importedTopic);
     if (existingTopic) {
       const mergedTopic = mergeTopicContents(existingTopic, importedTopic);
       const topicIndex = newCourse.topics.findIndex(
@@ -1404,11 +1409,7 @@ export const findOrphanedGroups = (
     if (!existingCourse) return;
 
     importedCourse.topics.forEach((importedTopic) => {
-      const matchedTopic =
-        existingCourse.topics.find((t) => t.id === importedTopic.id) ||
-        existingCourse.topics.find(
-          (t) => normalizeText(t.name) === normalizeText(importedTopic.name)
-        );
+      const matchedTopic = findMatchingTopic(existingCourse.topics, importedTopic);
 
       if (!matchedTopic) {
         importedTopic.subTopics.forEach((st) => {
@@ -1499,9 +1500,7 @@ export const buildReconciledImportData = (
     if (!existingCourse) return;
 
     course.topics = course.topics.filter((topic) => {
-      const matchedTopic =
-        existingCourse.topics.find((t) => t.id === topic.id) ||
-        existingCourse.topics.find((t) => normalizeText(t.name) === normalizeText(topic.name));
+      const matchedTopic = findMatchingTopic(existingCourse.topics, topic);
       if (!matchedTopic) return false;
 
       topic.subTopics = topic.subTopics.filter((st) => {
@@ -1551,11 +1550,15 @@ export const buildReconciledImportData = (
     const destDP = destST.dotPoints.find((d) => d.id === placement.dotPointId);
     if (!destDP) return;
 
-    let topic = targetCourse.topics.find(
-      (t) => t.id === destTopic.id || normalizeText(t.name) === normalizeText(destTopic.name)
-    );
+    let topic = findMatchingTopic(targetCourse.topics, destTopic);
     if (!topic) {
-      topic = { id: destTopic.id, name: destTopic.name, subTopics: [] };
+      // Carries the destination's year, or a Year 11 destination comes back as Year 12.
+      topic = {
+        id: destTopic.id,
+        name: destTopic.name,
+        ...(destTopic.year ? { year: destTopic.year } : {}),
+        subTopics: [],
+      };
       targetCourse.topics.push(topic);
     }
 
@@ -1662,6 +1665,11 @@ export const getLLMImportTemplate = () =>
 export interface SyllabusPreviewNode {
   name: string;
   subTopics: { name: string; dotPoints: string[] }[];
+  /**
+   * The year this topic belongs to, when its source says so (a NESA focus area
+   * does). Absent means the import's own year decides.
+   */
+  year?: SyllabusYear;
 }
 
 /** Coerce a single dot-point of unknown shape (string or { description|text|... }) to text. */
@@ -1772,7 +1780,10 @@ export const normalizeSyllabusStructure = (raw: unknown): SyllabusPreviewNode[] 
     }
 
     if (!name && subTopics.length === 0) continue;
-    result.push({ name: name || 'Untitled Topic', subTopics });
+    // Only a year the model named exactly is kept. Anything else is dropped rather
+    // than guessed at, and the import's own year then applies to the topic.
+    const year = topic.year === 'year11' || topic.year === 'year12' ? topic.year : undefined;
+    result.push({ name: name || 'Untitled Topic', subTopics, ...(year ? { year } : {}) });
   }
 
   return result;
@@ -1848,9 +1859,7 @@ const regenerateSubTopicIds = (st: SubTopic): void => {
 export const reconcileImportedTopicIds = (importedTopic: Topic, existingTopics: Topic[]): Topic => {
   const newTopic: Topic = safeClone(importedTopic);
 
-  const matchedTopic =
-    existingTopics.find((t) => t.id === newTopic.id) ??
-    existingTopics.find((t) => normalizeText(t.name) === normalizeText(newTopic.name));
+  const matchedTopic = findMatchingTopic(existingTopics, newTopic);
 
   if (!matchedTopic) {
     // Genuinely new topic: behave exactly like regenerateTopicIds.
