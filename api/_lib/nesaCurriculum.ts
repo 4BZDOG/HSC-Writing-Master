@@ -346,6 +346,31 @@ const siblingsOf = (
   return siblings;
 };
 
+/** The syllabus record's own linked items: every focus area, of both years, with its title. */
+const syllabusItemsOf = (data: unknown): Map<string, Obj> => {
+  const out = new Map<string, Obj>();
+  const linked = at(data, 'syllabus', 'linkedItems');
+  if (isObj(linked)) {
+    for (const [codename, item] of Object.entries(linked)) if (isObj(item)) out.set(codename, item);
+  }
+  return out;
+};
+
+/**
+ * Where the syllabus's other focus areas are listed. The page's `stageFocusAreas`
+ * holds only its own year's mainstream focus areas (the other year appears there
+ * only as Life Skills), so a Year 11 page offered no Year 12 focus area to add.
+ * The syllabus record's linked items hold both years; both lists are read, and
+ * duplicates fall out by path.
+ */
+const siblingSources = (data: unknown): unknown[] => {
+  const stage = at(data, 'stageFocusAreas');
+  const fromSyllabus = [...syllabusItemsOf(data).values()].filter((item) =>
+    ['focusarea', 'optionslist'].includes(typeOf(item))
+  );
+  return [...(Array.isArray(stage) ? stage : []), ...fromSyllabus];
+};
+
 const parsePage = (html: string, url: string): NesaPage | null => {
   const match = DATA_SCRIPT.exec(html);
   if (!match) return null;
@@ -436,7 +461,12 @@ const parsePage = (html: string, url: string): NesaPage | null => {
     outcomes,
     groups,
     electives,
-    siblings: siblingsOf(at(data, 'stageFocusAreas'), items, siteBaseOf(parsedUrl), subjectCode),
+    siblings: siblingsOf(
+      siblingSources(data),
+      new Map([...syllabusItemsOf(data), ...items]),
+      siteBaseOf(parsedUrl),
+      subjectCode
+    ),
   };
   if (optionsList !== undefined) page.optionsList = optionsList;
   return page;

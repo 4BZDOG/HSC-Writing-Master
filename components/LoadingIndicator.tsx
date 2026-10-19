@@ -51,6 +51,12 @@ interface LoadingIndicatorProps {
   messages?: string[];
   /** Explicit task type. Falls back to sniffing the message when omitted. */
   task?: AiTaskType;
+  /**
+   * A wait that is not an AI call (reading NESA's own page data). Keeps the card
+   * and its steps but leaves out the engine line and the margin notes, which
+   * told a teacher "Working with Gemini" while nothing was being asked of it.
+   */
+  noAi?: boolean;
 }
 
 /**
@@ -132,6 +138,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   band,
   messages,
   task,
+  noAi = false,
 }) => {
   // Without an estimate the steps are paced as a five-second job, but the card
   // does not SAY five seconds: several call sites leave it out, and "usually
@@ -151,7 +158,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   // A wait identified as AI work — an explicit task or a titled message. Plain
   // data loads that pass only custom step lines are not, and skip the notes,
   // the engine line and the aurora's lean.
-  const isAiWait = task !== undefined || !!message;
+  const isAiWait = !noAi && (task !== undefined || !!message);
 
   // The marking path routes through the 'reasoning' engine; lighter tasks
   // (parsing, suggestions) route through 'basic'. Read once per render — the

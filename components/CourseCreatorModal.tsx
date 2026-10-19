@@ -286,7 +286,8 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
               >
                 <option value="">
                   {courseName.trim()
-                    ? `From the name: ${SUBJECT_AREA_FULL_NAME[detectSubjectArea(courseName)]}`
+                    ? // The faculty's short name: the full one ran off a phone's select.
+                      `From the name: ${detectSubjectArea(courseName)}`
                     : 'From the course name'}
                 </option>
                 {SUBJECT_AREAS.filter((a) => a !== 'Other').map((a) => (
@@ -409,7 +410,13 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                         Add from list
                       </button>
                       {pasteNote && (
-                        <p role="status" className="t-label text-[rgb(var(--color-text-muted))]">
+                        <p
+                          // On a phone the note landed under the footer, out of sight
+                          // until scrolled to; bring it into view as it appears.
+                          ref={(el) => el?.scrollIntoView?.({ block: 'nearest' })}
+                          role="status"
+                          className="t-label text-[rgb(var(--color-text-muted))]"
+                        >
                           {pasteNote}
                         </p>
                       )}
