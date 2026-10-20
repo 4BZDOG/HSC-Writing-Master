@@ -369,6 +369,33 @@ body.ai-busy .aurora {
     transform: translateY(0);
   }
 }
+/* The nib blinks at the end of a word: lit as the pen lifts, then gone. Its
+   last frame is opacity 0, so the still picture has no nibs left on it. */
+@keyframes glyph-nib {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/* The reading scan line runs the height of the 80px glyph, fading in at the top
+   and out at the foot. The last frame is empty, so the reduced-motion still
+   frame does not leave a stray line across the page. */
+@keyframes glyph-scan {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  8%,
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(78px);
+    opacity: 0;
+  }
+}
 
 /*
  * The HSC results strip (components/HscResultsCard) draws in once, segment by

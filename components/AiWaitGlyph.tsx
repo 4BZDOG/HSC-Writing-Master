@@ -11,19 +11,27 @@ import type { AiTaskType } from './LoadingIndicator';
  * parsing a syllabus, and that said nothing about any of them. Each task now
  * has its own:
  *
- *  - marking  — the band ladder (the app's own mark) with a marker's caret
- *               hopping between bands, weighing where the response sits;
- *  - writing  — lines of handwriting drawing themselves across ruled paper;
- *  - reading  — lines of text with a highlighter picking out words;
+ *  - marking  — a response page being read: an accent eye-line sweeps along
+ *               each line in turn and ticks the margin when it reaches the end,
+ *               then a new page; under it the band ladder, with a marker's caret
+ *               hopping between bands, weighing where the page sits;
+ *  - writing  — pen ink drawing lines of handwriting across ruled paper, with a
+ *               nib blinking at the end of each word as the pen lifts;
+ *  - reading  — lines of text with a highlighter picking out words, and a scan
+ *               line working its way down the page;
  *  - anything else — the ladder lighting up band by band.
  *
- * The marking and writing glyphs are generated, not canned: the caret takes a
- * random walk and each page of handwriting is a new scribble, so a long wait
- * does not loop the same two seconds. Randomness only chooses shapes; the
- * motion itself is CSS (index.css, `glyph-*`), transform and dash-offset only.
+ * The marking, writing and reading glyphs are generated, not canned: the caret
+ * takes a random walk and each page is a new scribble or a new set of words, so
+ * a long wait does not loop the same two seconds. Randomness only chooses shapes;
+ * the motion itself is CSS (index.css, `glyph-*`), transform, opacity and
+ * dash-offset only.
  *
  * Under `prefers-reduced-motion` nothing ticks: each glyph renders its finished
- * picture once (the keyframes end on it — see the note in index.css).
+ * picture once (the keyframes end on it — see the note in index.css). The delays
+ * are dropped here as well (see `motion`), because index.css shortens each
+ * animation's duration but not its delay, and a still picture should not sit
+ * blank while it waits for them.
  */
 
 /**
@@ -37,9 +45,17 @@ export const WAIT_INK = 'rgb(var(--color-accent))';
 
 const BANDS = [1, 2, 3, 4, 5, 6] as const;
 
+const PAGE_WIDTH = 168;
+
 const prefersReducedMotion = (): boolean =>
   typeof window !== 'undefined' &&
   !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * The start time of an animation, in ms. Zero under reduced motion, so the
+ * finished picture is there at once rather than after the last delay.
+ */
+const motion = (ms: number): number => (prefersReducedMotion() ? 0 : Math.round(ms));
 
 /**
  * A counter that advances after a delay chosen afresh each time — a steady
@@ -69,6 +85,109 @@ const useIrregularTick = (minMs: number, maxMs: number): number => {
 /* ------------------------------------------------------------------ marking */
 
 /**
+ * The page the marker reads: three lines of word-shaped bars, 13px apart, with
+ * an eye-line of accent that sweeps each line in turn. Rows stop 18px short of
+ * the right edge, and that margin is where each line's tick is drawn once read.
+ */
+const MARK_ROWS = [7, 20, 33];
+const PAGE_LEFT = 10;
+const PAGE_RIGHT = 150;
+const TICK_X = 156;
+const SWEEP_MS = 900;
+/** A beat for the page to settle before the eye starts along its first line. */
+const SWEEP_START_MS = 300;
+
+interface MarkWord {
+  x: number;
+  w: number;
+}
+
+/** Words of random length laid along each line, with gaps between them. */
+const markingPage = (): MarkWord[][] =>
+  MARK_ROWS.map(() => {
+    const words: MarkWord[] = [];
+    let x = PAGE_LEFT;
+    while (x < PAGE_RIGHT - 8) {
+      const w = Math.min(PAGE_RIGHT - x, 10 + Math.random() * 16);
+      words.push({ x, w });
+      x += w + 4 + Math.random() * 3;
+    }
+    return words;
+  });
+
+const MarkingPage: React.FC<{ accent: string }> = ({ accent }) => {
+  // A new page each time this turns over, read again from the top.
+  const page = useIrregularTick(4200, 5000);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const rows = useMemo(markingPage, [page]);
+  return (
+    <svg
+      key={page}
+      width={PAGE_WIDTH}
+      height="40"
+      viewBox={`0 0 ${PAGE_WIDTH} 40`}
+      className="absolute top-0 left-0"
+      aria-hidden="true"
+      style={{ animation: 'glyph-settle 300ms ease-out' }}
+    >
+      {rows.map((words, r) =>
+        words.map((word, i) => (
+          <rect
+            key={`${r}-${i}`}
+            x={word.x}
+            y={MARK_ROWS[r] - 2.5}
+            width={word.w}
+            height="5"
+            rx="2.5"
+            className="fill-slate-300 dark:fill-slate-600"
+          />
+        ))
+      )}
+      {/* Each line is read in turn: the translucent eye-line sweeps it, and the
+          tick is drawn in the margin just as the sweep reaches the end. The
+          sweep and the tick are both left in their final state (`forwards`), so
+          a read line stays ticked until the page turns over. */}
+      {MARK_ROWS.map((y, r) => (
+        <g key={`read-${r}`}>
+          <rect
+            x={PAGE_LEFT - 2}
+            y={y - 5.5}
+            width={PAGE_RIGHT - PAGE_LEFT + 4}
+            height="11"
+            rx="2"
+            fillOpacity="0.22"
+            style={{
+              fill: accent,
+              transformBox: 'fill-box',
+              transformOrigin: 'left',
+              transform: 'scaleX(0)',
+              animation: `glyph-swipe ${SWEEP_MS}ms ${motion(SWEEP_START_MS + r * SWEEP_MS)}ms linear forwards`,
+            }}
+          />
+          <path
+            d="M 0 4 L 3 7 L 9 0"
+            transform={`translate(${TICK_X} ${y - 3.5})`}
+            pathLength={1}
+            fill="none"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray="1 1"
+            style={{
+              // A style, not a presentation attribute, for the same reason as the
+              // handwriting: the ink is a theme token.
+              stroke: accent,
+              strokeDashoffset: 1,
+              animation: `glyph-write 300ms ${motion(SWEEP_START_MS + (r + 1) * SWEEP_MS)}ms linear forwards`,
+            }}
+          />
+        </g>
+      ))}
+    </svg>
+  );
+};
+
+/**
  * Next rung for the marker's caret: one or two bands either way, leaning back
  * towards the middle of the ladder so it hovers where most responses land and
  * visits the ends now and then — the look of someone weighing, not scanning.
@@ -80,7 +199,12 @@ const nextBand = (from: number): number => {
   return to === from ? Math.max(1, Math.min(6, from - step)) : to;
 };
 
-const WeighingLadder: React.FC = () => {
+/**
+ * The marking picture: the page being read, with the band ladder and its caret
+ * beneath it. The page sits in the top 40px, the caret hovers just under it, and
+ * the ladder takes the foot of the 92px box.
+ */
+const MarkingScene: React.FC<{ accent: string }> = ({ accent }) => {
   const tick = useIrregularTick(520, 980);
   const [band, setBand] = useState(4);
   useEffect(() => {
@@ -89,11 +213,12 @@ const WeighingLadder: React.FC = () => {
   const still = tick === 0 && prefersReducedMotion();
 
   return (
-    <div className="relative w-[168px] pt-7">
-      {/* The caret rides above the ladder to the rung under consideration.
+    <div className="relative w-[168px] h-[92px]">
+      <MarkingPage accent={accent} />
+      {/* The caret sits above the ladder at the rung under consideration.
           Keyed on the tick so each move replays its little hop. */}
       <div
-        className="absolute top-0 left-0 w-[28px] flex justify-center transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+        className="absolute left-0 top-[46px] w-[28px] flex justify-center transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
         style={{ transform: `translateX(${(band - 1) * 28}px)` }}
       >
         <svg
@@ -108,7 +233,7 @@ const WeighingLadder: React.FC = () => {
           <circle cx="7" cy="5.5" r="2.2" fill={getBandHex(band)} />
         </svg>
       </div>
-      <div className="flex gap-1">
+      <div className="absolute left-0 top-[74px] w-[168px] flex gap-1">
         {BANDS.map((b) => {
           const lit = still || b === band;
           return (
@@ -131,16 +256,21 @@ const WeighingLadder: React.FC = () => {
 /* ------------------------------------------------------------------ writing */
 
 const RULES = [22, 46, 70];
-const PAGE_WIDTH = 168;
 
 /** Milliseconds of pen travel per pixel of handwriting. */
 const INK_MS_PER_PX = 7;
+
+/** How long each nib blink takes to fade, once the pen has lifted from a word. */
+const NIB_MS = 420;
 
 interface Word {
   d: string;
   /** Where the word starts, as ms from the top of the page. */
   delay: number;
   duration: number;
+  /** Where the pen lifts at the end of the word, in page units. */
+  endX: number;
+  baseline: number;
 }
 
 const f = (n: number): string => n.toFixed(1);
@@ -197,7 +327,7 @@ const scribblePage = (): Word[] => {
         x += w;
       }
       const duration = (x - start) * INK_MS_PER_PX;
-      words.push({ d, delay: clock, duration });
+      words.push({ d, delay: clock, duration, endX: x, baseline });
       clock += duration + 60; // the pen lifting between words
       x += 5 + Math.random() * 4;
     }
@@ -246,26 +376,41 @@ const WritingPage: React.FC<{ accent: string }> = ({ accent }) => {
       />
       <g key={page} style={{ animation: 'glyph-settle 300ms ease-out' }}>
         {/* A forward slant, as a hand writes. An SVG attribute rather than CSS
-            so it does not fight the settle animation for `transform`. */}
+            so it does not fight the settle animation for `transform`. The nibs
+            sit in this group too, so they lean with the strokes they belong to. */}
         <g transform="skewX(-10) translate(8 0)">
           {words.map((word, i) => (
-            <path
-              key={i}
-              d={word.d}
-              pathLength={1}
-              fill="none"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeDasharray="1 1"
-              style={{
-                // A style, not a presentation attribute: an attribute does not
-                // take `var()`, and the ink is a theme token.
-                stroke: accent,
-                strokeDashoffset: 1,
-                animation: `glyph-write ${Math.round(word.duration)}ms ${Math.round(word.delay)}ms linear forwards`,
-              }}
-            />
+            <g key={i}>
+              <path
+                d={word.d}
+                pathLength={1}
+                fill="none"
+                strokeWidth="2.1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeDasharray="1 1"
+                style={{
+                  // A style, not a presentation attribute: an attribute does not
+                  // take `var()`, and the ink is a theme token.
+                  stroke: accent,
+                  strokeDashoffset: 1,
+                  animation: `glyph-write ${Math.round(word.duration)}ms ${motion(word.delay)}ms linear forwards`,
+                }}
+              />
+              {/* The nib: a dot that blinks as the pen lifts from the word. It is
+                  at opacity 0 outside that blink (no fill mode), so it is only
+                  seen at the end of each word. */}
+              <circle
+                cx={word.endX}
+                cy={word.baseline}
+                r="2.2"
+                style={{
+                  fill: accent,
+                  opacity: 0,
+                  animation: `glyph-nib ${NIB_MS}ms ease-out ${motion(word.delay + word.duration)}ms`,
+                }}
+              />
+            </g>
           ))}
         </g>
       </g>
@@ -319,7 +464,7 @@ const HighlightedText: React.FC<{ accent: string }> = ({ accent }) => {
                   transformBox: 'fill-box',
                   transformOrigin: 'left',
                   transform: 'scaleX(0)',
-                  animation: `glyph-swipe 380ms ${400 + r * 700 + (word.x / PAGE_WIDTH) * 500}ms ease-out forwards`,
+                  animation: `glyph-swipe 380ms ${motion(400 + r * 700 + (word.x / PAGE_WIDTH) * 500)}ms ease-out forwards`,
                 }}
               />
             )}
@@ -334,6 +479,22 @@ const HighlightedText: React.FC<{ accent: string }> = ({ accent }) => {
           </g>
         ))
       )}
+      {/* The scan line: an accent line with a faint band above it, working down
+          the page once per cycle. It fades in at the top and out at the foot, so
+          its last frame is empty. The base opacity is zero as well, because the
+          animation has no fill mode: once a reduced-motion run has finished, the
+          group falls back to its resting style, and that must be invisible too. */}
+      <g style={{ animation: 'glyph-scan 2600ms ease-in-out infinite', opacity: 0 }}>
+        <rect
+          x="0"
+          y="-10"
+          width={PAGE_WIDTH}
+          height="10"
+          fillOpacity="0.12"
+          style={{ fill: accent }}
+        />
+        <rect x="0" y="0" width={PAGE_WIDTH} height="2" style={{ fill: accent }} />
+      </g>
     </svg>
   );
 };
@@ -371,7 +532,7 @@ const AiWaitGlyph: React.FC<AiWaitGlyphProps> = ({ task, accent, className }) =>
     aria-hidden="true"
   >
     {task === 'evaluation' ? (
-      <WeighingLadder />
+      <MarkingScene accent={accent} />
     ) : task === 'generation' ? (
       <WritingPage accent={accent} />
     ) : task === 'enrichment' ? (
