@@ -2573,6 +2573,41 @@ check:build` now runs them locally, and `test:all` runs it.
   was ruled for three lines. The body is now a flex column, and the grid grows to fill
   it.
 
+### 90. The workspace cards shook at the window's foot, on unstyled bars — FIXED (#426)
+
+- **Wrong.** In desktop Chrome a new line at the foot of the writing card painted a
+  frame before the card scrolled to it, the text re-wrapped when a classic scrollbar
+  appeared, and in Focus Mode or one column the writing card grew past the window.
+  Both card bodies showed Chrome's default bar, light grey in the dark theme.
+- **Measured.** Per frame in Chromium with classic 15px scrollbars (Playwright hides
+  them by default, which is why no test saw this): the body scrolled one frame after
+  each line, and its width fell 780→765 when it began to scroll.
+- **Fixed.** The caret follow runs before paint, both bodies reserve their gutter, the
+  free writing card stops at the window, and `scrollbar-color` is set once on the root
+  from the theme's ink, so every scroller follows the theme.
+
+### 91. The header mark read as a signal meter — FIXED
+
+- **Wrong.** Finding 8 left the header mark's proportion open, and a screenshot
+  closed it: six rungs 32px across in a 48px ink tile are 4px wide and 8px tall, so
+  with the tallest last and a pin over it the scale stood up as bars. The tile was
+  also the one heavy black block on the white light-theme rail, and the band-scale
+  hairline along the bar's edge drew the same device a second time. On sign-in,
+  "BAND 6" at 36px with `tracking-tighter` set the D against the 6, the fault the
+  header's wordmark had already been corrected for, and the caret's drop ran while
+  its block was still fading in, so the page's one moment was half seen.
+- **Measured.** By eye, at 1440 and 390 wide in both themes, before and after; the
+  drop by a capture 250ms into the page.
+- **Fixed.** The header takes the sign-in lockup at rail size: the scale laid flat
+  over the wordmark, exactly as wide as the word, with the sub-label beside it on a
+  rule. The hairline is gone, so the scale appears once. Under 360px, where the
+  wordmark steps aside, the scale carries the brand alone. The favicon and the PDF
+  letterhead keep the tile: a tab and a letterhead want a square. Sign-in takes
+  `tracking-tight`, and the drop waits 280ms on its first frame, a wait that reduced
+  motion removes.
+- **Why nothing caught it.** The tests checked that the tile was ink and the rungs
+  were band colours, both true. What a mark reads as only shows in a picture.
+
 ### What the guards say now
 
 - **`npm run check:build`** would have caught 82 locally. It is in `test:all`.

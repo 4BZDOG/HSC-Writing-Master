@@ -32,9 +32,9 @@ import { getBandHex } from '../utils/renderUtils';
  * AuthBrand writes its own wordmark, and not `dark:`-first. The `dark:` variant
  * keys on a `dark` class on <html> that App.tsx sets once a user is signed in;
  * the signed-out screens never set it, so there a `dark:` partner did not apply and the caret
- * went invisible on the dark sign-in page. On the dark header tile it is white
- * in both themes, and `onInk` says so. Its dot is the Band 6 colour, as it is in
- * the marking glyph.
+ * went invisible on the dark sign-in page. On a dark ink tile it is white in both
+ * themes, and `onInk` says so. Its dot is the Band 6 colour, as it is in the
+ * marking glyph.
  *
  * See `projectDocs/Plan-FrontendDesignReview.md`, finding 8.
  */
@@ -49,11 +49,16 @@ const TOP_BAND = 6;
  * number to the stylesheet.
  *
  * - `hero` is the sign-in page's lockup, 224px across.
- * - `mark` is the header tile. It has to survive being 32px across inside a
- *   40px tile and a 48px one. The rungs are 8px (rung 6 is 14px) and the caret an
+ * - `mark` is the tile proportion the favicon and the PDF letterhead are drawn
+ *   to (pdf/brand.ts). The header used it until it took `lockup`. It has to
+ *   survive being 32px across inside a 40px tile and a 48px one. The rungs are 8px (rung 6 is 14px) and the caret an
  *   8px teardrop: at 5px the strip sat low in an expanse of ink and read as a
  *   row of dots, where the favicon, drawn to fill its tile, read as the mark.
  * - `compact` is the 112px ladder a local data read shows while it waits.
+ * - `lockup` is the header's: the scale laid flat over the wordmark, `fluid` so
+ *   it is exactly as wide as the word. The rungs are 4px tall, so at the
+ *   wordmark's width they are wider than they are tall and read as a scale,
+ *   which the 4px-wide `mark` rungs in a tile did not.
  */
 const LAYOUT = {
   hero: { width: 224, gap: 8, rung: 12, tall: 22, caret: { w: 14, h: 16 }, caretGap: 6, hop: 8 },
@@ -69,8 +74,9 @@ const ladderStep = (layout: Layout): number =>
   (layout.width - 5 * layout.gap) / BAND_RUNGS.length + layout.gap;
 
 interface BandLadderMarkProps {
-  /** `hero` is the login page's full-width lockup; `mark` is the header tile;
-   *  `compact` is the local data read's wait (DataLoading). */
+  /** `hero` is the login page's full-width lockup; `lockup` is the header's;
+   *  `mark` is the tile proportion; `compact` is the local data read's wait
+   *  (DataLoading). */
   size?: keyof typeof LAYOUT;
   /** The mark sits on the dark ink tile, so the caret is white in both themes.
    *  Everywhere else the caret is the page's own ink. */
