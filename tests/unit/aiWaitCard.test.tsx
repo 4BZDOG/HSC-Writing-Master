@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
-import { render, screen, cleanup, act } from '@testing-library/react';
+import { render, screen, cleanup, act, fireEvent } from '@testing-library/react';
 import LoadingIndicator from '../../components/LoadingIndicator';
 import EvaluationProgressBar from '../../components/EvaluationProgressBar';
 import AiWaitGlyph, { WAIT_INK } from '../../components/AiWaitGlyph';
@@ -10,6 +10,7 @@ import { VERB_TIPS, WAIT_TIPS, waitNotes } from '../../utils/waitTips';
 import type { AiTaskType } from '../../components/LoadingIndicator';
 import { HSC_RESULTS_FACTS } from '../../data/hscResultsFacts';
 import { acquireAiBusy } from '../../utils/aiBusySignal';
+import { getBandHex } from '../../utils/renderUtils';
 
 /**
  * The AI wait card, as a reader meets it.
@@ -194,9 +195,19 @@ describe('the command verb tip', () => {
       .filter((note) => note.kind === 'advice')
       .map((note) => note.text);
 
-  it('shows the describe tip first, and no other verb’s tip', () => {
+  it('holds the describe tip back until the quick check is answered, and no other verb’s tip', () => {
     render(<EvaluationProgressBar verb="DESCRIBE" />);
-    expect(document.querySelector('blockquote')?.textContent).toBe(VERB_TIPS.describe);
+    // The margin note is a blockquote, but it must not be the describe tip: that
+    // tip is the reason the quick check gives once the student has answered.
+    expect(document.querySelector('blockquote')?.textContent).not.toBe(VERB_TIPS.describe);
+    expect(screen.queryByText(VERB_TIPS.describe)).toBeNull();
+
+    // The first question is about Describe; its correct answer is the meaning.
+    expect(screen.getByText('What does “Describe” ask you to do?')).toBeTruthy();
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Give the characteristics and features of something.' })
+    );
+    expect(screen.getByText(VERB_TIPS.describe)).toBeTruthy();
 
     const texts = adviceTexts('evaluation', 'DESCRIBE');
     expect(texts[0]).toBe(VERB_TIPS.describe);
@@ -348,5 +359,42 @@ describe('the wait ink', () => {
 
     const figure = container.querySelector('figure') as HTMLElement;
     expect(figure.style.borderColor).toContain('color-mix(in srgb, rgb(var(--color-accent)) 40%');
+  });
+});
+
+describe('the quick check and the card’s parts', () => {
+  it('shows the quick check on a marking wait, and not on a generation one', () => {
+    const { unmount } = render(<LoadingIndicator task="evaluation" message="Marking" />);
+    expect(screen.getByText('Quick check')).toBeTruthy();
+    unmount();
+
+    render(<LoadingIndicator task="generation" message="Writing" />);
+    expect(screen.queryByText('Quick check')).toBeNull();
+  });
+
+  it('opens the marking wait on a question about the verb being marked', () => {
+    render(<EvaluationProgressBar verb="describe" />);
+    expect(screen.getByText('What does “Describe” ask you to do?')).toBeTruthy();
+  });
+
+  it('keeps the clock outside the live region, so a tick is never announced', () => {
+    const { container } = render(<LoadingIndicator task="generation" message="Writing" />);
+    const clock = container.querySelector('.ai-wait-clock');
+    expect(clock).not.toBeNull();
+    expect(screen.getByRole('status').contains(clock)).toBe(false);
+  });
+
+  it('draws a band card’s top strip in that band’s colour', () => {
+    const { container } = render(
+      <LoadingIndicator task="generation" message="Rewriting at Band 5" band={5} />
+    );
+    const card = container.querySelector('.ai-wait-card') as HTMLElement;
+
+    // Read the expected colour back through a probe element, so the comparison
+    // uses the same normalised form the browser gives the card's inline style.
+    const probe = document.createElement('div');
+    probe.style.borderTopColor = getBandHex(5);
+    expect(probe.style.borderTopColor).not.toBe('');
+    expect(card.style.borderTopColor).toBe(probe.style.borderTopColor);
   });
 });

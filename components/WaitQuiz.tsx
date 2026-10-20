@@ -134,7 +134,9 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
     if (i === picked) {
       return `${base} ${align} cursor-default border-red-500/50 bg-red-500/10 text-red-700 dark:text-red-300`;
     }
-    return `${base} ${align} cursor-default border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 opacity-60`;
+    // Dimmed by colour, not opacity: opacity composites the text towards the
+    // background and drops its contrast well below the undimmed tone's.
+    return `${base} ${align} cursor-default border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400`;
   };
 
   return (

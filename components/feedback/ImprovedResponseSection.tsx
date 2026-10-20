@@ -119,6 +119,9 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
             ]}
             duration={12}
             band={exemplarBand}
+            // A student's wait, like marking: the quick check gives them
+            // something to answer while their answer is lifted.
+            quiz
           />
         </AiBusyOverlay>
 

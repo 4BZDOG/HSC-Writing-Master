@@ -256,6 +256,21 @@ describe('WaitQuiz', () => {
     fireEvent.click(choices()[deck[0].answerIndex]);
     expect(document.activeElement).not.toBe(nextButton());
   });
+
+  it('moves focus to the new question’s first choice when Next is pressed from inside the card', () => {
+    renderQuiz();
+    const first = choices()[0];
+    first.focus();
+    fireEvent.click(first);
+
+    nextButton().focus();
+    fireEvent.click(nextButton());
+
+    // The new question is a fresh group, so the focus must land inside it, on its
+    // first choice, rather than fall to the page when Next unmounts.
+    expect(screen.getByRole('group').contains(document.activeElement)).toBe(true);
+    expect(document.activeElement).toBe(choices()[0]);
+  });
 });
 
 describe('WaitQuiz when sessionStorage throws', () => {

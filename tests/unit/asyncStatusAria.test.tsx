@@ -53,16 +53,25 @@ describe('BackgroundTaskIndicator live-region semantics (F6)', () => {
 describe('LoadingIndicator single live region (F8)', () => {
   afterEach(cleanup);
 
-  it('renders exactly one aria-live region and not on the phase list', () => {
+  it('renders exactly one aria-live region outside the quiz, and not on the step list', () => {
+    // The quick check has its own polite answer line on a marking wait, so the count leaves the quiz out.
     const { container } = render(<LoadingIndicator message="Marking response" task="evaluation" />);
 
-    expect(container.querySelectorAll('[aria-live]')).toHaveLength(1);
+    const outsideQuiz = Array.from(container.querySelectorAll('[aria-live]')).filter(
+      (el) => !el.closest('.ai-wait-quiz')
+    );
+    expect(outsideQuiz).toHaveLength(1);
+
+    const region = screen.getByRole('status');
+    expect(region.getAttribute('aria-live')).toBe('polite');
+  });
+
+  it('keeps the step list off the live region on a wait without the quiz', () => {
+    // The step timeline lives on a generation wait now, since a marking wait shows the quiz instead.
+    const { container } = render(<LoadingIndicator message="Writing" task="generation" />);
 
     const list = container.querySelector('ul');
     expect(list).not.toBeNull();
     expect(list?.hasAttribute('aria-live')).toBe(false);
-
-    const region = screen.getByRole('status');
-    expect(region.getAttribute('aria-live')).toBe('polite');
   });
 });
