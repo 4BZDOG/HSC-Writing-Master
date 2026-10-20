@@ -11,7 +11,7 @@
 //   muted / ink    text
 // A chart carries no rose: nothing on it is a thing to fix.
 
-import { bandColor, COLORS } from './buildBlocks';
+import { bandColor, bandInkColor, COLORS } from './buildBlocks';
 import { drawDisplayLine, drawLines, tint, TextStyleCtx } from './helpers';
 import { BAR_LIST, LINE_CHART, MeasuredBlock, PANEL, STAT_STRIP, TABLE } from './types';
 import type { JsPdfLike } from './types';
@@ -63,8 +63,9 @@ export const drawReportBlock = (
 
 /**
  * The result strip: one framed box across the page, hairline dividers between
- * the cells, a display label over each value. A value takes its cell's band colour
- * when it has one — the attainment — and ink otherwise.
+ * the cells, a display label over each value. A value takes its cell's band when it
+ * has one — the attainment — in the band's ink step, because it is text on paper,
+ * and ink otherwise.
  */
 const drawStatStrip = (
   doc: JsPdfLike,
@@ -110,7 +111,7 @@ const drawStatStrip = (
       y: y + cell.valueBaseline,
       fontPt: layout.valuePt,
       style: 'bold',
-      color: placeholder ? COLORS.dim : typeof band === 'number' ? bandColor(band) : COLORS.ink,
+      color: placeholder ? COLORS.dim : typeof band === 'number' ? bandInkColor(band) : COLORS.ink,
     });
     if (cell.hintLines.length) {
       drawLines(doc, cell.hintLines, {

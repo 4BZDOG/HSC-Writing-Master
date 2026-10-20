@@ -43,6 +43,7 @@ const fakeDoc = () => {
     setFillColor: chain(),
     setLineWidth: chain(),
     setLineDashPattern: chain(),
+    triangle: chain(),
     text: chain(),
     line: chain(),
     rect: chain(),

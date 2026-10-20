@@ -3,13 +3,13 @@ import { signIn, clearOnboarding, openFirstQuestion, EVALUATE_BUTTON } from './s
 import { findClippedText, describeClipped } from './support/clipping';
 
 /**
- * The marking report is a document with a margin, not a column in an empty card.
- *
- * Bounding the column at `3xl` fixed a 142-character line and left ~400px of
- * nothing beside it on a desktop. From `xl` up the score placard and the metrics
- * move into that space and the prose narrows behind them. Below `xl` nothing
- * changes, and that half matters as much: the aside is the flex column's first
- * child there, so a student on a phone still meets the mark before the report.
+ * The marking report fills the panel it sits in, at every width. It has no
+ * reading measure: the text runs to the edge of its cards (DesignSpec §4,
+ * "Measure", 2026-10-20). From `xl` up the score placard and the metrics still
+ * move into a margin beside the reading column, so the report stays two columns,
+ * and the prose takes whatever width the margin leaves. Below `xl` there is one
+ * column, and the aside is the flex column's first child there, so a student on a
+ * phone still meets the mark before the report.
  *
  * Geometry, not classes. What only a browser can say is whether the two columns
  * actually sit side by side, whether the prose got shorter, and whether anything
@@ -35,7 +35,7 @@ const MARKED = {
   ],
 };
 
-/** Column geometry, the prose measure, and anything overflowing its box. */
+/** Column geometry, and anything overflowing its box. */
 /** The marking report itself — the clipping sweep is scoped to it here. */
 const MAIN = '.EvaluationDisplay';
 
@@ -49,29 +49,16 @@ const layout = (page: Page) =>
 
     const a = aside.getBoundingClientRect();
     const m = main.getBoundingClientRect();
-
-    // Characters per line, from the element's own computed font rather than an
-    // assumed average width — the interface face has changed once already.
-    // The longest paragraph in the reading column is the measure the reader actually meets.
-    const prose = Array.from(main.querySelectorAll('p')).sort(
-      (a, b) => (b.textContent || '').length - (a.textContent || '').length
-    )[0] as HTMLElement | undefined;
-    let chars: number | null = null;
-    if (prose) {
-      const probe = document.createElement('span');
-      probe.style.cssText = `position:absolute;visibility:hidden;white-space:pre;font:${getComputedStyle(prose).font}`;
-      probe.textContent = 'abcdefghijklmnopqrstuvwxyz abcdefghijklmnopqrstuvwxyz';
-      document.body.appendChild(probe);
-      chars = Math.round(prose.clientWidth / (probe.getBoundingClientRect().width / 53));
-      probe.remove();
-    }
+    const r = root.getBoundingClientRect();
 
     return {
       sideBySide: a.top < m.bottom && a.left >= m.right - 1,
       asideAbove: a.bottom <= m.top + 1,
       mainWidth: Math.round(m.width),
       asideWidth: Math.round(a.width),
-      chars,
+      reportWidth: Math.round(r.width),
+      reportRight: Math.round(r.right),
+      asideRight: Math.round(a.right),
       docWidth: document.documentElement.scrollWidth,
     };
   });
@@ -121,7 +108,7 @@ test.describe('marking report column', () => {
       expect(l!.docWidth, `${width}: horizontal overflow`).toBeLessThanOrEqual(width);
     }
 
-    // From xl: two columns, and the line is shorter for it.
+    // From xl: two columns, the margin beside the reading column, and the report filled.
     for (const width of [1280, 1440, 1920]) {
       await page.setViewportSize({ width, height: 950 });
       await page.waitForTimeout(500);
@@ -130,10 +117,17 @@ test.describe('marking report column', () => {
       // The margin has to be wide enough for the placard's mark and the two
       // metric cards side by side; 352px (22rem) is what it was measured at.
       expect(l!.asideWidth, `${width}: margin too narrow`).toBeGreaterThanOrEqual(320);
-      expect(l!.mainWidth, `${width}: reading column too wide`).toBeLessThanOrEqual(700);
-      // 106 characters before the change, 86 after. The skill asks for 80; this
-      // is the closest the layout reaches without a label losing its word.
-      expect(l!.chars, `${width}: line too long`).toBeLessThanOrEqual(92);
+      // The report fills its panel: the margin sits at the report's right edge,
+      // and the reading column and the margin together, with the 2rem gap between
+      // them (`xl:gap-x-8`), span the report's full width. No measure caps either.
+      expect(
+        Math.abs(l!.asideRight - l!.reportRight),
+        `${width}: margin is not at the report's edge`
+      ).toBeLessThanOrEqual(1);
+      expect(
+        l!.mainWidth + l!.asideWidth + 32,
+        `${width}: reading column does not fill the report`
+      ).toBeGreaterThanOrEqual(l!.reportWidth - 2);
       const clipped = await findClippedText(page, MAIN);
       expect(clipped, `${width}: clipped text\n${describeClipped(clipped)}`).toEqual([]);
       expect(l!.docWidth, `${width}: horizontal overflow`).toBeLessThanOrEqual(width);

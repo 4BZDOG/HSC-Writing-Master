@@ -23,12 +23,12 @@ describe('BootSplash', () => {
     expect(screen.queryByRole('img')).toBeNull();
   });
 
-  it('shows the band ladder and a status line once the restore is slow', () => {
+  it('shows the band scale and a status line once the restore is slow', () => {
     vi.useFakeTimers();
     render(<BootSplash />);
     act(() => void vi.advanceTimersByTime(400));
     expect(screen.getByRole('status').textContent).toBe('Opening Band 6…');
-    expect(screen.getByRole('img', { name: /band ladder/i })).toBeTruthy();
+    expect(screen.getByRole('img', { name: /band scale/i })).toBeTruthy();
   });
 
   it('leaves no timer behind when the restore finishes first', () => {

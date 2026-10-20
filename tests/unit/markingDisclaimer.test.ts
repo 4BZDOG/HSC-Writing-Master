@@ -18,6 +18,11 @@ const makeDoc = () => {
     setFont: vi.fn().mockReturnThis(),
     setFontSize: vi.fn().mockReturnThis(),
     setTextColor: vi.fn().mockReturnThis(),
+    // The footer's bare brand mark: its rungs and caret.
+    setFillColor: vi.fn().mockReturnThis(),
+    rect: vi.fn().mockReturnThis(),
+    triangle: vi.fn().mockReturnThis(),
+    circle: vi.fn().mockReturnThis(),
     text: vi.fn((text: string | string[], x: number, y: number) => {
       texts.push({ text: String(text), x, y });
       return doc;

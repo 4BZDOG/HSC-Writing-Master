@@ -15,7 +15,10 @@ interface AiBusyOverlayProps {
   rounded?: string;
   /** Stacking context of the covered surface. Defaults above modal content. */
   z?: string;
-  /** Extra width constraint for the card. Defaults to a comfortable column. */
+  /**
+   * Width of the inner column the card sits in. Defaults to a comfortable column; a
+   * quiz wait passes a wider one, so the card can split into two columns on a desktop box.
+   */
   maxWidth?: string;
 }
 

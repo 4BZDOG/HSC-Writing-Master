@@ -61,6 +61,7 @@ const recordingDoc = () => {
     setFillColor: chain(),
     setLineWidth: chain(),
     setLineDashPattern: chain(),
+    triangle: chain(),
     text: (t: string | string[]) => {
       const value = Array.isArray(t) ? t.join(' ') : String(t);
       painted.push({ text: value, style, color });

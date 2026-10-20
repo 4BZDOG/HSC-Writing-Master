@@ -10,10 +10,13 @@ import {
   INLINE_UNDERLINE,
   InlineSpan,
   JsPdfLike,
+  LETTERHEAD,
   MM_PER_PT,
   TextMeasurer,
 } from './types';
 import { drawIcon, type IconName } from './icons';
+import { brandMarkHeightMm, drawBrandMark, FOOTER_MARK } from './brand';
+import { COLORS } from './buildBlocks';
 import { containsEmoji, degradeToAscii, toText } from './text';
 
 export { toText, degradeToAscii, containsEmoji };
@@ -383,11 +386,11 @@ const HEAD = {
  * Reserved header height (mm) for a given scale — kept in sync with
  * `drawRunningHead`.
  *
- * One compact line on EVERY page, including the first. The masthead — the
- * report's title, its subtitle and the name/class/date rules — used to be page
- * chrome, which meant its ~20mm was reserved on every page and reprinted
- * verbatim on every page. It is content, so it flows as content (see the
- * `masthead` block), and pages two and after get that space back.
+ * One compact band on EVERY page, including the first. The masthead — the
+ * report's title, its subtitle and the name/class/date rules — is content, so it
+ * flows as content (see the `masthead` block), and pages two and after get that
+ * space back. On page one the band also carries the letterhead, which is why its
+ * tile is no taller than this band plus a hair (`LETTERHEAD.stripTopBaseMm`).
  */
 export const headerReserve = (pScale: number): number =>
   (HEAD.linePt * MM_PER_PT * 1.2 + HEAD.ruleGapMm + HEAD.bottomGapMm) * pScale;
@@ -409,7 +412,48 @@ export interface RunningHeadOptions extends TextStyleCtx {
    * two sizes, so on page 1 the head is the rule and the context line alone.
    */
   showTitle?: boolean;
+  /**
+   * Page 1 only: the letterhead takes the left of the band, where the running
+   * head's title would be on later pages. The band strip closes it, drawn by the
+   * masthead at the rule's place.
+   */
+  letterhead?: boolean;
 }
+
+/**
+ * The letterhead: the tile mark, then "BAND 6" beside it with "HSC Writing Coach"
+ * beneath. It stands in the header band, from the top margin down, and is kept
+ * small on purpose: it is the product, not the report's title.
+ */
+const drawLetterhead = (doc: JsPdfLike, opts: RunningHeadOptions): void => {
+  const { pScale, margin } = opts;
+  const tile = LETTERHEAD.tileBaseMm * pScale;
+  drawBrandMark(doc, margin, margin, tile, { onTile: true });
+
+  const wordPt = LETTERHEAD.wordPt * pScale;
+  const tagPt = LETTERHEAD.tagPt * pScale;
+  const wordCap = wordPt * MM_PER_PT * 0.72;
+  const tagCap = tagPt * MM_PER_PT * 0.72;
+  const wordGap = LETTERHEAD.wordGapBaseMm * pScale;
+  // The two lines are centred on the tile, not hung from its top.
+  const wordBase = margin + (tile - (wordCap + wordGap + tagCap)) / 2 + wordCap;
+  const textX = margin + tile + LETTERHEAD.textGapBaseMm * pScale;
+  drawDisplayLine(doc, 'BAND 6', {
+    ...opts,
+    x: textX,
+    y: wordBase,
+    fontPt: wordPt,
+    color: COLORS.ink,
+  });
+  drawLines(doc, ['HSC Writing Coach'], {
+    ...opts,
+    x: textX,
+    y: wordBase + wordGap + tagCap,
+    fontPt: tagPt,
+    style: 'normal',
+    color: opts.muted,
+  });
+};
 
 /** The one-line head every page carries: what this is, and which question. */
 export const drawRunningHead = (doc: JsPdfLike, opts: RunningHeadOptions): void => {
@@ -440,8 +484,10 @@ export const drawRunningHead = (doc: JsPdfLike, opts: RunningHeadOptions): void 
   }
 
   // The rule separates a running head from the content under it. On page one
-  // there is no running head to separate — the masthead is the content — so the
-  // band carries the ident line alone and the page opens on the title.
+  // there is no running head to separate — the letterhead is the band, and the
+  // brand strip the masthead draws beneath it is the rule — so the band carries
+  // the letterhead and the context line alone.
+  if (opts.letterhead) drawLetterhead(doc, opts);
   if (opts.showTitle !== false) {
     const ruleY = y + HEAD.ruleGapMm * pScale;
     doc.setDrawColor(opts.accent[0], opts.accent[1], opts.accent[2]);
@@ -503,8 +549,9 @@ export interface FooterOptions extends TextStyleCtx {
 }
 
 /**
- * Footer: a left-aligned "Page X of Y" and a right-aligned export ID + date,
- * drawn on the current page, with an optional centred disclaimer above them.
+ * Footer: a left-aligned bare mark and "Page X of Y", a right-aligned export ID
+ * and date, drawn on the current page, with an optional centred disclaimer above
+ * them.
  */
 export const drawFooter = (doc: JsPdfLike, opts: FooterOptions): void => {
   // 7.5pt in a mid-grey, not 6.5pt in #9CA3AF. The disclaimer is the line that
@@ -533,9 +580,14 @@ export const drawFooter = (doc: JsPdfLike, opts: FooterOptions): void => {
   }
 
   if (opts.pageNumber && opts.pageTotal) {
+    // The bare mark leads the page number, standing on its baseline, so the
+    // footer of every page says whose report it is without a word of type.
+    const markW = FOOTER_MARK.widthBaseMm * opts.pScale;
+    const markH = brandMarkHeightMm(markW, false);
+    drawBrandMark(doc, opts.margin, y - markH, markW, { onTile: false });
     drawText(doc, `Page ${opts.pageNumber} of ${opts.pageTotal}`, {
       ...opts,
-      x: opts.margin,
+      x: opts.margin + markW + FOOTER_MARK.gapBaseMm * opts.pScale,
       y,
       fontPt,
       style: 'normal',

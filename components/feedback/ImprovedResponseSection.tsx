@@ -108,7 +108,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
             overflow clip is its padding edge at the inner radius, so the veil is
             cut to the same corners as the card's content. It covers the card's own
             text and buttons, not the page. */}
-        <AiBusyOverlay show={isImproving} rounded="rounded-none">
+        <AiBusyOverlay show={isImproving} rounded="rounded-none" maxWidth="max-w-3xl">
           <LoadingIndicator
             task="generation"
             message={`Lifting your answer ${gapWords}`}
@@ -133,9 +133,11 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
                   ? 'You already have full marks. This is the marker’s version, to compare with yours.'
                   : "Your answer with the marker's edits made"}
               </p>
-              {/* The measure of the report's reading column, so the rewrite is read
-                  at the same line length as the commentary above it. */}
-              <div className="max-w-[40rem] font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
+              {/* The rewrite fills the report's card, like the commentary above it.
+                  It was once held to the reading column's 40rem measure, but the
+                  product owner ruled that a card with text stopping short reads as
+                  unfinished. See DesignSpec §4, "Measure". */}
+              <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
                 {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
               </div>
             </div>

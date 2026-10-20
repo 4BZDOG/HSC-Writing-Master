@@ -212,12 +212,13 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   return (
     <div
       ref={reportRef}
-      /* The report is a document, so its column is bounded by what prose can be
-         read at rather than by the modal it sits in. `max-w-3xl` below `xl` keeps the
-         reading column at about 104 characters a line; `xl` widens the report to the
-         two columns it now has, and the reading column inside them stays at a measure
-         that reads. See DesignSpec §4, "Measure". */
-      className="relative flex flex-col gap-6 max-w-3xl xl:max-w-5xl mx-auto pb-20 EvaluationDisplay"
+      /* The report fills the modal or panel it sits in, at every width, and its text
+         runs to the edge of the cards it sits in. It was once a narrow reading column
+         (`max-w-3xl`, widening to `max-w-5xl` at `xl`), but the product owner ruled
+         that the empty band down the right of the report read as unfinished. The
+         two-column layout from `xl` is unchanged; only the bound on it is gone.
+         See DesignSpec §4, "Measure". */
+      className="relative flex flex-col gap-6 w-full mx-auto pb-20 EvaluationDisplay"
     >
       {/* Question. Left edge aligns with the cards below it. */}
       <header className="flex flex-col gap-3">
@@ -254,7 +255,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             {prompt.totalMarks} Marks
           </span>
         </div>
-        <h2 className="text-xl md:text-2xl font-serif font-medium text-slate-900 dark:text-white leading-snug max-w-3xl">
+        <h2 className="text-xl md:text-2xl font-serif font-medium text-slate-900 dark:text-white leading-snug">
           {renderFormattedText(prompt.question, prompt.keywords, prompt.verb)}
         </h2>
         <HighlightKey hasVerb={!!prompt.verb} hasTerms={(prompt.keywords?.length ?? 0) > 0} />
@@ -418,7 +419,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               </span>
             </div>
             <div className="p-6 sm:p-8">
-              <div className="max-w-[40rem] font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
+              <div className="font-serif leading-relaxed text-slate-700 dark:text-slate-300 whitespace-pre-line">
                 {renderFormattedText(userAnswer, prompt.keywords, prompt.verb)}
               </div>
             </div>

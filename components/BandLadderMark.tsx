@@ -1,73 +1,157 @@
 import React from 'react';
-import { getBandConfig } from '../utils/renderUtils';
+import { getBandHex } from '../utils/renderUtils';
 
 /**
- * The app's mark: the band ladder, filled to Band 6.
+ * The app's mark: the band scale, marked at Band 6.
  *
- * This replaced a `Sparkles` glyph on an indigo-to-sky gradient — the generic
+ * The six rungs are the six bands in the colours students meet everywhere else
+ * in the app (`getBandHex`), and the caret above the last rung is the marker
+ * from the marking wait's glyph (`MarkingScene` in AiWaitGlyph), landed on
+ * Band 6. So the brand is literally the marking scale with the marker placed:
+ * a student who has watched a script being marked has already seen this mark.
+ *
+ * It replaced a `Sparkles` glyph on an indigo-to-sky gradient, the generic
  * AI-product mark, which said nothing about HSC assessment and, on the login
- * page, sat directly above the one line that does say it ("Band 6").
+ * page, sat directly above the one line that does ("Band 6").
  *
- * It is the ladder `drawBandScale` already prints at the top of every marking
- * report: six equal segments, filled up to the band reached. Horizontal and
- * equal is what makes it a scale rather than a bar chart — an earlier attempt
- * with rungs rising left to right turned out to be the signal-strength glyph,
- * which is one stock mark swapped for another. A student meets this device on
- * the way in and again on the report they take away.
+ * The rungs are square and equal, in a row. Horizontal and equal is what makes
+ * it a scale rather than a bar chart: an earlier attempt with rungs rising left
+ * to right turned out to be the signal-strength glyph, which is one stock mark
+ * swapped for another. Square because `drawBandScale` prints these as
+ * `doc.rect`, and the radius scale starts at `rounded-lg`: 8px on a 4px rung is
+ * a capsule, which is a different mark. See `tests/unit/surfaceScale.test.ts`.
+ * Rung 6 is taller than the rest, as the lit rung is in the marking glyph.
  *
- * All six are filled because that is the product's name and its claim. The fill
- * comes from `getBandConfig(6)` rather than a hand-written purple, so it tracks
- * the band palette with everything else (project skill, "Styling"). See
- * `projectDocs/Plan-FrontendDesignReview.md`, finding 8.
+ * Every rung is drawn at full colour. The scale is a claim about all six bands,
+ * not a dimmed bar with one lit segment, and the fill comes from `getBandHex`
+ * rather than a hand-written hex so it tracks the band palette with everything
+ * else (project skill, "Styling").
+ *
+ * The caret takes `currentColor`, so it follows the page's ink in each theme.
+ * It is written light-first, `text-white light:text-slate-900`, the way
+ * AuthBrand writes its own wordmark, and not `dark:`-first. The `dark:` variant
+ * keys on a `dark` class on <html> that App.tsx sets once a user is signed in;
+ * the signed-out screens never set it, so there a `dark:` partner did not apply and the caret
+ * went invisible on the dark sign-in page. On the dark header tile it is white
+ * in both themes, and `onInk` says so. Its dot is the Band 6 colour, as it is in
+ * the marking glyph.
+ *
+ * See `projectDocs/Plan-FrontendDesignReview.md`, finding 8.
  */
 const BAND_RUNGS = [1, 2, 3, 4, 5, 6];
+const TOP_BAND = 6;
 
-/** Row gap and width, and rung height, for each size. */
+/**
+ * Every measure for each size, in CSS pixels. These are numbers rather than
+ * Tailwind classes because the caret's climb is computed from them: the step
+ * from one rung to the next is `ladderStep`, and the keyframes in index.css
+ * read it back through `--ladder-step`. A class-based row could not hand that
+ * number to the stylesheet.
+ *
+ * - `hero` is the sign-in page's lockup, 224px across.
+ * - `mark` is the header tile. It has to survive being 32px across inside a
+ *   40px tile and a 48px one. The rungs are 8px (rung 6 is 14px) and the caret an
+ *   8px teardrop: at 5px the strip sat low in an expanse of ink and read as a
+ *   row of dots, where the favicon, drawn to fill its tile, read as the mark.
+ * - `compact` is the 112px ladder a local data read shows while it waits.
+ */
 const LAYOUT = {
-  hero: { row: 'gap-2 w-[224px]', rung: 'h-3' },
-  mark: { row: 'gap-[2px] w-7 sm:w-8', rung: 'h-2' },
-  compact: { row: 'gap-1.5 w-28', rung: 'h-2' },
+  hero: { width: 224, gap: 8, rung: 12, tall: 22, caret: { w: 14, h: 16 }, caretGap: 6, hop: 8 },
+  mark: { width: 32, gap: 2, rung: 8, tall: 14, caret: { w: 8, h: 9 }, caretGap: 1, hop: 2 },
+  compact: { width: 112, gap: 6, rung: 8, tall: 14, caret: { w: 9, h: 10 }, caretGap: 3, hop: 4 },
 } as const;
 
+type Layout = (typeof LAYOUT)[keyof typeof LAYOUT];
+
+/** Left edge to left edge, rung to rung: the distance the caret travels per band. */
+const ladderStep = (layout: Layout): number =>
+  (layout.width - 5 * layout.gap) / BAND_RUNGS.length + layout.gap;
+
 interface BandLadderMarkProps {
-  /** `hero` is the login page's full-width lockup; `mark` is the header tile,
-   *  where the same six segments have to survive being 40px wide; `compact` is
-   *  the 112px ladder a local data read shows while it waits (DataLoading). */
-  size?: 'hero' | 'mark' | 'compact';
-  /** Overrides the band fill — the header tile sits ON the brand gradient, so
-   *  purple-on-indigo would disappear and it takes white instead. */
-  fillClass?: string;
-  /** Waiting cue: each rung dips in turn, staggered left to right (the boot
-   *  splash while a saved session is restored, and DataLoading while a local
-   *  read runs). Opacity only, and it is stilled under reduced motion. Off
-   *  everywhere the mark is a mark, not a wait. */
+  /** `hero` is the login page's full-width lockup; `mark` is the header tile;
+   *  `compact` is the local data read's wait (DataLoading). */
+  size?: keyof typeof LAYOUT;
+  /** The mark sits on the dark ink tile, so the caret is white in both themes.
+   *  Everywhere else the caret is the page's own ink. */
+  onInk?: boolean;
+  /** The waiting cue. The caret climbs the scale from Band 1 to Band 6, hopping
+   *  at each rung, rests on 6, and starts again. Infinite, so it is only for a
+   *  wait: the boot splash while a saved session is restored, and DataLoading
+   *  while a local read runs. Under reduced motion the global rule ends it at
+   *  once, on its final frame, which is the caret on rung 6: the still picture
+   *  is the finished mark. */
   animated?: boolean;
+  /** The sign-in page's one orchestrated moment: the caret drops onto Band 6
+   *  once as the page opens, with a small settle, and then stays. */
+  entrance?: boolean;
 }
 
 const BandLadderMark: React.FC<BandLadderMarkProps> = ({
   size = 'hero',
-  fillClass,
+  onInk = false,
   animated = false,
+  entrance = false,
 }) => {
-  const fill = fillClass ?? getBandConfig(6).solidBg;
   const layout = LAYOUT[size];
+  const { caret } = layout;
+
+  // Only the caret moves, and only with a transform: the keyframes in index.css
+  // read these two variables, so one stylesheet serves every size.
+  const caretStyle = {
+    marginBottom: layout.caretGap,
+    '--ladder-step': `${ladderStep(layout)}px`,
+    '--ladder-hop': `${layout.hop}px`,
+  } as React.CSSProperties;
+  const caretMotion = animated ? 'ladder-climb' : entrance ? 'ladder-drop' : '';
+
   return (
     <div
       role="img"
-      aria-label="The NESA band ladder, filled to Band 6"
-      className={`flex items-center ${layout.row}`}
+      aria-label="The NESA band scale, marked at Band 6"
+      className="flex flex-col"
+      style={{ width: layout.width }}
     >
-      {BAND_RUNGS.map((band, i) => (
-        // Square, with no radius at all: `drawBandScale` prints these as
-        // `doc.rect`, and the radius scale starts at `rounded-lg` — 8px on a
-        // 4px rung is a capsule, which is a different mark. See
-        // `tests/unit/surfaceScale.test.ts`.
-        <span
-          key={band}
-          className={`flex-1 ${layout.rung} ${fill}${animated ? ' ladder-boot-rung' : ''}`}
-          style={animated ? { animationDelay: `${i * 120}ms` } : undefined}
-        />
-      ))}
+      {/* The caret lane. Its slots are the rung slots, so the caret sits over
+          rung 6 by construction and the two rows cannot drift apart. */}
+      <div
+        aria-hidden="true"
+        className="flex items-end"
+        style={{ gap: layout.gap, height: caret.h + layout.caretGap }}
+      >
+        {BAND_RUNGS.map((band) => (
+          <span key={band} className="flex flex-1 justify-center items-end h-full">
+            {band === TOP_BAND && (
+              <svg
+                viewBox="0 0 14 16"
+                width={caret.w}
+                height={caret.h}
+                focusable="false"
+                className={`block shrink-0 overflow-visible ${onInk ? 'text-white' : 'text-white light:text-slate-900'} ${caretMotion}`}
+                style={caretStyle}
+              >
+                <path d="M7 16 L1 5 A6 6 0 1 1 13 5 Z" fill="currentColor" />
+                <circle cx="7" cy="5.5" r="2.2" fill={getBandHex(TOP_BAND)} />
+              </svg>
+            )}
+          </span>
+        ))}
+      </div>
+      <div className="flex items-end" style={{ gap: layout.gap }}>
+        {BAND_RUNGS.map((band) => (
+          // Square, with no radius at all (see the file comment). The fill is
+          // inline because the six colours come from `getBandHex`, and a Tailwind
+          // class cannot be built from a runtime value.
+          <span
+            key={band}
+            data-band={band}
+            className="block flex-1"
+            style={{
+              height: band === TOP_BAND ? layout.tall : layout.rung,
+              backgroundColor: getBandHex(band),
+            }}
+          />
+        ))}
+      </div>
     </div>
   );
 };

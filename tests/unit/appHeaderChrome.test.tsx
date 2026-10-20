@@ -2,6 +2,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import type { User, UserRole } from '../../types';
+import { getBandHex } from '../../utils/renderUtils';
 import * as headerChrome from '../../utils/headerChrome';
 import {
   HEADER_ACTION,
@@ -17,6 +18,12 @@ import {
   HEADER_TELEMETRY,
   HEADER_WORDMARK,
 } from '../../utils/headerChrome';
+
+/** `#a855f7` as the `rgb(...)` string jsdom reports for an inline colour. */
+const hexToRgb = (hex: string): string => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
+};
 
 /**
  * The header is about to be redesigned in `utils/headerChrome.ts`, one constant
@@ -186,9 +193,58 @@ describe('the bar carries both themes', () => {
     const wall = container.querySelector('header > .absolute.inset-0.bg-gradient-to-r');
 
     expect(wall).toBeNull();
-    // The gradient survives, in proportion, on the 40px tile.
-    expect(HEADER_MARK_TILE).toContain('from-indigo-600');
-    expect(HEADER_MARK_TILE).toContain('to-sky-500');
+  });
+
+  // The tile is the mark's ground, and the band colours are the subject, so it
+  // is a solid ink square in both themes. A gradient on it would put a second
+  // colour behind the six that carry the meaning.
+  it('paints the mark tile as one solid ink ground, with no gradient', () => {
+    const { container } = renderHeader('user');
+    const tile = screen.getByRole('img', { name: /band scale/i }).parentElement as HTMLElement;
+
+    expect(tile.className).toBe(HEADER_MARK_TILE);
+    expect(HEADER_MARK_TILE).toContain('bg-slate-900');
+    expect(HEADER_MARK_TILE).not.toMatch(/gradient|(^|\s)(from|via|to)-/);
+    expect(tile.className).not.toMatch(/gradient|(^|\s)(from|via|to)-/);
+    expect(container.querySelector('header .bg-gradient-to-br')).toBeNull();
+  });
+
+  // The rail is the one place the mark sits on the page's own ground, so the
+  // tile has to hold its own edge in both themes: a ring, and a shadow step.
+  it('gives the tile an edge in each theme', () => {
+    expect(HEADER_MARK_TILE).toContain('ring-1');
+    expect(HEADER_MARK_TILE).toContain('ring-slate-900/10');
+    expect(HEADER_MARK_TILE).toContain('dark:ring-white/10');
+    expect(HEADER_MARK_TILE).toContain('shadow-sm');
+    expect(HEADER_MARK_TILE).not.toContain('tile-bevel');
+  });
+
+  it('draws the mark on the tile with a white caret over the six band colours', () => {
+    renderHeader('user');
+
+    const mark = screen.getByRole('img', { name: /band scale/i });
+    const caret = mark.querySelector('svg') as SVGElement;
+    expect(caret.getAttribute('class')).toContain('text-white');
+    expect(caret.getAttribute('class')).not.toContain('dark:text-white');
+    // Six rungs, each in its own band colour. The colours are checked in
+    // BandLadderMark's own test; here it is enough that the tile holds all six.
+    expect(mark.querySelectorAll('[data-band]').length).toBe(6);
+  });
+
+  it('draws the band scale along the bar’s bottom edge in the six band colours', () => {
+    const { container } = renderHeader('user');
+    const hairline = container.querySelector(`header [class="${HEADER_HAIRLINE}"]`) as HTMLElement;
+
+    expect(hairline).toBeTruthy();
+    expect(hairline.getAttribute('aria-hidden')).toBe('true');
+    const segments = Array.from(hairline.children) as HTMLElement[];
+    expect(segments.map((el) => el.style.backgroundColor)).toEqual(
+      [1, 2, 3, 4, 5, 6].map((band) => hexToRgb(getBandHex(band)))
+    );
+    // No colour is written in the constant itself: the segments take theirs
+    // from getBandHex, so the edge tracks the palette like everything else.
+    expect(HEADER_HAIRLINE).not.toMatch(/(^|\s)(from|via|to|bg)-/);
+    expect(HEADER_HAIRLINE).toContain('band-scale-fade');
   });
 
   it('renders the mesh and the hairline beneath the content row', () => {
@@ -204,9 +260,10 @@ describe('the bar carries both themes', () => {
   });
 
   it('gives every rail colour a light value and a dark partner', () => {
-    // HEADER_MARK_TILE is the one exception: the brand gradient moved onto it,
-    // so its white-alpha border reads identically in both themes and a `dark:`
-    // partner would be the actual mistake. Everything else is on the rail.
+    // HEADER_MARK_TILE is the one exception: it is an ink ground in both themes,
+    // so `bg-slate-900` is the same colour on either and a `dark:` partner for it
+    // would be the actual mistake. Its ring does carry a partner. Everything else
+    // is on the rail.
     const exempt = new Set(['HEADER_MARK_TILE']);
 
     /** `hover:bg-slate-100` → `bg`; `text-lg` and `border-b` → null. */

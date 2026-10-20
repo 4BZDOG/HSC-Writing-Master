@@ -494,6 +494,16 @@ WebKit included) hold it:
 
 ### Measure
 
+**2026-10-20.** The reading text in the writing prompt card (the question, the
+scenario box and the scenario text) and in the marking report (the question
+heading, the student's response, the improved answer and the report column
+itself) now fills its card at every width. This was the product owner's decision,
+and it overrules the rule below. The `70ch` cap on the prompt, the `40rem` cap on
+the report prose, and the `max-w-3xl` and `max-w-5xl` bounds on the report column
+are removed. The two-column report from `xl` is kept; only the bound on it has
+gone. The table and the prose below are kept as the history of how the measure
+was chosen.
+
 A reading column is bounded by what prose can be read at, not by the window it
 sits in. The report column and the improvement modal's unified view both take
 `max-w-3xl`. From `xl` up the report goes further and becomes a document with a

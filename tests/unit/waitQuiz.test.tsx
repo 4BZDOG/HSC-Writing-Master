@@ -2,9 +2,16 @@ import { describe, it, expect, afterEach, vi } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup, fireEvent, within } from '@testing-library/react';
 import WaitQuiz from '../../components/WaitQuiz';
-import { QUIZ_VERBS, buildQuestion, quizDeck } from '../../utils/waitQuiz';
-import type { QuizQuestion, QuizVerb } from '../../utils/waitQuiz';
+import {
+  QUIZ_NUMBERS,
+  QUIZ_VERBS,
+  buildNumberQuestion,
+  buildQuestion,
+  quizDeck,
+} from '../../utils/waitQuiz';
+import type { QuizNumber, QuizQuestion, QuizVerb } from '../../utils/waitQuiz';
 import { verbTipFor } from '../../utils/waitTips';
+import { HSC_RESULTS_FACTS } from '../../data/hscResultsFacts';
 
 /**
  * The wait quiz: the NESA command-verb questions the reader answers while the
@@ -35,8 +42,16 @@ const offeredWith = (verb: string): string[] => {
   return [entry.verb, ...entry.confusedWith];
 };
 
+/** The numbers entry a numbers question was built from. Its prompt is unique. */
+const numberEntryFor = (q: QuizQuestion): QuizNumber => {
+  const entry = QUIZ_NUMBERS.find((e) => e.prompt === q.prompt);
+  if (!entry) throw new Error(`no numbers entry for “${q.prompt}”`);
+  return entry;
+};
+
 /** The text of the right answer for a question, in the shape it is asked. */
 const correctText = (q: QuizQuestion): string => {
+  if (q.shape === 'number') return numberEntryFor(q).choices[0];
   if (q.shape === 'meaning') return q.verb;
   const meaning = entryFor(q.verb).meaning;
   return `${meaning.charAt(0).toUpperCase()}${meaning.slice(1)}.`;
@@ -106,17 +121,50 @@ describe('the quiz data', () => {
     expect(b.prompt).toBe(a.prompt);
   });
 
-  it('asks every verb exactly once, whatever the verb being marked', () => {
+  it('asks every verb once and every published figure once, whatever the verb being marked', () => {
     for (const verb of ['evaluate', 'EVALUATE ', 'frobnicate', undefined]) {
       const deck = quizDeck(verb);
-      expect(deck).toHaveLength(QUIZ_VERBS.length);
-      expect(new Set(deck.map((q) => q.verb))).toEqual(new Set(QUIZ_VERB_NAMES));
+      const verbQuestions = deck.filter((q) => q.shape !== 'number');
+      const numberQuestions = deck.filter((q) => q.shape === 'number');
+
+      expect(verbQuestions).toHaveLength(QUIZ_VERBS.length);
+      expect(new Set(verbQuestions.map((q) => q.verb))).toEqual(new Set(QUIZ_VERB_NAMES));
+      expect(numberQuestions).toHaveLength(QUIZ_NUMBERS.length);
+      expect(new Set(numberQuestions.map((q) => q.prompt)).size).toBe(QUIZ_NUMBERS.length);
+      expect(deck).toHaveLength(QUIZ_VERBS.length + QUIZ_NUMBERS.length);
     }
   });
 
-  it('alternates the shapes from a meaning question when the verb is unknown', () => {
-    const deck = quizDeck('frobnicate');
-    deck.forEach((q, i) => expect(q.shape).toBe(i % 2 === 0 ? 'meaning' : 'verb'));
+  it('alternates the verb shapes from a meaning question when the verb is unknown', () => {
+    // The numbers questions sit between the verb questions, so the alternation is
+    // checked across the verb questions alone.
+    const verbQuestions = quizDeck('frobnicate').filter((q) => q.shape !== 'number');
+    verbQuestions.forEach((q, i) => expect(q.shape).toBe(i % 2 === 0 ? 'meaning' : 'verb'));
+  });
+
+  it('answers every numbers question from a published fact, with its reason and year', () => {
+    for (const entry of QUIZ_NUMBERS) {
+      const fact = HSC_RESULTS_FACTS.find((f) => f.id === entry.factId);
+      expect(fact, `fact ${entry.factId}`).toBeDefined();
+
+      const q = buildNumberQuestion(entry);
+      expect(q).toBeDefined();
+      const reason = entry.reasonFrom === 'caveat' ? fact?.caveat : fact?.text;
+      expect(q?.reason).toBe(reason);
+      expect(q?.year).toBe(fact?.year);
+      expect(q?.choices).toHaveLength(3);
+      expect(new Set(q?.choices).size).toBe(3);
+      expect(q?.choices[q?.answerIndex ?? -1]).toBe(entry.choices[0]);
+    }
+  });
+
+  it('gives each numbers question in the deck the reason and year of its fact', () => {
+    for (const q of quizDeck('evaluate').filter((q) => q.shape === 'number')) {
+      const entry = numberEntryFor(q);
+      const fact = HSC_RESULTS_FACTS.find((f) => f.id === entry.factId);
+      expect(q.reason).toBe(entry.reasonFrom === 'caveat' ? fact?.caveat : fact?.text);
+      expect(q.year).toBe(fact?.year);
+    }
   });
 
   it('gives each question three choices with exactly one right answer', () => {
@@ -147,6 +195,22 @@ const choices = (): HTMLElement[] =>
   within(screen.getByRole('group')).getAllByRole('button') as HTMLElement[];
 
 const nextButton = (): HTMLElement => screen.getByRole('button', { name: 'Next question' });
+
+const correctOf = (q: QuizQuestion): string => q.choices[q.answerIndex];
+
+/**
+ * Answers each question before the first one that matches, correctly, and leaves
+ * the card on that one. Returns its index in the deck.
+ */
+const reach = (deck: QuizQuestion[], matches: (q: QuizQuestion) => boolean): number => {
+  const at = deck.findIndex(matches);
+  expect(at, 'a question matching the search').toBeGreaterThanOrEqual(0);
+  for (let i = 0; i < at; i++) {
+    fireEvent.click(choices()[deck[i].answerIndex]);
+    fireEvent.click(nextButton());
+  }
+  return at;
+};
 
 describe('WaitQuiz', () => {
   it('shows the heading, the first prompt and three choices', () => {
@@ -203,11 +267,69 @@ describe('WaitQuiz', () => {
   it('ignores clicks on the other choices once one is picked', () => {
     const deck = renderQuiz();
     fireEvent.click(choices()[deck[0].answerIndex]);
-    fireEvent.click(choices()[(deck[0].answerIndex + 1) % 3]);
+
+    // Only the right choice is left on the card, so there is nothing else to click.
+    expect(choices()).toHaveLength(1);
+    fireEvent.click(choices()[0]);
 
     expect(screen.getByText('Right.')).toBeTruthy();
     expect(screen.queryByText(/^Not quite/)).toBeNull();
     for (const choice of choices()) expect(choice.getAttribute('aria-disabled')).toBe('true');
+  });
+
+  it('takes the choice that was neither picked nor right off the card once answered', () => {
+    const deck = renderQuiz();
+    const wrong = (deck[0].answerIndex + 1) % 3;
+    const other = (deck[0].answerIndex + 2) % 3;
+    fireEvent.click(choices()[wrong]);
+
+    const left = choices().map((b) => b.textContent);
+    expect(left).toHaveLength(2);
+    expect(left).toContain(deck[0].choices[wrong]);
+    expect(left).toContain(deck[0].choices[deck[0].answerIndex]);
+    expect(left).not.toContain(deck[0].choices[other]);
+  });
+
+  it('lays a question out in columns when every choice is short', () => {
+    const deck = renderQuiz('evaluate');
+    reach(deck, (q) => q.choices.every((c) => c.length <= 16));
+    expect(screen.getByRole('group').className).toContain('grid-cols-3');
+  });
+
+  it('lays a numbers question out as a list when one of its choices is long', () => {
+    const deck = renderQuiz('evaluate');
+    reach(deck, (q) => q.shape === 'number' && q.choices.some((c) => c.length > 16));
+    expect(screen.getByRole('group').className).toContain('flex-col');
+  });
+
+  it('labels a numbers question with its year once it is answered, and not before', () => {
+    const deck = pinnedDeck('evaluate');
+    render(<WaitQuiz verb="evaluate" accent={ACCENT} />);
+
+    const at = reach(deck, (q) => q.shape === 'number');
+    expect(screen.queryByText('HSC in numbers, 2025')).toBeNull();
+
+    fireEvent.click(choices()[deck[at].answerIndex]);
+    expect(screen.getByText('HSC in numbers, 2025')).toBeTruthy();
+    expect(screen.getByText(deck[at].reason)).toBeTruthy();
+  });
+
+  it('quotes a short right answer in the wrong-answer line', () => {
+    const deck = pinnedDeck('evaluate');
+    render(<WaitQuiz verb="evaluate" accent={ACCENT} />);
+
+    const at = reach(deck, (q) => q.shape === 'number' && correctOf(q).length <= 24);
+    fireEvent.click(choices()[(deck[at].answerIndex + 1) % 3]);
+    expect(screen.getByText(`Not quite. It’s “${correctOf(deck[at])}”.`)).toBeTruthy();
+  });
+
+  it('says only Not quite when the right answer is too long to quote', () => {
+    const deck = pinnedDeck('evaluate');
+    render(<WaitQuiz verb="evaluate" accent={ACCENT} />);
+
+    const at = reach(deck, (q) => q.shape === 'number' && correctOf(q).length > 24);
+    fireEvent.click(choices()[(deck[at].answerIndex + 1) % 3]);
+    expect(screen.getByText(/^Not quite\.$/)).toBeTruthy();
   });
 
   it('keeps the choices focusable after an answer (aria-disabled, not disabled)', () => {

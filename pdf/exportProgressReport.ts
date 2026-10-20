@@ -227,6 +227,7 @@ export const exportProgressReportPdf = async (
         margin: PAGE_MARGIN_MM,
         pageWidth: dims.width,
         showTitle: page > 0,
+        letterhead: page === 0,
       });
 
       for (const { block, column, top } of byPage[page]) {
