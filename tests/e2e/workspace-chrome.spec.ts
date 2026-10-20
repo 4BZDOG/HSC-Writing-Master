@@ -431,6 +431,100 @@ test.describe('workspace card chrome', () => {
   });
 
   /**
+   * Starting a line at the bottom of a scrolling writing card. The textarea
+   * grows in the commit that carries the new line, and the caret-follow scroll
+   * has to land in that same commit: queued for the next frame, the grown text
+   * painted first, and the caret jumped down and back a line each time. Sampled
+   * once per animation frame, every frame where the text grew and the body is
+   * scrolling must also be one where the body moved.
+   */
+  test('a new line at the bottom of the writing area is in view in the frame it appears', async ({
+    page,
+  }) => {
+    type CaretSample = { height: number; scrollTop: number; scrolls: boolean; gutter: number };
+
+    await page.setViewportSize({ width: 1440, height: 700 });
+    await openWorkspace(page);
+    await page.waitForTimeout(900);
+
+    await page.locator('textarea').first().click();
+
+    // Installed before the first keystroke so the frames before the body
+    // starts to scroll are sampled too.
+    const installed = await page.evaluate(() => {
+      const card = Array.from(document.querySelectorAll('h3'))
+        .find((h) => h.textContent?.includes('Written Response'))
+        ?.closest('[class*="rounded-surface"]') as HTMLElement | null;
+      const body = card?.querySelector('[class*="overflow-y-auto"]') as HTMLElement | null;
+      const area = card?.querySelector('textarea') as HTMLTextAreaElement | null;
+      if (!body || !area || !body.contains(area)) return false;
+
+      const samples: CaretSample[] = [];
+      let running = true;
+      const sample = () => {
+        if (!running) return;
+        samples.push({
+          height: area.getBoundingClientRect().height,
+          scrollTop: body.scrollTop,
+          scrolls: body.scrollHeight > body.clientHeight + 1,
+          // Zero under Playwright's hidden scrollbars; the assertion below
+          // still holds for a classic bar, where it must not change.
+          gutter: body.offsetWidth - body.clientWidth,
+        });
+        requestAnimationFrame(sample);
+      };
+      requestAnimationFrame(sample);
+      (window as unknown as { __caretSamples: () => CaretSample[] }).__caretSamples = () => {
+        running = false;
+        return samples;
+      };
+      return true;
+    });
+    expect(installed, 'the writing body holds the textarea').toBe(true);
+
+    // Fourteen lines is enough to start scrolling in a 700px window, where the
+    // writing card is held at its floor.
+    for (let i = 1; i <= 14; i++) {
+      await page.keyboard.type(`Line ${i}`);
+      await page.keyboard.press('Enter');
+    }
+    // Two frames after the last keystroke, so its growth is sampled too.
+    await page.evaluate(
+      () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())))
+    );
+    const samples: CaretSample[] = await page.evaluate(() =>
+      (window as unknown as { __caretSamples: () => CaretSample[] }).__caretSamples()
+    );
+
+    let growthWhileScrolling = 0;
+    for (let i = 1; i < samples.length; i++) {
+      const prev = samples[i - 1];
+      const cur = samples[i];
+      if (cur.height > prev.height + 1 && cur.scrolls) {
+        growthWhileScrolling++;
+        expect(
+          cur.scrollTop,
+          `frame ${i}: the text grew to ${Math.round(cur.height)}px and the body had not followed`
+        ).not.toBe(prev.scrollTop);
+      }
+    }
+    expect(growthWhileScrolling, 'the test reached lines added while scrolling').toBeGreaterThan(4);
+
+    // The gutter is reserved before the first overflow, so the width the text
+    // wraps to is the same before the body scrolls and after.
+    const scrolledFrames = samples.filter((s) => s.scrolls);
+    const unscrolledFrames = samples.filter((s) => !s.scrolls);
+    expect(scrolledFrames.length, 'the body did start to scroll').toBeGreaterThan(0);
+    expect(unscrolledFrames.length, 'the body was not scrolling before it did').toBeGreaterThan(0);
+    const gutterBefore = unscrolledFrames[0].gutter;
+    for (const s of scrolledFrames) {
+      expect(s.gutter, 'the text width does not change when the body starts to scroll').toBe(
+        gutterBefore
+      );
+    }
+  });
+
+  /**
    * A response is only worth marking if the student wrote it, so the writing
    * surface refuses pasted text — and the exemplars offer a student no
    * one-click route around it.

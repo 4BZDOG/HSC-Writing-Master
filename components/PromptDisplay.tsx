@@ -842,7 +842,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           className={`absolute inset-0 bg-gradient-to-br ${bandConfig.gradient} opacity-[0.03] pointer-events-none`}
         />
 
-        <div ref={bodyRef} className="flex-1 flex flex-col min-h-0 overflow-y-auto">
+        <div
+          ref={bodyRef}
+          className="flex-1 flex flex-col min-h-0 overflow-y-auto custom-scrollbar scroll-stable"
+        >
           <div
             ref={bodyContentRef}
             // `my-auto` when the question stands alone: the card is floored at
