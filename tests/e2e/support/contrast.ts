@@ -24,8 +24,8 @@ import { Page } from '@playwright/test';
  *     construction. The bar now paints its own translucent token colour, which
  *     `resolveBackground` composites correctly, so it is held to the same AA
  *     floor as the rest of the app. Two parts of it still are not covered, and
- *     neither is an oversight: the wordmark tile carries an icon rather than
- *     text, and the storage-error chip renders only when storage has actually
+ *     neither is an oversight: the band scale above the wordmark is decoration
+ *     with no text in it, and the storage-error chip renders only when storage has actually
  *     failed, which a normal run never reaches. The chip calculates at about
  *     5.9:1 (`#b91c1c` on `#fee2e2`) — calculated, not measured, which is the
  *     weaker of the two claims and is why it is written down here.
