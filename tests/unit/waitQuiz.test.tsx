@@ -393,6 +393,92 @@ describe('WaitQuiz', () => {
     expect(screen.getByRole('group').contains(document.activeElement)).toBe(true);
     expect(document.activeElement).toBe(choices()[0]);
   });
+
+  it('moves focus to Next and then to the next first choice without scrolling', () => {
+    const focus = vi.spyOn(HTMLElement.prototype, 'focus');
+    renderQuiz();
+    const first = choices()[0];
+    first.focus();
+    fireEvent.click(first);
+    // A focus call scrolls its element into view unless told not to, and the card is
+    // a scroll box, so both focus moves must pass preventScroll.
+    expect(focus).toHaveBeenLastCalledWith({ preventScroll: true });
+    expect(document.activeElement).toBe(nextButton());
+
+    nextButton().focus();
+    fireEvent.click(nextButton());
+    expect(focus).toHaveBeenLastCalledWith({ preventScroll: true });
+    expect(document.activeElement).toBe(choices()[0]);
+  });
+
+  describe('keeping the answer in view', () => {
+    const rect = (top: number, bottom: number): DOMRect =>
+      ({
+        top,
+        bottom,
+        left: 0,
+        right: 0,
+        width: 0,
+        height: bottom - top,
+        x: 0,
+        y: top,
+        toJSON: () => ({}),
+      }) as DOMRect;
+
+    /**
+     * Renders the quiz in a scroll box that is 200px tall and holds 400px, and places
+     * the answer block (the feedback and Next) at `[answerTop, answerBottom]`. Returns
+     * the elements that were asked to scroll into view.
+     */
+    const answerInBox = (answerTop: number, answerBottom: number): HTMLElement[] => {
+      render(
+        <div data-testid="box" style={{ overflowY: 'auto' }}>
+          <WaitQuiz verb="evaluate" accent={ACCENT} />
+        </div>
+      );
+      const box = screen.getByTestId('box');
+      Object.defineProperty(box, 'scrollHeight', { configurable: true, value: 400 });
+      Object.defineProperty(box, 'clientHeight', { configurable: true, value: 200 });
+      const scrolled: HTMLElement[] = [];
+      HTMLElement.prototype.scrollIntoView = function (this: HTMLElement) {
+        scrolled.push(this);
+      };
+      vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (
+        this: HTMLElement
+      ) {
+        if (this === box) return rect(0, 200);
+        if (this.querySelector('[aria-live]')) return rect(answerTop, answerBottom);
+        return rect(0, 0);
+      });
+      return scrolled;
+    };
+
+    afterEach(() => {
+      Reflect.deleteProperty(HTMLElement.prototype, 'scrollIntoView');
+    });
+
+    it('scrolls the answer block into view when its scroll box cuts it off', () => {
+      const scrolled = answerInBox(150, 260);
+      choices()[0].focus();
+      fireEvent.click(choices()[0]);
+      const answer = nextButton().parentElement as HTMLElement;
+      expect(scrolled).toEqual([answer]);
+    });
+
+    it('scrolls the answer block and never the Next button alone', () => {
+      const scrolled = answerInBox(150, 260);
+      choices()[0].focus();
+      fireEvent.click(choices()[0]);
+      expect(scrolled).not.toContain(nextButton());
+    });
+
+    it('leaves the scroll where it is when the answer block already fits', () => {
+      const scrolled = answerInBox(40, 150);
+      choices()[0].focus();
+      fireEvent.click(choices()[0]);
+      expect(scrolled).toHaveLength(0);
+    });
+  });
 });
 
 describe('WaitQuiz when sessionStorage throws', () => {

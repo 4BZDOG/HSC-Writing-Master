@@ -34,11 +34,50 @@ import { quizDeck } from '../utils/waitQuiz';
  * status line. The quiz is native buttons in a section. After an answer, focus
  * moves to "Next question", and after that to the new question's first choice,
  * but only when the reader was already inside the card, so the quiz never takes
- * focus from something else on the page.
+ * focus from something else on the page. That focus does not scroll the card:
+ * the answer is scrolled into view only when its scroll box cuts it off, so the
+ * question above it is never pushed out of sight with a gap left behind.
  */
 
 /** The session key for the run of right answers, shared by every wait in the tab. */
 const STREAK_KEY = 'band6:wait-quiz-streak';
+
+/**
+ * Moves focus without scrolling. A focus call scrolls the element into view by
+ * default, and the card holding the quiz is a scroll box: on a short box that
+ * jump threw the question above out of sight, and left a gap where it had been.
+ * The scroll that is needed is made separately, by `revealFeedback`.
+ */
+const focusQuietly = (el: HTMLElement | null | undefined): void => {
+  el?.focus({ preventScroll: true });
+};
+
+/** The nearest ancestor that is scrolling its content now, or null when none is. */
+const scrollingAncestor = (el: HTMLElement): HTMLElement | null => {
+  for (let node = el.parentElement; node; node = node.parentElement) {
+    const { overflowY } = window.getComputedStyle(node);
+    if ((overflowY === 'auto' || overflowY === 'scroll') && node.scrollHeight > node.clientHeight) {
+      return node;
+    }
+  }
+  return null;
+};
+
+/**
+ * Scrolls the answer (the feedback and Next) into view only when its scroll box
+ * cuts it off. When it already fits, nothing moves, so the question above keeps
+ * its place. The answer is the block that is scrolled, not Next alone, so the
+ * feedback is never left above the fold with its button out of reach.
+ */
+const revealFeedback = (el: HTMLElement | null): void => {
+  if (!el) return;
+  const box = scrollingAncestor(el);
+  if (!box) return;
+  const r = el.getBoundingClientRect();
+  const b = box.getBoundingClientRect();
+  if (r.top >= b.top && r.bottom <= b.bottom) return;
+  if (typeof el.scrollIntoView === 'function') el.scrollIntoView({ block: 'nearest' });
+};
 
 const readStreak = (): number => {
   try {
@@ -85,24 +124,29 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
   const rootRef = useRef<HTMLElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
   const groupRef = useRef<HTMLDivElement>(null);
+  // The answer: the feedback and "Next question", the block revealFeedback scrolls to.
+  const answerRef = useRef<HTMLDivElement>(null);
   // Set when "Next question" is pressed from the keyboard's position inside the
   // card: the button unmounts with the answer, so focus would fall to the page.
   const refocusRef = useRef(false);
 
   // Once an answer lands, move focus to "Next question" if the reader was
   // already inside the card. The choice they picked stays in the DOM (only
-  // aria-disabled), so the check can read focus here, after the render.
+  // aria-disabled), so the check can read focus here, after the render. The
+  // focus does not scroll, and the answer is scrolled to only if its box cuts it off.
   useEffect(() => {
     if (picked === null) return;
     const root = rootRef.current;
-    if (root && root.contains(document.activeElement)) nextRef.current?.focus();
+    if (!root || !root.contains(document.activeElement)) return;
+    focusQuietly(nextRef.current);
+    revealFeedback(answerRef.current);
   }, [picked]);
 
   // The new question's first choice takes focus that "Next question" held.
   useEffect(() => {
     if (!refocusRef.current) return;
     refocusRef.current = false;
-    groupRef.current?.querySelector<HTMLButtonElement>('button')?.focus();
+    focusQuietly(groupRef.current?.querySelector<HTMLButtonElement>('button'));
   }, [index]);
 
   if (deck.length === 0) return null;
@@ -174,8 +218,11 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
         )}
       </div>
 
-      {/* Keyed by index, so each new question mounts afresh and fades in. */}
-      <div key={index} className="animate-fade-in">
+      {/* Keyed by index, so each new question mounts afresh. Not faded in: the fade
+          is an opacity animation on this block, and it was seen to sit at zero while the
+          answer was on screen, leaving the prompt and the choices blank above the
+          feedback. A question that appears at once cannot be caught mid-fade. */}
+      <div key={index}>
         <p
           id={promptId}
           className="mt-2 text-[15px] font-medium leading-snug text-slate-900 dark:text-slate-100"
@@ -219,45 +266,49 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
         </div>
       </div>
 
-      <div aria-live="polite" className={answered ? 'mt-3' : undefined}>
+      <div ref={answerRef}>
+        <div aria-live="polite" className={answered ? 'mt-3' : undefined}>
+          {answered && (
+            <>
+              <p
+                className={`text-sm font-semibold ${
+                  right
+                    ? 'text-emerald-700 dark:text-emerald-300'
+                    : 'text-red-700 dark:text-red-300'
+                }`}
+              >
+                {right
+                  ? 'Right.'
+                  : quoteCorrect
+                    ? // A sentence choice brings its own full stop; the quote supplies one.
+                      `Not quite. It’s “${correct.replace(/\.$/, '')}”.`
+                    : 'Not quite.'}
+              </p>
+              {question.shape === 'number' && (
+                <p className="mt-1 t-label text-slate-600 dark:text-slate-400">
+                  HSC in numbers, {question.year}
+                </p>
+              )}
+              {question.reason && (
+                <p className="ai-wait-reason mt-1 font-serif italic text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
+                  {question.reason}
+                </p>
+              )}
+            </>
+          )}
+        </div>
+
         {answered && (
-          <>
-            <p
-              className={`text-sm font-semibold ${
-                right ? 'text-emerald-700 dark:text-emerald-300' : 'text-red-700 dark:text-red-300'
-              }`}
-            >
-              {right
-                ? 'Right.'
-                : quoteCorrect
-                  ? // A sentence choice brings its own full stop; the quote supplies one.
-                    `Not quite. It’s “${correct.replace(/\.$/, '')}”.`
-                  : 'Not quite.'}
-            </p>
-            {question.shape === 'number' && (
-              <p className="mt-1 t-label text-slate-600 dark:text-slate-400">
-                HSC in numbers, {question.year}
-              </p>
-            )}
-            {question.reason && (
-              <p className="ai-wait-reason mt-1 font-serif italic text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
-                {question.reason}
-              </p>
-            )}
-          </>
+          <button
+            ref={nextRef}
+            type="button"
+            onClick={advance}
+            className="mt-2 text-sm font-semibold text-[rgb(var(--color-accent-ink))] hover:underline underline-offset-4 cursor-pointer"
+          >
+            Next question
+          </button>
         )}
       </div>
-
-      {answered && (
-        <button
-          ref={nextRef}
-          type="button"
-          onClick={advance}
-          className="mt-2 text-sm font-semibold text-[rgb(var(--color-accent-ink))] hover:underline underline-offset-4 cursor-pointer"
-        >
-          Next question
-        </button>
-      )}
     </section>
   );
 };
