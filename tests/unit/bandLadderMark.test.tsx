@@ -1,6 +1,8 @@
 import { describe, it, expect, afterEach } from 'vitest';
 import React from 'react';
 import { render, screen, cleanup } from '@testing-library/react';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import BandLadderMark from '../../components/BandLadderMark';
 import { getBandHex } from '../../utils/renderUtils';
 
@@ -120,5 +122,54 @@ describe('BandLadderMark', () => {
 
     expect(style).toContain('--ladder-step');
     expect(style).toContain('--ladder-hop');
+  });
+
+  it('takes the width of its box when fluid, and its own width otherwise', () => {
+    const fluid = render(<BandLadderMark fluid />);
+    expect((fluid.container.firstElementChild as HTMLElement).style.width).toBe('100%');
+    fluid.unmount();
+
+    const fixed = render(<BandLadderMark />);
+    expect((fixed.container.firstElementChild as HTMLElement).style.width).not.toBe('100%');
+  });
+
+  // The header's copy of the scale sits beside a heading that already names the
+  // app, so it is decoration: no image role for a screen reader to announce twice.
+  it('can be decorative, with no image role or label and hidden from assistive technology', () => {
+    const { container } = render(<BandLadderMark decorative />);
+    const root = container.firstElementChild as HTMLElement;
+
+    expect(screen.queryByRole('img', { hidden: true })).toBeNull();
+    expect(root.hasAttribute('aria-label')).toBe(false);
+    expect(root.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  // The lockup is the rail's scale, so its rungs are thinner than the sign-in
+  // hero's. The rung proportions still hold: the lit rung stays the tallest.
+  it('draws the lockup with thinner rungs than the hero, and rung 6 still tallest', () => {
+    const hero = render(<BandLadderMark size="hero" />);
+    const heroHeight = parseFloat(rungs(hero.container)[0].style.height);
+    hero.unmount();
+
+    const lockup = render(<BandLadderMark size="lockup" />);
+    const [first, , , , , sixth] = rungs(lockup.container);
+
+    expect(parseFloat(first.style.height)).toBeLessThan(heroHeight);
+    expect(parseFloat(sixth.style.height)).toBeGreaterThan(parseFloat(first.style.height));
+  });
+
+  // `.ladder-drop` waits 280ms and holds its first frame, so the drop lands on a
+  // mark that has faded in. The global reduced-motion rule shortens durations but
+  // not delays, so the class has to be named in the block that zeroes them, or a
+  // reader who asked for no motion would wait out the 280ms for nothing.
+  it('waits for the sign-in fade before it drops, and not when the reader asked for no motion', () => {
+    const css = readFileSync(resolve(__dirname, '../../index.css'), 'utf8');
+    expect(css).toMatch(/\.ladder-drop\s*\{\s*animation:[^;]*280ms both;/);
+
+    const blocks: string[] =
+      css.match(/@media \(prefers-reduced-motion: reduce\)\s*\{[\s\S]*?\n\}\n/g) ?? [];
+    const reduced = blocks.find((block) => block.includes('.ladder-drop'));
+    expect(reduced, 'no reduced-motion block names .ladder-drop').toBeTruthy();
+    expect(reduced).toMatch(/\.ladder-drop\s*\{\s*animation-delay: 0ms !important;/);
   });
 });

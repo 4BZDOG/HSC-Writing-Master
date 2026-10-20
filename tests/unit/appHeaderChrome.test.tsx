@@ -1,15 +1,14 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
 import React from 'react';
-import { render, screen, cleanup, fireEvent } from '@testing-library/react';
+import { render, screen, cleanup, fireEvent, within } from '@testing-library/react';
 import type { User, UserRole } from '../../types';
-import { getBandHex } from '../../utils/renderUtils';
 import * as headerChrome from '../../utils/headerChrome';
 import {
   HEADER_ACTION,
   HEADER_BAR,
-  HEADER_HAIRLINE,
   HEADER_INNER,
-  HEADER_MARK_TILE,
+  HEADER_LOCKUP,
+  HEADER_LOCKUP_STACK,
   HEADER_MENU_ITEM,
   HEADER_MENU_PANEL,
   HEADER_PROFILE,
@@ -18,12 +17,6 @@ import {
   HEADER_TELEMETRY,
   HEADER_WORDMARK,
 } from '../../utils/headerChrome';
-
-/** `#a855f7` as the `rgb(...)` string jsdom reports for an inline colour. */
-const hexToRgb = (hex: string): string => {
-  const n = parseInt(hex.slice(1), 16);
-  return `rgb(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255})`;
-};
 
 /**
  * The header is about to be redesigned in `utils/headerChrome.ts`, one constant
@@ -128,14 +121,14 @@ describe('the header wears the shared vocabulary', () => {
     expect(bar.innerHTML).toContain(HEADER_INNER);
   });
 
-  it('dresses the wordmark, its tile and its sub-label from headerChrome', () => {
+  it('dresses the wordmark, its lockup and its sub-label from headerChrome', () => {
     renderHeader('user');
 
     const wordmark = screen.getByRole('heading', { name: 'Band 6' });
     expect(wordmark.className).toContain(HEADER_WORDMARK);
     expect(screen.getByText('HSC Writing Coach').className).toContain(HEADER_SUBLABEL);
-    // The tile is the icon's own box, one step above the lucide <svg>.
-    expect(wordmark.closest('div')?.previousElementSibling?.className).toContain(HEADER_MARK_TILE);
+    expect(wordmark.parentElement?.className).toContain(HEADER_LOCKUP_STACK);
+    expect(wordmark.parentElement?.parentElement?.className).toContain(HEADER_LOCKUP);
   });
 
   it('dresses the rail controls that stay whatever the role', () => {
@@ -164,8 +157,6 @@ describe('the header wears the shared vocabulary', () => {
  * the moment every white-alpha value in it changed meaning. DesignSpec §2 asks
  * "what is it painted on?", and the only honest answer for anything on the rail
  * is now "a theme colour" — so it needs a light value and a `dark:` partner.
- * The wordmark tile is the documented exception: the brand gradient moved onto
- * it, and white-alpha on a gradient reads the same in both themes.
  */
 describe('the bar carries both themes', () => {
   it('is paper in light and glass in dark', () => {
@@ -195,76 +186,18 @@ describe('the bar carries both themes', () => {
     expect(wall).toBeNull();
   });
 
-  // The tile is the mark's ground, and the band colours are the subject, so it
-  // is a solid ink square in both themes. A gradient on it would put a second
-  // colour behind the six that carry the meaning.
-  it('paints the mark tile as one solid ink ground, with no gradient', () => {
-    const { container } = renderHeader('user');
-    const tile = screen.getByRole('img', { name: /band scale/i }).parentElement as HTMLElement;
-
-    expect(tile.className).toBe(HEADER_MARK_TILE);
-    expect(HEADER_MARK_TILE).toContain('bg-slate-900');
-    expect(HEADER_MARK_TILE).not.toMatch(/gradient|(^|\s)(from|via|to)-/);
-    expect(tile.className).not.toMatch(/gradient|(^|\s)(from|via|to)-/);
-    expect(container.querySelector('header .bg-gradient-to-br')).toBeNull();
-  });
-
-  // The rail is the one place the mark sits on the page's own ground, so the
-  // tile has to hold its own edge in both themes: a ring, and a shadow step.
-  it('gives the tile an edge in each theme', () => {
-    expect(HEADER_MARK_TILE).toContain('ring-1');
-    expect(HEADER_MARK_TILE).toContain('ring-slate-900/10');
-    expect(HEADER_MARK_TILE).toContain('dark:ring-white/10');
-    expect(HEADER_MARK_TILE).toContain('shadow-sm');
-    expect(HEADER_MARK_TILE).not.toContain('tile-bevel');
-  });
-
-  it('draws the mark on the tile with a white caret over the six band colours', () => {
-    renderHeader('user');
-
-    const mark = screen.getByRole('img', { name: /band scale/i });
-    const caret = mark.querySelector('svg') as SVGElement;
-    expect(caret.getAttribute('class')).toContain('text-white');
-    expect(caret.getAttribute('class')).not.toContain('dark:text-white');
-    // Six rungs, each in its own band colour. The colours are checked in
-    // BandLadderMark's own test; here it is enough that the tile holds all six.
-    expect(mark.querySelectorAll('[data-band]').length).toBe(6);
-  });
-
-  it('draws the band scale along the bar’s bottom edge in the six band colours', () => {
-    const { container } = renderHeader('user');
-    const hairline = container.querySelector(`header [class="${HEADER_HAIRLINE}"]`) as HTMLElement;
-
-    expect(hairline).toBeTruthy();
-    expect(hairline.getAttribute('aria-hidden')).toBe('true');
-    const segments = Array.from(hairline.children) as HTMLElement[];
-    expect(segments.map((el) => el.style.backgroundColor)).toEqual(
-      [1, 2, 3, 4, 5, 6].map((band) => hexToRgb(getBandHex(band)))
-    );
-    // No colour is written in the constant itself: the segments take theirs
-    // from getBandHex, so the edge tracks the palette like everything else.
-    expect(HEADER_HAIRLINE).not.toMatch(/(^|\s)(from|via|to|bg)-/);
-    expect(HEADER_HAIRLINE).toContain('band-scale-fade');
-  });
-
-  it('renders the mesh and the hairline beneath the content row', () => {
+  it('renders the mesh beneath the content row', () => {
     const { container } = renderHeader('user');
     const bar = container.querySelector('header') as HTMLElement;
 
     expect(bar.querySelector('[class*="mix-blend-overlay"]')).toBeTruthy();
-    const hairline = bar.querySelector(`[class="${HEADER_HAIRLINE}"]`) as HTMLElement;
-    expect(hairline).toBeTruthy();
-    expect(hairline.getAttribute('aria-hidden')).toBe('true');
-    // Both sit below HEADER_INNER's z-10, or the blend washes over the text.
+    // It sits below HEADER_INNER's z-10, or the blend washes over the text.
     expect(HEADER_INNER).toContain('relative z-10');
   });
 
   it('gives every rail colour a light value and a dark partner', () => {
-    // HEADER_MARK_TILE is the one exception: it is an ink ground in both themes,
-    // so `bg-slate-900` is the same colour on either and a `dark:` partner for it
-    // would be the actual mistake. Its ring does carry a partner. Everything else
-    // is on the rail.
-    const exempt = new Set(['HEADER_MARK_TILE']);
+    // Every constant is on the theme surface now. The old ink tile was the one
+    // exception, and it has gone, so nothing is exempt from the sweep.
 
     /** `hover:bg-slate-100` → `bg`; `text-lg` and `border-b` → null. */
     const colourProperty = (token: string): string | null => {
@@ -283,7 +216,7 @@ describe('the bar carries both themes', () => {
     };
 
     for (const [name, value] of Object.entries(headerChrome)) {
-      if (typeof value !== 'string' || exempt.has(name)) continue;
+      if (typeof value !== 'string') continue;
 
       const tokens = value.split(/\s+/).filter(Boolean);
       const themed = new Set(
@@ -315,6 +248,74 @@ describe('the bar carries both themes', () => {
     // single one did.
     expect(HEADER_SUBLABEL).toContain('t-label');
     expect(HEADER_SUBLABEL).not.toMatch(/(^|\s|:)tracking-/);
+  });
+});
+
+/**
+ * The brand block was a dark tile holding the scale at 32px, and six bars that
+ * size read as a signal meter. It is now the sign-in lockup at rail size: the
+ * scale over the wordmark, in one stack, with the sub-label beside the stack. The
+ * scale is decoration here, because the heading beside it already names the app,
+ * so it is hidden from assistive technology. The band hairline along the bar's
+ * edge repeated the same device, so the scale appears once.
+ */
+describe('the brand block is a lockup, not a tile', () => {
+  it('sets the scale over the name in one stack, with the sub-label beside the stack', () => {
+    renderHeader('user');
+
+    const heading = screen.getByRole('heading', { name: 'Band 6' });
+    const stack = heading.parentElement as HTMLElement;
+    const lockup = stack.parentElement as HTMLElement;
+    const sublabel = screen.getByText('HSC Writing Coach');
+
+    expect(stack.className).toContain(HEADER_LOCKUP_STACK);
+    expect(lockup.className).toContain(HEADER_LOCKUP);
+    expect(sublabel.parentElement).toBe(lockup);
+    expect(sublabel.previousElementSibling).toBe(stack);
+  });
+
+  it('holds the six rungs above the heading, in reading order', () => {
+    renderHeader('user');
+
+    const heading = screen.getByRole('heading', { name: 'Band 6' });
+    const scale = heading.previousElementSibling as HTMLElement;
+
+    expect(scale.querySelectorAll('[data-band]').length).toBe(6);
+    expect(scale.compareDocumentPosition(heading) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    // The caret is ink on paper in light, as it is on sign-in, not the tile's white.
+    const caret = scale.querySelector('svg') as SVGElement;
+    expect(caret.getAttribute('class')).toContain('light:text-slate-900');
+  });
+
+  it('hides the scale from assistive technology, since the heading names the app', () => {
+    const { container } = renderHeader('user');
+    const header = container.querySelector('header') as HTMLElement;
+    const scale = screen.getByRole('heading', { name: 'Band 6' })
+      .previousElementSibling as HTMLElement;
+
+    // `hidden: true` looks inside aria-hidden subtrees too, so a role left on
+    // the scale would still be found here.
+    expect(within(header).queryByRole('img', { name: /band scale/i, hidden: true })).toBeNull();
+    expect(scale.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('draws no tile behind the scale', () => {
+    const { container } = renderHeader('user');
+    const header = container.querySelector('header') as HTMLElement;
+    const scale = screen.getByRole('heading', { name: 'Band 6' })
+      .previousElementSibling as HTMLElement;
+
+    // Walk from the scale up to the bar: no box on the way may carry the old ink ground.
+    for (let el: HTMLElement | null = scale; el && el !== header; el = el.parentElement) {
+      expect(el.className).not.toContain('bg-slate-900');
+    }
+  });
+
+  it('draws no hairline along the bottom edge', () => {
+    const { container } = renderHeader('user');
+    const header = container.querySelector('header') as HTMLElement;
+
+    expect(header.querySelector('.band-scale-fade')).toBeNull();
   });
 });
 

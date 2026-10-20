@@ -2,20 +2,21 @@
 //
 // The app's mark, drawn with jsPDF primitives so the PDFs carry the same product
 // as the screen. It is the same mark as `components/BandLadderMark.tsx` (the
-// header tile and the sign-in lockup) and as `public/favicon.svg` (the app icon):
+// header and sign-in lockups) and as `public/favicon.svg` (the app icon):
 // the band scale, landed on 6. Six equal square rungs in a row, each in its own
 // band's colour (`BAND_HEX`), the sixth taller than the rest, and a caret — the
 // map-pin marker from the marking wait — standing over it. The caret is where the
 // student landed.
 //
-// The proportions follow BandLadderMark's `mark` size, which is the header tile's
-// and the favicon's: in a 40px tile, the mark is 32px across, the rungs 8px high,
+// The proportions follow BandLadderMark's `mark` size, which is the favicon's
+// (the header laid the scale flat over its wordmark instead, but a letterhead,
+// like a tab, wants a square): in a 40px tile, the mark is 32px across, the rungs 8px high,
 // the top rung 14px, the caret 8px wide with 1px between it and the top rung. The
 // units below are those pixels, so a fraction of the tile is a fraction of the
 // mark. The caret is the 14x16 box of the SVG path
 // `M7 16 L1 5 A6 6 0 1 1 13 5 Z`, drawn as the triangle plus the circle that path
 // describes, with the Band 6 dot in its head. Keep these in step with the screen:
-// a student who has seen the header should see the same mark on the page.
+// a student who has seen the app icon should see the same mark on the page.
 //
 // The one colour this module adds is the tile's slate-900 (the app icon's ink);
 // every band colour comes from `BAND_HEX`, and nothing here is set in a band
