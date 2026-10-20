@@ -42,9 +42,12 @@ describe('LoadingIndicator', () => {
 
   it('rotates HSC numbers in with the advice, labelled with their year', () => {
     vi.useFakeTimers();
-    // Start the rotation on the first note, so the next one is known.
+    // Start the rotation on the first note, so the next one is known. No quick
+    // check here: on a quiz wait the margin is advice only (see the quiz tests below).
     vi.spyOn(Math, 'random').mockReturnValue(0);
-    const { container } = render(<LoadingIndicator task="evaluation" message="Marking" />);
+    const { container } = render(
+      <LoadingIndicator task="evaluation" message="Marking" quiz={false} />
+    );
     const first = waitNotes('evaluation')[0];
     const second = waitNotes('evaluation')[1];
     expect(second.kind).toBe('fact');
@@ -164,9 +167,36 @@ describe('EvaluationProgressBar', () => {
     expect(tipShown('evaluation')).toBe(true);
   });
 
+  it('never rotates an HSC number into the margin while the quick check is on screen', () => {
+    vi.useFakeTimers();
+    vi.spyOn(Math, 'random').mockReturnValue(0);
+    const { container } = render(<EvaluationProgressBar />);
+
+    // Four rotations of the nine-second note: the margin walks through its notes.
+    const shown = new Set<string>();
+    const sample = (): void => {
+      const quote = container.querySelector('blockquote')?.textContent;
+      if (quote) shown.add(quote);
+    };
+    sample();
+    for (let i = 0; i < 4; i++) {
+      act(() => void vi.advanceTimersByTime(9_000));
+      sample();
+    }
+
+    expect(shown.size).toBeGreaterThan(1);
+    for (const quote of shown) expect(WAIT_TIPS.evaluation).toContain(quote);
+    const figureLabels = screen
+      .queryAllByText(/HSC in numbers/)
+      .filter((el) => !el.closest('.ai-wait-quiz'));
+    expect(figureLabels).toHaveLength(0);
+  });
+
   it('is the shared veil, with the writing card inner radius at its bottom corners', () => {
     render(<EvaluationProgressBar />);
     const veil = screen.getByRole('status').closest('[role="presentation"]') as HTMLElement;
+    // A wider column than the default, so the card can split into two on a desktop box.
+    expect(veil.querySelector('.ai-wait-frame > div')?.className).toContain('max-w-3xl');
 
     // The same recipe as every other AI wait: a near-opaque surface sheet, with
     // no blur, and the card's inner radius, not the outer one. A bare white here
@@ -370,6 +400,36 @@ describe('the quick check and the card’s parts', () => {
 
     render(<LoadingIndicator task="generation" message="Writing" />);
     expect(screen.queryByText('Quick check')).toBeNull();
+  });
+
+  it('marks a quiz wait as a quiz card, and a generation wait without a quiz as a plain one', () => {
+    const { container, unmount } = render(<LoadingIndicator task="evaluation" message="Marking" />);
+    const quizCard = container.querySelector('.ai-wait-card') as HTMLElement;
+    expect(quizCard.classList.contains('ai-wait-has-quiz')).toBe(true);
+    unmount();
+
+    const plain = render(<LoadingIndicator task="generation" message="Writing" />);
+    const plainCard = plain.container.querySelector('.ai-wait-card') as HTMLElement;
+    expect(plainCard.classList.contains('ai-wait-has-quiz')).toBe(false);
+  });
+
+  it('puts the drawing in the main column and the quick check and note in the aside', () => {
+    const { container } = render(<LoadingIndicator task="evaluation" message="Marking" />);
+    const main = container.querySelector('.ai-wait-main') as HTMLElement;
+    const aside = container.querySelector('.ai-wait-aside') as HTMLElement;
+    expect(main.querySelector('.ai-wait-glyph')).not.toBeNull();
+    expect(aside.querySelector('.ai-wait-quiz')).not.toBeNull();
+    expect(aside.querySelector('blockquote')).not.toBeNull();
+    expect(main.querySelector('.ai-wait-quiz')).toBeNull();
+  });
+
+  it('keeps the steps and the margin in the main column on a wait without the quiz', () => {
+    const { container } = render(
+      <LoadingIndicator task="generation" message="Writing" quiz={false} />
+    );
+    expect(container.querySelector('.ai-wait-aside')).toBeNull();
+    expect(container.querySelector('.ai-wait-main .ai-wait-steps')).not.toBeNull();
+    expect(container.querySelector('.ai-wait-main blockquote')).not.toBeNull();
   });
 
   it('opens the marking wait on a question about the verb being marked', () => {

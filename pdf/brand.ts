@@ -8,9 +8,11 @@
 // map-pin marker from the marking wait — standing over it. The caret is where the
 // student landed.
 //
-// The proportions follow BandLadderMark's `mark` size: a 28-unit width, rungs 4
-// units high, the top rung 7, the caret 5 wide with one unit between it and the
-// top rung. The caret is the 14x16 box of the SVG path
+// The proportions follow BandLadderMark's `mark` size, which is the header tile's
+// and the favicon's: in a 40px tile, the mark is 32px across, the rungs 8px high,
+// the top rung 14px, the caret 8px wide with 1px between it and the top rung. The
+// units below are those pixels, so a fraction of the tile is a fraction of the
+// mark. The caret is the 14x16 box of the SVG path
 // `M7 16 L1 5 A6 6 0 1 1 13 5 Z`, drawn as the triangle plus the circle that path
 // describes, with the Band 6 dot in its head. Keep these in step with the screen:
 // a student who has seen the header should see the same mark on the page.
@@ -44,8 +46,11 @@ const TILE: Rgb = [15, 23, 42];
 const WHITE: Rgb = [255, 255, 255];
 const TOP_BAND = 6;
 
-/** The mark in its own units: 28 across, with rung and caret heights in the same units. */
-const UNITS = { width: 28, gap: 2, rung: 4, tall: 7, caretW: 5, caretGap: 1 };
+/**
+ * The mark in its own units, the header tile's pixels: 32 across, rungs 8 high,
+ * the top rung 14, the caret 8 wide, one unit between the caret and the top rung.
+ */
+const UNITS = { width: 32, gap: 2, rung: 8, tall: 14, caretW: 8, caretGap: 1 };
 const RUNG_W = (UNITS.width - 5 * UNITS.gap) / 6;
 /** The caret's SVG box: 14 wide, 16 tall, with the point at the bottom. */
 const CARET_BOX = { w: 14, h: 16 };
@@ -54,7 +59,7 @@ const CARET_H_U = (UNITS.caretW * CARET_BOX.h) / CARET_BOX.w;
 const MARK_HEIGHT_U = CARET_H_U + UNITS.caretGap + UNITS.tall;
 
 /** The footer's bare mark: its width in base mm, and the gap before the page number. */
-export const FOOTER_MARK = { widthBaseMm: 6, gapBaseMm: 1.6 };
+export const FOOTER_MARK = { widthBaseMm: 5, gapBaseMm: 1.6 };
 
 /**
  * Height (mm) of the mark. `sizeMm` is the tile's side when `onTile`, and the

@@ -163,28 +163,29 @@ describe('the brand mark', () => {
 
   it('bare: six rungs in band order on one baseline, the sixth taller, and an ink caret', () => {
     const { doc, draws } = makeDoc();
-    drawBrandMark(doc, 0, 0, 28, { onTile: false });
+    drawBrandMark(doc, 0, 0, 32, { onTile: false });
 
     const rungs = draws.filter((d) => d.name === 'rect');
     expect(rungs).toHaveLength(6);
     rungs.forEach((r, i) => expect(r.fill).toEqual(BAND_ORDER[i]));
 
-    // At 28mm wide the mark's units are 1mm: a rung is 4 high, and the top one 7.
+    // At 32mm wide the mark's units are 1mm: a rung is 8 high, and the top one 14.
     const bottoms = rungs.map((r) => Number(r.args[1]) + Number(r.args[3]));
     bottoms.forEach((b) => expect(b).toBeCloseTo(bottoms[0], 6));
-    expect(Number(rungs[5].args[3])).toBeCloseTo(7, 6);
-    expect(Number(rungs[0].args[3])).toBeCloseTo(4, 6);
+    expect(Number(rungs[5].args[3])).toBeCloseTo(14, 6);
+    expect(Number(rungs[0].args[3])).toBeCloseTo(8, 6);
 
     const caret = draws.find((d) => d.name === 'triangle');
     expect(caret?.fill).toEqual(COLORS.ink);
   });
 
   it('is as tall as its proportions say, at each size', () => {
-    // The caret is 5 units wide in a 14 by 16 box, with a unit between it and the
-    // top rung, and the top rung 7 units: 28 units wide in all.
-    const units = (5 * 16) / 14 + 1 + 7;
-    expect(brandMarkHeightMm(28, false)).toBeCloseTo(units, 6);
-    expect(brandMarkHeightMm(10, true)).toBeCloseTo((10 * 0.7 * units) / 28, 6);
+    // The caret is 8 units wide in a 14 by 16 box, with a unit between it and the
+    // top rung, and the top rung 14 units: 32 units wide in all, which is the
+    // header tile's 32px in its 40px.
+    const units = (8 * 16) / 14 + 1 + 14;
+    expect(brandMarkHeightMm(32, false)).toBeCloseTo(units, 6);
+    expect(brandMarkHeightMm(40, true)).toBeCloseTo((40 * 0.8 * units) / 32, 6);
   });
 });
 

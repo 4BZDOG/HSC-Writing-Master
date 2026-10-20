@@ -120,7 +120,7 @@ const scopeBlock = (report: ProgressReport): ContentBlock => {
         ],
       },
     ],
-    basePadBottom: 4,
+    basePadBottom: 2,
   };
 };
 
@@ -661,7 +661,7 @@ export const buildReportBlocks = (report: ProgressReport): ContentBlock[] => {
     fields: false,
     accent,
     runs: [],
-    basePadBottom: 3,
+    basePadBottom: 2,
   });
 
   blocks.push(scopeBlock(report));

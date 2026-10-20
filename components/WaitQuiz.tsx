@@ -17,6 +17,13 @@ import { quizDeck } from '../utils/waitQuiz';
  * contrast), and once an answer is picked the verb's own wait tip is shown as
  * the reason.
  *
+ * A question about the published HSC results (utils/waitQuiz.ts, shape
+ * `number`) shows its year once answered, and its reason is the published fact,
+ * so the figure is never read as anyone's mark.
+ *
+ * Once an answer is picked, the choice that was neither picked nor right is
+ * taken off the card, so the feedback has the room.
+ *
  * The streak of right answers is kept in sessionStorage, so it carries from one
  * wait to the next within a session. Storage can throw (private windows, blocked
  * site data), so every read and write is guarded and the streak falls back to
@@ -103,9 +110,14 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
   const question = deck[index % deck.length];
   const answered = picked !== null;
   const right = answered && picked === question.answerIndex;
-  // Sentence choices (the verb shape) read best as a list; verb choices are
-  // short, so they sit in three columns.
-  const sentences = question.shape === 'verb';
+  // The layout follows the words, not the question's shape: short choices (every
+  // one 16 characters or fewer) sit in three columns, and any longer choice gives
+  // the whole set as a list.
+  const grid = question.choices.every((c) => c.length <= 16);
+  const correct = question.choices[question.answerIndex];
+  // A short right answer is quoted in the wrong-answer line. A long one is already
+  // shown, highlighted, in the choices, so the line says only that it was not right.
+  const quoteCorrect = correct.length <= 24;
 
   const choose = (choice: number): void => {
     if (picked !== null) return;
@@ -123,8 +135,8 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
 
   const choiceClasses = (i: number): string => {
     const base =
-      'rounded-lg border px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))]';
-    const align = sentences ? 'text-left' : 'text-center font-medium';
+      'ai-wait-choice rounded-lg border px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))]';
+    const align = grid ? 'text-center font-medium' : 'text-left';
     if (!answered) {
       return `${base} ${align} cursor-pointer border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:border-[rgb(var(--color-accent))]`;
     }
@@ -149,7 +161,10 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
       }}
     >
       <div className="flex items-baseline justify-between gap-3">
-        <h4 id={headingId} className="t-label text-slate-800 dark:text-slate-200">
+        <h4
+          id={headingId}
+          className="ai-wait-quiz-title t-label text-slate-800 dark:text-slate-200"
+        >
           Quick check
         </h4>
         {streak >= 2 && (
@@ -171,33 +186,40 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
           ref={groupRef}
           role="group"
           aria-labelledby={promptId}
-          className={`mt-3 ${sentences ? 'flex flex-col gap-2' : 'grid grid-cols-3 gap-2'}`}
+          className={`mt-3 ${grid ? 'grid grid-cols-3 gap-2' : 'flex flex-col gap-2'}`}
         >
-          {question.choices.map((choice, i) => (
-            <button
-              key={i}
-              type="button"
-              // aria-disabled, not disabled: a disabled button drops keyboard
-              // focus, and the reader is still moving through the choices.
-              aria-disabled={answered ? 'true' : undefined}
-              onClick={() => choose(i)}
-              className={choiceClasses(i)}
-            >
-              <span className={`flex items-start gap-2 ${sentences ? '' : 'justify-center'}`}>
-                {answered && i === question.answerIndex && (
-                  <Check className="mt-0.5 w-4 h-4 shrink-0" aria-hidden="true" />
-                )}
-                {answered && i === picked && i !== question.answerIndex && (
-                  <X className="mt-0.5 w-4 h-4 shrink-0" aria-hidden="true" />
-                )}
-                <span>{choice}</span>
-              </span>
-            </button>
-          ))}
+          {question.choices.map((choice, i) => {
+            // Once answered, only the picked choice and the right one stay on the card.
+            if (answered && i !== question.answerIndex && i !== picked) return null;
+            return (
+              <button
+                key={i}
+                type="button"
+                // aria-disabled, not disabled: a disabled button drops keyboard
+                // focus, and the reader is still moving through the choices.
+                aria-disabled={answered ? 'true' : undefined}
+                onClick={() => choose(i)}
+                className={choiceClasses(i)}
+              >
+                {/* In a column the mark sits above the words, so a short choice keeps its words on one line. */}
+                <span
+                  className={grid ? 'flex flex-col items-center gap-1' : 'flex items-start gap-2'}
+                >
+                  {answered && i === question.answerIndex && (
+                    <Check className="mt-0.5 w-4 h-4 shrink-0" aria-hidden="true" />
+                  )}
+                  {answered && i === picked && i !== question.answerIndex && (
+                    <X className="mt-0.5 w-4 h-4 shrink-0" aria-hidden="true" />
+                  )}
+                  <span>{choice}</span>
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      <div aria-live="polite" className="mt-3">
+      <div aria-live="polite" className={answered ? 'mt-3' : undefined}>
         {answered && (
           <>
             <p
@@ -207,12 +229,18 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
             >
               {right
                 ? 'Right.'
-                : question.shape === 'meaning'
-                  ? `Not quite. It’s “${question.verb}”.`
+                : quoteCorrect
+                  ? // A sentence choice brings its own full stop; the quote supplies one.
+                    `Not quite. It’s “${correct.replace(/\.$/, '')}”.`
                   : 'Not quite.'}
             </p>
+            {question.shape === 'number' && (
+              <p className="mt-1 t-label text-slate-600 dark:text-slate-400">
+                HSC in numbers, {question.year}
+              </p>
+            )}
             {question.reason && (
-              <p className="mt-1 font-serif italic text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
+              <p className="ai-wait-reason mt-1 font-serif italic text-[15px] leading-relaxed text-slate-700 dark:text-slate-300">
                 {question.reason}
               </p>
             )}

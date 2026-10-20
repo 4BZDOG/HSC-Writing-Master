@@ -71,7 +71,9 @@ const EvaluationProgressBar: React.FC<{ verb?: string }> = ({ verb }) => {
   // Read at render, not at module scope — `npm run check:eager-reads` holds
   // that line, since an import read during module init is how a chunk cycle
   // renders the page blank.
-  const notes = useMemo(() => waitNotes('evaluation'), []);
+  // Advice only: a fact note is a published figure, and the quick check asks about
+  // those figures, so the margin does not give the answer away.
+  const notes = useMemo(() => waitNotes('evaluation').filter((n) => n.kind === 'advice'), []);
   // A random opening note, so the same card does not always open on the same
   // sentence. The verb's own tip is deliberately not among these notes.
   const [noteOffset] = useState(() => Math.floor(Math.random() * notes.length));
@@ -128,43 +130,48 @@ const EvaluationProgressBar: React.FC<{ verb?: string }> = ({ verb }) => {
   // every other one. It is laid over the writing card's body, below the header
   // (see Editor), which is why its bottom corners take the card's INNER radius
   // and its top edge is the header's own edge. The card sits inside the veil and
-  // is held to its height, so on a phone it scrolls rather than running off.
+  // is held to its height, so on a phone it scrolls rather than running off. The
+  // wider column is for the card's two-column layout on a desktop box (index.css).
   return (
-    <AiBusyOverlay show rounded="rounded-b-surface-inner">
-      <WaitCard accent={WAIT_INK} cardRef={contentRef}>
-        <WaitStage task="evaluation" accent={WAIT_INK} />
+    <AiBusyOverlay show rounded="rounded-b-surface-inner" maxWidth="max-w-3xl">
+      <WaitCard accent={WAIT_INK} cardRef={contentRef} quiz>
+        <div className="ai-wait-main flex min-w-0 flex-col">
+          <WaitStage task="evaluation" accent={WAIT_INK} />
 
-        <div className="ai-wait-body flex flex-col">
-          <div className="flex items-start justify-between gap-4">
-            <div
-              role="status"
-              aria-live="polite"
-              aria-atomic="true"
-              className="min-w-0 flex-1 text-left"
-            >
-              <h3 className="ai-wait-title text-xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">
-                Marking your response
-              </h3>
-              <p className="mt-1 text-sm font-medium text-[rgb(var(--color-accent-ink))]">
-                <span className="ai-wait-step-text">{statusLine}</span>
-              </p>
+          <div className="ai-wait-body flex flex-col">
+            <div className="flex items-start justify-between gap-4">
+              <div
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+                className="min-w-0 flex-1 text-left"
+              >
+                <h3 className="ai-wait-title text-xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">
+                  Marking your response
+                </h3>
+                <p className="mt-1 text-sm font-medium text-[rgb(var(--color-accent-ink))]">
+                  <span className="ai-wait-step-text">{statusLine}</span>
+                </p>
+              </div>
+
+              <WaitClock
+                elapsed={elapsedSec}
+                usual="Usually 20–40s"
+                overdue={overdue}
+                overdueText="Longer than usual. A detailed answer takes more reading."
+              />
             </div>
 
-            <WaitClock
-              elapsed={elapsedSec}
-              usual="Usually 20–40s"
-              overdue={overdue}
-              overdueText="Longer than usual. A detailed answer takes more reading."
+            <WaitTrack
+              count={3}
+              active={segmentFor(shownPhase)}
+              ink={WAIT_INK}
+              amber={isRetrying || isFallback}
             />
           </div>
+        </div>
 
-          <WaitTrack
-            count={3}
-            active={segmentFor(shownPhase)}
-            ink={WAIT_INK}
-            amber={isRetrying || isFallback}
-          />
-
+        <div className="ai-wait-aside flex min-w-0 flex-col border-primary">
           <WaitQuiz verb={verb} accent={WAIT_INK} className="ai-wait-quiz" />
 
           {/* A marker's note in the margin while the real one works. Outside the

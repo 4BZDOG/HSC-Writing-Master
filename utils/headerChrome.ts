@@ -10,8 +10,10 @@
  *
  * Each constant therefore records what it is painted ON, because that is the
  * question §2 asks of every colour and it is not answerable from the class
- * string alone. The brand gradient survives on the 40px wordmark tile, and the
- * values sitting on *it* are still white-alpha and still correct.
+ * string alone. The mark tile is the one constant that is painted on a fixed
+ * ink ground in both themes, so it is the one place a colour needs no partner.
+ * The gradient did not survive on it: a solid ink tile lets the band colours it
+ * holds read at full strength (see `HEADER_MARK_TILE`).
  *
  * New code here is `dark:`-first: light is the base, `dark:` carries the
  * override (see DesignSpec §2, "Which variant to write in new code").
@@ -42,13 +44,17 @@ export const HEADER_BAR =
   'border-b border-slate-300 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
 
-/** Edge-lighting on the glass. Static by design — the tier colour is already
- *  stated by the editor's chroma and by SyllabusNavBar's stripe; a third
- *  simultaneous statement is noise, and a header that changes colour is a
- *  header that moves. Painted on the bar's own bottom edge. */
+/** The band scale along the bar's bottom edge. It is the mark's own scale, drawn
+ *  as a line: six equal segments in the six band colours, 2px tall, at 70%, and
+ *  faded out towards both ends by `.band-scale-fade` (index.css). AppHeader fills
+ *  it with one span per band, each coloured from `getBandHex`, so no colour is
+ *  written here and the line tracks the palette with everything else.
+ *
+ *  It is not a gradient and it does not move. The indigo wash it replaced
+ *  belonged to nothing on the page, and a header that animates is a header that
+ *  moves under the reader's eye. Painted on the bar's own bottom edge. */
 export const HEADER_HAIRLINE =
-  'absolute inset-x-0 bottom-0 h-px pointer-events-none ' +
-  'bg-gradient-to-r from-transparent via-indigo-500/40 dark:via-indigo-400/30 to-transparent';
+  'absolute inset-x-0 bottom-0 h-[2px] flex opacity-70 pointer-events-none band-scale-fade';
 
 /** The content row, above the mesh and the hairline on `z-10`. It never wraps:
  *  the eight admin buttons that used to force a second row now live behind one
@@ -61,22 +67,23 @@ export const HEADER_INNER =
   'relative z-10 px-4 sm:px-6 lg:px-8 h-full w-full max-w-[1600px] mx-auto ' +
   'flex flex-nowrap items-center justify-between gap-x-3';
 
-/** The wordmark tile — where the brand gradient went when it came off the bar.
- *  White-alpha ON THE BRAND GRADIENT: it reads the same in both themes and is
- *  the one constant here that takes no light partner, per §2. That exemption
- *  is still the right one and `appHeaderChrome.test.tsx` still encodes it; the
- *  edge it applies to has changed.
+/** The mark's tile: a solid ink square, the same in both themes. It was an indigo
+ *  to sky gradient with white bars on it, which read as a generic audio
+ *  equaliser and lost the one thing the mark is for. The band colours are the
+ *  subject now, and they need a ground that does not compete: `bg-slate-900`
+ *  is the ground the marking glyph is drawn on, and it reads at full strength on
+ *  the dark glass and on the white paper rail alike. The tile is the only
+ *  constant that is painted on a fixed ground in both themes, so the rule in
+ *  §2 that asks for a `dark:` partner does not apply to it, and the test
+ *  that checks that says so.
  *
- *  `tile-bevel` in place of `border border-white/20 shadow-lg`. The border was
- *  never the even white hairline it reads as in source: the gradient tiles
- *  under it (`background-clip: border-box`), so each rim composited 20% white
- *  over a different part of the gradient. Sampled on this tile at DPR 1, the
- *  top and left rims came out at 1.93:1 against the fill and the bottom and
- *  right at 1.04:1 — an accidental bevel, lit from the top-left. The class
- *  draws that deliberately with inset shadows, which paint inside the padding
- *  box where the gradient cannot bleed through them. It folds the drop shadow
- *  in because `box-shadow` is one property and a separate `shadow-lg` would
- *  lose to it. See `index.css`.
+ *  The edge is a 1px ring: `ring-slate-900/10` on paper, `ring-white/10` on the
+ *  glass. It is a ring rather than a border so it sits outside the box and does
+ *  not take a pixel from the 28px mark, and the drop shadow is `shadow-sm`, one
+ *  of the two elevation steps the surface scale allows. `tile-bevel` was the
+ *  gradient tile's lighting and is not used here: its inset highlights were drawn
+ *  to hide a gradient's uneven rim, and on a solid ground they would only add a
+ *  lit top edge the mark does not need.
  *
  *  `rounded-tile` (32%) in place of `rounded-2xl` (16px), which is the house
  *  token for a fixed-size icon tile and fixes a shape that changed with the
@@ -84,8 +91,8 @@ export const HEADER_INNER =
  *  same mark was rounder on a phone than on a laptop. A percentage radius
  *  tracks the box, which is the whole reason that token exists. */
 export const HEADER_MARK_TILE =
-  'w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-tile bg-gradient-to-br from-indigo-600 to-sky-500 ' +
-  'tile-bevel flex items-center justify-center';
+  'w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-tile bg-slate-900 shadow-sm ' +
+  'ring-1 ring-slate-900/10 dark:ring-white/10 flex items-center justify-center';
 
 /** "Band 6". The house display treatment — `italic uppercase` over
  *  `font-black tracking-tight`. On the rail, so it needs the pair.
@@ -98,8 +105,10 @@ export const HEADER_MARK_TILE =
  *  blast radius either way.
  *
  *  `tracking-tight` (-0.025em) and not `tracking-tighter` (-0.05em), here
- *  only. At the 24px this renders at, -1.2px closed the gap between the D and
- *  the 6 enough to read as one glyph pair; -0.6px does not. The smaller sizes
+ *  only. At the 24px this rendered at, -1.2px closed the gap between the D and
+ *  the 6 enough to read as one glyph pair; -0.6px did not. The wordmark is 26px
+ *  now (`sm:text-[26px]`, for presence beside the tile), and `tracking-tight` is
+ *  -0.65px there: the same proportion, so the same answer. The smaller sizes
  *  the rest of the house treatment runs at do not have that problem, so they
  *  keep the tighter value and this is a stated exception rather than a
  *  re-tracking of the brand.
@@ -115,10 +124,15 @@ export const HEADER_MARK_TILE =
  *  with an admin's four controls, the rail leaves the wordmark about 30px and it
  *  painted "B…" — a letter and an ellipsis, not a brand. So under 360px it is
  *  visually hidden (`max-[359px]:sr-only`) and stays the page's `<h1>` for a
- *  screen reader; the gradient tile carries the brand alone at that width, as
- *  it does for the sub-label below `sm`. 360px is where "BAND 6" fits whole. */
+ *  screen reader; the mark tile carries the brand alone at that width, as it
+ *  does for the sub-label below `sm`. 360px is where "BAND 6" fits whole.
+ *
+ *  `sm:text-[26px]` and not `sm:text-2xl` (24px): the tile is 48px from `sm` up
+ *  and the wordmark needed a little more weight beside it to read as the name
+ *  of the thing, not a label on it. 26px is an arbitrary size rather than a
+ *  Tailwind step, and it is said here so it is not "fixed" back to 24px. */
 export const HEADER_WORDMARK =
-  't-display text-lg sm:text-2xl tracking-tight leading-none italic uppercase ' +
+  't-display text-lg sm:text-[26px] tracking-tight leading-none italic uppercase ' +
   'truncate text-slate-900 dark:text-white max-[359px]:sr-only';
 
 /** "HSC Writing Coach". On the rail. The tracking no longer jumps at `sm` —
@@ -137,7 +151,7 @@ export const HEADER_WORDMARK =
  *  under them is the part a phone can spare, which is the same call the profile
  *  control's display name and the storage chip's text already make. */
 export const HEADER_SUBLABEL =
-  't-label hidden sm:block mt-1 truncate ' + 'text-slate-500 dark:text-slate-400';
+  't-label hidden sm:block mt-0.5 truncate ' + 'text-slate-500 dark:text-slate-400';
 
 /** The square controls that stay on the rail whatever the role: the tools
  *  trigger, help and the theme toggle. On the rail, so they carry the pair; the

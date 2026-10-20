@@ -368,7 +368,7 @@ export const buildEvaluationBlocks = (
     fields: chrome.showFields ?? true,
     accent: bandColor(data.overallBand),
     runs: [],
-    basePadBottom: 3,
+    basePadBottom: 2,
   });
 
   // 1. The question, in a box ------------------------------------------------

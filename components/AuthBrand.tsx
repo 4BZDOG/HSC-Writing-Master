@@ -19,7 +19,7 @@ import BandLadderMark from './BandLadderMark';
 const AuthBrand: React.FC<{ tagline?: React.ReactNode }> = ({ tagline }) => (
   <div className="text-center mb-8 sm:mb-12 relative z-10 animate-fade-in">
     <div className="inline-block mb-6">
-      <BandLadderMark />
+      <BandLadderMark entrance />
     </div>
     {/* The same name the header sets, set the same way. `t-display` carries the
         face and the weight; the caps, slope and tracking are the wordmark's own

@@ -198,9 +198,9 @@ export const BAND_SCALE = {
  * beneath. Measured and drawn from these numbers, so the two cannot disagree.
  */
 export const LETTERHEAD = {
-  /** The tile's side. The mark on it is `markFraction` of this, as the app's header tile. */
+  /** The tile's side. The mark on it is `markFraction` of this: 32 of the header tile's 40px. */
   tileBaseMm: 9,
-  markFraction: 0.7,
+  markFraction: 0.8,
   /** "BAND 6": small beside its tile, so it is never the largest text on a Band 2 report. */
   wordPt: 13,
   /** Tile edge to the wordmark. */
@@ -212,11 +212,11 @@ export const LETTERHEAD = {
    * The strip's top, from the top of the content area. The tile is a little taller
    * than the header band it sits in, so the strip is set just below where it ends.
    */
-  stripTopBaseMm: 2.1,
+  stripTopBaseMm: 2,
   /** The strip is a hairline of the six colours, not a rule. */
   stripBaseMm: 0.9,
   /** Strip bottom to the masthead title. */
-  titleGapBaseMm: 3,
+  titleGapBaseMm: 2,
 };
 
 /**

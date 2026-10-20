@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertTriangle, LifeBuoy, Sun, Moon } from 'lucide-react';
 import BandLadderMark from './BandLadderMark';
+import { getBandHex } from '../utils/renderUtils';
 import { authService } from '../services/authService';
 import MeshOverlay from './MeshOverlay';
 import AppHeaderToolsMenu from './AppHeaderToolsMenu';
@@ -41,8 +42,9 @@ interface AppHeaderProps {
  *
  * The class strings come from `utils/headerChrome.ts`, which is where the bar's
  * appearance is decided and where what-each-value-is-painted-on is recorded.
- * The bar is a translucent token surface now, not a gradient wall, so the only
- * white-alpha left in this file sits on the brand gradient or on solid indigo.
+ * The bar is a translucent token surface now, not a gradient wall. The only
+ * white left in this file is the avatar's initial on solid indigo, and the
+ * mark's caret, which `BandLadderMark` draws on the ink tile.
  *
  * There is no routine telemetry on the rail. API health was stated here, in the
  * bottom-left health chip and in the blocked-countdown banner all at once, and
@@ -61,6 +63,10 @@ interface AppHeaderProps {
 const avatarInitial = (displayName: string): string =>
   displayName.trim().charAt(0).toUpperCase() || '?';
 
+/** The six bands, in order, for the scale along the bar's edge. The colours
+ *  are not written here: each segment takes `getBandHex` of its band. */
+const BAND_SCALE = [1, 2, 3, 4, 5, 6];
+
 const AppHeader: React.FC<AppHeaderProps> = ({
   user,
   onUpdateUser,
@@ -76,7 +82,8 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
   return (
     <header className={HEADER_BAR}>
-      {/* Texture and edge-lighting, both below the content row's `z-10`.
+      {/* Texture, and the band scale along the bottom edge, both below the
+          content row's `z-10`.
           The mesh is a dark-theme flourish only. A second pass in slate was
           tried on the light rail and measured at one luminance step in 255 —
           `mix-blend-overlay` resolves to the backdrop wherever the backdrop is
@@ -86,11 +93,22 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           that a call site cannot outrank; that is the residue measured, and it
           is why `opacity-0` here reads as "off" without being zero.) */}
       <MeshOverlay opacity="opacity-0 dark:opacity-[0.03]" />
-      <div className={HEADER_HAIRLINE} aria-hidden="true" />
+      {/* The band scale as an edge: six equal segments, one per band, in the
+          colours the marks and the reports already use. It is decoration that
+          says what the app is for, so it is `aria-hidden` and carries no text. */}
+      <div className={HEADER_HAIRLINE} aria-hidden="true">
+        {BAND_SCALE.map((band) => (
+          <span
+            key={band}
+            className="flex-1 h-full"
+            style={{ backgroundColor: getBandHex(band) }}
+          />
+        ))}
+      </div>
       <div className={HEADER_INNER}>
-        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+        <div className="flex items-center gap-3 min-w-0">
           <div className={HEADER_MARK_TILE}>
-            <BandLadderMark size="mark" fillClass="bg-white" />
+            <BandLadderMark size="mark" onInk />
           </div>
           <div className="min-w-0">
             <h1 className={HEADER_WORDMARK}>Band 6</h1>

@@ -32,12 +32,16 @@ import WaitQuiz from './WaitQuiz';
  *    segments and the drawing in that band's colour.
  *
  * The card sizes itself to the box it covers (the `ai-wait-stage` of
- * AiBusyOverlay or GlobalLoadingOverlay, see index.css). As that box gets
- * shorter it drops the quick check, then the results chart, then the note and
- * engine line, then the step list, then the clock, and last the drawing. So a
- * wait over a small dialog is a compact card rather than a tall one with its top
- * and bottom cut off, and a phone gets the full card when it has the height for
- * it. Each part that can go carries an `ai-wait-*` class for that.
+ * AiBusyOverlay or GlobalLoadingOverlay, see index.css). A wait with a quick
+ * check is laid out in two columns when the box is wide and not tiny: the
+ * drawing and the header on the left, the quick check on the right. In a short
+ * box the drawing goes first and the quick check stays, in a compact form; only
+ * a box a few lines tall gives the quick check up. A wait with no quick check
+ * drops the results chart, then the note and engine line, then the step list,
+ * then the clock, and last the drawing. So a wait over a small dialog is a
+ * compact card rather than a tall one with its top and bottom cut off, and a
+ * phone gets the full card when it has the height for it. Each part that can go
+ * carries an `ai-wait-*` class for that.
  *
  * The pieces are exported (WaitCard, WaitStage, WaitTrack, WaitClock) so that
  * EvaluationProgressBar draws the same card with its own wording.
@@ -169,12 +173,24 @@ const stepDuration = (duration: number, stepCount: number): number =>
 export const WaitCard: React.FC<{
   accent: string;
   isError?: boolean;
+  /**
+   * The card carries the quick check. Its class lets index.css lay the card out
+   * in two columns on a wide box, and drop the drawing before the quiz on a short one.
+   */
+  quiz?: boolean;
   cardRef?: React.Ref<HTMLDivElement>;
+  /**
+   * The card's parts, in the order they stack on a narrow box: a `.ai-wait-main`
+   * (the drawing and the header) and, on a quiz wait, a `.ai-wait-aside` (the
+   * quick check and the note). The aside is the right-hand column when the card splits.
+   */
   children: React.ReactNode;
-}> = ({ accent, isError = false, cardRef, children }) => (
+}> = ({ accent, isError = false, quiz = false, cardRef, children }) => (
   <div
     ref={cardRef}
     className={`ai-wait-card relative w-full max-w-[440px] mx-auto overflow-x-hidden overflow-y-auto overscroll-contain rounded-panel shadow-lg border flex flex-col animate-in ${
+      quiz ? 'ai-wait-has-quiz ' : ''
+    }${
       isError
         ? 'bg-red-50/90 dark:bg-slate-900/90 border-red-200 dark:border-red-500/30'
         : 'bg-white/90 dark:bg-slate-900/90 border-slate-200/80 dark:border-white/10'
@@ -307,7 +323,7 @@ export const WaitClock: React.FC<{
         className={`mt-1.5 text-xs ${
           overdue
             ? 'ml-auto max-w-[9rem] text-amber-700 dark:text-amber-300'
-            : 'text-slate-500 dark:text-slate-400'
+            : 'ai-wait-usual text-slate-500 dark:text-slate-400'
         }`}
       >
         {overdue ? overdueText : usual}
@@ -356,14 +372,19 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
     return getModelById(getSelectionSnapshot()[role])?.label ?? 'the AI engine';
   }, [taskType]);
 
-  const notes = useMemo(() => waitNotes(taskType), [taskType]);
+  // The quick check replaces the step list: the header and the track already say
+  // where the wait is, and the upcoming steps would only compete with the question.
+  const showQuiz = !isError && isAiWait && (quiz ?? taskType === 'evaluation');
+  // On a quiz wait the margin note is advice only. A fact note would give away the
+  // answer to a published-figure question on the card, so only advice rotates there.
+  const notes = useMemo(() => {
+    const all = waitNotes(taskType);
+    return showQuiz ? all.filter((n) => n.kind === 'advice') : all;
+  }, [taskType, showQuiz]);
   // A random first note, so the same card does not open on the same sentence.
   const [noteOffset] = useState(() => Math.floor(Math.random() * notes.length));
   const note = notes[(noteOffset + Math.floor(elapsed / TIP_SECONDS)) % notes.length];
   const showResultsChart = isAiWait && RESULTS_CHART_TASKS.includes(taskType);
-  // The quick check replaces the step list: the header and the track already say
-  // where the wait is, and the upcoming steps would only compete with the question.
-  const showQuiz = !isError && isAiWait && (quiz ?? taskType === 'evaluation');
 
   // Walk the steps forward, pacing them across the expected duration and
   // holding on the last (a list that loops back reads as a glitch).
@@ -408,151 +429,164 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
   // An indeterminate segment when there is no usual time, or the wait has run past it.
   const trackStepMs = overdue || !hasEstimate ? undefined : stepDuration(duration, steps.length);
 
-  return (
-    <WaitCard accent={accent} isError={isError}>
-      {isError ? (
-        <div className="h-[92px] flex items-center justify-center ai-wait-glyph" aria-hidden="true">
-          <div className="w-16 h-16 rounded-tile flex items-center justify-center bg-red-100 dark:bg-red-500/15">
-            <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
-          </div>
-        </div>
-      ) : (
-        <WaitStage task={taskType} accent={accent} />
-      )}
+  // The margin note, the results chart and the engine line. A quiz wait keeps them
+  // in the aside under the quick check; any other wait keeps them under its steps.
+  const margin =
+    !isError && isAiWait ? (
+      <>
+        {/* The note, in the margin (see WaitNoteFigure). Outside the live
+            region, so it is never announced on its own clock. On a quiz wait
+            it is the first thing a short box gives up. */}
+        <WaitNoteFigure
+          key={note.text}
+          note={note}
+          accent={accent}
+          className={showQuiz ? 'ai-wait-note ai-wait-note-with-quiz' : 'ai-wait-note'}
+        />
 
-      <div className="ai-wait-body flex flex-col">
-        <div className="flex items-start justify-between gap-4">
-          {/* The one live region: the title, and the current step, which a screen
-              reader hears with its "Step N of M" prefix. The rotating note is
-              outside the region so it is never announced on its own schedule, and
-              so is the clock, which would otherwise be read out on every tick. */}
-          <div role="status" aria-live="polite" aria-atomic="true" className="min-w-0 text-left">
-            <h3
-              className={`ai-wait-title text-xl font-semibold tracking-tight ${
-                isError ? 'text-red-700 dark:text-red-300' : 'text-slate-900 dark:text-slate-100'
-              }`}
-            >
-              {isError ? 'The AI request did not finish' : message || TASK_TITLE[taskType]}
-            </h3>
-            {isError ? (
-              <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                {error || 'Try again in a moment.'}
-              </p>
-            ) : (
-              <p className="mt-1 text-sm font-medium text-[rgb(var(--color-accent-ink))]">
-                <span className="sr-only">
-                  Step {current + 1} of {visibleSteps.length}:{' '}
-                </span>
-                <span className="ai-wait-step-text">{visibleSteps[current]}</span>
-              </p>
+        {showResultsChart && (
+          <div className="ai-wait-results">
+            <HscResultsCard />
+          </div>
+        )}
+
+        <p
+          className={`ai-wait-engine text-center text-xs text-slate-500 dark:text-slate-400 ${
+            showResultsChart ? '' : '-mt-2'
+          }`}
+        >
+          Working with {engineLabel}
+        </p>
+      </>
+    ) : null;
+
+  return (
+    <WaitCard accent={accent} isError={isError} quiz={showQuiz}>
+      <div className="ai-wait-main flex min-w-0 flex-col">
+        {isError ? (
+          <div
+            className="h-[92px] flex items-center justify-center ai-wait-glyph"
+            aria-hidden="true"
+          >
+            <div className="w-16 h-16 rounded-tile flex items-center justify-center bg-red-100 dark:bg-red-500/15">
+              <AlertTriangle className="w-8 h-8 text-red-600 dark:text-red-400" />
+            </div>
+          </div>
+        ) : (
+          <WaitStage task={taskType} accent={accent} />
+        )}
+
+        <div className="ai-wait-body flex flex-col">
+          <div className="flex items-start justify-between gap-4">
+            {/* The one live region: the title, and the current step, which a screen
+                reader hears with its "Step N of M" prefix. The rotating note is
+                outside the region so it is never announced on its own schedule, and
+                so is the clock, which would otherwise be read out on every tick. */}
+            <div role="status" aria-live="polite" aria-atomic="true" className="min-w-0 text-left">
+              <h3
+                className={`ai-wait-title text-xl font-semibold tracking-tight ${
+                  isError ? 'text-red-700 dark:text-red-300' : 'text-slate-900 dark:text-slate-100'
+                }`}
+              >
+                {isError ? 'The AI request did not finish' : message || TASK_TITLE[taskType]}
+              </h3>
+              {isError ? (
+                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {error || 'Try again in a moment.'}
+                </p>
+              ) : (
+                <p className="mt-1 text-sm font-medium text-[rgb(var(--color-accent-ink))]">
+                  <span className="sr-only">
+                    Step {current + 1} of {visibleSteps.length}:{' '}
+                  </span>
+                  <span className="ai-wait-step-text">{visibleSteps[current]}</span>
+                </p>
+              )}
+            </div>
+
+            {!isError && (
+              <WaitClock
+                elapsed={elapsed}
+                usual={
+                  hasEstimate
+                    ? `Usually about ${formatSeconds(Math.max(1, Math.round(duration)))}`
+                    : undefined
+                }
+                overdue={overdue}
+                overdueText="Taking longer than usual. Still working."
+              />
             )}
           </div>
 
           {!isError && (
-            <WaitClock
-              elapsed={elapsed}
-              usual={
-                hasEstimate
-                  ? `Usually about ${formatSeconds(Math.max(1, Math.round(duration)))}`
-                  : undefined
-              }
-              overdue={overdue}
-              overdueText="Taking longer than usual. Still working."
-            />
-          )}
-        </div>
-
-        {!isError && (
-          <>
             <WaitTrack
               count={visibleSteps.length}
               active={current}
               ink={accent}
               stepMs={trackStepMs}
             />
+          )}
 
-            {showQuiz ? (
-              <WaitQuiz verb={verb} accent={accent} className="ai-wait-quiz" />
-            ) : (
-              /* The steps as a short timeline — it IS a sequence, so it is drawn
-                 as one: a thread down the left, filled where it has been. Aria-hidden,
-                 because the live region above already names the step. */
-              <ul aria-hidden="true" className="relative space-y-2 pl-1 ai-wait-steps">
-                <span className="absolute left-[8px] top-2 bottom-2 w-px bg-slate-200 dark:bg-slate-700" />
-                {visibleSteps.map((step, i) => {
-                  const state = i < current ? 'done' : i === current ? 'active' : 'pending';
-                  return (
-                    <li key={i} className="relative flex items-center gap-3">
-                      <span className="relative w-[10px] h-[10px] shrink-0 flex items-center justify-center">
-                        {state === 'active' && (
-                          <span
-                            className="absolute inset-[-4px] rounded-full opacity-30 animate-ping"
-                            style={{ backgroundColor: accent }}
-                          />
-                        )}
+          {!isError && !showQuiz && (
+            /* The steps as a short timeline — it IS a sequence, so it is drawn
+               as one: a thread down the left, filled where it has been. Aria-hidden,
+               because the live region above already names the step. */
+            <ul aria-hidden="true" className="relative space-y-2 pl-1 ai-wait-steps">
+              <span className="absolute left-[8px] top-2 bottom-2 w-px bg-slate-200 dark:bg-slate-700" />
+              {visibleSteps.map((step, i) => {
+                const state = i < current ? 'done' : i === current ? 'active' : 'pending';
+                return (
+                  <li key={i} className="relative flex items-center gap-3">
+                    <span className="relative w-[10px] h-[10px] shrink-0 flex items-center justify-center">
+                      {state === 'active' && (
                         <span
-                          className={`w-[10px] h-[10px] rounded-full border-2 transition-colors duration-500 ${
-                            state === 'pending'
-                              ? 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900'
-                              : ''
-                          }`}
-                          style={
-                            state === 'pending'
-                              ? undefined
-                              : {
-                                  borderColor: accent,
-                                  backgroundColor: state === 'done' ? accent : 'transparent',
-                                }
-                          }
+                          className="absolute inset-[-4px] rounded-full opacity-30 animate-ping"
+                          style={{ backgroundColor: accent }}
                         />
-                      </span>
+                      )}
                       <span
-                        className={`text-sm truncate transition-colors duration-500 ${
-                          state === 'active'
-                            ? 'text-slate-900 dark:text-slate-100 font-medium'
-                            : state === 'done'
-                              ? 'text-slate-600 dark:text-slate-400'
-                              : 'text-slate-500 dark:text-slate-500'
+                        className={`w-[10px] h-[10px] rounded-full border-2 transition-colors duration-500 ${
+                          state === 'pending'
+                            ? 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900'
+                            : ''
                         }`}
-                      >
-                        {step}
-                      </span>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
-          </>
-        )}
+                        style={
+                          state === 'pending'
+                            ? undefined
+                            : {
+                                borderColor: accent,
+                                backgroundColor: state === 'done' ? accent : 'transparent',
+                              }
+                        }
+                      />
+                    </span>
+                    <span
+                      className={`text-sm truncate transition-colors duration-500 ${
+                        state === 'active'
+                          ? 'text-slate-900 dark:text-slate-100 font-medium'
+                          : state === 'done'
+                            ? 'text-slate-600 dark:text-slate-400'
+                            : 'text-slate-500 dark:text-slate-500'
+                      }`}
+                    >
+                      {step}
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
 
-        {!isError && isAiWait && (
-          <>
-            {/* The note, in the margin (see WaitNoteFigure). Outside the live
-                region, so it is never announced on its own clock. On a quiz wait
-                it is the first thing a short box gives up. */}
-            <WaitNoteFigure
-              key={note.text}
-              note={note}
-              accent={accent}
-              className={showQuiz ? 'ai-wait-note ai-wait-note-with-quiz' : 'ai-wait-note'}
-            />
-
-            {showResultsChart && (
-              <div className="ai-wait-results">
-                <HscResultsCard />
-              </div>
-            )}
-
-            <p
-              className={`ai-wait-engine text-center text-xs text-slate-500 dark:text-slate-400 ${
-                showResultsChart ? '' : '-mt-2'
-              }`}
-            >
-              Working with {engineLabel}
-            </p>
-          </>
-        )}
+          {!showQuiz && margin}
+        </div>
       </div>
+
+      {showQuiz && (
+        <div className="ai-wait-aside flex min-w-0 flex-col border-primary">
+          <WaitQuiz verb={verb} accent={accent} className="ai-wait-quiz" />
+          {margin}
+        </div>
+      )}
     </WaitCard>
   );
 };

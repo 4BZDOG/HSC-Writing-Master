@@ -53,7 +53,7 @@ export const MASTHEAD_TITLE_PT = 17;
 export const MASTHEAD_SUB_PT = 9;
 export const MASTHEAD_FIELD_PT = 7.5;
 export const MASTHEAD_FIELD_WIDTH_MM = 58;
-export const MASTHEAD_SUB_GAP_MM = 1.4;
+export const MASTHEAD_SUB_GAP_MM = 1.2;
 
 /**
  * The page-one letterhead's share of the masthead: from the top of the content
@@ -288,7 +288,7 @@ export const measureBlock = (
   // The masthead: the letterhead, then the report's name over its subtitle, with
   // the name/class/date rules in the right-hand half.
   if (block.kind === 'masthead') {
-    const titleH = MASTHEAD_TITLE_PT * pScale * MM_PER_PT * 1.25;
+    const titleH = MASTHEAD_TITLE_PT * pScale * MM_PER_PT * 1.15;
     const subPt = MASTHEAD_SUB_PT * pScale;
     // Wrapped, not assumed to be one line: a topic-and-subtopic subtitle runs to
     // two lines at a narrow scale, and the second used to be drawn into the top
