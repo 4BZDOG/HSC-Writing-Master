@@ -9,6 +9,8 @@ import {
   MAX_CARD_HEIGHT,
   MIN_CARD_HEIGHT,
   TWO_COLUMN_BREAKPOINT,
+  FREE_CARD_FLOOR,
+  freeCardMaxHeight,
 } from '../../utils/layoutConstants';
 
 /**
@@ -208,5 +210,36 @@ describe('the single-column switch', () => {
     expect(isTwoColumnWidth(1440 / 1.25)).toBe(false);
     // The same window unzoomed still gets its two columns.
     expect(isTwoColumnWidth(1440)).toBe(true);
+  });
+});
+
+/**
+ * Resolves `freeCardMaxHeight` for a given window height. The unsynced
+ * writing card's ceiling is `min(900px, max(300px, 100vh - 96px))`, a
+ * different shape from `cappedCardHeight`, so it has its own resolver with
+ * the same strictness: an unexpected shape fails here.
+ */
+const resolveFreeCss = (css: string, viewportHeight: number): number => {
+  const m = css.match(/^min\((\d+)px, max\((\d+)px, 100vh - (\d+)px\)\)$/);
+  if (!m) throw new Error(`unexpected free card height CSS: ${css}`);
+  const [ceiling, floor, reserve] = m.slice(1).map(Number);
+  return Math.min(ceiling, Math.max(floor, viewportHeight - reserve));
+};
+
+describe('freeCardMaxHeight', () => {
+  it('stops at the window, less the sticky header, on a laptop', () => {
+    expect(resolveFreeCss(freeCardMaxHeight, 800)).toBe(704);
+  });
+
+  it('keeps the absolute ceiling on a very tall window', () => {
+    expect(resolveFreeCss(freeCardMaxHeight, 2000)).toBe(MAX_CARD_HEIGHT);
+  });
+
+  it('holds the floor on a short window rather than collapsing the card', () => {
+    expect(resolveFreeCss(freeCardMaxHeight, 300)).toBe(FREE_CARD_FLOOR);
+  });
+
+  it('is one string for every window size, so a resize needs no render', () => {
+    expect(freeCardMaxHeight).toContain('100vh');
   });
 });

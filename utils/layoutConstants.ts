@@ -141,6 +141,20 @@ export const isTwoColumnWidth = (viewportWidth: number): boolean =>
 export const cappedCardHeight = (naturalHeight: number): string =>
   `min(${naturalHeight}px, clamp(${MIN_CARD_HEIGHT}px, 100vh - ${VIEWPORT_RESERVE}px, ${MAX_CARD_HEIGHT}px))`;
 
+/** The sticky app header (h-16) plus a 2rem margin under the card. */
+const FREE_CARD_RESERVE = 96;
+export const FREE_CARD_FLOOR = 300;
+
+/**
+ * The writing card's ceiling when the cards are not side by side (Focus Mode,
+ * or one column below the two-column breakpoint). Nothing pins the writing
+ * card to the question there, and a flat 900px ceiling let it grow past the
+ * bottom of an 800px window, so every new line scrolled the page. It now stops
+ * at the window, less the sticky header, and scrolls inside itself, as the
+ * paired cards do.
+ */
+export const freeCardMaxHeight = `min(${MAX_CARD_HEIGHT}px, max(${FREE_CARD_FLOOR}px, 100vh - ${FREE_CARD_RESERVE}px))`;
+
 /**
  * Natural (content-driven) height of the prompt card — the single value the
  * writing area is sized from.

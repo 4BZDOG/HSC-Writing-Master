@@ -300,10 +300,6 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   // Focus Mode swaps the full prompt card for the condensed one, which reports
   // neither a total nor a footer height. Its observers disconnect on unmount,
-  // so without this the writing area would keep being sized — and its footer
-  // padded — by the last measurements of a card no longer on screen.
-  // Focus Mode swaps the full prompt card for the condensed one, which reports
-  // neither a total nor a footer height. Its observers disconnect on unmount,
   // so these stale readings are cleared; the synced values themselves are
   // suppressed by `syncChrome` below rather than zeroed, so returning to the
   // two-column view restores the last good sizing instead of flashing through

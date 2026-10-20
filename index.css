@@ -660,6 +660,18 @@ a:focus-visible,
   outline-offset: 2px;
 }
 
+/* Scrollbar colour is inherited, so setting it once on the root gives every
+   scroller, the page included, the theme's ink. The tokens are redefined for
+   the light and high-contrast themes on the same element (`html`, where
+   data-theme lives), so this one rule serves every theme. Chromium 121+ draws
+   the standard scrollbar once `scrollbar-color` is set and ignores
+   `::-webkit-scrollbar` rules; those still serve Safari. */
+:root {
+  --scrollbar-thumb: rgb(var(--color-text-dim) / 0.45);
+  --scrollbar-thumb-hover: rgb(var(--color-text-dim) / 0.7);
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+}
+
 /* Slim, themed scrollbar. Previously the track rule was declared twice
    (the second actually styling the thumb) and there was no default
    thumb rule, so the dark theme fell back to the chunky native bar. */
@@ -671,25 +683,24 @@ a:focus-visible,
   background: transparent;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.15);
+  background: var(--scrollbar-thumb);
   border-radius: 10px;
 }
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.28);
-}
-[data-theme='light'] .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.15);
-}
-[data-theme='light'] .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.28);
+  background: var(--scrollbar-thumb-hover);
 }
 /* Firefox */
 .custom-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
-[data-theme='light'] .custom-scrollbar {
-  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+
+/* A scroller whose text must not re-wrap when it starts to scroll. The gutter
+   is reserved before the first overflow, so a classic scrollbar appearing never
+   narrows the text by its own width. Overlay scrollbars reserve nothing, so
+   macOS and phones are unchanged. */
+.scroll-stable {
+  scrollbar-gutter: stable;
 }
 
 /*

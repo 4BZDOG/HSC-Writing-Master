@@ -3,6 +3,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
   useEffect,
+  useLayoutEffect,
   useState,
   useMemo,
 } from 'react';
@@ -33,7 +34,7 @@ import {
 import { PromptVerb, WritingMode } from '../types';
 import { getReadinessChroma, type ReadinessResult } from '../utils/draftReadiness';
 import { isFeatureLocked, requestUpgrade } from '../services/entitlements';
-import { MAX_CARD_HEIGHT, cappedCardHeight } from '../utils/layoutConstants';
+import { FREE_CARD_FLOOR, cappedCardHeight, freeCardMaxHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import { PlusLockChip } from './UpgradeModal';
 import { useOpenedOnce } from './PanelDisclosure';
@@ -571,9 +572,20 @@ const Editor = forwardRef<
       }
     };
 
-    // Runs after React has committed the new value, so the mirror measures the
-    // text the student can actually see.
+    // Caret moves that change no text (arrows, Home/End, a click) can wait a
+    // frame: the text is the same, so nothing has grown under the caret.
     const queueCaretScroll = () => requestAnimationFrame(scrollCaretIntoView);
+
+    // Typing grows the textarea in the same commit that carries the new line,
+    // so the scroll has to land before that frame paints. A scroll queued for
+    // the next frame painted the grown text first: it jumped down and back up
+    // a line each time a new line was started at the bottom of the card.
+    const caretFollowRef = useRef(false);
+    useLayoutEffect(() => {
+      if (!caretFollowRef.current) return;
+      caretFollowRef.current = false;
+      scrollCaretIntoView();
+    }, [value]);
 
     useImperativeHandle(ref, () => ({
       getText: () => value,
@@ -716,12 +728,14 @@ const Editor = forwardRef<
         className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface overflow-hidden border-2 ${chroma.border} shadow-lg ${readinessAccent ? readinessAccent.glow : chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
         // Pinned to the question prompt's height: min and max are the same
         // value, so the writing area matches the card beside it exactly and a
-        // response longer than that scrolls inside it. The fallback only
-        // applies before the prompt has been measured, so a long saved draft
-        // cannot stretch the page during the first paint.
+        // response longer than that scrolls inside it. The fallback applies
+        // before the prompt has been measured, and whenever the cards are not
+        // side by side (Focus Mode, one column), where nothing pins it to the
+        // question. A long saved draft cannot stretch the page during the
+        // first paint either way.
         style={{
-          minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : '300px',
-          maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : `${MAX_CARD_HEIGHT}px`,
+          minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : `${FREE_CARD_FLOOR}px`,
+          maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : freeCardMaxHeight,
         }}
       >
         <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
@@ -1008,10 +1022,12 @@ const Editor = forwardRef<
               />
             )}
 
-            {/* Editor Body with Grid Stacking for Auto-Height */}
+            {/* Editor Body with Grid Stacking for Auto-Height. The gutter is
+              reserved up front (`scroll-stable`) so the first overflow does
+              not re-wrap the text beside a scrollbar appearing. */}
             <div
               ref={bodyRef}
-              className="relative flex flex-col flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
+              className="relative flex flex-col flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto custom-scrollbar scroll-stable min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
             >
               {/* Progress-Aware Background Bloom */}
               <div
@@ -1093,7 +1109,7 @@ const Editor = forwardRef<
                   value={value}
                   onChange={(e) => {
                     onChange(e.target.value);
-                    queueCaretScroll();
+                    caretFollowRef.current = true;
                   }}
                   onKeyDown={handleKeyDown}
                   // Arrow keys, Home/End and click-to-place move the caret
