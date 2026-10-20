@@ -2499,6 +2499,26 @@ check:build` now runs them locally, and `test:all` runs it.
 - **Why nothing caught it.** The review was in no sweep, and the default only shows
   after a marking that needs a revision.
 
+### 87. The AI wait was honest but gave the reader nothing to do — FIXED
+
+- **Wrong.** A 168px drawing, grey text and a hairline bar. The marking wait, the
+  one students see most, had no card at all: its text floated on the veil, and its
+  margin note was centred.
+- **Fixed.** Every wait is one card. The drawing sits full-bleed on an inset stage
+  under a 3px strip in the wait's ink (band colour on a band card). Marking now
+  shows a page read line by line and ticked, above the band ladder. The header puts
+  the current step in accent ink beside a large clock, kept outside the live
+  region. A segmented track has one segment per step, or per real marking phase.
+  Student waits (marking, "Lift your answer") carry a command-verb quick check
+  (`components/WaitQuiz.tsx`, `utils/waitQuiz.ts`). Each NESA glossary meaning is
+  set against the two verbs most often confused with it. The verb's tip is the
+  reason once answered, and a streak lasts the session.
+- **Held back.** The margin note no longer opens on the marked verb's tip: it sat
+  under the quiz's first question and gave its answer away.
+- **Guards.** `waitQuiz.test.tsx` pins the deck (near-synonyms are never set against
+  each other, and every verb has a tip). `aiWaitCard.test.tsx` pins the clock outside
+  the live region and the band strip.
+
 ### What the guards say now
 
 - **`npm run check:build`** would have caught 82 locally. It is in `test:all`.
