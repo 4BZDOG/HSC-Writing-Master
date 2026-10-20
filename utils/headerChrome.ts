@@ -10,10 +10,7 @@
  *
  * Each constant therefore records what it is painted ON, because that is the
  * question §2 asks of every colour and it is not answerable from the class
- * string alone. The mark tile is the one constant that is painted on a fixed
- * ink ground in both themes, so it is the one place a colour needs no partner.
- * The gradient did not survive on it: a solid ink tile lets the band colours it
- * holds read at full strength (see `HEADER_MARK_TILE`).
+ * string alone.
  *
  * New code here is `dark:`-first: light is the base, `dark:` carries the
  * override (see DesignSpec §2, "Which variant to write in new code").
@@ -44,18 +41,6 @@ export const HEADER_BAR =
   'border-b border-slate-300 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
 
-/** The band scale along the bar's bottom edge. It is the mark's own scale, drawn
- *  as a line: six equal segments in the six band colours, 2px tall, at 70%, and
- *  faded out towards both ends by `.band-scale-fade` (index.css). AppHeader fills
- *  it with one span per band, each coloured from `getBandHex`, so no colour is
- *  written here and the line tracks the palette with everything else.
- *
- *  It is not a gradient and it does not move. The indigo wash it replaced
- *  belonged to nothing on the page, and a header that animates is a header that
- *  moves under the reader's eye. Painted on the bar's own bottom edge. */
-export const HEADER_HAIRLINE =
-  'absolute inset-x-0 bottom-0 h-[2px] flex opacity-70 pointer-events-none band-scale-fade';
-
 /** The content row, above the mesh and the hairline on `z-10`. It never wraps:
  *  the eight admin buttons that used to force a second row now live behind one
  *  control, so there are four rail controls at every width and nothing left to
@@ -67,32 +52,22 @@ export const HEADER_INNER =
   'relative z-10 px-4 sm:px-6 lg:px-8 h-full w-full max-w-[1600px] mx-auto ' +
   'flex flex-nowrap items-center justify-between gap-x-3';
 
-/** The mark's tile: a solid ink square, the same in both themes. It was an indigo
- *  to sky gradient with white bars on it, which read as a generic audio
- *  equaliser and lost the one thing the mark is for. The band colours are the
- *  subject now, and they need a ground that does not compete: `bg-slate-900`
- *  is the ground the marking glyph is drawn on, and it reads at full strength on
- *  the dark glass and on the white paper rail alike. The tile is the only
- *  constant that is painted on a fixed ground in both themes, so the rule in
- *  §2 that asks for a `dark:` partner does not apply to it, and the test
- *  that checks that says so.
+/** The brand block at the rail's left: the scale-and-wordmark stack, then the
+ *  sub-label set against its foot. `items-end` so the sub-label sits on the
+ *  wordmark's line rather than centred on the whole stack.
  *
- *  The edge is a 1px ring: `ring-slate-900/10` on paper, `ring-white/10` on the
- *  glass. It is a ring rather than a border so it sits outside the box and does
- *  not take a pixel from the 28px mark, and the drop shadow is `shadow-sm`, one
- *  of the two elevation steps the surface scale allows. `tile-bevel` was the
- *  gradient tile's lighting and is not used here: its inset highlights were drawn
- *  to hide a gradient's uneven rim, and on a solid ground they would only add a
- *  lit top edge the mark does not need.
- *
- *  `rounded-tile` (32%) in place of `rounded-2xl` (16px), which is the house
- *  token for a fixed-size icon tile and fixes a shape that changed with the
- *  viewport: 16px on the 48px tile is 33% and on the 40px tile is 40%, so the
- *  same mark was rounder on a phone than on a laptop. A percentage radius
- *  tracks the box, which is the whole reason that token exists. */
-export const HEADER_MARK_TILE =
-  'w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-tile bg-slate-900 shadow-sm ' +
-  'ring-1 ring-slate-900/10 dark:ring-white/10 flex items-center justify-center';
+ *  It replaced `HEADER_MARK_TILE`, a 48px ink tile holding the scale at 32px
+ *  across. Six rungs in 32px are four pixels wide and eight tall, so the scale
+ *  stood up as bars, tallest last, and read as a signal meter: the trap the
+ *  design review records for this mark (finding 8). The tile also put the one
+ *  heavy black block on the white light-theme rail. The favicon keeps a tile,
+ *  because a browser tab needs a square. */
+export const HEADER_LOCKUP = 'flex items-end gap-3 min-w-0';
+
+/** The scale over the wordmark. The scale is `fluid`, so it takes this box's
+ *  width, which is the wordmark's: the two are one object. `min-w-14` holds the
+ *  scale at 56px when the wordmark is visually hidden under 360px. */
+export const HEADER_LOCKUP_STACK = 'flex flex-col gap-1.5 min-w-14';
 
 /** "Band 6". The house display treatment — `italic uppercase` over
  *  `font-black tracking-tight`. On the rail, so it needs the pair.
@@ -106,9 +81,9 @@ export const HEADER_MARK_TILE =
  *
  *  `tracking-tight` (-0.025em) and not `tracking-tighter` (-0.05em), here
  *  only. At the 24px this rendered at, -1.2px closed the gap between the D and
- *  the 6 enough to read as one glyph pair; -0.6px did not. The wordmark is 26px
- *  now (`sm:text-[26px]`, for presence beside the tile), and `tracking-tight` is
- *  -0.65px there: the same proportion, so the same answer. The smaller sizes
+ *  the 6 enough to read as one glyph pair; -0.6px did not. The sign-in
+ *  wordmark (AuthBrand) had the same fault at 36px and takes the same answer
+ *  now: `tracking-tight` is a property of this name, not of a size. The smaller sizes
  *  the rest of the house treatment runs at do not have that problem, so they
  *  keep the tighter value and this is a stated exception rather than a
  *  re-tracking of the brand.
@@ -124,20 +99,23 @@ export const HEADER_MARK_TILE =
  *  with an admin's four controls, the rail leaves the wordmark about 30px and it
  *  painted "B…" — a letter and an ellipsis, not a brand. So under 360px it is
  *  visually hidden (`max-[359px]:sr-only`) and stays the page's `<h1>` for a
- *  screen reader; the mark tile carries the brand alone at that width, as it
- *  does for the sub-label below `sm`. 360px is where "BAND 6" fits whole.
+ *  screen reader; the scale above it carries the brand alone at that width.
+ *  360px is where "BAND 6" fits whole.
  *
- *  `sm:text-[26px]` and not `sm:text-2xl` (24px): the tile is 48px from `sm` up
- *  and the wordmark needed a little more weight beside it to read as the name
- *  of the thing, not a label on it. 26px is an arbitrary size rather than a
- *  Tailwind step, and it is said here so it is not "fixed" back to 24px. */
+ *  `sm:text-2xl` (24px). It was 26px for presence beside the 48px tile; with
+ *  the scale stacked over it the lockup is 44px tall, and 26px left the caret
+ *  four pixels from the top of a 64px bar. */
 export const HEADER_WORDMARK =
-  't-display text-lg sm:text-[26px] tracking-tight leading-none italic uppercase ' +
+  't-display text-lg sm:text-2xl tracking-tight leading-none italic uppercase ' +
   'truncate text-slate-900 dark:text-white max-[359px]:sr-only';
 
 /** "HSC Writing Coach". On the rail. The tracking no longer jumps at `sm` —
  *  it was the only responsive tracking in the codebase, and it made the label
  *  read as a different label at different widths.
+ *
+ *  It sits beside the wordmark rather than under it, against a 1px rule on the
+ *  wordmark's foot: the stack above already holds the scale and the name, and a
+ *  third line would not fit the 64px bar.
  *
  *  It does step aside below `sm`, though. That decision was measured back when
  *  the label carried 0.2em of tracking and painted 164px against the roughly
@@ -147,11 +125,12 @@ export const HEADER_WORDMARK =
  *  the measurement is kept as the record of why. It was painting straight
  *  through the action buttons — `whitespace-nowrap`
  *  keeps a label from breaking in half, it does not keep it inside its box. The
- *  tile and the wordmark still say whose app this is at that width; the gloss
- *  under them is the part a phone can spare, which is the same call the profile
+ *  scale and the wordmark still say whose app this is at that width; the gloss
+ *  beside them is the part a phone can spare, which is the same call the profile
  *  control's display name and the storage chip's text already make. */
 export const HEADER_SUBLABEL =
-  't-label hidden sm:block mt-0.5 truncate ' + 'text-slate-500 dark:text-slate-400';
+  't-label hidden sm:block truncate pl-3 mb-[3px] leading-none border-l ' +
+  'text-slate-500 border-slate-300 dark:text-slate-400 dark:border-white/15';
 
 /** The square controls that stay on the rail whatever the role: the tools
  *  trigger, help and the theme toggle. On the rail, so they carry the pair; the

@@ -59,6 +59,7 @@ const LAYOUT = {
   hero: { width: 224, gap: 8, rung: 12, tall: 22, caret: { w: 14, h: 16 }, caretGap: 6, hop: 8 },
   mark: { width: 32, gap: 2, rung: 8, tall: 14, caret: { w: 8, h: 9 }, caretGap: 1, hop: 2 },
   compact: { width: 112, gap: 6, rung: 8, tall: 14, caret: { w: 9, h: 10 }, caretGap: 3, hop: 4 },
+  lockup: { width: 96, gap: 2, rung: 4, tall: 7, caret: { w: 7, h: 8 }, caretGap: 1, hop: 2 },
 } as const;
 
 type Layout = (typeof LAYOUT)[keyof typeof LAYOUT];
@@ -84,6 +85,10 @@ interface BandLadderMarkProps {
   /** The sign-in page's one orchestrated moment: the caret drops onto Band 6
    *  once as the page opens, with a small settle, and then stays. */
   entrance?: boolean;
+  /** Take the width of the box it sits in rather than its own. */
+  fluid?: boolean;
+  /** Hidden from assistive technology, where a heading beside it already names the app. */
+  decorative?: boolean;
 }
 
 const BandLadderMark: React.FC<BandLadderMarkProps> = ({
@@ -91,6 +96,8 @@ const BandLadderMark: React.FC<BandLadderMarkProps> = ({
   onInk = false,
   animated = false,
   entrance = false,
+  fluid = false,
+  decorative = false,
 }) => {
   const layout = LAYOUT[size];
   const { caret } = layout;
@@ -106,10 +113,11 @@ const BandLadderMark: React.FC<BandLadderMarkProps> = ({
 
   return (
     <div
-      role="img"
-      aria-label="The NESA band scale, marked at Band 6"
+      role={decorative ? undefined : 'img'}
+      aria-label={decorative ? undefined : 'The NESA band scale, marked at Band 6'}
+      aria-hidden={decorative || undefined}
       className="flex flex-col"
-      style={{ width: layout.width }}
+      style={{ width: fluid ? '100%' : layout.width }}
     >
       {/* The caret lane. Its slots are the rung slots, so the caret sits over
           rung 6 by construction and the two rows cannot drift apart. */}

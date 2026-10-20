@@ -1,16 +1,15 @@
 import React from 'react';
 import { AlertTriangle, LifeBuoy, Sun, Moon } from 'lucide-react';
 import BandLadderMark from './BandLadderMark';
-import { getBandHex } from '../utils/renderUtils';
 import { authService } from '../services/authService';
 import MeshOverlay from './MeshOverlay';
 import AppHeaderToolsMenu from './AppHeaderToolsMenu';
 import {
   HEADER_ACTION,
   HEADER_BAR,
-  HEADER_HAIRLINE,
   HEADER_INNER,
-  HEADER_MARK_TILE,
+  HEADER_LOCKUP,
+  HEADER_LOCKUP_STACK,
   HEADER_PROFILE,
   HEADER_STORAGE_ALERT,
   HEADER_SUBLABEL,
@@ -43,8 +42,7 @@ interface AppHeaderProps {
  * The class strings come from `utils/headerChrome.ts`, which is where the bar's
  * appearance is decided and where what-each-value-is-painted-on is recorded.
  * The bar is a translucent token surface now, not a gradient wall. The only
- * white left in this file is the avatar's initial on solid indigo, and the
- * mark's caret, which `BandLadderMark` draws on the ink tile.
+ * white left in this file is the avatar's initial on solid indigo.
  *
  * There is no routine telemetry on the rail. API health was stated here, in the
  * bottom-left health chip and in the blocked-countdown banner all at once, and
@@ -63,10 +61,6 @@ interface AppHeaderProps {
 const avatarInitial = (displayName: string): string =>
   displayName.trim().charAt(0).toUpperCase() || '?';
 
-/** The six bands, in order, for the scale along the bar's edge. The colours
- *  are not written here: each segment takes `getBandHex` of its band. */
-const BAND_SCALE = [1, 2, 3, 4, 5, 6];
-
 const AppHeader: React.FC<AppHeaderProps> = ({
   user,
   onUpdateUser,
@@ -82,8 +76,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 }) => {
   return (
     <header className={HEADER_BAR}>
-      {/* Texture, and the band scale along the bottom edge, both below the
-          content row's `z-10`.
+      {/* Texture, below the content row's `z-10`.
           The mesh is a dark-theme flourish only. A second pass in slate was
           tried on the light rail and measured at one luminance step in 255 —
           `mix-blend-overlay` resolves to the backdrop wherever the backdrop is
@@ -93,27 +86,22 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           that a call site cannot outrank; that is the residue measured, and it
           is why `opacity-0` here reads as "off" without being zero.) */}
       <MeshOverlay opacity="opacity-0 dark:opacity-[0.03]" />
-      {/* The band scale as an edge: six equal segments, one per band, in the
-          colours the marks and the reports already use. It is decoration that
-          says what the app is for, so it is `aria-hidden` and carries no text. */}
-      <div className={HEADER_HAIRLINE} aria-hidden="true">
-        {BAND_SCALE.map((band) => (
-          <span
-            key={band}
-            className="flex-1 h-full"
-            style={{ backgroundColor: getBandHex(band) }}
-          />
-        ))}
-      </div>
       <div className={HEADER_INNER}>
-        <div className="flex items-center gap-3 min-w-0">
-          <div className={HEADER_MARK_TILE}>
-            <BandLadderMark size="mark" onInk />
-          </div>
-          <div className="min-w-0">
+        {/* The sign-in page's lockup, at rail size: the band scale over the
+            wordmark, as wide as the word, with the caret over the 6. It was a
+            dark tile holding the scale as six 4px-wide bars with the tallest
+            last, which at that size read as a bar chart or a signal meter. Laid
+            flat over the name, the rungs are wider than they are tall again, so
+            the scale reads as a scale, and the header and the sign-in page show
+            one mark. The scale is decorative here: the heading beside it already
+            says "Band 6". Below 360px the wordmark steps aside (see
+            HEADER_WORDMARK) and `min-w-14` keeps the scale on its own. */}
+        <div className={HEADER_LOCKUP}>
+          <div className={HEADER_LOCKUP_STACK}>
+            <BandLadderMark size="lockup" fluid decorative />
             <h1 className={HEADER_WORDMARK}>Band 6</h1>
-            <span className={HEADER_SUBLABEL}>HSC Writing Coach</span>
           </div>
+          <span className={HEADER_SUBLABEL}>HSC Writing Coach</span>
         </div>
         <div className="flex items-center justify-end gap-2 sm:gap-4 ml-auto shrink-0">
           {/* Only when storage has actually failed, and then at every width.

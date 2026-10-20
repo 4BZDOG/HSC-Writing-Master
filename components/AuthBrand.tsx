@@ -26,7 +26,7 @@ const AuthBrand: React.FC<{ tagline?: React.ReactNode }> = ({ tagline }) => (
         and are repeated here rather than shared, because the two differ in
         size and nothing else. Below `sm` the wordmark and the gap under the
         ladder are smaller, so the card starts higher on a phone. */}
-    <h1 className="t-display text-3xl sm:text-4xl tracking-tighter uppercase italic text-white light:text-slate-900 leading-none">
+    <h1 className="t-display text-3xl sm:text-4xl tracking-tight uppercase italic text-white light:text-slate-900 leading-none">
       Band 6
     </h1>
     {tagline && (
