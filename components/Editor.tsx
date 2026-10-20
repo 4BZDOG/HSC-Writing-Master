@@ -221,6 +221,13 @@ const Editor = forwardRef<
 
     const wordCount = useMemo(() => value.trim().split(/\s+/).filter(Boolean).length, [value]);
 
+    // The invitation on an empty page. One string, used twice: as the textarea's
+    // placeholder attribute (so assistive technology and any test that looks the
+    // field up by its prompt still find it) and as the handwritten line painted
+    // on the first ruled line while the draft is empty. Exam Mode keeps its own
+    // line, which says what the clock is doing.
+    const hintText = isExamMode ? 'Begin your response. The clock is running…' : placeholder;
+
     const highlightedContent = useMemo(
       () => (isExamMode ? value : renderEditorHighlights(value, keywords, verb)),
       [value, keywords, verb, isExamMode]
@@ -871,7 +878,7 @@ const Editor = forwardRef<
             {/* Editor Body with Grid Stacking for Auto-Height */}
             <div
               ref={bodyRef}
-              className="relative flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
+              className="relative flex flex-col flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
             >
               {/* Progress-Aware Background Bloom */}
               <div
@@ -915,7 +922,30 @@ const Editor = forwardRef<
                 </div>
               )}
 
-              <div className="grid w-full relative z-10 min-h-full">
+              {/* The ruling is painted by `.editor-ruling` in index.css, on a
+                  pseudo-element behind the three layers below. It is a function
+                  of the reading size, so it reads the size from `--editor-fs`
+                  and re-rules the moment the student zooms. The margin colour
+                  is Band 1's red, handed over as a value (the same red the
+                  wait card's exam booklet uses) so the CSS never writes a
+                  second copy of the palette.
+
+                  `flex-auto shrink-0` in a column body, not `min-h-full`: the
+                  card states a min and a max height but never a height, so a
+                  percentage of it resolved to nothing and the grid was only as
+                  tall as its text. An empty draft was then ruled for three lines
+                  over a blank card. Growing as a flex item fills the body with no
+                  definite height needed, and never shrinking below the text keeps
+                  a long draft scrolling. */}
+              <div
+                className="editor-ruling grid w-full relative z-10 flex-auto shrink-0"
+                style={
+                  {
+                    '--editor-fs': `${internalFontSize}px`,
+                    '--editor-margin': getBandHex(1),
+                  } as React.CSSProperties
+                }
+              >
                 {/* Invisible phantom div to force height based on content */}
                 <div
                   className={`${gridStackItemStyles} invisible`}
@@ -940,22 +970,21 @@ const Editor = forwardRef<
                   onPaste={refuseTransfer}
                   onDrop={refuseTransfer}
                   onBlur={() => onSave?.()}
-                  placeholder={
-                    isExamMode ? 'Begin your response. The clock is running…' : placeholder
-                  }
+                  placeholder={hintText}
                   disabled={disabled}
                   // The focus indicator moves to the scroll region around it
                   // (focus-within, inset): a textarea always matches
                   // :focus-visible, and the global rule's outline was being
                   // clipped by the card down to a single bar across the page.
-                  // The placeholder is always visible now. It used to be turned
-                  // transparent while the page brief was up, on the grounds that
-                  // the brief was the empty state and saying both was saying the
-                  // instruction twice. The brief is gone, and what that left
-                  // behind was the real problem underneath it: a blank writing
-                  // surface with no invitation to write on it, and a caret that
-                  // landed behind the brief's first letterform.
-                  className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-[rgb(var(--color-text-dim))] focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
+                  // The placeholder attribute stays, for assistive technology
+                  // and for anything that looks an empty field up by its
+                  // prompt, but it is painted transparent: the same words are
+                  // written on the first ruled line by the highlights layer
+                  // below (see `hintText`), so they can sit on the rule the way
+                  // typed text does rather than in the native placeholder's
+                  // own box. A caret that lands behind the first letterform is
+                  // still possible, and is the lesser cost.
+                  className={`${gridStackItemStyles} bg-transparent text-transparent caret-[currentColor] resize-none border-none outline-none focus-visible:outline-none placeholder:text-transparent focus:ring-0 selection:bg-[rgb(var(--color-accent))]/20 z-10 h-full`}
                   style={{
                     fontSize: `${internalFontSize}px`,
                     // The caret takes the readiness hue when a live signal is
@@ -967,13 +996,48 @@ const Editor = forwardRef<
                   spellCheck="false"
                 />
 
-                {/* Highlights Overlay */}
+                {/* Highlights Overlay. When the draft is empty this layer carries
+                    the write-in invitation instead of highlights: the words are
+                    set in the same layer, font and line metrics as typed text, so
+                    they sit on the first ruled line exactly where the first
+                    typed line would. It is removed the moment a character
+                    exists, and mounting it again (the draft cleared) replays the
+                    write-in, because the animation belongs to the element. */}
                 <div
                   className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
                   style={{ fontSize: `${internalFontSize}px` }}
                   aria-hidden="true"
                 >
-                  {highlightedContent}
+                  {value === '' && hintText ? (
+                    <span className="editor-hint-run">
+                      <span className="editor-hint-words italic text-[rgb(var(--color-text-dim))]">
+                        {hintText}
+                      </span>
+                      {/* A pen nib in the tier accent, its tip on the baseline. It
+                          travels with the reveal edge (same keyframes, same
+                          easing), then lifts off and fades. The last frame is
+                          the words fully written and the nib gone, so under
+                          reduced motion, where the animation ends at once, the
+                          page shows the finished line and not a half-written
+                          one. */}
+                      <svg
+                        className="editor-hint-nib"
+                        viewBox="0 0 10 10"
+                        width="10"
+                        height="10"
+                        style={{ color: chroma.accent }}
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path
+                          d="M5 10 C3.2 7.6 1.5 5.7 1.5 3.6 A3.5 3.5 0 0 1 8.5 3.6 C8.5 5.7 6.8 7.6 5 10 Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </span>
+                  ) : (
+                    highlightedContent
+                  )}
                 </div>
               </div>
             </div>

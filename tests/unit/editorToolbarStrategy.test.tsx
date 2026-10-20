@@ -108,15 +108,19 @@ describe('the verb brief', () => {
   it('leaves the writing surface to the student', () => {
     // The placeholder is the parent's to supply; `Workspace` passes the same
     // shape. It is here because the point of the test is that it SHOWS.
-    renderEditor({ placeholder: 'Draft your DESCRIBE response here…' });
+    const invitation = 'Write your DESCRIBE response here, in your own words.';
+    renderEditor({ placeholder: invitation });
 
     expect(screen.queryByTestId('strategy-page')).toBeNull();
-    // The invitation to write, never hidden. It used to be switched to
-    // `text-transparent` whenever the page brief was up, which is what left a
-    // blank writing surface with nothing on it saying a student could write.
-    expect(writingSurface().placeholder).toMatch(/draft your/i);
-    expect(writingSurface().className).toContain('placeholder:text-[rgb(var(--color-text-dim))]');
-    expect(writingSurface().className).not.toContain('placeholder:text-transparent');
+    // The invitation to write, never hidden. A blank writing surface with
+    // nothing on it saying a student could write was the problem the brief
+    // used to hide. The words are still the placeholder attribute, for assistive
+    // technology, and they are painted on the first ruled line by the highlights
+    // layer (see editorRuling.test.tsx), so the native placeholder itself is
+    // transparent and does not draw a second copy.
+    expect(writingSurface().placeholder).toBe(invitation);
+    expect(writingSurface().className).toContain('placeholder:text-transparent');
+    expect(document.querySelector('.editor-hint-words')?.textContent).toBe(invitation);
   });
 
   it('states the verb and what it wants, above the page rather than on it', () => {
