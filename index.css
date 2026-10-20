@@ -431,6 +431,164 @@ body.ai-busy .aurora {
   background-image: linear-gradient(rgba(71, 85, 105, 0.09) 1px, transparent 1px);
 }
 
+/*
+ * The writing surface's ruling: one hairline per line of the response, drawn
+ * under the words the way a pen rules an exam booklet. It is scrolled content
+ * (the grid around the three text layers paints it), so it grows with the draft
+ * and stops where the words do, and it sits behind the text, never over it.
+ *
+ * Everything is a function of --editor-fs, the reading size the Editor sets on
+ * the grid, so a zoom re-rules at once. A line box is 1.8em tall (leading-[1.8])
+ * and the first box starts under the 2rem top padding (pt-8). Inside its box a
+ * line's baseline sits at half the leading plus the font's ascent: K em from the
+ * top, which the browser measures for Newsreader and which is the one number
+ * here to tune (1.12 measured in Chromium, pixel-snapped). The rule goes 0.1em
+ * under the baseline, capped at 3px so the largest size does not drift away from
+ * its line: 1.2px at 12px, 1.8px at 18px, 2.4px at 24px. Descenders still dip
+ * through it, as they do on ruled paper.
+ *
+ * The rules are a repeating background on a pseudo-element that starts at the
+ * top of the text area, not on the grid itself. A repeating background on the
+ * grid would also draw one tile above the first line, in the padding. The margin
+ * is a second layer on the same pseudo-element, a Band 1 red at 35% a few pixels
+ * left of the text (the text starts at px-5 and sm:px-7, so the margin sits 6px
+ * before it at both). Those sit in the padding, never under a word.
+ */
+.editor-ruling {
+  --editor-baseline-em: 1.12;
+  --editor-rule-ink: rgba(148, 163, 184, 0.14);
+  --editor-margin-x: calc(1.25rem - 6px);
+  --rule-step: calc(var(--editor-fs, 18px) * 1.8);
+  --rule-offset: calc(
+    var(--editor-fs, 18px) * var(--editor-baseline-em) + min(var(--editor-fs, 18px) * 0.1, 3px)
+  );
+}
+
+@media (min-width: 640px) {
+  .editor-ruling {
+    --editor-margin-x: calc(1.75rem - 6px);
+  }
+}
+
+[data-theme='light'] .editor-ruling {
+  --editor-rule-ink: rgba(71, 85, 105, 0.12);
+}
+
+.editor-ruling::before {
+  content: '';
+  position: absolute;
+  top: 2rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--editor-margin) 35%, transparent),
+      color-mix(in srgb, var(--editor-margin) 35%, transparent)
+    ),
+    linear-gradient(to bottom, var(--editor-rule-ink) 1px, transparent 1px);
+  background-size:
+    1px 100%,
+    100% var(--rule-step);
+  background-position:
+    var(--editor-margin-x) 0,
+    0 var(--rule-offset);
+  background-repeat: no-repeat, repeat;
+}
+
+/*
+ * The write-in: the invitation on an empty draft, set on the first ruled line
+ * and revealed left to right, as a pen would write it. The words and the nib
+ * share one keyframe timeline (same stops, same easing per segment), so the nib
+ * stays on the reveal edge the whole way across. The stops are not evenly
+ * spaced in progress (26, 47, 63, 84 per cent of the line at the stop times),
+ * so the pen seems to pause and pick up between strokes rather than wipe.
+ *
+ * It runs once and rests on the finished line, with `both` fill so the element
+ * holds the last frame. The DesignSpec forbids an infinite animation on a state
+ * that is not changing. Under prefers-reduced-motion the global rule ends the
+ * animation at once, and `both` then leaves the page on that last frame: the
+ * words written and the nib gone.
+ */
+.editor-hint-run {
+  position: relative;
+  display: inline-block;
+  /* A verb too long for one line wraps within the writing column rather than
+     running off the edge and being clipped by the layer. */
+  max-width: 100%;
+}
+
+.editor-hint-words {
+  animation: editor-hint-write 2.1s ease-in-out both;
+}
+
+.editor-hint-nib {
+  position: absolute;
+  top: calc(var(--editor-fs, 18px) * var(--editor-baseline-em));
+  left: 0;
+  width: 10px;
+  height: 10px;
+  transform: translate(-50%, -100%);
+  animation: editor-hint-nib 2.1s ease-in-out both;
+}
+
+@keyframes editor-hint-write {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  17% {
+    clip-path: inset(0 74% 0 0);
+  }
+  34% {
+    clip-path: inset(0 53% 0 0);
+  }
+  51% {
+    clip-path: inset(0 37% 0 0);
+  }
+  69% {
+    clip-path: inset(0 16% 0 0);
+  }
+  86%,
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes editor-hint-nib {
+  0% {
+    left: 0%;
+    opacity: 1;
+  }
+  17% {
+    left: 26%;
+    opacity: 1;
+  }
+  34% {
+    left: 47%;
+    opacity: 1;
+  }
+  51% {
+    left: 63%;
+    opacity: 1;
+  }
+  69% {
+    left: 84%;
+    opacity: 1;
+  }
+  86% {
+    left: 100%;
+    opacity: 1;
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    left: 100%;
+    opacity: 0;
+    transform: translate(-50%, -160%);
+  }
+}
+
 * {
   -webkit-tap-highlight-color: transparent;
 }
@@ -1266,32 +1424,40 @@ a:focus-visible,
   }
 }
 /* The split. A wide box that is not tiny gives a quiz wait two columns: the drawing and the
-   header on the left, the quick check on the right. The drawing takes the spare height of
-   the left column, so the two columns end together. The card is held to 46rem, which needs
-   a selector of higher specificity than the card's max-w-[440px] utility. This tier comes
-   last, so it wins over the tiers above that hide the drawing: it needs at least 20rem of
-   height, so none of those tiers can apply inside it. */
+   header on the left, the quick check on the right. The quiz is the content and the drawing
+   is the decoration, so the quiz takes the wider column (about two thirds): a sentence choice
+   then has room for one line, and the answer does not outgrow a short box. The drawing takes
+   the spare height of the left column, so the two columns end together. The card is held to
+   46rem, which needs a selector of higher specificity than the card's max-w-[440px] utility.
+   This tier comes last, so it wins over the tiers above that hide the drawing: it needs at
+   least 20rem of height, so none of those tiers can apply inside it. */
 @container ai-wait (min-width: 40rem) and (min-height: 20rem) {
   .ai-wait-card.ai-wait-has-quiz {
     flex-direction: row;
     max-width: 46rem;
   }
   .ai-wait-has-quiz .ai-wait-main {
-    flex: 1 1 0;
+    flex: 0 0 34%;
     min-width: 0;
+  }
+  /* The header column is narrow here, so its padding is trimmed. Its top matches the quiz
+     column's top (both 0.5rem), so "Marking your response" and "Quick check" start level. */
+  .ai-wait-has-quiz .ai-wait-body {
+    padding: 0.5rem 0.75rem;
   }
   .ai-wait-has-quiz .ai-wait-glyph {
     display: flex;
     flex: 1 1 auto;
     height: auto;
-    min-height: 136px;
+    min-height: 104px;
   }
   .ai-wait-has-quiz .ai-wait-aside {
     display: flex;
-    flex: 0 0 44%;
+    flex: 1 1 0;
     min-width: 0;
     border-left-width: 1px;
-    padding-top: var(--wait-pad-y);
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
   }
   /* A desktop writing card is about 28rem tall, so the short-box tier above (which hides
      the quiz's heading to save a line on a phone) matches here too. Side by side there is
@@ -1308,7 +1474,32 @@ a:focus-visible,
   /* The stage grows to the column's height here, so the drawing grows with it rather than
      sitting small in the middle of an empty panel. */
   .ai-wait-has-quiz .ai-wait-glyph-scale {
-    transform: scale(1.55);
+    transform: scale(1.1);
+  }
+  /* The quiz column is the taller of the two, so its spacing is set here for the split
+     and not in the short-box tier above: a wrong answer (the reason, and a two-line
+     choice or prompt) has to fit a 1280×720 laptop's card of about 300px with no scroll.
+     The phone and the short tiers keep their own sizes. */
+  .ai-wait-has-quiz .ai-wait-quiz {
+    padding: 0.5rem;
+  }
+  .ai-wait-has-quiz .ai-wait-choice {
+    padding-top: 0.1875rem;
+    padding-bottom: 0.1875rem;
+  }
+  .ai-wait-has-quiz .ai-wait-reason {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  /* The drawing column is the narrow one here, so the title steps down a size: at
+     text-xl, "Marking your response" broke over three lines beside the clock on a
+     1280px laptop, which made the quiet column the busiest thing on the card. */
+  .ai-wait-has-quiz .ai-wait-title {
+    font-size: 1rem;
+    line-height: 1.375rem;
+  }
+  .ai-wait-has-quiz .ai-wait-step-text {
+    font-size: 0.8125rem;
   }
 }
 
