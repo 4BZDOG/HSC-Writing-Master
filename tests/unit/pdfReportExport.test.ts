@@ -52,6 +52,7 @@ const makeDoc = (opts: FakeOptions) => {
     setFillColor: record('setFillColor'),
     setLineWidth: record('setLineWidth'),
     setLineDashPattern: record('setLineDashPattern'),
+    triangle: record('triangle'),
     line: record('line'),
     rect: record('rect'),
     roundedRect: record('roundedRect'),

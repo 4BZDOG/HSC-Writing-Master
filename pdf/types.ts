@@ -161,19 +161,62 @@ export const METER = {
 };
 
 /**
- * The band scale under the score summary: six segments, the achieved one
- * filled and the rest outlined. A mark out of 8 means little on its own — what
- * a student and a teacher both want to know is where that sits on the band
- * ladder, and where the next band starts.
+ * The band scale under the score summary: six segments, each in its own band
+ * colour up to the band reached and outlined above it. The band reached is drawn
+ * taller, growing upward from the shared baseline, and the caret marker stands
+ * over it, so the scale reads as the app's mark placed on its rung (see
+ * `pdf/brand.ts`). A mark out of 8 means little on its own — what a student and a
+ * teacher both want to know is where that sits on the band ladder, and where the
+ * next band starts.
  */
 export const BAND_SCALE = {
   segments: 6,
   heightBaseMm: 2.4,
-  gapBaseMm: 1.8,
+  /**
+   * The space between the band name and the top of the scale. It is sized to hold
+   * the caret's climb: the tall rung rises above the scale, and the caret sits on
+   * it. Measured by the layout as well as drawn, so the box grows to fit.
+   */
+  gapBaseMm: 4.4,
   segmentGapBaseMm: 0.8,
+  /** The band reached is drawn this many times its ordinary height. */
+  tallRatio: 1.6,
+  /** The caret's width; its height follows the mark's 14:16 box. */
+  caretBaseMm: 2.8,
+  /** Between the top of the tall rung and the tip of the caret above it. */
+  caretGapBaseMm: 0.5,
   // The ends are what say where the scale starts and stops. At 5.5pt they were
   // the smallest type on the page, which is the wrong place to make them hard.
   labelPt: 6.5,
+};
+
+/**
+ * The letterhead on page one of every PDF. It sits in the header band that every
+ * page reserves for its running head: the tile mark and the product's name on the
+ * left, the running head's context on the right. The band strip that closes it
+ * takes the place of the running head's rule, and the masthead title follows
+ * beneath. Measured and drawn from these numbers, so the two cannot disagree.
+ */
+export const LETTERHEAD = {
+  /** The tile's side. The mark on it is `markFraction` of this, as the app's header tile. */
+  tileBaseMm: 9,
+  markFraction: 0.7,
+  /** "BAND 6": small beside its tile, so it is never the largest text on a Band 2 report. */
+  wordPt: 13,
+  /** Tile edge to the wordmark. */
+  textGapBaseMm: 2.6,
+  /** "HSC Writing Coach", set under the word. */
+  tagPt: 7,
+  wordGapBaseMm: 1.2,
+  /**
+   * The strip's top, from the top of the content area. The tile is a little taller
+   * than the header band it sits in, so the strip is set just below where it ends.
+   */
+  stripTopBaseMm: 2.1,
+  /** The strip is a hairline of the six colours, not a rule. */
+  stripBaseMm: 0.9,
+  /** Strip bottom to the masthead title. */
+  titleGapBaseMm: 3,
 };
 
 /**
@@ -617,6 +660,16 @@ export interface JsPdfLike {
   setFillColor(r: number, g: number, b: number): JsPdfLike;
   setLineWidth(w: number): JsPdfLike;
   setLineDashPattern(pattern: number[], phase: number): JsPdfLike;
+  /** A filled or stroked triangle: the caret's body, in the brand mark. */
+  triangle(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    x3: number,
+    y3: number,
+    style?: string
+  ): JsPdfLike;
   text(text: string | string[], x: number, y: number, opts?: Record<string, unknown>): JsPdfLike;
   line(x1: number, y1: number, x2: number, y2: number): JsPdfLike;
   rect(x: number, y: number, w: number, h: number, style?: string): JsPdfLike;

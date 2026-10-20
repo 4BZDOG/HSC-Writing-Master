@@ -906,11 +906,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </div>
               ) : (
                 <div className="relative pl-2">
-                  {/* Reading text, so it gets a measure. At Focus Mode's width the
-                    question ran ~130 characters a line, which is past where the
-                    eye can return to the start of the next one. */}
+                  {/* The question fills its card at every width. It was once capped at
+                    70 characters a line, but the product owner ruled that a card
+                    left empty down its right side reads as unfinished, so the
+                    text runs to the card's padding. See DesignSpec §4, "Measure". */}
                   <h2
-                    className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight break-words max-w-[70ch]"
+                    className="font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 font-serif tracking-tight break-words"
                     style={{ fontSize: `${fontSize * 1.2}px`, lineHeight: 1.3 }}
                   >
                     {/* The verb opens its guide. It has always been drawn
@@ -1068,11 +1069,6 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     className={`
                            relative p-6 rounded-2xl transition-all duration-300
                            ${
-                             // A text scenario's box is capped with its text, so a wide
-                             // card (Focus Mode) does not leave a blank strip inside it.
-                             scenarioIsPlainText ? 'max-w-[calc(70ch+5rem)]' : ''
-                           }
-                           ${
                              scenarioIsPlainText
                                ? 'max-sm:p-0 max-sm:border-0 max-sm:shadow-none max-sm:bg-transparent light:max-sm:bg-transparent'
                                : ''
@@ -1099,7 +1095,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                             the quotation there instead. */}
                         <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180 max-sm:hidden" />
                         <p
-                          className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words max-w-[70ch] max-sm:pl-2.5 max-sm:pr-0 max-sm:border-l-2 max-sm:border-white/20 light:max-sm:border-slate-300"
+                          className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words max-sm:pl-2.5 max-sm:pr-0 max-sm:border-l-2 max-sm:border-white/20 light:max-sm:border-slate-300"
                           style={{ fontSize: `${fontSize}px` }}
                         >
                           {renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb)}

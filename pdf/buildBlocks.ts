@@ -168,12 +168,14 @@ export interface EvaluationExportData {
 }
 
 /**
- * The report's own name, and the one place it is stated.
+ * The report's own name, and the one place it is stated: the title under the
+ * letterhead, and the running head on every later page.
  *
- * Not "Band 6 — …": that is the product's name, and printed as the largest text
- * on a Band 2 report it reads as a claim about the mark below it.
+ * The product's name is not the title. It is the letterhead, "BAND 6" beside its
+ * mark and set small, and it is kept small on purpose: printed as the largest
+ * text on a Band 2 report, "Band 6" reads as a claim about the mark below it.
  */
-export const DEFAULT_TITLE = 'HSC Writing Coach';
+export const DEFAULT_TITLE = 'Marking feedback';
 
 /** Presentation the report carries but the marking data does not. */
 export interface ReportChrome {

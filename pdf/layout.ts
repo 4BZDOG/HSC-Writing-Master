@@ -30,6 +30,7 @@ import {
   SCORE_SUMMARY,
   PANEL,
   HEADING,
+  LETTERHEAD,
   TextMeasurer,
   TextRun,
   InlineSpan,
@@ -53,6 +54,14 @@ export const MASTHEAD_SUB_PT = 9;
 export const MASTHEAD_FIELD_PT = 7.5;
 export const MASTHEAD_FIELD_WIDTH_MM = 58;
 export const MASTHEAD_SUB_GAP_MM = 1.4;
+
+/**
+ * The page-one letterhead's share of the masthead: from the top of the content
+ * area down to the masthead title. The letterhead itself is drawn in the header
+ * band (see `drawRunningHead`); this is the strip and the gap beneath it.
+ */
+export const letterheadBlockHeight = (pScale: number): number =>
+  (LETTERHEAD.stripTopBaseMm + LETTERHEAD.stripBaseMm + LETTERHEAD.titleGapBaseMm) * pScale;
 
 /** Question-card type sizes, shared by the measurer and the drawer. */
 export const QUESTION_EYEBROW_PT = 8;
@@ -276,8 +285,8 @@ export const measureBlock = (
     };
   }
 
-  // The masthead: the report's name over its subtitle, with the name/class/date
-  // rules in the right-hand half.
+  // The masthead: the letterhead, then the report's name over its subtitle, with
+  // the name/class/date rules in the right-hand half.
   if (block.kind === 'masthead') {
     const titleH = MASTHEAD_TITLE_PT * pScale * MM_PER_PT * 1.25;
     const subPt = MASTHEAD_SUB_PT * pScale;
@@ -300,7 +309,7 @@ export const measureBlock = (
       frameInsetBottomMm,
       lineHeightMm: titleH,
       textIndentMm: 0,
-      height: padTop + Math.max(titleH + subH, fieldsH) + padBottom,
+      height: padTop + letterheadBlockHeight(pScale) + Math.max(titleH + subH, fieldsH) + padBottom,
     };
   }
 

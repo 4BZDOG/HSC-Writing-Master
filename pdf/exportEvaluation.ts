@@ -15,6 +15,7 @@ import {
   ProgressFn,
   LAYOUT,
   BAND_SCALE,
+  LETTERHEAD,
   METER,
   RULE_LINES,
   SCORE_SUMMARY,
@@ -40,6 +41,7 @@ import {
   MASTHEAD_SUB_GAP_MM,
   MASTHEAD_SUB_PT,
   MASTHEAD_TITLE_PT,
+  letterheadBlockHeight,
   planLayout,
   QUESTION_EYEBROW_PT,
   QUESTION_SUB_GAP_MM,
@@ -61,6 +63,7 @@ import {
   TextStyleCtx,
 } from './helpers';
 import { drawIcon } from './icons';
+import { bandRgb, drawBrandStrip, drawCaret } from './brand';
 import { FontSource, loadInterFont, loadJsPdf, FONT_FAMILY } from './fontLoader';
 import { domToast } from './toast';
 
@@ -191,18 +194,28 @@ const drawMeter = (
 };
 
 /**
- * The band ladder: six segments, filled up to the band reached.
+ * The band scale: six segments, each in its own band colour up to the band
+ * reached, and outlined above it.
  *
  * A mark out of 8 is meaningless without the scale it sits on, and "Band 4" is
- * a number a student has to already know how to read. Drawn as a ladder, both
- * questions answer themselves — where this response landed, and how far the
- * next rung is.
+ * a number a student has to already know how to read. Drawn as a scale, both
+ * questions answer themselves: where this response landed, and how far the next
+ * rung is.
+ *
+ * Every rung takes its band's colour, not the document's one accent, so the scale
+ * names the bands it climbs through. The band reached is drawn taller, growing
+ * upward from the shared baseline, and the caret stands over it: the same mark as
+ * the app's header (see `pdf/brand.ts`), with the marker on the rung. The caret is
+ * ink, with a dot in the reached band's colour.
+ *
+ * `segments` caps the ladder at the question's own ceiling (see `buildBlocks`), so
+ * a lower-tier question's ladder stops at its top rung instead of drawing empty
+ * ones beyond it.
  */
-const drawBandScale = (
+export const drawBandScale = (
   doc: JsPdfLike,
   ctx: TextStyleCtx,
   band: number,
-  accent: [number, number, number],
   x: number,
   y: number,
   width: number,
@@ -216,15 +229,26 @@ const drawBandScale = (
 
   for (let i = 0; i < segments; i++) {
     const segX = x + i * (segW + gap);
-    const reached = i + 1 <= band;
-    if (reached) {
-      doc.setFillColor(accent[0], accent[1], accent[2]);
-      doc.rect(segX, y, segW, h, 'F');
+    const rung = i + 1;
+    if (rung <= band) {
+      // Grows upward from the shared baseline: the band reached is the tall one.
+      const segH = rung === band ? h * BAND_SCALE.tallRatio : h;
+      const c = bandRgb(rung);
+      doc.setFillColor(c[0], c[1], c[2]);
+      doc.rect(segX, y + h - segH, segW, segH, 'F');
     } else {
       doc.setDrawColor(COLORS.rule[0], COLORS.rule[1], COLORS.rule[2]);
       doc.setLineWidth(0.2 * pScale);
       doc.rect(segX, y, segW, h, 'S');
     }
+  }
+
+  // The caret stands on the band reached, its point a hair above the tall rung.
+  if (band >= 1 && band <= segments) {
+    const cx = x + (band - 1) * (segW + gap) + segW / 2;
+    const tallTop = y + h - h * BAND_SCALE.tallRatio;
+    const tipY = tallTop - BAND_SCALE.caretGapBaseMm * pScale;
+    drawCaret(doc, cx, tipY, BAND_SCALE.caretBaseMm * pScale, COLORS.ink, bandRgb(band));
   }
 
   // End labels only: six numbered segments would crowd a 40mm column, and the
@@ -452,7 +476,14 @@ export const drawBlock = (
   }
 };
 
-/** The report's name, its subtitle, and the name/class/date rules. Page 1 only. */
+/**
+ * The report's name, its subtitle, and the name/class/date rules. Page 1 only.
+ *
+ * The letterhead above it is drawn in the header band (see `drawRunningHead`).
+ * The band strip closes that letterhead, and sits here at the top of the masthead,
+ * so it takes the rule's place on page one. The report's own name is the title
+ * below, which is why the product's name is not the largest text on the page.
+ */
 const drawMasthead = (
   doc: JsPdfLike,
   ctx: TextStyleCtx,
@@ -462,7 +493,16 @@ const drawMasthead = (
   colW: number,
   pScale: number
 ): void => {
-  const y = yTop + block.padTopMm;
+  const top = yTop + block.padTopMm;
+  drawBrandStrip(
+    doc,
+    xLeft,
+    top + LETTERHEAD.stripTopBaseMm * pScale,
+    colW,
+    LETTERHEAD.stripBaseMm * pScale
+  );
+
+  const y = top + letterheadBlockHeight(pScale);
   const titlePt = MASTHEAD_TITLE_PT * pScale;
   const baseline = y + ascentMm(titlePt);
   drawDisplayLine(doc, block.label ?? DEFAULT_TITLE, {
@@ -730,7 +770,6 @@ const drawScoreSummary = (
       doc,
       ctx,
       block.bandScale,
-      accent,
       bandX,
       bodyTop + bandPt * MM_PER_PT * 1.4 + BAND_SCALE.gapBaseMm * pScale,
       bandW,
@@ -968,7 +1007,7 @@ export const exportEvaluationPdf = async (
     doc.setProperties({
       title: `${title} — ${subtitle}`,
       subject: runningContext,
-      author: title,
+      author: 'HSC Writing Coach',
       creator: 'HSC Writing Coach PDF exporter',
       keywords: ['HSC', 'marking feedback', opts.data.verb, `Band ${opts.data.overallBand}`].join(
         ', '
@@ -1015,6 +1054,7 @@ export const exportEvaluationPdf = async (
           margin: PAGE_MARGIN_MM,
           pageWidth: dims.width,
           showTitle: page > 0,
+          letterhead: page === 0,
         });
 
         for (const { block, column, top } of byPage[page]) {

@@ -28,8 +28,9 @@ export const isLoneLastRow = (index: number, count: number): boolean =>
 /**
  * The criterion-by-criterion breakdown, as rungs of the mark ladder: each row's
  * gutter is the criterion's mark, and its body is the criterion, the meter and
- * what the marker said. From `xl` two rows sit side by side, which keeps a
- * criterion's lines to a readable measure at the width the report has there.
+ * what the marker said. From `xl` two rows sit side by side across the report's
+ * full width, so one criterion's text does not run the length of a wide card.
+ * The report has no reading measure of its own (DesignSpec §4, "Measure").
  */
 const CriteriaSection: React.FC<CriteriaSectionProps> = ({
   criteria,
