@@ -450,13 +450,17 @@ body.ai-busy .aurora {
  * The rules are a repeating background on a pseudo-element that starts at the
  * top of the text area, not on the grid itself. A repeating background on the
  * grid would also draw one tile above the first line, in the padding. The margin
- * is a second layer on the same pseudo-element, a Band 1 red at 35% a few pixels
- * left of the text (the text starts at px-5 and sm:px-7, so the margin sits 6px
- * before it at both). Those sit in the padding, never under a word.
+ * is a second layer on the same pseudo-element, a Band 1 red a few pixels left
+ * of the text (the text starts at px-5 and sm:px-7, so the margin sits 6px before
+ * it at both). It is a 1px line, so it can afford to be strong: at 35% it read as
+ * a grey hairline on the inset surface, and it is 60% of the red in the dark
+ * theme and 50% in the light, where the surface is brighter. Those sit in the
+ * padding, never under a word.
  */
 .editor-ruling {
   --editor-baseline-em: 1.12;
   --editor-rule-ink: rgba(148, 163, 184, 0.14);
+  --editor-margin-ink: 60%;
   --editor-margin-x: calc(1.25rem - 6px);
   --rule-step: calc(var(--editor-fs, 18px) * 1.8);
   --rule-offset: calc(
@@ -472,6 +476,7 @@ body.ai-busy .aurora {
 
 [data-theme='light'] .editor-ruling {
   --editor-rule-ink: rgba(71, 85, 105, 0.12);
+  --editor-margin-ink: 50%;
 }
 
 .editor-ruling::before {
@@ -485,8 +490,8 @@ body.ai-busy .aurora {
   pointer-events: none;
   background-image:
     linear-gradient(
-      color-mix(in srgb, var(--editor-margin) 35%, transparent),
-      color-mix(in srgb, var(--editor-margin) 35%, transparent)
+      color-mix(in srgb, var(--editor-margin) var(--editor-margin-ink), transparent),
+      color-mix(in srgb, var(--editor-margin) var(--editor-margin-ink), transparent)
     ),
     linear-gradient(to bottom, var(--editor-rule-ink) 1px, transparent 1px);
   background-size:
@@ -500,17 +505,24 @@ body.ai-busy .aurora {
 
 /*
  * The write-in: the invitation on an empty draft, set on the first ruled line
- * and revealed left to right, as a pen would write it. The words and the nib
- * share one keyframe timeline (same stops, same easing per segment), so the nib
- * stays on the reveal edge the whole way across. The stops are not evenly
- * spaced in progress (26, 47, 63, 84 per cent of the line at the stop times),
- * so the pen seems to pause and pick up between strokes rather than wipe.
+ * and written one word at a time, as a hand writes it. Each word is its own
+ * slot (`.editor-hint-slot`, built by `renderWriteIn` in Editor.tsx) with its own
+ * reveal and its own nib. `--t` is when the pen reaches the word and `--d` how
+ * long it takes over it, both set inline per slot. So a line that wraps is
+ * written after the first, in order, and the pen lifts between words rather than
+ * wiping across the block.
  *
- * It runs once and rests on the finished line, with `both` fill so the element
- * holds the last frame. The DesignSpec forbids an infinite animation on a state
- * that is not changing. Under prefers-reduced-motion the global rule ends the
- * animation at once, and `both` then leaves the page on that last frame: the
- * words written and the nib gone.
+ * A word's reveal and its nib's travel run over the same duration with the same
+ * easing, so the nib stays on the reveal edge the whole way across. The nib then
+ * lifts off and fades in the short pause before the next word, and it is
+ * invisible at rest, so it is only ever seen at its own word.
+ *
+ * Each animation runs once and holds its last frame (`both` on a word, `forwards`
+ * on the nib, whose resting state is invisible), so the page rests on the
+ * finished line. The DesignSpec forbids an infinite animation on a state that is
+ * not changing. Under prefers-reduced-motion the global rule ends each animation
+ * at once, and the delays are dropped below as well: the page shows the finished
+ * line and no nib, rather than a blank line waiting for its turn.
  */
 .editor-hint-run {
   position: relative;
@@ -520,72 +532,81 @@ body.ai-busy .aurora {
   max-width: 100%;
 }
 
-.editor-hint-words {
-  animation: editor-hint-write 2.1s ease-in-out both;
+/* A capitalised command verb in the invitation, in small capitals rather than
+   full ones: the verb is a word in the sentence, and in the serif italic full
+   capitals shout. Its words stay together in one run, so a two-word verb wraps
+   as a unit. */
+.editor-hint-verb {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
 }
 
-.editor-hint-nib {
+/* One word and its nib. The slot is an inline box, so the slots wrap with the
+   sentence, and it is the box the nib's `left` is a percentage of: the word's
+   own width, so the nib travels across its word and no other. */
+.editor-hint-slot {
+  position: relative;
+  display: inline-block;
+}
+
+.editor-hint-word {
+  display: inline-block;
+  animation: editor-hint-word var(--d) ease-in-out var(--t) both;
+}
+
+.editor-hint-word-nib {
   position: absolute;
   top: calc(var(--editor-fs, 18px) * var(--editor-baseline-em));
   left: 0;
   width: 10px;
   height: 10px;
+  opacity: 0;
   transform: translate(-50%, -100%);
-  animation: editor-hint-nib 2.1s ease-in-out both;
+  animation:
+    editor-hint-word-nib var(--d) ease-in-out var(--t) forwards,
+    editor-hint-word-lift 140ms ease-out calc(var(--t) + var(--d)) forwards;
 }
 
-@keyframes editor-hint-write {
-  0% {
+@keyframes editor-hint-word {
+  from {
     clip-path: inset(0 100% 0 0);
   }
-  17% {
-    clip-path: inset(0 74% 0 0);
-  }
-  34% {
-    clip-path: inset(0 53% 0 0);
-  }
-  51% {
-    clip-path: inset(0 37% 0 0);
-  }
-  69% {
-    clip-path: inset(0 16% 0 0);
-  }
-  86%,
-  100% {
+  to {
     clip-path: inset(0 0 0 0);
   }
 }
 
-@keyframes editor-hint-nib {
-  0% {
+/* Travels with the reveal edge across the word, with the same timing. */
+@keyframes editor-hint-word-nib {
+  from {
     left: 0%;
     opacity: 1;
   }
-  17% {
-    left: 26%;
-    opacity: 1;
-  }
-  34% {
-    left: 47%;
-    opacity: 1;
-  }
-  51% {
-    left: 63%;
-    opacity: 1;
-  }
-  69% {
-    left: 84%;
-    opacity: 1;
-  }
-  86% {
+  to {
     left: 100%;
+    opacity: 1;
+  }
+}
+
+/* The pen lifts off the end of the word and fades, in the pause before the next. */
+@keyframes editor-hint-word-lift {
+  from {
     opacity: 1;
     transform: translate(-50%, -100%);
   }
-  100% {
-    left: 100%;
+  to {
     opacity: 0;
     transform: translate(-50%, -160%);
+  }
+}
+
+/* The duration rule in the block below makes each write-in animation instant, but
+   leaves its DELAY alone, so a reader who asked for no motion would wait out the
+   pen's whole path before the words appeared. No motion means no waiting. */
+@media (prefers-reduced-motion: reduce) {
+  .editor-hint-word,
+  .editor-hint-word-nib {
+    animation-delay: 0ms !important;
   }
 }
 

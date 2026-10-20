@@ -37,7 +37,15 @@ const renderEditor = (props: Partial<React.ComponentProps<typeof Editor>> = {}) 
 
 const ruledGrid = () => document.querySelector('.editor-ruling') as HTMLElement;
 const hintWords = () => document.querySelector('.editor-hint-words');
+const hintSlots = () => Array.from(document.querySelectorAll<HTMLElement>('.editor-hint-slot'));
+const hintVerb = () => document.querySelector('.editor-hint-verb');
 const textarea = () => document.querySelector('textarea') as HTMLTextAreaElement;
+
+/** When the pen reaches a word and how long it takes, as the stylesheet reads them. */
+const timingOf = (slot: HTMLElement) => ({
+  delay: parseInt(slot.style.getPropertyValue('--t'), 10),
+  duration: parseInt(slot.style.getPropertyValue('--d'), 10),
+});
 
 describe('Editor writing surface ruling', () => {
   it('rules the grid the text sits in, and hands it the reading size', () => {
@@ -129,9 +137,54 @@ describe('Editor write-in invitation', () => {
 
   it('draws the pen nib in the tier accent, and not as an interactive element', () => {
     const { container } = renderEditor();
-    const nib = container.querySelector('.editor-hint-nib');
+    const nib = container.querySelector('.editor-hint-word-nib');
     expect(nib).toBeTruthy();
     expect(nib?.getAttribute('aria-hidden')).toBe('true');
     expect((nib as SVGElement | null)?.style.color).not.toBe('');
+  });
+
+  it('writes one word at a time, each with its own pen, in the order of the sentence', () => {
+    renderEditor();
+    const words = document.querySelectorAll('.editor-hint-word');
+    expect(Array.from(words, (w) => w.textContent)).toEqual(PROMPT.split(' '));
+
+    // Every word has its own nib, so the pen can travel with each reveal.
+    expect(document.querySelectorAll('.editor-hint-word-nib')).toHaveLength(words.length);
+
+    // Each word starts after the one before it has been written, and a longer
+    // word takes longer: the pen writes at a rate, not in one wipe.
+    const timings = hintSlots().map(timingOf);
+    timings.forEach((t, i) => {
+      expect(t.duration).toBeGreaterThanOrEqual(120);
+      if (i > 0) {
+        const prev = timings[i - 1];
+        expect(t.delay).toBeGreaterThanOrEqual(prev.delay + prev.duration);
+      }
+    });
+    const describe = timings[2]; // "DESCRIBE", eight letters
+    const inWord = timings[5]; // "in", two letters, held at the floor
+    expect(describe.duration).toBeGreaterThan(inWord.duration);
+    expect(inWord.duration).toBe(120);
+  });
+
+  it('sets a capitalised command verb in small capitals, both of its words inside it', () => {
+    renderEditor({ placeholder: 'Write your CRITICALLY EVALUATE answer here.' });
+    const verb = hintVerb();
+    expect(verb).toBeTruthy();
+    expect(verb?.textContent).toBe('CRITICALLY EVALUATE');
+    expect(verb?.querySelectorAll('.editor-hint-word')).toHaveLength(2);
+    // Ordinary words, even capitalised ones, stay out of the verb.
+    expect(verb?.textContent).not.toContain('Write');
+  });
+
+  it('keeps the verb as one run for a single-word verb too', () => {
+    renderEditor();
+    expect(hintVerb()?.textContent).toBe('DESCRIBE');
+  });
+
+  it('keeps the invitation text, and the placeholder attribute, as they were given', () => {
+    renderEditor({ placeholder: 'Write your CRITICALLY EVALUATE answer here.' });
+    expect(hintWords()?.textContent).toBe('Write your CRITICALLY EVALUATE answer here.');
+    expect(textarea().placeholder).toBe('Write your CRITICALLY EVALUATE answer here.');
   });
 });
