@@ -125,6 +125,139 @@ const MeshOverlay = ({
   />
 );
 
+/* ------------------------------------------------------------ write-in */
+
+/**
+ * The write-in, word by word. A hand does not wipe a line across the page: it
+ * writes one word, lifts, and writes the next, so a line that wraps is written
+ * after the first, in order. Each word here is its own element with its own
+ * reveal and its own pen, timed from where the pen reaches it in the sentence.
+ *
+ * A word takes about 45ms a character (120ms at least, so "a" or "in" is not a
+ * flicker), and the pen lifts for 60 to 109ms between words. The lift is varied
+ * by word index rather than fixed, so the pen does not keep one beat. The timings
+ * are ms from the first word and are handed to the stylesheet as `--t` (when the
+ * word starts) and `--d` (how long it takes), which is what index.css reads.
+ */
+const WRITE_IN_MS_PER_CHAR = 45;
+const WRITE_IN_MIN_WORD_MS = 120;
+
+/**
+ * A command verb in capitals, one or two words (DESCRIBE, CRITICALLY EVALUATE).
+ * Capitals are the cue: the verb is the word the student must act on, and in
+ * the serif italic a full-capitals verb shouts, so it is set in small capitals
+ * instead (see `.editor-hint-verb`). The words keep their letters, so the
+ * placeholder attribute and what assistive technology reads are unchanged.
+ */
+const WRITE_IN_VERB = /\b[A-Z]{2,}(?:\s+[A-Z]{2,})*\b/g;
+
+interface WriteInPiece {
+  text: string;
+  /** Part of a capitalised command verb, so it is set in small capitals. */
+  verb: boolean;
+  /** A run of whitespace, kept as plain text so the line still wraps naturally. */
+  space: boolean;
+}
+
+/** The invitation as words and the spaces between them, each marked if it is part of a verb. */
+const splitWriteIn = (text: string): WriteInPiece[] => {
+  const pieces: WriteInPiece[] = [];
+  const push = (chunk: string, verb: boolean) => {
+    for (const part of chunk.split(/(\s+)/)) {
+      if (part === '') continue;
+      pieces.push({ text: part, verb, space: /^\s+$/.test(part) });
+    }
+  };
+  let last = 0;
+  for (const match of text.matchAll(WRITE_IN_VERB)) {
+    const start = match.index ?? 0;
+    push(text.slice(last, start), false);
+    push(match[0], true);
+    last = start + match[0].length;
+  }
+  push(text.slice(last), false);
+  return pieces;
+};
+
+/** When each word starts and how long the pen takes over it, in ms from the first word. */
+const writeInTimings = (words: string[]): { delay: number; duration: number }[] => {
+  let clock = 0;
+  return words.map((word, i) => {
+    const duration = Math.max(WRITE_IN_MIN_WORD_MS, word.length * WRITE_IN_MS_PER_CHAR);
+    const timing = { delay: clock, duration };
+    clock += duration + 60 + ((i * 37) % 50); // the pen lifting before the next word
+    return timing;
+  });
+};
+
+/** The nib's path, in a 10 by 10 box with its tip on the bottom edge. */
+const NIB_PATH = 'M5 10 C3.2 7.6 1.5 5.7 1.5 3.6 A3.5 3.5 0 0 1 8.5 3.6 C8.5 5.7 6.8 7.6 5 10 Z';
+
+/**
+ * The invitation as the pen writes it: one slot per word, each with its own
+ * reveal and its own nib, and a run of capitalised verb words in one
+ * `.editor-hint-verb` so a two-word verb stays set together. Returns the nodes
+ * for the `.editor-hint-words` wrapper, whose text content is the invitation
+ * exactly as it was passed in.
+ */
+const renderWriteIn = (text: string, accent: string): React.ReactNode[] => {
+  const pieces = splitWriteIn(text);
+  const timings = writeInTimings(pieces.filter((p) => !p.space).map((p) => p.text));
+  const nodes: React.ReactNode[] = [];
+  let run: React.ReactNode[] = [];
+  let runIsVerb = false;
+  let wordIndex = 0;
+  const flush = () => {
+    if (run.length === 0) return;
+    const key = `run-${nodes.length}`;
+    nodes.push(
+      runIsVerb ? (
+        <span key={key} className="editor-hint-verb">
+          {run}
+        </span>
+      ) : (
+        <React.Fragment key={key}>{run}</React.Fragment>
+      )
+    );
+    run = [];
+  };
+  pieces.forEach((piece, i) => {
+    if (piece.verb !== runIsVerb) {
+      flush();
+      runIsVerb = piece.verb;
+    }
+    if (piece.space) {
+      run.push(piece.text);
+      return;
+    }
+    const timing = timings[wordIndex++];
+    run.push(
+      <span
+        key={i}
+        className="editor-hint-slot"
+        style={{ '--t': `${timing.delay}ms`, '--d': `${timing.duration}ms` } as React.CSSProperties}
+      >
+        <span className="editor-hint-word">{piece.text}</span>
+        {/* The pen's nib: it travels with the reveal edge across its word, then
+            lifts off and fades in the pause before the next word (index.css). */}
+        <svg
+          className="editor-hint-word-nib"
+          viewBox="0 0 10 10"
+          width="10"
+          height="10"
+          style={{ color: accent }}
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d={NIB_PATH} fill="currentColor" />
+        </svg>
+      </span>
+    );
+  });
+  flush();
+  return nodes;
+};
+
 const ToolbarButton: React.FC<{
   onClick: () => void;
   icon: React.ReactNode;
@@ -1002,7 +1135,9 @@ const Editor = forwardRef<
                     they sit on the first ruled line exactly where the first
                     typed line would. It is removed the moment a character
                     exists, and mounting it again (the draft cleared) replays the
-                    write-in, because the animation belongs to the element. */}
+                    write-in, because the animations belong to the elements.
+                    The invitation is written one word at a time (see
+                    `renderWriteIn`), so a line that wraps is written in order. */}
                 <div
                   className={`${gridStackItemStyles} pointer-events-none text-[rgb(var(--color-text-primary))] light:text-slate-800 z-0`}
                   style={{ fontSize: `${internalFontSize}px` }}
@@ -1011,29 +1146,8 @@ const Editor = forwardRef<
                   {value === '' && hintText ? (
                     <span className="editor-hint-run">
                       <span className="editor-hint-words italic text-[rgb(var(--color-text-dim))]">
-                        {hintText}
+                        {renderWriteIn(hintText, chroma.accent)}
                       </span>
-                      {/* A pen nib in the tier accent, its tip on the baseline. It
-                          travels with the reveal edge (same keyframes, same
-                          easing), then lifts off and fades. The last frame is
-                          the words fully written and the nib gone, so under
-                          reduced motion, where the animation ends at once, the
-                          page shows the finished line and not a half-written
-                          one. */}
-                      <svg
-                        className="editor-hint-nib"
-                        viewBox="0 0 10 10"
-                        width="10"
-                        height="10"
-                        style={{ color: chroma.accent }}
-                        aria-hidden="true"
-                        focusable="false"
-                      >
-                        <path
-                          d="M5 10 C3.2 7.6 1.5 5.7 1.5 3.6 A3.5 3.5 0 0 1 8.5 3.6 C8.5 5.7 6.8 7.6 5 10 Z"
-                          fill="currentColor"
-                        />
-                      </svg>
                     </span>
                   ) : (
                     highlightedContent

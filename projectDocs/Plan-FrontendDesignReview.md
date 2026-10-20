@@ -2555,6 +2555,14 @@ check:build` now runs them locally, and `test:all` runs it.
   Band 1 red margin runs down the left, as in an exam booklet. On an empty draft a pen
   nib writes the invitation onto the first line once and rests. It replays when the
   draft is cleared, and the native placeholder stays for assistive technology.
+- **Then, from review.** The first write-in was one reveal across the whole
+  invitation, so a wrapped invitation (the largest size on a phone, or a CRITICALLY
+  verb at any size) uncovered both lines together. The pen now writes word by word,
+  like the wait card's handwriting page, with its own nib per word and varied
+  pen-lifts, so a second line is written after the first. The capitalised verb is set
+  in small caps, so it no longer shouts in the italic and the line is shorter. The
+  margin was raised from 35% to 60% (dark) and 50% (light) of Band 1 red: at 35% it
+  read as a grey hairline.
 - **Fixed, quiz.** The quiz takes two thirds of the split card, and the drawing
   column's title steps down a size. Focus moves with `preventScroll`, and the
   feedback is scrolled into view only when its box would cut it off. Captured after
