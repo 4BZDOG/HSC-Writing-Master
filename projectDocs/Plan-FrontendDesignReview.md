@@ -2519,6 +2519,29 @@ check:build` now runs them locally, and `test:all` runs it.
   each other, and every verb has a tip). `aiWaitCard.test.tsx` pins the clock outside
   the live region and the band strip.
 
+### 88. The quick check never reached a real wait, and the mark had lost its bands — FIXED
+
+- **Wrong.** #87 was judged in a 760px preview box. The real marking wait covers the
+  writing card's body: about 46 × 28rem on a laptop and 23 × 23rem on a phone. The
+  30rem tier dropped the quiz, so no student ever saw it. Separately, the header tile
+  was white bars on an indigo-to-sky gradient (an equaliser, not the band scale). The
+  favicon was an older "H", and neither the PDFs nor the edge of the header carried
+  any of the brand.
+- **Fixed, waits.** A wide box splits the card: the drawing, header and track on the
+  left, the quiz on the right. On quiz waits a short box drops the drawing before the
+  quiz. The deck mixes in questions on the published 2025 results, each answered by a
+  sourced fact, and the margin note keeps to advice so it never answers one.
+- **Fixed, brand.** The mark is the six band colours with the marking caret landed on
+  Band 6, the same marker the marking wait moves. It sits on a solid ink tile in the
+  header, the favicon and the PDF letterhead. The header's edge and the PDF's rule
+  are the band scale. On the boot splash the caret climbs the ladder, and on sign-in
+  it drops onto 6 once.
+- **Changed by decision.** The question, its scenario and the marking report's prose
+  now fill their card. The product owner overruled the 70ch/40rem measure; DesignSpec
+  §4 records it.
+- **Measured.** Every finding here came from the real app (`signIn`, a held AI
+  request, screenshots at 1366 and 390 in both themes), not from a preview page.
+
 ### What the guards say now
 
 - **`npm run check:build`** would have caught 82 locally. It is in `test:all`.
