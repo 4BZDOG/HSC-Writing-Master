@@ -2542,6 +2542,29 @@ check:build` now runs them locally, and `test:all` runs it.
 - **Measured.** Every finding here came from the real app (`signIn`, a held AI
   request, screenshots at 1366 and 390 in both themes), not from a preview page.
 
+### 89. A blank writing area, and a quiz that lost its question on a laptop — FIXED
+
+- **Wrong.** The writing area was a blank inset panel. The only invitation was a grey
+  placeholder, so nothing about the surface said "write here". Separately, on a
+  1280×720 laptop the split wait card is about 300px tall and gave the quiz 44% of
+  its width. After a wrong answer the feedback overflowed. Focusing "Next question"
+  then scrolled the card, leaving "Quick check" above an empty gap.
+- **Fixed, writing area.** Ruled lines sit one line box apart, just under each
+  baseline. They are computed from the reading size, so zooming re-rules them, and
+  measured at 1.6–2.9px under the baseline from 12px to 48px with no drift. A faint
+  Band 1 red margin runs down the left, as in an exam booklet. On an empty draft a pen
+  nib writes the invitation onto the first line once and rests. It replays when the
+  draft is cleared, and the native placeholder stays for assistive technology.
+- **Fixed, quiz.** The quiz takes two thirds of the split card, and the drawing
+  column's title steps down a size. Focus moves with `preventScroll`, and the
+  feedback is scrolled into view only when its box would cut it off. Captured after
+  right and wrong answers to sentence and numbers questions at 1366×900, 1280×720 and
+  390×844, in both themes.
+- **Also fixed.** The ruled grid used `min-h-full`, but the card states a min and max
+  height and never a height, so the percentage resolved to nothing and an empty draft
+  was ruled for three lines. The body is now a flex column, and the grid grows to fill
+  it.
+
 ### What the guards say now
 
 - **`npm run check:build`** would have caught 82 locally. It is in `test:all`.
