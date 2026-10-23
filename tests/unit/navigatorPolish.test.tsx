@@ -165,7 +165,9 @@ describe('PromptSelector', () => {
   it('draws the sub-topic tile in teal, as every other sub-topic mark is', () => {
     renderAt({ courseId: 'c1', topicId: 't1' });
     const list = openPicker(/select sub-topic/i);
-    const tile = list.getByText('DNA').previousElementSibling as HTMLElement;
+    // The tile is the row's first `p-1.5` box; the name sits in a wrapper beside it.
+    const row = list.getByText('DNA').closest('li') as HTMLElement;
+    const tile = row.querySelector('.p-1\\.5') as HTMLElement;
     expect(tile.className).toContain('text-teal-400');
     expect(tile.className).not.toContain('indigo');
   });

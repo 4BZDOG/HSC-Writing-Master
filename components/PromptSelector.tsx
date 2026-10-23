@@ -460,6 +460,36 @@ const pastHscChipClass = (pressed: boolean): string =>
       : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
   }`;
 
+/**
+ * A topic or sub-topic row's name, with its counts beside it from `sm` up and
+ * under it below. Beside them on a phone the counts took the width and every
+ * name cut to "Op…" or "Huma…"; under the name they cost a line and the name
+ * reads in full. The closed control keeps one line: its counts are hidden below
+ * `sm` already, so it truncates like any other trigger.
+ */
+const NavOptionRow = ({
+  name,
+  meta,
+  inTrigger,
+}: {
+  name: string;
+  meta: React.ReactNode;
+  inTrigger: boolean;
+}) => (
+  <div className="min-w-0 flex-1 flex flex-col sm:flex-row sm:items-center sm:gap-3">
+    <span className={`font-medium min-w-0 ${inTrigger ? 'truncate' : 'break-words sm:truncate'}`}>
+      {name}
+    </span>
+    {meta && (
+      <div
+        className={`flex flex-wrap items-center gap-x-3 gap-y-0.5 ${inTrigger ? '' : 'sm:flex-shrink-0 sm:flex-nowrap'}`}
+      >
+        {meta}
+      </div>
+    )}
+  </div>
+);
+
 /** "a", "a and b", "a, b and c" — for the navigator's summary line. */
 const joinWords = (words: string[]): string =>
   words.length <= 1
@@ -516,7 +546,10 @@ const PastHscNavigator = ({
             >
               All years
             </button>
-            {availableYears.map((year) => (
+            {/* Newest first: students revise the latest papers first, so 2025
+                is the chip next to "All years", not 2020. `availableYears` stays
+                oldest-first, which is the order the selection is stored in. */}
+            {[...availableYears].reverse().map((year) => (
               <button
                 key={year}
                 type="button"
@@ -533,7 +566,7 @@ const PastHscNavigator = ({
       {on && summary && (
         <p
           role="status"
-          className="text-[10px] font-medium leading-snug text-[rgb(var(--color-text-muted))] light:text-slate-500"
+          className="t-label leading-snug text-[rgb(var(--color-text-muted))] light:text-slate-600"
         >
           {summary}
         </p>
@@ -832,30 +865,37 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.topic}`}>
               <Layers className="w-4 h-4" />
             </div>
-            <span className="font-medium flex-1 min-w-0 truncate">{t.name}</span>
-            {/* How much is inside, so the list says where the depth is before
-                anyone opens a topic to find out. */}
-            {t.subTopics?.length > 0 && (
-              <span
-                className={`t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
-              >
-                {t.subTopics.length} sub-topic{t.subTopics.length === 1 ? '' : 's'}
-              </span>
-            )}
-            {pastHscNavOn && (
-              <PastHscCount
-                count={countPastHscInTopic(t, pastHscYearsInForce)}
-                className={inTrigger ? 'hidden sm:inline-flex' : ''}
-              />
-            )}
-            {/* Per topic, so a half-finished course says WHICH half. */}
-            {canCurate && (
-              <CoverageChip
-                coverage={questionCoverage({ topics: [t] })}
-                label={t.name}
-                className={inTrigger ? 'hidden sm:inline-flex' : ''}
-              />
-            )}
+            <NavOptionRow
+              name={t.name}
+              inTrigger={inTrigger}
+              meta={
+                <>
+                  {/* How much is inside, so the list says where the depth is before
+                      anyone opens a topic to find out. */}
+                  {t.subTopics?.length > 0 && (
+                    <span
+                      className={`t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
+                    >
+                      {t.subTopics.length} sub-topic{t.subTopics.length === 1 ? '' : 's'}
+                    </span>
+                  )}
+                  {pastHscNavOn && (
+                    <PastHscCount
+                      count={countPastHscInTopic(t, pastHscYearsInForce)}
+                      className={inTrigger ? 'hidden sm:inline-flex' : ''}
+                    />
+                  )}
+                  {/* Per topic, so a half-finished course says WHICH half. */}
+                  {canCurate && (
+                    <CoverageChip
+                      coverage={questionCoverage({ topics: [t] })}
+                      label={t.name}
+                      className={inTrigger ? 'hidden sm:inline-flex' : ''}
+                    />
+                  )}
+                </>
+              }
+            />
           </div>
         );
         return {
@@ -880,20 +920,27 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.subTopic}`}>
               <FolderOpen className="w-4 h-4" />
             </div>
-            <span className="font-medium flex-1 min-w-0 truncate">{st.name}</span>
-            <span
-              className={`t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
-            >
-              {questionCount > 0
-                ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
-                : 'No questions yet'}
-            </span>
-            {pastHscNavOn && (
-              <PastHscCount
-                count={countPastHscInSubTopic(st, pastHscYearsInForce)}
-                className={inTrigger ? 'hidden sm:inline-flex' : ''}
-              />
-            )}
+            <NavOptionRow
+              name={st.name}
+              inTrigger={inTrigger}
+              meta={
+                <>
+                  <span
+                    className={`t-label flex-shrink-0 text-[rgb(var(--color-text-muted))] ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
+                  >
+                    {questionCount > 0
+                      ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
+                      : 'No questions yet'}
+                  </span>
+                  {pastHscNavOn && (
+                    <PastHscCount
+                      count={countPastHscInSubTopic(st, pastHscYearsInForce)}
+                      className={inTrigger ? 'hidden sm:inline-flex' : ''}
+                    />
+                  )}
+                </>
+              }
+            />
           </div>
         );
         return {

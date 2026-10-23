@@ -418,7 +418,10 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
     });
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-6 sm:py-10 space-y-8">
+    // `relative z-10`: App renders the animated background inside the same
+    // stacking wrapper, as a positioned layer. Unpositioned content paints
+    // beneath a positioned sibling, so without this the dashboard was blank.
+    <main className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 py-6 sm:py-10 space-y-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 space-y-1">
           <h1 className="t-display text-lg sm:text-xl tracking-tight text-primary">
