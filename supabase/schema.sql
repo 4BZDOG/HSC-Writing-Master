@@ -2236,6 +2236,36 @@ begin
   if v_user is null then
     raise exception 'Not authenticated';
   end if;
+
+  -- Deleting the account does not reach Stripe, so a subscription that would renew
+  -- keeps charging a card nobody can see any more (or, for a plan a parent pays for,
+  -- keeps charging the parent for a deleted child). Refuse until it is set to end.
+  -- A plan already cancelled at period end is fine: Stripe ends it on its own. The
+  -- payer_id column is §31's; plpgsql resolves it when the function runs.
+  if exists (
+    select 1 from public.subscriptions s
+     where s.status in ('active', 'trialing', 'past_due')
+       and not s.cancel_at_period_end
+       and s.user_id = v_user
+       and (s.payer_id is null or s.payer_id = v_user)
+  ) or exists (
+    select 1 from public.subscriptions s
+     where s.status in ('active', 'trialing', 'past_due')
+       and not s.cancel_at_period_end
+       and s.payer_id = v_user
+  ) then
+    raise exception 'Cancel your subscription before deleting your account: open Manage billing, cancel the plan, then try again.';
+  end if;
+  if exists (
+    select 1 from public.subscriptions s
+     where s.status in ('active', 'trialing', 'past_due')
+       and not s.cancel_at_period_end
+       and s.user_id = v_user
+       and s.payer_id is not null and s.payer_id <> v_user
+  ) then
+    raise exception 'Your parent or guardian pays for your plan. Ask them to cancel it before you delete your account.';
+  end if;
+
   delete from auth.users where id = v_user;
 end; $$;
 

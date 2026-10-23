@@ -185,7 +185,13 @@ export const deleteMyAccount = async (user: User): Promise<DeletionResult> => {
     try {
       const { error } = await supabase.rpc('delete_my_account');
       if (error) {
-        // The most likely cause is a database that has not run schema §16.
+        // A live subscription blocks deletion (schema §16), and the server's sentence
+        // says what to cancel first. It is shown as written: "contact an administrator"
+        // would send them to someone who cannot cancel their plan for them.
+        if (error.code === 'P0001' && /cancel/i.test(error.message ?? '')) {
+          return { ok: false, message: error.message };
+        }
+        // Otherwise the most likely cause is a database that has not run schema §16.
         // Say so plainly rather than leaving the user thinking it worked.
         return {
           ok: false,
