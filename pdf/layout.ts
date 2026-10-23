@@ -39,12 +39,7 @@ import {
 import type { TableLayout } from './reportBlocks';
 import { wrapRich } from './wrapRich';
 import { spansToText } from './inline';
-import {
-  gridMinimumHeight,
-  isReportKind,
-  measureReportBlock,
-  splitGridLayout,
-} from './reportGeometry';
+import { isReportKind, measureReportBlock, splitGridLayout } from './reportGeometry';
 
 export const getPageDimensions = (size: PageSizeName): PageDimensions => PAGE_DIMENSIONS[size];
 
@@ -815,48 +810,46 @@ export interface FlowResult {
  * blocks). Leading spacers at the top of a column are suppressed.
  */
 /**
- * Reserve height for a heading's body so it is never orphaned at a column/page
- * foot. Every block reaching the flow has been through `splitOversized`, so
- * nothing splits further — a heading moves as a unit with the block beneath it.
+ * A heading, or a block bound to the one after it: neither may end a column.
+ * A bound pair is one thought in two blocks — the sentence a student wrote and
+ * the sentence it became — and a sub-heading set as a paragraph is bound to the
+ * list it names the same way.
  */
-const requiredHeight = (blocks: MeasuredBlock[], i: number): number => {
-  const block = blocks[i];
-  let required = block.height;
-  const next = blocks[i + 1];
-  if (block.kind === 'heading') {
-    // A breakable body only has to bring its minimum head along; demanding the
-    // whole paragraph sends the heading to the next column over prose that
-    // would have split happily beneath it.
-    if (next && next.kind !== 'spacer') required += chainMinimum(blocks, i + 1);
-  } else if (block.keepWithNext && next) {
-    // A bound pair travels whole — the sentence a student wrote and the
-    // sentence it became are one thought, and a column boundary between them
-    // makes the reader hold the first half in their head while their eye
-    // travels. Its partner may still split internally once it lands.
-    required += chainMinimum(blocks, i + 1);
-  }
-  return required;
+const keepsWithNext = (b: MeasuredBlock): boolean => b.kind === 'heading' || !!b.keepWithNext;
+
+/**
+ * Whether the block at `i` can be placed in `room` mm without being parted
+ * from what follows it: keep-with-next.
+ *
+ * A heading stays only if the block beneath it can make a start there too —
+ * either whole, or as the first fragment the splitter would actually cut. It
+ * used to reserve an ESTIMATE of that fragment (three lines, or a header and
+ * two rows), and the estimate was wrong exactly where it mattered: a four-line
+ * panel or a three-row table cannot split at all, and a panel's head also
+ * carries its frame's foot — so the heading took the reserved room and its
+ * body moved on without it. "About this report" printed at the foot
+ * of page one over a panel on page two. Asking the splitter itself means the
+ * reservation and the flow can never disagree.
+ */
+const fitsWithFollowers = (blocks: MeasuredBlock[], i: number, room: number): boolean => {
+  const b = blocks[i];
+  if (b.height > room + 1e-6) return false;
+  return !keepsWithNext(b) || canStart(blocks, i + 1, room - b.height);
 };
 
 /**
- * The least room a block starting at `j` needs, counting any run of
- * `keepWithNext` blocks that bind it to the one after: a heatmap's legend stands
- * over its table, so the legend's own space and the table's minimum travel
- * together, and a heading above the legend moves with them.
+ * Whether the block at `j` can begin in `room` mm. A bound block has to fit
+ * whole and bring its own follower's start along; a spacer is placed whole or
+ * becomes the break (which would part a heading from the content beneath it);
+ * anything else fits or splits there. Nothing following means nothing to keep.
  */
-const chainMinimum = (blocks: MeasuredBlock[], j: number): number => {
+const canStart = (blocks: MeasuredBlock[], j: number, room: number): boolean => {
   const b = blocks[j];
-  if (!b.keepWithNext || !blocks[j + 1]) return minimumHeight(b);
-  return b.height + chainMinimum(blocks, j + 1);
-};
-
-/** The least room a block can be placed in: its full height unless it splits. */
-const minimumHeight = (b: MeasuredBlock): number => {
-  const grid = gridOf(b);
-  if (grid) return b.padTopMm + gridMinimumHeight(grid);
-  return b.breakable && b.runs.length === 1 && (b.kind === 'paragraph' || b.kind === 'criterion')
-    ? Math.min(b.height, b.padTopMm + MIN_HEAD_LINES * b.lineHeightMm + (b.labelExtraMm ?? 0))
-    : b.height;
+  if (!b) return true;
+  if (keepsWithNext(b)) return fitsWithFollowers(blocks, j, room);
+  if (b.kind === 'spacer')
+    return b.height <= room + 1e-6 && canStart(blocks, j + 1, room - b.height);
+  return b.height <= room + 1e-6 || splitToFit(b, room) !== null;
 };
 
 /**
@@ -936,8 +929,10 @@ const flowColumnBand = (
       if (block.flexibleRules) {
         block = growToFit(block, geo.columnHeight - cursor, geo.columnHeight, pScale);
       }
-      const required = block === blocks[i] ? requiredHeight(blocks, i) : block.height;
-      if (cursor + required <= geo.columnHeight + 1e-6) {
+      const room = geo.columnHeight - cursor;
+      const fits =
+        block === blocks[i] ? fitsWithFollowers(blocks, i, room) : block.height <= room + 1e-6;
+      if (fits) {
         placements.push({ block, page, column, top: cursor });
         cursor += block.height;
         break;
@@ -1007,8 +1002,10 @@ const flowSpanBand = (
       if (block.flexibleRules) {
         block = growToFit(block, geo.columnHeight - cursor, geo.columnHeight, pScale);
       }
-      const required = block === blocks[i] ? requiredHeight(blocks, i) : block.height;
-      if (cursor + required <= geo.columnHeight + 1e-6) {
+      const room = geo.columnHeight - cursor;
+      const fits =
+        block === blocks[i] ? fitsWithFollowers(blocks, i, room) : block.height <= room + 1e-6;
+      if (fits) {
         placements.push({ block, page, column: 0, top: cursor });
         cursor += block.height;
         break;
