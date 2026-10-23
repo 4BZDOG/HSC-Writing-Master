@@ -88,6 +88,69 @@ exception
 end $$;
 rollback;
 
+-- ---- 1b. A student cannot grant themselves a plan, a school or a quota ------
+-- schema §32. Each column is tried on its own, so one regressed column cannot
+-- hide behind another that still fails. The columns the app writes for itself
+-- must still save, or the guard has broken profile saving.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare
+  v_stmt text;
+  v_stmts text[] := array[
+    'update public.profiles set stripe_plan = ''plus'' where id = auth.uid()',
+    'update public.profiles set stripe_plan = ''school'' where id = auth.uid()',
+    'update public.profiles set stripe_customer_id = ''cus_forged'' where id = auth.uid()',
+    'update public.profiles set plan_period_end = now() + interval ''1 year'' where id = auth.uid()',
+    'update public.profiles set school_id = gen_random_uuid() where id = auth.uid()',
+    'update public.profiles set daily_ai_quota = 9999 where id = auth.uid()'
+  ];
+  v_rows int;
+begin
+  foreach v_stmt in array v_stmts loop
+    begin
+      execute v_stmt;
+      get diagnostics v_rows = row_count;
+      raise exception 'TEST FAILED: a student self-wrote an entitlement column (% rows): %', v_rows, v_stmt;
+    exception
+      when insufficient_privilege or foreign_key_violation then
+        -- 42501 from the §32 trigger. A forged school_id may also trip its FK
+        -- first; either way the write did not land.
+        null;
+    end;
+  end loop;
+
+  update public.profiles
+     set display_name = 'Renamed', preferences = '{"theme":"light"}'::jsonb
+   where id = auth.uid();
+  get diagnostics v_rows = row_count;
+  if v_rows <> 1 then
+    raise exception 'TEST FAILED: a student could not save their own display name and preferences';
+  end if;
+  raise notice 'PASS: entitlement columns are server-only; profile fields still save';
+end $$;
+rollback;
+
+-- An admin may still correct these columns directly.
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a9","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+declare v_rows int;
+begin
+  update public.profiles set stripe_plan = 'plus', daily_ai_quota = 10
+   where id = '00000000-0000-0000-0000-0000000000a1';
+  get diagnostics v_rows = row_count;
+  if v_rows <> 1 then
+    raise exception 'TEST FAILED: an admin could not correct a student''s plan (% rows)', v_rows;
+  end if;
+  raise notice 'PASS: an admin can still correct plan and quota columns';
+end $$;
+rollback;
+
 -- ---- 2. A student cannot read another student's full profile ----------------
 begin;
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000a1","role":"authenticated"}';
