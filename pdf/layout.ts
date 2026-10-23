@@ -853,6 +853,19 @@ const canStart = (blocks: MeasuredBlock[], j: number, room: number): boolean => 
 };
 
 /**
+ * Where the run of keep-with-next blocks that ends `[start, end)` begins, or
+ * `end` when the run ends in none. Trailing spacers belong to the run: they sit
+ * between the heading and the content it introduces.
+ */
+const trailingChainStart = (blocks: MeasuredBlock[], start: number, end: number): number => {
+  let k = end;
+  while (k > start && blocks[k - 1].kind === 'spacer') k -= 1;
+  if (k === start || !keepsWithNext(blocks[k - 1])) return end;
+  while (k > start && keepsWithNext(blocks[k - 1])) k -= 1;
+  return k;
+};
+
+/**
  * The height of a heading and everything it introduces, up to the next heading.
  *
  * A section is a unit to a reader even though it is many blocks to the engine.
@@ -1134,18 +1147,16 @@ export const flowBlocks = (
   let page = 0;
   let y = 0;
 
-  let i = 0;
-  while (i < blocks.length) {
-    const spanning = !!blocks[i].fullWidth;
-    let j = i;
-    while (j < blocks.length && !!blocks[j].fullWidth === spanning) j += 1;
-    const band = blocks.slice(i, j);
+  /** Flow `[from, to)` as one band from `atPage`/`atY`; returns where it ended. */
+  const flowBand = (from: number, to: number, atPage: number, atY: number) => {
+    const spanning = !!blocks[from].fullWidth;
+    const band = blocks.slice(from, to);
     const before = placements.length;
     // What the pages were carrying before this band touched them.
     const priorDepths = deepestPerPage.slice();
     const res = spanning
-      ? flowSpanBand(band, geo, page, y, placements, deepestPerPage, pScale)
-      : flowColumnBand(band, geo, page, y, placements, deepestPerPage, pScale);
+      ? flowSpanBand(band, geo, atPage, atY, placements, deepestPerPage, pScale)
+      : flowColumnBand(band, geo, atPage, atY, placements, deepestPerPage, pScale);
     if (!spanning) {
       balanceLastColumn(placements.slice(before), geo, res.endPage);
       // Balancing moves blocks between columns, so this band's extent has to be
@@ -1165,8 +1176,43 @@ export const flowBlocks = (
         deepestPerPage[touched] = Math.max(priorDepths[touched] ?? 0, bandDepth);
       }
     }
-    page = res.endPage;
-    y = deepestPerPage[res.endPage] ?? res.endY;
+    return { page: res.endPage, y: deepestPerPage[res.endPage] ?? res.endY };
+  };
+
+  let i = 0;
+  while (i < blocks.length) {
+    const spanning = !!blocks[i].fullWidth;
+    let j = i;
+    while (j < blocks.length && !!blocks[j].fullWidth === spanning) j += 1;
+    const before = placements.length;
+    const depthsBefore = deepestPerPage.slice();
+    let end = flowBand(i, j, page, y);
+
+    // Keep-with-next across a band boundary. Inside a band the flow looks ahead
+    // itself; a heading that ENDS its band cannot, because what it introduces
+    // is laid out by the next band, beneath it. When that block cannot make a
+    // start in the room left, the next band takes it overleaf and the heading
+    // is left at the foot of the page. So the band is flowed again without its
+    // trailing chain, and the chain starts the next page — where the band after
+    // it follows on beneath, as it would have here.
+    const chain = j < blocks.length ? trailingChainStart(blocks, i, j) : j;
+    if (chain < j) {
+      const chainHeight = blocks.slice(chain, j).reduce((sum, b) => sum + b.height, 0);
+      const strandsHere = !canStart(blocks, j, geo.columnHeight - end.y);
+      // Only worth it when a fresh page does better: the chain is not already
+      // at the top of one, and what follows it fits beneath it there.
+      const freshPageHelps =
+        end.y > chainHeight + 1e-6 && canStart(blocks, j, geo.columnHeight - chainHeight);
+      if (strandsHere && freshPageHelps) {
+        placements.length = before;
+        deepestPerPage.splice(0, deepestPerPage.length, ...depthsBefore);
+        const head = chain > i ? flowBand(i, chain, page, y) : { page, y };
+        end = flowBand(chain, j, head.page + 1, 0);
+      }
+    }
+
+    page = end.page;
+    y = end.y;
     i = j;
   }
   if (deepestPerPage.length === 0) deepestPerPage[0] = 0;

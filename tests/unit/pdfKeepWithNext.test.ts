@@ -220,3 +220,82 @@ describe('keep-with-next in the block flow', () => {
     expectKeptTogether(placements, 'sub', 'sub-notes');
   });
 });
+
+describe('keep-with-next across a band boundary', () => {
+  // A heading that ends its band cannot see what it introduces: the next band
+  // lays that out, beneath it. These pin the flow's look across the boundary.
+
+  /** An unbreakable two-column item: a tick box with its text. */
+  const columnItem = (id: string): ContentBlock => ({
+    kind: 'listItem',
+    id,
+    checkbox: true,
+    runs: [{ text: 'word '.repeat(40).trim(), baseFontPt: 8.5 }],
+    basePadBottom: 1.5,
+  });
+
+  it('moves a full-width heading whose two-column content cannot start beneath it', () => {
+    const [h, item] = measure([heading('h-span'), columnItem('item')]);
+    expect(h.fullWidth).toBe(true);
+    expect(item.fullWidth).toBeFalsy();
+    const { placements, pageCount } = flowBlocks(
+      [fillerLeaving(h.height + item.height / 2), h, item],
+      geo
+    );
+
+    expect(placementOf(placements, 'h-span')).toMatchObject({ page: 1, top: 0 });
+    expectKeptTogether(placements, 'h-span', 'item');
+    expect(pageCount).toBe(2);
+  });
+
+  it('moves a column heading whose full-width content cannot start beneath it', () => {
+    const [h, note] = measure([heading('h-col', false), panelNote('span-notes', 4)]);
+    const { placements } = flowBlocks(
+      [fillerLeaving(h.height + note.height / 2, false), h, note],
+      geo
+    );
+
+    expect(placementOf(placements, 'h-col')).toMatchObject({ page: 1, column: 0, top: 0 });
+    expectKeptTogether(placements, 'h-col', 'span-notes');
+  });
+
+  it('carries a spacer between the heading and its content over with them', () => {
+    const [h, gap, item] = measure([
+      heading('h-gap'),
+      { kind: 'spacer', id: 'gap', fullWidth: true, runs: [], basePadTop: 2 },
+      columnItem('gap-item'),
+    ]);
+    const { placements } = flowBlocks(
+      [fillerLeaving(h.height + gap.height + item.height / 2), h, gap, item],
+      geo
+    );
+
+    expect(placementOf(placements, 'h-gap').page).toBe(1);
+    expect(placementOf(placements, 'gap-item')).toMatchObject({
+      page: 1,
+      column: 0,
+      top: h.height + gap.height,
+    });
+  });
+
+  it('leaves the heading where it is when the content can start beneath it', () => {
+    // A long panel splits at the page foot, so its heading stays over the first
+    // fragment rather than leave the room blank.
+    const [h, note] = measure([heading('h-col', false), panelNote('long-notes', 12)]);
+    const room = h.height + note.padTopMm + note.padBottomMm + 5 * note.lineHeightMm + 0.1;
+    const { placements } = flowBlocks([fillerLeaving(room, false), h, note], geo);
+
+    expect(placementOf(placements, 'h-col').page).toBe(0);
+    expectKeptTogether(placements, 'h-col', 'long-notes');
+  });
+
+  it('keeps the earlier content of the band where it was', () => {
+    // Only the heading is taken over; the band above it is flowed as before.
+    const [h, item] = measure([heading('h-span'), columnItem('item')]);
+    const filler = fillerLeaving(h.height + item.height / 2);
+    const { placements } = flowBlocks([filler, h, item], geo);
+
+    expect(placementOf(placements, 'filler')).toMatchObject({ page: 0, column: 0, top: 0 });
+    expect(placements).toHaveLength(3);
+  });
+});
