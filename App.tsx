@@ -66,6 +66,7 @@ import BillingAlertBanner from './components/BillingAlertBanner';
 import SeatOverageNotice from './components/SeatOverageNotice';
 import UpdateAvailableBanner from './components/UpdateAvailableBanner';
 import SyllabusNavBar from './components/SyllabusNavBar';
+import ParentWorkspaceBar from './components/guardian/ParentWorkspaceBar';
 import { loadUserProfile, STORAGE_KEYS } from './utils/storageUtils';
 import {
   ASSIGNMENT_PARAM,
@@ -98,6 +99,8 @@ interface AuthenticatedAppProps {
   user: User;
   onUpdateUser: (user: User) => void;
   handleLogout: () => void;
+  /** Set only for a parent browsing questions: returns them to their dashboard. */
+  onLeaveBrowse?: () => void;
   showToast: (
     message: string,
     type: 'success' | 'error' | 'warning' | 'info',
@@ -109,6 +112,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   user,
   onUpdateUser,
   handleLogout,
+  onLeaveBrowse,
   showToast,
 }) => {
   const {
@@ -860,6 +864,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         Skip to main content
       </a>
 
+      {onLeaveBrowse && <ParentWorkspaceBar onBack={onLeaveBrowse} />}
+
       {/* Full-bleed banner: lives outside the max-width content container so it
           always spans the whole viewport and sits flush against the top edge
           (the old in-container version stopped 32px short on >1600px screens
@@ -1323,6 +1329,8 @@ const UsageDashboard = lazy(() => import('./components/admin/UsageDashboard'));
 const RuntimeKeyModal = lazy(() => import('./components/admin/RuntimeKeyModal'));
 const ClassInsightsModal = lazy(() => import('./components/admin/ClassInsightsModal'));
 const StudentProgressModal = lazy(() => import('./components/admin/StudentProgressModal'));
+// A parent's home. Only a parent ever renders it, so it stays out of the first load.
+const GuardianDashboard = lazy(() => import('./components/guardian/GuardianDashboard'));
 
 const App: React.FC = () => {
   const { toast, showToast, hideToast } = useToast();
@@ -1334,6 +1342,9 @@ const App: React.FC = () => {
   // instead, and their acceptance is recorded on the account.
   const [guestNoticeDismissed, setGuestNoticeDismissed] = useState(false);
   const [isAcceptingAgreement, setIsAcceptingAgreement] = useState(false);
+  // A parent lands on their dashboard; this is set when they choose to browse
+  // questions instead. Cleared on sign-out so the next parent starts at home.
+  const [isBrowsingQuestions, setIsBrowsingQuestions] = useState(false);
 
   const handleAcceptAgreement = useCallback(async () => {
     if (!user) return;
@@ -1354,6 +1365,7 @@ const App: React.FC = () => {
     authService.logout();
     setUser(null);
     setGuestNoticeDismissed(false);
+    setIsBrowsingQuestions(false);
   }, []);
 
   // Surface daily-AI-quota warnings (80% / 100%) as toasts. The proxy feeds
@@ -1572,11 +1584,20 @@ const App: React.FC = () => {
       <AnimatedBackground />
       {!user ? (
         <LoginPage onLogin={setUser} />
-      ) : isBlockedByAgreement ? null : (
+      ) : isBlockedByAgreement ? null : user.role === 'parent' && !isBrowsingQuestions ? (
+        <Suspense fallback={null}>
+          <GuardianDashboard
+            user={user}
+            onBrowseQuestions={() => setIsBrowsingQuestions(true)}
+            onSignOut={handleLogout}
+          />
+        </Suspense>
+      ) : (
         <AuthenticatedApp
           user={user}
           onUpdateUser={setUser}
           handleLogout={handleLogout}
+          onLeaveBrowse={user.role === 'parent' ? () => setIsBrowsingQuestions(false) : undefined}
           showToast={showToast}
         />
       )}

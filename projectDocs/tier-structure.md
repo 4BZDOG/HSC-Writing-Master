@@ -63,6 +63,30 @@ copy-a-note kit appears.
 An admin is never locked. A student never sees a School route. A student who presses a School lock
 is told to ask a teacher or an administrator.
 
+## Parents and guardians
+
+A parent or guardian can pay for their child's Band 6 Plus. The rules below are the ones the code
+enforces (schema §31, `api/create-checkout.ts`, `api/_lib/subscriptionSync.ts`).
+
+- **Who pays.** The parent is the Stripe customer, so their card is charged and the receipts and
+  billing portal are theirs. The subscription is recorded against two people: the child holds the
+  plan, and the parent is its payer.
+- **Where the plan lands.** On the child, and only there. The child's cached plan is what every
+  entitlement check reads, so a child whose parent pays is treated exactly as a student who bought
+  Plus themselves. The parent's own account is not upgraded by it.
+- **Consent is the child's.** The child generates a one-time code from their profile (valid for seven
+  days, one live code at a time). The parent enters it to link. Nothing is linked without that code.
+  Either side can remove the link later. Removing a link does not cancel the subscription: the
+  parent keeps the billing portal and can still change or end it.
+- **What a parent can see.** The linked child's name, username, plan, whether this parent pays for
+  it, and the child's progress report (the same figures a teacher sees for a student). Nothing about
+  other students, the school or the child's drafts beyond what the progress report shows.
+- **What a parent cannot do.** Curate, moderate, generate content, buy a School licence, or hold a
+  plan of their own from this route. A parent may link to at most six students.
+- **What the child sees.** Who is linked to them, and "Paid for by your parent or guardian" in place
+  of "Manage billing" while that is so. The child cannot open the billing portal for a plan a parent
+  pays for.
+
 ## Operator levers
 
 - `VITE_MONETISATION_ENABLED=false` (with `MONETISATION_ENABLED=false`) opens every gate.

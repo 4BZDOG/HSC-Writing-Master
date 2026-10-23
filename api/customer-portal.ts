@@ -13,6 +13,10 @@
  * licence the caller's school holds, for a teacher or admin at that school. The
  * school is always read from the caller's own profile, never from the body.
  *
+ * A personal request from a student whose live subscription a parent pays for is refused
+ * with 409 `managed_by_guardian` (schema §31). The parent is the Stripe customer, and the
+ * portal for it is the parent's to open.
+ *
  * Test-mode fallback: when Stripe is unconfigured, returns a mock URL.
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
@@ -28,6 +32,8 @@ import {
 import { verifyRequestAuth } from './_lib/auth';
 import { corsHeadersFor } from './_lib/cors';
 import { readSchoolLicence } from './_lib/schoolLicence';
+import { isLiveStatus } from './_lib/openCheckout';
+import { isMissingColumnError } from './_lib/stripeLedger';
 
 interface RequestLike {
   method?: string;
@@ -140,6 +146,22 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     }
     customerId = school.customerId;
   } else {
+    // A plan a parent pays for sits on the PARENT's Stripe customer. The student opening
+    // "Manage" here would otherwise reach a missing billing account, or a customer of their
+    // own that is not the one being charged. Refuse, and say whose it is.
+    const managed = await guardianManagedSubscription(supabase, auth.userId);
+    if (managed === 'failed') {
+      res.status(503).json({ error: 'Could not check your subscription. Please try again.' });
+      return;
+    }
+    if (managed === 'managed') {
+      res.status(409).json({
+        code: 'managed_by_guardian',
+        error: 'Your parent or guardian manages this subscription.',
+      });
+      return;
+    }
+
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('stripe_customer_id')
@@ -170,6 +192,31 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     res.status(500).json({ error: 'Could not open the billing portal. Please try again.' });
   }
 }
+
+/**
+ * Whether a live subscription this user holds is paid for by someone else (schema §31):
+ * `managed` when one is, `own` when none is, and `failed` when the read errors, in which
+ * case nothing can be said and the portal is not opened. A database that has not
+ * re-applied §31 has no payer column, so it reads as `own`, as it did before the column.
+ */
+const guardianManagedSubscription = async (
+  supabase: SupabaseClient,
+  userId: string
+): Promise<'managed' | 'own' | 'failed'> => {
+  const { data, error } = await supabase
+    .from('subscriptions')
+    .select('payer_id, status')
+    .eq('user_id', userId);
+  if (error) {
+    if (isMissingColumnError(error)) return 'own';
+    console.error('[customer-portal] subscription read failed:', error.message);
+    return 'failed';
+  }
+  const managed = ((data ?? []) as Array<{ payer_id?: unknown; status?: unknown }>).some(
+    (row) => isLiveStatus(row.status) && typeof row.payer_id === 'string' && row.payer_id !== userId
+  );
+  return managed ? 'managed' : 'own';
+};
 
 type SchoolPortalCustomer =
   | { ok: true; customerId: string }

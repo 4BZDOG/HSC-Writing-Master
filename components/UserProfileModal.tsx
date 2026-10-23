@@ -61,6 +61,7 @@ import {
   type ScoreCell,
 } from './ProfileCharts';
 import { HERO_HEAD_WASH } from '../utils/ladderChrome';
+import StudentGuardianSection, { showGuardianSection } from './guardian/StudentGuardianSection';
 
 interface UserProfileModalProps {
   isOpen: boolean;
@@ -123,7 +124,34 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
     };
   }, [isPaid]);
 
+  // A parent holds no plan of their own. Plus is bought for a child from the
+  // guardian dashboard, so there is nothing here to describe or to offer.
+  if (user.role === 'parent') {
+    return (
+      <section
+        aria-labelledby="profile-plan-heading"
+        className={`${PROFILE_CARD} flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-5`}
+      >
+        <div className="shrink-0 w-11 h-11 rounded-tile flex items-center justify-center bg-surface-inset dark:bg-white/5 text-slate-600 dark:text-slate-400">
+          <Crown className="w-5 h-5" aria-hidden="true" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <h3 id="profile-plan-heading" className={PROFILE_SECTION_TITLE}>
+            Plan
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-secondary">
+            Your account does not hold a plan. Buy {PLAN_LABELS.plus} for a child from your
+            dashboard, and it appears on their account.
+          </p>
+        </div>
+      </section>
+    );
+  }
+
   const billing: BillingState | null = lookup.status === 'found' ? lookup.state : null;
+  // Paid for by a parent or guardian: the plan is this student's, but the billing
+  // is the payer's, so the student is told that rather than offered the portal.
+  const paidByGuardian = billing?.paidByGuardian === true;
   const periodEnd = billing?.currentPeriodEnd ?? user.planPeriodEnd ?? null;
   /**
    * Is `periodEnd` a renewal date or a stop date?
@@ -158,7 +186,8 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
   // pending state and then vanish for a perk holder, so a teacher saw
   // "Manage Subscription" flash up and go, which is the flicker the pending
   // state exists to prevent.
-  const showPortal = isPaid && (lookup.status === 'found' || lookup.status === 'unknown');
+  const showPortal =
+    isPaid && !paidByGuardian && (lookup.status === 'found' || lookup.status === 'unknown');
   const perkPlan = isPaid && lookup.status === 'none';
   /**
    * The word beside the plan name. "Active" was printed for a subscription the
@@ -276,6 +305,11 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             <ExternalLink className="w-3 h-3" aria-hidden="true" />
             {portalLoading ? 'Opening…' : 'Manage subscription'}
           </button>
+        )}
+        {isPaid && paidByGuardian && (
+          <p className="mt-4 t-label text-secondary leading-relaxed">
+            Paid for by your parent or guardian. They manage the billing for this plan.
+          </p>
         )}
         {perkPlan && <p className="mt-3 t-label text-muted leading-relaxed">{perkText}</p>}
         {showPortal && billing?.status === 'past_due' && (
@@ -1196,6 +1230,9 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                   </div>
                 </section>
               )}
+
+              {/* A parent or guardian linked to this account. Online accounts only. */}
+              {showGuardianSection(user) && <StudentGuardianSection />}
 
               {/* Your data — the Privacy Notice promises access, export and
                   erasure, so the product has to actually provide them. */}

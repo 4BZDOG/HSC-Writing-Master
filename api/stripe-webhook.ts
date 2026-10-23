@@ -339,12 +339,24 @@ async function handleSubscriptionDeleted(
   // when two checkouts race before either has linked a customer. The subscription
   // row names its user directly, so fall back to it. Giving up here would leave a
   // cancelled subscriber on Plus indefinitely.
+  //
+  // A guardian purchase (schema §31) is paid by the parent, whose customer this is, but the
+  // plan belongs to the student the row names. Going through the customer would lower the
+  // parent's plan and leave the student on Plus. So a row that names a payer is resolved
+  // from the row first.
+  const { data: ownRow } = await supabase
+    .from('subscriptions')
+    .select('user_id, payer_id')
+    .eq('id', subId)
+    .maybeSingle();
+  let userId = ownRow?.payer_id ? (ownRow.user_id as string) : undefined;
+
   const { data: byCustomer } = await supabase
     .from('profiles')
     .select('id')
     .eq('stripe_customer_id', customerId)
     .maybeSingle();
-  let userId = byCustomer?.id as string | undefined;
+  userId = userId ?? (byCustomer?.id as string | undefined);
   if (!userId) {
     const { data: owned } = await supabase
       .from('subscriptions')

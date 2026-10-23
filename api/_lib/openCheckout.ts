@@ -138,15 +138,23 @@ export const checkoutRequestKey = (
     seats: number;
     returnBase: string;
     customerRef: string;
+    /**
+     * A guardian purchase (schema §31): the student the plan is for. Without it, a parent
+     * buying Plus for two children in the same bucket would send Stripe the same key with
+     * different metadata, and the second purchase would come back as the first one.
+     */
+    beneficiaryId?: string;
   },
   now: number = Date.now()
 ): CheckoutRequestKey => {
   const bucketStart = Math.floor(now / CHECKOUT_REQUEST_BUCKET_MS) * CHECKOUT_REQUEST_BUCKET_MS;
   const bucketEnd = bucketStart + CHECKOUT_REQUEST_BUCKET_MS;
+  // Appended only for a guardian purchase, so every other key is unchanged.
+  const beneficiary = input.beneficiaryId ? `:beneficiary=${input.beneficiaryId}` : '';
   return {
     idempotencyKey:
       `checkout:${input.userId}:${input.priceId}:${input.seats}:` +
-      `${input.customerRef}:${input.returnBase}:${bucketStart}`,
+      `${input.customerRef}:${input.returnBase}:${bucketStart}${beneficiary}`,
     // Measured from the end of the bucket, which is never before the request. The call
     // itself happens within a second or two of `now`, so the session always has at least
     // Stripe's 30-minute minimum left.

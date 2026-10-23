@@ -16,6 +16,10 @@ import { UserRole } from '../types';
  *             monitor.
  *   user    — answers questions; can contribute drafts to the shared library.
  *   guest   — read-only trial; nothing is persisted server-side.
+ *   parent  — links to a child's account and pays for the child's Plus. Reads
+ *             the child's progress only. Holds no curation, moderation,
+ *             generation or system-admin capability (every helper below is
+ *             false for this role, and that is pinned by tests).
  */
 
 /**
@@ -32,6 +36,7 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   teacher: 'Teacher',
   user: 'Student',
   guest: 'Guest',
+  parent: 'Parent/guardian',
 };
 
 /** The role as the account holder should read it. */

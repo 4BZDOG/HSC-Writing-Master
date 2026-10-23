@@ -268,11 +268,23 @@ export async function applySubscriptionUpsert(
     return;
   }
 
+  // A guardian purchase (schema §31). The customer, and so the payer, is the parent whose
+  // profile was just found. The plan is the STUDENT's: the holder named in the metadata the
+  // server wrote at checkout. Everything below that writes "the user" writes the holder,
+  // and the school logic is skipped, because a guardian purchase is never a licence.
+  const subMetadata = sub.metadata as Record<string, string> | undefined;
+  const beneficiaryId = subMetadata?.beneficiary_user_id || undefined;
+  const payerId = beneficiaryId ? userId : undefined;
+  const holderId = beneficiaryId ?? userId;
+
   // Upsert the subscription row.
   const { error: subError } = await supabase.from('subscriptions').upsert(
     {
       id: subId,
-      user_id: userId,
+      user_id: holderId,
+      // Only a guardian purchase names a payer. A row without one is unchanged, so an
+      // existing self-paid subscription is written exactly as before.
+      ...(payerId ? { payer_id: payerId } : {}),
       stripe_customer_id: customerId,
       status,
       price_id: priceId,
@@ -314,7 +326,7 @@ export async function applySubscriptionUpsert(
       stripe_plan: activePlan,
       plan_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
     })
-    .eq('id', userId);
+    .eq('id', holderId);
 
   if (profileError) {
     console.error('[stripe-webhook] profile plan update failed:', profileError.message);
@@ -324,7 +336,7 @@ export async function applySubscriptionUpsert(
   // Two live subscriptions for one person are two charges, and the plan follows only
   // one of them. The plan write above has already happened, so this only records the
   // finding for the operator. It never throws, and it never changes the plan.
-  if (planKeepingStatus) await checkDuplicateSubscriptions(supabase, userId);
+  if (planKeepingStatus) await checkDuplicateSubscriptions(supabase, holderId);
 
   // A licence belongs to the school it was bought for, not to wherever its
   // purchaser works now. create-checkout fixes that school at purchase, and the
@@ -332,7 +344,7 @@ export async function applySubscriptionUpsert(
   // purchaser's current school_id is only the fallback for a first event. Without
   // this, a teacher who moves school strands the licence: renewals and past_due or
   // unpaid statuses stop reaching the school row, so an unpaid school keeps its plan.
-  if (plan === 'school') {
+  if (plan === 'school' && !beneficiaryId) {
     const { data: licensed } = await supabase
       .from('schools')
       .select('id')
@@ -345,7 +357,7 @@ export async function applySubscriptionUpsert(
   // the plan (the client resolves membership → plan at sign-in). Best-effort:
   // a purchaser without a school still gets the plan personally, and an admin
   // can attach the school later.
-  if (plan === 'school') {
+  if (plan === 'school' && !beneficiaryId) {
     if (schoolId) {
       // Checked before the write: the row still names the licence this write replaces.
       // A held status (incomplete included) is what counts, since the school row takes it too.

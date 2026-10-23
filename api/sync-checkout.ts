@@ -23,6 +23,10 @@
  * the SUBSCRIPTION's price via priceToPlan, exactly as the webhook derives it.
  * The session's own fields never grant a plan.
  *
+ * A guardian purchase (schema §31) is confirmed for the PARENT who made it: the caller is
+ * the session's client_reference_id, as always. The plan is applied to the student that the
+ * subscription's metadata names, by the same subscription sync the webhook uses.
+ *
  * Ordering. The row is stamped with the time captured BEFORE the Stripe call. Stripe
  * answers with the state at some moment during the call, so an event it created while
  * the call was in flight may be missing from the answer. Stamping before the call keeps

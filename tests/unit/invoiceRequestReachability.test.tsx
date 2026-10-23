@@ -18,7 +18,7 @@ import type { User } from '../../types';
 // when the machine is busy. A five-second timeout made it flaky under load.
 vi.setConfig({ testTimeout: 20000 });
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ supabase: null, isSupabaseConfigured: false }));
 
 let priceIds = { plus_monthly: 'price_m', plus_yearly: 'price_y', school: 'price_school' };
 let selling = true;
