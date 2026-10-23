@@ -343,13 +343,15 @@ async function handleSubscriptionDeleted(
   // A guardian purchase (schema §31) is paid by the parent, whose customer this is, but the
   // plan belongs to the student the row names. Going through the customer would lower the
   // parent's plan and leave the student on Plus. So a row that names a payer is resolved
-  // from the row first.
+  // from the row first, and failing that from the event's own metadata, which the server
+  // wrote at checkout and which still names the student when the row was never written.
   const { data: ownRow } = await supabase
     .from('subscriptions')
     .select('user_id, payer_id')
     .eq('id', subId)
     .maybeSingle();
-  let userId = ownRow?.payer_id ? (ownRow.user_id as string) : undefined;
+  const metaBeneficiary = (sub.metadata as Record<string, string> | undefined)?.beneficiary_user_id;
+  let userId = ownRow?.payer_id ? (ownRow.user_id as string) : metaBeneficiary || undefined;
 
   const { data: byCustomer } = await supabase
     .from('profiles')

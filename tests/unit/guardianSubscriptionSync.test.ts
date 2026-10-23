@@ -323,6 +323,21 @@ describe('cancelling a guardian subscription lowers the child’s plan, not the 
     expect(writesTo('profiles').some((w) => w.eqs.some(([, v]) => v === PARENT))).toBe(false);
   });
 
+  it('falls back to the event’s metadata when the row was never written', async () => {
+    // No subscriptions row: the deletion is the first event this deployment sees for it.
+    db.tables.profiles[1].stripe_plan = 'plus';
+
+    const res = makeRes();
+    await webhookHandler(
+      deleted(subscription({ metadata: guardianMetadata, status: 'canceled' })),
+      res
+    );
+
+    expect(res.statusCode).toBe(200);
+    expect(db.rpcCalls).toEqual([{ name: 'resolve_stripe_plan', args: { p_user_id: STUDENT } }]);
+    expect(writesTo('profiles').some((w) => w.eqs.some(([, v]) => v === PARENT))).toBe(false);
+  });
+
   it('downgrades a self-paid subscription through its customer, as before', async () => {
     db.tables.subscriptions.push({
       id: 'sub_self',

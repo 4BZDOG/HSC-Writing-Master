@@ -20,14 +20,25 @@ export interface QuotaStatus {
   school?: { name: string; used: number; limit: number | null } | null;
 }
 
-export type QuotaRole = 'admin' | 'teacher' | 'student';
+export type QuotaRole = 'admin' | 'teacher' | 'student' | 'parent';
+
+/**
+ * Every group that can hold a daily limit, in display order. `parent` (schema §31) is
+ * not seeded in ai_quota_limits, so it starts blank and parents fall back to the
+ * built-in default until an admin sets one; a blank parent field is therefore left
+ * alone on save rather than rejected.
+ */
+export const QUOTA_ROLES: QuotaRole[] = ['admin', 'teacher', 'student', 'parent'];
+
+/** Whether a blank field for this group means "keep the default" rather than an error. */
+export const isOptionalQuotaRole = (role: QuotaRole): boolean => role === 'parent';
 
 export interface RoleQuota {
   role: QuotaRole;
   daily_limit: number;
 }
 
-const ROLE_ORDER: QuotaRole[] = ['admin', 'teacher', 'student'];
+const ROLE_ORDER: QuotaRole[] = QUOTA_ROLES;
 
 const requireClient = () => {
   if (!supabase) throw new Error('Supabase is not configured.');

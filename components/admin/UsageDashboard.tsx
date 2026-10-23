@@ -43,6 +43,8 @@ import {
   LIVE_LICENCE_STATUSES,
   type QuotaStatus,
   type QuotaRole,
+  QUOTA_ROLES,
+  isOptionalQuotaRole,
   type UsageReportRow,
   type ModelUsageRow,
   type SchoolRow,
@@ -83,12 +85,14 @@ const ROLE_LABEL: Record<QuotaRole, string> = {
   admin: 'Admin',
   teacher: 'Teacher',
   student: 'Student',
+  parent: 'Parent',
 };
 
 const ROLE_TONE: Record<QuotaRole, string> = {
   admin: 'bg-indigo-500/10 border-indigo-500/30 text-indigo-400 light:text-indigo-700',
   teacher: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 light:text-emerald-800',
   student: 'bg-sky-500/10 border-sky-500/30 text-sky-400 light:text-sky-700',
+  parent: 'bg-amber-500/10 border-amber-500/30 text-amber-400 light:text-amber-800',
 };
 
 /** UTC date string (yyyy-mm-dd) — the same day-bucket the server counts in. */
@@ -233,6 +237,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
     admin: '',
     teacher: '',
     student: '',
+    parent: '',
   });
   // Per-row override drafts, keyed by username.
   const [overrideDrafts, setOverrideDrafts] = useState<Record<string, string>>({});
@@ -306,7 +311,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
       ]);
       setReport(rows);
       setMyStatus(status);
-      const next = { admin: '', teacher: '', student: '' } as Record<QuotaRole, string>;
+      const next = { admin: '', teacher: '', student: '', parent: '' } as Record<QuotaRole, string>;
       roleQuotas.forEach((q) => {
         next[q.role] = String(q.daily_limit);
       });
@@ -459,7 +464,8 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   const handleSaveLimits = async () => {
     setIsBusy(true);
     try {
-      for (const role of ['admin', 'teacher', 'student'] as QuotaRole[]) {
+      for (const role of QUOTA_ROLES) {
+        if (isOptionalQuotaRole(role) && !limits[role].trim()) continue;
         const parsed = Number.parseInt(limits[role], 10);
         if (!Number.isFinite(parsed) || parsed < 0) {
           throw new Error(`${ROLE_LABEL[role]} limit must be a non-negative number.`);
@@ -1055,7 +1061,7 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   <Gauge className="w-3.5 h-3.5" /> Group daily limits
                 </h3>
                 <div className="flex flex-wrap items-end gap-3">
-                  {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
+                  {QUOTA_ROLES.map((role) => (
                     <label key={role} className="flex flex-col gap-1">
                       <span className="t-label text-[rgb(var(--color-text-dim))] light:text-slate-600">
                         {ROLE_LABEL[role]}s
