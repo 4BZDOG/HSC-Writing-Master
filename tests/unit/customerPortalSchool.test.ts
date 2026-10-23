@@ -76,6 +76,11 @@ class FakeQuery {
     };
   }
 
+  /** A plain `await` on the query, as supabase-js allows: resolves to the rows. */
+  then<T>(onFulfilled: (value: { data: Row[]; error: { message: string } | null }) => T) {
+    return Promise.resolve(this.rows()).then(onFulfilled);
+  }
+
   maybeSingle() {
     const { data, error } = this.rows();
     return Promise.resolve({ data: data[0] ?? null, error });
@@ -211,7 +216,9 @@ describe('customer-portal with no scope (the personal path, unchanged)', () => {
     expect(stripe.billingPortal.sessions.create).not.toHaveBeenCalled();
   });
 
-  it('reads only the caller’s profile for a personal request', async () => {
+  it('reads only the caller’s own subscriptions and profile for a personal request', async () => {
+    // The guardian check (schema §31) reads the caller's subscriptions before the profile.
+    // Nothing school-side is read.
     const touched: string[] = [];
     hooks.client = {
       from: (table: string) => {
@@ -222,7 +229,7 @@ describe('customer-portal with no scope (the personal path, unchanged)', () => {
 
     await customerPortal(post({}), makeRes());
 
-    expect(touched).toEqual(['profiles']);
+    expect(touched).toEqual(['subscriptions', 'profiles']);
     expect(stripe.subscriptions.retrieve).not.toHaveBeenCalled();
   });
 });

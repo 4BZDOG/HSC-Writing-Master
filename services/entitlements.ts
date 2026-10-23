@@ -303,7 +303,7 @@ export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null):
  *
  * Pure apart from reading the current user when none is passed.
  */
-export type AccessAudience = 'student' | 'teacher' | 'admin';
+export type AccessAudience = 'student' | 'teacher' | 'admin' | 'parent';
 export type AccessCta = 'upgrade' | 'buy-school' | 'ask-admin' | 'none';
 
 export interface AccessDescription {
@@ -323,6 +323,7 @@ export interface AccessDescription {
 const accessAudience = (user: User | null): AccessAudience => {
   if (user?.role === 'admin') return 'admin';
   if (user?.role === 'teacher') return 'teacher';
+  if (user?.role === 'parent') return 'parent';
   return 'student';
 };
 
@@ -362,6 +363,24 @@ export const describeAccess = (
   }
 
   if (planUnlocks(getUserPlan(u), feature)) return open;
+
+  // A parent holds no plan of their own. Plus is bought for a child, from the
+  // guardian dashboard, so this is never an upgrade to offer the parent. A
+  // School feature is not sold to a parent at all. Read as a role lock, so no
+  // button is drawn; the sentence says where the plan does come from.
+  if (audience === 'parent') {
+    const parentPlan = lowestPlanForFeature(feature);
+    return {
+      ...OPEN,
+      state: 'locked',
+      cause: 'role',
+      audience,
+      explanation:
+        parentPlan === 'school'
+          ? `${title} is part of ${PLAN_LABELS.school}, which is sold to schools. Ask your child's school about access.`
+          : `${title} is part of ${PLAN_LABELS.plus}. Buy it for your child from your parent or guardian dashboard.`,
+    };
+  }
 
   const planNeeded = lowestPlanForFeature(feature);
   const planLabel = PLAN_LABELS[planNeeded];
@@ -721,7 +740,7 @@ const apiBase = import.meta.env.VITE_API_BASE_URL ?? '';
 // Where Stripe should send the browser back to. Includes the Vite base path
 // because on sub-path hosting (e.g. GitHub Pages at /<repo>/) the server can't
 // recover it from the Origin header — an origin-only redirect 404s.
-const checkoutReturnUrl = (): string =>
+export const checkoutReturnUrl = (): string =>
   `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`;
 
 /**
@@ -877,6 +896,13 @@ export interface BillingState {
   plan: string;
   currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
+  /**
+   * True when a parent or guardian pays for this subscription (`payer_id` is
+   * set and is not the account holder). The plan is theirs, but the billing is
+   * the payer's, so the student is told who manages it instead of being offered
+   * the portal. Optional: rows read before `payer_id` existed have no answer.
+   */
+  paidByGuardian?: boolean;
 }
 
 /**
@@ -901,6 +927,22 @@ export type BillingLookup =
   | { status: 'none' }
   | { status: 'unknown' };
 
+/**
+ * Is this error a column the database does not have? PostgREST reports a
+ * missing column as 42703 (Postgres) or PGRST204 (its schema cache), and the
+ * message names the column. Used to read a row from a schema that predates a
+ * column, rather than failing the whole read.
+ */
+export const isMissingColumnError = (
+  error: { code?: string; message?: string } | null | undefined,
+  column: string
+): boolean => {
+  if (!error) return false;
+  if (error.code === '42703' || error.code === 'PGRST204') return true;
+  const message = (error.message ?? '').toLowerCase();
+  return message.includes(column.toLowerCase()) && /does not exist|could not find/.test(message);
+};
+
 export const fetchBillingLookup = async (): Promise<BillingLookup> => {
   try {
     const { supabase } = await import('./supabaseClient');
@@ -913,24 +955,45 @@ export const fetchBillingLookup = async (): Promise<BillingLookup> => {
     const { data: sessionData } = await supabase.auth.getSession();
     const userId = sessionData.session?.user?.id;
     if (!userId) return { status: 'none' };
-    const { data, error } = await supabase
-      .from('subscriptions')
-      .select('status, plan, current_period_end, cancel_at_period_end')
-      .eq('user_id', userId)
-      .order('current_period_end', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    // The select is a runtime string (the column list may lack payer_id), so its
+    // row is read as a plain record rather than typed by the client's generics.
+    type BillingRow = Record<string, unknown> | null;
+    const readRow = async (
+      columns: string
+    ): Promise<{ data: BillingRow; error: { code?: string; message?: string } | null }> => {
+      const res = await supabase
+        .from('subscriptions')
+        .select(columns)
+        .eq('user_id', userId)
+        .order('current_period_end', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      return { data: res.data as unknown as BillingRow, error: res.error };
+    };
+    const BILLING_COLUMNS = 'status, plan, current_period_end, cancel_at_period_end';
+    let { data, error } = await readRow(`${BILLING_COLUMNS}, payer_id`);
+    // A database that predates `payer_id` fails the select above. Read the rest
+    // of the row without it, so billing still answers, and say the payer is
+    // unknown (taken as not someone else's).
+    let payerColumnKnown = true;
+    if (error && isMissingColumnError(error, 'payer_id')) {
+      ({ data, error } = await readRow(BILLING_COLUMNS));
+      payerColumnKnown = false;
+    }
     // A query error is the one case we genuinely cannot answer. An empty
     // result is a real answer: this caller has no subscription.
     if (error) return { status: 'unknown' };
     if (!data) return { status: 'none' };
+    const payerId = payerColumnKnown && typeof data.payer_id === 'string' ? data.payer_id : null;
     return {
       status: 'found',
       state: {
         status: typeof data.status === 'string' ? data.status : 'unknown',
         plan: typeof data.plan === 'string' ? data.plan : 'plus',
-        currentPeriodEnd: data.current_period_end ?? null,
+        currentPeriodEnd:
+          typeof data.current_period_end === 'string' ? data.current_period_end : null,
         cancelAtPeriodEnd: data.cancel_at_period_end === true,
+        paidByGuardian: payerId !== null && payerId !== userId,
       },
     };
   } catch {

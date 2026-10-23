@@ -80,7 +80,17 @@ const MOCK_USERS: Record<string, { password: string; role: UserRole; name: strin
   admin: { password: 'admin', role: 'admin', name: 'Administrator' },
   teacher: { password: 'teacher', role: 'teacher', name: 'Teacher User' },
   user: { password: 'user', role: 'user', name: 'Student User' },
+  // Shows the parent dashboard in mock mode. Its linking and checkout need an
+  // online account, and the dashboard says so rather than failing silently.
+  parent: { password: 'parent', role: 'parent', name: 'Parent User' },
 };
+
+/**
+ * What kind of account a sign-up creates. A student is the default and sends
+ * no account type at all, which is what `handle_new_user` has always assumed.
+ * Only `parent` is sent, as `options.data.account_type`.
+ */
+export type SignUpAccountType = 'student' | 'parent';
 
 /**
  * The demo (mock) accounts exist for local development and evaluation. A
@@ -149,6 +159,8 @@ export const mapSupabaseRole = (role?: string | null): UserRole => {
       return 'admin';
     case 'teacher':
       return 'teacher';
+    case 'parent':
+      return 'parent';
     case 'student':
       return 'user';
     default:
@@ -622,8 +634,17 @@ export const authService = {
    * deliberately NOT sent — the trigger derives it from the email local part
    * and de-duplicates it, and having two places invent usernames is how you get
    * two different ones.
+   *
+   * `accountType: 'parent'` is sent as `account_type` so the trigger creates a
+   * parent profile. A student sends nothing extra: anything the trigger does
+   * not recognise becomes a student, so the default needs no metadata.
    */
-  signUp: async (email: string, password: string, displayName?: string): Promise<SignUpResult> => {
+  signUp: async (
+    email: string,
+    password: string,
+    displayName?: string,
+    accountType: SignUpAccountType = 'student'
+  ): Promise<SignUpResult> => {
     if (!isSupabaseConfigured || !supabase) {
       throw new Error('Account creation requires Supabase to be configured on this deployment.');
     }
@@ -643,7 +664,10 @@ export const authService = {
       email: trimmedEmail,
       password,
       options: {
-        data: displayName?.trim() ? { display_name: displayName.trim() } : {},
+        data: {
+          ...(displayName?.trim() ? { display_name: displayName.trim() } : {}),
+          ...(accountType === 'parent' ? { account_type: 'parent' } : {}),
+        },
         // Same base-path reasoning as loginWithOAuth: origin alone drops the
         // sub-path on Pages-style hosting and the confirmation link 404s.
         emailRedirectTo: `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`,

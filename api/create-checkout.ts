@@ -5,8 +5,16 @@
  * the URL to redirect them to. The user's Supabase ID is stored as
  * `client_reference_id` so the webhook can link the payment to the profile.
  *
- * Body: { priceId: string, returnUrl?: string, seats?: number }
+ * Body: { priceId: string, returnUrl?: string, seats?: number, beneficiaryUserId?: string }
  * Returns: { url: string } on success, or { error: string }.
+ *
+ * `beneficiaryUserId` makes this a GUARDIAN purchase (schema §31). The caller must be a
+ * parent linked to that student, and the price must be a Plus price. The parent is the
+ * Stripe customer and pays; the session's metadata names the student, and the webhook
+ * writes the plan to the student. The student's own live-plan check applies, not the
+ * parent's. A parent who names no student is refused (`guardian_needs_beneficiary`).
+ * Refusals carry a `code`: not_a_guardian (403), guardian_plus_only (400),
+ * beneficiary_has_plan (409).
  *
  * `returnUrl` is the page Stripe should redirect back to — the client sends
  * its own base URL because the Origin header loses the base path on sub-path
@@ -62,6 +70,16 @@ import {
   releaseCheckout,
   swapOpenCheckout,
 } from './_lib/openCheckout';
+import {
+  BENEFICIARY_HAS_PLAN_MESSAGE,
+  GUARDIAN_NEEDS_BENEFICIARY_MESSAGE,
+  guardianPurchaseRefusal,
+  type GuardianRefusal,
+  NOT_A_GUARDIAN_MESSAGE,
+} from './_lib/guardianPurchase';
+
+/** A canonical UUID, as Supabase writes profile ids. Anything else is not a student. */
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const LOOKUP_FAILED =
   'We could not check your account just now, so no purchase was started. Please try again in a few minutes.';
@@ -140,11 +158,25 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     return;
   }
 
-  const body = req.body as { priceId?: string; returnUrl?: string; seats?: number } | undefined;
+  const body = req.body as
+    | { priceId?: string; returnUrl?: string; seats?: number; beneficiaryUserId?: unknown }
+    | undefined;
   const priceId = body?.priceId;
   if (!priceId || typeof priceId !== 'string') {
     res.status(400).json({ error: 'Missing or invalid priceId.' });
     return;
+  }
+
+  // A parent or guardian buying Plus for a linked child (schema §31). Absent means the
+  // caller buys for themselves, as before.
+  const rawBeneficiary = body?.beneficiaryUserId;
+  let beneficiaryUserId: string | undefined;
+  if (rawBeneficiary !== undefined && rawBeneficiary !== null) {
+    if (typeof rawBeneficiary !== 'string' || !UUID.test(rawBeneficiary)) {
+      res.status(400).json({ error: 'Invalid beneficiaryUserId.' });
+      return;
+    }
+    beneficiaryUserId = rawBeneficiary;
   }
 
   if (!auth.userId) {
@@ -203,6 +235,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     let existingCustomerId: string | undefined;
     let customerEmail: string | undefined;
     const supabase = getSupabaseAdmin();
+    if (beneficiaryUserId && !supabase) {
+      // With no database there is no link to show, so a purchase for someone else's child
+      // is refused rather than started on trust.
+      res.status(403).json({ code: 'not_a_guardian', error: NOT_A_GUARDIAN_MESSAGE });
+      return;
+    }
     if (supabase) {
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
@@ -224,6 +262,41 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       }
       if (profile?.stripe_customer_id) existingCustomerId = profile.stripe_customer_id;
 
+      // A parent or guardian buys Plus for a linked child (schema §31). The parent is the
+      // Stripe customer, so the card is theirs; the plan is the child's. The parent's own
+      // duplicate guard below does not apply, because a parent may pay for several children.
+      // The child's live-plan check, and the open-checkout slot keyed by the child (further
+      // down), do.
+      if (beneficiaryUserId) {
+        let refusal: GuardianRefusal | null;
+        try {
+          refusal = await guardianPurchaseRefusal(supabase, {
+            guardianId: auth.userId,
+            beneficiaryId: beneficiaryUserId,
+            guardianRole: profile?.role,
+            isPlusPrice: sellablePrices[priceId] === 'plus',
+          });
+        } catch (e) {
+          console.error(
+            '[create-checkout] guardian link lookup failed:',
+            e instanceof Error ? e.message : 'unknown error'
+          );
+          res.status(503).json({ code: LOOKUP_FAILED_CODE, error: LOOKUP_FAILED });
+          return;
+        }
+        if (refusal) {
+          res.status(refusal.status).json({ code: refusal.code, error: refusal.error });
+          return;
+        }
+      } else if (profile?.role === 'parent') {
+        // A parent has no plan of their own to buy here: they buy for a child.
+        res.status(400).json({
+          code: 'guardian_needs_beneficiary',
+          error: GUARDIAN_NEEDS_BENEFICIARY_MESSAGE,
+        });
+        return;
+      }
+
       // A school licence grants the plan to EVERY member of the buyer's
       // school, so buying one is a staff action. The client only shows the
       // seat picker to teachers/admins; enforce the same rule here rather
@@ -240,104 +313,108 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         return;
       }
 
-      // Refuse a second concurrent subscription. Checkout reuses the Stripe
-      // CUSTOMER (above) but Stripe itself is happy to open a second, parallel
-      // subscription on that customer — and nothing downstream stops it:
-      // resolve_stripe_plan simply picks the newest row, so the older
-      // subscription keeps billing silently while the customer is charged
-      // twice. A user who is already subscribed can reach this endpoint any
-      // number of ways — a teacher re-opening the modal to top up seats, a
-      // `cancel_at_period_end` user who still holds the plan, or anyone who
-      // clicks Upgrade a second time — so the guard lives here on the server
-      // rather than in the UI. `past_due` counts as active: Stripe is still
-      // retrying that charge (see the webhook's grace-period rule), so the
-      // plan is live and a fresh checkout would double-bill.
-      //
-      // Plan CHANGES (upgrade/downgrade, add seats) go through the billing
-      // portal by design — this is only a duplicate-purchase guard, not an
-      // in-app switcher. Applies to both Plus and School because it keys on
-      // the user, before the price is inspected.
-      // Read every row that could hold, then decide here: an `incomplete` row holds only
-      // inside its 3-D Secure window (holdsPurchase), and that depends on its own
-      // timestamp, which a status filter cannot express. No limit: a cap could hide a live
-      // row behind older pending ones, and a user has only a handful of rows.
-      const { data: heldRows, error: existingSubError } = await supabase
-        .from('subscriptions')
-        .select('id, status, last_event_at, updated_at')
-        .eq('user_id', auth.userId)
-        .in('status', [...HELD_STATUSES]);
-      // Fail closed: a lookup that errored says nothing about whether the user
-      // is already subscribed, and a guard that cannot see is no guard.
-      if (existingSubError) {
-        console.error('[create-checkout] subscription lookup failed:', existingSubError.message);
-        res.status(503).json({ code: LOOKUP_FAILED_CODE, error: LOOKUP_FAILED });
-        return;
-      }
-      const now = Date.now();
-      const holding = ((heldRows ?? []) as PurchaseRow[]).filter((row) => holdsPurchase(row, now));
-      if (holding.length > 0) {
-        // A live subscription takes precedence over a pending one in the wording.
-        const live = holding.some((row) => isLiveStatus(row.status));
-        res.status(409).json({ error: live ? ALREADY_SUBSCRIBED : PURCHASE_PENDING });
-        return;
-      }
-
-      // A licence with no school to attach to grants the plan to the buyer and
-      // nobody else. The webhook already handles that case — it stamps the
-      // purchaser's profile and logs a warning — but a warning in a server log
-      // is not a refund: the buyer has paid for N seats, one of which does
-      // anything, and nothing in the app tells them. The school row is not
-      // back-filled either, so an admin assigning their school afterwards does
-      // not rescue the licence until the subscription next updates.
-      //
-      // So it is refused before any money moves, with the step that fixes it.
-      // The upgrade panel already warns ("make sure your school is set up, and
-      // you're in it") — this is the same rule, enforced where it can hold.
-      //
-      // AFTER the duplicate guard deliberately: a buyer who is already
-      // subscribed should be told that first, because it is the stronger
-      // answer — they should not be buying at all, school or no school.
-      if (sellablePrices[priceId] === 'school' && !profile?.school_id) {
-        res.status(400).json({
-          error:
-            'Your account is not attached to a school yet, so a licence would only cover you. ' +
-            'Ask an admin to add you to your school (Admin → Schools), then buy the seats.',
-        });
-        return;
-      }
-
-      // One licence per school. The guard above is per person, so two teachers at
-      // the same school would each pass it and each buy a licence: both are charged,
-      // and the webhook writes whichever event arrives last onto
-      // schools.stripe_subscription_id, leaving one licence paid for and invisible.
-      // A licence that is still being paid for holds the school. A cancelled or
-      // unpaid one does not, so the school can buy again. Plus is never checked here.
-      if (sellablePrices[priceId] === 'school') {
-        const { data: school, error: schoolError } = await supabase
-          .from('schools')
-          .select('stripe_subscription_id, plan_status')
-          .eq('id', profile?.school_id)
-          .maybeSingle();
-        if (schoolError && !isMissingColumnError(schoolError)) {
-          console.error('[create-checkout] school licence lookup failed:', schoolError.message);
+      if (!beneficiaryUserId) {
+        // Refuse a second concurrent subscription. Checkout reuses the Stripe
+        // CUSTOMER (above) but Stripe itself is happy to open a second, parallel
+        // subscription on that customer — and nothing downstream stops it:
+        // resolve_stripe_plan simply picks the newest row, so the older
+        // subscription keeps billing silently while the customer is charged
+        // twice. A user who is already subscribed can reach this endpoint any
+        // number of ways — a teacher re-opening the modal to top up seats, a
+        // `cancel_at_period_end` user who still holds the plan, or anyone who
+        // clicks Upgrade a second time — so the guard lives here on the server
+        // rather than in the UI. `past_due` counts as active: Stripe is still
+        // retrying that charge (see the webhook's grace-period rule), so the
+        // plan is live and a fresh checkout would double-bill.
+        //
+        // Plan CHANGES (upgrade/downgrade, add seats) go through the billing
+        // portal by design — this is only a duplicate-purchase guard, not an
+        // in-app switcher. Applies to both Plus and School because it keys on
+        // the user, before the price is inspected.
+        // Read every row that could hold, then decide here: an `incomplete` row holds only
+        // inside its 3-D Secure window (holdsPurchase), and that depends on its own
+        // timestamp, which a status filter cannot express. No limit: a cap could hide a live
+        // row behind older pending ones, and a user has only a handful of rows.
+        const { data: heldRows, error: existingSubError } = await supabase
+          .from('subscriptions')
+          .select('id, status, last_event_at, updated_at')
+          .eq('user_id', auth.userId)
+          .in('status', [...HELD_STATUSES]);
+        // Fail closed: a lookup that errored says nothing about whether the user
+        // is already subscribed, and a guard that cannot see is no guard.
+        if (existingSubError) {
+          console.error('[create-checkout] subscription lookup failed:', existingSubError.message);
           res.status(503).json({ code: LOOKUP_FAILED_CODE, error: LOOKUP_FAILED });
           return;
         }
-        if (schoolError) {
-          // Licence columns not re-applied yet: there is nothing to hold, so carry on as before.
-          console.warn(
-            '[create-checkout] schools licence columns missing (schema §13 not re-applied) — ' +
-              'cannot check for an existing licence.'
-          );
-        } else if (school?.stripe_subscription_id && isLiveStatus(school.plan_status)) {
-          // Only a live licence holds the school. An `incomplete` one does not: schools carry
-          // no timestamp to apply the window to, and the buyer's own guard above already
-          // covers that subscription's row for the window.
-          res.status(409).json({
-            code: 'school_licence_held',
-            error: SCHOOL_LICENCE_HELD,
+        const now = Date.now();
+        const holding = ((heldRows ?? []) as PurchaseRow[]).filter((row) =>
+          holdsPurchase(row, now)
+        );
+        if (holding.length > 0) {
+          // A live subscription takes precedence over a pending one in the wording.
+          const live = holding.some((row) => isLiveStatus(row.status));
+          res.status(409).json({ error: live ? ALREADY_SUBSCRIBED : PURCHASE_PENDING });
+          return;
+        }
+
+        // A licence with no school to attach to grants the plan to the buyer and
+        // nobody else. The webhook already handles that case — it stamps the
+        // purchaser's profile and logs a warning — but a warning in a server log
+        // is not a refund: the buyer has paid for N seats, one of which does
+        // anything, and nothing in the app tells them. The school row is not
+        // back-filled either, so an admin assigning their school afterwards does
+        // not rescue the licence until the subscription next updates.
+        //
+        // So it is refused before any money moves, with the step that fixes it.
+        // The upgrade panel already warns ("make sure your school is set up, and
+        // you're in it") — this is the same rule, enforced where it can hold.
+        //
+        // AFTER the duplicate guard deliberately: a buyer who is already
+        // subscribed should be told that first, because it is the stronger
+        // answer — they should not be buying at all, school or no school.
+        if (sellablePrices[priceId] === 'school' && !profile?.school_id) {
+          res.status(400).json({
+            error:
+              'Your account is not attached to a school yet, so a licence would only cover you. ' +
+              'Ask an admin to add you to your school (Admin → Schools), then buy the seats.',
           });
           return;
+        }
+
+        // One licence per school. The guard above is per person, so two teachers at
+        // the same school would each pass it and each buy a licence: both are charged,
+        // and the webhook writes whichever event arrives last onto
+        // schools.stripe_subscription_id, leaving one licence paid for and invisible.
+        // A licence that is still being paid for holds the school. A cancelled or
+        // unpaid one does not, so the school can buy again. Plus is never checked here.
+        if (sellablePrices[priceId] === 'school') {
+          const { data: school, error: schoolError } = await supabase
+            .from('schools')
+            .select('stripe_subscription_id, plan_status')
+            .eq('id', profile?.school_id)
+            .maybeSingle();
+          if (schoolError && !isMissingColumnError(schoolError)) {
+            console.error('[create-checkout] school licence lookup failed:', schoolError.message);
+            res.status(503).json({ code: LOOKUP_FAILED_CODE, error: LOOKUP_FAILED });
+            return;
+          }
+          if (schoolError) {
+            // Licence columns not re-applied yet: there is nothing to hold, so carry on as before.
+            console.warn(
+              '[create-checkout] schools licence columns missing (schema §13 not re-applied) — ' +
+                'cannot check for an existing licence.'
+            );
+          } else if (school?.stripe_subscription_id && isLiveStatus(school.plan_status)) {
+            // Only a live licence holds the school. An `incomplete` one does not: schools carry
+            // no timestamp to apply the window to, and the buyer's own guard above already
+            // covers that subscription's row for the window.
+            res.status(409).json({
+              code: 'school_licence_held',
+              error: SCHOOL_LICENCE_HELD,
+            });
+            return;
+          }
         }
       }
 
@@ -398,7 +475,15 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       seats,
       returnBase,
       customerRef: existingCustomerId ?? 'new',
+      beneficiaryId: beneficiaryUserId,
     });
+
+    // A guardian purchase names both people. The parent is the customer and the client
+    // reference; the student is the plan's holder, read by the webhook and the sync.
+    const guardianMetadata =
+      beneficiaryUserId && auth.userId
+        ? { supabase_user_id: auth.userId, beneficiary_user_id: beneficiaryUserId }
+        : undefined;
 
     let session: { id: string; url: string | null };
     try {
@@ -410,6 +495,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
           success_url: `${returnBase}?checkout=success&session_id={CHECKOUT_SESSION_ID}`,
           cancel_url: `${returnBase}?checkout=cancelled`,
           client_reference_id: auth.userId ?? undefined,
+          ...(guardianMetadata ? { metadata: guardianMetadata } : {}),
           ...(automaticTaxEnabled ? { automatic_tax: { enabled: true } } : {}),
           ...(existingCustomerId
             ? { customer: existingCustomerId }
@@ -420,7 +506,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
           // (customer.subscription.created) can arrive BEFORE checkout.completed
           // links the customer id to the profile, and without this metadata the
           // subscription handler would find no profile and silently drop the plan.
-          subscription_data: { metadata: { supabase_user_id: auth.userId } },
+          subscription_data: { metadata: guardianMetadata ?? { supabase_user_id: auth.userId } },
           allow_promotion_codes: true,
           // With automatic tax on, Stripe needs a reliable location to pick the
           // right rate, so it recommends REQUIRING the billing address rather than
@@ -447,10 +533,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // One open checkout per user (monetisation review §21). The new session is recorded,
     // and the one it displaces is expired, BEFORE the URL leaves this function. If the
     // record cannot be written, the new session is released and nothing is handed out.
+    // A guardian purchase is recorded against the STUDENT, because the plan it buys is
+    // theirs: one open purchase per child, whichever parent makes it.
     if (supabase) {
       let swap;
       try {
-        swap = await swapOpenCheckout(supabase, auth.userId, session.id);
+        swap = await swapOpenCheckout(supabase, beneficiaryUserId ?? auth.userId, session.id);
       } catch (e) {
         console.error(
           '[create-checkout] could not record the open checkout:',
@@ -466,6 +554,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
           // The earlier session was paid, and its subscription is still held. The
           // duplicate guard would have refused this too, had the webhook already run.
           await releaseCheckout(stripe, session.id);
+          if (beneficiaryUserId) {
+            res
+              .status(409)
+              .json({ code: 'beneficiary_has_plan', error: BENEFICIARY_HAS_PLAN_MESSAGE });
+            return;
+          }
           res.status(409).json({
             error: displaced.status === 'incomplete' ? PURCHASE_PENDING : ALREADY_SUBSCRIBED,
           });

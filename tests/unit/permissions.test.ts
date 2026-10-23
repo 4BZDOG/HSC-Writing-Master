@@ -13,6 +13,9 @@ const MATRIX: Record<UserRole, { curate: boolean; moderate: boolean; sysAdmin: b
   teacher: { curate: true, moderate: true, sysAdmin: false },
   user: { curate: false, moderate: false, sysAdmin: false },
   guest: { curate: false, moderate: false, sysAdmin: false },
+  // A parent curates, moderates and administers nothing. Their links and their
+  // child's plan are the server's business, not a content capability.
+  parent: { curate: false, moderate: false, sysAdmin: false },
 };
 
 describe('role capability matrix', () => {
