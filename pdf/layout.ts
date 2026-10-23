@@ -479,7 +479,14 @@ const splitParagraph = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
     // A panelled block's frame closes and reopens across the break, so every
     // fragment keeps its inner padding; an unpanelled one only pads its ends.
     const padTop = firstFragment || b.panel ? b.padTopMm : 0;
-    const linesThatFit = Math.max(1, Math.floor((columnHeight - padTop) / b.lineHeightMm));
+    // Room for the lines once the fragment's own padding is out of the column:
+    // a panel closes its frame on every fragment, and any block pads its last.
+    const fit = (padBottom: number) =>
+      Math.max(1, Math.floor((columnHeight - padTop - padBottom) / b.lineHeightMm));
+    let linesThatFit = fit(b.panel ? b.padBottomMm : 0);
+    if (index + linesThatFit >= lines.length) {
+      linesThatFit = Math.min(linesThatFit, fit(b.padBottomMm));
+    }
     const start = index;
     const chunk = lines.slice(start, start + linesThatFit);
     index += chunk.length;
@@ -538,7 +545,11 @@ const splitCriterion = (b: MeasuredBlock, columnHeight: number): MeasuredBlock[]
   const head = b.padTopMm + labelLines * lh + (b.labelExtraMm ?? 0);
   const feedback = b.wrapped[0];
   const rich = richOf(b);
-  const firstFit = Math.max(1, Math.floor((columnHeight - head) / lh));
+  let firstFit = Math.max(1, Math.floor((columnHeight - head) / lh));
+  // Holding every line, the head is the last fragment and carries the padding.
+  if (firstFit >= feedback.length) {
+    firstFit = Math.max(1, Math.floor((columnHeight - head - b.padBottomMm) / lh));
+  }
   const kept = feedback.slice(0, firstFit);
   const rest = feedback.slice(firstFit);
   const out: MeasuredBlock[] = [];
@@ -665,9 +676,11 @@ const splitParagraphAt = (
   const rich = richOf(b);
   const headPadBottom = b.panel ? b.padBottomMm : 0;
   const room = available - b.padTopMm - headPadBottom;
-  const headLines = Math.floor(room / b.lineHeightMm);
+  // Leave the tail its minimum by giving it the head's last lines, as a table
+  // gives back rows: refusing instead moved the whole paragraph on whenever it
+  // was one line short of fitting, and left a column of blank beneath.
+  const headLines = Math.min(Math.floor(room / b.lineHeightMm), lines.length - MIN_TAIL_LINES);
   if (headLines < MIN_HEAD_LINES) return null;
-  if (lines.length - headLines < MIN_TAIL_LINES) return null;
 
   const head: MeasuredBlock = {
     ...b,
@@ -706,9 +719,12 @@ const splitCriterionAt = (
   const rich = richOf(b);
   const labelLines = b.labelWrapped?.length ?? 1;
   const head = b.padTopMm + labelLines * b.lineHeightMm + (b.labelExtraMm ?? 0);
-  const headLines = Math.floor((available - head) / b.lineHeightMm);
+  // The tail keeps its minimum, as in `splitParagraphAt`.
+  const headLines = Math.min(
+    Math.floor((available - head) / b.lineHeightMm),
+    lines.length - MIN_TAIL_LINES
+  );
   if (headLines < MIN_HEAD_LINES) return null;
-  if (lines.length - headLines < MIN_TAIL_LINES) return null;
 
   return [
     {
@@ -741,20 +757,6 @@ const splitCriterionAt = (
 };
 
 /**
- * Split `b` so its head fits `available` mm, or return null to move it whole.
- *
- * This is the fix for the single largest defect the exported report had. The
- * flow used to place a block only where it fit ENTIRELY: a 70mm paragraph
- * arriving with 40mm of column left moved to the next column and left the 40mm
- * blank. Across a report that is most of a page — one sample's second page was
- * 86% white — and the content that was pushed out is the content the reader
- * came for.
- *
- * Only prose splits. A list item, a heading, the question card and the result
- * strip are single objects; breaking one across a column boundary would cost
- * more sense than the space it recovered.
- */
-/**
  * Grow a flexible ruled block into the space it landed in.
  *
  * Ruled space is the one block whose height is not content: it is however much
@@ -781,6 +783,20 @@ export const growToFit = (
   return { ...b, ruleLines: room, height: fixed + room * gap };
 };
 
+/**
+ * Split `b` so its head fits `available` mm, or return null to move it whole.
+ *
+ * This is the fix for the single largest defect the exported report had. The
+ * flow used to place a block only where it fit ENTIRELY: a 70mm paragraph
+ * arriving with 40mm of column left moved to the next column and left the 40mm
+ * blank. Across a report that is most of a page — one sample's second page was
+ * 86% white — and the content that was pushed out is the content the reader
+ * came for.
+ *
+ * Only prose splits. A list item, a heading, the question card and the result
+ * strip are single objects; breaking one across a column boundary would cost
+ * more sense than the space it recovered.
+ */
 export const splitToFit = (
   b: MeasuredBlock,
   available: number
@@ -803,12 +819,6 @@ export interface FlowResult {
   deepestPerPage: number[];
 }
 
-/**
- * Column-major flow. A block taller than a full column is still placed at the
- * top of a fresh column (it may overflow into the footer region rather than
- * vanish — measure-then-place guarantees we never silently clip earlier
- * blocks). Leading spacers at the top of a column are suppressed.
- */
 /**
  * A heading, or a block bound to the one after it: neither may end a column.
  * A bound pair is one thought in two blocks — the sentence a student wrote and
@@ -844,12 +854,37 @@ const fitsWithFollowers = (blocks: MeasuredBlock[], i: number, room: number): bo
  * anything else fits or splits there. Nothing following means nothing to keep.
  */
 const canStart = (blocks: MeasuredBlock[], j: number, room: number): boolean => {
+  // Crossing into a two-column band: it drops whitespace at its top, so a
+  // spacer opening it takes no room. (In-band callers pass the band alone, so
+  // they never cross.)
+  if (j > 0 && blocks[j] && !blocks[j].fullWidth && blocks[j - 1].fullWidth) {
+    while (blocks[j]?.kind === 'spacer' && !blocks[j].fullWidth) j += 1;
+  }
   const b = blocks[j];
   if (!b) return true;
   if (keepsWithNext(b)) return fitsWithFollowers(blocks, j, room);
   if (b.kind === 'spacer')
     return b.height <= room + 1e-6 && canStart(blocks, j + 1, room - b.height);
   return b.height <= room + 1e-6 || splitToFit(b, room) !== null;
+};
+
+/**
+ * Where the run of keep-with-next blocks that ends `[start, end)` begins, or
+ * `end` when the run ends in none. Trailing spacers belong to the run: they sit
+ * between the heading and the content it introduces.
+ */
+const trailingChainStart = (blocks: MeasuredBlock[], start: number, end: number): number => {
+  let k = end;
+  while (k > start && blocks[k - 1].kind === 'spacer') k -= 1;
+  if (k === start || !keepsWithNext(blocks[k - 1])) return end;
+  // Back through the run, spacers inside it included: a heading, a gap and a
+  // second heading travel as one.
+  while (k > start) {
+    const b = blocks[k - 1];
+    if (keepsWithNext(b) || (b.kind === 'spacer' && boundToPrevious(blocks, k - 1))) k -= 1;
+    else break;
+  }
+  return k;
 };
 
 /**
@@ -864,13 +899,31 @@ const canStart = (blocks: MeasuredBlock[], j: number, room: number): boolean => 
 const sectionHeight = (blocks: MeasuredBlock[], start: number): number => {
   let total = 0;
   for (let i = start; i < blocks.length; i++) {
-    if (i > start && (blocks[i].kind === 'heading' || blocks[i].kind === 'divider')) break;
+    const opensNext =
+      (blocks[i].kind === 'heading' || blocks[i].kind === 'divider') && !boundToPrevious(blocks, i);
+    if (i > start && opensNext) break;
     total += blocks[i].height;
   }
   return total;
 };
 
 /**
+ * Whether the block at `i` is held to the one before it — the previous block,
+ * past any spacers, keeps with next. A heading under a heading is the second
+ * line of one section's head, not the start of a section of its own.
+ */
+const boundToPrevious = (blocks: MeasuredBlock[], i: number): boolean => {
+  let k = i - 1;
+  while (k >= 0 && blocks[k].kind === 'spacer') k -= 1;
+  return k >= 0 && keepsWithNext(blocks[k]);
+};
+
+/**
+ * Column-major flow. A block taller than a full column is still placed at the
+ * top of a fresh column (it may overflow into the footer region rather than
+ * vanish — measure-then-place guarantees we never silently clip earlier
+ * blocks). Leading spacers at the top of a column are suppressed.
+ *
  * Flow a run of non-`fullWidth` blocks column-major, confined to the region that
  * begins at `startY` on `startPage`. On the band's first page both columns start
  * at `startY`; pages the band spills onto are used in full. Returns where the
@@ -913,7 +966,9 @@ const flowColumnBand = (
     // Move a whole SECTION rather than tear one in half, but only when the
     // section would fit a column of its own — otherwise it has to break
     // somewhere and breaking it here is as good as anywhere.
-    if (block.kind === 'heading' && cursor > colTop(page)) {
+    // A heading bound to the block above it moves only with that block, and the
+    // decision was taken there: moving it alone would strand the one above.
+    if (block.kind === 'heading' && cursor > colTop(page) && !boundToPrevious(blocks, i)) {
       const section = sectionHeight(blocks, i);
       const fitsAColumn = section <= geo.columnHeight - colTop(page) + 1e-6;
       if (fitsAColumn && cursor + section > geo.columnHeight + 1e-6) advanceColumn();
@@ -936,6 +991,19 @@ const flowColumnBand = (
         placements.push({ block, page, column, top: cursor });
         cursor += block.height;
         break;
+      }
+      // A band that began part-way down the page still splits prose at its foot:
+      // both its columns are short, but they are columns, and the paragraph
+      // flows down the first and on into the second as it would anywhere else.
+      if (atColumnTop && colTop(page) !== 0) {
+        const split = splitToFit(block, geo.columnHeight - cursor);
+        if (split) {
+          placements.push({ block: split[0], page, column, top: cursor });
+          cursor += split[0].height;
+          advanceColumn();
+          block = split[1];
+          continue;
+        }
       }
       if (atColumnTop) {
         if (colTop(page) === 0) {
@@ -1083,7 +1151,11 @@ const balanceLastColumn = (placements: PlacedBlock[], geo: ColumnGeometry, page:
     // never break a bound pair — the balancer used to move the second half of a
     // diff pair into the next column, which is precisely the split the binding
     // exists to prevent.
-    if (ordered[k].block.kind === 'heading' || ordered[k].block.keepWithNext) continue;
+    // A spacer between a heading and its content does not change that: the cut
+    // after it strands the heading just the same.
+    let last = k;
+    while (last > 0 && ordered[last].block.kind === 'spacer') last -= 1;
+    if (keepsWithNext(ordered[last].block)) continue;
     // Nor inside a list. The flow keeps a short section whole
     // (`sectionHeight`), and this pass then undid it: the most even cut on a
     // one-page report fell between the first and second of three growth points,
@@ -1134,18 +1206,16 @@ export const flowBlocks = (
   let page = 0;
   let y = 0;
 
-  let i = 0;
-  while (i < blocks.length) {
-    const spanning = !!blocks[i].fullWidth;
-    let j = i;
-    while (j < blocks.length && !!blocks[j].fullWidth === spanning) j += 1;
-    const band = blocks.slice(i, j);
+  /** Flow `[from, to)` as one band from `atPage`/`atY`; returns where it ended. */
+  const flowBand = (from: number, to: number, atPage: number, atY: number) => {
+    const spanning = !!blocks[from].fullWidth;
+    const band = blocks.slice(from, to);
     const before = placements.length;
     // What the pages were carrying before this band touched them.
     const priorDepths = deepestPerPage.slice();
     const res = spanning
-      ? flowSpanBand(band, geo, page, y, placements, deepestPerPage, pScale)
-      : flowColumnBand(band, geo, page, y, placements, deepestPerPage, pScale);
+      ? flowSpanBand(band, geo, atPage, atY, placements, deepestPerPage, pScale)
+      : flowColumnBand(band, geo, atPage, atY, placements, deepestPerPage, pScale);
     if (!spanning) {
       balanceLastColumn(placements.slice(before), geo, res.endPage);
       // Balancing moves blocks between columns, so this band's extent has to be
@@ -1165,8 +1235,37 @@ export const flowBlocks = (
         deepestPerPage[touched] = Math.max(priorDepths[touched] ?? 0, bandDepth);
       }
     }
-    page = res.endPage;
-    y = deepestPerPage[res.endPage] ?? res.endY;
+    return { page: res.endPage, y: deepestPerPage[res.endPage] ?? res.endY };
+  };
+
+  let i = 0;
+  while (i < blocks.length) {
+    const spanning = !!blocks[i].fullWidth;
+    let j = i;
+    while (j < blocks.length && !!blocks[j].fullWidth === spanning) j += 1;
+    // Keep-with-next across a band boundary. Inside a band the flow looks ahead
+    // itself; a heading that ENDS its band cannot, because what it introduces
+    // is laid out by the next band, beneath it. Flowed with the band, such a
+    // heading could be left at the foot of the page while the next band took
+    // its content overleaf — or, in two columns, be balanced to the top of the
+    // right-hand column while its content began beneath the left.
+    //
+    // So the band's body is flowed first and its trailing run of bound blocks
+    // after it, as a band of its own: directly above the content it introduces,
+    // or at the top of the next page when that content cannot start beneath it.
+    const chain = j < blocks.length ? trailingChainStart(blocks, i, j) : j;
+    let end = chain > i ? flowBand(i, chain, page, y) : { page, y };
+    if (chain < j) {
+      const strandsHere = !canStart(blocks, chain, geo.columnHeight - end.y);
+      // Only worth it when a fresh page does better: the run is not already at
+      // the top of one, and what follows it starts beneath it there.
+      const freshPageHelps = end.y > 1e-6 && canStart(blocks, chain, geo.columnHeight);
+      if (strandsHere && freshPageHelps) end = { page: end.page + 1, y: 0 };
+      end = flowBand(chain, j, end.page, end.y);
+    }
+
+    page = end.page;
+    y = end.y;
     i = j;
   }
   if (deepestPerPage.length === 0) deepestPerPage[0] = 0;
