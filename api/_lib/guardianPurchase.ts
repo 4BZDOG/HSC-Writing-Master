@@ -16,7 +16,7 @@
  * parent may pay for several children.
  */
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { LIVE_STATUSES } from './openCheckout';
+import { isLiveStatus, LIVE_STATUSES } from './openCheckout';
 
 export const NOT_A_GUARDIAN_MESSAGE = 'You can only buy Plus for a student you are linked to.';
 
@@ -28,6 +28,8 @@ export const GUARDIAN_NEEDS_BENEFICIARY_MESSAGE =
 
 export const BENEFICIARY_HAS_PLAN_MESSAGE =
   'This student already has a Plus plan, or a purchase for them is still waiting for payment.';
+
+export const SCHOOL_PROVIDES_PLUS_MESSAGE = "This student's school already provides Band 6 Plus.";
 
 export interface GuardianRefusal {
   status: number;
@@ -74,12 +76,28 @@ export async function guardianPurchaseRefusal(
 
   const { data: student, error: studentError } = await supabase
     .from('profiles')
-    .select('stripe_plan')
+    .select('stripe_plan, school_id')
     .eq('id', input.beneficiaryId)
     .maybeSingle();
   if (studentError) throw new Error(`student plan lookup failed: ${studentError.message}`);
   if (PLANS_THAT_HOLD.includes(student?.stripe_plan as string)) {
     return { status: 409, code: 'beneficiary_has_plan', error: BENEFICIARY_HAS_PLAN_MESSAGE };
+  }
+
+  // A student whose school holds a live licence already has the School plan through it,
+  // which caller_plan() (§17) grants before any personal plan. Nobody is sold what they
+  // already hold, so the parent is refused the same way.
+  const schoolId = student?.school_id as string | null | undefined;
+  if (schoolId) {
+    const { data: school, error: schoolError } = await supabase
+      .from('schools')
+      .select('plan_status')
+      .eq('id', schoolId)
+      .maybeSingle();
+    if (schoolError) throw new Error(`student school lookup failed: ${schoolError.message}`);
+    if (school && isLiveStatus(school.plan_status)) {
+      return { status: 409, code: 'beneficiary_has_plan', error: SCHOOL_PROVIDES_PLUS_MESSAGE };
+    }
   }
 
   const { data: live, error: liveError } = await supabase

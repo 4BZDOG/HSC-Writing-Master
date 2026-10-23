@@ -438,5 +438,40 @@ begin
   raise notice 'PASS: removed guardians disappear from the student''s list';
 end $$;
 
+-- ---- A student whose school already provides Plus shows as 'school' ----------------
+-- The parent dashboard reads `plan` from list_my_students, and a parent must not be
+-- offered Plus for a child who already holds it through their school. The student's own
+-- profile says 'free'; the school's live licence is what grants the plan, the same
+-- precedence caller_plan() (§17) uses.
+insert into public.schools (id, name, plan_status) values
+  ('00000000-0000-0000-0000-000000006e09', 'Guardian Test School', 'active');
+
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-000000006e07', 'gd_school_student@example.test',
+   '{"username":"gd_school_student","display_name":"Gd School Student"}');
+update public.profiles
+   set school_id = '00000000-0000-0000-0000-000000006e09', stripe_plan = 'free'
+ where id = '00000000-0000-0000-0000-000000006e07';
+
+-- The stranger parent is linked to the school student (no other links are in play).
+insert into public.guardian_links (guardian_id, student_id) values
+  ('00000000-0000-0000-0000-000000006e03', '00000000-0000-0000-0000-000000006e07');
+
+do $$
+declare v jsonb; v_plan text;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e03');
+  v := public.list_my_students();
+  perform pg_temp.as_owner();
+
+  select value->>'plan' into v_plan
+    from jsonb_array_elements(v) as value
+   where value->>'studentId' = '00000000-0000-0000-0000-000000006e07';
+  if v_plan is distinct from 'school' then
+    raise exception 'TEST FAILED: a student whose school licence is live shows as % (expected school): %', v_plan, v;
+  end if;
+  raise notice 'PASS: a student whose school already provides Plus shows as school, not free';
+end $$;
+
 reset role;
 rollback;

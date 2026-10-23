@@ -323,6 +323,28 @@ describe('create-checkout: refusals for a guardian purchase', () => {
     expect(sessionCreate).not.toHaveBeenCalled();
   });
 
+  it('refuses a child whose school already provides Plus, with beneficiary_has_plan and the school message', async () => {
+    db.tables.schools = [{ id: 'school-live', plan_status: 'active' }];
+    db.tables.profiles.find((p) => p.id === STUDENT)!.school_id = 'school-live';
+    const res = makeRes();
+    await checkoutHandler(post(), res);
+
+    expect(res.statusCode).toBe(409);
+    expect(res.body?.code).toBe('beneficiary_has_plan');
+    expect(res.body?.error).toBe("This student's school already provides Band 6 Plus.");
+    expect(sessionCreate).not.toHaveBeenCalled();
+  });
+
+  it('still sells Plus for a child whose school licence has been cancelled', async () => {
+    db.tables.schools = [{ id: 'school-old', plan_status: 'canceled' }];
+    db.tables.profiles.find((p) => p.id === STUDENT)!.school_id = 'school-old';
+    sessionCreate.mockResolvedValueOnce(session('cs_child'));
+    const res = makeRes();
+    await checkoutHandler(post(), res);
+
+    expect(res.statusCode).toBe(200);
+  });
+
   it('answers 400 for a malformed beneficiaryUserId, creating nothing', async () => {
     const res = makeRes();
     await checkoutHandler(post({ beneficiaryUserId: 'not-a-uuid' }), res);

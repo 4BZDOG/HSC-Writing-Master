@@ -4478,8 +4478,9 @@ end; $$;
 -- A parent's linked students. `paidByMe` is true when a live subscription (active,
 -- trialing or past_due) names this student as its holder and this parent as payer.
 -- `cancelAtPeriodEnd` is the flag on that same subscription, and false when there is
--- none. `plan` is the student's cached plan, so a plan a school or the student bought
--- still shows here even if this parent pays for nothing.
+-- none. `plan` is the plan the student actually holds, by caller_plan()'s rule: a live
+-- school licence is 'school', then the cached plan, else 'free'. So a student whose
+-- school already provides Plus shows 'school' here, and is not offered Plus.
 create or replace function public.list_my_students()
 returns jsonb language plpgsql stable security definer set search_path = public as $$
 declare
@@ -4498,7 +4499,13 @@ begin
              'studentId', s.id,
              'displayName', coalesce(nullif(s.display_name, ''), s.username),
              'username', s.username,
-             'plan', coalesce(s.stripe_plan, 'free'),
+             -- The same precedence as caller_plan() (§17), for a student: a live school
+             -- licence first, then the cached plan, else free.
+             'plan', case
+               when coalesce(sc.plan_status, 'none') in ('active', 'trialing', 'past_due') then 'school'
+               when coalesce(s.stripe_plan, 'free') in ('plus', 'school') then s.stripe_plan
+               else 'free'
+             end,
              'planPeriodEnd', s.plan_period_end,
              'paidByMe', paid.id is not null,
              'cancelAtPeriodEnd', coalesce(paid.cancel_at_period_end, false),
@@ -4508,6 +4515,7 @@ begin
     into v_result
     from public.guardian_links l
     join public.profiles s on s.id = l.student_id
+    left join public.schools sc on sc.id = s.school_id
     left join lateral (
       select sub.id, sub.cancel_at_period_end
         from public.subscriptions sub
