@@ -71,7 +71,21 @@ import {
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { getFocusAreas, splitDotPointDescription } from '../utils/dataManagerUtils';
 import FocusAreaEditorModal from './FocusAreaEditorModal';
-import { getPastHscLabel } from '../utils/pastHscUtils';
+import {
+  countPastHsc,
+  countPastHscInSubTopic,
+  countPastHscInTopic,
+  countPastHscInTopics,
+  getPastHscLabel,
+  isPastHscInYears,
+  pastHscYears,
+  readPastHscNavigatorState,
+  subTopicHasPastHsc,
+  topicHasPastHsc,
+  dotPointHasPastHsc,
+  writePastHscNavigatorState,
+  type PastHscNavigatorState,
+} from '../utils/pastHscUtils';
 import {
   describeAccess,
   isFeatureLocked,
@@ -420,6 +434,114 @@ const ActionButton = ({
   </button>
 );
 
+/**
+ * The Past HSC count on a navigator row. Shown only while the navigator is on,
+ * and a row with none says so rather than vanishing: the selected row is kept
+ * on screen even when it fails the filter, and "no past HSC" is what tells the
+ * reader why it is there.
+ */
+const PastHscCount = ({ count, className = '' }: { count: number; className?: string }) => (
+  <span
+    className={`t-label flex-shrink-0 ${count > 0 ? 'text-amber-400 light:text-amber-800' : 'text-[rgb(var(--color-text-muted))]'} ${className}`}
+  >
+    {count > 0 ? `${count} past HSC` : 'no past HSC'}
+  </span>
+);
+
+/**
+ * The chip look the navigator and the question filter share, so "Past HSC"
+ * reads as one control wherever it appears. Amber is the provenance colour; the
+ * fill is what says pressed, as it does in QuestionFilterBar.
+ */
+const pastHscChipClass = (pressed: boolean): string =>
+  `t-label flex items-center gap-1.5 px-2.5 py-1 min-h-11 sm:min-h-0 rounded-lg border transition-all ${
+    pressed
+      ? 'bg-amber-500 text-slate-900 border-amber-400 shadow-sm'
+      : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
+  }`;
+
+/** "a", "a and b", "a, b and c" — for the navigator's summary line. */
+const joinWords = (words: string[]): string =>
+  words.length <= 1
+    ? (words[0] ?? '')
+    : `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}`;
+
+interface PastHscNavigatorProps {
+  on: boolean;
+  /** The chosen years. Empty means every year. */
+  years: number[];
+  /** Every year that past HSC questions in this course carry. */
+  availableYears: number[];
+  onToggle: () => void;
+  onYearsChange: (years: number[]) => void;
+  /** What the filter shows and holds back, in words. Null while it is off. */
+  summary: string | null;
+}
+
+/**
+ * The Past HSC switch above the syllabus picker, with its year chips and a line
+ * saying what the filter is holding back. It sits under the course because the
+ * years belong to the course, and the summary is here rather than in the lists
+ * because a reader looking at a shorter list needs to see why it is shorter.
+ */
+const PastHscNavigator = ({
+  on,
+  years,
+  availableYears,
+  onToggle,
+  onYearsChange,
+  summary,
+}: PastHscNavigatorProps) => {
+  const toggleYear = (year: number) =>
+    onYearsChange(
+      years.includes(year)
+        ? years.filter((y) => y !== year)
+        : [...years, year].sort((a, b) => a - b)
+    );
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <button type="button" onClick={onToggle} aria-pressed={on} className={pastHscChipClass(on)}>
+          <Landmark className="w-3 h-3" aria-hidden="true" />
+          Past HSC
+        </button>
+        {on && (
+          <div role="group" aria-label="Years" className="flex flex-wrap items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => onYearsChange([])}
+              aria-pressed={years.length === 0}
+              className={pastHscChipClass(years.length === 0)}
+            >
+              All years
+            </button>
+            {availableYears.map((year) => (
+              <button
+                key={year}
+                type="button"
+                onClick={() => toggleYear(year)}
+                aria-pressed={years.includes(year)}
+                className={pastHscChipClass(years.includes(year))}
+              >
+                {year}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      {on && summary && (
+        <p
+          role="status"
+          className="text-[10px] font-medium leading-snug text-[rgb(var(--color-text-muted))] light:text-slate-500"
+        >
+          {summary}
+        </p>
+      )}
+    </div>
+  );
+};
+
 const PromptSelector: React.FC<PromptSelectorProps> = ({
   courses = [],
   statePath = {} as StatePath,
@@ -495,6 +617,82 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     (dp) => dp.id === statePath.dotPointId
   );
   const selectedPrompt = selectedDotPoint?.prompts?.find((p) => p.id === statePath.promptId);
+
+  // --- Past HSC navigator -------------------------------------------------
+  // A filter over the whole tree, not only the question list: with it on, a
+  // topic, sub-topic or syllabus point is listed only if it holds a past HSC
+  // question the chosen years admit. It is offered only where the year has past
+  // papers at all, and it is remembered per course, so a reader who revises from
+  // the real exam papers finds the filter where they left it.
+  const pastHscCourseId = statePath.courseId ?? '';
+  const pastHscAvailable = useMemo(() => countPastHscInTopics(yearTopics) > 0, [yearTopics]);
+  const pastHscYearList = useMemo(() => pastHscYears(yearTopics), [yearTopics]);
+  // Storage is the record. The override holds what was set this visit, so the
+  // filter still works in a session where storage refuses the write.
+  const [pastHscOverride, setPastHscOverride] = useState<{
+    courseId: string;
+    state: PastHscNavigatorState;
+  } | null>(null);
+  const storedPastHsc = useMemo(
+    () =>
+      pastHscOverride?.courseId === pastHscCourseId
+        ? pastHscOverride.state
+        : readPastHscNavigatorState(pastHscCourseId),
+    [pastHscOverride, pastHscCourseId]
+  );
+  // A year chosen on an earlier visit may no longer exist in this course. It is
+  // dropped here rather than left selecting nothing.
+  const pastHscYearsInForce = useMemo(
+    () => storedPastHsc.years.filter((y) => pastHscYearList.includes(y)),
+    [storedPastHsc.years, pastHscYearList]
+  );
+  const pastHscNavOn = pastHscAvailable && storedPastHsc.on;
+
+  const setPastHscNav = useCallback(
+    (next: PastHscNavigatorState) => {
+      writePastHscNavigatorState(pastHscCourseId, next);
+      setPastHscOverride({ courseId: pastHscCourseId, state: next });
+    },
+    [pastHscCourseId]
+  );
+
+  // The option lists the navigator actually offers. The selected node is always
+  // kept in its list, so the path never points at something the picker lost.
+  const pastHscTopics = useMemo(
+    () =>
+      pastHscNavOn
+        ? yearTopics.filter(
+            (t) => t.id === statePath.topicId || topicHasPastHsc(t, pastHscYearsInForce)
+          )
+        : yearTopics,
+    [yearTopics, pastHscNavOn, pastHscYearsInForce, statePath.topicId]
+  );
+  const pastHscSubTopics = useMemo(() => {
+    const all = selectedTopic?.subTopics ?? [];
+    if (!pastHscNavOn) return all;
+    return all.filter(
+      (st) => st.id === statePath.subTopicId || subTopicHasPastHsc(st, pastHscYearsInForce)
+    );
+  }, [selectedTopic, pastHscNavOn, pastHscYearsInForce, statePath.subTopicId]);
+  const pastHscDotPoints = useMemo(() => {
+    const all = selectedSubTopic?.dotPoints ?? [];
+    if (!pastHscNavOn) return all;
+    return all.filter(
+      (dp) => dp.id === statePath.dotPointId || dotPointHasPastHsc(dp, pastHscYearsInForce)
+    );
+  }, [selectedSubTopic, pastHscNavOn, pastHscYearsInForce, statePath.dotPointId]);
+  // The question list's counterpart. Past HSC questions are filtered by the
+  // question filter's own Past HSC switch, which the navigator drives; this set
+  // is what the chosen years add on top of it.
+  const pastHscQuestionIds = useMemo(
+    () =>
+      new Set(
+        (selectedDotPoint?.prompts ?? [])
+          .filter((p) => isPastHscInYears(p, pastHscYearsInForce))
+          .map((p) => p.id)
+      ),
+    [selectedDotPoint, pastHscYearsInForce]
+  );
 
   const isCourseSelected = !!selectedCourse;
   const isTopicSelected = !!selectedTopic;
@@ -627,7 +825,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   const topicOptions = useMemo(
     () =>
-      yearTopics.map((t) => {
+      pastHscTopics.map((t) => {
         // As the course row: the counts are hidden in the closed control below `sm`.
         const row = (inTrigger: boolean) => (
           <div className="flex items-center gap-3">
@@ -643,6 +841,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               >
                 {t.subTopics.length} sub-topic{t.subTopics.length === 1 ? '' : 's'}
               </span>
+            )}
+            {pastHscNavOn && (
+              <PastHscCount
+                count={countPastHscInTopic(t, pastHscYearsInForce)}
+                className={inTrigger ? 'hidden sm:inline-flex' : ''}
+              />
             )}
             {/* Per topic, so a half-finished course says WHICH half. */}
             {canCurate && (
@@ -662,12 +866,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           renderSelected: row(true),
         };
       }),
-    [yearTopics, newlyAddedIds, canCurate]
+    [pastHscTopics, newlyAddedIds, canCurate, pastHscNavOn, pastHscYearsInForce]
   );
 
   const subTopicOptions = useMemo(
     () =>
-      selectedTopic?.subTopics?.map((st) => {
+      pastHscSubTopics.map((st) => {
         const questionCount = st.dotPoints.reduce((n, dp) => n + (dp.prompts?.length ?? 0), 0);
         const row = (inTrigger: boolean) => (
           <div className="flex items-center gap-3">
@@ -684,6 +888,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 ? `${questionCount} question${questionCount === 1 ? '' : 's'}`
                 : 'No questions yet'}
             </span>
+            {pastHscNavOn && (
+              <PastHscCount
+                count={countPastHscInSubTopic(st, pastHscYearsInForce)}
+                className={inTrigger ? 'hidden sm:inline-flex' : ''}
+              />
+            )}
           </div>
         );
         return {
@@ -693,13 +903,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           renderLabel: row(false),
           renderSelected: row(true),
         };
-      }) || [],
-    [selectedTopic, newlyAddedIds]
+      }),
+    [pastHscSubTopics, newlyAddedIds, pastHscNavOn, pastHscYearsInForce]
   );
 
   const dotPointOptions = useMemo(
     () =>
-      selectedSubTopic?.dotPoints?.map((dp) => {
+      pastHscDotPoints.map((dp) => {
         // The statement only. Its "including …" list is what the Active Focus
         // menu beside this one is FOR — printing it here as well made every row
         // a paragraph and said the same thing twice. `searchText` keeps the
@@ -747,12 +957,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   {items.length > 0 &&
                     ` · ${items.length} focus area${items.length === 1 ? '' : 's'}`}
                 </span>
+                {pastHscNavOn && (
+                  <PastHscCount
+                    count={countPastHsc(dp.prompts ?? [], pastHscYearsInForce)}
+                    className="block mt-0.5"
+                  />
+                )}
               </span>
             </div>
           ),
         };
-      }) || [],
-    [selectedSubTopic, newlyAddedIds]
+      }),
+    [pastHscDotPoints, newlyAddedIds, pastHscNavOn, pastHscYearsInForce]
   );
 
   const subItemOptions = useMemo(() => {
@@ -1056,15 +1272,22 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
 
   // Re-fitted on every render against the CURRENT bounds, so a question
   // generated into this dot point while a filter is set cannot leave the
-  // control pointing outside the axis it now spans.
-  const activeQuestionFilter = useMemo(
-    () =>
-      questionFilter ? clampFilter(questionFilter, questionBounds) : widestFilter(questionBounds),
-    [questionFilter, questionBounds]
-  );
+  // control pointing outside the axis it now spans. While the navigator is on,
+  // its Past HSC state is the question filter's `pastHscOnly`, whichever dot
+  // point the reader has moved to: the dot point resets the bar, not the
+  // navigator, and the list has to stay past-only through that reset.
+  const activeQuestionFilter = useMemo(() => {
+    const base = questionFilter
+      ? clampFilter(questionFilter, questionBounds)
+      : widestFilter(questionBounds);
+    return pastHscNavOn ? { ...base, pastHscOnly: true } : base;
+  }, [questionFilter, questionBounds, pastHscNavOn]);
 
-  const { visiblePromptOptions, matchingQuestionCount } = useMemo(
-    () => ({
+  const { visiblePromptOptions, matchingQuestionCount } = useMemo(() => {
+    // The chosen years are a second pass over the question list, applied on top
+    // of the question filter's own past-only switch.
+    const inYears = (id: string) => !pastHscNavOn || pastHscQuestionIds.has(id);
+    return {
       // The selected question is pinned in even when it fails the filter: the
       // closed control renders the SELECTED option's label, so dropping it
       // would leave the picker showing a placeholder while the workspace beside
@@ -1073,12 +1296,79 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         promptOptions,
         activeQuestionFilter,
         statePath.promptId
-      ),
-      matchingQuestionCount: promptOptions.filter((o) => matchesFilter(o, activeQuestionFilter))
-        .length,
-    }),
-    [promptOptions, activeQuestionFilter, statePath.promptId]
+      ).filter((o) => o.id === statePath.promptId || inYears(o.id)),
+      matchingQuestionCount: promptOptions.filter(
+        (o) => matchesFilter(o, activeQuestionFilter) && inYears(o.id)
+      ).length,
+    };
+  }, [promptOptions, activeQuestionFilter, statePath.promptId, pastHscNavOn, pastHscQuestionIds]);
+
+  /**
+   * The question bar's Past HSC chip is the same switch as the navigator while
+   * the navigator is on, so the chip must be able to turn it off. Turning the
+   * chip on does not turn the navigator on: the chip is a choice for this one
+   * dot point, and the navigator's saved state is a choice for the course.
+   */
+  const onQuestionFilterChange = useCallback(
+    (next: QuestionFilter) => {
+      if (pastHscNavOn && !next.pastHscOnly) {
+        setPastHscNav({ ...storedPastHsc, on: false });
+      }
+      setQuestionFilter(next);
+    },
+    [pastHscNavOn, storedPastHsc, setPastHscNav]
   );
+
+  const togglePastHsc = useCallback(() => {
+    const nextOn = !storedPastHsc.on;
+    setPastHscNav({ ...storedPastHsc, on: nextOn });
+    // Off must mean everything: the bar's own past-only switch is cleared too,
+    // or a question list would stay shorter than the navigator says it is.
+    if (!nextOn) setQuestionFilter((prev) => (prev ? { ...prev, pastHscOnly: false } : prev));
+  }, [storedPastHsc, setPastHscNav]);
+
+  /**
+   * The navigator's line of account: what it shows, and how many nodes are
+   * held back at each level the reader can currently see. Nothing is hidden
+   * silently — the same rule the question filter follows.
+   */
+  const pastHscSummary = useMemo(() => {
+    if (!pastHscNavOn) return null;
+    const held: string[] = [];
+    const count = (n: number, noun: string) => {
+      if (n > 0) held.push(`${n} ${noun}${n === 1 ? '' : 's'}`);
+    };
+    count(yearTopics.length - pastHscTopics.length, 'topic');
+    if (selectedTopic) {
+      count((selectedTopic.subTopics?.length ?? 0) - pastHscSubTopics.length, 'sub-topic');
+    }
+    if (selectedSubTopic) {
+      count((selectedSubTopic.dotPoints?.length ?? 0) - pastHscDotPoints.length, 'syllabus point');
+    }
+    if (selectedDotPoint) {
+      const shownQuestions = promptOptions.filter(
+        (o) => o.id === statePath.promptId || pastHscQuestionIds.has(o.id)
+      ).length;
+      count(promptOptions.length - shownQuestions, 'question');
+    }
+    const years =
+      pastHscYearsInForce.length === 0 ? 'all years' : joinWords(pastHscYearsInForce.map(String));
+    const holding = held.length > 0 ? `holding back ${joinWords(held)}` : 'nothing held back';
+    return `Showing past HSC from ${years} · ${holding}`;
+  }, [
+    pastHscNavOn,
+    yearTopics.length,
+    pastHscTopics.length,
+    selectedTopic,
+    pastHscSubTopics.length,
+    selectedSubTopic,
+    pastHscDotPoints.length,
+    selectedDotPoint,
+    promptOptions,
+    statePath.promptId,
+    pastHscQuestionIds,
+    pastHscYearsInForce,
+  ]);
 
   // Same threshold as the picker's own search box: the point at which a list
   // stops being scannable is the point at which it is worth narrowing, and one
@@ -1324,6 +1614,24 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         </div>
       </div>
 
+      {/* The navigator sits between the course and topic steps rather than
+          inside the course step: its rail node is centred on that step's box,
+          and a taller box would drag the node off the course name. Only where
+          the year has past papers to filter by, since a control that could
+          match nothing is worse than no control. */}
+      {isCourseSelected && pastHscAvailable && (
+        <div className="mb-4 rounded-xl border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 px-3 py-2.5">
+          <PastHscNavigator
+            on={pastHscNavOn}
+            years={pastHscYearsInForce}
+            availableYears={pastHscYearList}
+            onToggle={togglePastHsc}
+            onYearsChange={(years) => setPastHscNav({ ...storedPastHsc, years })}
+            summary={pastHscSummary}
+          />
+        </div>
+      )}
+
       {/* 2. Topic Selection */}
       {selectedCourse && (
         <div className={getContainerClasses(isTopicSelected, 'z-40')}>
@@ -1547,10 +1855,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {subTopicOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <FolderOpen className="w-3.5 h-3.5" />
-                No sub-topics in this topic yet.{' '}
-                {canCurate
-                  ? 'Use Add to create one, or Add from syllabus to build them from NESA text.'
-                  : 'Ask a teacher or admin to add content for this topic.'}
+                {/* Under the navigator the list can be empty for a different reason:
+                    the topic has sub-topics, none of them with past papers. */}
+                {pastHscNavOn && (selectedTopic?.subTopics?.length ?? 0) > 0 ? (
+                  'No sub-topics here have past HSC questions for the years chosen.'
+                ) : (
+                  <>
+                    No sub-topics in this topic yet.{' '}
+                    {canCurate
+                      ? 'Use Add to create one, or Add from syllabus to build them from NESA text.'
+                      : 'Ask a teacher or admin to add content for this topic.'}
+                  </>
+                )}
               </p>
             )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
@@ -1634,10 +1950,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             {dotPointOptions.length === 0 && (
               <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
                 <List className="w-3.5 h-3.5" />
-                No syllabus points in this sub-topic yet.{' '}
-                {canCurate
-                  ? 'Use Generate to draft them from the sub-topic name.'
-                  : 'Ask a teacher or admin to add content here.'}
+                {pastHscNavOn && (selectedSubTopic?.dotPoints?.length ?? 0) > 0 ? (
+                  'No syllabus points here have past HSC questions for the years chosen.'
+                ) : (
+                  <>
+                    No syllabus points in this sub-topic yet.{' '}
+                    {canCurate
+                      ? 'Use Generate to draft them from the sub-topic name.'
+                      : 'Ask a teacher or admin to add content here.'}
+                  </>
+                )}
               </p>
             )}
 
@@ -1855,11 +2177,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 {canCurate ? 'Generate one or add it manually.' : 'Check back soon.'}
               </p>
             )}
+            {pastHscNavOn && promptOptions.length > 0 && pastHscQuestionIds.size === 0 && (
+              <p className="mb-3 text-xs text-[rgb(var(--color-text-muted))] flex items-center gap-1.5">
+                <FileQuestion className="w-3.5 h-3.5" />
+                No past HSC questions here for the years chosen.
+              </p>
+            )}
             {showQuestionFilters && (
               <QuestionFilterBar
                 bounds={questionBounds}
                 filter={activeQuestionFilter}
-                onChange={setQuestionFilter}
+                onChange={onQuestionFilterChange}
                 shown={matchingQuestionCount}
               />
             )}
