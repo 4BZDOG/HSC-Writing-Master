@@ -323,8 +323,12 @@ export interface HierarchyContext {
  * App roles. `teacher` curates content and moderates the review queue but has
  * no system-administration access (Database Manager, Data Vault, bulk AI
  * tools) — see utils/permissions.ts for the capability mapping.
+ *
+ * `parent` is a parent or guardian. They link to a child's account, see its
+ * progress read-only and pay for its Band 6 Plus. They never curate, moderate
+ * or generate content, and a plan is never held on their own account.
  */
-export type UserRole = 'admin' | 'teacher' | 'user' | 'guest';
+export type UserRole = 'admin' | 'teacher' | 'user' | 'guest' | 'parent';
 
 export interface UserStats {
   xp: number;

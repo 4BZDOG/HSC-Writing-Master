@@ -303,7 +303,7 @@ export const isFeatureLocked = (feature: PremiumFeatureKey, user?: User | null):
  *
  * Pure apart from reading the current user when none is passed.
  */
-export type AccessAudience = 'student' | 'teacher' | 'admin';
+export type AccessAudience = 'student' | 'teacher' | 'admin' | 'parent';
 export type AccessCta = 'upgrade' | 'buy-school' | 'ask-admin' | 'none';
 
 export interface AccessDescription {
@@ -323,6 +323,7 @@ export interface AccessDescription {
 const accessAudience = (user: User | null): AccessAudience => {
   if (user?.role === 'admin') return 'admin';
   if (user?.role === 'teacher') return 'teacher';
+  if (user?.role === 'parent') return 'parent';
   return 'student';
 };
 
@@ -362,6 +363,24 @@ export const describeAccess = (
   }
 
   if (planUnlocks(getUserPlan(u), feature)) return open;
+
+  // A parent holds no plan of their own. Plus is bought for a child, from the
+  // guardian dashboard, so this is never an upgrade to offer the parent. A
+  // School feature is not sold to a parent at all. Read as a role lock, so no
+  // button is drawn; the sentence says where the plan does come from.
+  if (audience === 'parent') {
+    const parentPlan = lowestPlanForFeature(feature);
+    return {
+      ...OPEN,
+      state: 'locked',
+      cause: 'role',
+      audience,
+      explanation:
+        parentPlan === 'school'
+          ? `${title} is part of ${PLAN_LABELS.school}, which is sold to schools. Ask your child's school about access.`
+          : `${title} is part of ${PLAN_LABELS.plus}. Buy it for your child from your parent or guardian dashboard.`,
+    };
+  }
 
   const planNeeded = lowestPlanForFeature(feature);
   const planLabel = PLAN_LABELS[planNeeded];
@@ -721,7 +740,7 @@ const apiBase = import.meta.env.VITE_API_BASE_URL ?? '';
 // Where Stripe should send the browser back to. Includes the Vite base path
 // because on sub-path hosting (e.g. GitHub Pages at /<repo>/) the server can't
 // recover it from the Origin header — an origin-only redirect 404s.
-const checkoutReturnUrl = (): string =>
+export const checkoutReturnUrl = (): string =>
   `${window.location.origin}${import.meta.env.BASE_URL ?? '/'}`;
 
 /**
@@ -877,6 +896,13 @@ export interface BillingState {
   plan: string;
   currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
+  /**
+   * True when a parent or guardian pays for this subscription (`payer_id` is
+   * set and is not the account holder). The plan is theirs, but the billing is
+   * the payer's, so the student is told who manages it instead of being offered
+   * the portal. Optional: rows read before `payer_id` existed have no answer.
+   */
+  paidByGuardian?: boolean;
 }
 
 /**
@@ -915,7 +941,7 @@ export const fetchBillingLookup = async (): Promise<BillingLookup> => {
     if (!userId) return { status: 'none' };
     const { data, error } = await supabase
       .from('subscriptions')
-      .select('status, plan, current_period_end, cancel_at_period_end')
+      .select('status, plan, current_period_end, cancel_at_period_end, payer_id')
       .eq('user_id', userId)
       .order('current_period_end', { ascending: false })
       .limit(1)
@@ -924,6 +950,7 @@ export const fetchBillingLookup = async (): Promise<BillingLookup> => {
     // result is a real answer: this caller has no subscription.
     if (error) return { status: 'unknown' };
     if (!data) return { status: 'none' };
+    const payerId = typeof data.payer_id === 'string' ? data.payer_id : null;
     return {
       status: 'found',
       state: {
@@ -931,6 +958,7 @@ export const fetchBillingLookup = async (): Promise<BillingLookup> => {
         plan: typeof data.plan === 'string' ? data.plan : 'plus',
         currentPeriodEnd: data.current_period_end ?? null,
         cancelAtPeriodEnd: data.cancel_at_period_end === true,
+        paidByGuardian: payerId !== null && payerId !== userId,
       },
     };
   } catch {

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { User } from '../types';
-import { authService, isDemoAuthEnabled } from '../services/authService';
+import { authService, isDemoAuthEnabled, type SignUpAccountType } from '../services/authService';
 import { isSupabaseConfigured } from '../services/supabaseClient';
+import { PLAN_LABELS } from '../services/entitlements';
 import {
   isSignupEnabled,
   resolveAllowedDomains,
@@ -39,7 +40,29 @@ const DEMO_ACCOUNTS = [
   { username: 'admin', role: 'Admin' },
   { username: 'teacher', role: 'Teacher' },
   { username: 'user', role: 'Student' },
+  { username: 'parent', role: 'Parent' },
 ] as const;
+
+/**
+ * The two things a new account can be. Read at call time, not at module scope:
+ * the plan's name comes from `services/entitlements`.
+ */
+const accountTypeOptions = (): {
+  value: SignUpAccountType;
+  label: string;
+  description: string;
+}[] => [
+  {
+    value: 'student',
+    label: 'I’m a student',
+    description: 'Write answers to HSC questions and get them marked.',
+  },
+  {
+    value: 'parent',
+    label: 'I’m a parent or guardian',
+    description: `Link to your child’s account to see how they are going and pay for their ${PLAN_LABELS.plus}.`,
+  },
+];
 
 const GoogleIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24">
@@ -155,6 +178,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [resetSentTo, setResetSentTo] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
+  // Student unless the person picks otherwise: a parent account is the exception.
+  const [accountType, setAccountType] = useState<SignUpAccountType>('student');
   const [fieldErrors, setFieldErrors] = useState<SignupFieldErrors>({});
   // Set once the account exists but needs its emailed link followed. The form
   // is replaced rather than kept alongside a success banner — leaving it there
@@ -190,6 +215,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     setFieldErrors({});
     setPassword('');
     setConfirmPassword('');
+    setAccountType('student');
   };
 
   const handleResetRequest = async () => {
@@ -232,7 +258,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
 
     setPending('submit');
     try {
-      const result = await authService.signUp(username.trim(), password, displayName);
+      const result = await authService.signUp(username.trim(), password, displayName, accountType);
       if (result.status === 'confirmation-required') {
         formChanged.current = true;
         setConfirmationSentTo(result.email);
@@ -456,6 +482,44 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   </div>
 
                   <form onSubmit={handleSubmit} className="space-y-7">
+                    {mode === 'signup' && (
+                      <fieldset className="space-y-2">
+                        <legend className="t-label block text-slate-400 light:text-slate-600 ml-1 mb-2">
+                          Which best describes you?
+                        </legend>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {accountTypeOptions().map((option) => {
+                            const checked = accountType === option.value;
+                            return (
+                              <label
+                                key={option.value}
+                                className={`flex cursor-pointer flex-col gap-1 rounded-2xl border-2 p-4 transition-colors focus-within:ring-2 focus-within:ring-indigo-400 ${
+                                  checked
+                                    ? 'border-indigo-400 bg-white/10 light:border-indigo-500 light:bg-indigo-50'
+                                    : 'border-white/10 bg-white/5 hover:bg-white/10 light:border-slate-300 light:bg-surface-inset light:hover:bg-surface-light'
+                                }`}
+                              >
+                                <input
+                                  type="radio"
+                                  name="accountType"
+                                  value={option.value}
+                                  checked={checked}
+                                  onChange={() => setAccountType(option.value)}
+                                  className="sr-only"
+                                />
+                                <span className="text-sm font-bold text-white light:text-slate-900">
+                                  {option.label}
+                                </span>
+                                <span className="text-xs leading-relaxed text-slate-400 light:text-slate-600">
+                                  {option.description}
+                                </span>
+                              </label>
+                            );
+                          })}
+                        </div>
+                      </fieldset>
+                    )}
+
                     {mode === 'signup' && (
                       <AuthField
                         id="displayName"

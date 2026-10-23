@@ -7,7 +7,7 @@ import type { User } from '../../types';
  * The account modal: the things it got wrong about a person's own account.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ supabase: null, isSupabaseConfigured: false }));
 
 const updateUserMock = vi.fn();
 vi.mock('../../services/authService', () => ({
