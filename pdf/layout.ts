@@ -757,20 +757,6 @@ const splitCriterionAt = (
 };
 
 /**
- * Split `b` so its head fits `available` mm, or return null to move it whole.
- *
- * This is the fix for the single largest defect the exported report had. The
- * flow used to place a block only where it fit ENTIRELY: a 70mm paragraph
- * arriving with 40mm of column left moved to the next column and left the 40mm
- * blank. Across a report that is most of a page — one sample's second page was
- * 86% white — and the content that was pushed out is the content the reader
- * came for.
- *
- * Only prose splits. A list item, a heading, the question card and the result
- * strip are single objects; breaking one across a column boundary would cost
- * more sense than the space it recovered.
- */
-/**
  * Grow a flexible ruled block into the space it landed in.
  *
  * Ruled space is the one block whose height is not content: it is however much
@@ -797,6 +783,20 @@ export const growToFit = (
   return { ...b, ruleLines: room, height: fixed + room * gap };
 };
 
+/**
+ * Split `b` so its head fits `available` mm, or return null to move it whole.
+ *
+ * This is the fix for the single largest defect the exported report had. The
+ * flow used to place a block only where it fit ENTIRELY: a 70mm paragraph
+ * arriving with 40mm of column left moved to the next column and left the 40mm
+ * blank. Across a report that is most of a page — one sample's second page was
+ * 86% white — and the content that was pushed out is the content the reader
+ * came for.
+ *
+ * Only prose splits. A list item, a heading, the question card and the result
+ * strip are single objects; breaking one across a column boundary would cost
+ * more sense than the space it recovered.
+ */
 export const splitToFit = (
   b: MeasuredBlock,
   available: number
@@ -819,12 +819,6 @@ export interface FlowResult {
   deepestPerPage: number[];
 }
 
-/**
- * Column-major flow. A block taller than a full column is still placed at the
- * top of a fresh column (it may overflow into the footer region rather than
- * vanish — measure-then-place guarantees we never silently clip earlier
- * blocks). Leading spacers at the top of a column are suppressed.
- */
 /**
  * A heading, or a block bound to the one after it: neither may end a column.
  * A bound pair is one thought in two blocks — the sentence a student wrote and
@@ -925,6 +919,11 @@ const boundToPrevious = (blocks: MeasuredBlock[], i: number): boolean => {
 };
 
 /**
+ * Column-major flow. A block taller than a full column is still placed at the
+ * top of a fresh column (it may overflow into the footer region rather than
+ * vanish — measure-then-place guarantees we never silently clip earlier
+ * blocks). Leading spacers at the top of a column are suppressed.
+ *
  * Flow a run of non-`fullWidth` blocks column-major, confined to the region that
  * begins at `startY` on `startPage`. On the band's first page both columns start
  * at `startY`; pages the band spills onto are used in full. Returns where the
