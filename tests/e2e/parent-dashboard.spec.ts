@@ -7,7 +7,9 @@ import { clearOnboarding } from './support/workspace';
  * out to the dashboard.
  *
  * Mock mode has no online account service, so the dashboard shows its "needs an
- * online account" state here; the round trip is the same either way.
+ * online account" state here; the round trip is the same either way. Waits are
+ * generous on purpose: a cold dev server and a loaded WebKit runner both take far
+ * longer than Chromium does locally.
  */
 
 const signInAsParent = async (page: Page) => {
@@ -18,31 +20,31 @@ const signInAsParent = async (page: Page) => {
 
   // The terms gate applies to every signed-in account, parents included.
   const agree = page.getByRole('button', { name: /agree and continue/i });
-  await agree.waitFor({ state: 'visible', timeout: 30_000 }).catch(() => {});
+  await agree.waitFor({ state: 'visible', timeout: 60_000 }).catch(() => {});
   if (await agree.count()) {
     const gate = page.getByRole('dialog').filter({ has: agree });
-    await gate.getByRole('checkbox').first().check({ timeout: 30_000 });
-    await agree.click({ timeout: 30_000 });
+    await gate.getByRole('checkbox').first().check({ timeout: 60_000 });
+    await agree.click({ timeout: 60_000 });
     await agree.waitFor({ state: 'hidden', timeout: 15_000 }).catch(() => {});
   }
 };
 
 test.describe('parent dashboard', () => {
-  test.describe.configure({ timeout: 120_000 });
+  test.describe.configure({ timeout: 180_000 });
 
   test('a parent lands on the dashboard and can browse and come back', async ({ page }) => {
     await signInAsParent(page);
 
     const heading = page.getByRole('heading', { name: 'Your children', level: 1 });
-    await expect(heading).toBeVisible({ timeout: 30_000 });
+    await expect(heading).toBeVisible({ timeout: 60_000 });
     await expect(
       page.getByRole('heading', { name: 'Parent accounts need an online account' })
     ).toBeVisible();
 
     // Browse questions leaves the dashboard for the question bank.
-    await page.getByRole('button', { name: 'Browse questions' }).click({ timeout: 30_000 });
+    await page.getByRole('button', { name: 'Browse questions' }).click({ timeout: 60_000 });
     const back = page.getByRole('button', { name: 'Back to your children' });
-    await expect(back).toBeVisible({ timeout: 30_000 });
+    await expect(back).toBeVisible({ timeout: 60_000 });
     await expect(heading).toHaveCount(0);
 
     // First-run dialogs (quick start, syllabus import) open over the question
@@ -50,7 +52,7 @@ test.describe('parent dashboard', () => {
     await clearOnboarding(page);
 
     // And the way back returns to the dashboard.
-    await back.click({ timeout: 30_000 });
-    await expect(heading).toBeVisible({ timeout: 30_000 });
+    await back.click({ timeout: 60_000 });
+    await expect(heading).toBeVisible({ timeout: 60_000 });
   });
 });
