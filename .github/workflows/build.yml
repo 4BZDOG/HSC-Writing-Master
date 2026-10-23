@@ -217,6 +217,7 @@ jobs:
           psql -v ON_ERROR_STOP=1 -f supabase/tests/class_roll_tests.sql
           psql -v ON_ERROR_STOP=1 -f supabase/tests/progress_report_tests.sql
           psql -v ON_ERROR_STOP=1 -f supabase/tests/schools_privacy_tests.sql
+          psql -v ON_ERROR_STOP=1 -f supabase/tests/guardian_tests.sql
 
   # The E2E suite used to be ONE job: every browser, one after another, on one
   # runner, two tests at a time — about twenty minutes on a pull request and

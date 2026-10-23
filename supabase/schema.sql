@@ -43,6 +43,11 @@ do $$ begin
   create type answer_source as enum ('AI', 'USER', 'HSC_EXEMPLAR');
 exception when duplicate_object then null; end $$;
 
+-- Parent/guardian accounts (§31). Its own top-level statement: a value added in a
+-- transaction cannot be used there until that transaction commits, so nothing later
+-- in this file relies on the literal as an enum. Later code compares it as text.
+alter type public.app_role add value if not exists 'parent';
+
 -- ----------------------------------------------------------------------------
 -- 2. Profiles (extends Supabase auth.users)
 --    Replaces the mock authService. Stats/preferences carried over from
@@ -251,6 +256,12 @@ declare
     nullif(trim(new.raw_user_meta_data ->> 'full_name'), ''),
     v_base
   );
+  -- Parent/guardian sign-up (§31) passes account_type = 'parent'. Only that value is
+  -- honoured; anything else is a student, as it always was.
+  v_role text := case
+    when coalesce(new.raw_user_meta_data ->> 'account_type', '') = 'parent' then 'parent'
+    else 'student'
+  end;
 begin
   if exists (select 1 from public.profiles where username = v_name) then
     v_name := v_base || '-' || left(replace(new.id::text, '-', ''), 6);
@@ -258,11 +269,11 @@ begin
 
   begin
     insert into public.profiles (id, username, display_name, role)
-    values (new.id, v_name, v_display, 'student')
+    values (new.id, v_name, v_display, v_role::app_role)
     on conflict (id) do nothing;
   exception when unique_violation then
     insert into public.profiles (id, username, display_name, role)
-    values (new.id, v_base || '-' || left(replace(new.id::text, '-', ''), 6), v_display, 'student')
+    values (new.id, v_base || '-' || left(replace(new.id::text, '-', ''), 6), v_display, v_role::app_role)
     on conflict (id) do nothing;
   end;
   return new;
@@ -4204,6 +4215,441 @@ end; $$;
 -- narrows to admins.
 revoke all on function public.school_seat_usage(integer) from public, anon;
 grant execute on function public.school_seat_usage(integer) to authenticated;
+
+-- =============================================================================
+-- §31 · Parent and guardian accounts
+-- -----------------------------------------------------------------------------
+--     A parent or guardian has an account of their own, links it to a child's
+--     student account, sees that child's progress read-only, and pays for the
+--     child's Band 6 Plus.
+--
+--     CONSENT IS THE CHILD'S. The link is made only with a one-time code the
+--     CHILD generates (create_guardian_invite, valid for 7 days, one live code at a
+--     time). The parent types it in (redeem_guardian_invite). Nothing is linked
+--     without that code, and either side can remove the link (remove_guardian_link).
+--
+--     THE PARENT PAYS; THE PLAN LANDS ON THE CHILD. The Stripe customer is the
+--     parent, so the parent's card is charged. The subscription row carries two
+--     owners:
+--       subscriptions.user_id    the BENEFICIARY, the student who holds the plan
+--       subscriptions.payer_id   the PARENT who pays (null = the holder paid)
+--     The plan is written to profiles.stripe_plan on the beneficiary. So
+--     resolve_stripe_plan (§13), caller_plan (§17), has_unlimited_evaluations (§14)
+--     and every other entitlement check read the child exactly as they read anyone
+--     who bought their own Plus. Removing a link does NOT cancel the subscription:
+--     the parent keeps billing access through the Stripe portal.
+--
+--     WHAT A PARENT SEES. The linked child's username, display name, plan, whether
+--     this parent pays for it, and the same progress payload a teacher gets for a
+--     student (get_guardian_student_progress). Nothing about other students, school
+--     data or moderation. A parent is not a reviewer, so the reviewer policies above
+--     already refuse them. They cannot curate, moderate, generate content or buy a
+--     School licence.
+--
+--     WRITES GO THROUGH THE RPCs ONLY. guardian_links has a SELECT grant and a
+--     SELECT policy for the two people it joins (and admins), and no write grant or
+--     policy. guardian_invites has no client grant or policy at all: a code is a
+--     bearer secret, so it is never read back by anyone. Every RPC is security
+--     definer with `set search_path = public`, revoked from public and anon.
+--
+--     The role is 'parent' on app_role (§1). It is compared as text here
+--     (current_role()::text), so this section applies in one pass on a database where
+--     the value is new, and applies again unchanged.
+-- =============================================================================
+
+-- ---- Tables -----------------------------------------------------------------
+
+create table if not exists public.guardian_links (
+  guardian_id uuid not null references public.profiles (id) on delete cascade,
+  student_id  uuid not null references public.profiles (id) on delete cascade,
+  created_at  timestamptz not null default now(),
+  primary key (guardian_id, student_id)
+);
+create index if not exists guardian_links_student_idx on public.guardian_links (student_id);
+
+-- A code is stored normalised: 8 characters, upper case, no hyphen. The alphabet
+-- drops I, O, 0 and 1 so a code read aloud is not misheard.
+create table if not exists public.guardian_invites (
+  code        text primary key,
+  student_id  uuid not null references public.profiles (id) on delete cascade,
+  created_at  timestamptz not null default now(),
+  expires_at  timestamptz not null,
+  redeemed_by uuid references public.profiles (id) on delete set null,
+  redeemed_at timestamptz,
+  constraint guardian_invites_code_shape check (code ~ '^[A-HJ-NP-Z2-9]{8}$')
+);
+create index if not exists guardian_invites_student_idx on public.guardian_invites (student_id);
+
+-- Who paid. Null means the holder paid for their own subscription.
+alter table public.subscriptions
+  add column if not exists payer_id uuid references public.profiles (id) on delete set null;
+create index if not exists subscriptions_payer_idx on public.subscriptions (payer_id);
+
+-- ---- Row-level security and grants --------------------------------------------
+
+alter table public.guardian_links   enable row level security;
+alter table public.guardian_invites enable row level security;
+
+drop policy if exists "Guardian links are seen by the two people they join" on public.guardian_links;
+create policy "Guardian links are seen by the two people they join"
+  on public.guardian_links for select
+  using (auth.uid() in (guardian_id, student_id) or public.is_admin());
+
+-- No insert/update/delete policy: every write is an RPC below. The revoke makes that
+-- true even if a later grant (CI's blanket grant, say) widens the table privileges.
+revoke all on public.guardian_links   from anon, authenticated;
+grant select on public.guardian_links to authenticated;
+revoke all on public.guardian_invites from anon, authenticated;
+
+-- A payer reads the subscription they pay for. The holder's own policy
+-- ("Users read own subscriptions", §13) still applies to the same row.
+drop policy if exists "Payers read subscriptions they pay for" on public.subscriptions;
+create policy "Payers read subscriptions they pay for"
+  on public.subscriptions for select
+  using (auth.uid() = payer_id);
+
+-- ---- Helper ------------------------------------------------------------------
+
+-- True when the caller is a linked guardian of this student. Used by the progress
+-- RPC below; stable, so the planner can reuse it within one statement.
+create or replace function public.is_guardian_of(p_student uuid)
+returns boolean language sql stable security definer set search_path = public as $$
+  select exists (
+    select 1 from public.guardian_links l
+     where l.guardian_id = auth.uid() and l.student_id = p_student
+  );
+$$;
+
+-- ---- RPCs: the child creates a code ------------------------------------------
+
+-- Returns { code: 'XXXX-XXXX', expiresAt }. Withdraws the caller's earlier UNREDEEMED
+-- codes first, so the newest code is the only one that can still link anyone.
+-- The code comes from gen_random_uuid() (built in since PostgreSQL 13, so it does not
+-- depend on pgcrypto's schema, which differs between Supabase and plain Postgres). The
+-- 32-symbol alphabet divides 256 exactly, so taking a byte modulo 32 has no bias.
+create or replace function public.create_guardian_invite()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_me      uuid := auth.uid();
+  v_alpha   constant text := 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  v_bytes   bytea;
+  v_code    text;
+  v_expires timestamptz := now() + interval '7 days';
+  v_rows    integer := 0;
+  v_tries   integer := 0;
+  v_i       integer;
+begin
+  if v_me is null then
+    raise exception 'Sign in to create a guardian code';
+  end if;
+  if public.current_role()::text is distinct from 'student' then
+    raise exception 'Only student accounts can create a guardian code';
+  end if;
+
+  delete from public.guardian_invites
+   where student_id = v_me and redeemed_at is null;
+
+  -- A collision on the primary key is astronomically unlikely, but a retry is cheap.
+  loop
+    v_tries := v_tries + 1;
+    v_bytes := decode(replace(gen_random_uuid()::text, '-', ''), 'hex');
+    v_code := '';
+    for v_i in 0..7 loop
+      v_code := v_code || substr(v_alpha, (get_byte(v_bytes, v_i) % 32) + 1, 1);
+    end loop;
+
+    insert into public.guardian_invites (code, student_id, expires_at)
+      values (v_code, v_me, v_expires)
+      on conflict (code) do nothing;
+    get diagnostics v_rows = row_count;
+
+    exit when v_rows = 1 or v_tries >= 5;
+  end loop;
+
+  if v_rows <> 1 then
+    raise exception 'Could not create a guardian code, please try again';
+  end if;
+
+  return jsonb_build_object(
+    'code', substr(v_code, 1, 4) || '-' || substr(v_code, 5, 4),
+    'expiresAt', v_expires
+  );
+end; $$;
+
+-- ---- RPCs: the parent redeems a code -----------------------------------------
+
+-- Links the caller (a parent or guardian) to the student who made the code.
+--   - The code is matched case-insensitively, ignoring spaces and hyphens.
+--   - It fails if the code is unknown, already redeemed, expired, or the caller is
+--     the student who made it. A second redeem of the same code always fails.
+--   - It fails once the guardian already has six linked students. Redeeming a code for
+--     a student the guardian is ALREADY linked to is not a new link: it succeeds, and
+--     the code is marked redeemed.
+create or replace function public.redeem_guardian_invite(p_code text)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_me      uuid := auth.uid();
+  v_limit   constant integer := 6;
+  v_code    text := upper(regexp_replace(coalesce(p_code, ''), '[\s-]', '', 'g'));
+  v_invite  public.guardian_invites%rowtype;
+  v_student public.profiles%rowtype;
+  v_linked  integer;
+begin
+  if v_me is null then
+    raise exception 'Sign in to link a student';
+  end if;
+  if public.current_role()::text is distinct from 'parent' then
+    raise exception 'Only parent or guardian accounts can link to a student';
+  end if;
+
+  if v_code !~ '^[A-HJ-NP-Z2-9]{8}$' then
+    raise exception 'No guardian code matches that. Check it with your child and try again';
+  end if;
+
+  select * into v_invite from public.guardian_invites where code = v_code for update;
+  if not found then
+    raise exception 'No guardian code matches that. Check it with your child and try again';
+  end if;
+  if v_invite.redeemed_at is not null then
+    raise exception 'That guardian code has already been used';
+  end if;
+  if v_invite.expires_at <= now() then
+    raise exception 'That guardian code has expired. Ask your child to make a new one';
+  end if;
+  if v_invite.student_id = v_me then
+    raise exception 'You cannot link an account to itself';
+  end if;
+
+  if not exists (
+    select 1 from public.guardian_links
+     where guardian_id = v_me and student_id = v_invite.student_id
+  ) then
+    select count(*) into v_linked from public.guardian_links where guardian_id = v_me;
+    if v_linked >= v_limit then
+      raise exception 'You can be linked to up to % students', v_limit;
+    end if;
+    insert into public.guardian_links (guardian_id, student_id)
+      values (v_me, v_invite.student_id)
+      on conflict do nothing;
+  end if;
+
+  update public.guardian_invites
+     set redeemed_by = v_me, redeemed_at = now()
+   where code = v_code;
+
+  select * into v_student from public.profiles where id = v_invite.student_id;
+  return jsonb_build_object(
+    'studentId', v_student.id,
+    'displayName', coalesce(nullif(v_student.display_name, ''), v_student.username)
+  );
+end; $$;
+
+-- ---- RPCs: the two sides read their links ------------------------------------
+
+-- A student's guardians: [{ guardianId, displayName, linkedAt }].
+create or replace function public.list_my_guardians()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_me     uuid := auth.uid();
+  v_result jsonb;
+begin
+  if v_me is null then
+    raise exception 'Sign in to see your guardians';
+  end if;
+  if public.current_role()::text is distinct from 'student' then
+    raise exception 'Only student accounts have a guardian list';
+  end if;
+
+  select coalesce(jsonb_agg(
+           jsonb_build_object(
+             'guardianId', p.id,
+             'displayName', coalesce(nullif(p.display_name, ''), p.username),
+             'linkedAt', l.created_at
+           ) order by l.created_at, p.username),
+         '[]'::jsonb)
+    into v_result
+    from public.guardian_links l
+    join public.profiles p on p.id = l.guardian_id
+   where l.student_id = v_me;
+
+  return v_result;
+end; $$;
+
+-- A parent's linked students. `paidByMe` is true when a live subscription (active,
+-- trialing or past_due) names this student as its holder and this parent as payer.
+-- `cancelAtPeriodEnd` is the flag on that same subscription, and false when there is
+-- none. `plan` is the student's cached plan, so a plan a school or the student bought
+-- still shows here even if this parent pays for nothing.
+create or replace function public.list_my_students()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_me     uuid := auth.uid();
+  v_result jsonb;
+begin
+  if v_me is null then
+    raise exception 'Sign in to see your students';
+  end if;
+  if public.current_role()::text is distinct from 'parent' then
+    raise exception 'Only parent or guardian accounts have linked students';
+  end if;
+
+  select coalesce(jsonb_agg(
+           jsonb_build_object(
+             'studentId', s.id,
+             'displayName', coalesce(nullif(s.display_name, ''), s.username),
+             'username', s.username,
+             'plan', coalesce(s.stripe_plan, 'free'),
+             'planPeriodEnd', s.plan_period_end,
+             'paidByMe', paid.id is not null,
+             'cancelAtPeriodEnd', coalesce(paid.cancel_at_period_end, false),
+             'linkedAt', l.created_at
+           ) order by l.created_at, s.username),
+         '[]'::jsonb)
+    into v_result
+    from public.guardian_links l
+    join public.profiles s on s.id = l.student_id
+    left join lateral (
+      select sub.id, sub.cancel_at_period_end
+        from public.subscriptions sub
+       where sub.user_id = s.id
+         and sub.payer_id = v_me
+         and sub.status in ('active', 'trialing', 'past_due')
+       order by sub.current_period_end desc
+       limit 1
+    ) paid on true
+   where l.guardian_id = v_me;
+
+  return v_result;
+end; $$;
+
+-- Removes the link from either side. `removed` is false when there was no link to
+-- remove. A subscription this parent pays for is left alone: removing the link does
+-- not cancel it, and the parent keeps billing access through the portal.
+create or replace function public.remove_guardian_link(p_other uuid)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_me   uuid := auth.uid();
+  v_rows integer := 0;
+begin
+  if v_me is null then
+    raise exception 'Sign in to remove a link';
+  end if;
+
+  delete from public.guardian_links
+   where (guardian_id = v_me and student_id = p_other)
+      or (student_id = v_me and guardian_id = p_other);
+  get diagnostics v_rows = row_count;
+
+  return jsonb_build_object('removed', v_rows > 0);
+end; $$;
+
+-- ---- RPC: a parent reads a linked student's progress -------------------------
+
+-- The same payload as get_student_progress (§18/§19, latest definition): { username,
+-- byVerb, totals, trend }, plus displayName. The aggregation is copied from that
+-- function rather than shared, so a change to one is a deliberate change to the other.
+-- Raises unless the caller is a linked guardian of this student.
+create or replace function public.get_guardian_student_progress(
+  p_student_id uuid,
+  p_days integer default 30
+)
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+declare
+  v_days    integer := least(greatest(coalesce(p_days, 30), 1), 365);
+  v_since   timestamptz := public.analytics_window_start(v_days);
+  v_user    uuid := p_student_id;
+  v_name    text;
+  v_display text;
+  v_byverb  jsonb;
+  v_totals  jsonb;
+  v_trend   jsonb;
+begin
+  if not public.is_guardian_of(p_student_id) then
+    raise exception 'You can only view the progress of a student you are linked to';
+  end if;
+
+  select p.username, coalesce(nullif(p.display_name, ''), p.username)
+    into v_name, v_display
+    from public.profiles p
+   where p.id = v_user;
+  if v_name is null then
+    raise exception 'That student no longer has an account';
+  end if;
+
+  select coalesce(jsonb_agg(row_obj order by (row_obj->>'attempts')::int desc), '[]'::jsonb)
+    into v_byverb
+  from (
+    select jsonb_build_object(
+      'label', coalesce(nullif(btrim(p.verb), ''), 'Unspecified'),
+      'attempts', count(*),
+      'students', 1,
+      'avg_mark', round(avg(r.overall_mark)::numeric, 1),
+      'avg_band', round(avg(r.overall_band)::numeric, 2),
+      'low_band_rate', round(avg((r.overall_band <= 3)::int)::numeric, 3),
+      'avg_mark_frac',
+        round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+    ) as row_obj
+    from public.responses r
+    join public.prompts p on p.id = r.prompt_id
+    where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null
+    group by coalesce(nullif(btrim(p.verb), ''), 'Unspecified')
+  ) sub;
+
+  select jsonb_build_object(
+    'total_attempts', count(*),
+    'active_students', case when count(*) > 0 then 1 else 0 end,
+    'avg_band', round(avg(r.overall_band)::numeric, 2),
+    'avg_mark_frac', round(avg(r.overall_mark::numeric / nullif(p.total_marks, 0))::numeric, 3)
+  ) into v_totals
+  from public.responses r
+  join public.prompts p on p.id = r.prompt_id
+  where r.user_id = v_user and r.created_at >= v_since and r.overall_band is not null;
+
+  select coalesce(
+           jsonb_agg(jsonb_build_object('at', e.created_at, 'band', e.band, 'mark', e.mark)
+                     order by e.created_at asc),
+           '[]'::jsonb
+         )
+    into v_trend
+  from (
+    select created_at, band, mark
+    from public.response_events
+    where user_id = v_user and created_at >= v_since and band is not null
+    order by created_at desc
+    limit 100
+  ) e;
+
+  return jsonb_build_object(
+    'username', v_name,
+    'displayName', v_display,
+    'byVerb', v_byverb,
+    'totals', v_totals,
+    'trend', v_trend
+  );
+end; $$;
+
+-- ---- Grants --------------------------------------------------------------------
+
+revoke all on function public.is_guardian_of(uuid) from public, anon;
+grant execute on function public.is_guardian_of(uuid) to authenticated;
+
+revoke all on function public.create_guardian_invite() from public, anon;
+grant execute on function public.create_guardian_invite() to authenticated;
+
+revoke all on function public.redeem_guardian_invite(text) from public, anon;
+grant execute on function public.redeem_guardian_invite(text) to authenticated;
+
+revoke all on function public.list_my_guardians() from public, anon;
+grant execute on function public.list_my_guardians() to authenticated;
+
+revoke all on function public.list_my_students() from public, anon;
+grant execute on function public.list_my_students() to authenticated;
+
+revoke all on function public.remove_guardian_link(uuid) from public, anon;
+grant execute on function public.remove_guardian_link(uuid) to authenticated;
+
+revoke all on function public.get_guardian_student_progress(uuid, integer) from public, anon;
+grant execute on function public.get_guardian_student_progress(uuid, integer) to authenticated;
 
 -- =============================================================================
 -- End of schema.

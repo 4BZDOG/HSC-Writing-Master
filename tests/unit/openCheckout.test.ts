@@ -147,6 +147,20 @@ describe('checkoutRequestKey', () => {
     );
   });
 
+  it('separates a guardian purchase by the child it is for, and leaves a self-purchase key unchanged', () => {
+    // A parent buying Plus for two children in the same bucket must not get one session back
+    // for both: the key names the child. A purchase with no child has the key it always had.
+    const now = 1_700_000_000_000;
+    const self = checkoutRequestKey(input, now).idempotencyKey;
+    expect(self).not.toContain('beneficiary');
+
+    const childA = checkoutRequestKey({ ...input, beneficiaryId: 'child-a' }, now).idempotencyKey;
+    const childB = checkoutRequestKey({ ...input, beneficiaryId: 'child-b' }, now).idempotencyKey;
+    expect(childA).toContain('beneficiary=child-a');
+    expect(childA).not.toBe(childB);
+    expect(childA).not.toBe(self);
+  });
+
   it('keeps expires_at between 30 and 36 minutes after the call, whatever part of the bucket it falls in', () => {
     // Stripe's floor is 30 minutes from creation and its default is 24 hours. The expiry is
     // set from the END of the bucket, so the worst case is a request at the very start of
