@@ -1,0 +1,222 @@
+import { describe, it, expect } from 'vitest';
+import { computeGeometry, flowBlocks, measureBlocks, MIN_HEAD_LINES } from '../../pdf/layout';
+import type { ContentBlock, MeasuredBlock, PlacedBlock } from '../../pdf/types';
+import type { TableRow } from '../../pdf/reportBlocks';
+import { TABLE } from '../../pdf/types';
+import { reportMeasurer } from './pdfReportHelpers';
+
+/**
+ * Keep-with-next: a heading (or a block bound to the next) never ends a column.
+ * It moves on whenever the block after it cannot make a start beneath it — fit
+ * whole, or split as the splitter itself would split it.
+ *
+ * The blocks here are the engine's own measurements, so the reservation is
+ * checked against real paddings and line heights. Only the content above them
+ * is synthetic: a filler of exactly the height that leaves the room a case needs.
+ */
+
+const geo = computeGeometry({
+  size: 'a4',
+  columnsPerPage: 2,
+  columnGap: 8,
+  headerHeight: 30,
+  footerHeight: 8,
+  margin: 10,
+}); // 239mm columns
+
+const measure = (blocks: ContentBlock[]): MeasuredBlock[] =>
+  measureBlocks(blocks, reportMeasurer, geo, 1);
+
+/** An unbreakable block that leaves exactly `room` mm of the column below it. */
+const fillerLeaving = (room: number, fullWidth = true): MeasuredBlock => ({
+  kind: 'paragraph',
+  id: 'filler',
+  fullWidth,
+  runs: [],
+  wrapped: [],
+  padTopMm: 0,
+  padBottomMm: 0,
+  lineHeightMm: 0,
+  textIndentMm: 0,
+  height: geo.columnHeight - room,
+});
+
+const heading = (id: string, fullWidth = true): ContentBlock => ({
+  kind: 'heading',
+  id,
+  fullWidth,
+  runs: [{ text: id, baseFontPt: 9, style: 'bold' }],
+  icon: 'info',
+  display: true,
+  basePadTop: 4.6,
+  basePadBottom: 2,
+});
+
+/** A framed note of `lines` lines, set as "About this report" is. */
+const panelNote = (id: string, lines: number): ContentBlock => ({
+  kind: 'paragraph',
+  id,
+  fullWidth: true,
+  panel: true,
+  breakable: true,
+  // Each 'note' and its space is 7.5mm at 8.5pt; 22 to a line in the panel.
+  runs: [{ text: 'note '.repeat(lines * 22 - 2).trim(), baseFontPt: 8.5, lineHeightFactor: 1.4 }],
+  basePadBottom: 2,
+});
+
+const placementOf = (placements: PlacedBlock[], id: string): PlacedBlock => {
+  const found = placements.find((p) => p.block.id === id);
+  if (!found) throw new Error(`${id} was not placed`);
+  return found;
+};
+
+/** The heading sits on the same page and column as its follower, directly above it. */
+const expectKeptTogether = (placements: PlacedBlock[], headingId: string, nextId: string) => {
+  const h = placementOf(placements, headingId);
+  const next = placementOf(placements, nextId);
+  expect(next.page).toBe(h.page);
+  expect(next.column).toBe(h.column);
+  expect(next.top).toBeCloseTo(h.top + h.block.height, 6);
+};
+
+describe('keep-with-next in the block flow', () => {
+  it('moves a heading whose panel cannot split beneath it ("About this report")', () => {
+    // The fixture-R2 case. A four-line panel cannot split (three lines must stay
+    // and two must travel), but the old reservation counted three lines of it
+    // without the frame's foot — so the heading fitted, and the panel did not.
+    const [h, note] = measure([heading('h-about'), panelNote('about-notes', 4)]);
+    expect(note.wrapped[0]).toHaveLength(4);
+    const threeLines = note.padTopMm + MIN_HEAD_LINES * note.lineHeightMm;
+    const room = h.height + (threeLines + note.height) / 2;
+    expect(room).toBeLessThan(h.height + note.height);
+
+    const { placements, pageCount } = flowBlocks([fillerLeaving(room), h, note], geo);
+
+    expect(placementOf(placements, 'h-about').page).toBe(1);
+    expectKeptTogether(placements, 'h-about', 'about-notes');
+    expect(pageCount).toBe(2);
+  });
+
+  it('leaves the heading where it is when the whole block fits beneath it', () => {
+    const [h, note] = measure([heading('h-about'), panelNote('about-notes', 4)]);
+    const { placements, pageCount } = flowBlocks(
+      [fillerLeaving(h.height + note.height + 0.2), h, note],
+      geo
+    );
+
+    expect(placementOf(placements, 'h-about').page).toBe(0);
+    expectKeptTogether(placements, 'h-about', 'about-notes');
+    expect(pageCount).toBe(1);
+  });
+
+  it('keeps the heading over the first fragment when its block can split there', () => {
+    // A long panel CAN split: its first lines stay under the heading at the foot
+    // of the page, and the rest continues overleaf. Moving the heading would
+    // waste the room for nothing.
+    const [h, note] = measure([heading('h-long'), panelNote('long-notes', 12)]);
+    const room = h.height + note.padTopMm + note.padBottomMm + 5 * note.lineHeightMm + 0.1;
+    const { placements } = flowBlocks([fillerLeaving(room), h, note], geo);
+
+    expect(placementOf(placements, 'h-long').page).toBe(0);
+    expectKeptTogether(placements, 'h-long', 'long-notes');
+    expect(placementOf(placements, 'long-notes').block.wrapped[0]).toHaveLength(5);
+  });
+
+  it('moves a heading whose short table cannot split beneath it', () => {
+    // The fixture-R8 case: "By topic" over a three-row table. The old reservation
+    // was the header and two rows, but a table that short never splits.
+    const rows: TableRow[] = ['Requirements', 'Software design', 'Testing'].map((name, i) => ({
+      type: 'body',
+      cells: [
+        { type: 'text', text: name },
+        { type: 'number', value: i + 1 },
+      ],
+    }));
+    expect(rows.length).toBeLessThan(TABLE.MIN_HEAD_ROWS + TABLE.MIN_TAIL_ROWS);
+    const [h, table] = measure([
+      heading('h-topics'),
+      {
+        kind: 'table',
+        id: 'topics',
+        fullWidth: true,
+        breakable: true,
+        runs: [],
+        report: {
+          type: 'table',
+          columns: [
+            { key: 'topic', header: 'Topic', align: 'left', widthWeight: 4, kind: 'text' },
+            { key: 'answers', header: 'Answers', align: 'right', widthWeight: 1, kind: 'number' },
+          ],
+          rows,
+        },
+      },
+    ]);
+    const { placements } = flowBlocks([fillerLeaving(h.height + table.height - 1), h, table], geo);
+
+    expect(placementOf(placements, 'h-topics').page).toBe(1);
+    expectKeptTogether(placements, 'h-topics', 'topics');
+  });
+
+  it('moves a column heading to the next column with its unbreakable item', () => {
+    const [h, item] = measure([
+      heading('h-growth', false),
+      {
+        kind: 'listItem',
+        id: 'growth-1',
+        checkbox: true,
+        runs: [{ text: 'word '.repeat(40).trim(), baseFontPt: 8.5 }],
+        basePadBottom: 1.5,
+      },
+    ]);
+    const { placements } = flowBlocks(
+      [fillerLeaving(h.height + item.height / 2, false), h, item],
+      geo
+    );
+
+    expect(placementOf(placements, 'h-growth')).toMatchObject({ page: 0, column: 1, top: 0 });
+    expectKeptTogether(placements, 'h-growth', 'growth-1');
+  });
+
+  it('looks past a spacer to the content it introduces', () => {
+    // The spacer would fit; the block after it would not. Placing the heading
+    // and spacer and then breaking would strand the heading just the same.
+    const [h, gap, note] = measure([
+      heading('h-gap'),
+      { kind: 'spacer', id: 'gap', fullWidth: true, runs: [], basePadTop: 2 },
+      panelNote('gap-notes', 4),
+    ]);
+    const { placements } = flowBlocks(
+      [fillerLeaving(h.height + gap.height + note.height / 2), h, gap, note],
+      geo
+    );
+
+    const head = placementOf(placements, 'h-gap');
+    const body = placementOf(placements, 'gap-notes');
+    expect(head.page).toBe(1);
+    expect(body.page).toBe(1);
+  });
+
+  it('treats a block flagged keepWithNext as a heading', () => {
+    // A sub-heading set as a paragraph ("Why these edits earn the mark") is
+    // bound to the list under it by the flag rather than by its kind.
+    const [sub, item] = measure([
+      {
+        kind: 'paragraph',
+        id: 'sub',
+        fullWidth: true,
+        keepWithNext: true,
+        runs: [{ text: 'Why these edits earn the mark', baseFontPt: 8.5, style: 'bold' }],
+        basePadTop: 1,
+        basePadBottom: 1.5,
+      },
+      panelNote('sub-notes', 4),
+    ]);
+    const { placements } = flowBlocks(
+      [fillerLeaving(sub.height + item.height - 1), sub, item],
+      geo
+    );
+
+    expect(placementOf(placements, 'sub').page).toBe(1);
+    expectKeptTogether(placements, 'sub', 'sub-notes');
+  });
+});

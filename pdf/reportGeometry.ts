@@ -1035,23 +1035,6 @@ export const measureGrid = (
 };
 
 /**
- * The least room a table can start in: its header and the rows up to the second
- * body row (or the whole table, when it has fewer). A heading is kept with this,
- * so it never stands alone over a header at a page foot.
- */
-export const gridMinimumHeight = (layout: TableLayout): number => {
-  const need = Math.min(TABLE.MIN_HEAD_ROWS, layout.bodyRows);
-  let total = layout.header.height;
-  let bodies = 0;
-  for (const row of layout.rows) {
-    if (bodies >= need) break;
-    total += row.height;
-    if (row.type === 'body') bodies += 1;
-  }
-  return total;
-};
-
-/**
  * Split a table between rows so the head fits `available` mm, or return null to
  * move the whole table. The head keeps at least `MIN_HEAD_ROWS` body rows and
  * never ends on a group heading; the tail keeps at least `MIN_TAIL_ROWS` and, when

@@ -1,10 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import {
-  gridMinimumHeight,
-  measureGrid,
-  splitGridLayout,
-  heatBand,
-} from '../../pdf/reportGeometry';
+import { measureGrid, splitGridLayout, heatBand } from '../../pdf/reportGeometry';
 import { computeGeometry, planLayout, measureBlocks } from '../../pdf/layout';
 import { TABLE } from '../../pdf/types';
 import type { ContentBlock, MeasuredBlock } from '../../pdf/types';
@@ -406,14 +401,6 @@ describe('splitGridLayout: splitting between whole rows', () => {
         .map((d) => (d && d.kind === 'lines' ? d.lines[0].text : ''));
       expect(new Set(names).size).toBe(total);
     }
-  });
-
-  it('gives a minimum that keeps a heading with the header and two rows', () => {
-    const layout = measure(rowsOf(9));
-    const min = gridMinimumHeight(layout);
-    const two = layout.header.height + layout.rows[0].height + layout.rows[1].height;
-    expect(min).toBeCloseTo(two, 6);
-    expect(gridMinimumHeight(measure(rowsOf(1)))).toBeCloseTo(measure(rowsOf(1)).height, 6);
   });
 });
 
