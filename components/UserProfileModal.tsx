@@ -311,6 +311,12 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             Paid for by your parent or guardian. They manage the billing for this plan.
           </p>
         )}
+        {isPaid && paidByGuardian && billing?.status === 'past_due' && (
+          <p className="mt-2 t-label text-amber-800 dark:text-amber-400 leading-relaxed">
+            The payment for your plan didn't go through. Ask your parent or guardian to update their
+            payment details.
+          </p>
+        )}
         {perkPlan && <p className="mt-3 t-label text-muted leading-relaxed">{perkText}</p>}
         {showPortal && billing?.status === 'past_due' && (
           <p className="mt-2 t-label text-amber-800 dark:text-amber-400 leading-relaxed">

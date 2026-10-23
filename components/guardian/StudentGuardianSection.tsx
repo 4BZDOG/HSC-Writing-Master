@@ -19,8 +19,9 @@ import { PROFILE_CARD, PROFILE_SECTION_TITLE } from '../ProfileCharts';
  * is confirmed inline: the profile is already a dialog, and a second dialog
  * opened from inside it breaks the close-on-backdrop rule.
  *
- * Shown only where there is an online account to link to, and never to a
- * guest or a parent (a parent links from their own dashboard).
+ * Shown only where there is an online account to link to, and only to a
+ * student: a parent links from their own dashboard, and nobody else holds a
+ * child's plan to share.
  */
 
 const errorText = (err: unknown, fallback: string): string =>
@@ -43,9 +44,13 @@ const expiryLabel = (iso: string): string | null => {
   });
 };
 
-/** Whether the section belongs in this profile at all. */
+/**
+ * Whether the section belongs in this profile at all. Only a student makes a
+ * link code: the server's create_guardian_invite refuses every other role, so a
+ * teacher, admin, parent or guest is not offered a control that can only fail.
+ */
 export const showGuardianSection = (user: User): boolean =>
-  guardianAvailable() && user.role !== 'guest' && user.role !== 'parent';
+  guardianAvailable() && user.role === 'user';
 
 const BUTTON_QUIET =
   't-label min-h-11 sm:min-h-0 px-4 py-2 rounded-xl border border-secondary bg-surface text-secondary can-hover:hover:bg-surface-inset touch-manipulation select-none transition-colors disabled:cursor-wait disabled:text-muted';
@@ -64,6 +69,7 @@ const StudentGuardianSection: React.FC = () => {
   const [confirmingId, setConfirmingId] = useState<string | null>(null);
   const [removingId, setRemovingId] = useState<string | null>(null);
   const [removeError, setRemoveError] = useState<string | null>(null);
+  const [removeNotice, setRemoveNotice] = useState<string | null>(null);
 
   const loadGuardians = useCallback(async () => {
     setListError(null);
@@ -105,9 +111,11 @@ const StudentGuardianSection: React.FC = () => {
   const handleRemove = async (guardian: LinkedGuardian) => {
     setRemovingId(guardian.guardianId);
     setRemoveError(null);
+    setRemoveNotice(null);
     try {
-      await removeGuardianLink(guardian.guardianId);
+      const removed = await removeGuardianLink(guardian.guardianId);
       setConfirmingId(null);
+      if (!removed) setRemoveNotice('That link had already been removed.');
       await loadGuardians();
     } catch (err) {
       setRemoveError(errorText(err, 'The link could not be removed. Try again in a moment.'));
@@ -254,6 +262,11 @@ const StudentGuardianSection: React.FC = () => {
           {removeError && (
             <p role="alert" className="text-sm font-medium text-red-700 dark:text-red-400">
               {removeError}
+            </p>
+          )}
+          {removeNotice && (
+            <p role="status" className="text-sm font-medium text-secondary">
+              {removeNotice}
             </p>
           )}
         </div>

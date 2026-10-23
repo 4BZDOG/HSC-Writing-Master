@@ -12,12 +12,13 @@ import type { User } from '../../types';
 const createInvite = vi.fn();
 const listGuardians = vi.fn();
 const removeLink = vi.fn();
+const guardianAvailableFlag = vi.hoisted(() => ({ value: true }));
 
 vi.mock('../../services/guardianService', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../services/guardianService')>();
   return {
     ...actual,
-    guardianAvailable: () => true,
+    guardianAvailable: () => guardianAvailableFlag.value,
     createGuardianInvite: (...args: unknown[]) => createInvite(...args),
     listMyGuardians: (...args: unknown[]) => listGuardians(...args),
     removeGuardianLink: (...args: unknown[]) => removeLink(...args),
@@ -116,6 +117,36 @@ describe('StudentGuardianSection', () => {
     ).toBeTruthy();
   });
 
+  it('says the link had already been removed when the server reports nothing was removed, and refreshes the list', async () => {
+    const user = userEvent.setup();
+    removeLink.mockResolvedValue(false);
+    listGuardians.mockResolvedValueOnce([pat]).mockResolvedValueOnce([]);
+    render(<StudentGuardianSection />);
+    await screen.findByText('Pat Nguyen');
+
+    await user.click(screen.getByRole('button', { name: 'Remove Pat Nguyen' }));
+    await user.click(within(screen.getByRole('listitem')).getByRole('button', { name: 'Remove' }));
+
+    expect(await screen.findByText('That link had already been removed.')).toBeTruthy();
+    expect(listGuardians).toHaveBeenCalledTimes(2);
+  });
+
+  it('shows no "already removed" notice when the server confirms the removal', async () => {
+    const user = userEvent.setup();
+    removeLink.mockResolvedValue(true);
+    listGuardians.mockResolvedValueOnce([pat]).mockResolvedValueOnce([]);
+    render(<StudentGuardianSection />);
+    await screen.findByText('Pat Nguyen');
+
+    await user.click(screen.getByRole('button', { name: 'Remove Pat Nguyen' }));
+    await user.click(within(screen.getByRole('listitem')).getByRole('button', { name: 'Remove' }));
+
+    expect(
+      await screen.findByText('No parent or guardian is linked to your account.')
+    ).toBeTruthy();
+    expect(screen.queryByText('That link had already been removed.')).toBeNull();
+  });
+
   it('keeps the link when the removal is cancelled', async () => {
     const user = userEvent.setup();
     render(<StudentGuardianSection />);
@@ -132,13 +163,23 @@ describe('StudentGuardianSection', () => {
 describe('showGuardianSection', () => {
   const asRole = (role: string) => ({ username: 'x', role }) as unknown as User;
 
-  it('is for a student or a teacher with an online account', () => {
+  it('is shown to a student, who makes the link code', () => {
     expect(showGuardianSection(asRole('user'))).toBe(true);
-    expect(showGuardianSection(asRole('teacher'))).toBe(true);
   });
 
-  it('is never shown to a guest or to a parent, who links from the dashboard', () => {
+  it('is never shown to a teacher, admin, guest or parent, as the server refuses them', () => {
+    expect(showGuardianSection(asRole('teacher'))).toBe(false);
+    expect(showGuardianSection(asRole('admin'))).toBe(false);
     expect(showGuardianSection(asRole('guest'))).toBe(false);
     expect(showGuardianSection(asRole('parent'))).toBe(false);
+  });
+
+  it('is hidden in mock mode, where there is no online account to link to', () => {
+    guardianAvailableFlag.value = false;
+    try {
+      expect(showGuardianSection(asRole('user'))).toBe(false);
+    } finally {
+      guardianAvailableFlag.value = true;
+    }
   });
 });
