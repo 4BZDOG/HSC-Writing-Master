@@ -927,6 +927,22 @@ export type BillingLookup =
   | { status: 'none' }
   | { status: 'unknown' };
 
+/**
+ * Is this error a column the database does not have? PostgREST reports a
+ * missing column as 42703 (Postgres) or PGRST204 (its schema cache), and the
+ * message names the column. Used to read a row from a schema that predates a
+ * column, rather than failing the whole read.
+ */
+export const isMissingColumnError = (
+  error: { code?: string; message?: string } | null | undefined,
+  column: string
+): boolean => {
+  if (!error) return false;
+  if (error.code === '42703' || error.code === 'PGRST204') return true;
+  const message = (error.message ?? '').toLowerCase();
+  return message.includes(column.toLowerCase()) && /does not exist|could not find/.test(message);
+};
+
 export const fetchBillingLookup = async (): Promise<BillingLookup> => {
   try {
     const { supabase } = await import('./supabaseClient');
@@ -939,24 +955,43 @@ export const fetchBillingLookup = async (): Promise<BillingLookup> => {
     const { data: sessionData } = await supabase.auth.getSession();
     const userId = sessionData.session?.user?.id;
     if (!userId) return { status: 'none' };
-    const { data, error } = await supabase
-      .from('subscriptions')
-      .select('status, plan, current_period_end, cancel_at_period_end, payer_id')
-      .eq('user_id', userId)
-      .order('current_period_end', { ascending: false })
-      .limit(1)
-      .maybeSingle();
+    // The select is a runtime string (the column list may lack payer_id), so its
+    // row is read as a plain record rather than typed by the client's generics.
+    type BillingRow = Record<string, unknown> | null;
+    const readRow = async (
+      columns: string
+    ): Promise<{ data: BillingRow; error: { code?: string; message?: string } | null }> => {
+      const res = await supabase
+        .from('subscriptions')
+        .select(columns)
+        .eq('user_id', userId)
+        .order('current_period_end', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      return { data: res.data as unknown as BillingRow, error: res.error };
+    };
+    const BILLING_COLUMNS = 'status, plan, current_period_end, cancel_at_period_end';
+    let { data, error } = await readRow(`${BILLING_COLUMNS}, payer_id`);
+    // A database that predates `payer_id` fails the select above. Read the rest
+    // of the row without it, so billing still answers, and say the payer is
+    // unknown (taken as not someone else's).
+    let payerColumnKnown = true;
+    if (error && isMissingColumnError(error, 'payer_id')) {
+      ({ data, error } = await readRow(BILLING_COLUMNS));
+      payerColumnKnown = false;
+    }
     // A query error is the one case we genuinely cannot answer. An empty
     // result is a real answer: this caller has no subscription.
     if (error) return { status: 'unknown' };
     if (!data) return { status: 'none' };
-    const payerId = typeof data.payer_id === 'string' ? data.payer_id : null;
+    const payerId = payerColumnKnown && typeof data.payer_id === 'string' ? data.payer_id : null;
     return {
       status: 'found',
       state: {
         status: typeof data.status === 'string' ? data.status : 'unknown',
         plan: typeof data.plan === 'string' ? data.plan : 'plus',
-        currentPeriodEnd: data.current_period_end ?? null,
+        currentPeriodEnd:
+          typeof data.current_period_end === 'string' ? data.current_period_end : null,
         cancelAtPeriodEnd: data.cancel_at_period_end === true,
         paidByGuardian: payerId !== null && payerId !== userId,
       },

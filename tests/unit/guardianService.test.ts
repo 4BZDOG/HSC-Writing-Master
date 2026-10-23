@@ -10,6 +10,8 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
  */
 
 const rpcMock = vi.fn();
+const fromMock = vi.fn();
+const sessionMock = vi.fn();
 const clientState = { configured: true };
 
 vi.mock('../../services/supabaseClient', () => ({
@@ -17,7 +19,13 @@ vi.mock('../../services/supabaseClient', () => ({
     return clientState.configured;
   },
   get supabase() {
-    return clientState.configured ? { rpc: (...args: unknown[]) => rpcMock(...args) } : null;
+    return clientState.configured
+      ? {
+          rpc: (...args: unknown[]) => rpcMock(...args),
+          from: (...args: unknown[]) => fromMock(...args),
+          auth: { getSession: () => sessionMock() },
+        }
+      : null;
   },
   fetchAllRows: vi.fn(),
 }));
@@ -37,7 +45,9 @@ import {
   guardianAvailable,
   guardianCodeForRpcMessage,
   guardianErrorMessage,
+  listMyGuardians,
   listMyStudents,
+  listPaidSubscriptions,
   mapGuardianCheckoutFailure,
   openGuardianBillingPortal,
   redeemGuardianInvite,
@@ -51,6 +61,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   clientState.configured = true;
   rpcMock.mockResolvedValue({ data: null, error: null });
+  sessionMock.mockResolvedValue({ data: { session: { user: { id: 'parent-1' } } } });
   fetchMock.mockReset();
   vi.stubGlobal('fetch', fetchMock);
 });
@@ -74,8 +85,43 @@ describe('RPC error messages become codes', () => {
     ['Not a guardian of this student', 'not_a_guardian'],
     ['Invite not found', 'invite_not_found'],
     ['Something unexpected happened', 'unknown'],
+    // The backend's own raise messages (P0001), exactly as they are written.
+    ['No guardian code matches that. Check it with your child and try again', 'invite_not_found'],
+    ['That guardian code has already been used', 'invite_used'],
+    ['That guardian code has expired. Ask your child to make a new one', 'invite_expired'],
+    ['You cannot link an account to itself', 'own_invite'],
+    ['You can be linked to up to 6 students', 'link_limit'],
+    ['You can only view the progress of a student you are linked to', 'not_a_guardian'],
+    ['Only parent or guardian accounts can link to a student', 'unknown'],
+    ['Only student accounts can create a guardian code', 'unknown'],
+    ['Only student accounts have a guardian list', 'unknown'],
+    ['Only student accounts have linked students', 'unknown'],
+    ['That student no longer has an account', 'unknown'],
+    ['Could not create a guardian code, please try again', 'unknown'],
+    ['Sign in to link a student', 'unknown'],
   ])('%s is %s', (message, code) => {
     expect(guardianCodeForRpcMessage(message)).toBe(code);
+  });
+
+  it('shows the server’s own UK English sentence for a P0001 the client does not map', async () => {
+    rpcMock.mockResolvedValue({
+      data: null,
+      error: { code: 'P0001', message: 'Only student accounts have a guardian list' },
+    });
+
+    const failure = await listMyGuardians().catch((err: unknown) => err);
+
+    expect(failure).toBeInstanceOf(GuardianError);
+    expect((failure as GuardianError).code).toBe('unknown');
+    expect((failure as GuardianError).message).toBe('Only student accounts have a guardian list');
+  });
+
+  it('keeps the generic sentence for an unmapped error without the P0001 code', async () => {
+    rpcMock.mockResolvedValue({ data: null, error: { code: 'XX000', message: 'boom' } });
+
+    const failure = await listMyGuardians().catch((err: unknown) => err);
+
+    expect((failure as GuardianError).message).toBe('That did not work. Try again in a moment.');
   });
 
   it('gives each code a friendly sentence in UK English', () => {
@@ -271,5 +317,42 @@ describe('openGuardianBillingPortal', () => {
 
     expect(result.url).toBeNull();
     expect(result.error).toMatch(/billing portal is unavailable right now/i);
+  });
+});
+
+describe('listPaidSubscriptions', () => {
+  it('reads the live subscriptions this parent pays for, by payer', async () => {
+    const eq = vi.fn();
+    const inFilter = vi.fn().mockResolvedValue({
+      data: [{ id: 's1', status: 'active', user_id: 'child-1' }],
+      error: null,
+    });
+    eq.mockReturnValue({ in: inFilter });
+    const select = vi.fn().mockReturnValue({ eq });
+    fromMock.mockReturnValue({ select });
+
+    const rows = await listPaidSubscriptions();
+
+    expect(fromMock).toHaveBeenCalledWith('subscriptions');
+    expect(select).toHaveBeenCalledWith('id, status, user_id');
+    expect(eq).toHaveBeenCalledWith('payer_id', 'parent-1');
+    expect(inFilter).toHaveBeenCalledWith('status', ['active', 'trialing', 'past_due']);
+    expect(rows).toEqual([{ userId: 'child-1', status: 'active' }]);
+  });
+
+  it('reads nothing without a signed-in parent', async () => {
+    sessionMock.mockResolvedValue({ data: { session: null } });
+
+    await expect(listPaidSubscriptions()).resolves.toEqual([]);
+    expect(fromMock).not.toHaveBeenCalled();
+  });
+
+  it('reports a failed read rather than an empty list', async () => {
+    const select = vi.fn().mockReturnValue({
+      eq: () => ({ in: async () => ({ data: null, error: { message: 'boom' } }) }),
+    });
+    fromMock.mockReturnValue({ select });
+
+    await expect(listPaidSubscriptions()).rejects.toBeInstanceOf(GuardianError);
   });
 });

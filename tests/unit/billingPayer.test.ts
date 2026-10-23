@@ -23,7 +23,39 @@ vi.mock('../../services/supabaseClient', () => ({
   },
 }));
 
-import { fetchBillingLookup } from '../../services/entitlements';
+import { fetchBillingLookup, isMissingColumnError } from '../../services/entitlements';
+
+/**
+ * A database that predates `payer_id`. Selecting the column fails, as PostgREST
+ * reports it, and only the select without the column returns the row.
+ */
+const clientWithoutPayerColumn = (row: Record<string, unknown>, error: unknown) => {
+  const calls: string[] = [];
+  return {
+    calls,
+    client: {
+      auth: {
+        getSession: async () => ({ data: { session: { user: { id: 'child-1' } } } }),
+      },
+      from: () => ({
+        select: (columns: string) => {
+          calls.push(columns);
+          const failing = columns.includes('payer_id');
+          return {
+            eq: () => ({
+              order: () => ({
+                limit: () => ({
+                  maybeSingle: async () =>
+                    failing ? { data: null, error } : { data: row, error: null },
+                }),
+              }),
+            }),
+          };
+        },
+      }),
+    },
+  };
+};
 
 const clientReturning = (row: Record<string, unknown> | null, userId = 'child-1') => ({
   auth: {
@@ -88,5 +120,62 @@ describe('fetchBillingLookup and the payer', () => {
     const result = await fetchBillingLookup();
 
     expect(result).toMatchObject({ status: 'found', state: { paidByGuardian: false } });
+  });
+
+  it('still answers from a database without payer_id, retrying the select without it', async () => {
+    const { client, calls } = clientWithoutPayerColumn(liveRow, {
+      code: '42703',
+      message: 'column subscriptions.payer_id does not exist',
+    });
+    supabaseClient = client;
+
+    const result = await fetchBillingLookup();
+
+    expect(result).toMatchObject({
+      status: 'found',
+      state: { status: 'active', plan: 'plus', paidByGuardian: false },
+    });
+    expect(calls).toHaveLength(2);
+    expect(calls[0]).toContain('payer_id');
+    expect(calls[1]).not.toContain('payer_id');
+  });
+
+  it('does not retry a failure that is not a missing column', async () => {
+    const { client, calls } = clientWithoutPayerColumn(liveRow, {
+      code: '57014',
+      message: 'canceling statement due to statement timeout',
+    });
+    supabaseClient = client;
+
+    const result = await fetchBillingLookup();
+
+    expect(result).toEqual({ status: 'unknown' });
+    expect(calls).toHaveLength(1);
+  });
+});
+
+describe('isMissingColumnError', () => {
+  it('recognises the Postgres and PostgREST codes for a missing column', () => {
+    expect(isMissingColumnError({ code: '42703', message: 'x' }, 'payer_id')).toBe(true);
+    expect(isMissingColumnError({ code: 'PGRST204', message: 'x' }, 'payer_id')).toBe(true);
+  });
+
+  it('recognises a message that names the column and says it is absent', () => {
+    expect(
+      isMissingColumnError(
+        { message: "Could not find the 'payer_id' column of 'subscriptions' in the schema cache" },
+        'payer_id'
+      )
+    ).toBe(true);
+  });
+
+  it('is not fooled by other errors, or by a different column', () => {
+    expect(isMissingColumnError(null, 'payer_id')).toBe(false);
+    expect(isMissingColumnError({ code: '23505', message: 'duplicate key' }, 'payer_id')).toBe(
+      false
+    );
+    expect(
+      isMissingColumnError({ message: 'column subscriptions.plan does not exist' }, 'payer_id')
+    ).toBe(false);
   });
 });

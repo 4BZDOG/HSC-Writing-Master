@@ -18,6 +18,7 @@ const guardian = {
   startGuardianCheckout: vi.fn(),
   openGuardianBillingPortal: vi.fn(),
   fetchGuardianStudentProgress: vi.fn(),
+  listPaidSubscriptions: vi.fn(),
   guardianAvailable: vi.fn(() => true),
 };
 
@@ -32,6 +33,7 @@ vi.mock('../../services/guardianService', async (importOriginal) => {
     openGuardianBillingPortal: (...args: unknown[]) => guardian.openGuardianBillingPortal(...args),
     fetchGuardianStudentProgress: (...args: unknown[]) =>
       guardian.fetchGuardianStudentProgress(...args),
+    listPaidSubscriptions: (...args: unknown[]) => guardian.listPaidSubscriptions(...args),
     guardianAvailable: () => guardian.guardianAvailable(),
   };
 });
@@ -155,6 +157,7 @@ beforeEach(() => {
   guardian.fetchGuardianStudentProgress.mockImplementation(async (id: string) =>
     id === 'child-2' ? adaProgress : emptyProgress
   );
+  guardian.listPaidSubscriptions.mockResolvedValue([]);
 });
 
 describe('GuardianDashboard: the children', () => {
@@ -168,13 +171,33 @@ describe('GuardianDashboard: the children', () => {
     expect(screen.getByText(/Paid by you\. Renews/)).toBeTruthy();
   });
 
-  it('offers the Plus purchase for a free child, and billing for a child the parent pays for', async () => {
+  it('offers the Plus purchase for a free child, and one billing route when the parent pays for a live subscription', async () => {
+    guardian.listPaidSubscriptions.mockResolvedValue([{ userId: 'child-2', status: 'active' }]);
     renderDashboard();
     await screen.findByRole('heading', { name: 'Sam' });
 
     expect(screen.getByRole('button', { name: 'Get Band 6 Plus for Sam' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Get Band 6 Plus for Ada' })).toBeNull();
     expect(screen.getByRole('button', { name: 'Manage billing' })).toBeTruthy();
+  });
+
+  it('shows no billing route when the parent pays for no live subscription', async () => {
+    renderDashboard();
+    await screen.findByRole('heading', { name: 'Sam' });
+
+    expect(screen.queryByRole('button', { name: 'Manage billing' })).toBeNull();
+  });
+
+  it('says a school licence covers a child, and offers nothing to buy', async () => {
+    guardian.listMyStudents.mockResolvedValue([{ ...sam, plan: 'school' }]);
+    renderDashboard();
+
+    expect(
+      await screen.findByText(
+        'Sam is covered by their school’s licence, so there is nothing to buy here.'
+      )
+    ).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Get Band 6 Plus for Sam' })).toBeNull();
   });
 
   it('shows read-only progress for each child, with the band and the marks', async () => {
@@ -321,10 +344,11 @@ describe('GuardianDashboard: removing a link', () => {
     expect(guardian.removeGuardianLink).toHaveBeenCalledWith('child-1');
   });
 
-  it('keeps billing on screen after a paid child is unlinked', async () => {
+  it('keeps billing reachable after a paid child is unlinked, and says so', async () => {
     const user = userEvent.setup();
     guardian.removeGuardianLink.mockResolvedValue(true);
     guardian.listMyStudents.mockResolvedValueOnce([ada]).mockResolvedValueOnce([]);
+    guardian.listPaidSubscriptions.mockResolvedValue([{ userId: 'child-2', status: 'active' }]);
     renderDashboard();
     await screen.findByRole('heading', { name: 'Ada' });
 
@@ -333,7 +357,22 @@ describe('GuardianDashboard: removing a link', () => {
       within(await screen.findByRole('dialog')).getByRole('button', { name: 'Remove link' })
     );
 
-    expect(await screen.findByRole('button', { name: 'Manage billing' })).toBeTruthy();
+    expect(
+      await screen.findByText(
+        'You still pay for a subscription for a student you are no longer linked to.'
+      )
+    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Manage billing' })).toBeTruthy();
+  });
+
+  it('still offers billing, with the reason, when the payments cannot be checked', async () => {
+    guardian.listPaidSubscriptions.mockRejectedValue(
+      new Error('Your billing could not be checked. Try again in a moment.')
+    );
+    renderDashboard();
+
+    expect((await screen.findByRole('alert')).textContent).toContain('could not be checked');
+    expect(screen.getByRole('button', { name: 'Manage billing' })).toBeTruthy();
   });
 });
 
@@ -378,7 +417,7 @@ describe('GuardianDashboard: the pure reading of a child', () => {
     expect(planSentence({ ...ada, paidByMe: false })).toBe(
       `Ada holds Band 6 Plus on their own account. Renews ${end}.`
     );
-    expect(planSentence({ ...sam, plan: 'school' })).toMatch(/through their school/);
+    expect(planSentence({ ...sam, plan: 'school' })).toMatch(/covered by their school/);
   });
 
   it('offers a purchase only where Plus is sold', () => {

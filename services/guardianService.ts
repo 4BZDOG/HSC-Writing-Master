@@ -131,11 +131,22 @@ export const guardianErrorMessage = (code: GuardianErrorCode, name = 'Your child
 const RPC_MESSAGE_CODES: ReadonlyArray<readonly [RegExp, GuardianErrorCode]> = [
   [/expired/i, 'invite_expired'],
   [/already (been )?(redeemed|used)/i, 'invite_used'],
-  [/yourself|own (code|invite|account)|caller is the student/i, 'own_invite'],
-  [/limit|six|6 linked|too many/i, 'link_limit'],
-  [/not a guardian|not linked|not authori[sz]ed|permission denied/i, 'not_a_guardian'],
-  [/not found|invalid code|no such|does not match/i, 'invite_not_found'],
+  [/itself|yourself|own (code|invite|account)|caller is the student/i, 'own_invite'],
+  [/up to 6|linked to up to|limit|six|6 linked|too many/i, 'link_limit'],
+  [
+    /you are linked to|can only view the progress|not a guardian|not linked|not authori[sz]ed|permission denied/i,
+    'not_a_guardian',
+  ],
+  [/no guardian code matches|not found|invalid code|no such|does not match/i, 'invite_not_found'],
 ];
+
+/**
+ * The end-user sentence the server raised, when it is one the client does not
+ * map to a code. The database's P0001 messages are written for people, in UK
+ * English, so they are shown as they are rather than replaced by a generic line.
+ */
+const serverSentence = (error: { code?: string; message?: string }): string | null =>
+  error.code === 'P0001' && error.message ? error.message : null;
 
 /** Which code an RPC's raised message stands for. Pure, so the mapping is tested. */
 export const guardianCodeForRpcMessage = (message: string): GuardianErrorCode => {
@@ -160,9 +171,44 @@ const callRpc = async <T>(fn: string, params: Record<string, unknown> = {}): Pro
   const { data, error } = await client.rpc(fn, params);
   if (error) {
     const code = guardianCodeForRpcMessage(error.message ?? '');
+    if (code === 'unknown') {
+      const sentence = serverSentence(error);
+      if (sentence) throw new GuardianError('unknown', sentence);
+    }
     throw new GuardianError(code, guardianErrorMessage(code));
   }
   return data as T;
+};
+
+/** A live subscription this parent pays for (`subscriptions.payer_id`). */
+export interface PaidSubscription {
+  /** The student the plan is for (`subscriptions.user_id`). */
+  userId: string;
+  status: string;
+}
+
+const LIVE_STATUSES = ['active', 'trialing', 'past_due'];
+
+/**
+ * Every live subscription the caller pays for, including ones whose child is no
+ * longer linked. The RLS policy "Payers read subscriptions they pay for" allows
+ * this read. It is how billing stays reachable after a link is removed.
+ */
+export const listPaidSubscriptions = async (): Promise<PaidSubscription[]> => {
+  const client = requireClient();
+  const { data: session } = await client.auth.getSession();
+  const payerId = session.session?.user?.id;
+  if (!payerId) return [];
+  const { data, error } = await client
+    .from('subscriptions')
+    .select('id, status, user_id')
+    .eq('payer_id', payerId)
+    .in('status', LIVE_STATUSES);
+  if (error) throw new GuardianError('unknown', guardianErrorMessage('unknown'));
+  return (data ?? []).map((row) => ({
+    userId: String((row as { user_id: unknown }).user_id),
+    status: String((row as { status: unknown }).status),
+  }));
 };
 
 /** A student creates a one-time link code (7-day expiry; replaces the last unredeemed one). */

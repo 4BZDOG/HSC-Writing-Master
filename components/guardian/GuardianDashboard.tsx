@@ -8,6 +8,7 @@ import type { PlanPriceText } from '../../services/livePrices';
 import {
   guardianAvailable,
   listMyStudents,
+  listPaidSubscriptions,
   openGuardianBillingPortal,
   redeemGuardianInvite,
   removeGuardianLink,
@@ -15,6 +16,7 @@ import {
   type GuardianInterval,
   type GuardianPlan,
   type LinkedStudent,
+  type PaidSubscription,
 } from '../../services/guardianService';
 
 /**
@@ -67,7 +69,7 @@ export const planSentence = (student: LinkedStudent): string => {
   const name = student.displayName;
   const end = dateLabel(student.planPeriodEnd);
   if (student.plan === 'school') {
-    return `${name} has ${PLAN_LABELS.school} through their school’s licence. There is nothing to buy here.`;
+    return `${name} is covered by their school’s licence, so there is nothing to buy here.`;
   }
   if (student.plan === 'plus') {
     const when = end ? (student.cancelAtPeriodEnd ? `Ends ${end}.` : `Renews ${end}.`) : '';
@@ -87,17 +89,9 @@ interface ChildCardProps {
   student: LinkedStudent;
   prices: PlanPriceText;
   onRemove: (student: LinkedStudent) => void;
-  onManageBilling: () => void;
-  billingBusy: boolean;
 }
 
-const ChildCard: React.FC<ChildCardProps> = ({
-  student,
-  prices,
-  onRemove,
-  onManageBilling,
-  billingBusy,
-}) => {
+const ChildCard: React.FC<ChildCardProps> = ({ student, prices, onRemove }) => {
   const monthlyId = STRIPE_PRICE_IDS.plus_monthly;
   const yearlyId = STRIPE_PRICE_IDS.plus_yearly;
   const options: GuardianInterval[] = [
@@ -226,19 +220,6 @@ const ChildCard: React.FC<ChildCardProps> = ({
         </div>
       )}
 
-      {student.paidByMe && (
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            onClick={onManageBilling}
-            disabled={billingBusy}
-            className={BUTTON_QUIET}
-          >
-            {billingBusy ? 'Opening…' : 'Manage billing'}
-          </button>
-        </div>
-      )}
-
       <GuardianChildProgress studentId={student.studentId} name={student.displayName} />
 
       <footer className="flex justify-end border-t border-secondary pt-4">
@@ -280,9 +261,11 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
   const [removeTarget, setRemoveTarget] = useState<LinkedStudent | null>(null);
   const [removing, setRemoving] = useState(false);
   const [removeError, setRemoveError] = useState<string | null>(null);
-  // Set when a paid child is unlinked: their subscription keeps running, and
-  // the billing route must stay on screen even after they leave the list.
-  const [keepBilling, setKeepBilling] = useState(false);
+
+  // Every live subscription this parent pays for. Read from the payer's side,
+  // so billing stays reachable after a link is removed.
+  const [payerRows, setPayerRows] = useState<PaidSubscription[] | null>(null);
+  const [payerError, setPayerError] = useState<string | null>(null);
 
   const [billingBusy, setBillingBusy] = useState(false);
   const [billingError, setBillingError] = useState<string | null>(null);
@@ -293,6 +276,12 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
       setStudents(await listMyStudents());
     } catch (err) {
       setLoadError(errorText(err, 'Your children could not be loaded. Try again in a moment.'));
+    }
+    setPayerError(null);
+    try {
+      setPayerRows(await listPaidSubscriptions());
+    } catch (err) {
+      setPayerError(errorText(err, 'Your billing could not be checked. Try again in a moment.'));
     }
   }, []);
 
@@ -329,7 +318,6 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
     setRemoveError(null);
     try {
       await removeGuardianLink(target.studentId);
-      if (target.paidByMe) setKeepBilling(true);
       setRemoveTarget(null);
       setLinkNotice(`The link to ${target.displayName} has been removed.`);
       await loadChildren();
@@ -356,10 +344,15 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
     setBillingBusy(false);
   };
 
-  const anyPaid = !!students?.some((s) => s.paidByMe);
-  // A paid child's card carries its own "Manage billing". This section is the
-  // route that is left once every paid child has been unlinked.
-  const showBilling = available && !anyPaid && keepBilling;
+  // One billing route for the whole account. It shows whenever the parent pays
+  // for any live subscription, or when that cannot be checked, so a removed
+  // link never takes the portal away.
+  const showBilling = available && ((payerRows?.length ?? 0) > 0 || payerError !== null);
+  // A live subscription for a child who is no longer linked: say so, because the
+  // child's card is gone and the section is the only trace of it.
+  const payingForUnlinked =
+    students !== null &&
+    (payerRows ?? []).some((row) => !students.some((s) => s.studentId === row.userId));
 
   return (
     <main className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-6 sm:py-10 space-y-8">
@@ -499,8 +492,6 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
                     setRemoveError(null);
                     setRemoveTarget(target);
                   }}
-                  onManageBilling={() => void handleManageBilling()}
-                  billingBusy={billingBusy}
                 />
               ))}
           </section>
@@ -514,6 +505,16 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
                 Update your payment details, or cancel a plan you pay for, in the billing portal.
                 Removing a link does not cancel the plan it paid for.
               </p>
+              {payingForUnlinked && (
+                <p className="text-sm font-medium text-amber-800 dark:text-amber-400">
+                  You still pay for a subscription for a student you are no longer linked to.
+                </p>
+              )}
+              {payerError && (
+                <p role="alert" className="text-sm font-medium text-red-700 dark:text-red-400">
+                  {payerError}
+                </p>
+              )}
               <div>
                 <button
                   type="button"
