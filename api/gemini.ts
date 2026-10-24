@@ -4,10 +4,12 @@ import {
   consumeAiQuota,
   consumeEvaluation,
   recordAiModelUsage,
+  resolveCallerIsStaff,
   resolveCallerPlan,
   type QuotaVerdict,
 } from './_lib/quota';
 import { corsHeadersFor } from './_lib/cors';
+import { freeTierMarkingModel, guardAiRequest } from './_lib/requestGuard';
 import { isEvaluationRequest, redactEvaluationResponse } from './_lib/entitlements';
 import {
   featureFromRequest,
@@ -105,8 +107,26 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   // Whether this caller's plan covers the rewritten answer. Decided separately
   // from the feedback-detail switch below — see `withholdRewrite`.
   let rewriteAllowed = true;
+  // What is forwarded to the provider: the request as sent, or with a
+  // student-sized call's limits applied by the guard below.
+  let forwardBody: unknown = req.body;
   if (auth.userId) {
     const token = extractBearerToken(authHeader);
+
+    // Cost guard, before anything is spent: only the app's own models, and a
+    // student's prompt and output sizes unless the caller is staff. Checked
+    // first so a refused call spends neither an evaluation nor an AI unit. See
+    // api/_lib/requestGuard.ts and projectDocs/cost-model.md.
+    let staffLookup: Promise<boolean> | null = null;
+    const guard = await guardAiRequest(req.body, () => {
+      staffLookup ??= token ? resolveCallerIsStaff(token) : Promise.resolve(false);
+      return staffLookup;
+    });
+    if (guard.ok === false) {
+      res.status(guard.status).json({ error: guard.error });
+      return;
+    }
+    forwardBody = guard.body;
 
     // The caller's plan, resolved AT MOST ONCE per request and shared by the
     // feature gate and the rewrite gate. Both used to look it up independently
@@ -145,6 +165,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       // staff, paid plans and licensed schools. A false here means the free
       // tier, whose result must be redacted before it leaves the server.
       onFreeTier = evaluations ? !evaluations.unlimited : false;
+
+      // A deployment may mark the free tier on a cheaper model (off unless
+      // FREE_TIER_MARKING_MODEL is set; see requestGuard.ts and cost-model.md).
+      const cheaperModel = onFreeTier ? freeTierMarkingModel() : null;
+      if (cheaperModel) {
+        forwardBody = { ...(forwardBody as object), provider: 'gemini', model: cheaperModel };
+      }
 
       // The rewritten answer is the `answerUpgrades` feature, so it is gated on
       // that feature and nothing else. It used to ride on the free-tier
@@ -203,7 +230,9 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // was for the dashboard's cost breakdown. Best-effort and reporting-only:
     // recordAiModelUsage swallows its own failures and never blocks the call.
     if (token) {
-      const model = requestModel(req.body);
+      // The model the call actually goes to, which the free-tier switch above may
+      // have changed from the one the browser asked for.
+      const model = requestModel(forwardBody);
       if (model) await recordAiModelUsage(token, model);
     }
   }
@@ -215,7 +244,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     groq: process.env.GROQ_API_KEY,
     kimi: process.env.KIMI_API_KEY,
   };
-  const result = await runAiProxy(req.body, keys);
+  const result = await runAiProxy(forwardBody, keys);
 
   // Enforce the content paywall HERE, not in the UI. The client blurs locked
   // feedback, but blurred text is still in the DOM and readable in devtools —

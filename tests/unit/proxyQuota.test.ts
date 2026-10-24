@@ -20,7 +20,12 @@ vi.mock('../../api/_lib/auth', async (importOriginal) => {
 });
 vi.mock('../../api/_lib/quota', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../api/_lib/quota')>();
-  return { ...actual, consumeAiQuota: consumeMock, recordAiModelUsage: recordMock };
+  return {
+    ...actual,
+    consumeAiQuota: consumeMock,
+    recordAiModelUsage: recordMock,
+    resolveCallerIsStaff: async () => false,
+  };
 });
 vi.mock('../../api/_lib/providers', () => ({ runAiProxy: runAiProxyMock }));
 
@@ -96,7 +101,7 @@ describe('recordAiModelUsage (proxy model-tally module)', () => {
   });
 
   it('no-ops (no RPC) when Supabase is unconfigured', async () => {
-    await realRecord('token', 'gemini-3-pro-preview');
+    await realRecord('token', 'gemini-3.1-pro-preview');
     expect(rpcMock).not.toHaveBeenCalled();
   });
 
@@ -121,12 +126,12 @@ describe('recordAiModelUsage (proxy model-tally module)', () => {
 
     it('swallows an RPC error (reporting is best-effort)', async () => {
       rpcMock.mockResolvedValue({ error: { message: 'function does not exist' } });
-      await expect(realRecord('token', 'gemini-3-pro-preview')).resolves.toBeUndefined();
+      await expect(realRecord('token', 'gemini-3.1-pro-preview')).resolves.toBeUndefined();
     });
 
     it('swallows a thrown client error', async () => {
       rpcMock.mockRejectedValue(new Error('network down'));
-      await expect(realRecord('token', 'gemini-3-pro-preview')).resolves.toBeUndefined();
+      await expect(realRecord('token', 'gemini-3.1-pro-preview')).resolves.toBeUndefined();
     });
   });
 });
@@ -148,7 +153,7 @@ describe('AI proxy handler quota gate', () => {
   const request = (auth = 'Bearer jwt-token') => ({
     method: 'POST',
     headers: { authorization: auth },
-    body: { provider: 'gemini', model: 'gemini-3-pro-preview', contents: 'x' },
+    body: { provider: 'gemini', model: 'gemini-3.1-pro-preview', contents: 'x' },
   });
 
   beforeEach(() => {
@@ -236,7 +241,7 @@ describe('AI proxy handler quota gate', () => {
     const res = makeRes();
     await handler(request(), res as never);
 
-    expect(recordMock).toHaveBeenCalledWith('jwt-token', 'gemini-3-pro-preview');
+    expect(recordMock).toHaveBeenCalledWith('jwt-token', 'gemini-3.1-pro-preview');
   });
 
   it('still records the model when quotas are unenforceable (verdict null)', async () => {
@@ -246,11 +251,25 @@ describe('AI proxy handler quota gate', () => {
     const res = makeRes();
     await handler(request(), res as never);
 
-    expect(recordMock).toHaveBeenCalledWith('jwt-token', 'gemini-3-pro-preview');
+    expect(recordMock).toHaveBeenCalledWith('jwt-token', 'gemini-3.1-pro-preview');
     expect(res.statusCode).toBe(200);
   });
 
-  it('skips recording when the request carries no model tag', async () => {
+  it('forwards a student-sized call with its output ceiling set', async () => {
+    // Gemini's own default output limit runs to tens of thousands of tokens.
+    verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
+    consumeMock.mockResolvedValue({ allowed: true, used: 3, limit: 60 });
+
+    const res = makeRes();
+    await handler(request(), res as never);
+
+    const forwarded = runAiProxyMock.mock.calls[0][0] as { config: { maxOutputTokens: number } };
+    expect(forwarded.config.maxOutputTokens).toBe(16_384);
+  });
+
+  it('refuses a request that carries no model tag, before spending or recording anything', async () => {
+    // The request guard (api/_lib/requestGuard.ts): a provider fills a missing
+    // model with its own default, which is not a cost the app chose.
     verifyMock.mockResolvedValue({ ok: true, userId: 'user-1' });
     consumeMock.mockResolvedValue({ allowed: true, used: 3, limit: 60 });
 
@@ -264,7 +283,9 @@ describe('AI proxy handler quota gate', () => {
       res as never
     );
 
-    expect(runAiProxyMock).toHaveBeenCalledTimes(1);
+    expect(res.statusCode).toBe(400);
+    expect(runAiProxyMock).not.toHaveBeenCalled();
+    expect(consumeMock).not.toHaveBeenCalled();
     expect(recordMock).not.toHaveBeenCalled();
   });
 

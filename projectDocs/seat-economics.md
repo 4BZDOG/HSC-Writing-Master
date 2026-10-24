@@ -1,6 +1,6 @@
 # Seat economics: what the report measures, and what it cannot tell you
 
-The admin Billing overview has a **Seat economics** panel. It turns the AI usage the app already counts into the evidence for one decision: whether a School seat (A$4 a year, per the display price) can cover the AI calls a member makes, or whether the school allowance should be pooled or lowered. It changes nothing. No quota, limit or price is read for writing and none is set.
+The admin Billing overview has a **Seat economics** panel. It turns the AI usage the app already counts into the evidence for one decision: whether a School seat (A$15 a year since October 2026, A$4 before; per the display price) can cover the AI calls a member makes, or whether the school allowance should be pooled or lowered. It changes nothing. No quota, limit or price is read for writing and none is set.
 
 The report is built from `public.school_seat_usage()` (schema §30), a read-only admin function, and the arithmetic in `utils/seatEconomics.ts`.
 
@@ -20,6 +20,12 @@ The report is built from `public.school_seat_usage()` (schema §30), a read-only
 - **Failed or retried calls.** It counts what the quota counted. Whether a failed provider call still used a unit is a question for `consume_ai_quota()`, not this report.
 
 ## How to estimate the cost per call
+
+Until a month of real spend is in, use **`VITE_AI_COST_PER_CALL_AUD=0.03`**. That is the blended estimate from
+`projectDocs/cost-model.md`: a marking on Gemini 3.1 Pro costs about A$0.07, a light call on Flash about A$0.006, and
+a school member's calls are taken as three markings, one upgrade and six light calls in every ten. At that figure the
+old A$4 seat was a loss on any member who used it; the price is A$15 now. Replace it with the measured figure below
+once you have one.
 
 Set `VITE_AI_COST_PER_CALL_AUD` in the build (for example in Vercel's environment variables, then redeploy, because it is a `VITE_` value read at build time). It is the cost of one call in AUD:
 
@@ -60,7 +66,7 @@ Set a daily pool for the school with the existing mechanism (`set_school_ai_quot
 
 ### 2. A lower per-seat cap for the School plan
 
-Licensed members currently get at least the 300-call daily floor (`resolve_ai_quota`, schema §13). Lowering that floor for school members caps the spend per seat.
+Licensed members currently get at least the 150-call daily floor (300 until October 2026) (`resolve_ai_quota`, schema §13). Lowering that floor for school members caps the spend per seat.
 
 - **Trade-off.** Each seat's cost becomes predictable, but the paywall copy says "No daily limit" for paid plans (see `projectDocs/monetisation-review-2026-09.md`, finding 32), so the copy and the plan comparison would both have to change, and a member who reaches a lower cap has a reason to complain on a school's first assignment day.
 - **Data that would justify it.** Few user-days reach the proposed cap. If the share of user-days at or above it is small, most members never notice it, and the heavy-user column falls to a figure the seat price covers. Look at the maximum calls in one user-day too: a cap set below the maximum but above nearly everyone is a judgement call, not a measurement.

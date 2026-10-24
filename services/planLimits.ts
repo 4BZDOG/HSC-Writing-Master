@@ -31,8 +31,14 @@
 /** Free users can attempt questions up to this command-term tier (inclusive). */
 export const FREE_TIER_MAX_QUESTION_TIER = 3;
 
-/** Free users get this many marked evaluations per day. */
-export const FREE_TIER_EVAL_LIMIT = 5;
+/**
+ * Free users get this many marked evaluations per day. Three, lowered from five in
+ * October 2026: a marking costs about A$0.07 on the default model, so five a day
+ * let one free account cost more than a Plus subscription brings in. Three is
+ * still up to ninety a month, against the ten a month comparable apps give free.
+ * projectDocs/cost-model.md has the arithmetic.
+ */
+export const FREE_TIER_EVAL_LIMIT = 3;
 
 /** Free users can view sample answers up to this band (inclusive). */
 export const FREE_TIER_MAX_SAMPLE_BAND = 3;
@@ -50,5 +56,10 @@ export const FREE_TIER_FEEDBACK_SUMMARY_ONLY = true;
  * and per user — so these are the shipped defaults, not a promise. Distinct
  * from FREE_TIER_EVAL_LIMIT, which meters marked evaluations only.
  */
-export const FREE_DAILY_AI_CALLS = 60;
-export const PAID_DAILY_AI_CALLS = 300;
+export const FREE_DAILY_AI_CALLS = 30;
+/**
+ * 150 since October 2026 (was 300). Still about thirty full marking sessions a day,
+ * which no student needs, and it halves what one paid account can cost in a day.
+ * Pinned to the schema's paid floor by tests/unit/entitlementConstants.test.ts.
+ */
+export const PAID_DAILY_AI_CALLS = 150;

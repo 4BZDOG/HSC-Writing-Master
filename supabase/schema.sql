@@ -814,10 +814,16 @@ create table if not exists public.ai_quota_limits (
 );
 
 -- Sensible defaults; adjust with set_role_ai_quota() (admin-only).
+-- Student 30 and teacher 200 since October 2026 (were 60 and 400): a call costs up
+-- to about A$0.07 on the marking model, and neither role pays for its allowance.
+-- Thirty covers the free tier's three markings with room for everything around
+-- them. projectDocs/cost-model.md has the arithmetic. An existing database keeps
+-- its rows; the one-off step after plan_settings below moves them if they are
+-- still at the old defaults.
 insert into public.ai_quota_limits (role, daily_limit) values
   ('admin', 1000),
-  ('teacher', 400),
-  ('student', 60)
+  ('teacher', 200),
+  ('student', 30)
 on conflict (role) do nothing;
 
 -- Per-user override: null = use the role default.
@@ -850,7 +856,8 @@ create policy ai_usage_read on public.ai_usage
 
 -- Effective daily limit for a user (override → plan-aware default → 50).
 -- Paid plans (stripe_plan = plus/school, kept in sync by the Stripe webhook)
--- are guaranteed a 300-call floor: "unlimited marking" must be enforced
+-- are guaranteed a 150-call floor (300 until October 2026; projectDocs/
+-- cost-model.md): "unlimited marking" must be enforced
 -- server-side, not just promised by the paywall copy. An explicit per-user
 -- override still beats everything, so admins can always dial an individual
 -- up or down.
@@ -872,7 +879,7 @@ returns integer language sql stable security definer set search_path = public as
     p.daily_ai_quota,
     case
       when coalesce(p.stripe_plan, 'free') in ('plus', 'school')
-        then greatest(coalesce(l.daily_limit, 50), 300)
+        then greatest(coalesce(l.daily_limit, 50), 150)
       else l.daily_limit
     end,
     50)
@@ -1655,12 +1662,12 @@ grant select (plan_status, plan_period_end, plan_cancel_at_period_end)
 
 -- Supersedes §11's resolve_ai_quota with a LICENCE-aware version.
 --
--- §11 grants the 300-call floor on `profiles.stripe_plan` alone, which the
+-- §11 grants the paid floor on `profiles.stripe_plan` alone, which the
 -- Stripe webhook only ever writes for the person who paid. Every OTHER member
 -- of a licensed school holds the school plan through their membership — that is
 -- how caller_plan() (§17) and has_unlimited_evaluations() (§14) both resolve it
 -- — so their profile still says 'free' and they were metered at the student
--- default while the plan comparison promised them 300 calls a day. A school
+-- default while the plan comparison promised them the paid allowance. A school
 -- bought a licence and its students were held to the free tier's AI budget.
 --
 -- Defined HERE rather than in §11 because it reads schools.plan_status, which
@@ -1675,7 +1682,7 @@ returns integer language sql stable security definer set search_path = public as
     case
       when coalesce(p.stripe_plan, 'free') in ('plus', 'school')
         or coalesce(s.plan_status, 'none') in ('active', 'trialing', 'past_due')
-        then greatest(coalesce(l.daily_limit, 50), 300)
+        then greatest(coalesce(l.daily_limit, 50), 150)
       else l.daily_limit
     end,
     50)
@@ -2012,6 +2019,21 @@ create policy "Signed-in users read plan settings"
   on public.plan_settings for select
   using (auth.role() = 'authenticated');
 
+-- One-off, October 2026: move the student and teacher AI allowances to the new
+-- defaults (§11) on a database that still holds the old ones. Run once, marked by
+-- a plan_settings row, so re-applying this file never undoes a value an admin
+-- sets afterwards. A role an admin had already moved off the old default is left
+-- as it is.
+do $$
+begin
+  if not exists (select 1 from public.plan_settings where key = 'migrated_ai_quota_2026_10') then
+    update public.ai_quota_limits set daily_limit = 30 where role = 'student' and daily_limit = 60;
+    update public.ai_quota_limits set daily_limit = 200 where role = 'teacher' and daily_limit = 400;
+    insert into public.plan_settings (key, value) values ('migrated_ai_quota_2026_10', 1)
+    on conflict (key) do nothing;
+  end if;
+end $$;
+
 -- Daily free-tier evaluation allowance.  The DEFAULT below must match
 -- FREE_TIER_EVAL_LIMIT in services/planLimits.ts (pinned by
 -- tests/unit/entitlementConstants.test.ts); a plan_settings row overrides it
@@ -2020,7 +2042,7 @@ create or replace function public.free_evaluation_limit()
 returns integer language sql stable security definer set search_path = public as $$
   select coalesce(
     (select value from public.plan_settings where key = 'free_evaluation_limit'),
-    5
+    3
   );
 $$;
 

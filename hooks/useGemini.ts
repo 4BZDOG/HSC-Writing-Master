@@ -21,6 +21,7 @@ import * as gemini from '../services/geminiService';
 import { emitEvalProgress } from '../services/aiCore';
 import {
   evalLimitMessage,
+  isFeatureLocked,
   recordEvaluation,
   requestUpgrade,
   syncFreeEvalCount,
@@ -256,7 +257,10 @@ export const useGemini = ({
           answer,
           prompt,
           undefined,
-          buildSyllabusContext()
+          buildSyllabusContext(),
+          // Not asked for when the plan withholds it: the server would strip it,
+          // so the tokens would be paid for and never read.
+          { withRewrite: !isFeatureLocked('answerUpgrades') }
         );
         // The server has now spent one of the caller's daily evaluations, so
         // spend one from the local mirror too — HERE, at the point the call

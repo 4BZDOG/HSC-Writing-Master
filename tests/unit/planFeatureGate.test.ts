@@ -21,6 +21,9 @@ vi.mock('../../api/_lib/quota', () => ({
   consumeAiQuota: (...args: unknown[]) => consumeAiQuotaMock(...args),
   resolveCallerPlan: (...args: unknown[]) => resolveCallerPlanMock(...args),
   recordAiModelUsage: async () => undefined,
+  // The request guard asks this only for an oversized call or an uncapped Gemini
+  // one; these tests are about the gates, so the caller is a student.
+  resolveCallerIsStaff: async () => false,
   isQuotaEnabled: () => true,
 }));
 
@@ -56,7 +59,7 @@ const post = (body: Record<string, unknown>) => ({
 
 const call = (feature: string) => ({
   provider: 'gemini',
-  model: 'gemini-3-flash',
+  model: 'gemini-3-flash-preview',
   __feature: feature,
 });
 
@@ -120,7 +123,7 @@ describe('api/gemini paid-feature gate', () => {
     // quota-limited, not plan-limited. A new call site must opt IN to metering.
     resolveCallerPlanMock.mockResolvedValue('free');
     const res = makeRes();
-    await handler(post({ provider: 'gemini', model: 'gemini-3-flash' }), res);
+    await handler(post({ provider: 'gemini', model: 'gemini-3-flash-preview' }), res);
 
     expect(res.statusCode).toBe(200);
     expect(resolveCallerPlanMock).not.toHaveBeenCalled();

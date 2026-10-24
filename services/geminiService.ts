@@ -203,11 +203,24 @@ const buildMarkingCriteriaInstruction = (
 
 // ... (keep existing functions like refineManualPrompt, generateNewPrompt, generateSampleAnswer, parseOutcomesFromText, parseSyllabusStructure, fetchSyllabusContentFromUrl, generateDotPointsForSubTopic, generateRubricForPrompt, explainOutcomeInContext) ...
 
+export interface EvaluateOptions {
+  /**
+   * Whether to ask for the rewritten answer. False for an account whose plan does
+   * not include answer upgrades: the server strips the rewrite from such a result
+   * before it is sent (api/gemini.ts), so asking for it paid for output nobody
+   * reads. The rewrite is the largest part of a marking's visible output, about a
+   * third of it, so leaving it out makes a free-tier marking cheaper without
+   * changing anything the student sees. Defaults to true.
+   */
+  withRewrite?: boolean;
+}
+
 export const evaluateAnswer = async (
   answer: string,
   prompt: Prompt,
   tierInfo?: CommandTermInfo,
-  syllabus?: SyllabusKeywordContext
+  syllabus?: SyllabusKeywordContext,
+  { withRewrite = true }: EvaluateOptions = {}
 ): Promise<EvaluationResult> => {
   const termInfo = tierInfo || getCommandTermInfo(prompt.verb);
 
@@ -269,6 +282,15 @@ export const evaluateAnswer = async (
           )
           .join('\n')
       : 'No benchmark samples provided. Rely strictly on the rubric.';
+
+  // Step 6 of the brief, or a line saying there is none to write (see EvaluateOptions).
+  const rewriteStep = withRewrite
+    ? `                    6. **Revised Answer**: Lift the STUDENT'S answer by ONE step — one band where the next band is close, otherwise one mark — and no further. Find the mark you awarded in this list (out of ${prompt.totalMarks}); the number after the arrow is the mark the rewrite must score, exactly:
+                       ${rewriteTargets}
+                       A rewrite that would score more than its target has failed, however good it is: the student needs to see their own answer a step better, not a model answer. If the response already achieves full marks, return \`{"text": "", "keyChanges": []}\` for revisedAnswer.
+${buildUpgradeStyleRules(answer, revisionCeiling)}
+                       Put the rewritten answer in \`revisedAnswer.text\`. In \`revisedAnswer.keyChanges\`, list 2 to 4 short lines (each at most 20 words), one per edit that earned the extra mark(s). Each line says WHAT was changed and WHY that change earns credit against the rubric or the command verb, written to the student in plain British English — for example: "Named the mechanism (pre-attentive processing) — an EXPLAIN answer needs the how, not just the what." If the rewrite is empty, \`keyChanges\` is empty too.`
+    : `                    6. **Revised Answer**: Not requested. Omit \`revisedAnswer\` from the JSON.`;
 
   const request = {
     ...aiTarget('reasoning'),
@@ -337,11 +359,7 @@ ${buildMarkerNotesBlock(prompt)}
                          - **Middle third**: Focus on depth, specific terminology, or linking concepts. (e.g. "Swap generic words for syllabus keywords.", "Link cause and effect clearly.")
                          - **Top third**: Focus on precision, judgement, or sophisticated structuring. (e.g. "Make your judgement explicit.", "Refine wording to match exam language.")
                        - **Focus**: Target the ONE thing that lifts them to the next mark/band.
-                    6. **Revised Answer**: Lift the STUDENT'S answer by ONE step — one band where the next band is close, otherwise one mark — and no further. Find the mark you awarded in this list (out of ${prompt.totalMarks}); the number after the arrow is the mark the rewrite must score, exactly:
-                       ${rewriteTargets}
-                       A rewrite that would score more than its target has failed, however good it is: the student needs to see their own answer a step better, not a model answer. If the response already achieves full marks, return \`{"text": "", "keyChanges": []}\` for revisedAnswer.
-${buildUpgradeStyleRules(answer, revisionCeiling)}
-                       Put the rewritten answer in \`revisedAnswer.text\`. In \`revisedAnswer.keyChanges\`, list 2 to 4 short lines (each at most 20 words), one per edit that earned the extra mark(s). Each line says WHAT was changed and WHY that change earns credit against the rubric or the command verb, written to the student in plain British English — for example: "Named the mechanism (pre-attentive processing) — an EXPLAIN answer needs the how, not just the what." If the rewrite is empty, \`keyChanges\` is empty too.
+${rewriteStep}
 
                     ### OUTPUT FORMAT (JSON)
                     Return valid JSON adhering to the schema.
@@ -383,14 +401,18 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
               required: ['criterion', 'mark', 'maxMark', 'feedback'],
             },
           },
-          revisedAnswer: {
-            type: Type.OBJECT,
-            properties: {
-              text: { type: Type.STRING },
-              keyChanges: { type: Type.ARRAY, items: { type: Type.STRING } },
-            },
-            required: ['text', 'keyChanges'],
-          },
+          ...(withRewrite
+            ? {
+                revisedAnswer: {
+                  type: Type.OBJECT,
+                  properties: {
+                    text: { type: Type.STRING },
+                    keyChanges: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  },
+                  required: ['text', 'keyChanges'],
+                },
+              }
+            : {}),
         },
         required: [
           'overallMark',

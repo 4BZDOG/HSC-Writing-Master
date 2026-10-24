@@ -71,7 +71,7 @@ describe('useLivePrices', () => {
 
     const { result } = renderHook(() => useLivePrices());
 
-    expect(result.current.monthly).toBe('A$7.99');
+    expect(result.current.monthly).toBe('A$12.99');
     await waitFor(() => expect(result.current.monthly).toBe('A$9'));
     expect(result.current.yearly).toBe('A$65');
     expect(result.current.schoolSeat).toBe('A$5');
@@ -88,8 +88,8 @@ describe('useLivePrices', () => {
     const { result } = renderHook(() => useLivePrices());
 
     await waitFor(() => expect(fetch).toHaveBeenCalled());
-    expect(result.current.monthly).toBe('A$7.99');
-    expect(result.current.yearly).toBe('A$59');
+    expect(result.current.monthly).toBe('A$12.99');
+    expect(result.current.yearly).toBe('A$99');
     expect(result.current.monthlyGst).toBeNull();
   });
 });
@@ -102,7 +102,7 @@ describe('the plan comparison', () => {
 
     expect(await screen.findByText('A$65/year or A$9/month incl. GST')).toBeTruthy();
     expect(screen.getByText('A$5 per student, per year + GST')).toBeTruthy();
-    expect(document.body.textContent).not.toContain('A$59');
+    expect(document.body.textContent).not.toContain('A$99');
   });
 
   it('says nothing about GST when Stripe does not specify it', async () => {
@@ -123,7 +123,7 @@ describe('the plan comparison', () => {
 
     render(<PlanComparison user={null} showUpgradeCta={false} />);
 
-    expect(screen.getByText('A$59/year or A$7.99/month')).toBeTruthy();
+    expect(screen.getByText('A$99/year or A$12.99/month')).toBeTruthy();
     expect(document.body.textContent).not.toMatch(/GST/);
   });
 });
@@ -145,7 +145,7 @@ describe('the upgrade prompt', () => {
     await waitFor(() => expect(document.body.textContent).toContain('A$65 /year incl. GST'));
     expect(document.body.textContent).toContain('A$9 /month incl. GST');
     expect(document.body.textContent).toContain('Charged A$65 a year (incl. GST)');
-    expect(document.body.textContent).not.toContain('A$59');
+    expect(document.body.textContent).not.toContain('A$99');
   });
 
   it('states no GST position when the price is unspecified', async () => {

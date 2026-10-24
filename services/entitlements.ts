@@ -718,8 +718,11 @@ export const SCHOOL_SEAT_LIMITS = { min: 5, max: 1000, default: 30 } as const;
  * per deployment via env so a price change doesn't need a code release.
  */
 export const PLAN_PRICING = {
-  monthly: import.meta.env.VITE_PLUS_MONTHLY_PRICE_DISPLAY ?? 'A$7.99',
-  yearly: import.meta.env.VITE_PLUS_YEARLY_PRICE_DISPLAY ?? 'A$59',
+  // A$12.99 / A$99 / A$15 since October 2026 (were A$7.99 / A$59 / A$4): the
+  // prices projectDocs/cost-model.md shows cover the AI a plan uses. They are the
+  // fallback; the screens show Stripe's own amounts once /api/prices answers.
+  monthly: import.meta.env.VITE_PLUS_MONTHLY_PRICE_DISPLAY ?? 'A$12.99',
+  yearly: import.meta.env.VITE_PLUS_YEARLY_PRICE_DISPLAY ?? 'A$99',
   /**
    * The operator's own saving line. Unset, the screens work it out from the two
    * prices (services/livePrices.ts), so this default is only what they fall back
@@ -727,7 +730,7 @@ export const PLAN_PRICING = {
    */
   yearlyNote: import.meta.env.VITE_PLUS_YEARLY_NOTE ?? '',
   /** Per-seat, per-year display string for the school licence. */
-  schoolSeat: import.meta.env.VITE_SCHOOL_SEAT_PRICE_DISPLAY ?? 'A$4',
+  schoolSeat: import.meta.env.VITE_SCHOOL_SEAT_PRICE_DISPLAY ?? 'A$15',
 } as const;
 
 /**

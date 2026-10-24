@@ -246,7 +246,7 @@ const HowToRead: React.FC = () => (
     <ul className="list-disc pl-5 space-y-1 text-xs sm:text-sm">
       <li>
         <span className="font-bold">Calls per seat per day</span> is the school's calls over the
-        window, divided by its paid seats and by the number of days. Compare it with the 300-call
+        window, divided by its paid seats and by the number of days. Compare it with the 150-call
         daily allowance a member can reach.
       </li>
       <li>

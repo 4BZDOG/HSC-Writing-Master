@@ -182,10 +182,10 @@ redeploy of these too:
 
 | Variable                          | Default                                         | Shown in                         |
 | --------------------------------- | ----------------------------------------------- | -------------------------------- |
-| `VITE_PLUS_MONTHLY_PRICE_DISPLAY` | `A$7.99`                                        | Upgrade prompt, plan comparison  |
-| `VITE_PLUS_YEARLY_PRICE_DISPLAY`  | `A$59`                                          | Upgrade prompt, plan comparison  |
+| `VITE_PLUS_MONTHLY_PRICE_DISPLAY` | `A$12.99`                                       | Upgrade prompt, plan comparison  |
+| `VITE_PLUS_YEARLY_PRICE_DISPLAY`  | `A$99`                                          | Upgrade prompt, plan comparison  |
 | `VITE_PLUS_YEARLY_NOTE`           | _(unset — worked out from the two Plus prices)_ | Upgrade prompt, parent dashboard |
-| `VITE_SCHOOL_SEAT_PRICE_DISPLAY`  | `A$4`                                           | Seat picker, plan comparison     |
+| `VITE_SCHOOL_SEAT_PRICE_DISPLAY`  | `A$15`                                          | Seat picker, plan comparison     |
 | `VITE_SCHOOL_CONTACT_EMAIL`       | _(unset — shows a toast instead)_               | School licence enquiry link      |
 
 > These are **presentation strings only** — the amount charged always comes
@@ -199,17 +199,18 @@ read by the API. **Set both to the same value.** Setting only the `VITE_` half
 unlocks the UI while the server keeps enforcing — a free user sees an unlocked
 feedback panel full of "Upgrade to see this feedback."
 
-| Variable                           | Value                | Effect                                                          |
-| ---------------------------------- | -------------------- | --------------------------------------------------------------- |
-| `VITE_MONETISATION_ENABLED`        | `false`              | Opens every paid feature — pilots and demos. Unset means ON     |
-| `MONETISATION_ENABLED`             | `false`              | The server half of the same switch                              |
-| `VITE_FREE_TIER_FULL_FEEDBACK`     | `true`               | Gives free accounts the full criterion breakdown                |
-| `FREE_TIER_FULL_FEEDBACK`          | `true`               | The server half — stops the proxy stripping it                  |
-| `VITE_PLAN_FEATURE_OVERRIDES`      | `sampleAnswers:free` | Moves individual features between plans (`feature:plan` pairs)  |
-| `PLAN_FEATURE_OVERRIDES`           | Same value as above  | The server half of the same policy                              |
-| `VITE_FREE_TIER_EVAL_LIMIT`        | `5`                  | Displayed daily marking allowance — **display only**, see below |
-| `VITE_FREE_TIER_MAX_QUESTION_TIER` | `3`                  | Highest command-term tier a free account may attempt            |
-| `VITE_FREE_TIER_MAX_SAMPLE_BAND`   | `3`                  | Highest sample-answer band a free account may read              |
+| Variable                           | Value                    | Effect                                                                                                                          |
+| ---------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_MONETISATION_ENABLED`        | `false`                  | Opens every paid feature — pilots and demos. Unset means ON                                                                     |
+| `MONETISATION_ENABLED`             | `false`                  | The server half of the same switch                                                                                              |
+| `VITE_FREE_TIER_FULL_FEEDBACK`     | `true`                   | Gives free accounts the full criterion breakdown                                                                                |
+| `FREE_TIER_FULL_FEEDBACK`          | `true`                   | The server half — stops the proxy stripping it                                                                                  |
+| `VITE_PLAN_FEATURE_OVERRIDES`      | `sampleAnswers:free`     | Moves individual features between plans (`feature:plan` pairs)                                                                  |
+| `PLAN_FEATURE_OVERRIDES`           | Same value as above      | The server half of the same policy                                                                                              |
+| `VITE_FREE_TIER_EVAL_LIMIT`        | `3`                      | Displayed daily marking allowance — **display only**, see below                                                                 |
+| `VITE_FREE_TIER_MAX_QUESTION_TIER` | `3`                      | Highest command-term tier a free account may attempt                                                                            |
+| `VITE_FREE_TIER_MAX_SAMPLE_BAND`   | `3`                      | Highest sample-answer band a free account may read                                                                              |
+| `FREE_TIER_MARKING_MODEL`          | `gemini-3-flash-preview` | Marks the free tier on this Gemini model, a quarter of the cost. Off unless set; test it first (`projectDocs/cost-model.md` §7) |
 
 > **`MONETISATION_ENABLED=false` now covers the daily marking limit too.** The
 > proxy skips `consume_evaluation()` entirely when nothing is being sold

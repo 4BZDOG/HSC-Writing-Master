@@ -8,6 +8,11 @@ self-contained — an implementing agent only needs its own section plus the
 
 ## 1. AI integrations — new models
 
+> **Correction, October 2026.** `gemini-3.7-flash` does not exist. Google's own model and pricing pages, fetched
+> directly in October 2026, list Gemini 3.6 Flash and 3.8 Flash and no 3.7. The finding below came from search
+> snippets, because those pages could not be fetched at the time. The registry entry is now `gemini-3.8-flash`
+> (`projectDocs/cost-model.md`).
+
 ### Research findings (verified via web search, August 2026)
 
 **"Gemini flash 2.7" does not exist.** No model called `gemini-2.7-flash` (or

@@ -31,10 +31,16 @@ export interface AIModelOption {
   /**
    * Rough USD cost of ONE proxied call, for the admin dashboard's spend
    * estimate. The quota system counts calls, not tokens, so this is a blended
-   * estimate for a typical marking-sized exchange (~2k input + ~1k output
-   * tokens) at the provider's Jan-2026 list price — good enough to compare
-   * engines and sanity-check a day's spend, not an invoice. Update alongside
-   * the model when prices move.
+   * estimate for a ~2k-input + ~1k-output exchange at the provider's list price
+   * (Gemini prices checked against ai.google.dev/gemini-api/docs/pricing in
+   * October 2026) — good enough to compare engines and sanity-check a day's
+   * spend, not an invoice. Update alongside the model when prices move.
+   *
+   * A MARKING call is larger than this basis: measured on the shipped questions
+   * it sends about 3,500 input tokens and returns about 1,000, plus up to 4,096
+   * thinking tokens billed as output. On Gemini 3.1 Pro that is about US$0.05 a
+   * marking, roughly three times this figure. projectDocs/cost-model.md has the
+   * measurement and the per-plan arithmetic.
    */
   estCostPerCall: number;
 }
@@ -52,7 +58,8 @@ export const AI_MODELS: AIModelOption[] = [
       'Fast and economical. Good for generation, parsing and suggestions — and the only Gemini option that works on a free-tier key.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'GEMINI_API_KEY',
-    estCostPerCall: 0.0008,
+    // $0.50/M in + $3.00/M out (was 0.0008, a Gemini 2.x-era figure five times too low).
+    estCostPerCall: 0.004,
   },
   {
     id: 'gemini-pro',
@@ -69,15 +76,20 @@ export const AI_MODELS: AIModelOption[] = [
     estCostPerCall: 0.016, // $2/M in + $12/M out, blended 2k-in/1k-out estimate
   },
   {
-    id: 'gemini-flash-3-7',
+    // Was `gemini-3.7-flash`, which Google has never offered: its model and
+    // pricing pages list 3.6 and 3.8 Flash, and an earlier search read a snippet
+    // wrongly. Every call routed here, including the overload fallback in
+    // aiConfig.ts, would have failed.
+    id: 'gemini-flash-3-8',
     provider: 'gemini',
-    model: 'gemini-3.7-flash',
-    label: 'Gemini 3.7 Flash',
+    model: 'gemini-3.8-flash',
+    label: 'Gemini 3.8 Flash',
     description:
-      'Newest GA Flash model (Aug 2026) — cheaper and faster than Gemini 3 Flash with improved coding/agentic benchmarks. Free-tier availability is unconfirmed; verify manually before relying on it as a free-tier option.',
+      'Google’s current stable Flash model. Costs half as much again as Gemini 3 Flash, and its price doubles on 1 January 2027. Not on the free tier.',
     roles: ['basic', 'reasoning'],
     keyEnv: 'GEMINI_API_KEY',
-    estCostPerCall: 0.0053, // $0.75/M in + $3.75/M out, blended 2k-in/1k-out
+    // $0.75/M in + $3.75/M out until 31 December 2026; $1.50/$7.50 from 1 January 2027 (0.0105).
+    estCostPerCall: 0.0053,
   },
   {
     id: 'claude-sonnet',

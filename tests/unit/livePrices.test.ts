@@ -163,9 +163,9 @@ describe('the text the screens show', () => {
   it('falls back to the env text, with no GST claim, when there are no live prices', () => {
     const text = mergePlanPrices(null);
 
-    expect(text.monthly).toBe('A$7.99');
-    expect(text.yearly).toBe('A$59');
-    expect(text.schoolSeat).toBe('A$4');
+    expect(text.monthly).toBe('A$12.99');
+    expect(text.yearly).toBe('A$99');
+    expect(text.schoolSeat).toBe('A$15');
     expect(text.monthlyGst).toBeNull();
     expect(text.yearlyGst).toBeNull();
     expect(text.schoolSeatGst).toBeNull();
@@ -208,17 +208,17 @@ describe('the text the screens show', () => {
 
   it('the env fallback keeps its existing values', () => {
     expect(fallbackPlanPrices()).toMatchObject({
-      monthly: 'A$7.99',
-      yearly: 'A$59',
-      schoolSeat: 'A$4',
+      monthly: 'A$12.99',
+      yearly: 'A$99',
+      schoolSeat: 'A$15',
     });
   });
 });
 
 describe('planPriceLine', () => {
   it('reads the env text when no prices are passed, as the cards did before', () => {
-    expect(planPriceLine('plus')).toBe('A$59/year or A$7.99/month');
-    expect(planPriceLine('school')).toBe('A$4 per student, per year');
+    expect(planPriceLine('plus')).toBe('A$99/year or A$12.99/month');
+    expect(planPriceLine('school')).toBe('A$15 per student, per year');
     expect(planPriceLine('free')).toBe('Free, always');
   });
 
@@ -256,9 +256,9 @@ describe('the yearly saving line', () => {
 
   it('works it out from one live price and the other env price, which are both on screen', () => {
     const text = mergePlanPrices({ plusYearly: LIVE_BODY.prices.plusYearly as never });
-    // A$65 a year against the env A$7.99 a month.
+    // A$65 a year against the env A$12.99 a month.
     expect(text.yearly).toBe('A$65');
-    expect(text.yearlyNote).toBe('Save 32% — A$5.42 a month');
+    expect(text.yearlyNote).toBe('Save 58% — A$5.42 a month');
   });
 
   it('says nothing when the two prices disagree about GST, which would compare unlike figures', () => {
@@ -285,7 +285,8 @@ describe('the yearly saving line', () => {
   });
 
   it('works the env note out from the env prices when no note is set', () => {
-    expect(fallbackPlanPrices(undefined).yearlyNote).toBe('Save 38% — A$4.92 a month');
+    // A$99 against A$12.99 × 12 = A$155.88: a 36.5% saving, said as 36%.
+    expect(fallbackPlanPrices(undefined).yearlyNote).toBe('Save 36% — A$8.25 a month');
   });
 });
 
@@ -309,7 +310,7 @@ describe('amounts for the screens that do sums', () => {
     const text = mergePlanPrices(parseLivePrices(LIVE_BODY));
     expect(text.schoolSeatAmount).toBe(5);
     expect(text.schoolSeatInterval).toBe('year');
-    expect(fallbackPlanPrices().schoolSeatAmount).toBe(4);
+    expect(fallbackPlanPrices().schoolSeatAmount).toBe(15);
   });
 
   it('prices a School seat by the interval Stripe charges it on', () => {

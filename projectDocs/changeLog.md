@@ -1,5 +1,30 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-24 (What the AI costs, and limits that cover it)
+
+Researched and calculated in `projectDocs/cost-model.md`, with the arithmetic in `scripts/costModel.mjs`.
+
+- **Security, cost.** The AI proxy forwarded whatever model, prompt size and output limit the browser sent, and
+  metered each call as one unit. It now forwards only the app's own models (refusing any other, or none, before
+  anything is spent) and holds a student's call to the sizes the app builds: a prompt of up to 80,000 characters,
+  16,384 output tokens and a 4,096-token thinking budget. Teachers and admins keep larger calls. A caller with their
+  own key is exempt.
+- **Changed.** The free plan's daily markings go from 5 to 3, and the student and teacher AI allowances from 60 and
+  400 calls a day to 30 and 200. A marking costs about A$0.07, so five a day let one free account cost more than any
+  plan earns. A one-off schema step moves existing databases still at the old defaults, and never runs twice.
+- **Changed.** A free-tier marking no longer asks the model for the rewritten answer, which the server already
+  strips from a free result. About 9% cheaper, and nothing the student sees changes.
+- **Added.** `FREE_TIER_MARKING_MODEL` marks the free tier on a cheaper Gemini model (a quarter of the cost on Gemini
+  3 Flash). Off unless set; the cost-model doc says how to test it first.
+- **Fixed.** The registry offered `gemini-3.7-flash`, which Google has never released, and used it as the overload
+  fallback, so that fallback always failed. It is `gemini-3.8-flash` now. Gemini 3 Flash's cost estimate was five
+  times too low.
+- **Changed.** Prices: Plus A$12.99 a month or A$99 a year (were A$7.99 and A$59), School A$15 per student a year (was
+  A$4). These are the app's fallback prices; the charge is the Stripe Price, so new Prices must be created in Stripe
+  and their IDs set (cost-model.md §6).
+- **Changed.** Paid plans' daily AI allowance is 150 calls (was 300). That is still about thirty marking sessions a
+  day. Pinned to the schema by a test, as the student allowance now is too.
+
 ## [Unreleased] - 2026-10-24 (A route to Plus from the header)
 
 - **Added.** `Get Plus` on the header rail for a free student or a guest, wherever a Plus price is on sale. It is

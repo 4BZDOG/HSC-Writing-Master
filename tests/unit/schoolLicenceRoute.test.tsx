@@ -207,15 +207,15 @@ describe('the plan comparison carries the School route', () => {
 describe('the seat picker states the total before anyone pays', () => {
   it('multiplies the seat price by the seats chosen, and follows the picker', () => {
     render(<PlanComparison user={asUser('teacher')} showToast={vi.fn()} />);
-    // The env seat price is A$4 a year; the picker starts at the default count.
-    const total = 4 * SCHOOL_SEAT_LIMITS.default;
+    // The env seat price is A$15 a year; the picker starts at the default count.
+    const total = 15 * SCHOOL_SEAT_LIMITS.default;
     expect(
       screen.getByText(`A$${total} a year for ${SCHOOL_SEAT_LIMITS.default} seats`)
     ).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: 'More seats' }));
     expect(
-      screen.getByText(`A$${total + 20} a year for ${SCHOOL_SEAT_LIMITS.default + 5} seats`)
+      screen.getByText(`A$${total + 75} a year for ${SCHOOL_SEAT_LIMITS.default + 5} seats`)
     ).toBeTruthy();
   });
 });

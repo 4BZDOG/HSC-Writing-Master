@@ -35,7 +35,7 @@ const setClipboard = (value: unknown) =>
 const expectedNote = (schoolName?: string) =>
   buildLicenceNote({
     schoolName,
-    seatPrice: 'A$4',
+    seatPrice: 'A$15',
     // The product's own name, as LEGAL_CONFIG gives it.
     productName: 'Band 6 — HSC Writing Coach',
     invoicing: false,
