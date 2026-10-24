@@ -69,7 +69,9 @@ import {
 // Science, Biology, English Studies, English EAL/D, English Extension 1, History Extension).
 // 2.19.0: the rest of the Modern History, Ancient History, Legal Studies, Economics and English
 // Advanced syllabuses added as structure, and five Geography dot points put on one line.
-export const DATA_VERSION = '2.19.0';
+// 2.20.0: an extended response (15+ marks) reaches Band 6 whatever its verb, so the bands
+// stored on its sample answers are recalculated (projectDocs/calibration-pilot.md).
+export const DATA_VERSION = '2.20.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
@@ -922,6 +924,11 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
   if (isOlderThan(fromVersion, '2.14.0')) {
     console.log('Applying v2.14.0 migration: HSC-style marking guides...');
     migrated = normaliseCourseGuides(migrated);
+  }
+
+  if (isOlderThan(fromVersion, '2.20.0')) {
+    console.log('Applying v2.20.0 migration: Band 6 ceiling for extended responses...');
+    migrated = recalculateSampleAnswerBands(migrated);
   }
 
   return migrated;

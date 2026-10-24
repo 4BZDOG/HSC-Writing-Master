@@ -3604,6 +3604,29 @@ create policy answers_read on public.sample_answers
     and not public.sample_answer_withheld(band, created_by)
   );
 
+-- October 2026: an extended response (15 marks or more) reaches Band 6 whatever
+-- its verb (getQuestionBandCeiling in data/commandTerms.ts), where it used to be
+-- capped by the verb's tier. A stored band is a cache of the mark read through
+-- that rule, and the gate above reads the stored band, so the rows written under
+-- the old rule are re-derived ONCE: ceil(mark × 6 / total), as getBandForMark
+-- computes it with a ceiling of 6. Marked by a plan_settings row, so a re-apply
+-- never rewrites a band again.
+do $$
+begin
+  if not exists (select 1 from public.plan_settings where key = 'migrated_extended_bands_2026_10') then
+    update public.sample_answers s
+       set band = case
+             when s.mark <= 0 then 1
+             else least(6, greatest(1, ceil(least(s.mark, p.total_marks)::numeric * 6 / p.total_marks)::int))
+           end
+      from public.prompts p
+     where p.id = s.prompt_id
+       and p.total_marks >= 15;
+    insert into public.plan_settings (key, value) values ('migrated_extended_bands_2026_10', 1)
+    on conflict (key) do nothing;
+  end if;
+end $$;
+
 -- What the reader is missing, without any of it.
 --
 -- Returns no `answer`, `feedback` or `quick_tip` — not nulled, ABSENT — so this

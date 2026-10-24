@@ -33,6 +33,8 @@ import {
   getStructureGuide,
   getExpectedCharRange,
   getExpectedTerms,
+  getRecommendedTime,
+  EXTENDED_RESPONSE_MARKS,
   getTargetBand,
   getTierTargetBand,
   fitVerbsToLength,
@@ -224,10 +226,13 @@ export const evaluateAnswer = async (
 ): Promise<EvaluationResult> => {
   const termInfo = tierInfo || getCommandTermInfo(prompt.verb);
 
-  // The cognitive demand of the verb caps the achievable NESA band. This is the
-  // same tier-aware ceiling the rest of the app shows (e.g. the "Top Level: Band X"
-  // label in MarkingCriteriaAccordion), kept consistent here.
+  // The cognitive demand of the verb caps the achievable NESA band on a short
+  // question (an extended response reaches Band 6). This is the same ceiling
+  // the rest of the app shows (e.g. the "Top Level: Band X" label in
+  // MarkingCriteriaAccordion), kept consistent here.
   const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier);
+  // Scaled to this question's marks, as the live guide and the exemplars are.
+  const fullMarkChars = getExpectedCharRange(prompt.totalMarks, termInfo);
 
   // The rubric is optional on a Prompt. When absent, fall back to the verb's
   // generic marking guide + band-discrimination focus instead of injecting a bare
@@ -322,9 +327,13 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
                     **Max Marks:** ${prompt.totalMarks}
                     **Command Verb:** ${prompt.verb} (Cognitive Tier ${termInfo.tier} - ${termInfo.definition})
                     **Band Discrimination:** ${termInfo.bandDiscrimination}
-                    **Maximum Achievable Band:** Band ${maxBand}. The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.
+                    **Maximum Achievable Band:** Band ${maxBand}. ${
+                      prompt.totalMarks >= EXTENDED_RESPONSE_MARKS
+                        ? `This is a ${prompt.totalMarks}-mark extended response, so a full-mark answer reaches Band 6: the top mark range is Band 6 standard, as NESA's own samples for these questions are.`
+                        : `The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.`
+                    }
                     **Expected Response for Full Marks (${prompt.totalMarks}/${prompt.totalMarks}):** ${getStructureGuide(prompt.totalMarks)} Use this to judge whether the response has the depth and length the marks demand — a response far shorter or thinner than this cannot reach the top marks, but do not reward padding either.
-                    **Expected Length:** ${termInfo.charRange[0]}-${termInfo.charRange[1]} characters (${termInfo.pageEstimate} pages). Time budget: ${termInfo.timeRange[0]}-${termInfo.timeRange[1]} minutes.
+                    **Expected Length:** ${fullMarkChars[0]}-${fullMarkChars[1]} characters for full marks, written in about ${Math.round(getRecommendedTime(prompt.totalMarks, termInfo) / 60)} minutes. Length shows how much a response had room to do, not how well it did it: a long response that does not answer the question still earns a low mark.
                     **Expected Syllabus Terms:** ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]} relevant syllabus terms should be used.
 ${buildMarkerTermBlock(prompt, syllabus)}
 
@@ -352,6 +361,7 @@ ${buildMarkerNotesBlock(prompt)}
                     2. **Check Content**: Are the keywords used correctly in context?
                     3. **Compare to Benchmarks**: Is this answer better, worse, or equal to the benchmarks?
                     4. **Determine Mark**: Assign an integer mark from 0 to ${prompt.totalMarks}. The per-criterion marks you report MUST sum to this overall mark.
+                       - **Best fit.** Where the rubric is a ladder of mark ranges (for example 17-20, 13-16, 9-12), mark as NESA markers do: first choose the range whose description fits the response best as a whole, then place it within that range. Do not build the mark by deducting for each flaw. A factual slip, or an example less apt than the ideal one, costs marks only as far as it weakens the response against those descriptions; a sustained, well-supported argument keeps the credit it has earned.
                     5. **Generate Coach's Tip**: Identify the single most effective action to improve.
                        - **Style**: Short, punchy, imperative (max 15 words). Plain English. No fluff.
                        - **Mark-Relative Strategy** (judge the response against ${prompt.totalMarks} marks, not a fixed scale):

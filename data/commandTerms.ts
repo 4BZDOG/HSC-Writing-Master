@@ -949,11 +949,24 @@ export const fitVerbsToLength = (
   return [getCommandTermInfo(liftVerbForLength(verbs[0].term, totalMarks).verb)];
 };
 
-/** Why a verb does not fit, in words a teacher can act on. */
+/**
+ * Why a verb does not fit, in words a teacher can act on.
+ *
+ * An extended response reaches every band whatever its verb (see
+ * EXTENDED_RESPONSE_MARKS), so there the reason is the task, not the ladder:
+ * NESA marks these questions on a sustained, judged argument, which a lower
+ * verb does not ask for.
+ */
 export const lengthMismatchNote = (verb: PromptVerb | string, totalMarks: number): string => {
   const info = getCommandTermInfo(verb as PromptVerb);
   const bands = bandMarkRanges(totalMarks, info.tier).length;
   const { verb: lifted } = liftVerbForLength(verb as PromptVerb, totalMarks);
+  if (totalMarks >= EXTENDED_RESPONSE_MARKS) {
+    return (
+      `A ${totalMarks}-mark extended response is marked on a sustained, judged argument, ` +
+      `which ${info.term} does not ask for. Use ${lifted}, or split the question into parts.`
+    );
+  }
   return (
     `${info.term} can only show ${bands} band${bands === 1 ? '' : 's'} across ${totalMarks} marks, ` +
     `so a few marks would read as the same result. Use ${lifted}, or split the question into parts.`
@@ -1038,12 +1051,37 @@ export const getCommandTermsForMarks = (
 };
 
 /**
+ * The fewest marks that make a question an extended response, which can reach
+ * Band 6 whatever its verb.
+ *
+ * NESA's HSC extended responses (15 to 25 marks) are where the course's top band
+ * is decided, and NESA publishes responses to them as Band 5/6 standard. Capping
+ * a 20-mark DISCUSS at Band 5, as the verb tier does for a short question, told a
+ * student scoring 18/20 they were a band below where NESA's own samples put them.
+ * Over 20 marks, ceil(mark × 6 / 20) makes Band 6 exactly 17-20, the top range of
+ * NESA's guidelines for these questions (projectDocs/calibration-pilot.md).
+ */
+export const EXTENDED_RESPONSE_MARKS = 15;
+
+/**
+ * The highest band a full-mark response to this question can demonstrate: the
+ * verb tier's ceiling, except on an extended response, which reaches Band 6.
+ */
+export const getQuestionBandCeiling = (totalMarks: number, tier: number = 4): number => {
+  if (totalMarks >= EXTENDED_RESPONSE_MARKS) return 6;
+  const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
+  return tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
+};
+
+/**
  * Calculates the Performance Band (1-6) based on the mark achieved,
- * constrained only by the verb's cognitive tier (tier N → max Band N).
+ * constrained by the question's ceiling: the verb's cognitive tier (tier N →
+ * max Band N), or Band 6 on an extended response (see EXTENDED_RESPONSE_MARKS).
  *
  * NESA's own band descriptors map full marks to the verb's ceiling band
- * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier is
- * the sole cap — there is no secondary marks-based limit.
+ * regardless of mark count (3/3 on an Evaluate = Band 6), so on a short
+ * question the verb tier is the sole cap — there is no secondary marks-based
+ * limit.
  *
  * Below that ceiling there is ONE rule, and it is a ladder of marks, not a
  * fraction of them: each mark dropped costs exactly one band. On a 4-mark
@@ -1069,8 +1107,7 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   if (totalMarks <= 0) return 1;
   if (mark <= 0) return 1;
 
-  const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
-  const maxBand = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
+  const maxBand = getQuestionBandCeiling(totalMarks, tier);
   const clampedMark = Math.min(mark, totalMarks);
 
   // Fewer marks than bands: one band per mark, counted DOWN from the ceiling.
@@ -1362,8 +1399,19 @@ export const getRecommendedTime = (totalMarks: number, verbInfo: CommandTermInfo
 };
 
 /**
- * Expected character count range for a question, interpolated from the verb's
- * charRange based on where the question's marks fall within the verb's markRange.
+ * Expected character count range for a full-mark answer, interpolated from the
+ * verb's charRange based on where the question's marks fall within the verb's
+ * markRange.
+ *
+ * Past the verb's top mark the range is carried on in proportion to the marks,
+ * as getRecommendedTime carries on the time and getFullMarkWordRange the words.
+ * It used to stop there, so a 20-mark DISCUSS (typical range 5-10) was held to
+ * the 10-mark figure, 2,250-3,000 characters. NESA's own 2012 Business Studies
+ * Question 26 samples put a Band 5/6 response at about 4,400 characters and a
+ * Band 4/5 at 3,200-4,800 (projectDocs/calibration-pilot.md), so the old range
+ * described a mid-band answer as full length: the live guide warned a Band 6
+ * draft that it was too long, exemplars were written at half length, and a
+ * rewrite of a strong answer was capped below the answer's own length.
  */
 export const getExpectedCharRange = (
   totalMarks: number,
@@ -1378,7 +1426,11 @@ export const getExpectedCharRange = (
   const ratio = Math.max(0, Math.min(1, (totalMarks - minMarks) / markSpan));
   const min = Math.round(minChars + ratio * (maxChars - minChars) * 0.5);
   const max = Math.round(minChars * 0.5 + (minChars * 0.5 + ratio * (maxChars - minChars)));
-  return [min, Math.max(min + 50, max)];
+  const range: [number, number] = [min, Math.max(min + 50, max)];
+
+  if (totalMarks <= maxMarks || maxMarks <= 0) return range;
+  const scale = totalMarks / maxMarks;
+  return [Math.round(range[0] * scale), Math.round(range[1] * scale)];
 };
 
 /**
