@@ -1,6 +1,7 @@
 import type { User } from '../types';
 import { authService } from './authService';
 import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { postBillingJson } from './entitlements';
 import { deleteUserProfile } from '../utils/storageUtils';
 import { AGREEMENT_VERSION, LEGAL_CONFIG } from '../data/legalContent';
 
@@ -169,6 +170,12 @@ export interface DeletionResult {
  * and it carries no personal data once `created_by` is nulled. The Privacy
  * Notice says exactly this.
  *
+ * Before that, `/api/prepare-account-deletion` cancels in Stripe every subscription
+ * the user holds or pays for, because the database cannot reach Stripe: a parent's
+ * deleted account would otherwise go on paying for their child, and a child's would
+ * leave the parent paying for an account that is gone. If that step refuses (a school
+ * licence the user bought) or fails, nothing is deleted and its sentence is shown.
+ *
  * Local state is cleared either way, so a deleted account cannot be restored
  * from the browser cache on the next boot.
  */
@@ -182,6 +189,9 @@ export const deleteMyAccount = async (user: User): Promise<DeletionResult> => {
   }
 
   if (isSupabaseConfigured && supabase) {
+    const billing = await endBillingBeforeDeletion();
+    if (billing.ok === false) return billing;
+
     try {
       const { error } = await supabase.rpc('delete_my_account');
       if (error) {
@@ -212,4 +222,26 @@ export const deleteMyAccount = async (user: User): Promise<DeletionResult> => {
   await deleteUserProfile(user.username);
   authService.logout();
   return { ok: true, message: 'Your account and data have been deleted.' };
+};
+
+/**
+ * Statuses that mean no billing server answered: the request never arrived (null), a
+ * static host with no API (404, 405), or a server without the Supabase service role
+ * (501). None of these can be holding a Stripe subscription it could cancel, so deletion
+ * goes on, and `delete_my_account()` still refuses while a plan would renew (schema §16).
+ */
+const NO_BILLING_SERVER = new Set<number | null>([null, 404, 405, 501]);
+
+/**
+ * Asks the server to end the user's subscriptions in Stripe. `ok: false` carries the
+ * sentence to show, and means nothing has been deleted.
+ */
+const endBillingBeforeDeletion = async (): Promise<{ ok: true } | DeletionResult> => {
+  const { data, error, status } = await postBillingJson<{ cancelled?: number }>(
+    '/api/prepare-account-deletion',
+    {},
+    'We could not cancel your subscription, so your account has not been deleted. Please try again.'
+  );
+  if (data || NO_BILLING_SERVER.has(status)) return { ok: true };
+  return { ok: false, message: error ?? 'Please try again.' };
 };

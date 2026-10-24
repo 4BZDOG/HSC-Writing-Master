@@ -1,5 +1,24 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-24 (Deleting an account ends its billing)
+
+Deleting an account removed the database rows but never reached Stripe, which parent/guardian billing (schema
+§31) made unsafe.
+
+- **Fixed.** Deleting an account first cancels, in Stripe, every subscription the user holds or pays for
+  (`POST /api/prepare-account-deletion`). A parent's deletion ends the plan they pay for and the child drops to
+  free at once, rather than the child's plan going on charging a deleted parent with no portal to cancel it
+  from. A child's deletion ends the plan the parent pays for, rather than the parent paying for an account that
+  is gone with no row on their dashboard. A plan already set to end is ended too. If the cancellation fails,
+  nothing is deleted.
+- **Changed.** A teacher who bought their school's licence is told to set it to end, or ask for it to be moved,
+  before deleting their account. Nothing is cancelled in that case; a licence already set to end runs out for
+  the school as before.
+- **Fixed.** A Stripe event for a subscription whose holder's account has been deleted is acknowledged and left,
+  instead of failing the foreign key and answering 500 to every retry. When only the paying parent is gone, the
+  child's row is still kept up to date, with no payer named.
+- **Changed.** The delete confirmation says that plans are cancelled straight away with no refund.
+
 ## [Unreleased] - 2026-10-19 (Focus areas read the way NESA writes them, and stay visible in the light theme)
 
 From a teacher's review of the navigator's focus areas on the new courses, then an audit of all 3,232 shipped

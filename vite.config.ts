@@ -219,6 +219,7 @@ function apiDevProxy(): Plugin {
       for (const route of [
         'create-checkout',
         'customer-portal',
+        'prepare-account-deletion',
         'stripe-webhook',
         'sync-checkout',
         // The contribution pre-screen. Without it, `npm run dev` 404s the call

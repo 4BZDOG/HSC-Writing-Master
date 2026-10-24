@@ -2,7 +2,7 @@
  * An in-memory Supabase double for the billing endpoints' unit tests.
  *
  * It implements the chain shapes those endpoints use: select / eq / neq / in / is / not /
- * limit, maybeSingle, insert / upsert / update, rpc, and a plain `await` on any of them,
+ * limit, maybeSingle, insert / upsert / update / delete, rpc, and a plain `await` on any of them,
  * as supabase-js allows. Reads run against `tables`; writes change `tables` as the real
  * database would, and are also recorded in `writes`, so a test can assert on what the
  * code wrote and not only on what it returned.
@@ -23,9 +23,9 @@ export interface DbError {
 
 export interface Write {
   table: string;
-  op: 'insert' | 'upsert' | 'update';
+  op: 'insert' | 'upsert' | 'update' | 'delete';
   values: Row;
-  /** The equality filters a write was matched on (update only). */
+  /** The equality filters a write was matched on (update and delete). */
   eqs: Array<[string, unknown]>;
 }
 
@@ -60,7 +60,7 @@ class Query implements PromiseLike<Result> {
   private filters: Array<(row: Row) => boolean> = [];
   private eqs: Array<[string, unknown]> = [];
   private max: number | null = null;
-  private mode: 'select' | 'insert' | 'upsert' | 'update' = 'select';
+  private mode: 'select' | 'insert' | 'upsert' | 'update' | 'delete' = 'select';
   private values: Row = {};
   private returning = false;
 
@@ -127,6 +127,11 @@ class Query implements PromiseLike<Result> {
     return this;
   }
 
+  delete() {
+    this.mode = 'delete';
+    return this;
+  }
+
   maybeSingle(): Promise<Result> {
     return this.run().then((r) => ({
       data: Array.isArray(r.data) ? (r.data[0] ?? null) : r.data,
@@ -189,6 +194,12 @@ class Query implements PromiseLike<Result> {
       if (at >= 0) list[at] = { ...list[at], ...this.values };
       else list.push({ ...this.values });
       db.writes.push({ table: this.table, op: 'upsert', values: this.values, eqs: [] });
+      return { data: null, error: null };
+    }
+
+    if (this.mode === 'delete') {
+      db.tables[this.table] = list.filter((row) => !this.filters.every((f) => f(row)));
+      db.writes.push({ table: this.table, op: 'delete', values: {}, eqs: this.eqs });
       return { data: null, error: null };
     }
 

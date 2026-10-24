@@ -362,3 +362,61 @@ describe('cancelling a guardian subscription lowers the child’s plan, not the 
     expect(downgrade?.eqs).toEqual([['id', 'self-1']]);
   });
 });
+
+describe('an event for an account that has been deleted (schema §16)', () => {
+  /** Deleting the auth user cascades the profile away; this is what the webhook then sees. */
+  const deleteProfile = (id: string) => {
+    db.tables.profiles = db.tables.profiles.filter((p) => p.id !== id);
+  };
+
+  it('ignores the event when the child who held the plan is gone, rather than answering 500', async () => {
+    deleteProfile(STUDENT);
+    const res = makeRes();
+    await webhookHandler(updated(subscription({ metadata: guardianMetadata })), res);
+
+    expect(res.statusCode).toBe(200);
+    // A row for the deleted child would fail the foreign key on profiles.
+    expect(writesTo('subscriptions')).toEqual([]);
+    expect(writesTo('profiles').filter((w) => 'stripe_plan' in w.values)).toEqual([]);
+  });
+
+  it('keeps the child’s row in step when the parent who paid is gone, naming no payer', async () => {
+    deleteProfile(PARENT);
+    const res = makeRes();
+    await webhookHandler(
+      updated(subscription({ metadata: guardianMetadata, cancel_at_period_end: true })),
+      res
+    );
+
+    expect(res.statusCode).toBe(200);
+    const row = writesTo('subscriptions').find((w) => w.op === 'upsert');
+    expect(row?.values).toMatchObject({
+      id: 'sub_guardian_1',
+      user_id: STUDENT,
+      cancel_at_period_end: true,
+    });
+    // Naming the deleted parent would fail the foreign key on profiles.
+    expect(row?.values).not.toHaveProperty('payer_id');
+  });
+
+  it('ignores the event when a self-paying holder is gone', async () => {
+    deleteProfile('self-1');
+    const res = makeRes();
+    await webhookHandler(
+      updated(subscription({ customer: 'cus_self', metadata: { supabase_user_id: 'self-1' } })),
+      res
+    );
+
+    expect(res.statusCode).toBe(200);
+    expect(writesTo('subscriptions')).toEqual([]);
+  });
+
+  it('answers 500, so Stripe retries, when it cannot tell whether the child still exists', async () => {
+    db.readErrors.set('profiles', { message: 'connection reset' });
+    const res = makeRes();
+    await webhookHandler(updated(subscription({ metadata: guardianMetadata })), res);
+
+    expect(res.statusCode).toBe(500);
+    expect(writesTo('subscriptions')).toEqual([]);
+  });
+});

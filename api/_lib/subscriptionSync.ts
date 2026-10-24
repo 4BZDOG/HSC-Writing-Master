@@ -232,6 +232,9 @@ export async function applySubscriptionUpsert(
 
   let userId = profile?.id as string | undefined;
   let schoolId = (profile?.school_id as string | undefined) ?? undefined;
+  // True when the metadata names a user whose profile no longer exists: an account
+  // deleted while Stripe still held its subscription (see below).
+  let metaUserGone = false;
 
   // Webhook ordering isn't guaranteed: customer.subscription.created can land
   // BEFORE checkout.session.completed links the customer id to the profile.
@@ -254,12 +257,13 @@ export async function applySubscriptionUpsert(
           linkError instanceof Error ? linkError.message : linkError
         );
       }
-      const { data: metaProfile } = await supabase
+      const { data: metaProfile, error: metaProfileError } = await supabase
         .from('profiles')
         .select('school_id')
         .eq('id', metaUserId)
         .maybeSingle();
       schoolId = (metaProfile?.school_id as string | undefined) ?? undefined;
+      metaUserGone = !metaProfile && !metaProfileError;
     }
   }
 
@@ -274,7 +278,34 @@ export async function applySubscriptionUpsert(
   // and the school logic is skipped, because a guardian purchase is never a licence.
   const subMetadata = sub.metadata as Record<string, string> | undefined;
   const beneficiaryId = subMetadata?.beneficiary_user_id || undefined;
-  const payerId = beneficiaryId ? userId : undefined;
+
+  // A deleted account (schema §16) takes its profile with it, but Stripe can still send
+  // events for a subscription it held or paid for: one already set to end, or one
+  // delivered late. Writing the row would fail its foreign key on profiles, and the
+  // webhook would answer 500 to every retry for days. There is nothing to write for a
+  // holder who no longer exists, so the event is acknowledged and left. A payer who no
+  // longer exists is not named: the row keeps the null the deletion left in payer_id,
+  // and the child's plan still follows Stripe. api/prepare-account-deletion.ts cancels
+  // these subscriptions before an account goes, so this is the stray event, not the rule.
+  if (beneficiaryId) {
+    const { data: holder, error: holderError } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', beneficiaryId)
+      .maybeSingle();
+    if (holderError) {
+      console.error('[stripe-webhook] holder profile read failed:', holderError.message);
+      throw holderError;
+    }
+    if (!holder) {
+      console.warn(`[stripe-webhook] holder of ${subId} no longer exists; ignoring the event.`);
+      return;
+    }
+  } else if (metaUserGone) {
+    console.warn(`[stripe-webhook] holder of ${subId} no longer exists; ignoring the event.`);
+    return;
+  }
+  const payerId = beneficiaryId && !metaUserGone ? userId : undefined;
   const holderId = beneficiaryId ?? userId;
 
   // Upsert the subscription row.
