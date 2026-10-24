@@ -4,6 +4,7 @@ import BandLadderMark from './BandLadderMark';
 import { authService } from '../services/authService';
 import MeshOverlay from './MeshOverlay';
 import AppHeaderToolsMenu from './AppHeaderToolsMenu';
+import HeaderPlanControl from './HeaderPlanControl';
 import {
   HEADER_ACTION,
   HEADER_BAR,
@@ -122,6 +123,10 @@ const AppHeader: React.FC<AppHeaderProps> = ({
               <span className="hidden lg:inline">Storage error</span>
             </div>
           )}
+          {/* First in the cluster, nearest the work: it is the one control here
+              that is about the plan rather than the app. Renders nothing for
+              anyone the upgrade prompt does not sell to. */}
+          <HeaderPlanControl user={user} />
           <AppHeaderToolsMenu
             user={user}
             storageStatus={storageStatus}

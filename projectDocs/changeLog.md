@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-24 (A route to Plus from the header)
+
+- **Added.** `Get Plus` on the header rail for a free student or a guest, wherever a Plus price is on sale. It is
+  the crown alone on a phone, with the full sentence as its accessible name. Nobody else sees it: a teacher, an
+  admin, a parent and anyone on a paid plan have nothing to buy there. Measured at 320px to 1440px for a
+  student, a teacher and an admin: the bar stays 64px and nothing leaves the screen. axe finds nothing in either
+  theme.
+- **Changed.** Asked about the plan rather than about one locked control (the header, the plan comparison's
+  button, the profile's plan card), the upgrade prompt leads with "What Band 6 Plus adds" rather than the
+  headline of one feature. Once today's free markings are spent, the header opens it on the daily limit.
+- **Fixed.** The note a teacher copies for their administrator named the product "HSC Writing Master" (the
+  repository's name), not "Band 6 — HSC Writing Coach", and always priced the seat "a year".
+
 ## [Unreleased] - 2026-10-24 (Plans and prices, said plainly to each role)
 
 - **Fixed.** The yearly saving line ("Save 38%") was typed by hand and went stale when a price changed. It is

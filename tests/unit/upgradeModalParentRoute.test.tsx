@@ -65,3 +65,24 @@ describe('the parent route in the upgrade prompt', () => {
     expect(screen.queryByText(PARENT_ROUTE)).toBeNull();
   });
 });
+
+describe('the prompt opened on the plan as a whole', () => {
+  const openOverview = (user: User) => {
+    render(<UpgradeModal user={user} showToast={vi.fn()} />);
+    fireEvent(
+      window,
+      new CustomEvent(UPGRADE_REQUEST_EVENT, {
+        detail: { feature: 'fullFeedback', reason: 'overview' },
+      })
+    );
+  };
+
+  it('leads with what the plan adds, not with one locked feature', () => {
+    openOverview(asUser('user'));
+    expect(screen.getByRole('heading', { name: 'What Band 6 Plus adds' })).toBeTruthy();
+    expect(screen.queryByRole('heading', { name: /Full Marking Feedback/ })).toBeNull();
+    expect(screen.getByText(/The free plan stays free if you do not upgrade\./)).toBeTruthy();
+    // The lock's own sentence belongs to a lock, and none was pressed.
+    expect(screen.queryByText(/includes Full Marking Feedback\./)).toBeNull();
+  });
+});

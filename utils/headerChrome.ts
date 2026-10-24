@@ -147,6 +147,28 @@ export const HEADER_ACTION =
   'text-slate-500 hover:text-slate-900 hover:bg-slate-100 ' +
   'dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10';
 
+/** The one route to Plus on the rail, for a free student or a guest. On the rail.
+ *
+ *  It is the rail's only colour, and on purpose: amber is the colour Plus wears
+ *  everywhere else (the lock chips, the prompt's crown), so the control reads as
+ *  "the plan" before its label is read, and it is the one thing on the bar that
+ *  is not a utility. A tint rather than a solid amber fill, because a solid
+ *  button would out-shout the work below it on every screen a student opens.
+ *
+ *  Square below `sm`, like `HEADER_ACTION`: the crown alone, 44px for a thumb,
+ *  with the label kept as the accessible name. Measured at 320px with a
+ *  student's controls, a labelled chip pushed the profile control off the bar,
+ *  and the square fits. From `sm` the label shows, at the storage chip's 36px
+ *  height, so the rail's controls still share one line.
+ *
+ *  Light is `amber-800` on `amber-50` (6.8:1, 6.4:1 on hover); dark is `amber-300` over a 10%
+ *  amber wash on the near-black rail. */
+export const HEADER_PLAN =
+  't-label shrink-0 flex items-center justify-center gap-1.5 rounded-xl border transition-colors ' +
+  'w-11 h-11 sm:w-auto sm:h-9 sm:px-3 ' +
+  'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100 ' +
+  'dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/30 dark:hover:bg-amber-400/20';
+
 /** Appended to `HEADER_ACTION` on the tools trigger while its popover is open.
  *  A toggle that looks the same open and shut is a toggle nobody trusts, and
  *  `aria-expanded` alone says it only to a screen reader. On the rail. */

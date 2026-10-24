@@ -17,6 +17,8 @@ vi.mock('../../services/entitlements', () => ({
   planLabelForFeature: () => 'Plus',
   // The lock chip now names its feature, so it asks which plan unlocks it.
   lowestPlanForFeature: () => 'plus',
+  // ...and its short name, from the one table of short names.
+  PLAN_SHORT_LABELS: { free: 'Free', plus: 'Plus', school: 'School' },
   requestUpgrade: vi.fn(),
   // The locked rewrite names the one CTA the policy gives a free student.
   describeAccess: () => ({

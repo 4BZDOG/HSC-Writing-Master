@@ -18,6 +18,10 @@ export interface LicenceNoteInput {
   seatPrice: string;
   /** The GST words beside that price ("incl. GST", "+ GST"), or null to say nothing. */
   seatGst?: string | null;
+  /** How often that price is charged. A yearly price is the default. */
+  seatInterval?: 'month' | 'year';
+  /** The product's name, as the admin will find it (LEGAL_CONFIG.productName). */
+  productName: string;
   /** Whether this deployment offers an invoice against a purchase order. */
   invoicing: boolean;
   /** The address of the app, as the admin would open it. */
@@ -28,6 +32,8 @@ export const buildLicenceNote = ({
   schoolName,
   seatPrice,
   seatGst,
+  seatInterval = 'year',
+  productName,
   invoicing,
   appUrl,
 }: LicenceNoteInput): string => {
@@ -37,8 +43,10 @@ export const buildLicenceNote = ({
     ? 'It can be paid by card, or by invoice against a purchase order.'
     : 'It is paid by card.';
   return [
-    'I would like the school to look at a School licence for the HSC Writing Master app.',
-    `It covers every student and teacher at ${school} for a year, at ${seatPrice} per student a year${seatTax}, ` +
+    // The product's own name: the repository's name ("HSC Writing Master") was
+    // written here, and an admin searching for that would not find the app.
+    `I would like the school to look at a School licence for ${productName}.`,
+    `It covers every student and teacher at ${school} for ${seatPrice} per student a ${seatInterval}${seatTax}, ` +
       'and it includes the class and school progress reports for staff.',
     payment,
     `The app is at ${appUrl}. A teacher or administrator whose account is attached to the school ` +
