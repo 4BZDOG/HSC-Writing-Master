@@ -26,6 +26,10 @@
 -- the rows it was written for. It tells them apart by `quality_screened_at`,
 -- and the fixtures below are one of each: a score the server wrote must still
 -- be there afterwards, and a legacy client-written one must not.
+--
+-- The third is the October 2026 AI-allowance step, which moves the student and
+-- teacher allowances off their old defaults once, marked by a plan_settings row.
+-- An admin who later sets them back must keep what they set.
 -- =============================================================================
 
 \if :{?check}
@@ -61,8 +65,31 @@ begin
   raise notice 'PASS: the pre-screen cleanup keeps server scores and drops client ones';
 end $$;
 
+-- The October 2026 allowance step moves the old defaults once. An admin who
+-- then sets a role back to the old value has chosen it, and a re-apply must not
+-- move it again.
+do $$
+declare v_student int; v_teacher int;
+begin
+  select daily_limit into v_student from public.ai_quota_limits where role = 'student';
+  select daily_limit into v_teacher from public.ai_quota_limits where role = 'teacher';
+  if v_student <> 60 or v_teacher <> 400 then
+    raise exception
+      'TEST FAILED: re-applying schema.sql moved an allowance an admin set (student %, teacher %)',
+      v_student, v_teacher;
+  end if;
+  raise notice 'PASS: the one-off allowance step does not run twice';
+end $$;
+update public.ai_quota_limits set daily_limit = 30 where role = 'student';
+update public.ai_quota_limits set daily_limit = 200 where role = 'teacher';
+
 delete from public.courses where id = '00000000-0000-0000-0000-00000000ba00';
 \else
+-- After the first apply the step has run: these stand for an admin choosing the
+-- old values on purpose.
+update public.ai_quota_limits set daily_limit = 60 where role = 'student';
+update public.ai_quota_limits set daily_limit = 400 where role = 'teacher';
+
 insert into public.courses (id, name, status)
   values ('00000000-0000-0000-0000-00000000ba00', 'Re-apply Guard Course', 'approved')
   on conflict (id) do nothing;

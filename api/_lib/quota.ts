@@ -181,3 +181,37 @@ export const recordAiModelUsage = async (accessToken: string, model: string): Pr
     console.warn('[quota] record_ai_model_usage failed (ignored):', e);
   }
 };
+
+/**
+ * Whether the caller is staff (a teacher or an admin), for the request guard
+ * (api/_lib/requestGuard.ts), which lets staff send larger calls than a student.
+ *
+ * Fail-CLOSED, unlike the lookups above: a lookup that breaks answers "not staff",
+ * so the call is held to a student's limits rather than let through unbounded. The
+ * cost of that is a staff syllabus import refused during an outage, which a retry
+ * mends; the cost of failing open is an unbounded bill.
+ */
+export const resolveCallerIsStaff = async (accessToken: string): Promise<boolean> => {
+  const url = process.env.SUPABASE_URL;
+  const anonKey = process.env.SUPABASE_ANON_KEY;
+  if (!url || !anonKey) return false;
+
+  try {
+    const client = createClient(url, anonKey, {
+      auth: { persistSession: false },
+      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+    });
+    const { data, error } = await client.rpc('is_reviewer');
+    if (error) {
+      console.warn(
+        '[quota] is_reviewer unavailable — holding the call to student limits:',
+        error.message
+      );
+      return false;
+    }
+    return data === true;
+  } catch (e) {
+    console.warn('[quota] is_reviewer failed — holding the call to student limits:', e);
+    return false;
+  }
+};

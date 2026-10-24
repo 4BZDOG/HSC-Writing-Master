@@ -21,6 +21,12 @@ The report is built from `public.school_seat_usage()` (schema §30), a read-only
 
 ## How to estimate the cost per call
 
+Until a month of real spend is in, use **`VITE_AI_COST_PER_CALL_AUD=0.03`**. That is the blended estimate from
+`projectDocs/cost-model.md`: a marking on Gemini 3.1 Pro costs about A$0.07, a light call on Flash about A$0.006, and
+a school member's calls are taken as three markings, one upgrade and six light calls in every ten. At that figure the
+A$4 seat is a loss on any member who uses it; the cost model proposes A$15. Replace it with the measured figure below
+once you have one.
+
 Set `VITE_AI_COST_PER_CALL_AUD` in the build (for example in Vercel's environment variables, then redeploy, because it is a `VITE_` value read at build time). It is the cost of one call in AUD:
 
 1. Take the **total AI spend for one month** from the provider invoice (all the models you pay for, in the same currency or converted at the invoice's rate).

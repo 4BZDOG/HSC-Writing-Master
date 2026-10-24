@@ -814,10 +814,16 @@ create table if not exists public.ai_quota_limits (
 );
 
 -- Sensible defaults; adjust with set_role_ai_quota() (admin-only).
+-- Student 30 and teacher 200 since October 2026 (were 60 and 400): a call costs up
+-- to about A$0.07 on the marking model, and neither role pays for its allowance.
+-- Thirty covers the free tier's three markings with room for everything around
+-- them. projectDocs/cost-model.md has the arithmetic. An existing database keeps
+-- its rows; the one-off step after plan_settings below moves them if they are
+-- still at the old defaults.
 insert into public.ai_quota_limits (role, daily_limit) values
   ('admin', 1000),
-  ('teacher', 400),
-  ('student', 60)
+  ('teacher', 200),
+  ('student', 30)
 on conflict (role) do nothing;
 
 -- Per-user override: null = use the role default.
@@ -2012,6 +2018,21 @@ create policy "Signed-in users read plan settings"
   on public.plan_settings for select
   using (auth.role() = 'authenticated');
 
+-- One-off, October 2026: move the student and teacher AI allowances to the new
+-- defaults (§11) on a database that still holds the old ones. Run once, marked by
+-- a plan_settings row, so re-applying this file never undoes a value an admin
+-- sets afterwards. A role an admin had already moved off the old default is left
+-- as it is.
+do $$
+begin
+  if not exists (select 1 from public.plan_settings where key = 'migrated_ai_quota_2026_10') then
+    update public.ai_quota_limits set daily_limit = 30 where role = 'student' and daily_limit = 60;
+    update public.ai_quota_limits set daily_limit = 200 where role = 'teacher' and daily_limit = 400;
+    insert into public.plan_settings (key, value) values ('migrated_ai_quota_2026_10', 1)
+    on conflict (key) do nothing;
+  end if;
+end $$;
+
 -- Daily free-tier evaluation allowance.  The DEFAULT below must match
 -- FREE_TIER_EVAL_LIMIT in services/planLimits.ts (pinned by
 -- tests/unit/entitlementConstants.test.ts); a plan_settings row overrides it
@@ -2020,7 +2041,7 @@ create or replace function public.free_evaluation_limit()
 returns integer language sql stable security definer set search_path = public as $$
   select coalesce(
     (select value from public.plan_settings where key = 'free_evaluation_limit'),
-    5
+    3
   );
 $$;
 

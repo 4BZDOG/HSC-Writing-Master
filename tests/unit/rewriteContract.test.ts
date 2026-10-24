@@ -161,6 +161,42 @@ describe('evaluateAnswer asks for the marking rewrite as text plus keyChanges', 
   });
 });
 
+describe('evaluateAnswer leaves the rewrite out for a plan that cannot receive it', () => {
+  // The server strips the rewrite from a free-tier result (api/gemini.ts), so
+  // asking for it paid for output nobody reads. See EvaluateOptions.
+  let fetchMock: ReturnType<typeof vi.fn>;
+  beforeEach(() => {
+    fetchMock = vi.fn().mockResolvedValue(makeProxyResponse(evaluationReply(undefined)));
+    vi.stubGlobal('fetch', fetchMock);
+  });
+  afterEach(() => vi.unstubAllGlobals());
+
+  it('asks for no rewrite in the brief or the schema', async () => {
+    await evaluateAnswer(ANSWER, prompt, undefined, undefined, { withRewrite: false });
+
+    const body = bodyOf(fetchMock);
+    expect(body.config.responseSchema.properties).not.toHaveProperty('revisedAnswer');
+    const text = promptTextOf(fetchMock);
+    expect(text).toContain('**Revised Answer**: Not requested.');
+    expect(text).not.toContain("Lift the STUDENT'S answer");
+    expect(text).not.toContain('Hard length ceiling');
+  });
+
+  it('still marks: the mark, the criteria and the feedback come back as before', async () => {
+    const result = await evaluateAnswer(ANSWER, prompt, undefined, undefined, {
+      withRewrite: false,
+    });
+    expect(result.overallMark).toBe(4);
+    expect(result.revisedAnswer).toBeUndefined();
+  });
+
+  it('asks for the rewrite by default, so every other caller is unchanged', async () => {
+    await evaluateAnswer(ANSWER, prompt);
+    expect(bodyOf(fetchMock).config.responseSchema.properties).toHaveProperty('revisedAnswer');
+    expect(promptTextOf(fetchMock)).toContain("Lift the STUDENT'S answer");
+  });
+});
+
 describe('improveAnswer (Regenerate) returns its keyChanges', () => {
   let fetchMock: ReturnType<typeof vi.fn>;
   beforeEach(() => {

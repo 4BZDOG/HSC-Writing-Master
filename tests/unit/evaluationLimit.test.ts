@@ -21,6 +21,9 @@ vi.mock('../../api/_lib/quota', () => ({
   consumeAiQuota: (...args: unknown[]) => consumeAiQuotaMock(...args),
   resolveCallerPlan: (...args: unknown[]) => resolveCallerPlanMock(...args),
   recordAiModelUsage: async () => undefined,
+  // The request guard asks this only for an oversized call or an uncapped Gemini
+  // one; these tests are about the gates, so the caller is a student.
+  resolveCallerIsStaff: async () => false,
   isQuotaEnabled: () => true,
 }));
 
@@ -54,7 +57,11 @@ const post = (body: Record<string, unknown>) => ({
   body,
 });
 
-const evaluationRequest = { provider: 'gemini', model: 'gemini-3-flash', __feature: 'evaluation' };
+const evaluationRequest = {
+  provider: 'gemini',
+  model: 'gemini-3-flash-preview',
+  __feature: 'evaluation',
+};
 
 beforeEach(() => {
   consumeEvaluationMock.mockReset();
@@ -104,7 +111,7 @@ describe('api/gemini free-tier evaluation gate', () => {
 
   it('does not meter calls that are not evaluations', async () => {
     const res = makeRes();
-    await handler(post({ provider: 'gemini', model: 'gemini-3-flash' }), res);
+    await handler(post({ provider: 'gemini', model: 'gemini-3-flash-preview' }), res);
 
     expect(consumeEvaluationMock).not.toHaveBeenCalled();
     expect(res.statusCode).toBe(200);
@@ -245,7 +252,7 @@ describe('api/gemini free-tier content redaction', () => {
     await handler(
       post({
         provider: 'gemini',
-        model: 'gemini-3-flash',
+        model: 'gemini-3-flash-preview',
         config: {
           responseSchema: { required: ['overallMark', 'overallBand', 'criteria'] },
         },
@@ -361,5 +368,47 @@ describe('api/gemini redaction honours the policy switches', () => {
     const res = makeRes();
     await handler(post(evaluationRequest), res);
     expect(markingTextFrom(res.body)).not.toContain('Secret paid detail.');
+  });
+});
+
+describe('the free-tier marking model (FREE_TIER_MARKING_MODEL)', () => {
+  const proRequest = { ...evaluationRequest, model: 'gemini-3.1-pro-preview' };
+  let saved: string | undefined;
+  beforeEach(() => {
+    saved = process.env.FREE_TIER_MARKING_MODEL;
+  });
+  afterEach(() => {
+    if (saved === undefined) delete process.env.FREE_TIER_MARKING_MODEL;
+    else process.env.FREE_TIER_MARKING_MODEL = saved;
+  });
+
+  const forwardedModel = () => (runAiProxyMock.mock.calls[0][0] as { model: string }).model;
+
+  it('leaves the model alone unless a deployment sets it', async () => {
+    delete process.env.FREE_TIER_MARKING_MODEL;
+    consumeEvaluationMock.mockResolvedValue({ allowed: true, used: 1, limit: 3, unlimited: false });
+    await handler(post(proRequest), makeRes());
+    expect(forwardedModel()).toBe('gemini-3.1-pro-preview');
+  });
+
+  it('marks the free tier on the chosen model when it is set', async () => {
+    process.env.FREE_TIER_MARKING_MODEL = 'gemini-3-flash-preview';
+    consumeEvaluationMock.mockResolvedValue({ allowed: true, used: 1, limit: 3, unlimited: false });
+    await handler(post(proRequest), makeRes());
+    expect(forwardedModel()).toBe('gemini-3-flash-preview');
+  });
+
+  it('never moves a paying caller’s marking', async () => {
+    process.env.FREE_TIER_MARKING_MODEL = 'gemini-3-flash-preview';
+    resolveCallerPlanMock.mockResolvedValue('plus');
+    consumeEvaluationMock.mockResolvedValue({ allowed: true, used: 0, limit: -1, unlimited: true });
+    await handler(post(proRequest), makeRes());
+    expect(forwardedModel()).toBe('gemini-3.1-pro-preview');
+  });
+
+  it('never moves a call that is not a marking', async () => {
+    process.env.FREE_TIER_MARKING_MODEL = 'gemini-3-flash-preview';
+    await handler(post({ provider: 'gemini', model: 'gemini-3.1-pro-preview' }), makeRes());
+    expect(forwardedModel()).toBe('gemini-3.1-pro-preview');
   });
 });

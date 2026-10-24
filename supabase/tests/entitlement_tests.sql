@@ -349,8 +349,8 @@ rollback;
 begin;
 do $$
 begin
-  if public.free_evaluation_limit() <> 5 then
-    raise exception 'TEST FAILED: default free allowance is % (expected 5)',
+  if public.free_evaluation_limit() <> 3 then
+    raise exception 'TEST FAILED: default free allowance is % (expected 3)',
       public.free_evaluation_limit();
   end if;
   raise notice 'PASS: the shipped default applies when nothing is configured';

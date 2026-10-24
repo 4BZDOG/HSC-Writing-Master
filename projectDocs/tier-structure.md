@@ -10,12 +10,17 @@ what it gates and why, and what a teacher sees in each situation. The code it de
 
 | Tier            | Buyer                           | Job                                                                                                                                                          | Price today                 |
 | --------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
-| **Free**        | Student                         | "Try it honestly": 5 marked answers a day, summary and band, question tiers 1–3, exemplars to Band 3                                                         | Free                        |
+| **Free**        | Student                         | "Try it honestly": 3 marked answers a day, summary and band, question tiers 1–3, exemplars to Band 3                                                         | Free                        |
 | **Band 6 Plus** | Student or parent               | "Get better, fast": unlimited marking, full feedback, answer upgrades, every exemplar, exam simulation, the student's own progress report, outcome briefings | A$7.99 a month, A$59 a year |
 | **School**      | Head teacher or accounts office | "Cover the cohort and run it": Plus for every seat, the class and school reports, seat management, and invoicing against a purchase order                    | A$4 per student per year    |
 
 Prices are read from Stripe (`/api/prices`), with the env display strings as the fallback (see
 `docs/stripesetup.md`). The yearly saving and the seat total are worked out from the prices shown.
+
+**What the AI costs, and the prices that cover it:** `projectDocs/cost-model.md`. One marking costs about A$0.07, so
+the current yearly Plus price roughly breaks even and the School seat loses money. That doc proposes Plus at
+A$12.99 a month or A$99 a year and School at A$15 per student a year, and explains the free tier's three markings
+a day.
 
 ## Three rules
 

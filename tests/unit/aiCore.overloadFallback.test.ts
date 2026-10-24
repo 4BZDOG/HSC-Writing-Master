@@ -68,7 +68,7 @@ describe('Gemini overload (503) fallback', () => {
     expect(result).toBeTruthy();
     expect(fetchMock).toHaveBeenCalledTimes(5);
     const fallbackBody = JSON.parse(fetchMock.mock.calls[4][1].body as string);
-    expect(fallbackBody.model).toBe('gemini-3.7-flash');
+    expect(fallbackBody.model).toBe('gemini-3.8-flash');
     expect(fallbackBody.provider).toBe('gemini');
 
     expect(notices).toHaveLength(1);
