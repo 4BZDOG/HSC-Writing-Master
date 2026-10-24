@@ -98,13 +98,13 @@ const netOfPayment = (grossAud, { gstInclusive = true } = {}) => {
 
 /** Monthly net revenue per subscriber (or per seat), in AUD. */
 export const plans = {
-  'Plus monthly, A$7.99 (now)': netOfPayment(7.99),
-  'Plus yearly, A$59 (now)': netOfPayment(59) / 12,
-  'Plus monthly, A$12.99 (proposed)': netOfPayment(12.99),
-  'Plus yearly, A$99 (proposed)': netOfPayment(99) / 12,
+  'Plus monthly, A$7.99 (before)': netOfPayment(7.99),
+  'Plus yearly, A$59 (before)': netOfPayment(59) / 12,
+  'Plus monthly, A$12.99 (now)': netOfPayment(12.99),
+  'Plus yearly, A$99 (now)': netOfPayment(99) / 12,
   // A school buys 30 seats in one payment; ex-GST price, GST added on top.
-  'School seat, A$4/yr (now)': netOfPayment(4 * 30, { gstInclusive: false }) / 30 / 12,
-  'School seat, A$15/yr (proposed)': netOfPayment(15 * 30, { gstInclusive: false }) / 30 / 12,
+  'School seat, A$4/yr (before)': netOfPayment(4 * 30, { gstInclusive: false }) / 30 / 12,
+  'School seat, A$15/yr (now)': netOfPayment(15 * 30, { gstInclusive: false }) / 30 / 12,
 };
 
 /** Monthly usage, by count of each kind of call. */
@@ -171,12 +171,12 @@ out.push('\n### Margin a month\n');
 out.push('| Plan | Typical | Heavy |');
 out.push('| --- | --- | --- |');
 const pairs = [
-  ['Plus monthly, A$7.99 (now)', 'plus'],
-  ['Plus yearly, A$59 (now)', 'plus'],
-  ['Plus monthly, A$12.99 (proposed)', 'plus'],
-  ['Plus yearly, A$99 (proposed)', 'plus'],
-  ['School seat, A$4/yr (now)', 'school'],
-  ['School seat, A$15/yr (proposed)', 'school'],
+  ['Plus monthly, A$7.99 (before)', 'plus'],
+  ['Plus yearly, A$59 (before)', 'plus'],
+  ['Plus monthly, A$12.99 (now)', 'plus'],
+  ['Plus yearly, A$99 (now)', 'plus'],
+  ['School seat, A$4/yr (before)', 'school'],
+  ['School seat, A$15/yr (now)', 'school'],
 ];
 for (const [plan, group] of pairs) {
   const [typical, heavy] = Object.values(profiles[group]).map(monthlyCost);
@@ -204,14 +204,14 @@ const freeTypicalFlash =
   profiles.free['Typical active free student'].markingFree * callCostsAud.markingFreeOnFlash +
   profiles.free['Typical active free student'].light * callCostsAud.light;
 const plusMargin =
-  plans['Plus monthly, A$12.99 (proposed)'] - monthlyCost(profiles.plus['Typical Plus student']);
+  plans['Plus monthly, A$12.99 (now)'] - monthlyCost(profiles.plus['Typical Plus student']);
 out.push(
   `- A typical active free student costs ${money(freeTypical)} a month on Gemini 3.1 Pro, ` +
     `${money(freeTypicalFlash)} if free marking moved to Gemini 3 Flash.`
 );
 out.push(
   `- Free costs are covered when ${((freeTypical / plusMargin) * 100).toFixed(1)}% of active free ` +
-    `students convert to proposed monthly Plus (${((freeTypicalFlash / plusMargin) * 100).toFixed(1)}% with Flash marking).`
+    `students convert to monthly Plus (${((freeTypicalFlash / plusMargin) * 100).toFixed(1)}% with Flash marking).`
 );
 
 const perMarkingSession = callCostsAud.markingPaid + 2 * callCostsAud.light;
@@ -223,7 +223,7 @@ for (const plan of Object.keys(plans).filter((p) => p.startsWith('Plus'))) {
 }
 const fixedAud = aud(FIXED_USD_PER_MONTH);
 out.push(
-  `- Hosting, ${money(fixedAud)} a month, is covered by ${Math.ceil(fixedAud / (plans['Plus monthly, A$12.99 (proposed)'] - monthlyCost(profiles.plus['Typical Plus student'])))} typical Plus subscribers at the proposed monthly price.`
+  `- Hosting, ${money(fixedAud)} a month, is covered by ${Math.ceil(fixedAud / (plans['Plus monthly, A$12.99 (now)'] - monthlyCost(profiles.plus['Typical Plus student'])))} typical Plus subscribers at the monthly price.`
 );
 
 console.log(out.join('\n'));

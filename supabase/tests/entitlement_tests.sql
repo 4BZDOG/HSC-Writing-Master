@@ -391,14 +391,14 @@ declare q integer;
 begin
   -- The member's own profile still says 'free'; the licence is what counts.
   q := public.resolve_ai_quota('00000000-0000-0000-0000-0000000000e4');
-  if q < 300 then
-    raise exception 'TEST FAILED: licensed school member metered at % (expected the 300 floor)', q;
+  if q < 150 then
+    raise exception 'TEST FAILED: licensed school member metered at % (expected the 150 floor)', q;
   end if;
   raise notice 'PASS: a licensed school member gets the paid AI allowance (%)', q;
 
   -- And someone with no licence and no paid plan is left where they were.
   q := public.resolve_ai_quota('00000000-0000-0000-0000-0000000000e1');
-  if q >= 300 then
+  if q >= 150 then
     raise exception 'TEST FAILED: an unaffiliated free student got the paid floor (%)', q;
   end if;
   raise notice 'PASS: an unaffiliated free student is unchanged (%)', q;

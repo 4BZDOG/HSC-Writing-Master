@@ -1,6 +1,7 @@
 # Cost model: what the AI costs, and the levels that make each plan profitable
 
-Status: researched and set in October 2026. Re-run `node scripts/costModel.mjs` after any change of price, model,
+Status: researched and set in October 2026. The prices and allowances below are now the shipped defaults; the
+prices also need setting in Stripe (section 6). Re-run `node scripts/costModel.mjs` after any change of price, model,
 exchange rate or measured call size; the tables in section 4 are its output.
 
 ## 1. The short answer
@@ -9,16 +10,21 @@ exchange rate or measured call size; the tables in section 4 are its output.
   1,000 tokens of feedback plus up to 4,096 tokens of thinking out, billed as output at US$12 per million. That is
   roughly three times the figure the admin dashboard assumed. Everything else a student does is cheap by comparison
   (about A$0.006 a call on Gemini 3 Flash).
-- **The current prices are too low for the cost.** Across a realistic population (one subscriber in five heavy),
-  yearly Plus at A$59 makes about 3%, and the School seat at A$4 a year loses money. Monthly Plus at A$7.99 makes
-  about 38%.
+- **The old prices were too low for the cost.** Across a realistic population (one subscriber in five heavy), yearly
+  Plus at A$59 made about 3%, the School seat at A$4 a year lost money, and monthly Plus at A$7.99 made about 38%.
+- **The new prices** are Plus at **A$12.99 a month or A$99 a year** (incl. GST) and School at **A$15 per student a
+  year** (+ GST). They make 62%, 42% and 62% across the same population.
 - **The free tier was the largest exposure.** At five markings and 60 AI calls a day, one free account could cost
   about A$19 a month, more than any plan brings in. The proxy also forwarded whatever model and size the browser
   asked for, so a free account's 60 calls could have gone to the most expensive model with a near-megabyte prompt.
-- **What changed in code** (section 5): a server-side cost guard, a cheaper free-tier marking, lower free and
-  teacher allowances, a correct model registry, and an opt-in switch to mark the free tier on Flash.
-- **What needs the owner** (section 6): new prices in Stripe. Proposed: **Plus A$12.99 a month or A$99 a year**
-  (incl. GST), **School A$15 per student a year** (+ GST).
+- **What changed in code** (section 5):
+  - a server-side cost guard;
+  - a cheaper free-tier marking;
+  - new prices;
+  - lower allowances (free markings 3 a day, students 30 calls, teachers 200, paid plans 150);
+  - a correct model registry;
+  - an opt-in switch to mark the free tier on Flash.
+- **What needs the owner** (section 6): create the new prices in Stripe, and tell existing subscribers.
 
 ## 2. Sources (checked 24 October 2026)
 
@@ -78,14 +84,14 @@ it. "Every allowance used" is the ceiling a free account can reach, not an expec
 
 #### Net revenue a month, after GST and Stripe
 
-| Plan                             | Net a month |
-| -------------------------------- | ----------- |
-| Plus monthly, A$7.99 (now)       | A$6.83      |
-| Plus yearly, A$59 (now)          | A$4.36      |
-| Plus monthly, A$12.99 (proposed) | A$11.29     |
-| Plus yearly, A$99 (proposed)     | A$7.34      |
-| School seat, A$4/yr (now)        | A$0.33      |
-| School seat, A$15/yr (proposed)  | A$1.23      |
+| Plan                          | Net a month |
+| ----------------------------- | ----------- |
+| Plus monthly, A$7.99 (before) | A$6.83      |
+| Plus yearly, A$59 (before)    | A$4.36      |
+| Plus monthly, A$12.99 (now)   | A$11.29     |
+| Plus yearly, A$99 (now)       | A$7.34      |
+| School seat, A$4/yr (before)  | A$0.33      |
+| School seat, A$15/yr (now)    | A$1.23      |
 
 #### Monthly cost of each usage profile
 
@@ -102,47 +108,51 @@ it. "Every allowance used" is the ceiling a free account can reach, not an expec
 
 #### Margin a month
 
-| Plan                             | Typical      | Heavy           |
-| -------------------------------- | ------------ | --------------- |
-| Plus monthly, A$7.99 (now)       | A$4.13 (60%) | −A$3.61 (-53%)  |
-| Plus yearly, A$59 (now)          | A$1.66 (38%) | −A$6.07 (-139%) |
-| Plus monthly, A$12.99 (proposed) | A$8.59 (76%) | A$0.86 (8%)     |
-| Plus yearly, A$99 (proposed)     | A$4.64 (63%) | −A$3.10 (-42%)  |
-| School seat, A$4/yr (now)        | A$0.01 (3%)  | −A$0.75 (-229%) |
-| School seat, A$15/yr (proposed)  | A$0.91 (74%) | A$0.15 (13%)    |
+| Plan                          | Typical      | Heavy           |
+| ----------------------------- | ------------ | --------------- |
+| Plus monthly, A$7.99 (before) | A$4.13 (60%) | −A$3.61 (-53%)  |
+| Plus yearly, A$59 (before)    | A$1.66 (38%) | −A$6.07 (-139%) |
+| Plus monthly, A$12.99 (now)   | A$8.59 (76%) | A$0.86 (8%)     |
+| Plus yearly, A$99 (now)       | A$4.64 (63%) | −A$3.10 (-42%)  |
+| School seat, A$4/yr (before)  | A$0.01 (3%)  | −A$0.75 (-229%) |
+| School seat, A$15/yr (now)    | A$0.91 (74%) | A$0.15 (13%)    |
 
 #### Margin across a population (20% heavy users)
 
-| Plan                             | Margin a month |
-| -------------------------------- | -------------- |
-| Plus monthly, A$7.99 (now)       | A$2.58 (38%)   |
-| Plus yearly, A$59 (now)          | A$0.12 (3%)    |
-| Plus monthly, A$12.99 (proposed) | A$7.05 (62%)   |
-| Plus yearly, A$99 (proposed)     | A$3.09 (42%)   |
-| School seat, A$4/yr (now)        | −A$0.14 (-43%) |
-| School seat, A$15/yr (proposed)  | A$0.76 (62%)   |
+| Plan                          | Margin a month |
+| ----------------------------- | -------------- |
+| Plus monthly, A$7.99 (before) | A$2.58 (38%)   |
+| Plus yearly, A$59 (before)    | A$0.12 (3%)    |
+| Plus monthly, A$12.99 (now)   | A$7.05 (62%)   |
+| Plus yearly, A$99 (now)       | A$3.09 (42%)   |
+| School seat, A$4/yr (before)  | −A$0.14 (-43%) |
+| School seat, A$15/yr (now)    | A$0.76 (62%)   |
 
 #### What the free tier costs per conversion
 
 - A typical active free student costs A$0.60 a month on Gemini 3.1 Pro, A$0.22 if free marking moved to Gemini 3 Flash.
-- Free costs are covered when 7.0% of active free students convert to proposed monthly Plus (2.5% with Flash marking).
+- Free costs are covered when 7.0% of active free students convert to monthly Plus (2.5% with Flash marking).
 
 #### Break-even
 
-- Plus monthly, A$7.99 (now): 83 markings a month (each with two light calls).
-- Plus yearly, A$59 (now): 53 markings a month (each with two light calls).
-- Plus monthly, A$12.99 (proposed): 137 markings a month (each with two light calls).
-- Plus yearly, A$99 (proposed): 89 markings a month (each with two light calls).
-- Hosting, A$64.84 a month, is covered by 8 typical Plus subscribers at the proposed monthly price.
+- Plus monthly, A$7.99 (before): 83 markings a month (each with two light calls).
+- Plus yearly, A$59 (before): 53 markings a month (each with two light calls).
+- Plus monthly, A$12.99 (now): 137 markings a month (each with two light calls).
+- Plus yearly, A$99 (now): 89 markings a month (each with two light calls).
+- Hosting, A$64.84 a month, is covered by 8 typical Plus subscribers at the monthly price.
 
 Reading them:
 
-- **Monthly Plus at A$7.99 is profitable on typical use and loses on heavy use.** A heavy student (four markings a
-  day) costs about A$10 a month.
-- **Yearly Plus at A$59 is roughly break-even.** It nets A$4.36 a month, and 53 markings a month uses all of it.
-- **The School seat at A$4 a year loses money** on any student who uses it. It is a tenth of what comparable school
-  resources charge per subject.
-- **The free tier's cost is real.** At the proposed monthly price, about 7% of active free students must convert to
+- **The old prices did not cover the AI.**
+  - Monthly Plus at A$7.99 was profitable on typical use and lost money on heavy use; a heavy student (four
+    markings a day) costs about A$10 a month.
+  - Yearly Plus at A$59 roughly broke even: it netted A$4.36 a month, and 53 markings a month used all of it.
+  - The School seat at A$4 a year lost money on any student who used it. That was a tenth of what comparable school
+    resources charge per subject.
+- **The new prices cover typical use comfortably.** Monthly Plus and the School seat are profitable even for a heavy
+  user. A heavy yearly subscriber still costs more than A$99 brings in, but across a population the yearly plan makes
+  42%.
+- **The free tier's cost is real.** At the new monthly price, about 7% of active free students must convert to
   pay for the rest. Marking the free tier on Flash would bring that to about 2.5%.
 - **Hosting is small.** About A$65 a month, covered by eight typical Plus subscribers.
 
@@ -161,12 +171,14 @@ Reading them:
    sees changes.
 3. **Lower allowances where nobody pays:**
 
-   | Allowance              | Was | Now                            |
-   | ---------------------- | --- | ------------------------------ |
-   | Free markings a day    | 5   | **3**                          |
-   | Student AI calls a day | 60  | **30**                         |
-   | Teacher AI calls a day | 400 | **200**                        |
-   | Paid plans' AI floor   | 300 | 300 (unchanged; see section 6) |
+   | Allowance              | Was | Now     |
+   | ---------------------- | --- | ------- |
+   | Free markings a day    | 5   | **3**   |
+   | Student AI calls a day | 60  | **30**  |
+   | Teacher AI calls a day | 400 | **200** |
+   | Paid plans' AI floor   | 300 | **150** |
+   - **Paid plans:** 150 calls is still about thirty full marking sessions a day, which no student needs, and it
+     halves what one paid account can cost in a day.
    - **Who these cover:** three free markings a day is still up to 90 a month, against about 10 a month free at
      comparable apps. Thirty calls covers three markings and everything around them; only about 9% of shipped
      questions trigger an AI call just by being opened.
@@ -186,26 +198,32 @@ Reading them:
    - **Who it affects:** it never touches a paying caller's marking, or any call that is not a marking. See
      section 7 before turning it on.
 
-## 6. Owner actions: prices
+## 6. Prices: set in code, still to set in Stripe
 
-The prices shown come from Stripe (`/api/prices`), so a change in Stripe is the whole change. The env display strings
-are only the fallback, and should be updated to match. Proposed, all in AUD:
+The app's fallback prices (`PLAN_PRICING` in `services/entitlements.ts`) are now the new ones. But what a customer is
+**charged** is the Stripe Price their checkout uses, and the screens show Stripe's amount once `/api/prices` answers.
+Until the Stripe prices change, customers keep being charged, and shown, the old amounts.
 
-| Plan                       | Now    | Proposed              | Why                                                                                          |
-| -------------------------- | ------ | --------------------- | -------------------------------------------------------------------------------------------- |
-| Plus, monthly              | A$7.99 | **A$12.99** incl. GST | 62% margin across a population with one heavy user in five; still under StudyPulse's A$20    |
-| Plus, yearly               | A$59   | **A$99** incl. GST    | 42% margin across the same population; about AusGrader's A$100; still the cheaper way to pay |
-| School, per student a year | A$4    | **A$15** + GST        | 62% margin across the population; well under per-subject school resources                    |
+| Plan                       | Before | Now                   | Margin across the population                               |
+| -------------------------- | ------ | --------------------- | ---------------------------------------------------------- |
+| Plus, monthly              | A$7.99 | **A$12.99** incl. GST | 62%; still under StudyPulse's A$20                         |
+| Plus, yearly               | A$59   | **A$99** incl. GST    | 42%; about AusGrader's A$100; still the cheaper way to pay |
+| School, per student a year | A$4    | **A$15** + GST        | 62%; well under per-subject school resources               |
 
-- **Stripe:** create the new prices as new Price objects, with tax behaviour set (inclusive for Plus, exclusive for
-  School). Point `STRIPE_*_PRICE_ID` and the `VITE_` copies at them.
-- **Existing subscribers:** they stay on their old price until you migrate them. Under the Australian Consumer Law,
-  give notice before changing a renewing subscriber's price.
-- **Paid allowance:** with the new prices, lower the paid plans' AI floor from 300 to 150 calls a day for new terms.
-  A hundred and fifty is still thirty full marking sessions a day, and it halves the worst case. It was not lowered
-  here because current subscribers bought 300.
-- **Seat economics:** set `VITE_AI_COST_PER_CALL_AUD=0.03` so the panel can judge. That is a blended estimate: three
-  calls in ten marking, one an upgrade, six light.
+To finish the change:
+
+1. **Create the prices in Stripe.** In the Stripe Dashboard, add three new Prices to the existing products: A$12.99
+   monthly and A$99 yearly for Plus with tax behaviour _inclusive_, and A$15 yearly per seat for School with tax
+   behaviour _exclusive_.
+2. **Point the deployment at them.** Set `STRIPE_PLUS_MONTHLY_PRICE_ID`, `STRIPE_PLUS_YEARLY_PRICE_ID` and
+   `STRIPE_SCHOOL_PRICE_ID`, and their `VITE_` copies, to the new IDs, then redeploy. Remove any
+   `VITE_*_PRICE_DISPLAY` override that still names an old price.
+3. **Existing subscribers.** They stay on their old price until they are moved. Under the Australian Consumer Law,
+   give them notice before a renewing price changes.
+4. **The paid allowance is already 150.** It applies to existing subscribers too as soon as the schema is
+   re-applied, so mention it in the same notice.
+5. **Seat economics.** Set `VITE_AI_COST_PER_CALL_AUD=0.03` so the panel can judge. That is a blended estimate:
+   three calls in ten marking, one an upgrade, six light.
 
 ## 7. Next steps that would sharpen this
 

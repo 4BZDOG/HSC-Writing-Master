@@ -2,8 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import {
+  FREE_DAILY_AI_CALLS,
   FREE_TIER_EVAL_LIMIT,
   FREE_TIER_MAX_SAMPLE_BAND,
+  PAID_DAILY_AI_CALLS,
   SCHOOL_SEAT_LIMITS,
 } from '../../services/entitlements';
 import { SCHOOL_SEAT_LIMITS as SERVER_SEAT_LIMITS } from '../../api/_lib/entitlements';
@@ -19,6 +21,20 @@ import { SCHOOL_SEAT_LIMITS as SERVER_SEAT_LIMITS } from '../../api/_lib/entitle
 const schemaSql = readFileSync(resolve(__dirname, '../../supabase/schema.sql'), 'utf8');
 
 describe('entitlement constants stay in sync', () => {
+  it('the database grants paid plans the AI allowance the plan comparison states', () => {
+    // resolve_ai_quota is defined twice (§11, then the licence-aware §13); both
+    // carry the floor, and the comparison table quotes PAID_DAILY_AI_CALLS.
+    const floors = [...schemaSql.matchAll(/greatest\(coalesce\(l\.daily_limit, 50\), (\d+)\)/g)];
+    expect(floors.length).toBeGreaterThanOrEqual(2);
+    for (const [, value] of floors) expect(Number(value)).toBe(PAID_DAILY_AI_CALLS);
+  });
+
+  it('the database gives a student the AI allowance the plan comparison states', () => {
+    const match = /\('student', (\d+)\)\s*on conflict \(role\) do nothing/.exec(schemaSql);
+    expect(match, 'student ai_quota_limits default not found in schema.sql').not.toBeNull();
+    expect(Number(match![1])).toBe(FREE_DAILY_AI_CALLS);
+  });
+
   it('the database defaults to the same free-tier limit the UI advertises', () => {
     // The live value is a plan_settings row an admin can change without a
     // deploy; the coalesce fallback is the shipped default, and THAT is what

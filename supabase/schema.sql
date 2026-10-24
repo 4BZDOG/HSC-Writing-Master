@@ -856,7 +856,8 @@ create policy ai_usage_read on public.ai_usage
 
 -- Effective daily limit for a user (override → plan-aware default → 50).
 -- Paid plans (stripe_plan = plus/school, kept in sync by the Stripe webhook)
--- are guaranteed a 300-call floor: "unlimited marking" must be enforced
+-- are guaranteed a 150-call floor (300 until October 2026; projectDocs/
+-- cost-model.md): "unlimited marking" must be enforced
 -- server-side, not just promised by the paywall copy. An explicit per-user
 -- override still beats everything, so admins can always dial an individual
 -- up or down.
@@ -878,7 +879,7 @@ returns integer language sql stable security definer set search_path = public as
     p.daily_ai_quota,
     case
       when coalesce(p.stripe_plan, 'free') in ('plus', 'school')
-        then greatest(coalesce(l.daily_limit, 50), 300)
+        then greatest(coalesce(l.daily_limit, 50), 150)
       else l.daily_limit
     end,
     50)
@@ -1661,12 +1662,12 @@ grant select (plan_status, plan_period_end, plan_cancel_at_period_end)
 
 -- Supersedes §11's resolve_ai_quota with a LICENCE-aware version.
 --
--- §11 grants the 300-call floor on `profiles.stripe_plan` alone, which the
+-- §11 grants the paid floor on `profiles.stripe_plan` alone, which the
 -- Stripe webhook only ever writes for the person who paid. Every OTHER member
 -- of a licensed school holds the school plan through their membership — that is
 -- how caller_plan() (§17) and has_unlimited_evaluations() (§14) both resolve it
 -- — so their profile still says 'free' and they were metered at the student
--- default while the plan comparison promised them 300 calls a day. A school
+-- default while the plan comparison promised them the paid allowance. A school
 -- bought a licence and its students were held to the free tier's AI budget.
 --
 -- Defined HERE rather than in §11 because it reads schools.plan_status, which
@@ -1681,7 +1682,7 @@ returns integer language sql stable security definer set search_path = public as
     case
       when coalesce(p.stripe_plan, 'free') in ('plus', 'school')
         or coalesce(s.plan_status, 'none') in ('active', 'trialing', 'past_due')
-        then greatest(coalesce(l.daily_limit, 50), 300)
+        then greatest(coalesce(l.daily_limit, 50), 150)
       else l.daily_limit
     end,
     50)

@@ -19,8 +19,11 @@ Researched and calculated in `projectDocs/cost-model.md`, with the arithmetic in
 - **Fixed.** The registry offered `gemini-3.7-flash`, which Google has never released, and used it as the overload
   fallback, so that fallback always failed. It is `gemini-3.8-flash` now. Gemini 3 Flash's cost estimate was five
   times too low.
-- **Proposed, not changed:** Plus at A$12.99 a month or A$99 a year, and School at A$15 per student a year. Prices
-  live in Stripe; the cost-model doc has the margins and the steps.
+- **Changed.** Prices: Plus A$12.99 a month or A$99 a year (were A$7.99 and A$59), School A$15 per student a year (was
+  A$4). These are the app's fallback prices; the charge is the Stripe Price, so new Prices must be created in Stripe
+  and their IDs set (cost-model.md §6).
+- **Changed.** Paid plans' daily AI allowance is 150 calls (was 300). That is still about thirty marking sessions a
+  day. Pinned to the schema by a test, as the student allowance now is too.
 
 ## [Unreleased] - 2026-10-24 (A route to Plus from the header)
 

@@ -591,7 +591,7 @@ Things to know:
 Sell a whole-school licence directly from the upgrade modal:
 
 1. **Create a per-seat price**: Stripe → Products → "Band 6 School" → add a
-   **yearly recurring** price representing ONE student seat (e.g. A$4/year).
+   **yearly recurring** price representing ONE student seat (A$15/year + GST; see projectDocs/cost-model.md).
 2. **Set the env vars** (server _and_ client must agree):
    - `STRIPE_SCHOOL_PRICE_ID=price_…` (server — maps the price to the
      `school` plan and allows seat quantities at checkout)
@@ -601,7 +601,7 @@ Sell a whole-school licence directly from the upgrade modal:
      Compare plans, and in the upgrade prompt. The comparison is the one that
      matters: staff hold a paid plan already, so they never meet a locked
      control and the prompt never opens for them)
-   - `VITE_SCHOOL_SEAT_PRICE_DISPLAY=A$4` (display only)
+   - `VITE_SCHOOL_SEAT_PRICE_DISPLAY=A$15` (display only)
 3. **Re-apply the schema** (`supabase/schema.sql` §13 adds
    `schools.stripe_subscription_id / plan_seats / plan_status /
 plan_period_end / plan_cancel_at_period_end` and `subscriptions.seats` — all

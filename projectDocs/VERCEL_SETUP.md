@@ -182,10 +182,10 @@ redeploy of these too:
 
 | Variable                          | Default                                         | Shown in                         |
 | --------------------------------- | ----------------------------------------------- | -------------------------------- |
-| `VITE_PLUS_MONTHLY_PRICE_DISPLAY` | `A$7.99`                                        | Upgrade prompt, plan comparison  |
-| `VITE_PLUS_YEARLY_PRICE_DISPLAY`  | `A$59`                                          | Upgrade prompt, plan comparison  |
+| `VITE_PLUS_MONTHLY_PRICE_DISPLAY` | `A$12.99`                                       | Upgrade prompt, plan comparison  |
+| `VITE_PLUS_YEARLY_PRICE_DISPLAY`  | `A$99`                                          | Upgrade prompt, plan comparison  |
 | `VITE_PLUS_YEARLY_NOTE`           | _(unset — worked out from the two Plus prices)_ | Upgrade prompt, parent dashboard |
-| `VITE_SCHOOL_SEAT_PRICE_DISPLAY`  | `A$4`                                           | Seat picker, plan comparison     |
+| `VITE_SCHOOL_SEAT_PRICE_DISPLAY`  | `A$15`                                          | Seat picker, plan comparison     |
 | `VITE_SCHOOL_CONTACT_EMAIL`       | _(unset — shows a toast instead)_               | School licence enquiry link      |
 
 > These are **presentation strings only** — the amount charged always comes

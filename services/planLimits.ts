@@ -57,4 +57,9 @@ export const FREE_TIER_FEEDBACK_SUMMARY_ONLY = true;
  * from FREE_TIER_EVAL_LIMIT, which meters marked evaluations only.
  */
 export const FREE_DAILY_AI_CALLS = 30;
-export const PAID_DAILY_AI_CALLS = 300;
+/**
+ * 150 since October 2026 (was 300). Still about thirty full marking sessions a day,
+ * which no student needs, and it halves what one paid account can cost in a day.
+ * Pinned to the schema's paid floor by tests/unit/entitlementConstants.test.ts.
+ */
+export const PAID_DAILY_AI_CALLS = 150;
