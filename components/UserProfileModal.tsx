@@ -341,7 +341,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
         {!isPaid && selling && upgradeCta.cta === 'upgrade' && (
           <button
             onClick={() => {
-              requestUpgrade('fullFeedback');
+              requestUpgrade('fullFeedback', 'overview');
               onDismiss();
             }}
             className="mt-4 t-label min-h-11 sm:min-h-0 px-4 py-2 rounded-xl bg-amber-700 text-white shadow-sm dark:bg-amber-600 dark:text-slate-950 can-hover:hover:bg-amber-800 dark:can-hover:hover:bg-amber-500 active:scale-[0.98] transition-colors flex items-center gap-2"

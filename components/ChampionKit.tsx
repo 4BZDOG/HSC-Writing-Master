@@ -3,6 +3,7 @@ import { Copy } from 'lucide-react';
 import { schoolInvoicingEnabled } from '../services/entitlements';
 import { useLivePrices } from '../hooks/useLivePrices';
 import { buildLicenceNote } from '../utils/licenceNote';
+import { LEGAL_CONFIG } from '../data/legalContent';
 
 /**
  * A teacher who cannot buy a School licence themselves gets a note to send the
@@ -34,6 +35,8 @@ const ChampionKit: React.FC<{ schoolName?: string | null; className?: string }> 
     schoolName,
     seatPrice: prices.schoolSeat,
     seatGst: prices.schoolSeatGst,
+    seatInterval: prices.schoolSeatInterval,
+    productName: LEGAL_CONFIG.productName,
     invoicing: schoolInvoicingEnabled(),
     appUrl: appAddress(),
   });

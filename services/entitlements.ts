@@ -77,6 +77,16 @@ export const PLAN_LABELS: Record<Plan, string> = {
   school: 'School',
 };
 
+/**
+ * The plan names for a control with no room for the full one: the lock chips and the
+ * header's upgrade button. Everything with room says PLAN_LABELS in full.
+ */
+export const PLAN_SHORT_LABELS: Record<Plan, string> = {
+  free: 'Free',
+  plus: 'Plus',
+  school: 'School',
+};
+
 // ---------------------------------------------------------------------------
 // Feature keys — the atomic units of gating
 // ---------------------------------------------------------------------------
@@ -1167,8 +1177,13 @@ export const UPGRADE_REQUEST_EVENT = 'writing-studio:upgrade-request';
  * shown a headline about criterion breakdowns when what had just happened was
  * "you have used your five markings for today". Both are true of Plus; only one
  * of them is the answer to the question they are asking.
+ *
+ * `overview` is someone asking about the plan itself rather than about one locked
+ * control: the header's "Get Plus", the plan comparison's button and the profile's
+ * plan card. Those borrowed `fullFeedback` too, so a student who asked "what is
+ * Plus?" was answered with a headline about criterion breakdowns.
  */
-export type UpgradeReason = 'dailyLimit';
+export type UpgradeReason = 'dailyLimit' | 'overview';
 
 /** Open the friendly upgrade prompt for a feature (from any component). */
 export const requestUpgrade = (feature: PremiumFeatureKey, reason?: UpgradeReason): void => {

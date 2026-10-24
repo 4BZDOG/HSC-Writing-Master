@@ -36,6 +36,8 @@ const expectedNote = (schoolName?: string) =>
   buildLicenceNote({
     schoolName,
     seatPrice: 'A$4',
+    // The product's own name, as LEGAL_CONFIG gives it.
+    productName: 'Band 6 — HSC Writing Coach',
     invoicing: false,
     appUrl: `${window.location.origin}/`,
   });

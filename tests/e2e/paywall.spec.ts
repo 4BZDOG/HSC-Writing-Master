@@ -194,7 +194,9 @@ test.describe('the free tier can see what it is held to', () => {
     await clearOnboarding(page);
     await openPlanComparison(page);
     await page.getByRole('button', { name: /Upgrade to Band 6 Plus/i }).click();
-    await expect(page.getByRole('dialog', { name: /Full Marking Feedback/i })).toBeVisible({
+    // Asked about the plan, not about one locked control, so the prompt leads with
+    // the plan rather than with the headline of one feature.
+    await expect(page.getByRole('dialog', { name: /What Band 6 Plus adds/i })).toBeVisible({
       timeout: 10_000,
     });
   });

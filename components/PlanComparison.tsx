@@ -242,7 +242,7 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
           </p>
           <button
             onClick={() => {
-              requestUpgrade('fullFeedback');
+              requestUpgrade('fullFeedback', 'overview');
               // The prompt sits at `z-upgrade` (900), below the quick-start
               // modal this table lives in (940), so it would open behind the
               // very button that asked for it.

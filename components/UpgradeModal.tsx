@@ -7,6 +7,7 @@ import { User } from '../types';
 import {
   PREMIUM_FEATURES,
   PLAN_LABELS,
+  PLAN_SHORT_LABELS,
   UPGRADE_REQUEST_EVENT,
   PremiumFeatureKey,
   ALREADY_SUBSCRIBED_STATUS,
@@ -43,7 +44,9 @@ import { guardianAvailable } from '../services/guardianService';
  * follows a deployment's PLAN_FEATURE_OVERRIDES without any call site changing.
  */
 const lockLabelFor = (feature?: PremiumFeatureKey): string =>
-  feature && lowestPlanForFeature(feature) === 'school' ? 'School' : 'Plus';
+  feature && lowestPlanForFeature(feature) === 'school'
+    ? PLAN_SHORT_LABELS.school
+    : PLAN_SHORT_LABELS.plus;
 
 /**
  * Small amber lock chip for a gated-but-visible control. Uses the SHORT plan
@@ -317,7 +320,14 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
    * else either way.
    */
   const atDailyLimit = reason === 'dailyLimit';
-  const headline = atDailyLimit ? "You've used today's free markings" : meta.title;
+  // Asked about the plan, not about one control: the list below is the answer, and
+  // no one feature in it is singled out.
+  const atOverview = reason === 'overview';
+  const headline = atDailyLimit
+    ? "You've used today's free markings"
+    : atOverview
+      ? `What ${PLAN_LABELS[requiredPlan]} adds`
+      : meta.title;
   const eyebrow = access.planLabel ?? PLAN_LABELS[requiredPlan];
   /**
    * What the buyer agrees to, in the order they will wonder about it: the
@@ -330,7 +340,10 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
       // THEIR midnight; the boundary is a UTC day, which is mid-morning here.
       `The free plan includes ${freeEvalLimit()} marked answers a day, and your next one is at ${dailyResetPhrase()}. ` +
       `${PLAN_LABELS.plus} removes the daily limit on marked answers.`
-    : meta.blurb;
+    : atOverview
+      ? `Marking with no daily limit, the full feedback on every answer, and the rest of the list below. ` +
+        `The free plan stays free if you do not upgrade.`
+      : meta.blurb;
 
   return createPortal(
     <div
@@ -388,7 +401,9 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
                 : `${PLAN_LABELS.plus} is not on sale yet, so there is nothing to buy.`
               : access.cta === 'upgrade' && !stripeReady
                 ? `${access.explanation} ${PLAN_LABELS.plus} is not on sale yet.`
-                : access.explanation}
+                : atOverview
+                  ? ''
+                  : access.explanation}
           </p>
 
           {showBandHook && (
@@ -413,7 +428,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
               {perkKeys.map((key) => (
                 <li
                   key={key}
-                  className={`flex items-start gap-2.5 text-xs leading-relaxed ${key === feature ? 'text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold' : 'text-[rgb(var(--color-text-muted))] font-medium'}`}
+                  className={`flex items-start gap-2.5 text-xs leading-relaxed ${key === feature && !atOverview ? 'text-[rgb(var(--color-text-primary))] light:text-slate-900 font-bold' : 'text-[rgb(var(--color-text-muted))] font-medium'}`}
                 >
                   <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber-500 light:text-amber-700" />
                   {PREMIUM_FEATURES[key].perk}

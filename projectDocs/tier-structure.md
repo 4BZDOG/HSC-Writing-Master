@@ -103,5 +103,4 @@ enforces (schema §31, `api/create-checkout.ts`, `api/_lib/subscriptionSync.ts`)
 
 ## Known gaps, deliberately left
 
-- The header has no upgrade route.
 - A teacher's copy-a-note kit names the school by the name on their account, which is set at sign-in.

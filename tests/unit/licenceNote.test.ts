@@ -9,6 +9,7 @@ import { buildLicenceNote } from '../../utils/licenceNote';
 
 const base = {
   seatPrice: 'A$4',
+  productName: 'Band 6 — HSC Writing Coach',
   invoicing: false,
   appUrl: 'https://writing.example.edu.au/',
 };
@@ -16,14 +17,13 @@ const base = {
 describe('buildLicenceNote', () => {
   it('names the school, the per-student price and what the licence covers', () => {
     const note = buildLicenceNote({ ...base, schoolName: 'Hills High' });
-    expect(note).toContain('at Hills High for a year');
-    expect(note).toContain('A$4 per student a year');
+    expect(note).toContain('at Hills High for A$4 per student a year');
     expect(note).toMatch(/class and school progress reports for staff/);
   });
 
   it('falls back to "the school" when the account does not know its school', () => {
-    expect(buildLicenceNote({ ...base, schoolName: null })).toContain('at the school for a year');
-    expect(buildLicenceNote({ ...base, schoolName: '   ' })).toContain('at the school for a year');
+    expect(buildLicenceNote({ ...base, schoolName: null })).toContain('at the school for A$4');
+    expect(buildLicenceNote({ ...base, schoolName: '   ' })).toContain('at the school for A$4');
   });
 
   it('says it is paid by card, and offers an invoice only where one can be raised', () => {
@@ -42,6 +42,19 @@ describe('buildLicenceNote', () => {
       'A$4 per student a year + GST,'
     );
     expect(buildLicenceNote({ ...base, seatGst: null })).not.toMatch(/GST/);
+  });
+
+  it('names the product as the admin will find it, not the repository', () => {
+    const note = buildLicenceNote(base);
+    expect(note).toContain('a School licence for Band 6 — HSC Writing Coach.');
+    expect(note).not.toMatch(/Writing Master/);
+  });
+
+  it('states a monthly seat price as monthly', () => {
+    expect(buildLicenceNote({ ...base, seatInterval: 'month' })).toContain(
+      'A$4 per student a month'
+    );
+    expect(buildLicenceNote(base)).toContain('A$4 per student a year');
   });
 
   it('gives the address of the app', () => {
