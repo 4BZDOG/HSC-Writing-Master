@@ -1287,6 +1287,10 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                           be undone.
                         </p>
                         <p className="mt-2 text-xs leading-relaxed text-secondary">
+                          Any plan you have, or pay for on behalf of a child, is cancelled straight
+                          away, with no refund for the time left.
+                        </p>
+                        <p className="mt-2 text-xs leading-relaxed text-secondary">
                           Anything you contributed to the shared library stays, with your name
                           removed. Consider downloading your data first.
                         </p>

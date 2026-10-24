@@ -14,6 +14,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 
 import createCheckout from '../../api/create-checkout';
 import customerPortal from '../../api/customer-portal';
+import prepareAccountDeletion from '../../api/prepare-account-deletion';
 import syncCheckout from '../../api/sync-checkout';
 
 const ALLOWED = 'https://app.example.com';
@@ -59,6 +60,7 @@ afterEach(() => {
 const endpoints: Array<{ name: string; handler: typeof createCheckout }> = [
   { name: 'create-checkout', handler: createCheckout },
   { name: 'customer-portal', handler: customerPortal },
+  { name: 'prepare-account-deletion', handler: prepareAccountDeletion },
   { name: 'sync-checkout', handler: syncCheckout },
 ];
 

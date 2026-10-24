@@ -15,6 +15,7 @@ const select = vi.fn(() => ({ eq }));
 const from = vi.fn(() => ({ select }));
 const logout = vi.fn();
 const deleteUserProfile = vi.fn().mockResolvedValue(undefined);
+const postBillingJson = vi.fn();
 
 let supabaseConfigured = true;
 
@@ -35,6 +36,10 @@ vi.mock('../../services/supabaseClient', () => ({
 
 vi.mock('../../services/authService', () => ({
   authService: { logout: () => logout() },
+}));
+
+vi.mock('../../services/entitlements', () => ({
+  postBillingJson: (...args: unknown[]) => postBillingJson(...args),
 }));
 
 vi.mock('../../utils/storageUtils', () => ({
@@ -133,6 +138,79 @@ describe('exporting my data', () => {
 });
 
 describe('deleting my account', () => {
+  beforeEach(() => {
+    postBillingJson.mockReset();
+    postBillingJson.mockResolvedValue({
+      data: { cancelled: 0 },
+      error: null,
+      status: 200,
+      code: null,
+    });
+  });
+
+  it('ends billing in Stripe before the account is deleted', async () => {
+    const order: string[] = [];
+    postBillingJson.mockImplementation(async () => {
+      order.push('billing');
+      return { data: { cancelled: 1 }, error: null, status: 200, code: null };
+    });
+    rpc.mockImplementation(async () => {
+      order.push('rpc');
+      return { error: null };
+    });
+
+    const result = await deleteMyAccount(makeUser());
+
+    expect(result.ok).toBe(true);
+    expect(postBillingJson).toHaveBeenCalledWith(
+      '/api/prepare-account-deletion',
+      {},
+      expect.any(String)
+    );
+    expect(order).toEqual(['billing', 'rpc']);
+  });
+
+  it('deletes nothing when billing could not be ended, and says why', async () => {
+    const reason =
+      'We could not cancel your subscription, so your account has not been deleted. Please try again in a moment.';
+    postBillingJson.mockResolvedValue({ data: null, error: reason, status: 502, code: null });
+
+    const result = await deleteMyAccount(makeUser());
+
+    expect(result).toEqual({ ok: false, message: reason });
+    expect(rpc).not.toHaveBeenCalled();
+    expect(deleteUserProfile).not.toHaveBeenCalled();
+    expect(logout).not.toHaveBeenCalled();
+  });
+
+  it('deletes nothing when the caller bought a school licence that would renew', async () => {
+    postBillingJson.mockResolvedValue({
+      data: null,
+      error: 'You bought your school’s licence, so deleting your account would end it…',
+      status: 409,
+      code: 'school_licence_held',
+    });
+
+    const result = await deleteMyAccount(makeUser());
+
+    expect(result.ok).toBe(false);
+    expect(result.message).toMatch(/school’s licence/);
+    expect(rpc).not.toHaveBeenCalled();
+  });
+
+  it.each([null, 404, 405, 501])(
+    'goes on to the database when no billing server answers (%s), which still refuses a renewing plan',
+    async (status) => {
+      postBillingJson.mockResolvedValue({ data: null, error: 'x', status, code: null });
+      rpc.mockResolvedValue({ error: null });
+
+      const result = await deleteMyAccount(makeUser());
+
+      expect(result.ok).toBe(true);
+      expect(rpc).toHaveBeenCalledWith('delete_my_account');
+    }
+  );
+
   it('asks the server to delete the caller, with no user-id to point elsewhere', async () => {
     rpc.mockResolvedValue({ error: null });
     const result = await deleteMyAccount(makeUser());

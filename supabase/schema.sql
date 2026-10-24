@@ -2239,7 +2239,10 @@ begin
 
   -- Deleting the account does not reach Stripe, so a subscription that would renew
   -- keeps charging a card nobody can see any more (or, for a plan a parent pays for,
-  -- keeps charging the parent for a deleted child). Refuse until it is set to end.
+  -- keeps charging the parent for a deleted child). The client first calls
+  -- api/prepare-account-deletion.ts, which cancels those subscriptions in Stripe and
+  -- marks these rows cancelled; this check is the backstop for when that did not run.
+  -- Refuse until it is set to end.
   -- A plan already cancelled at period end is fine: Stripe ends it on its own. The
   -- payer_id column is §31's; plpgsql resolves it when the function runs.
   if exists (
