@@ -16,8 +16,8 @@ import {
  * the env text until the single request answers, then re-renders with the live
  * values. A failed request leaves the env text in place for the session.
  *
- * The yearly saving line is still the env text. It is not recomputed from the
- * live prices, so it can go stale if the yearly price changes on its own.
+ * The yearly saving line is worked out from the live prices once they arrive
+ * (mergePlanPrices), so it always matches the two figures on screen.
  */
 export const useLivePrices = (): PlanPriceText => {
   const [live, setLive] = useState<LivePrices | null>(() => peekLivePrices());

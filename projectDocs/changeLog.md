@@ -1,5 +1,26 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-24 (Plans and prices, said plainly to each role)
+
+- **Fixed.** The yearly saving line ("Save 38%") was typed by hand and went stale when a price changed. It is
+  now worked out from the two Plus prices on screen, rounded down so it never overstates the saving, and left
+  out when the yearly price saves nothing or the two prices disagree about GST. `VITE_PLUS_YEARLY_NOTE` still
+  replaces it while the env prices are shown.
+- **Fixed.** A parent buying Plus for a child where only one billing period is on sale saw no price before the
+  button. The price is stated, and the line under the button names the amount charged.
+- **Added.** The School seat picker shows the total for the seats chosen ("A$120 a year for 30 seats"), and a
+  seat price Stripe charges monthly is described as monthly rather than "a year".
+- **Changed.** A free student's plan card states the free plan in figures (marked answers a day, the feedback,
+  question tiers and sample-answer bands, and when the count resets) instead of "limited daily evaluations".
+  Staff are told whether class and school reports are included or come with a School licence.
+- **Changed.** The upgrade prompt tells a student that a parent or guardian can pay instead, and where to create
+  the link code.
+- **Changed.** For a parent, the plan comparison marks no column as theirs, Plus is "For one student", the
+  payment row says a parent can pay, and a line explains that Plus is bought for a child from the dashboard.
+  "Compare plans" in a parent's profile no longer says "You are on Free".
+- **Changed.** The past-due banner for a School licence asks for the overdue invoice or the card, since a
+  licence may be invoiced against a purchase order, and its button opens the billing portal.
+
 ## [Unreleased] - 2026-10-24 (Deleting an account ends its billing)
 
 Deleting an account removed the database rows but never reached Stripe, which parent/guardian billing (schema

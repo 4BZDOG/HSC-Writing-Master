@@ -64,6 +64,23 @@ describe('BillingAlertBanner', () => {
     expect(screen.queryByText(GUARDIAN_COPY)).toBeNull();
   });
 
+  it('asks a school licence holder to pay the overdue invoice or card, not just to update a card', async () => {
+    // A licence may be invoiced against a purchase order, where there is no card at all.
+    fetchAlert.mockResolvedValue({
+      status: 'past_due',
+      plan: 'school',
+      currentPeriodEnd: '2026-12-01T00:00:00Z',
+      paidByGuardian: false,
+    });
+
+    render(<BillingAlertBanner />);
+
+    expect(await screen.findByText(/licence is overdue/)).toBeTruthy();
+    expect(screen.getByText(/Pay the open invoice, or update the card/)).toBeTruthy();
+    expect(screen.queryByText(/Update your card to keep it that way/)).toBeNull();
+    expect(screen.getByRole('button', { name: 'Open billing portal' })).toBeTruthy();
+  });
+
   it('can be dismissed in both cases', async () => {
     const user = userEvent.setup();
     fetchAlert.mockResolvedValue({

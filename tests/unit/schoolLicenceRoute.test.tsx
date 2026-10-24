@@ -203,3 +203,39 @@ describe('the plan comparison carries the School route', () => {
     expect(screen.queryByRole('button', { name: /Buy \d+ seats/ })).toBeNull();
   });
 });
+
+describe('the seat picker states the total before anyone pays', () => {
+  it('multiplies the seat price by the seats chosen, and follows the picker', () => {
+    render(<PlanComparison user={asUser('teacher')} showToast={vi.fn()} />);
+    // The env seat price is A$4 a year; the picker starts at the default count.
+    const total = 4 * SCHOOL_SEAT_LIMITS.default;
+    expect(
+      screen.getByText(`A$${total} a year for ${SCHOOL_SEAT_LIMITS.default} seats`)
+    ).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: 'More seats' }));
+    expect(
+      screen.getByText(`A$${total + 20} a year for ${SCHOOL_SEAT_LIMITS.default + 5} seats`)
+    ).toBeTruthy();
+  });
+});
+
+describe('the plan comparison, read by a parent', () => {
+  it('marks no plan as theirs, because a parent holds none', () => {
+    render(<PlanComparison user={asUser('parent')} showToast={vi.fn()} />);
+    expect(screen.queryByText('Your plan')).toBeNull();
+  });
+
+  it('says where Plus goes and how a parent buys it, with no upgrade button', () => {
+    render(<PlanComparison user={asUser('parent')} showToast={vi.fn()} />);
+    expect(screen.getByText(/lands on your child’s account, not yours/)).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /Upgrade to/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: /Buy \d+ seats/ })).toBeNull();
+  });
+
+  it('still marks a student’s own plan', () => {
+    render(<PlanComparison user={asUser('user')} showToast={vi.fn()} />);
+    expect(screen.getByText('Your plan')).toBeTruthy();
+    expect(screen.queryByText(/lands on your child’s account/)).toBeNull();
+  });
+});

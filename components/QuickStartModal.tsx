@@ -237,9 +237,18 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           {tab === 'plans' && (
             <>
               <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mb-5">
-                You are on <span className="font-bold">{PLAN_LABELS[plan]}</span>. Here is exactly
-                what that includes — and what the other plans add. Everything below is read straight
-                from the app’s own access rules, so it is always current.
+                {/* A parent holds no plan of their own, so "You are on Free" would
+                    describe nothing; what they are choosing is their child's plan. */}
+                {user.role === 'parent' ? (
+                  <>Here is what each plan gives a student, and what it costs.</>
+                ) : (
+                  <>
+                    You are on <span className="font-bold">{PLAN_LABELS[plan]}</span>. Here is
+                    exactly what that includes — and what the other plans add.
+                  </>
+                )}{' '}
+                Everything below is read straight from the app’s own access rules, so it is always
+                current.
               </p>
               <PlanComparison user={user} showToast={showToast} onDone={onClose} />
             </>
