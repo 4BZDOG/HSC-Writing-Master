@@ -11,6 +11,12 @@ Method, results and recommendations in `projectDocs/calibration-pilot.md`.
   DISCUSS), as the time and word guides already did.
 - **Fixed.** The marker brief stated the verb's unscaled length and time ("1,500–3,000 characters", "9–18 minutes")
   for a 20-mark question. It now states the question's own, and says that length alone earns nothing.
+- **Changed.** An extended response (15 marks or more) reaches Band 6 whatever its verb. A 20-mark DISCUSS or ASSESS
+  was capped at Band 5, so a perfect answer read "Band 5", while NESA publishes responses to these questions as Band
+  5/6 standard. Band 6 is now 17–20 over 20 marks, the top range of NESA's guidelines. Shipped exemplars carry their
+  re-derived band; a 2.20.0 data migration and a one-off schema step bring stored ones into line.
+- **Changed.** The marker marks a range-based rubric by best fit, as NESA markers do, rather than deducting for each
+  flaw.
 
 ## [Unreleased] - 2026-10-24 (What the AI costs, and limits that cover it)
 

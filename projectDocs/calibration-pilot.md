@@ -118,25 +118,51 @@ much nearer the 20/20 anchor by length than it should.
 **Recommended.** Regenerate the 12/20 exemplars, now that the scope brief asks for 2,700–3,600 characters at 12/20.
 That needs AI calls, so it was not done here.
 
-### 4. The verb cap stops a 20-mark DISCUSS at Band 5 (recommended: decide)
+### 4. The verb cap held a 20-mark DISCUSS at Band 5 (applied)
 
-`getBandForMark` caps a Tier 5 verb (DISCUSS, ASSESS, JUSTIFY) at Band 5, whatever the marks. A student who scores
-18/20 on a Business Studies extended response sees "Band 5". NESA publishes three Question 26 responses as Band 5/6
-standard, and 17–20 is the top range in NESA's own guideline.
+`getBandForMark` capped a Tier 5 verb (DISCUSS, ASSESS, JUSTIFY) at Band 5, whatever the marks. A student scoring
+18/20 on a Business Studies extended response saw "Band 5", and so did a perfect 20/20. NESA publishes three
+Question 26 responses as Band 5/6 standard, and 17–20 is the top range of its guideline.
 
-The cap is a deliberate design choice and it is tested as one, so it was not changed here. But on the long questions
-the HSC actually sets, it under-reports the band of the strongest answers. One option: keep the cap for short
-questions, and let a question worth 15 or more marks reach Band 6.
+The old ladder was built to match the guideline's five mark ranges (17–20 as Band 5, down to 1–4 as Band 1). Read
+against NESA's band labels, it put every border sample a band low:
 
-### 5. Where the proxy marker went wrong: deducting, not best-fit (recommended: test with the real model)
+| NESA border | Mean blind mark | Old ladder's border | Six-band ladder's border |
+| ----------- | --------------- | ------------------- | ------------------------ |
+| 5/6         | 16.3            | none (no Band 6)    | 16/17                    |
+| 4/5         | 12.7            | 16/17               | 13/14                    |
+| 3/4         | 10              | 12/13               | 10/11                    |
+| 2/3         | 6               | 8/9                 | 6/7                      |
+| 1/2         | 2.7             | 4/5                 | 3/4                      |
+
+**Change.** A question worth 15 marks or more (`EXTENDED_RESPONSE_MARKS`) now reaches Band 6 whatever its verb
+(`getQuestionBandCeiling`). Shorter questions keep the verb's ceiling. Over 20 marks Band 6 is 17–20, which is exactly
+the guideline's top range, and every band border falls where NESA's border samples sit.
+
+The app's word-count bands (`BAND_METRICS`) agree with it. On a 20-mark question they put the Band 6, 5, 3 and 2
+thresholds at 640, 540, 260 and 160 words. The 5/6, 4/5 and 2/3 border samples have medians of 680, 559 and 254 words,
+and the 1/2 samples straddle 160.
+
+**What else this changes.**
+
+- The 85 shipped exemplars on extended responses store their re-derived band. Browsers re-derive theirs through the
+  2.20.0 data migration, and the database through a one-off step in `schema.sql`.
+- The verb floor still stops a low verb on a long question. Its note now gives the task as the reason, not the
+  ladder.
+- The question picker's tier headings no longer name a band, because each row carries its own.
+- With the free plan's exemplar cap at Band 3, the 12/20 exemplar on an extended response (now Band 4) becomes part of
+  Plus. Free students still see the 5/20 one.
+
+### 5. Where the proxy marker went wrong: deducting, not best-fit (applied; check with the real model)
 
 All three misses came from the same habit. The marker deducted for the kind of regulation a response chose
 (employment law, the carbon tax, free trade) instead of consumer and marketing law, and for imperfect facts. NESA
 credited those responses for sustained, logical argument with well-used case studies.
 
-NESA marks by best fit to the range descriptions. A brief that says "best fit; don't deduct for each imperfection"
-may correct the same habit in the AI marker. It may also inflate marks, and it can only be checked against the real
-model, so it is a recommendation rather than a change.
+NESA marks by best fit to the range descriptions. The marker brief now says so: where the rubric is a ladder of mark
+ranges, it chooses the range that fits best as a whole and does not deduct for each flaw. "Do not inflate marks"
+stays. Because the habit was seen in a proxy marker, the first run against the real model should check the change
+does not lift marks.
 
 ## How to repeat this
 

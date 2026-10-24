@@ -9,16 +9,20 @@ import {
   getCommandTermInfo,
   bandMarkRanges,
   commandTermsList,
+  EXTENDED_RESPONSE_MARKS,
+  getQuestionBandCeiling,
 } from '../../data/commandTerms';
 import { validateAndFixCourses } from '../../utils/dataManagerUtils';
 import { shippedCourses, questionsOf } from './support/shippedCourseData';
 import type { Course, PromptVerb } from '../../types';
 
 /**
- * A mark is only a band step while a question is short. At 20 marks an Explain
- * has three bands seven marks apart, so a 14 and a 20 read as the same result;
- * a Tier 5 verb gives NESA's own five bands. The floor keeps that combination
- * from being created, and these tests hold the places that create questions to it.
+ * A mark is only a band step while a question is short. At 12 marks an Explain
+ * has three bands four marks apart, so an 8 and a 12 read as the same result.
+ * An extended response (15+ marks) reaches all six bands whatever its verb, but
+ * NESA marks it on a sustained, judged argument, which a low-tier verb does not
+ * ask for. The floor keeps both combinations from being created, and these tests
+ * hold the places that create questions to it.
  */
 describe('minimum verb tier by length', () => {
   it('sets the floor by the length of the question', () => {
@@ -72,8 +76,15 @@ describe('minimum verb tier by length', () => {
   });
 
   it('says what is wrong in words a teacher can act on', () => {
+    const note = lengthMismatchNote('EXPLAIN' as PromptVerb, 12);
+    expect(note).toContain('3 bands across 12 marks');
+    expect(note).toContain('ANALYSE');
+    expect(note).toContain('split');
+  });
+
+  it('gives an extended response the task as the reason, since every verb reaches Band 6 there', () => {
     const note = lengthMismatchNote('EXPLAIN' as PromptVerb, 20);
-    expect(note).toContain('3 bands across 20 marks');
+    expect(note).toContain('20-mark extended response');
     expect(note).toContain('DISCUSS');
     expect(note).toContain('split');
   });
@@ -95,15 +106,22 @@ describe('minimum verb tier by length', () => {
     expect(fitVerbsToLength([explain], 5).map((v) => v.term)).toEqual(['EXPLAIN']);
   });
 
-  it('gives a long question the ladder NESA marks it against', () => {
-    // The point of the floor: 20 marks at Tier 5 is five bands of four marks.
-    expect(bandMarkRanges(20, 5).map((r) => `${r.lo}-${r.hi}`)).toEqual([
-      '17-20',
-      '13-16',
-      '9-12',
-      '5-8',
-      '1-4',
+  it('gives a long question the ladder NESA’s own samples sit on', () => {
+    // An extended response reaches Band 6 whatever its verb. Over 20 marks Band 6
+    // is 17-20, the top range of NESA's guidelines, and each band border falls
+    // where NESA's border samples for 2012 Business Studies Question 26 were
+    // marked (projectDocs/calibration-pilot.md).
+    expect(bandMarkRanges(20, 5).map((r) => `B${r.band} ${r.lo}-${r.hi}`)).toEqual([
+      'B6 17-20',
+      'B5 14-16',
+      'B4 11-13',
+      'B3 7-10',
+      'B2 4-6',
+      'B1 1-3',
     ]);
+    expect(getQuestionBandCeiling(EXTENDED_RESPONSE_MARKS, 5)).toBe(6);
+    expect(getQuestionBandCeiling(EXTENDED_RESPONSE_MARKS - 1, 5)).toBe(5);
+    expect(getQuestionBandCeiling(4, 2)).toBe(2);
   });
 
   it('raises the verb on import', () => {
