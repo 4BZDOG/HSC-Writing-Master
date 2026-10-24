@@ -59,6 +59,7 @@ import {
   syncCheckoutSession,
   PLAN_LABELS,
 } from './services/entitlements';
+import { guardianCheckoutSuccessMessage } from './services/guardianService';
 import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp, Pencil } from 'lucide-react';
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -1345,6 +1346,9 @@ const App: React.FC = () => {
   // A parent lands on their dashboard; this is set when they choose to browse
   // questions instead. Cleared on sign-out so the next parent starts at home.
   const [isBrowsingQuestions, setIsBrowsingQuestions] = useState(false);
+  // Bumped each time a parent returns from a Plus checkout, so the dashboard re-reads
+  // the child's card. Reset when the parent leaves the dashboard or signs out.
+  const [guardianCheckoutReturns, setGuardianCheckoutReturns] = useState(0);
 
   const handleAcceptAgreement = useCallback(async () => {
     if (!user) return;
@@ -1366,6 +1370,7 @@ const App: React.FC = () => {
     setUser(null);
     setGuestNoticeDismissed(false);
     setIsBrowsingQuestions(false);
+    setGuardianCheckoutReturns(0);
   }, []);
 
   // Surface daily-AI-quota warnings (80% / 100%) as toasts. The proxy feeds
@@ -1434,6 +1439,11 @@ const App: React.FC = () => {
       const sessionId = checkoutSessionIdFrom(params);
       clearCheckoutParams();
       showToast('Payment received — activating your subscription…', 'info');
+      // A parent pays, but the plan is written to the CHILD. The parent's own plan never
+      // changes, so polling it would only time out. Confirm the purchase, tell the parent,
+      // and let the dashboard re-read the child's card (GuardianDashboard).
+      const parentReturn = authService.getCurrentUser()?.role === 'parent';
+      if (parentReturn) setGuardianCheckoutReturns((n) => n + 1);
       // Stripe redirects back faster than its webhook fires, so the profile is
       // usually still 'free' on this first load. Confirm the purchase, then poll
       // until the plan is in the profile (typically 2-10s), and unlock live — no
@@ -1443,6 +1453,10 @@ const App: React.FC = () => {
         // Confirmed first, so the first refresh below already sees the plan. A
         // pending or unreachable answer changes nothing: the poll is the fallback.
         if (sessionId) await syncCheckoutSession(sessionId);
+        if (parentReturn) {
+          if (!cancelled) showToast(guardianCheckoutSuccessMessage(), 'success');
+          return;
+        }
         for (let attempt = 0; attempt < 10 && !cancelled; attempt++) {
           const current = authService.getCurrentUser();
           if (current && current.role !== 'guest') {
@@ -1588,8 +1602,12 @@ const App: React.FC = () => {
         <Suspense fallback={null}>
           <GuardianDashboard
             user={user}
-            onBrowseQuestions={() => setIsBrowsingQuestions(true)}
+            onBrowseQuestions={() => {
+              setGuardianCheckoutReturns(0);
+              setIsBrowsingQuestions(true);
+            }}
             onSignOut={handleLogout}
+            checkoutReturn={guardianCheckoutReturns}
           />
         </Suspense>
       ) : (

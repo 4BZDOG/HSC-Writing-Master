@@ -1,8 +1,12 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import type { User } from '../../types';
-import type { GuardianStudentProgress, LinkedStudent } from '../../services/guardianService';
+import {
+  guardianCheckoutSuccessMessage,
+  type GuardianStudentProgress,
+  type LinkedStudent,
+} from '../../services/guardianService';
 
 /**
  * The parent's home. The dashboard shows each linked child's plan and who pays
@@ -61,7 +65,10 @@ vi.mock('../../hooks/useLivePrices', () => ({
 }));
 
 import GuardianDashboard, {
+  CHECKOUT_REFRESH_MS,
+  CHECKOUT_REFRESH_TRIES,
   canBuyPlusForChild,
+  pastDueSentence,
   planSentence,
 } from '../../components/guardian/GuardianDashboard';
 import {
@@ -140,12 +147,18 @@ const renderDashboard = (
   overrides: Partial<{
     onBrowseQuestions: () => void;
     onSignOut: () => void;
+    checkoutReturn: number;
   }> = {}
 ) => {
   const onBrowseQuestions = overrides.onBrowseQuestions ?? vi.fn();
   const onSignOut = overrides.onSignOut ?? vi.fn();
   render(
-    <GuardianDashboard user={parent} onBrowseQuestions={onBrowseQuestions} onSignOut={onSignOut} />
+    <GuardianDashboard
+      user={parent}
+      onBrowseQuestions={onBrowseQuestions}
+      onSignOut={onSignOut}
+      checkoutReturn={overrides.checkoutReturn}
+    />
   );
   return { onBrowseQuestions, onSignOut };
 };
@@ -344,6 +357,37 @@ describe('GuardianDashboard: removing a link', () => {
     expect(guardian.removeGuardianLink).toHaveBeenCalledWith('child-1');
   });
 
+  it('says the link was removed when the server confirms it', async () => {
+    const user = userEvent.setup();
+    guardian.removeGuardianLink.mockResolvedValue(true);
+    renderDashboard();
+    await screen.findByRole('heading', { name: 'Sam' });
+
+    await user.click(screen.getByRole('button', { name: 'Remove link to Sam' }));
+    await user.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'Remove link' })
+    );
+
+    expect(await screen.findByText('The link to Sam has been removed.')).toBeTruthy();
+  });
+
+  it('says the link had already been removed when the server reports nothing was removed, and still refreshes the list', async () => {
+    const user = userEvent.setup();
+    guardian.removeGuardianLink.mockResolvedValue(false);
+    renderDashboard();
+    await screen.findByRole('heading', { name: 'Sam' });
+    const callsBefore = guardian.listMyStudents.mock.calls.length;
+
+    await user.click(screen.getByRole('button', { name: 'Remove link to Sam' }));
+    await user.click(
+      within(await screen.findByRole('dialog')).getByRole('button', { name: 'Remove link' })
+    );
+
+    expect(await screen.findByText('That link had already been removed.')).toBeTruthy();
+    expect(screen.queryByText('The link to Sam has been removed.')).toBeNull();
+    expect(guardian.listMyStudents.mock.calls.length).toBeGreaterThan(callsBefore);
+  });
+
   it('keeps billing reachable after a paid child is unlinked, and says so', async () => {
     const user = userEvent.setup();
     guardian.removeGuardianLink.mockResolvedValue(true);
@@ -489,6 +533,126 @@ describe('GuardianDashboard: the pure reading of a child', () => {
     expect(trendSentence([3, 4.5])).toBe('Band 3.0 to 4.5, up 1.5');
     expect(trendSentence([4, 3])).toBe('Band 4.0 to 3.0, down 1');
     expect(trendSentence([4])).toBe('');
+  });
+});
+
+describe('GuardianDashboard: a payment that failed', () => {
+  it('warns by name, and offers Manage billing, when a linked child’s plan payment is past due', async () => {
+    guardian.listPaidSubscriptions.mockResolvedValue([{ userId: 'child-2', status: 'past_due' }]);
+    renderDashboard();
+
+    expect(
+      await screen.findByText(
+        "A payment for Ada didn't go through. Update your card in the billing portal."
+      )
+    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Manage billing' })).toBeTruthy();
+  });
+
+  it('says the child is no longer linked when the payment is for a child who has been unlinked', async () => {
+    guardian.listPaidSubscriptions.mockResolvedValue([{ userId: 'gone-9', status: 'past_due' }]);
+    renderDashboard();
+
+    expect(
+      await screen.findByText(
+        "A payment for a student you are no longer linked to didn't go through. Update your card in the billing portal."
+      )
+    ).toBeTruthy();
+    expect(
+      screen.getByText(
+        'You still pay for a subscription for a student you are no longer linked to.'
+      )
+    ).toBeTruthy();
+  });
+
+  it('does not warn about a payment that is current', async () => {
+    guardian.listPaidSubscriptions.mockResolvedValue([{ userId: 'child-2', status: 'active' }]);
+    renderDashboard();
+    await screen.findByRole('heading', { name: 'Ada' });
+
+    expect(screen.queryByText(/didn't go through/)).toBeNull();
+  });
+
+  it('words the warning for the child it names, or for an unlinked one', () => {
+    expect(pastDueSentence('Ada')).toBe(
+      "A payment for Ada didn't go through. Update your card in the billing portal."
+    );
+    expect(pastDueSentence(null)).toBe(
+      "A payment for a student you are no longer linked to didn't go through. Update your card in the billing portal."
+    );
+  });
+});
+
+describe('GuardianDashboard: back from a Plus checkout', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  const settle = async (ms: number) => {
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(ms);
+    });
+  };
+
+  it('re-reads the payments every few seconds, and stops once a new payment appears', async () => {
+    guardian.listPaidSubscriptions
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([])
+      .mockResolvedValueOnce([])
+      .mockResolvedValue([{ userId: 'child-1', status: 'active' }]);
+    renderDashboard({ checkoutReturn: 1 });
+    await settle(0);
+    // The mount read, then the read the refresh measures the new payment against.
+    expect(guardian.listPaidSubscriptions).toHaveBeenCalledTimes(2);
+
+    await settle(CHECKOUT_REFRESH_MS);
+    expect(guardian.listPaidSubscriptions).toHaveBeenCalledTimes(3);
+    await settle(CHECKOUT_REFRESH_MS);
+    expect(guardian.listPaidSubscriptions).toHaveBeenCalledTimes(4);
+
+    await settle(CHECKOUT_REFRESH_MS * 10);
+    expect(guardian.listPaidSubscriptions).toHaveBeenCalledTimes(4);
+  });
+
+  it('gives up after the set number of tries when no new payment appears', async () => {
+    renderDashboard({ checkoutReturn: 1 });
+    await settle(CHECKOUT_REFRESH_MS * (CHECKOUT_REFRESH_TRIES + 5));
+
+    // One mount read, then one read per try for the refresh.
+    expect(guardian.listPaidSubscriptions).toHaveBeenCalledTimes(1 + CHECKOUT_REFRESH_TRIES);
+  });
+
+  it('does not re-read at all when there has been no checkout return', async () => {
+    renderDashboard();
+    await settle(CHECKOUT_REFRESH_MS * (CHECKOUT_REFRESH_TRIES + 5));
+
+    expect(guardian.listPaidSubscriptions).toHaveBeenCalledTimes(1);
+  });
+
+  it('stops re-reading when the parent leaves the dashboard', async () => {
+    const { unmount } = render(
+      <GuardianDashboard
+        user={parent}
+        onBrowseQuestions={vi.fn()}
+        onSignOut={vi.fn()}
+        checkoutReturn={1}
+      />
+    );
+    await settle(0);
+    unmount();
+    await settle(CHECKOUT_REFRESH_MS * (CHECKOUT_REFRESH_TRIES + 5));
+
+    expect(guardian.listPaidSubscriptions).toHaveBeenCalledTimes(2);
+  });
+
+  it('words the toast the parent sees, with the plan name the product uses', () => {
+    expect(guardianCheckoutSuccessMessage()).toBe(
+      "Payment received. Band 6 Plus will show on your child's card in a moment."
+    );
   });
 });
 

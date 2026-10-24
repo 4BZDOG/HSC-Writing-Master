@@ -206,6 +206,18 @@ describe('past HSC navigator', () => {
     expect(within(list).getByText('Programming for the Web')).toBeTruthy();
   });
 
+  it('lists the years newest first, straight after All years', () => {
+    renderNavigator();
+
+    fireEvent.click(pastHscSwitch());
+    const group = screen.getByRole('group', { name: 'Years' });
+    const labels = within(group)
+      .getAllByRole('button')
+      .map((button) => button.textContent?.trim());
+    // Students revise the latest papers first, so the newest year is the first chip.
+    expect(labels).toEqual(['All years', '2023', '2019']);
+  });
+
   it('narrows to the chosen years, and still lists the selected topic beside them', () => {
     renderNavigator();
 

@@ -146,6 +146,18 @@ describe('deleting my account', () => {
     expect(logout).toHaveBeenCalled();
   });
 
+  it('passes on the server’s reason when a live subscription blocks deletion', async () => {
+    const reason =
+      'Cancel your subscription before deleting your account: open Manage billing, cancel the plan, then try again.';
+    rpc.mockResolvedValue({ error: { code: 'P0001', message: reason } });
+    const result = await deleteMyAccount(makeUser());
+
+    expect(result.ok).toBe(false);
+    expect(result.message).toBe(reason);
+    expect(deleteUserProfile).not.toHaveBeenCalled();
+    expect(logout).not.toHaveBeenCalled();
+  });
+
   it('never reports success it did not achieve', async () => {
     rpc.mockResolvedValue({ error: { message: 'function does not exist' } });
     const result = await deleteMyAccount(makeUser());

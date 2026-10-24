@@ -473,5 +473,45 @@ begin
   raise notice 'PASS: a student whose school already provides Plus shows as school, not free';
 end $$;
 
+-- ---- Deleting an account while a plan would renew is refused (schema §16) ----------
+-- sub_gd_test_1 is still live: the student holds it, the parent pays for it.
+do $$
+declare v_child text; v_parent text; v_after text;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e01');
+  begin
+    perform public.delete_my_account();
+  exception when others then v_child := sqlerrm;
+  end;
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e02');
+  begin
+    perform public.delete_my_account();
+  exception when others then v_parent := sqlerrm;
+  end;
+  perform pg_temp.as_owner();
+
+  if v_child is null or v_child not like 'Your parent or guardian pays for your plan%' then
+    raise exception 'TEST FAILED: a student deleted their account while a parent-paid plan renews (%)', v_child;
+  end if;
+  if v_parent is null or v_parent not like 'Cancel your subscription before deleting%' then
+    raise exception 'TEST FAILED: a parent deleted their account while paying for a renewing plan (%)', v_parent;
+  end if;
+
+  -- Once the plan is set to end, deletion goes ahead. The sentinel undoes it.
+  update public.subscriptions set cancel_at_period_end = true where id = 'sub_gd_test_1';
+  begin
+    perform pg_temp.as_user('00000000-0000-0000-0000-000000006e01');
+    perform public.delete_my_account();
+    raise exception 'sentinel: deleted';
+  exception when others then v_after := sqlerrm;
+  end;
+  perform pg_temp.as_owner();
+  update public.subscriptions set cancel_at_period_end = false where id = 'sub_gd_test_1';
+  if v_after is distinct from 'sentinel: deleted' then
+    raise exception 'TEST FAILED: deletion was refused for a plan already set to end (%)', v_after;
+  end if;
+  raise notice 'PASS: account deletion waits until a renewing plan is cancelled, for holder and payer';
+end $$;
+
 reset role;
 rollback;

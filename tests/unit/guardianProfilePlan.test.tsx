@@ -102,6 +102,29 @@ describe('the plan card when a parent pays for the plan', () => {
     expect(screen.queryByRole('button', { name: /manage subscription/i })).toBeNull();
   });
 
+  it('asks the student to get their parent or guardian to fix a failed payment, with no portal', async () => {
+    lookup.mockResolvedValue({
+      status: 'found',
+      state: {
+        status: 'past_due',
+        plan: 'plus',
+        currentPeriodEnd: '2026-12-01T00:00:00Z',
+        cancelAtPeriodEnd: false,
+        paidByGuardian: true,
+      },
+    });
+
+    renderModal(makeUser({ stripePlan: 'plus' }));
+
+    expect(
+      await screen.findByText(
+        "The payment for your plan didn't go through. Ask your parent or guardian to update their payment details."
+      )
+    ).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /manage subscription/i })).toBeNull();
+    expect(screen.queryByText(/Update your payment method/)).toBeNull();
+  });
+
   it('still offers the portal for a student who pays for their own plan', async () => {
     lookup.mockResolvedValue({
       status: 'found',

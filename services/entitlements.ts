@@ -884,6 +884,11 @@ export interface BillingAlert {
   status: 'past_due';
   plan: string;
   currentPeriodEnd: string | null;
+  /**
+   * True when a parent or guardian pays for this plan. The card is theirs to
+   * update, so the student is told to ask them rather than offered the portal.
+   */
+  paidByGuardian: boolean;
 }
 
 /**
@@ -1013,6 +1018,7 @@ export const fetchBillingAlert = async (): Promise<BillingAlert | null> => {
     status: 'past_due',
     plan: state.plan,
     currentPeriodEnd: state.currentPeriodEnd,
+    paidByGuardian: state.paidByGuardian === true,
   };
 };
 

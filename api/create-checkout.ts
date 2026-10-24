@@ -72,6 +72,7 @@ import {
 } from './_lib/openCheckout';
 import {
   BENEFICIARY_HAS_PLAN_MESSAGE,
+  BENEFICIARY_PURCHASE_PENDING_MESSAGE,
   GUARDIAN_NEEDS_BENEFICIARY_MESSAGE,
   guardianPurchaseRefusal,
   type GuardianRefusal,
@@ -555,9 +556,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
           // duplicate guard would have refused this too, had the webhook already run.
           await releaseCheckout(stripe, session.id);
           if (beneficiaryUserId) {
-            res
-              .status(409)
-              .json({ code: 'beneficiary_has_plan', error: BENEFICIARY_HAS_PLAN_MESSAGE });
+            res.status(409).json({
+              code: 'beneficiary_has_plan',
+              error:
+                displaced.status === 'incomplete'
+                  ? BENEFICIARY_PURCHASE_PENDING_MESSAGE
+                  : BENEFICIARY_HAS_PLAN_MESSAGE,
+            });
             return;
           }
           res.status(409).json({

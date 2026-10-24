@@ -527,7 +527,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         value={displayName}
                         onChange={(e) => setDisplayName(e.target.value)}
                         type="text"
-                        placeholder="How your name appears in the app"
+                        placeholder="Shown in the app"
                         icon={UserIcon}
                         autoComplete="name"
                       />

@@ -26,8 +26,11 @@ export const GUARDIAN_PLUS_ONLY_MESSAGE =
 export const GUARDIAN_NEEDS_BENEFICIARY_MESSAGE =
   'Choose the student this subscription is for, then try again.';
 
-export const BENEFICIARY_HAS_PLAN_MESSAGE =
-  'This student already has a Plus plan, or a purchase for them is still waiting for payment.';
+export const BENEFICIARY_HAS_PLAN_MESSAGE = 'This student already has a Plus plan.';
+
+/** A purchase for this student was already made and is still being paid (e.g. 3-D Secure). */
+export const BENEFICIARY_PURCHASE_PENDING_MESSAGE =
+  'A purchase for this student is still waiting for payment. Finish or cancel it, then try again.';
 
 export const SCHOOL_PROVIDES_PLUS_MESSAGE = "This student's school already provides Band 6 Plus.";
 

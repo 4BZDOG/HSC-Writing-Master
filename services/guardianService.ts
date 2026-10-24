@@ -359,6 +359,14 @@ export const startGuardianCheckout = async (
   return { url: null, error: failure.message, code: failure.code };
 };
 
+/**
+ * The toast a parent sees when they return from a Plus checkout. The payment is
+ * theirs, and the plan shows on the child's card, so the parent's own plan is not
+ * mentioned. A function, so the plan's name is read at call time.
+ */
+export const guardianCheckoutSuccessMessage = (): string =>
+  `Payment received. ${PLAN_LABELS.plus} will show on your child's card in a moment.`;
+
 export interface GuardianPortalResult {
   url: string | null;
   error: string | null;

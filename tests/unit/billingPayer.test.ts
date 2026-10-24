@@ -23,7 +23,11 @@ vi.mock('../../services/supabaseClient', () => ({
   },
 }));
 
-import { fetchBillingLookup, isMissingColumnError } from '../../services/entitlements';
+import {
+  fetchBillingAlert,
+  fetchBillingLookup,
+  isMissingColumnError,
+} from '../../services/entitlements';
 
 /**
  * A database that predates `payer_id`. Selecting the column fails, as PostgREST
@@ -151,6 +155,26 @@ describe('fetchBillingLookup and the payer', () => {
 
     expect(result).toEqual({ status: 'unknown' });
     expect(calls).toHaveLength(1);
+  });
+});
+
+describe('fetchBillingAlert and the payer', () => {
+  it('tells the student the plan is paid for by a guardian when a past-due payment is theirs to fix', async () => {
+    supabaseClient = clientReturning({ ...liveRow, status: 'past_due', payer_id: 'parent-1' });
+
+    await expect(fetchBillingAlert()).resolves.toMatchObject({
+      status: 'past_due',
+      paidByGuardian: true,
+    });
+  });
+
+  it('is not paid by a guardian when the student pays their own past-due plan', async () => {
+    supabaseClient = clientReturning({ ...liveRow, status: 'past_due', payer_id: null });
+
+    await expect(fetchBillingAlert()).resolves.toMatchObject({
+      status: 'past_due',
+      paidByGuardian: false,
+    });
   });
 });
 

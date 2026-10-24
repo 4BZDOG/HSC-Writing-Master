@@ -85,6 +85,14 @@ export const planSentence = (student: LinkedStudent): string => {
   return `${name} is on the free plan.`;
 };
 
+/**
+ * The warning for a payment that failed on a plan this parent pays for. The
+ * card is the parent's to fix, so the sentence says so, and names the child
+ * when the link still exists (`name`), or says the child is no longer linked.
+ */
+export const pastDueSentence = (name: string | null): string =>
+  `A payment for ${name ?? 'a student you are no longer linked to'} didn't go through. Update your card in the billing portal.`;
+
 interface ChildCardProps {
   student: LinkedStudent;
   prices: PlanPriceText;
@@ -235,17 +243,32 @@ const ChildCard: React.FC<ChildCardProps> = ({ student, prices, onRemove }) => {
   );
 };
 
+/**
+ * After a parent returns from a Plus checkout, the plan lands on the child a few
+ * seconds later (the webhook, or the confirmation). The dashboard re-reads for this
+ * many tries, this far apart, and stops as soon as a payment it did not show before
+ * appears.
+ */
+export const CHECKOUT_REFRESH_TRIES = 10;
+export const CHECKOUT_REFRESH_MS = 3000;
+
 interface GuardianDashboardProps {
   user: User;
   /** Leave the dashboard for the question workspace. */
   onBrowseQuestions: () => void;
   onSignOut: () => void;
+  /**
+   * Bumped by App each time the parent returns from a Plus checkout. 0, or absent,
+   * means there has been no return to wait for.
+   */
+  checkoutReturn?: number;
 }
 
 const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
   user,
   onBrowseQuestions,
   onSignOut,
+  checkoutReturn = 0,
 }) => {
   const available = guardianAvailable();
   const prices = useLivePrices();
@@ -270,7 +293,8 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
   const [billingBusy, setBillingBusy] = useState(false);
   const [billingError, setBillingError] = useState<string | null>(null);
 
-  const loadChildren = useCallback(async () => {
+  /** Reads the children and the payments. Returns the payments, or null if they could not be read. */
+  const loadChildren = useCallback(async (): Promise<PaidSubscription[] | null> => {
     setLoadError(null);
     try {
       setStudents(await listMyStudents());
@@ -279,15 +303,39 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
     }
     setPayerError(null);
     try {
-      setPayerRows(await listPaidSubscriptions());
+      const rows = await listPaidSubscriptions();
+      setPayerRows(rows);
+      return rows;
     } catch (err) {
       setPayerError(errorText(err, 'Your billing could not be checked. Try again in a moment.'));
+      return null;
     }
   }, []);
 
   useEffect(() => {
     if (available) void loadChildren();
   }, [available, loadChildren]);
+
+  // Back from a Plus checkout, the child's card may not show the new plan yet. Re-read
+  // until a payment appears that was not in the first read, then stop.
+  useEffect(() => {
+    if (!available || checkoutReturn === 0) return;
+    let cancelled = false;
+    const refreshUntilPaid = async () => {
+      const first = await loadChildren();
+      const before = new Set((first ?? []).map((row) => row.userId));
+      for (let attempt = 1; attempt < CHECKOUT_REFRESH_TRIES; attempt++) {
+        await new Promise((resolve) => setTimeout(resolve, CHECKOUT_REFRESH_MS));
+        if (cancelled) return;
+        const rows = await loadChildren();
+        if (rows?.some((row) => !before.has(row.userId))) return;
+      }
+    };
+    void refreshUntilPaid();
+    return () => {
+      cancelled = true;
+    };
+  }, [available, checkoutReturn, loadChildren]);
 
   const handleLink = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -317,9 +365,15 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
     setRemoving(true);
     setRemoveError(null);
     try {
-      await removeGuardianLink(target.studentId);
+      const removed = await removeGuardianLink(target.studentId);
       setRemoveTarget(null);
-      setLinkNotice(`The link to ${target.displayName} has been removed.`);
+      // The server answers false when the link was already gone (say, removed from the
+      // child's side). The list is refreshed either way, so the card goes.
+      setLinkNotice(
+        removed
+          ? `The link to ${target.displayName} has been removed.`
+          : 'That link had already been removed.'
+      );
       await loadChildren();
     } catch (err) {
       setRemoveError(errorText(err, 'The link could not be removed. Try again in a moment.'));
@@ -353,9 +407,21 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
   const payingForUnlinked =
     students !== null &&
     (payerRows ?? []).some((row) => !students.some((s) => s.studentId === row.userId));
+  // A payment that failed (Stripe is retrying it) on a plan this parent pays for. The
+  // child is named while the link stands; until the children have loaded, the child is
+  // described as "one of your children" rather than as unlinked.
+  const pastDueNames = (payerRows ?? [])
+    .filter((row) => row.status === 'past_due')
+    .map((row) => {
+      if (students === null) return 'one of your children';
+      return students.find((s) => s.studentId === row.userId)?.displayName ?? null;
+    });
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-4 sm:px-6 py-6 sm:py-10 space-y-8">
+    // `relative z-10`: App renders the animated background inside the same
+    // stacking wrapper, as a positioned layer. Unpositioned content paints
+    // beneath a positioned sibling, so without this the dashboard was blank.
+    <main className="relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 py-6 sm:py-10 space-y-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 space-y-1">
           <h1 className="t-display text-lg sm:text-xl tracking-tight text-primary">
@@ -505,6 +571,15 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
                 Update your payment details, or cancel a plan you pay for, in the billing portal.
                 Removing a link does not cancel the plan it paid for.
               </p>
+              {pastDueNames.map((name, index) => (
+                <p
+                  key={`past-due-${index}`}
+                  role="alert"
+                  className="text-sm font-medium text-amber-800 dark:text-amber-400"
+                >
+                  {pastDueSentence(name)}
+                </p>
+              ))}
               {payingForUnlinked && (
                 <p className="text-sm font-medium text-amber-800 dark:text-amber-400">
                   You still pay for a subscription for a student you are no longer linked to.

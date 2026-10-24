@@ -11,12 +11,15 @@ import {
   setUserQuotaOverride,
   type QuotaStatus,
   type QuotaRole,
+  QUOTA_ROLES,
+  isOptionalQuotaRole,
 } from '../services/quotaService';
 
 const QUOTA_ROLE_LABELS: Record<QuotaRole, string> = {
   admin: 'Admins',
   teacher: 'Teachers',
   student: 'Students',
+  parent: 'Parents',
 };
 
 /**
@@ -30,6 +33,7 @@ const AiQuotaPanel: React.FC = () => {
     admin: '',
     teacher: '',
     student: '',
+    parent: '',
   });
   const [overrideUser, setOverrideUser] = useState('');
   const [overrideLimit, setOverrideLimit] = useState('');
@@ -44,7 +48,10 @@ const AiQuotaPanel: React.FC = () => {
         const [status, roleQuotas] = await Promise.all([fetchMyQuotaStatus(), fetchRoleQuotas()]);
         if (cancelled) return;
         setMyStatus(status);
-        const next = { admin: '', teacher: '', student: '' } as Record<QuotaRole, string>;
+        const next = { admin: '', teacher: '', student: '', parent: '' } as Record<
+          QuotaRole,
+          string
+        >;
         roleQuotas.forEach((q) => {
           next[q.role] = String(q.daily_limit);
         });
@@ -71,7 +78,8 @@ const AiQuotaPanel: React.FC = () => {
     setMessage(null);
     setMessageIsError(false);
     try {
-      for (const role of ['admin', 'teacher', 'student'] as QuotaRole[]) {
+      for (const role of QUOTA_ROLES) {
+        if (isOptionalQuotaRole(role) && !limits[role].trim()) continue;
         const parsed = Number.parseInt(limits[role], 10);
         if (!Number.isFinite(parsed) || parsed < 0) {
           throw new Error(`${QUOTA_ROLE_LABELS[role]}: enter a non-negative number.`);
@@ -173,7 +181,7 @@ const AiQuotaPanel: React.FC = () => {
       )}
 
       <div className="space-y-1.5">
-        {(['admin', 'teacher', 'student'] as QuotaRole[]).map((role) => (
+        {QUOTA_ROLES.map((role) => (
           <label key={role} className="flex items-center justify-between gap-2">
             <span className="text-[10px] text-[rgb(var(--color-text-dim))] light:text-slate-600">
               {QUOTA_ROLE_LABELS[role]}

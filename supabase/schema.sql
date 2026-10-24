@@ -2236,6 +2236,36 @@ begin
   if v_user is null then
     raise exception 'Not authenticated';
   end if;
+
+  -- Deleting the account does not reach Stripe, so a subscription that would renew
+  -- keeps charging a card nobody can see any more (or, for a plan a parent pays for,
+  -- keeps charging the parent for a deleted child). Refuse until it is set to end.
+  -- A plan already cancelled at period end is fine: Stripe ends it on its own. The
+  -- payer_id column is §31's; plpgsql resolves it when the function runs.
+  if exists (
+    select 1 from public.subscriptions s
+     where s.status in ('active', 'trialing', 'past_due')
+       and not s.cancel_at_period_end
+       and s.user_id = v_user
+       and (s.payer_id is null or s.payer_id = v_user)
+  ) or exists (
+    select 1 from public.subscriptions s
+     where s.status in ('active', 'trialing', 'past_due')
+       and not s.cancel_at_period_end
+       and s.payer_id = v_user
+  ) then
+    raise exception 'Cancel your subscription before deleting your account: open Manage billing, cancel the plan, then try again.';
+  end if;
+  if exists (
+    select 1 from public.subscriptions s
+     where s.status in ('active', 'trialing', 'past_due')
+       and not s.cancel_at_period_end
+       and s.user_id = v_user
+       and s.payer_id is not null and s.payer_id <> v_user
+  ) then
+    raise exception 'Your parent or guardian pays for your plan. Ask them to cancel it before you delete your account.';
+  end if;
+
   delete from auth.users where id = v_user;
 end; $$;
 
@@ -4346,6 +4376,10 @@ begin
     raise exception 'Only student accounts can create a guardian code';
   end if;
 
+  -- Serialise this student's calls: two concurrent ones would each delete the
+  -- other's not-yet-visible code and leave two live codes behind.
+  perform 1 from public.profiles where id = v_me for update;
+
   delete from public.guardian_invites
    where student_id = v_me and redeemed_at is null;
 
@@ -4401,6 +4435,10 @@ begin
   if public.current_role()::text is distinct from 'parent' then
     raise exception 'Only parent or guardian accounts can link to a student';
   end if;
+
+  -- Serialise this guardian's redemptions, so two codes redeemed at once cannot
+  -- both pass the six-student count below.
+  perform 1 from public.profiles where id = v_me for update;
 
   if v_code !~ '^[A-HJ-NP-Z2-9]{8}$' then
     raise exception 'No guardian code matches that. Check it with your child and try again';
@@ -4658,6 +4696,53 @@ grant execute on function public.remove_guardian_link(uuid) to authenticated;
 
 revoke all on function public.get_guardian_student_progress(uuid, integer) from public, anon;
 grant execute on function public.get_guardian_student_progress(uuid, integer) to authenticated;
+
+-- =============================================================================
+-- §32 · Entitlement columns on profiles are written by the server only
+-- -----------------------------------------------------------------------------
+--     `profiles_update_self` (§9) lets a user update their OWN row, and Supabase
+--     grants `authenticated` UPDATE on every public table, so without this guard
+--     any signed-in user could run, through the client SDK:
+--
+--         update profiles set stripe_plan = 'plus' where id = auth.uid();
+--
+--     and hold Plus for free (caller_plan, has_unlimited_evaluations and the AI
+--     quota all read that column), set `school_id` to a licensed school to draw on
+--     its plan and AI pool, or lift their own `daily_ai_quota`. RLS is row-level,
+--     so it cannot say which COLUMNS a user may change; this trigger does, in the
+--     same way prevent_role_self_escalation (§9) guards `role`.
+--
+--     The rule keys on the role EXECUTING the statement, not on auth.uid(): a direct
+--     client write runs as `authenticated` (or `anon`), while every sanctioned
+--     writer runs as someone else — the Stripe webhook and the API routes use the
+--     service role, and the definer RPCs (set_user_school, set_user_ai_quota, …) run
+--     as their owner. Admins keep direct writes, as the row policy already allows.
+--     The columns the app writes for itself (display_name, preferences, stats, the
+--     agreement and quick-start stamps) are untouched.
+-- =============================================================================
+
+create or replace function public.prevent_entitlement_self_write()
+returns trigger language plpgsql set search_path = public as $$
+begin
+  if current_user in ('authenticated', 'anon')
+     and not public.is_admin()
+     and (
+       new.stripe_plan        is distinct from old.stripe_plan
+       or new.stripe_customer_id is distinct from old.stripe_customer_id
+       or new.plan_period_end    is distinct from old.plan_period_end
+       or new.school_id          is distinct from old.school_id
+       or new.daily_ai_quota     is distinct from old.daily_ai_quota
+     ) then
+    raise exception 'Plan, billing, school and quota fields can only be changed by the server'
+      using errcode = '42501';
+  end if;
+  return new;
+end; $$;
+
+drop trigger if exists trg_profiles_block_entitlement_self_write on public.profiles;
+create trigger trg_profiles_block_entitlement_self_write
+  before update on public.profiles
+  for each row execute function public.prevent_entitlement_self_write();
 
 -- =============================================================================
 -- End of schema.
