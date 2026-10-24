@@ -33,6 +33,7 @@ import {
   getStructureGuide,
   getExpectedCharRange,
   getExpectedTerms,
+  getRecommendedTime,
   getTargetBand,
   getTierTargetBand,
   fitVerbsToLength,
@@ -228,6 +229,8 @@ export const evaluateAnswer = async (
   // same tier-aware ceiling the rest of the app shows (e.g. the "Top Level: Band X"
   // label in MarkingCriteriaAccordion), kept consistent here.
   const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier);
+  // Scaled to this question's marks, as the live guide and the exemplars are.
+  const fullMarkChars = getExpectedCharRange(prompt.totalMarks, termInfo);
 
   // The rubric is optional on a Prompt. When absent, fall back to the verb's
   // generic marking guide + band-discrimination focus instead of injecting a bare
@@ -324,7 +327,7 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
                     **Band Discrimination:** ${termInfo.bandDiscrimination}
                     **Maximum Achievable Band:** Band ${maxBand}. The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.
                     **Expected Response for Full Marks (${prompt.totalMarks}/${prompt.totalMarks}):** ${getStructureGuide(prompt.totalMarks)} Use this to judge whether the response has the depth and length the marks demand — a response far shorter or thinner than this cannot reach the top marks, but do not reward padding either.
-                    **Expected Length:** ${termInfo.charRange[0]}-${termInfo.charRange[1]} characters (${termInfo.pageEstimate} pages). Time budget: ${termInfo.timeRange[0]}-${termInfo.timeRange[1]} minutes.
+                    **Expected Length:** ${fullMarkChars[0]}-${fullMarkChars[1]} characters for full marks, written in about ${Math.round(getRecommendedTime(prompt.totalMarks, termInfo) / 60)} minutes. Length shows how much a response had room to do, not how well it did it: a long response that does not answer the question still earns a low mark.
                     **Expected Syllabus Terms:** ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]} relevant syllabus terms should be used.
 ${buildMarkerTermBlock(prompt, syllabus)}
 

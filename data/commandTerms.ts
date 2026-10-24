@@ -1362,8 +1362,19 @@ export const getRecommendedTime = (totalMarks: number, verbInfo: CommandTermInfo
 };
 
 /**
- * Expected character count range for a question, interpolated from the verb's
- * charRange based on where the question's marks fall within the verb's markRange.
+ * Expected character count range for a full-mark answer, interpolated from the
+ * verb's charRange based on where the question's marks fall within the verb's
+ * markRange.
+ *
+ * Past the verb's top mark the range is carried on in proportion to the marks,
+ * as getRecommendedTime carries on the time and getFullMarkWordRange the words.
+ * It used to stop there, so a 20-mark DISCUSS (typical range 5-10) was held to
+ * the 10-mark figure, 2,250-3,000 characters. NESA's own 2012 Business Studies
+ * Question 26 samples put a Band 5/6 response at about 4,400 characters and a
+ * Band 4/5 at 3,200-4,800 (projectDocs/calibration-pilot.md), so the old range
+ * described a mid-band answer as full length: the live guide warned a Band 6
+ * draft that it was too long, exemplars were written at half length, and a
+ * rewrite of a strong answer was capped below the answer's own length.
  */
 export const getExpectedCharRange = (
   totalMarks: number,
@@ -1378,7 +1389,11 @@ export const getExpectedCharRange = (
   const ratio = Math.max(0, Math.min(1, (totalMarks - minMarks) / markSpan));
   const min = Math.round(minChars + ratio * (maxChars - minChars) * 0.5);
   const max = Math.round(minChars * 0.5 + (minChars * 0.5 + ratio * (maxChars - minChars)));
-  return [min, Math.max(min + 50, max)];
+  const range: [number, number] = [min, Math.max(min + 50, max)];
+
+  if (totalMarks <= maxMarks || maxMarks <= 0) return range;
+  const scale = totalMarks / maxMarks;
+  return [Math.round(range[0] * scale), Math.round(range[1] * scale)];
 };
 
 /**
