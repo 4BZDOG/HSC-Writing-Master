@@ -48,9 +48,14 @@ vi.mock('../../services/entitlements', async (importOriginal) => {
   return {
     ...actual,
     monetisationEnabled: () => true,
-    STRIPE_PRICE_IDS: { plus_monthly: 'price_monthly', plus_yearly: 'price_yearly', school: '' },
+    get STRIPE_PRICE_IDS() {
+      return priceIds;
+    },
   };
 });
+
+const BOTH_PRICES = { plus_monthly: 'price_monthly', plus_yearly: 'price_yearly', school: '' };
+let priceIds: Record<string, string> = BOTH_PRICES;
 
 vi.mock('../../hooks/useLivePrices', () => ({
   useLivePrices: () => ({
@@ -61,6 +66,10 @@ vi.mock('../../hooks/useLivePrices', () => ({
     monthlyGst: null,
     yearlyGst: 'incl. GST',
     schoolSeatGst: null,
+    schoolSeatInterval: 'year',
+    monthlyAmount: 7.99,
+    yearlyAmount: 59,
+    schoolSeatAmount: 4,
   }),
 }));
 
@@ -337,6 +346,30 @@ describe('GuardianDashboard: buying Plus for a child', () => {
     const group = screen.getByRole('group', { name: 'Billing period for Sam' });
     expect(within(group).getByText('A$59 incl. GST a year')).toBeTruthy();
     expect(within(group).getByText('A$7.99 a month')).toBeTruthy();
+  });
+
+  it('names the amount in the line under the button', async () => {
+    renderDashboard();
+    await screen.findByRole('heading', { name: 'Sam' });
+
+    expect(
+      screen.getByText(/You are charged A\$59 incl\. GST a year, and it renews automatically\./)
+    ).toBeTruthy();
+  });
+
+  it('still states the price when only one billing period is on sale', async () => {
+    priceIds = { plus_monthly: '', plus_yearly: 'price_yearly', school: '' };
+    try {
+      renderDashboard();
+      await screen.findByRole('heading', { name: 'Sam' });
+
+      // Nothing to choose, so no toggle; but the figure is on the card before the button.
+      expect(screen.queryByRole('group', { name: 'Billing period for Sam' })).toBeNull();
+      expect(screen.getByText(/Yearly: A\$59 incl\. GST a year/)).toBeTruthy();
+      expect(screen.getByRole('button', { name: 'Get Band 6 Plus for Sam' })).toBeTruthy();
+    } finally {
+      priceIds = BOTH_PRICES;
+    }
   });
 });
 

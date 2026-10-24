@@ -31,6 +31,7 @@ import SchoolLicencePanel from './SchoolLicencePanel';
 import ChampionKit from './ChampionKit';
 import { dailyResetPhrase } from '../utils/dailyReset';
 import { billingErrorMessage } from '../utils/billingMessages';
+import { guardianAvailable } from '../services/guardianService';
 
 /**
  * The plan a lock should NAME, as one or two words fit for a chip.
@@ -300,6 +301,7 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
   const requiredPlan = access.planNeeded ?? lowestPlanForFeature(feature);
   // Checkout is for a student or guest buying Plus, and only when a price is on sale.
   const offersCheckout = access.cta === 'upgrade' && stripeReady;
+  const offersParentRoute = offersCheckout && user?.role === 'user' && guardianAvailable();
   const perkKeys = planFeatureKeys(requiredPlan);
 
   /**
@@ -548,9 +550,21 @@ const UpgradeModal: React.FC<UpgradeModalProps> = ({ showToast, user }) => {
             </p>
           ) : (
             offersCheckout && (
-              <p className="mt-3 text-center text-xs leading-relaxed text-[rgb(var(--color-text-muted))]">
-                {chargeLine}
-              </p>
+              <>
+                <p className="mt-3 text-center text-xs leading-relaxed text-[rgb(var(--color-text-muted))]">
+                  {chargeLine}
+                </p>
+                {/* Most students have no card of their own. A parent is the other
+                    buyer of Plus (schema §31), so the student is told that route
+                    exists rather than left to close the prompt. Students only: the
+                    link code is theirs to create, and a guest has no account to link. */}
+                {offersParentRoute && (
+                  <p className="mt-2 text-center text-xs leading-relaxed text-[rgb(var(--color-text-muted))]">
+                    No card of your own? A parent or guardian can pay instead. Create a link code in
+                    your profile, under Parent or guardian, and they buy it from their dashboard.
+                  </p>
+                )}
+              </>
             )
           )}
 

@@ -165,7 +165,7 @@ describe('the comparison says who each plan is for, and how it is paid for', () 
   it('gives every plan one audience line, in the words the buyer uses', () => {
     expect(PLAN_AUDIENCES).toEqual({
       free: 'To try it out',
-      plus: 'For your own HSC',
+      plus: 'For one student',
       school: 'For a whole cohort',
     });
   });
@@ -185,7 +185,8 @@ describe('the comparison says who each plan is for, and how it is paid for', () 
   it('states how each plan is bought, and offers an invoice only where one can be raised', () => {
     const row = rowsById().payment;
     expect(row.cells.free.text).toBe('Nothing to pay');
-    expect(row.cells.plus.text).toBe('Card, monthly or yearly');
+    // A parent is the other buyer of Plus, so the table names them.
+    expect(row.cells.plus.text).toBe('Card, monthly or yearly, by the student or a parent');
     // The school text is decided by the invoicing reading, not written by hand.
     expect(['Card, or invoice against a purchase order', 'Card, per seat']).toContain(
       row.cells.school.text

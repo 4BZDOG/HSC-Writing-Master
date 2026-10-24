@@ -205,6 +205,18 @@ const ChildCard: React.FC<ChildCardProps> = ({ student, prices, onRemove }) => {
               })}
             </div>
           )}
+          {/* One period on sale: there is nothing to choose, but the price is still
+              stated before the button. Without this a parent was asked to buy with
+              no figure anywhere on the card. */}
+          {options.length === 1 && (
+            <p className="text-sm font-semibold text-primary">
+              {effectiveInterval === 'yearly' ? 'Yearly' : 'Monthly'}:{' '}
+              {priceText(effectiveInterval)}
+              {effectiveInterval === 'yearly' && prices.yearlyNote && (
+                <span className="block t-label font-normal text-muted">{prices.yearlyNote}</span>
+              )}
+            </p>
+          )}
           <div className="flex flex-wrap items-center gap-3">
             <button
               type="button"
@@ -217,8 +229,10 @@ const ChildCard: React.FC<ChildCardProps> = ({ student, prices, onRemove }) => {
             </button>
           </div>
           <p className="t-label text-muted leading-relaxed">
-            The charge is to you, and it renews automatically. You can cancel any time from Manage
-            billing. {student.displayName} gets {PLAN_LABELS.plus} once payment goes through.
+            You are charged {priceText(effectiveInterval)}, and it renews automatically. You can
+            cancel any time from Manage billing, and {student.displayName} keeps {PLAN_LABELS.plus}{' '}
+            to the end of the period paid for. {student.displayName} gets it once payment goes
+            through.
           </p>
           {buyError && (
             <p role="alert" className="text-sm font-medium text-red-700 dark:text-red-400">

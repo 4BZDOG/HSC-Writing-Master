@@ -210,8 +210,9 @@ export const buildPlanComparison = (): PlanRow[] => {
     note: 'A School licence is bought per seat and covers everyone in the school',
     cells: {
       ...emptyCells(),
-      free: { kind: 'text', text: 'You' },
-      plus: { kind: 'text', text: 'You' },
+      free: { kind: 'text', text: 'One person' },
+      // Bought by a student or by a parent for their child; either way one account holds it.
+      plus: { kind: 'text', text: 'One student' },
       school: { kind: 'text', text: 'Your whole school' },
     },
   });
@@ -224,7 +225,7 @@ export const buildPlanComparison = (): PlanRow[] => {
     cells: {
       ...emptyCells(),
       free: { kind: 'text', text: 'Nothing to pay' },
-      plus: { kind: 'text', text: 'Card, monthly or yearly' },
+      plus: { kind: 'text', text: 'Card, monthly or yearly, by the student or a parent' },
       school: {
         kind: 'text',
         text: schoolInvoicingEnabled()
@@ -244,7 +245,9 @@ export const buildPlanComparison = (): PlanRow[] => {
  */
 export const PLAN_AUDIENCES: Record<Plan, string> = {
   free: 'To try it out',
-  plus: 'For your own HSC',
+  // One student, whoever pays: the student, or a parent buying it for them.
+  // "For your own HSC" read wrongly to a parent, who is the other buyer.
+  plus: 'For one student',
   school: 'For a whole cohort',
 };
 
@@ -277,7 +280,10 @@ const withGst = (text: string, gst: string | null): string => (gst ? `${text} ${
 export const planPriceLine = (plan: Plan, prices: PlanPriceText = fallbackPlanPrices()): string => {
   if (plan === 'free') return 'Free, always';
   if (plan === 'school') {
-    return withGst(`${prices.schoolSeat} per student, per year`, prices.schoolSeatGst);
+    return withGst(
+      `${prices.schoolSeat} per student, per ${prices.schoolSeatInterval}`,
+      prices.schoolSeatGst
+    );
   }
   // Monthly and yearly share one line. It says GST only when both prices agree on it.
   const plusGst =

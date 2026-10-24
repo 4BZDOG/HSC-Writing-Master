@@ -58,17 +58,17 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 
 ### Server-side variables (set in Vercel → Settings → Environment Variables)
 
-| Variable                       | Value                     | Where to find it                                     |
-| ------------------------------ | ------------------------- | ---------------------------------------------------- |
-| `STRIPE_SECRET_KEY`            | `sk_test_...`             | Stripe → Developers → API keys                       |
-| `STRIPE_WEBHOOK_SECRET`        | `whsec_...`               | Created in Step 4 below — **required in production** |
-| `SUPABASE_SERVICE_ROLE_KEY`    | `eyJ...`                  | Supabase → Settings → API → `service_role`           |
-| `SUPABASE_URL`                 | `https://xxx.supabase.co` | Supabase → Settings → API                            |
-| `SUPABASE_ANON_KEY`            | `eyJ...`                  | Supabase → Settings → API → `anon` / `public`        |
-| `STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...`               | From Step 1                                          |
-| `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`               | From Step 1                                          |
-| `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_  | From Step 1 (school product)                         |
-| `STRIPE_AUTOMATIC_TAX`         | `true` _(optional, default off)_ | Set to `true` to compute GST at checkout — requires a Stripe origin address (see Going Live step 6) |
+| Variable                       | Value                                    | Where to find it                                                                                                       |
+| ------------------------------ | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `STRIPE_SECRET_KEY`            | `sk_test_...`                            | Stripe → Developers → API keys                                                                                         |
+| `STRIPE_WEBHOOK_SECRET`        | `whsec_...`                              | Created in Step 4 below — **required in production**                                                                   |
+| `SUPABASE_SERVICE_ROLE_KEY`    | `eyJ...`                                 | Supabase → Settings → API → `service_role`                                                                             |
+| `SUPABASE_URL`                 | `https://xxx.supabase.co`                | Supabase → Settings → API                                                                                              |
+| `SUPABASE_ANON_KEY`            | `eyJ...`                                 | Supabase → Settings → API → `anon` / `public`                                                                          |
+| `STRIPE_PLUS_MONTHLY_PRICE_ID` | `price_...`                              | From Step 1                                                                                                            |
+| `STRIPE_PLUS_YEARLY_PRICE_ID`  | `price_...`                              | From Step 1                                                                                                            |
+| `STRIPE_SCHOOL_PRICE_ID`       | `price_...` _(optional)_                 | From Step 1 (school product)                                                                                           |
+| `STRIPE_AUTOMATIC_TAX`         | `true` _(optional, default off)_         | Set to `true` to compute GST at checkout — requires a Stripe origin address (see Going Live step 6)                    |
 | `BILLING_ALERT_WEBHOOK_URL`    | `https://hooks.slack.com/…` _(optional)_ | An incoming-webhook URL (Slack, Discord or Mattermost). See "Operator alerts" below. Keep it secret; no `VITE_` prefix |
 
 > The price IDs are also the **allowlist**: `/api/create-checkout` refuses any
@@ -98,9 +98,9 @@ You need to set variables in **two places**: server-side (Vercel / your host) an
 
 Optional, admin screens only:
 
-| Variable                     | Value                 | Notes                                                                                                                                  |
-| ---------------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `VITE_AI_COST_PER_CALL_AUD`  | e.g. `0.004`          | Total monthly AI spend divided by total monthly AI calls. Turns on the cost and margin columns of the Billing overview's "Seat economics" panel. Read at build time, so redeploy after setting it |
+| Variable                    | Value        | Notes                                                                                                                                                                                             |
+| --------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_AI_COST_PER_CALL_AUD` | e.g. `0.004` | Total monthly AI spend divided by total monthly AI calls. Turns on the cost and margin columns of the Billing overview's "Seat economics" panel. Read at build time, so redeploy after setting it |
 
 ### For local development
 
@@ -330,11 +330,11 @@ Logged-in paid users can manage their subscription from their **profile modal** 
 - View invoices
 - Change plan or seat count — **only if you enable it**, see below
 
-> Stripe hosts the portal UI, so nothing needs deploying. But **check what your portal configuration actually allows** before going live: the app sends users there for plan and seat changes in two places — `api/create-checkout` refuses a second concurrent subscription with "Use *Manage subscription* to change your plan or seats", and the upgrade prompt turns its own CTA into that portal link when it sees that refusal. If the portal cannot switch plans or update quantities, both messages point at a dead end.
+> Stripe hosts the portal UI, so nothing needs deploying. But **check what your portal configuration actually allows** before going live: the app sends users there for plan and seat changes in two places — `api/create-checkout` refuses a second concurrent subscription with "Use _Manage subscription_ to change your plan or seats", and the upgrade prompt turns its own CTA into that portal link when it sees that refusal. If the portal cannot switch plans or update quantities, both messages point at a dead end.
 >
-**School licences.** Teachers and admins who belong to a school with a licence see **Manage school licence** on the School licence panel. It opens the portal for the customer behind the school's licence, found on the server from the caller's own school, so a colleague or an admin who did not buy the licence can use it. Students, and staff with no school, are refused. **Anyone who can open it can cancel the licence and change seats**, so check the portal settings below before staff use it. If only some staff should cancel, create a second portal configuration with cancellation off; the app does not yet choose between them (open decision, see the 15 October handoff).
+> **School licences.** Teachers and admins who belong to a school with a licence see **Manage school licence** on the School licence panel. It opens the portal for the customer behind the school's licence, found on the server from the caller's own school, so a colleague or an admin who did not buy the licence can use it. Students, and staff with no school, are refused. **Anyone who can open it can cancel the licence and change seats**, so check the portal settings below before staff use it. If only some staff should cancel, create a second portal configuration with cancellation off; the app does not yet choose between them (open decision, see the 15 October handoff).
 
-> In **Settings → Billing → Customer portal**, confirm that *Customers can switch plans* is on and that every price you sell is listed as a switchable product, and that *Customers can update quantities* is on (this is what lets a school top up seats). Cancellation, payment-method updates and invoice history are the parts that work without configuration.
+> In **Settings → Billing → Customer portal**, confirm that _Customers can switch plans_ is on and that every price you sell is listed as a switchable product, and that _Customers can update quantities_ is on (this is what lets a school top up seats). Cancellation, payment-method updates and invoice history are the parts that work without configuration.
 
 ---
 
@@ -482,7 +482,7 @@ When you're ready to accept real payments:
 
 1. **Switch to live keys**: Replace all `sk_test_` / `pk_test_` values with `sk_live_` / `pk_live_` from Stripe Dashboard (toggle off "Test mode").
 2. **Create a live webhook**: Same steps as Step 4a but with your production URL and live mode enabled.
-3. **Create live prices**: Products created in test mode don't carry over. Create the same product/prices in live mode and update all Price ID env vars. The app now reads the displayed prices from Stripe (`GET /api/prices`, cached for about 10 minutes, then up to 5 more at the CDN). Make each price a flat recurring AUD price and set its **tax behaviour** (inclusive or exclusive): the UI says "incl. GST" or "+ GST" from that setting and says nothing when it is unspecified. A tiered, metered, inactive or non-AUD price is left out and the screen falls back to `VITE_PLUS_MONTHLY_PRICE_DISPLAY`, `VITE_PLUS_YEARLY_PRICE_DISPLAY` or `VITE_SCHOOL_SEAT_PRICE_DISPLAY`, so keep those in line with Stripe. The "Save 38%" line still comes from `VITE_PLUS_YEARLY_NOTE`; update it by hand.
+3. **Create live prices**: Products created in test mode don't carry over. Create the same product/prices in live mode and update all Price ID env vars. The app now reads the displayed prices from Stripe (`GET /api/prices`, cached for about 10 minutes, then up to 5 more at the CDN). Make each price a flat recurring AUD price and set its **tax behaviour** (inclusive or exclusive): the UI says "incl. GST" or "+ GST" from that setting and says nothing when it is unspecified. A tiered, metered, inactive or non-AUD price is left out and the screen falls back to `VITE_PLUS_MONTHLY_PRICE_DISPLAY`, `VITE_PLUS_YEARLY_PRICE_DISPLAY` or `VITE_SCHOOL_SEAT_PRICE_DISPLAY`, so keep those in line with Stripe. The "Save 38%" line is worked out from the two Plus prices on screen, so it follows a price change. `VITE_PLUS_YEARLY_NOTE` replaces it only while the env prices are shown.
 4. **Update Vercel env vars**: Swap every test value for its live counterpart and redeploy.
 5. **Test with a real card**: Make a small real purchase, then cancel/refund it from the Stripe Dashboard.
 6. **Enable Stripe Tax** (optional): For Checkout to actually compute and add GST you must do **both** of the following — dashboard configuration alone does nothing for Checkout:
@@ -528,21 +528,21 @@ User clicks "Upgrade"
 
 ## Troubleshooting
 
-| Symptom                                                     | Cause                                                                                         | Fix                                                                                             |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| Upgrade button redirects to `/#/upgrade-test`               | `STRIPE_SECRET_KEY` not set on server                                                         | Set it in Vercel env vars and redeploy                                                          |
-| Checkout works but plan doesn't update                      | Webhook not receiving events                                                                  | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches |
-| Paid, returned to the app, plan still locked                | `/api/sync-checkout` could not confirm the purchase (the server log says why, prefixed `[sync-checkout]`): usually a `STRIPE_*_PRICE_ID` missing on the server, or a server key from the other Stripe mode (test or live) | Fix the price ID or key named in the log. The webhook applies the purchase once its endpoint is registered and reachable |
-| Webhook returns 501                                         | `SUPABASE_SERVICE_ROLE_KEY` not set                                                           | Add it to Vercel env vars                                                                       |
-| Checkout/portal returns 503                                 | Only the `VITE_SUPABASE_*` pair is set                                                        | Add the unprefixed `SUPABASE_URL` / `SUPABASE_ANON_KEY`; the response body names them           |
-| Checkout returns 401 "User identity required"               | No server-side Supabase at all, so there is no signed-in identity to attach a subscription to | Set `SUPABASE_URL` / `SUPABASE_ANON_KEY` — billing cannot work without them                     |
-| Webhook returns 400 "Missing stripe-signature"              | Request not coming from Stripe (or secret mismatch)                                           | Verify the signing secret matches the endpoint                                                  |
-| Webhook returns 500 "Webhook signing secret not configured" | `STRIPE_WEBHOOK_SECRET` missing in production                                                 | Set it and redeploy — Stripe retries the queued events automatically                            |
-| Checkout returns 400 "Unknown plan"                         | Client price ID isn't in the server allowlist                                                 | Make each `VITE_STRIPE_*_PRICE_ID` match its unprefixed server counterpart                      |
-| "No billing account found" in portal                        | User hasn't checked out yet                                                                   | The portal requires a prior checkout to create the Stripe customer link                         |
-| Customers see "Checkout is unavailable right now, so you have not been charged" | Server answers 503: plan prices are published (`VITE_STRIPE_*`) but `STRIPE_SECRET_KEY` is missing. The UI no longer shows that sentence to customers | Read the function log for "Billing is misconfigured on this deployment", then set `STRIPE_SECRET_KEY` and redeploy |
-| Gates still locked after payment                            | Browser has stale user data                                                                   | Refresh the page — `getUserPlan()` reads from the profile on each call                          |
-| Admin sees gates                                            | Running an old build                                                                          | Redeploy from `main` — admins bypass every gate in current code                                 |
+| Symptom                                                                         | Cause                                                                                                                                                                                                                     | Fix                                                                                                                      |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Upgrade button redirects to `/#/upgrade-test`                                   | `STRIPE_SECRET_KEY` not set on server                                                                                                                                                                                     | Set it in Vercel env vars and redeploy                                                                                   |
+| Checkout works but plan doesn't update                                          | Webhook not receiving events                                                                                                                                                                                              | Check Stripe Dashboard → Webhooks for failed deliveries; verify `STRIPE_WEBHOOK_SECRET` matches                          |
+| Paid, returned to the app, plan still locked                                    | `/api/sync-checkout` could not confirm the purchase (the server log says why, prefixed `[sync-checkout]`): usually a `STRIPE_*_PRICE_ID` missing on the server, or a server key from the other Stripe mode (test or live) | Fix the price ID or key named in the log. The webhook applies the purchase once its endpoint is registered and reachable |
+| Webhook returns 501                                                             | `SUPABASE_SERVICE_ROLE_KEY` not set                                                                                                                                                                                       | Add it to Vercel env vars                                                                                                |
+| Checkout/portal returns 503                                                     | Only the `VITE_SUPABASE_*` pair is set                                                                                                                                                                                    | Add the unprefixed `SUPABASE_URL` / `SUPABASE_ANON_KEY`; the response body names them                                    |
+| Checkout returns 401 "User identity required"                                   | No server-side Supabase at all, so there is no signed-in identity to attach a subscription to                                                                                                                             | Set `SUPABASE_URL` / `SUPABASE_ANON_KEY` — billing cannot work without them                                              |
+| Webhook returns 400 "Missing stripe-signature"                                  | Request not coming from Stripe (or secret mismatch)                                                                                                                                                                       | Verify the signing secret matches the endpoint                                                                           |
+| Webhook returns 500 "Webhook signing secret not configured"                     | `STRIPE_WEBHOOK_SECRET` missing in production                                                                                                                                                                             | Set it and redeploy — Stripe retries the queued events automatically                                                     |
+| Checkout returns 400 "Unknown plan"                                             | Client price ID isn't in the server allowlist                                                                                                                                                                             | Make each `VITE_STRIPE_*_PRICE_ID` match its unprefixed server counterpart                                               |
+| "No billing account found" in portal                                            | User hasn't checked out yet                                                                                                                                                                                               | The portal requires a prior checkout to create the Stripe customer link                                                  |
+| Customers see "Checkout is unavailable right now, so you have not been charged" | Server answers 503: plan prices are published (`VITE_STRIPE_*`) but `STRIPE_SECRET_KEY` is missing. The UI no longer shows that sentence to customers                                                                     | Read the function log for "Billing is misconfigured on this deployment", then set `STRIPE_SECRET_KEY` and redeploy       |
+| Gates still locked after payment                                                | Browser has stale user data                                                                                                                                                                                               | Refresh the page — `getUserPlan()` reads from the profile on each call                                                   |
+| Admin sees gates                                                                | Running an old build                                                                                                                                                                                                      | Redeploy from `main` — admins bypass every gate in current code                                                          |
 
 ---
 
@@ -563,17 +563,17 @@ The shipped policy, and what a deployment can change. The reasoning is in
 `projectDocs/tier-structure.md`; the comparison a buyer sees is derived from the
 same rules (`utils/planComparison.ts`).
 
-| | Free | Band 6 Plus | School |
-| --- | --- | --- | --- |
-| For | A student trying it out | A student or parent getting better | A head teacher or accounts office covering a cohort |
-| Marked answers | 5 a day | No daily limit | No daily limit (every member of the school) |
-| Question tiers | 1–3 | All, 1–6 | All, 1–6 |
-| Marking feedback | Summary and band | Every criterion | Every criterion |
-| Sample answers | Bands 1–3 | All bands | All bands |
-| Answer upgrades, exam simulation, outcome briefings, student progress report (PDF) | No | Yes | Yes |
-| AI Content Studio | Teacher and admin accounts only | Teacher and admin accounts only | Teacher and admin accounts only |
-| Class and school reports (PDF) | No | No | Yes (staff accounts) |
-| How it is bought | Nothing to pay | Card, monthly or yearly | Card per seat, or invoice against a purchase order where invoicing is on |
+|                                                                                    | Free                            | Band 6 Plus                        | School                                                                   |
+| ---------------------------------------------------------------------------------- | ------------------------------- | ---------------------------------- | ------------------------------------------------------------------------ |
+| For                                                                                | A student trying it out         | A student or parent getting better | A head teacher or accounts office covering a cohort                      |
+| Marked answers                                                                     | 5 a day                         | No daily limit                     | No daily limit (every member of the school)                              |
+| Question tiers                                                                     | 1–3                             | All, 1–6                           | All, 1–6                                                                 |
+| Marking feedback                                                                   | Summary and band                | Every criterion                    | Every criterion                                                          |
+| Sample answers                                                                     | Bands 1–3                       | All bands                          | All bands                                                                |
+| Answer upgrades, exam simulation, outcome briefings, student progress report (PDF) | No                              | Yes                                | Yes                                                                      |
+| AI Content Studio                                                                  | Teacher and admin accounts only | Teacher and admin accounts only    | Teacher and admin accounts only                                          |
+| Class and school reports (PDF)                                                     | No                              | No                                 | Yes (staff accounts)                                                     |
+| How it is bought                                                                   | Nothing to pay                  | Card, monthly or yearly            | Card per seat, or invoice against a purchase order where invoicing is on |
 
 Things to know:
 
@@ -605,12 +605,12 @@ Sell a whole-school licence directly from the upgrade modal:
 3. **Re-apply the schema** (`supabase/schema.sql` §13 adds
    `schools.stripe_subscription_id / plan_seats / plan_status /
 plan_period_end / plan_cancel_at_period_end` and `subscriptions.seats` — all
-`add column if not exists`, safe to re-run). Re-applying also refreshes
-`list_schools()`, which is what puts the licence columns in front of an admin;
-until you do, the dashboard shows the licence as "unknown" and reads an end
-date as a renewal date. The same section adds `my_school_seats()`, which the
-over-seat notice for teachers and admins reads. Until it exists the notice stays
-hidden and nothing else changes.
+   `add column if not exists`, safe to re-run). Re-applying also refreshes
+   `list_schools()`, which is what puts the licence columns in front of an admin;
+   until you do, the dashboard shows the licence as "unknown" and reads an end
+   date as a renewal date. The same section adds `my_school_seats()`, which the
+   over-seat notice for teachers and admins reads. Until it exists the notice stays
+   hidden and nothing else changes.
 
 How it works: a teacher or admin picks a seat count and checks out; the
 webhook stores the seat quantity and stamps the licence onto **their

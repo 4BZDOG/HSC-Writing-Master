@@ -36,6 +36,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useOwnAttemptHistory } from '../hooks/useOwnAttemptHistory';
 import {
   describeAccess,
+  freePlanSummary,
   getUserPlan,
   PLAN_LABELS,
   createPortalUrl,
@@ -96,6 +97,7 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
   // Read from the live policy: a deployment can move the Studio to Plus with
   // PLAN_FEATURE_OVERRIDES, and this card must not keep saying otherwise.
   const studioIncluded = planUnlocks(plan, 'aiContentStudio');
+  const cohortReportsIncluded = planUnlocks(plan, 'cohortReports');
   // Plan is only half the studio's gate; the role is the other half. A student
   // never authors, whatever they pay, so the studio is not part of what their
   // plan means to them.
@@ -268,11 +270,16 @@ const PlanCard: React.FC<{ user: User; onDismiss: () => void }> = ({ user, onDis
             : isPaid
               ? `Full marking, criterion-by-criterion feedback and every ${PLAN_LABELS.plus} tool.` +
                 (canAuthor
-                  ? studioIncluded
-                    ? ' The AI Content Studio is included.'
-                    : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`
+                  ? (studioIncluded
+                      ? ' The AI Content Studio is included.'
+                      : ` The AI Content Studio is part of the ${PLAN_LABELS.school} plan.`) +
+                    // What a licence adds for staff, said to the staff it is for, so a
+                    // teacher on the perk knows why the class report is locked.
+                    (cohortReportsIncluded
+                      ? ' Class and school reports are included.'
+                      : ` Class and school reports come with a ${PLAN_LABELS.school} licence.`)
                   : '')
-              : 'Limited daily evaluations and basic features, with the rest held back until you have a plan.'}
+              : freePlanSummary()}
           {isPaid && user.stripePlan && periodEnd && (
             <span
               className={`block mt-1.5 t-label ${
@@ -1185,7 +1192,11 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({
                         id: 'plans',
                         icon: Crown,
                         label: 'Compare Plans',
-                        desc: `You are on ${PLAN_LABELS[plan]} — see exactly what that includes.`,
+                        // A parent holds no plan, so "You are on Free" would describe nothing.
+                        desc:
+                          user.role === 'parent'
+                            ? `What ${PLAN_LABELS.plus} gives your child, and what it costs.`
+                            : `You are on ${PLAN_LABELS[plan]} — see exactly what that includes.`,
                         action: onComparePlans,
                       },
                       onOpenLegal && {

@@ -14,7 +14,8 @@ what it gates and why, and what a teacher sees in each situation. The code it de
 | **Band 6 Plus** | Student or parent               | "Get better, fast": unlimited marking, full feedback, answer upgrades, every exemplar, exam simulation, the student's own progress report, outcome briefings | A$7.99 a month, A$59 a year |
 | **School**      | Head teacher or accounts office | "Cover the cohort and run it": Plus for every seat, the class and school reports, seat management, and invoicing against a purchase order                    | A$4 per student per year    |
 
-The shipped prices are display strings (see `docs/stripesetup.md`). They are not read from Stripe.
+Prices are read from Stripe (`/api/prices`), with the env display strings as the fallback (see
+`docs/stripesetup.md`). The yearly saving and the seat total are worked out from the prices shown.
 
 ## Three rules
 
@@ -85,7 +86,12 @@ enforces (schema §31, `api/create-checkout.ts`, `api/_lib/subscriptionSync.ts`)
   plan of their own from this route. A parent may link to at most six students.
 - **What the child sees.** Who is linked to them, and "Paid for by your parent or guardian" in place
   of "Manage billing" while that is so. The child cannot open the billing portal for a plan a parent
-  pays for.
+  pays for. On the free plan, the upgrade prompt tells a student that a parent can pay instead, and
+  where to create the link code.
+- **What the parent reads in the plan comparison.** No column is marked as theirs, Plus is "For one
+  student", and a line says the plan lands on the child's account and is bought from the dashboard.
+- **Account deletion.** Deleting either account cancels the subscription in Stripe straight away
+  (`api/prepare-account-deletion.ts`).
 
 ## Operator levers
 
@@ -97,7 +103,5 @@ enforces (schema §31, `api/create-checkout.ts`, `api/_lib/subscriptionSync.ts`)
 
 ## Known gaps, deliberately left
 
-- Displayed prices are not read from Stripe, and nothing states whether the figures include GST.
-- The seat total is not shown in the picker.
 - The header has no upgrade route.
 - A teacher's copy-a-note kit names the school by the name on their account, which is set at sign-in.

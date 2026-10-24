@@ -36,6 +36,7 @@ const BillingAlertBanner: React.FC = () => {
   if (!alert || dismissed) return null;
 
   const planLabel = PLAN_LABELS[alert.plan as Plan] ?? alert.plan;
+  const isLicence = alert.plan === 'school';
 
   const openPortal = async () => {
     setIsOpeningPortal(true);
@@ -69,8 +70,11 @@ const BillingAlertBanner: React.FC = () => {
       ) : (
         <>
           <p className="flex-1 min-w-[200px] text-sm text-amber-700 dark:text-amber-500 leading-relaxed">
-            There's a payment issue with your {planLabel} subscription. Your access continues while
-            the payment is retried. Update your card to keep it that way.
+            {isLicence
+              ? // A licence can be paid by invoice against a purchase order, where
+                // there is no card to update: the overdue invoice is what to pay.
+                `The payment for your ${planLabel} licence is overdue. Your school keeps access for now. Pay the open invoice, or update the card, in the billing portal.`
+              : `There's a payment issue with your ${planLabel} subscription. Your access continues while the payment is retried. Update your card to keep it that way.`}
           </p>
           <button
             onClick={openPortal}
@@ -82,7 +86,7 @@ const BillingAlertBanner: React.FC = () => {
             ) : (
               <CreditCard className="w-3.5 h-3.5" />
             )}
-            Update payment method
+            {isLicence ? 'Open billing portal' : 'Update payment method'}
           </button>
         </>
       )}

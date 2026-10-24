@@ -12,6 +12,7 @@ import {
   STRIPE_PRICE_IDS,
 } from '../services/entitlements';
 import { useLivePrices } from '../hooks/useLivePrices';
+import { formatAudAmount } from '../services/livePrices';
 import type { User } from '../types';
 import { billingErrorMessage } from '../utils/billingMessages';
 import ChampionKit from './ChampionKit';
@@ -246,7 +247,7 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
             <Plus className="w-3.5 h-3.5" />
           </button>
           <span className="t-label text-slate-400 light:text-slate-600 ml-1">
-            seats · {prices.schoolSeat} per student a year
+            seats · {prices.schoolSeat} per student a {prices.schoolSeatInterval}
             {prices.schoolSeatGst ? ` ${prices.schoolSeatGst}` : ''}
           </span>
         </div>
@@ -259,6 +260,19 @@ const SchoolLicencePanel: React.FC<SchoolLicencePanelProps> = ({
           {isBuyingSeats ? 'Redirecting…' : `Buy ${seats} seats`}
         </button>
       </div>
+      {/* The figure the accounts office will ask for. Said only when the seat
+          price is a plain amount: a total worked out from text it cannot read
+          would be a guess. */}
+      {prices.schoolSeatAmount !== null && (
+        <p
+          aria-live="polite"
+          className="mt-2.5 text-sm font-bold text-[rgb(var(--color-text-primary))] light:text-slate-900 tabular-nums"
+        >
+          {formatAudAmount(prices.schoolSeatAmount * seats)} a {prices.schoolSeatInterval} for{' '}
+          {seats} seats
+          {prices.schoolSeatGst ? ` ${prices.schoolSeatGst}` : ''}
+        </p>
+      )}
       {/* Read before paying, so it is full size: this is the line that says who
           gets the licence and what has to be true first. */}
       <p className="mt-2.5 text-xs font-medium text-[rgb(var(--color-text-muted))] light:text-slate-600 leading-relaxed">

@@ -8,16 +8,16 @@ This is a factual map, not a plan. It exists so the next wave of paywall work ca
 
 ## 1. Vocabulary the app uses
 
-| Term                | Where it comes from                                            | Value                                                                                                                   |
-| ------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| Plan name, full     | `PLAN_LABELS` in `services/entitlements.ts`                    | `Free`, `Band 6 Plus`, `School`                                                                                         |
-| Plan name, chip     | `lockLabelFor()` in `components/UpgradeModal.tsx`              | `Plus` or `School` (short, for chips only)                                                                              |
-| Monthly price       | `PLAN_PRICING.monthly`                                         | `A$7.99`, from `VITE_PLUS_MONTHLY_PRICE_DISPLAY`                                                                        |
-| Yearly price        | `PLAN_PRICING.yearly`                                          | `A$59`, from `VITE_PLUS_YEARLY_PRICE_DISPLAY`                                                                           |
-| Yearly saving line  | `PLAN_PRICING.yearlyNote`                                      | `Save 38% — under A$5/month`                                                                                            |
-| School seat         | `PLAN_PRICING.schoolSeat`                                      | `A$4` per student per year                                                                                              |
-| Free marked answers | `FREE_TIER_EVAL_LIMIT` (5), enforced by `consume_evaluation()` | 5 a day. The day boundary is UTC midnight, stated to the reader in their own clock as 10am AEST (`utils/dailyReset.ts`) |
-| Daily AI calls      | `FREE_DAILY_AI_CALLS` (60), `PAID_DAILY_AI_CALLS` (300)        | Display only; the server's `ai_quota_limits` is the real budget                                                         |
+| Term                | Where it comes from                                            | Value                                                                                                                                           |
+| ------------------- | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Plan name, full     | `PLAN_LABELS` in `services/entitlements.ts`                    | `Free`, `Band 6 Plus`, `School`                                                                                                                 |
+| Plan name, chip     | `lockLabelFor()` in `components/UpgradeModal.tsx`              | `Plus` or `School` (short, for chips only)                                                                                                      |
+| Monthly price       | `PLAN_PRICING.monthly`                                         | `A$7.99`, from `VITE_PLUS_MONTHLY_PRICE_DISPLAY`                                                                                                |
+| Yearly price        | `PLAN_PRICING.yearly`                                          | `A$59`, from `VITE_PLUS_YEARLY_PRICE_DISPLAY`                                                                                                   |
+| Yearly saving line  | `yearlySavingNote()` in `services/livePrices.ts`               | `Save 38% — A$4.92 a month`, worked out from the two Plus prices on screen; `VITE_PLUS_YEARLY_NOTE` overrides it while the env prices are shown |
+| School seat         | `PLAN_PRICING.schoolSeat`                                      | `A$4` per student per year                                                                                                                      |
+| Free marked answers | `FREE_TIER_EVAL_LIMIT` (5), enforced by `consume_evaluation()` | 5 a day. The day boundary is UTC midnight, stated to the reader in their own clock as 10am AEST (`utils/dailyReset.ts`)                         |
+| Daily AI calls      | `FREE_DAILY_AI_CALLS` (60), `PAID_DAILY_AI_CALLS` (300)        | Display only; the server's `ai_quota_limits` is the real budget                                                                                 |
 
 Prices are presentation strings typed into environment variables. Nothing reads them from Stripe. A deployment can therefore show a price that differs from the one Stripe charges (see section 6).
 
@@ -141,7 +141,7 @@ Columns: where it is; what the person sees; the action it offers; the plan wordi
 | The price                       | Prompt tiles (26), plan cards (34), seat picker (38), profile (none)                                                                            | Same env strings. Monthly `A$7.99`, yearly `A$59`, seat `A$4`. The seat line now reads `per student a year` (changed from `/student/yr`).                                                    |
 | Renewal and cancellation        | Prompt charge line (27), profile PlanCard (40), banner (45)                                                                                     | Prompt now states amount, renewal and how to stop (changed). Profile says `Renews` or `Access ends` from the subscription row. Banner says the access continues while retried.               |
 | Daily limit                     | Counter (48), toast (49), prompt (24), comparison (35), profile (none), `evalLimitMessage()`                                                    | Prompt and `evalLimitMessage()` name the plan and the 10am reset from one helper (`dailyResetPhrase()`). The counter's tooltip says `Resets at`. Pinned by `tests/unit/paywallCopy.test.ts`. |
-| Unlimited marking               | Comparison (35), prompt (26, now removed), profile (41, now removed)                                                                            | Now `No daily limit`, with the AI allowance row beside it. The answer-upgrade perk (`PREMIUM_FEATURES.answerUpgrades`) lost its "Unlimited" too. |
+| Unlimited marking               | Comparison (35), prompt (26, now removed), profile (41, now removed)                                                                            | Now `No daily limit`, with the AI allowance row beside it. The answer-upgrade perk (`PREMIUM_FEATURES.answerUpgrades`) lost its "Unlimited" too.                                             |
 | Staff access                    | Profile PlanCard (41), comparison (35), studio row note                                                                                         | Each says the studio is for teacher and admin accounts, in different words.                                                                                                                  |
 
 ## 5. Gaps the next wave should decide on (not fixed here)

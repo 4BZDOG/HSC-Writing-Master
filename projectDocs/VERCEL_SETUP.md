@@ -180,13 +180,13 @@ identity there is nothing to attach a subscription to.
 Display prices are separate from what Stripe charges, so a price change needs a
 redeploy of these too:
 
-| Variable                          | Default                           | Shown in                        |
-| --------------------------------- | --------------------------------- | ------------------------------- |
-| `VITE_PLUS_MONTHLY_PRICE_DISPLAY` | `A$7.99`                          | Upgrade prompt, plan comparison |
-| `VITE_PLUS_YEARLY_PRICE_DISPLAY`  | `A$59`                            | Upgrade prompt, plan comparison |
-| `VITE_PLUS_YEARLY_NOTE`           | `Save 38% — under A$5/month`      | Upgrade prompt                  |
-| `VITE_SCHOOL_SEAT_PRICE_DISPLAY`  | `A$4`                             | Seat picker, plan comparison    |
-| `VITE_SCHOOL_CONTACT_EMAIL`       | _(unset — shows a toast instead)_ | School licence enquiry link     |
+| Variable                          | Default                                         | Shown in                         |
+| --------------------------------- | ----------------------------------------------- | -------------------------------- |
+| `VITE_PLUS_MONTHLY_PRICE_DISPLAY` | `A$7.99`                                        | Upgrade prompt, plan comparison  |
+| `VITE_PLUS_YEARLY_PRICE_DISPLAY`  | `A$59`                                          | Upgrade prompt, plan comparison  |
+| `VITE_PLUS_YEARLY_NOTE`           | _(unset — worked out from the two Plus prices)_ | Upgrade prompt, parent dashboard |
+| `VITE_SCHOOL_SEAT_PRICE_DISPLAY`  | `A$4`                                           | Seat picker, plan comparison     |
+| `VITE_SCHOOL_CONTACT_EMAIL`       | _(unset — shows a toast instead)_               | School licence enquiry link      |
 
 > These are **presentation strings only** — the amount charged always comes
 > from the Stripe Price object. Nothing checks that they agree, so change them

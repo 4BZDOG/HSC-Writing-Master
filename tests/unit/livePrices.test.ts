@@ -10,12 +10,15 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   LIVE_PRICES_TIMEOUT_MS,
   fallbackPlanPrices,
+  formatAudAmount,
   gstNoteFor,
   loadLivePrices,
   mergePlanPrices,
+  parseAudDisplay,
   parseLivePrices,
   peekLivePrices,
   resetLivePricesForTests,
+  yearlySavingNote,
   type LivePrices,
 } from '../../services/livePrices';
 import { planPriceLine } from '../../utils/planComparison';
@@ -233,5 +236,86 @@ describe('planPriceLine', () => {
     });
 
     expect(planPriceLine('plus', prices)).toBe('A$65/year or A$9/month');
+  });
+});
+
+describe('the yearly saving line', () => {
+  it('is worked out from the two prices, rounded down so it never overstates the saving', () => {
+    // 59 / (7.99 × 12) is 61.5% of paying monthly: a 38.5% saving, said as 38%.
+    expect(yearlySavingNote(7.99, 59)).toBe('Save 38% — A$4.92 a month');
+    expect(yearlySavingNote(10, 120)).toBeNull();
+    expect(yearlySavingNote(10, 130)).toBeNull();
+    expect(yearlySavingNote(0, 59)).toBeNull();
+  });
+
+  it('follows the live prices once they arrive, rather than the env text', () => {
+    const text = mergePlanPrices(parseLivePrices(LIVE_BODY));
+    // 65 / (9 × 12) = 60.2%: a 39.8% saving, said as 39%.
+    expect(text.yearlyNote).toBe('Save 39% — A$5.42 a month');
+  });
+
+  it('works it out from one live price and the other env price, which are both on screen', () => {
+    const text = mergePlanPrices({ plusYearly: LIVE_BODY.prices.plusYearly as never });
+    // A$65 a year against the env A$7.99 a month.
+    expect(text.yearly).toBe('A$65');
+    expect(text.yearlyNote).toBe('Save 32% — A$5.42 a month');
+  });
+
+  it('says nothing when the two prices disagree about GST, which would compare unlike figures', () => {
+    const text = mergePlanPrices({
+      plusMonthly: LIVE_BODY.prices.plusMonthly as never,
+      plusYearly: { ...LIVE_BODY.prices.plusYearly, taxBehavior: 'exclusive' } as never,
+    });
+    expect(text.yearlyNote).toBe('');
+  });
+
+  it('says nothing when the yearly price saves nothing', () => {
+    const text = mergePlanPrices({
+      plusMonthly: LIVE_BODY.prices.plusMonthly as never,
+      plusYearly: { ...LIVE_BODY.prices.plusYearly, amount: 120, display: 'A$120' } as never,
+    });
+    expect(text.yearlyNote).toBe('');
+  });
+
+  it('keeps an operator’s own note while the env prices it was written for are shown', () => {
+    expect(fallbackPlanPrices('Two months free').yearlyNote).toBe('Two months free');
+    expect(mergePlanPrices(null, fallbackPlanPrices('Two months free')).yearlyNote).toBe(
+      'Two months free'
+    );
+  });
+
+  it('works the env note out from the env prices when no note is set', () => {
+    expect(fallbackPlanPrices(undefined).yearlyNote).toBe('Save 38% — A$4.92 a month');
+  });
+});
+
+describe('amounts for the screens that do sums', () => {
+  it('reads only a plain dollar figure from the env text', () => {
+    expect(parseAudDisplay('A$7.99')).toBe(7.99);
+    expect(parseAudDisplay('$59')).toBe(59);
+    expect(parseAudDisplay('AU$4')).toBe(4);
+    expect(parseAudDisplay('A$4–6')).toBeNull();
+    expect(parseAudDisplay('Contact us')).toBeNull();
+    expect(parseAudDisplay('A$0')).toBeNull();
+  });
+
+  it('prints whole dollars without cents and anything else with two', () => {
+    expect(formatAudAmount(120)).toBe('A$120');
+    expect(formatAudAmount(4.9166)).toBe('A$4.92');
+    expect(formatAudAmount(0.1 + 0.2)).toBe('A$0.30');
+  });
+
+  it('carries the live amount and the seat interval through the merge', () => {
+    const text = mergePlanPrices(parseLivePrices(LIVE_BODY));
+    expect(text.schoolSeatAmount).toBe(5);
+    expect(text.schoolSeatInterval).toBe('year');
+    expect(fallbackPlanPrices().schoolSeatAmount).toBe(4);
+  });
+
+  it('prices a School seat by the interval Stripe charges it on', () => {
+    const prices = mergePlanPrices({
+      schoolSeat: { ...LIVE_BODY.prices.schoolSeat, interval: 'month' } as never,
+    });
+    expect(planPriceLine('school', prices)).toBe('A$5 per student, per month + GST');
   });
 });

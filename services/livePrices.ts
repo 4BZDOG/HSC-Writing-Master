@@ -28,15 +28,24 @@ export interface LivePrices {
 /**
  * What the screens render. Each price is a display string; each GST field is the
  * words to put beside it, or null when nothing is known and so nothing is said.
+ * Each amount is the same price as a number of dollars, or null when the display
+ * text is not a plain dollar figure, so a screen that does sums with it (a seat
+ * total, the yearly saving) says nothing rather than guessing.
  */
 export interface PlanPriceText {
   monthly: string;
   yearly: string;
+  /** The yearly saving over paying monthly, or '' when it cannot be stated truthfully. */
   yearlyNote: string;
   schoolSeat: string;
+  /** How often a School seat is charged. The live price says; the env text is yearly. */
+  schoolSeatInterval: 'month' | 'year';
   monthlyGst: string | null;
   yearlyGst: string | null;
   schoolSeatGst: string | null;
+  monthlyAmount: number | null;
+  yearlyAmount: number | null;
+  schoolSeatAmount: number | null;
 }
 
 /** Stripe's tax_behavior, in the words the app shows. Unspecified says nothing. */
@@ -49,20 +58,79 @@ const GST_NOTE: Record<TaxBehavior, string | null> = {
 export const gstNoteFor = (taxBehavior: TaxBehavior | undefined): string | null =>
   taxBehavior ? GST_NOTE[taxBehavior] : null;
 
-/** The env-backed text, with no GST claim. This is what the screens showed before. */
-export const fallbackPlanPrices = (): PlanPriceText => ({
-  monthly: PLAN_PRICING.monthly,
-  yearly: PLAN_PRICING.yearly,
-  yearlyNote: PLAN_PRICING.yearlyNote,
-  schoolSeat: PLAN_PRICING.schoolSeat,
-  monthlyGst: null,
-  yearlyGst: null,
-  schoolSeatGst: null,
-});
+/**
+ * The dollars in a display string such as 'A$7.99' or '$59', or null for anything
+ * else ('Contact us', 'A$4–6'). The env text is typed by hand, so only a plain
+ * figure is trusted for arithmetic.
+ */
+export const parseAudDisplay = (text: string | undefined): number | null => {
+  const match = /^\s*(?:A\$|AU\$|\$)\s?(\d+(?:\.\d{1,2})?)\s*$/.exec(text ?? '');
+  if (!match) return null;
+  const amount = Number(match[1]);
+  return Number.isFinite(amount) && amount > 0 ? amount : null;
+};
+
+/**
+ * Dollars as this app writes them: 'A$59' for whole dollars, 'A$4.92' otherwise.
+ * The same rule as api/prices.ts formatAud, which the client cannot import.
+ */
+export const formatAudAmount = (amount: number): string => {
+  const cents = Math.round(amount * 100);
+  return cents % 100 === 0 ? `A$${cents / 100}` : `A$${(cents / 100).toFixed(2)}`;
+};
+
+/**
+ * "Save 38% — A$4.92 a month", worked out from the two prices on screen, or null
+ * when the yearly price saves nothing. The percentage is rounded down, so the
+ * saving is never overstated.
+ */
+export const yearlySavingNote = (monthly: number, yearly: number): string | null => {
+  if (!(monthly > 0) || !(yearly > 0)) return null;
+  const percent = Math.floor((1 - yearly / (monthly * 12)) * 100);
+  if (percent < 1) return null;
+  return `Save ${percent}% — ${formatAudAmount(yearly / 12)} a month`;
+};
+
+/**
+ * The env-backed text, with no GST claim. This is what the screens showed before.
+ *
+ * The yearly saving is VITE_PLUS_YEARLY_NOTE when a deployment sets it. Otherwise it
+ * is worked out from the two env prices, so a deployment that changes a price
+ * without the note is not left advertising the shipped "Save 38%".
+ */
+export const fallbackPlanPrices = (
+  explicitYearlyNote: string | undefined = import.meta.env?.VITE_PLUS_YEARLY_NOTE
+): PlanPriceText => {
+  const monthlyAmount = parseAudDisplay(PLAN_PRICING.monthly);
+  const yearlyAmount = parseAudDisplay(PLAN_PRICING.yearly);
+  const worked =
+    monthlyAmount !== null && yearlyAmount !== null
+      ? yearlySavingNote(monthlyAmount, yearlyAmount)
+      : null;
+  return {
+    monthly: PLAN_PRICING.monthly,
+    yearly: PLAN_PRICING.yearly,
+    yearlyNote: explicitYearlyNote ?? worked ?? '',
+    schoolSeat: PLAN_PRICING.schoolSeat,
+    schoolSeatInterval: 'year',
+    monthlyGst: null,
+    yearlyGst: null,
+    schoolSeatGst: null,
+    monthlyAmount,
+    yearlyAmount,
+    schoolSeatAmount: parseAudDisplay(PLAN_PRICING.schoolSeat),
+  };
+};
 
 /**
  * Live where a live price exists, otherwise the fallback. Pure. A live price that
  * says `unspecified` shows no GST wording, rather than the fallback's.
+ *
+ * The yearly saving is the env text (VITE_PLUS_YEARLY_NOTE) only while both Plus
+ * prices are the env text it was written for. Once either price is live, the note
+ * is worked out from the two figures on screen, so it cannot go on claiming a
+ * saving the live prices do not give. Two prices that disagree about GST are not
+ * compared at all.
  */
 export const mergePlanPrices = (
   live: LivePrices | null,
@@ -70,14 +138,34 @@ export const mergePlanPrices = (
 ): PlanPriceText => {
   const gst = (price: LivePrice | undefined, fallbackNote: string | null): string | null =>
     price ? gstNoteFor(price.taxBehavior) : fallbackNote;
+  const monthlyAmount = live?.plusMonthly?.amount ?? fallback.monthlyAmount;
+  const yearlyAmount = live?.plusYearly?.amount ?? fallback.yearlyAmount;
+  const monthlyGst = gst(live?.plusMonthly, fallback.monthlyGst);
+  const yearlyGst = gst(live?.plusYearly, fallback.yearlyGst);
+
+  // One price including GST and the other excluding it would compare unlike figures.
+  // A price that says nothing about GST is not a disagreement.
+  const gstDisagrees = !!monthlyGst && !!yearlyGst && monthlyGst !== yearlyGst;
+  let yearlyNote = fallback.yearlyNote;
+  if (live?.plusMonthly || live?.plusYearly) {
+    yearlyNote =
+      monthlyAmount !== null && yearlyAmount !== null && !gstDisagrees
+        ? (yearlySavingNote(monthlyAmount, yearlyAmount) ?? '')
+        : '';
+  }
+
   return {
     monthly: live?.plusMonthly?.display ?? fallback.monthly,
     yearly: live?.plusYearly?.display ?? fallback.yearly,
-    yearlyNote: fallback.yearlyNote,
+    yearlyNote,
     schoolSeat: live?.schoolSeat?.display ?? fallback.schoolSeat,
-    monthlyGst: gst(live?.plusMonthly, fallback.monthlyGst),
-    yearlyGst: gst(live?.plusYearly, fallback.yearlyGst),
+    schoolSeatInterval: live?.schoolSeat?.interval ?? fallback.schoolSeatInterval,
+    monthlyGst,
+    yearlyGst,
     schoolSeatGst: gst(live?.schoolSeat, fallback.schoolSeatGst),
+    monthlyAmount,
+    yearlyAmount,
+    schoolSeatAmount: live?.schoolSeat?.amount ?? fallback.schoolSeatAmount,
   };
 };
 

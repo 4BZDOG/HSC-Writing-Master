@@ -8,7 +8,7 @@ import {
   type Plan,
   type PremiumFeatureKey,
 } from './planPolicy';
-import { dailyResetPhrase } from '../utils/dailyReset';
+import { dailyResetPhrase, dailyResetTime } from '../utils/dailyReset';
 import { canUseAiGeneration } from '../utils/permissions';
 import type { User } from '../types';
 import type { UserRole } from '../types';
@@ -553,6 +553,24 @@ export const evalLimitMessage = (): string =>
   `You've used all ${freeEvalLimit()} free markings for today — your next one is at ` +
   `${dailyResetPhrase()}. ${PLAN_LABELS.plus} removes the limit.`;
 
+/**
+ * What the free plan holds, in figures, for the profile's plan card. It used to say
+ * "Limited daily evaluations and basic features", which tells a student nothing
+ * they can plan around. Read at call time from the live allowance and this
+ * deployment's free-tier limits, so an override or an admin's change shows here.
+ */
+export const freePlanSummary = (): string => {
+  const limits = freeTierLimits();
+  const feedback = limits.summaryFeedbackOnly
+    ? 'the summary and band for each'
+    : 'the full feedback for each';
+  return (
+    `${freeEvalLimit()} marked answers a day, with ${feedback}; the count resets at ` +
+    `${dailyResetTime()}. Questions up to tier ${limits.maxQuestionTier} of 6, and sample ` +
+    `answers up to Band ${limits.maxSampleBand}. Free has no end date.`
+  );
+};
+
 // ---------------------------------------------------------------------------
 // Change notification
 // ---------------------------------------------------------------------------
@@ -692,7 +710,12 @@ export const SCHOOL_SEAT_LIMITS = { min: 5, max: 1000, default: 30 } as const;
 export const PLAN_PRICING = {
   monthly: import.meta.env.VITE_PLUS_MONTHLY_PRICE_DISPLAY ?? 'A$7.99',
   yearly: import.meta.env.VITE_PLUS_YEARLY_PRICE_DISPLAY ?? 'A$59',
-  yearlyNote: import.meta.env.VITE_PLUS_YEARLY_NOTE ?? 'Save 38% — under A$5/month',
+  /**
+   * The operator's own saving line. Unset, the screens work it out from the two
+   * prices (services/livePrices.ts), so this default is only what they fall back
+   * to if a display price is not a plain figure.
+   */
+  yearlyNote: import.meta.env.VITE_PLUS_YEARLY_NOTE ?? '',
   /** Per-seat, per-year display string for the school licence. */
   schoolSeat: import.meta.env.VITE_SCHOOL_SEAT_PRICE_DISPLAY ?? 'A$4',
 } as const;

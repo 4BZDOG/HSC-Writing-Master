@@ -99,7 +99,10 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
   // A FUNCTION call, not a module-level string: interpolating an imported value at
   // module scope is what shipped a blank page once (see services/planLimits.ts).
   const prices = useLivePrices();
-  const currentPlan = getUserPlan(user ?? null);
+  // A parent holds no plan of their own (Plus is bought for a child), so no column
+  // is "Your plan" for them: badging Free read as "you are missing out".
+  const isParent = user?.role === 'parent';
+  const currentPlan: Plan | null = isParent ? null : getUserPlan(user ?? null);
   // The free-plan route to the prompt. Empty for anyone the prompt would not sell to.
   const upgradeCta = describeAccess('fullFeedback', user);
 
@@ -217,6 +220,16 @@ const PlanComparison: React.FC<PlanComparisonProps> = ({
           </div>
         ))}
       </div>
+
+      {/* A parent's route is not the upgrade prompt (describeAccess gives a parent
+          no button): Plus is bought for a named child from their dashboard. */}
+      {showUpgradeCta && isParent && monetisationEnabled() && (
+        <p className="mt-5 p-4 rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300 text-xs font-medium text-[rgb(var(--color-text-secondary))] leading-relaxed">
+          {PLAN_LABELS.plus} lands on your child&rsquo;s account, not yours. Link to your child with
+          the code from their profile, then choose monthly or yearly on your dashboard. You pay, and
+          you manage or cancel it there.
+        </p>
+      )}
 
       {/* Nothing to upgrade to when nothing is for sale — the button would
           open a prompt the UpgradeModal now refuses to show. The table above
