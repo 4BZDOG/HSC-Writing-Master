@@ -1,5 +1,14 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-25 (Pastel syllabus-term chips)
+
+- **Changed.** The Syllabus Terms pills are pastel tints of the question's band instead of a neutral pill that turned
+  the band's full-strength solid once used. A key term is the band's tint with its `-800` ink from the start, so it
+  reads as the question's own word before it is used, and deepens with a tick once the answer uses it. A supporting
+  term is a step quieter: near-white with a faint band edge, taking a light tint once used. The ladder's gutters keep
+  the band's solid, so the panel still reads as one ladder with the Marking Guide. Every ink clears 4.5:1 on its
+  tint in both themes (`.term-pill-*` in `index.css`).
+
 ## [Unreleased] - 2026-10-24 (A calibration pilot against NESA-marked responses)
 
 Method, results and recommendations in `projectDocs/calibration-pilot.md`.

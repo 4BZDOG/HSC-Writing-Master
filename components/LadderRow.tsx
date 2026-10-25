@@ -1,6 +1,6 @@
 import React from 'react';
 import { BookOpen } from 'lucide-react';
-import { getBandConfig, getBandRgb } from '../utils/renderUtils';
+import { getBandConfig, getBandDeepInkRgb, getBandRgb } from '../utils/renderUtils';
 import {
   LADDER_BODY,
   LADDER_EDGE_OPEN,
@@ -41,12 +41,16 @@ const edgeClass = (edge: LadderEdge): string =>
   edge === 'open' ? LADDER_EDGE_OPEN : LADDER_EDGE_SHUT;
 
 /** The band's colour as the `--band-rgb` custom property, which the edge, fill and
- *  hero classes read. Set on the row and on the gutter, so a gutter used on its own
+ *  hero classes read, and its `-800` ink as `--band-ink-deep-rgb`, which the pastel
+ *  term pills (`.term-pill-*`) take for text on their tint. Set on the row and on the gutter, so a gutter used on its own
  *  still draws its divider in the right band. Exported for a row that is built from
  *  `LadderRowGutter` and a body of its own, which must hand the band to CSS the same
  *  way. */
 export const ladderBandVars = (band: number): React.CSSProperties =>
-  ({ '--band-rgb': getBandRgb(band) }) as React.CSSProperties;
+  ({
+    '--band-rgb': getBandRgb(band),
+    '--band-ink-deep-rgb': getBandDeepInkRgb(band),
+  }) as React.CSSProperties;
 
 export interface LadderRowGutterProps {
   band: number;

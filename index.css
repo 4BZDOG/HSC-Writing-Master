@@ -1194,6 +1194,75 @@ a:focus-visible,
   color: rgb(2 6 23);
 }
 /*
+ * The Syllabus Terms pills (`utils/termChrome.ts`): pastel tints of the row's band.
+ *
+ * Each ground is mixed OPAQUE from the band and the theme's paper (white, or
+ * slate-900 in the dark theme), not drawn at an alpha, so the pill is the same
+ * pastel on the row's gradient wash at either end of it, and its ink can be
+ * measured against one colour. Light theme: the band's `-800` ink
+ * (`--band-ink-deep-rgb`, set with `--band-rgb` by `ladderBandVars`), which clears
+ * 4.5:1 on the deepest tint here (40%) for all six bands (red, the lowest, about
+ * 4.8:1; the ink sits on the tint, so 45% would take red under AA). Dark theme: the band
+ * lifted 45–55% towards white as the ink, on at most a 32% tint of slate-900 (about
+ * 6:1 at the lowest).
+ *
+ * The key term is a step stronger than the supporting term at rest, and each
+ * deepens once the answer uses it. The supporting term at rest keeps neutral ink:
+ * it is the quieter row, and its band shows only in the edge and the dot.
+ */
+.term-pill-key {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 12%, white);
+  border-color: rgb(var(--band-rgb) / 0.45);
+  color: rgb(var(--band-ink-deep-rgb));
+}
+.term-pill-key-used {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 40%, white);
+  border-color: rgb(var(--band-rgb) / 0.85);
+  color: rgb(var(--band-ink-deep-rgb));
+}
+.term-pill-support {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 5%, white);
+  border-color: rgb(var(--band-rgb) / 0.28);
+  color: rgb(51 65 85);
+}
+.term-pill-support-used {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 20%, white);
+  border-color: rgb(var(--band-rgb) / 0.6);
+  color: rgb(var(--band-ink-deep-rgb));
+}
+.term-pill-dot {
+  background-color: rgb(var(--band-rgb) / 0.75);
+}
+.dark .term-pill-key {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 12%, rgb(15 23 42));
+  border-color: rgb(var(--band-rgb) / 0.4);
+  color: color-mix(in srgb, rgb(var(--band-rgb)) 55%, white);
+}
+.dark .term-pill-key-used {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 32%, rgb(15 23 42));
+  border-color: rgb(var(--band-rgb) / 0.8);
+  color: color-mix(in srgb, rgb(var(--band-rgb)) 45%, white);
+}
+.dark .term-pill-support {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 5%, rgb(15 23 42));
+  border-color: rgb(var(--band-rgb) / 0.25);
+  color: rgb(226 232 240);
+}
+.dark .term-pill-support-used {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 14%, rgb(15 23 42));
+  border-color: rgb(var(--band-rgb) / 0.55);
+  color: color-mix(in srgb, rgb(var(--band-rgb)) 55%, white);
+}
+/* After the dark rules, so the hover edge wins in both themes at equal specificity. */
+@media (hover: hover) {
+  .term-pill-key:hover,
+  .term-pill-support:hover,
+  .dark .term-pill-key:hover,
+  .dark .term-pill-support:hover {
+    border-color: rgb(var(--band-rgb) / 0.9);
+  }
+}
+/*
  * The model answer's head (`SAMPLE_PAGE_BAR`) is the band solid with its darkest corner
  * shaded to 4% black, not the shared 8%. At 8% Band 6's purple takes the slate-950 ink to
  * 4.41:1, under AA; at 4% every band clears 4.5:1 at the corner. It is scoped to the bar,

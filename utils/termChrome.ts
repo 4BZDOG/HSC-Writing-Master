@@ -40,21 +40,28 @@ export const TERM_CHIP_HOVER =
  */
 
 /** The frame: the pill's shape and edge. Its ground and ink come from the state
- *  classes below (or, for a term the answer uses, from the band). */
+ *  classes below. */
 export const TERM_PILL_FRAME =
   'inline-flex items-stretch max-w-full rounded-full border transition-[background-color,border-color,color] duration-200';
 
-/** A term the answer does not use yet: a neutral pill, the same ground as the
- *  "Model answer" pill on a band row, so the two read as one family on a row. */
-export const TERM_PILL_OPEN =
-  'bg-white/85 border-slate-400/70 text-slate-800 ' +
-  'dark:bg-black/35 dark:border-white/25 dark:text-slate-100 ' +
-  'can-hover:hover:bg-white dark:can-hover:hover:bg-black/50';
-
-/** A supporting term the answer already uses: the neutral ground with the band's
- *  own edge and ink (added at the call site), so the tick is the band's and the
- *  pill stays quiet on the quiet row. */
-export const TERM_PILL_QUIET_COVERED = 'bg-white/85 band-edge-strong dark:bg-black/35';
+/*
+ * The four pill states, in pastel. Each is a class in `index.css` (`.term-pill-*`)
+ * that reads the row's `--band-rgb` and `--band-ink-deep-rgb`, so a pill is a soft
+ * tint of the question's own band rather than a second palette. The band's solid
+ * pair stays where it is (the ladder's gutter); a chip drawn at full strength beside
+ * it, once per term, made the panel the loudest thing on the page.
+ *
+ * - A key term is the band's tint with the band's `-800` ink, so it reads as the
+ *   question's own word before it is used; used, the tint deepens and takes a tick.
+ * - A supporting term is near-white with a faint band edge and neutral ink, a step
+ *   quieter than a key term; used, it takes a light tint and the band's ink.
+ *
+ * Every ink clears 4.5:1 on its own ground in both themes, for all six bands.
+ */
+export const TERM_PILL_KEY_OPEN = 'term-pill-key';
+export const TERM_PILL_KEY_USED = 'term-pill-key-used';
+export const TERM_PILL_SUPPORT_OPEN = 'term-pill-support';
+export const TERM_PILL_SUPPORT_USED = 'term-pill-support-used';
 
 /** The term button: the touch target. It is 44px tall on a phone, the size a finger
  *  can hit, and returns to 32px from `sm`. Its ink is the frame's, so the solid and
@@ -75,6 +82,6 @@ export const TERM_PILL_REMOVE =
   'focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60 ' +
   'can-hover:hover:bg-black/10 dark:can-hover:hover:bg-white/10';
 
-/** The dot a term not yet used carries in place of a tick: decorative, so it is a
- *  slate pair at a size that does not compete with the word. */
-export const TERM_PILL_DOT = 'w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-500 shrink-0';
+/** The dot a term not yet used carries in place of a tick: decorative, in the band's
+ *  own hue (`.term-pill-dot`), at a size that does not compete with the word. */
+export const TERM_PILL_DOT = 'term-pill-dot w-1.5 h-1.5 rounded-full shrink-0';
