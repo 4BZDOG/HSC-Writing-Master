@@ -19,7 +19,6 @@ import LadderRow, { ladderBandVars } from './LadderRow';
 import {
   LADDER_EDGE_SHUT,
   LADDER_EMPTY,
-  LADDER_SOLID,
   LADDER_STACK,
   LADDER_TOOL_ICON,
   LADDER_TOOL_INPUT,
@@ -28,10 +27,12 @@ import {
 import {
   TERM_PILL_DOT,
   TERM_PILL_FRAME,
+  TERM_PILL_KEY_OPEN,
+  TERM_PILL_KEY_USED,
   TERM_PILL_MAIN,
-  TERM_PILL_OPEN,
-  TERM_PILL_QUIET_COVERED,
   TERM_PILL_REMOVE,
+  TERM_PILL_SUPPORT_OPEN,
+  TERM_PILL_SUPPORT_USED,
 } from '../utils/termChrome';
 
 interface KeywordEditorProps {
@@ -189,14 +190,16 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
     const isUsed = usageMap.get(kw) === true;
     const source = syllabusMap.get(kw);
 
-    // A covered key term is the band's solid pair, the colour the gutter wears. A
-    // covered supporting term keeps the quiet ground and takes the band's edge and
-    // ink. An uncovered term is neutral in both groups.
-    const frameState = isUsed
-      ? group === 'key'
-        ? `${LADDER_SOLID} border-transparent`
-        : `${TERM_PILL_QUIET_COVERED} ${bandConfig.text}`
-      : TERM_PILL_OPEN;
+    // Pastel tints of the question's band (`utils/termChrome.ts`): a key term is the
+    // stronger tint of the two, and either deepens once the answer uses it.
+    const frameState =
+      group === 'key'
+        ? isUsed
+          ? TERM_PILL_KEY_USED
+          : TERM_PILL_KEY_OPEN
+        : isUsed
+          ? TERM_PILL_SUPPORT_USED
+          : TERM_PILL_SUPPORT_OPEN;
 
     return (
       <span key={kw} className={`${TERM_PILL_FRAME} ${frameState}`}>

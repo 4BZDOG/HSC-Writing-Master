@@ -5,7 +5,7 @@ import KeywordEditor from '../../components/KeywordEditor';
 import { Prompt, PromptVerb, UserRole } from '../../types';
 import { getBandConfig } from '../../utils/renderUtils';
 import { LADDER_FILL, LADDER_FILL_QUIET, LADDER_TOOL_INPUT } from '../../utils/ladderChrome';
-import { TERM_PILL_MAIN, TERM_PILL_REMOVE } from '../../utils/termChrome';
+import { TERM_PILL_KEY_USED, TERM_PILL_MAIN, TERM_PILL_REMOVE } from '../../utils/termChrome';
 
 /**
  * The Syllabus Terms panel, drawn as the mark ladder's rows (DesignSpec §3).
@@ -126,15 +126,16 @@ describe('Syllabus Terms: two rows, each counted in its own gutter', () => {
 });
 
 describe('Syllabus Terms: the pills', () => {
-  it('shows a used key term covered: a tick, and the band’s solid pair', () => {
+  it('shows a used key term covered: a tick, and the band’s deeper pastel', () => {
     renderPanel({ userAnswer: 'The risk is clear.' });
     const used = pillFor('risk');
     const frame = used.parentElement as HTMLElement;
     expect(used.querySelector('svg')).not.toBeNull();
-    expect(frame.className).toContain('band-solid');
+    expect(frame.className).toContain(TERM_PILL_KEY_USED);
+    expect(frame.className).not.toContain('band-solid');
   });
 
-  it('leaves an unused term neutral: a dot, and no tick', () => {
+  it('leaves an unused term open: a dot, and no tick', () => {
     renderPanel({ userAnswer: 'The risk is clear.' });
     const open = pillFor('hazard');
     const frame = open.parentElement as HTMLElement;
