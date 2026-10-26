@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
 import { readFileSync, readdirSync } from 'fs';
 import { join } from 'path';
-import { syncShippedCourses } from '../../hooks/useSyllabusData';
+import { heldBackOffer, replaceWithShipped, syncShippedCourses } from '../../hooks/useSyllabusData';
 import { runMigrations, DATA_VERSION, RETIRED_SEED_COURSE_IDS } from '../../utils/storageUtils';
 import {
   carryPersonalFields,
@@ -452,5 +452,90 @@ describe('refreshing copies already in the library', () => {
       'My first paragraph.'
     );
     expect(result.courses.map((c) => c.id)).toContain(`${MODERN_HISTORY}-before-refresh`);
+  });
+});
+
+describe('an edited copy with a newer version waiting', () => {
+  const BUSINESS = 'course-hsc-business-studies';
+
+  /** Business Studies as it shipped before its past HSC papers, stamped then edited. */
+  const editedBeforePastPapers = (): Course => {
+    const current = shippedCourse('HSCBusinessStudies.json');
+    const older: Course = {
+      ...current,
+      topics: current.topics.map((t) => ({
+        ...t,
+        subTopics: t.subTopics.map((st) => ({
+          ...st,
+          dotPoints: st.dotPoints.map((dp) => ({
+            ...dp,
+            prompts: dp.prompts.filter((p) => !p.isPastHSC),
+          })),
+        })),
+      })),
+    };
+    return { ...stampShipped(older), name: 'My Business Studies' };
+  };
+
+  it('keeps the copy and reports it, with the questions it is missing', async () => {
+    serveShipped();
+    const result = await syncShippedCourses([editedBeforePastPapers()]);
+
+    expect(result.courses.find((c) => c.id === BUSINESS)?.name).toBe('My Business Studies');
+    expect(result.heldBack).toEqual([
+      { id: BUSINESS, name: 'My Business Studies', newQuestions: 90 },
+    ]);
+  });
+
+  it('reports nothing when the shipped version has not changed since the copy was taken', async () => {
+    serveShipped();
+    const saved = [{ ...stampShipped(shippedCourse('HSCBusinessStudies.json')), name: 'Mine' }];
+
+    const result = await syncShippedCourses(saved);
+
+    expect(result.heldBack).toEqual([]);
+  });
+
+  it('replaces the copy on request, keeps it as a backup and carries drafts across', () => {
+    const shipped = shippedCourse('HSCBusinessStudies.json');
+    const copy = withDraft(editedBeforePastPapers());
+    const earlier = { ...copy, id: `${BUSINESS}-before-refresh`, supersededBy: BUSINESS };
+
+    const next = replaceWithShipped([copy, earlier], new Map([[BUSINESS, shipped]]), [BUSINESS]);
+
+    const updated = next.find((c) => c.id === BUSINESS)!;
+    expect(updated.name).toBe(shipped.name);
+    expect(isUnedited(updated)).toBe(true);
+    expect(firstPrompt(updated).userDraft).toBe('My first paragraph.');
+    // The earlier backup stays; the new one gets its own id.
+    expect(next.map((c) => c.id)).toEqual([
+      BUSINESS,
+      `${BUSINESS}-before-refresh`,
+      `${BUSINESS}-before-refresh-2`,
+    ]);
+    expect(next[2].name).toBe('My Business Studies (before refresh)');
+  });
+
+  it('leaves courses that were not asked for alone', () => {
+    const copy = editedBeforePastPapers();
+    const shipped = new Map([[BUSINESS, shippedCourse('HSCBusinessStudies.json')]]);
+    expect(replaceWithShipped([copy], shipped, [])).toEqual([copy]);
+  });
+
+  it('words the offer for one course and for several', () => {
+    expect(heldBackOffer([{ id: 'a', name: 'HSC Business Studies', newQuestions: 90 }])).toEqual({
+      message:
+        'A newer version of HSC Business Studies is available, with 90 questions your copy does not have. Your copy has changes, so it was kept. Updating keeps your copy as a backup.',
+      label: 'Update it',
+    });
+    const many = heldBackOffer([
+      { id: 'a', name: 'HSC Business Studies', newQuestions: 90 },
+      { id: 'b', name: 'HSC Geography', newQuestions: 0 },
+      { id: 'c', name: 'HSC Economics', newQuestions: 1 },
+    ]);
+    expect(many.message).toMatch(
+      /^Newer versions of HSC Business Studies, HSC Geography and HSC Economics are available, with 91 questions your copies do not have\./
+    );
+    expect(many.label).toBe('Update them');
   });
 });
