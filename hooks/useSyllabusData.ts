@@ -1,5 +1,5 @@
 import { useImmer, type Updater } from 'use-immer';
-import type { ToastType } from './useToast';
+import type { ShowToast } from './useToast';
 import { useCallback, useEffect, useState, useRef } from 'react';
 import { Draft } from 'immer';
 import {
@@ -132,13 +132,79 @@ const recordOfferedShipped = (ids: string[]): void => {
 };
 
 /**
+ * The shipped courses by id, read and sanitised as the first-run picker reads them.
+ * Throws when the manifest or any course file cannot be read.
+ */
+const fetchShippedCourses = async (): Promise<Map<string, Course>> => {
+  const courseDataBase = `${import.meta.env.BASE_URL}courseData`;
+  const manifestRes = await fetch(`${courseDataBase}/manifest.json`);
+  if (!manifestRes.ok) throw new Error(`manifest.json: HTTP ${manifestRes.status}`);
+  const entries = parseManifestEntries(await manifestRes.json()).filter(
+    (entry) => entry.type !== 'topic'
+  );
+  const shipped = await Promise.all(
+    entries.map(async (entry) => {
+      const res = await fetch(`${courseDataBase}/${entry.file}`);
+      if (!res.ok) throw new Error(`${entry.file}: HTTP ${res.status}`);
+      const analysis = analyzeAndSanitizeImportData(await res.json());
+      return analysis.type === 'courses' && analysis.data ? (analysis.data as Course[]) : [];
+    })
+  );
+  const byId = new Map<string, Course>();
+  for (const course of shipped.flat()) {
+    if (!byId.has(course.id)) byId.set(course.id, course);
+  }
+  return byId;
+};
+
+/**
+ * The copy a refresh keeps of the course it replaces: hidden from the navigator
+ * (see isSupersededCourse) but still in the library, so nothing is lost. `taken`
+ * holds the ids in use and gains the new one; a second refresh of the same course
+ * gets its own id rather than overwriting the first backup.
+ */
+const backupOf = (course: Course, taken: Set<string>): Course => {
+  let id = `${course.id}-before-refresh`;
+  for (let n = 2; taken.has(id); n++) id = `${course.id}-before-refresh-${n}`;
+  taken.add(id);
+  return { ...course, id, name: `${course.name} (before refresh)`, supersededBy: course.id };
+};
+
+/** How many questions `next` has that `copy` does not, matched by id. */
+const countNewQuestions = (copy: Course, next: Course): number => {
+  const ids = (course: Course): Set<string> =>
+    new Set(
+      (course.topics ?? []).flatMap((t) =>
+        (t.subTopics ?? []).flatMap((st) =>
+          (st.dotPoints ?? []).flatMap((dp) => (dp.prompts ?? []).map((p) => p.id))
+        )
+      )
+    );
+  const had = ids(copy);
+  let added = 0;
+  for (const id of ids(next)) if (!had.has(id)) added++;
+  return added;
+};
+
+/** An edited copy the sync kept although a newer shipped version exists. */
+export interface HeldBackCourse {
+  id: string;
+  name: string;
+  /** Questions the shipped version has that the copy lacks. */
+  newQuestions: number;
+}
+
+/**
  * Brings a saved library up to the shipped courses. A shipped course the library
  * lacks is added. A saved copy the user has not edited is replaced by the newer
- * shipped version, keeping the student's own drafts (writing in a course is not editing it). An edited copy is kept. A copy saved before fingerprints
- * existed cannot be checked for edits, so if its content differs from the shipped
- * version, it is kept as a backup course named "(before refresh)" and the shipped
- * version replaces it. `complete` is false when any shipped file could not be
- * read, so the caller knows to try again.
+ * shipped version, keeping the student's own drafts (writing in a course is not
+ * editing it). An edited copy is kept, and listed in `heldBack` when a newer
+ * version exists, so the user can be offered it: kept silently, a copy edited
+ * before a course gained its past HSC papers never showed them. A copy saved
+ * before fingerprints existed cannot be checked for edits, so if its content
+ * differs from the shipped version, it is kept as a backup course named
+ * "(before refresh)" and the shipped version replaces it. `complete` is false when
+ * any shipped file could not be read, so the caller knows to try again.
  */
 export const syncShippedCourses = async (
   saved: Course[],
@@ -150,28 +216,19 @@ export const syncShippedCourses = async (
    * predates the record, which gets every missing course once, as it always did.
    */
   offered?: ReadonlySet<string>
-): Promise<{ courses: Course[]; complete: boolean; shippedIds: string[] }> => {
-  const courseDataBase = `${import.meta.env.BASE_URL}courseData`;
+): Promise<{
+  courses: Course[];
+  complete: boolean;
+  shippedIds: string[];
+  heldBack: HeldBackCourse[];
+}> => {
   try {
-    const manifestRes = await fetch(`${courseDataBase}/manifest.json`);
-    if (!manifestRes.ok) return { courses: saved, complete: false, shippedIds: [] };
-    const entries = parseManifestEntries(await manifestRes.json()).filter(
-      (entry) => entry.type !== 'topic'
-    );
-    const shipped = await Promise.all(
-      entries.map(async (entry) => {
-        const res = await fetch(`${courseDataBase}/${entry.file}`);
-        if (!res.ok) throw new Error(`${entry.file}: HTTP ${res.status}`);
-        const analysis = analyzeAndSanitizeImportData(await res.json());
-        return analysis.type === 'courses' && analysis.data ? (analysis.data as Course[]) : [];
-      })
-    );
-    const pending = new Map<string, Course>();
-    for (const course of shipped.flat()) {
-      if (!pending.has(course.id)) pending.set(course.id, course);
-    }
+    const pending = await fetchShippedCourses();
+    const shippedIds = [...pending.keys()];
+    const taken = new Set(saved.map((c) => c.id));
     const courses: Course[] = [];
     const backups: Course[] = [];
+    const heldBack: HeldBackCourse[] = [];
     for (const course of saved) {
       const next = pending.get(course.id);
       if (!next) {
@@ -183,36 +240,87 @@ export const syncShippedCourses = async (
       // A refresh replaces the course but not the student's own words: their drafts and
       // the time they have spent are carried onto the same questions in the newer copy.
       const { course: carried, orphaned } = carryPersonalFields(course, stamped);
-      const backup = (): Course => ({
-        ...course,
-        id: `${course.id}-before-refresh`,
-        name: `${course.name} (before refresh)`,
-        supersededBy: course.id,
-      });
       if (course.shippedHash === undefined) {
         // Predates fingerprints. Identical content needs no backup.
-        if (hashCourse(course) !== stamped.shippedHash) backups.push(backup());
+        if (hashCourse(course) !== stamped.shippedHash) backups.push(backupOf(course, taken));
         courses.push(carried);
       } else if (!isUnedited(course)) {
         courses.push(course);
+        if (course.shippedHash !== stamped.shippedHash) {
+          heldBack.push({
+            id: course.id,
+            name: course.name,
+            newQuestions: countNewQuestions(course, next),
+          });
+        }
       } else if (course.shippedHash === stamped.shippedHash) {
         courses.push(course);
       } else {
         courses.push(carried);
         // A draft on a question the newer course no longer has has nowhere to go, so the
         // old copy is kept beside the new one, as for a copy that predates fingerprints.
-        if (orphaned) backups.push(backup());
+        if (orphaned) backups.push(backupOf(course, taken));
       }
     }
-    const shippedIds = shipped.flat().map((c) => c.id);
     for (const next of pending.values()) {
       if (!offered?.has(next.id)) courses.push(stampShipped(next));
     }
-    return { courses: [...courses, ...backups], complete: true, shippedIds };
+    return { courses: [...courses, ...backups], complete: true, shippedIds, heldBack };
   } catch (err) {
     console.warn('[Curriculum] Could not sync shipped courses; will retry on next load.', err);
-    return { courses: saved, complete: false, shippedIds: [] };
+    return { courses: saved, complete: false, shippedIds: [], heldBack: [] };
   }
+};
+
+/**
+ * Replaces the listed courses with their shipped versions, as the user asked when
+ * offered a held-back update. Each replaced copy is kept as a "(before refresh)"
+ * backup, and the student's drafts are carried onto the new copy. A listed course
+ * with no shipped version is left alone.
+ */
+export const replaceWithShipped = (
+  current: Course[],
+  shipped: ReadonlyMap<string, Course>,
+  ids: readonly string[]
+): Course[] => {
+  const taken = new Set(current.map((c) => c.id));
+  const courses: Course[] = [];
+  const backups: Course[] = [];
+  for (const course of current) {
+    const next = ids.includes(course.id) ? shipped.get(course.id) : undefined;
+    if (!next) {
+      courses.push(course);
+      continue;
+    }
+    courses.push(carryPersonalFields(course, stampShipped(next)).course);
+    backups.push(backupOf(course, taken));
+  }
+  return [...courses, ...backups];
+};
+
+const listNames = (names: string[]): string =>
+  names.length <= 1
+    ? (names[0] ?? '')
+    : `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}`;
+
+/** The offer raised for held-back courses, and the label of its action. */
+export const heldBackOffer = (held: HeldBackCourse[]): { message: string; label: string } => {
+  const one = held.length === 1;
+  const added = held.reduce((n, h) => n + h.newQuestions, 0);
+  const names = listNames(held.map((h) => h.name));
+  const extra =
+    added > 0
+      ? `, with ${added} question${added === 1 ? '' : 's'} your ${one ? 'copy does' : 'copies do'} not have`
+      : '';
+  return one
+    ? {
+        message: `A newer version of ${names} is available${extra}. Your copy has changes, so it was kept. Updating keeps your copy as a backup.`,
+        label: 'Update it',
+      }
+    : {
+        message: `Newer versions of ${names} are available${extra}. Your copies have changes, so they were kept. Updating keeps your copies as backups.`,
+        label: 'Update them',
+      };
 };
 
 const resolveTopicTargetCourse = (
@@ -276,11 +384,7 @@ export const untickUnplaceableTopics = (docs: DiscoveredDoc[]): DiscoveredDoc[] 
 const yearTag = (year?: SyllabusYear): { year?: SyllabusYear } =>
   year && year !== DEFAULT_SYLLABUS_YEAR ? { year } : {};
 
-export const useSyllabusData = ({
-  showToast,
-}: {
-  showToast: (message: string, type: ToastType) => void;
-}) => {
+export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
   const [courses, updateCourses] = useImmer<Course[]>([]);
   const [storageStatus, setStorageStatus] = useState<StorageStatus>('Loading');
   const [libraryItems, setLibraryItems] = useState<LibraryItem[]>([]);
@@ -349,6 +453,36 @@ export const useSyllabusData = ({
             dataToLoad = synced.courses;
             libraryReady = synced.complete;
             if (synced.complete) recordOfferedShipped(synced.shippedIds);
+            if (synced.heldBack.length > 0) {
+              const held = synced.heldBack;
+              const { message, label } = heldBackOffer(held);
+              // Offered, not forced: the copy holds the user's own changes. The
+              // replacement is applied to the library as it is when they click.
+              const ids = held.map((h) => h.id);
+              const update = () => {
+                fetchShippedCourses()
+                  .then((shippedById) => {
+                    updateCourses((current) => replaceWithShipped(current, shippedById, ids));
+                    showToast(
+                      `Updated ${listNames(held.map((h) => h.name))}. Your earlier ${
+                        held.length === 1 ? 'copy is' : 'copies are'
+                      } kept as a backup in the Data vault.`,
+                      'success'
+                    );
+                  })
+                  // The offer is made once per data version, so a failed download
+                  // carries its own retry rather than sending the user away.
+                  .catch(() =>
+                    showToast('The update could not be downloaded.', 'error', {
+                      label: 'Try again',
+                      onClick: update,
+                    })
+                  );
+              };
+              // Offered, not forced: the copy holds the user's own changes. The
+              // replacement is applied to the library as it is when they click.
+              showToast(message, 'info', { label, onClick: update });
+            }
           }
           if (libraryReady) safeSetItem(STORAGE_KEYS.DATA_VERSION, DATA_VERSION);
         }

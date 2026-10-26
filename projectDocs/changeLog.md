@@ -1,5 +1,14 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-26 (Newer shipped courses offered to edited copies)
+
+- **Fixed.** A course you had changed was kept as it was at every update and never told about the newer version,
+  so a Business Studies or Geography copy edited before 15 October never showed those courses' past HSC papers (or
+  the Past HSC switch). The sync now lists such copies, and the app offers the update once per data version, with
+  the number of questions the copy lacks. Accepting it installs the shipped version, carries drafts across and keeps
+  the edited copy as a "(before refresh)" backup in the Data vault. A second refresh of the same course no longer
+  reuses the first backup's id. `DATA_VERSION` 2.24.0.
+
 ## [Unreleased] - 2026-10-26 (Broader syllabus terms)
 
 - **Added.** "Broaden Terms" in the Content Audit studio: the Syllabus Terms generator (the panel's "Suggest with
