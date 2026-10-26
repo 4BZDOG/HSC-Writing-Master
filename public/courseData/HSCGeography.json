@@ -566,7 +566,9 @@
                       "forest cover",
                       "land cover",
                       "Hollin Valley",
-                      "percentage change"
+                      "percentage change",
+                      "total change",
+                      "average annual rate"
                     ],
                     "markingCriteria": "4 marks: Calculates the total change (84 km² lost), the percentage change (17.5 per cent loss) and the average annual rate (4.2 km² per year), with units and the direction of change stated\n3 marks: Calculates the total change and percentage change correctly, but the average annual rate is missing or wrong\n2 marks: Calculates only one of the total change or the percentage change correctly\n1 mark: Uses a valid method but produces incorrect results",
                     "sampleAnswers": [
@@ -685,7 +687,9 @@
                       "geographic region",
                       "neighbouring countries",
                       "contemporary hazard",
-                      "climate change"
+                      "climate change",
+                      "Study 2",
+                      "Study 3"
                     ],
                     "markingCriteria": "2 marks: Identifies all three studies (a geographic region, a contemporary hazard and climate change) and correctly states that the region may fall within a state or country or encompass a small group of neighbouring countries\n1 mark: Identifies two of the three studies, or all three without the scale of the region",
                     "sampleAnswers": [
@@ -789,7 +793,10 @@
                       "natural hazard",
                       "ecological hazard",
                       "example",
-                      "Study 2"
+                      "Study 2",
+                      "algal bloom",
+                      "physical processes",
+                      "living systems"
                     ],
                     "markingCriteria": "3 marks: Defines a contemporary hazard as an event or condition that poses a current threat to people or environments, distinguishes a natural hazard (such as flooding or earthquake) from an ecological hazard (such as an algal bloom or invasive species), with one correct example of each\n2 marks: Defines a contemporary hazard and gives one correct example of either type of hazard\n1 mark: Gives a general or incorrect definition with no example",
                     "sampleAnswers": [
@@ -1125,7 +1132,10 @@
                       "natural environment",
                       "Halvern Basin",
                       "headwaters",
-                      "natural cycles"
+                      "natural cycles",
+                      "orographic rainfall",
+                      "snowmelt",
+                      "water cycle"
                     ],
                     "markingCriteria": "2 marks: States two distinct physical processes that shape the headwaters (for example orographic rainfall or snowmelt) and links each to a natural cycle such as the water cycle\n1 mark: States one physical process correctly, or names a feature such as a mountain without a process",
                     "sampleAnswers": [
@@ -1630,7 +1640,10 @@
                       "flash flood",
                       "spatial extent",
                       "natural hazard",
-                      "local scale"
+                      "local scale",
+                      "intense rainfall",
+                      "sub-catchment",
+                      "steep upper slopes"
                     ],
                     "markingCriteria": "3 marks: Classifies the flash flood as a natural hazard, classifies its spatial extent at the local scale, and gives a reason for each classification tied to the scenario\n2 marks: Classifies the hazard by type or by scale, with one supporting reason\n1 mark: Makes a classification with no reason, or a classification that is incorrect",
                     "sampleAnswers": [
@@ -1689,7 +1702,9 @@
                       "physical process",
                       "Pellow Creek",
                       "occurrence",
-                      "natural environment"
+                      "natural environment",
+                      "saturated soil",
+                      "intense rainfall"
                     ],
                     "markingCriteria": "2 marks: Defines a flash flood as a rapid rise in water level in a stream after intense rainfall over a short period, and names one physical process (such as saturated soil or intense rainfall) that influences its occurrence in the catchment\n1 mark: Defines the flash flood correctly or names one physical process, but not both",
                     "sampleAnswers": [
@@ -2410,7 +2425,10 @@
                       "adaptation",
                       "responses",
                       "Calder Delta",
-                      "rate"
+                      "rate",
+                      "greenhouse gas emissions",
+                      "storm surges",
+                      "renewable energy"
                     ],
                     "markingCriteria": "4 marks: Differentiates mitigation (reducing the rate and magnitude of change through emissions reduction) from adaptation (adjusting to impacts, such as raising houses), with one correct example of each applied to the Calder Delta\n3 marks: Differentiates the two with a correct general explanation and one example\n2 marks: Describes mitigation or adaptation without contrasting them\n1 mark: Names a response without explanation",
                     "sampleAnswers": [
@@ -2522,7 +2540,9 @@
                       "climate change challenge",
                       "boundaries",
                       "effectiveness",
-                      "geographic extent"
+                      "geographic extent",
+                      "named scale",
+                      "adjacent wetland"
                     ],
                     "markingCriteria": "3 marks: Clarifies that a selected place is a defined location at a named scale in which the challenge is studied, explains why its boundaries must be fixed before assessing effectiveness (so outcomes are measured over the same area), and gives one example of a boundary decision\n2 marks: Clarifies the meaning of a selected place, with one reason for setting its boundaries\n1 mark: Gives a general definition of a place without reference to effectiveness",
                     "sampleAnswers": [
@@ -2647,7 +2667,9 @@
                       "question",
                       "places",
                       "evidence",
-                      "method"
+                      "method",
+                      "flood levee",
+                      "flood records"
                     ],
                     "markingCriteria": "3 marks: Defines geographical inquiry as a systematic, evidence-based process of asking questions about places and environments, distinguishes it from a general report by its method and evidence, and gives one valid example question\n2 marks: Defines geographical inquiry, with one distinguishing feature or one example\n1 mark: Gives a general definition of inquiry without reference to places or methods",
                     "sampleAnswers": [
@@ -2878,7 +2900,9 @@
                       "criterion",
                       "suitable",
                       "investigation",
-                      "boundaries"
+                      "boundaries",
+                      "scale",
+                      "defined location"
                     ],
                     "markingCriteria": "2 marks: Defines an area for geographical inquiry as a defined location at a stated scale in which a question can be investigated, and states one criterion that makes it suitable (such as access to data or manageable boundaries)\n1 mark: Gives a definition or a criterion, but not both",
                     "sampleAnswers": [
@@ -2983,7 +3007,10 @@
                       "geographic extent",
                       "questions",
                       "Pellow Creek",
-                      "investigation"
+                      "investigation",
+                      "catchment area",
+                      "channel reach",
+                      "data collection"
                     ],
                     "markingCriteria": "3 marks: Outlines three questions (the focus of the research, the geographic extent, and the sequence and time for each step), each with its purpose for the investigation\n2 marks: Outlines two questions with their purpose\n1 mark: Names a question without outline",
                     "sampleAnswers": [
@@ -6422,7 +6449,9 @@
                       "flooding",
                       "stilt houses",
                       "drainage canals",
-                      "adaptation"
+                      "adaptation",
+                      "low embankments",
+                      "flood water"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct forms of human ingenuity, each with a brief description of how it responds to seasonal flooding\n1 mark: Identifies one relevant form of human ingenuity that responds to seasonal flooding",
                     "sampleAnswers": [
@@ -6579,7 +6608,9 @@
                       "survival",
                       "salt crust",
                       "extreme heat",
-                      "groundwater"
+                      "groundwater",
+                      "dehydration",
+                      "saline groundwater"
                     ],
                     "markingCriteria": "2 marks: States two accurate environmental conditions of Orrin Salt Flats, each linked to a limit on year-round survival\n1 mark: States one accurate environmental condition of Orrin Salt Flats that limits survival",
                     "sampleAnswers": [
@@ -7144,7 +7175,9 @@
                       "Tarrin Hollow",
                       "values",
                       "practices",
-                      "identity"
+                      "identity",
+                      "communal terrace repair",
+                      "autumn harvest customs"
                     ],
                     "markingCriteria": "2 marks: Clarifies the culture of place as the shared values, practices and identity of people in a place, illustrated by Tarrin Hollow residents who call themselves villagers first\n1 mark: Describes the culture of place in general terms without reference to Tarrin Hollow",
                     "sampleAnswers": [
@@ -7752,7 +7785,10 @@
                       "geopolitical characteristics",
                       "Varenzia",
                       "power blocs",
-                      "nation-state"
+                      "nation-state",
+                      "liberal democracy",
+                      "economic nationalism",
+                      "federal system"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct political ideologies that influence the geopolitical characteristics of places, each linked to a characteristic of Varenzia such as its federal parliament or its capital port\n1 mark: Names one political ideology and links it to a characteristic of Varenzia",
                     "sampleAnswers": [
@@ -8031,7 +8067,10 @@
                       "competing claims",
                       "Halvane Lakeshore",
                       "conflict",
-                      "political tension"
+                      "political tension",
+                      "zero-sum competition",
+                      "reed harvest",
+                      "arbitration"
                     ],
                     "markingCriteria": "5 marks: Analyses at least two competing claims to the western shore of Halvane Lakeshore, showing how each creates tension and how the claims reinforce each other to produce conflict\n4 marks: Analyses two competing claims, with the link to conflict partly developed and the reinforcing effect between the claims only sketched\n3 marks: Describes the competing claims to the lakeshore, with some explanation of their effect on tension but no analysis of how they interact\n2 marks: Identifies one claim to the lakeshore and links it to political tension, with little development of its effect\n1 mark: Identifies one competing claim on Halvane Lakeshore",
                     "sampleAnswers": [
@@ -8084,7 +8123,10 @@
                       "Halvane Lakeshore",
                       "planning decision",
                       "tension",
-                      "villages"
+                      "villages",
+                      "competing claims",
+                      "shared harvest calendar",
+                      "boat launching"
                     ],
                     "markingCriteria": "3 marks: Applies the idea of a contested space to Halvane Lakeshore, showing how a specific planning decision, such as seasonal access rules for grazing and boat launching, would reduce tension between the two villages, with reasons\n2 marks: Applies the concept of contested space to the lakeshore and names a planning decision, with a brief link to reduced tension\n1 mark: Names the concept of a contested space without applying it to the lakeshore",
                     "sampleAnswers": [
@@ -8203,7 +8245,10 @@
                       "global networks",
                       "goods",
                       "people",
-                      "information"
+                      "information",
+                      "containerisation",
+                      "satellite communication",
+                      "undersea fibre-optic cables"
                     ],
                     "markingCriteria": "4 marks: Correctly classifies four technological advances as mainly moving goods, people or information, with a reason for each\n3 marks: Accurately classifies three of the four advances as mainly moving goods, people or information, with a reason for each\n2 marks: Classifies two advances correctly as mainly moving goods, people or information, with a brief reason\n1 mark: Classifies one advance correctly as mainly moving goods, people or information",
                     "sampleAnswers": [
@@ -8314,7 +8359,9 @@
                       "networks",
                       "nodes",
                       "corridors",
-                      "hubs"
+                      "hubs",
+                      "goods flow",
+                      "concentration of nodes"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct features that characterise the spatial pattern of networks around a major port\n1 mark: Identifies one relevant feature of the spatial pattern of networks around a port",
                     "sampleAnswers": [
@@ -8472,7 +8519,10 @@
                       "world cities",
                       "advanced producer services",
                       "office networks",
-                      "connectivity"
+                      "connectivity",
+                      "management consultancy",
+                      "business decision-making",
+                      "New York"
                     ],
                     "markingCriteria": "3 marks: Describes ONE way global networks can influence the role of world cities\n2 marks: Outlines ONE way global networks could influence the role of world cities\n1 mark: Provides some relevant information",
                     "sampleAnswers": [
@@ -8588,7 +8638,10 @@
                       "network",
                       "main findings",
                       "scale",
-                      "places"
+                      "places",
+                      "Corran Rail",
+                      "freight",
+                      "commuting"
                     ],
                     "markingCriteria": "3 marks: Summarises the main findings of one study of a network in three sentences, covering the network, its scale and its effect on places\n2 marks: Summarises the findings of a study of a named network, with the network and one finding stated\n1 mark: Identifies a network from a study, without summarising its findings",
                     "sampleAnswers": [
@@ -8657,7 +8710,9 @@
                       "Kestrel Lake",
                       "scale",
                       "square kilometres",
-                      "map distance"
+                      "map distance",
+                      "square centimetres",
+                      "cross-check"
                     ],
                     "markingCriteria": "3 marks: Correctly calculates the area of Kestrel Lake by converting 4 cm and 3 cm at 1:50 000 to 2 km and 1.5 km, with the working shown and the answer given as 3 square kilometres\n2 marks: Calculates the area with one error in the working or units\n1 mark: Correctly converts the map measurements to real distance, but does not calculate the area",
                     "sampleAnswers": [
@@ -8709,7 +8764,10 @@
                       "four-figure",
                       "Mount Halder",
                       "Kestrel Gorge",
-                      "spot height"
+                      "spot height",
+                      "easting",
+                      "contours",
+                      "lower-left corner"
                     ],
                     "markingCriteria": "2 marks: Identifies both the four-figure grid reference 4712 and the spot height of 620 m for Mount Halder accurately\n1 mark: Identifies one of the two items correctly, either the grid reference or the spot height",
                     "sampleAnswers": [
@@ -8813,7 +8871,9 @@
                       "contour lines",
                       "features",
                       "valley",
-                      "upstream"
+                      "upstream",
+                      "drainage line",
+                      "stream"
                     ],
                     "markingCriteria": "2 marks: States two features that V-shaped contour lines indicate accurately, each explained, such as a stream or valley and the upslope direction of the V\n1 mark: States one feature that V-shaped contour lines indicate accurately",
                     "sampleAnswers": [
@@ -8863,7 +8923,9 @@
                       "highest point",
                       "lowest point",
                       "Kestrel Gorge",
-                      "area"
+                      "area",
+                      "Mount Halder",
+                      "river"
                     ],
                     "markingCriteria": "3 marks: Correctly calculates the local relief of the 4 km by 4 km area as 380 m, using Mount Halder at 620 m and the river at 240 m, with the subtraction shown\n2 marks: Identifies the highest and lowest points and sets up the subtraction, with an arithmetic error\n1 mark: Identifies the highest and lowest points in the area without calculating the local relief",
                     "sampleAnswers": [
@@ -8916,7 +8978,9 @@
                       "unit",
                       "elevation",
                       "difference",
-                      "metres"
+                      "metres",
+                      "topographic maps",
+                      "vertical height"
                     ],
                     "markingCriteria": "2 marks: Defines local relief as the difference in elevation between the highest and lowest points in an area, and states that it is measured in metres\n1 mark: Describes local relief in general terms, such as how hilly an area is, with or without a unit",
                     "sampleAnswers": [
@@ -9122,7 +9186,10 @@
                       "valley",
                       "profile",
                       "steep",
-                      "gentle"
+                      "gentle",
+                      "upper ridge",
+                      "summit",
+                      "contours"
                     ],
                     "markingCriteria": "3 marks: Describes the profile of the gorge, locating the steep and gentle slopes along the transect and explaining the shape of the valley\n2 marks: Outlines the profile of the gorge, with one of its slopes located along the transect\n1 mark: Identifies the gorge or its valley without describing a profile",
                     "sampleAnswers": [
@@ -9179,7 +9246,9 @@
                       "horizontal scale",
                       "vertical scale",
                       "cross-section",
-                      "working"
+                      "working",
+                      "horizontal distance",
+                      "on the ground"
                     ],
                     "markingCriteria": "4 marks: Correctly calculates the vertical exaggeration as 5, with both scales expressed in comparable units and the working shown\n3 marks: Converts both scales correctly, with an error in the final calculation of the ratio\n2 marks: States the method and converts one scale correctly, but inverts the ratio\n1 mark: Defines vertical exaggeration as a ratio of the two scales, without calculating it",
                     "sampleAnswers": [
@@ -9231,7 +9300,10 @@
                       "cross-section",
                       "slopes",
                       "real landscape",
-                      "appearance"
+                      "appearance",
+                      "valley sides",
+                      "gradient",
+                      "profile"
                     ],
                     "markingCriteria": "3 marks: Interprets the slopes as appearing steeper than in the real landscape, explaining that the vertical scale is five times the horizontal scale, and cautions against using the cross-section to judge true gradient\n2 marks: Interprets the slopes as steeper than in reality, but gives no reason and no caution about use\n1 mark: Describes the vertical exaggeration of 5 without relating it to the slopes",
                     "sampleAnswers": [
@@ -9289,7 +9361,9 @@
                       "distance",
                       "speed",
                       "scale",
-                      "Kestrel Gorge"
+                      "Kestrel Gorge",
+                      "footpath",
+                      "km/h"
                     ],
                     "markingCriteria": "3 marks: Calculates the real distance as 3 km by converting 6 cm at 1:50 000, divides it by the walking speed of 4 km/h, and gives the travel time as 0 hours and 45 minutes\n2 marks: Applies the correct method of dividing distance by speed, with one error in the scale conversion or the units\n1 mark: Correctly converts 6 cm at 1:50 000 to 3 km, without calculating the travel time",
                     "sampleAnswers": [
@@ -18293,7 +18367,10 @@
                       "large city",
                       "overcrowding",
                       "public transport",
-                      "housing"
+                      "housing",
+                      "congestion rate",
+                      "Tōzai Line",
+                      "living space"
                     ],
                     "markingCriteria": "5 marks: Describes TWO challenges of living in the city\n4 marks: Describes ONE challenge of living in the city and outlines ONE other\n3 marks: Outlines TWO challenges of living in the city\n2 marks: Outlines a challenge of living in the city OR Identifies challenges of living in the city\n1 mark: Provides some relevant information",
                     "sampleAnswers": [

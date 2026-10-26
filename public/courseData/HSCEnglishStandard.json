@@ -1879,7 +1879,9 @@
                       "contexts",
                       "purposes",
                       "composer",
-                      "text"
+                      "text",
+                      "audience position",
+                      "meme format"
                     ],
                     "markingCriteria": "4 marks: Summarises the main strategies a composer uses to adapt a text for different contexts and purposes, with a specific example from the video series\n3 marks: Summarises two strategies of adaptation, with a reference to the example\n2 marks: Summarises one strategy of adaptation, with limited reference to the example\n1 mark: Makes a relevant but general comment about adaptation",
                     "sampleAnswers": [
@@ -2836,7 +2838,9 @@
                       "language features",
                       "tone",
                       "point of view",
-                      "shape meaning"
+                      "shape meaning",
+                      "flashback",
+                      "first-person"
                     ],
                     "markingCriteria": "2 marks: Identifies two specific textual forms or language features and states a clear effect on meaning for each\n1 mark: Identifies one textual form or language feature, or names one without stating an effect",
                     "sampleAnswers": [
@@ -2880,7 +2884,8 @@
                       "point of view",
                       "shape meaning",
                       "style",
-                      "reader"
+                      "reader",
+                      "repetition"
                     ],
                     "markingCriteria": "4 marks: Clarifies with precision how changes in tone and point of view across the text shape meaning, tracing the movement and its effect on the reader\n3 marks: Explains changes in tone and point of view with a clear link to meaning, but limited tracing\n2 marks: Describes changes in tone or point of view with a general link to meaning\n1 mark: Makes a general observation about tone or point of view",
                     "sampleAnswers": [
@@ -2938,7 +2943,10 @@
                       "language",
                       "content",
                       "literary text",
-                      "shape meaning"
+                      "shape meaning",
+                      "syntax",
+                      "sensory detail",
+                      "cumulative clauses"
                     ],
                     "markingCriteria": "7-8 marks: Analyses the relationship between language and content in depth, showing how specific choices in each combine to shape meaning and the reader's response across the text\n5-6 marks: Analyses the relationship between language and content with clear examples, and explains how they shape meaning\n3-4 marks: Explains some language choices and some content with a general link to meaning\n1-2 marks: Describes language or content without linking them",
                     "sampleAnswers": [
@@ -2990,7 +2998,10 @@
                       "connected",
                       "content",
                       "language",
-                      "literary text"
+                      "literary text",
+                      "cracked window",
+                      "setting detail",
+                      "abstract idea"
                     ],
                     "markingCriteria": "4 marks: Explains clearly how a specific image in the literary text is connected to the content through its language, with a precise link to what the content represents\n3 marks: Explains the connection between an image and the content, with some reference to language\n2 marks: Identifies an image and links it to the content in general terms\n1 mark: Names an image without a connection to the content",
                     "sampleAnswers": [
@@ -3048,7 +3059,10 @@
                       "challenge",
                       "accepted conventions",
                       "structure",
-                      "language"
+                      "language",
+                      "coming-of-age",
+                      "present tense",
+                      "retrospective"
                     ],
                     "markingCriteria": "5 marks: Examines in detail how the text conforms to or challenges an accepted convention through specific structural and language choices, and weighs the effect on the reader\n4 marks: Examines how the text conforms to or challenges an accepted convention, with specific structural or language evidence\n3 marks: Explains one convention and how the text relates to it, with limited evidence\n2 marks: Identifies a convention or a structural choice with a general statement about its effect\n1 mark: Makes a general observation about the text's form",
                     "sampleAnswers": [
@@ -3100,7 +3114,9 @@
                       "challenge",
                       "accepted conventions",
                       "language",
-                      "structure"
+                      "structure",
+                      "linear sequence",
+                      "resolution"
                     ],
                     "markingCriteria": "3 marks: Differentiates clearly between the two kinds of text, using specific language and structural evidence for each\n2 marks: Differentiates the two kinds of text with general references to language or structure\n1 mark: Identifies a difference without evidence",
                     "sampleAnswers": [
@@ -3159,7 +3175,10 @@
                       "perspectives",
                       "literary text",
                       "textual evidence",
-                      "reader"
+                      "reader",
+                      "central silence",
+                      "accountability",
+                      "legal background"
                     ],
                     "markingCriteria": "4 marks: Distinguishes precisely between the two interpretations, showing how each perspective shapes the reading, and cites textual evidence for each\n3 marks: Distinguishes between the two interpretations with a clear link to perspective and some textual evidence\n2 marks: Describes the two interpretations with a general reference to perspective\n1 mark: States that the readings differ without explaining why",
                     "sampleAnswers": [
@@ -3212,7 +3231,9 @@
                       "interpretations",
                       "literary text",
                       "reader",
-                      "values"
+                      "values",
+                      "cultural background",
+                      "historical moment"
                     ],
                     "markingCriteria": "3 marks: Summarises clearly and concisely the main ways perspectives affect interpretation, including the role of the reader's background and values\n2 marks: Summarises some ways perspectives affect interpretation, with limited accuracy or detail\n1 mark: Makes a general statement that readers may interpret texts differently",
                     "sampleAnswers": [
@@ -3276,7 +3297,10 @@
                       "textual evidence",
                       "informed",
                       "personal interpretation",
-                      "literary text"
+                      "literary text",
+                      "passive verbs",
+                      "narrator",
+                      "lamp"
                     ],
                     "markingCriteria": "5 marks: Interprets the text with a sustained, informed personal reading, selecting precise textual evidence that directly supports each claim\n4 marks: Interprets the text with a clear personal reading and relevant textual evidence\n3 marks: States a personal reading with some textual evidence, not always closely linked\n2 marks: Makes a personal comment with little textual evidence\n1 mark: Offers a reading without evidence",
                     "sampleAnswers": [
@@ -3328,7 +3352,9 @@
                       "textual evidence",
                       "informed",
                       "personal interpretation",
-                      "literary text"
+                      "literary text",
+                      "central tension",
+                      "half-finished sentences"
                     ],
                     "markingCriteria": "3 marks: Demonstrates the selection of appropriate textual evidence, linked clearly to an informed personal interpretation\n2 marks: Demonstrates the selection of evidence with a general link to interpretation\n1 mark: Refers to evidence without linking it to an interpretation",
                     "sampleAnswers": [
@@ -3441,7 +3467,9 @@
                       "ordered",
                       "cohesive",
                       "argument",
-                      "ideas"
+                      "ideas",
+                      "claim",
+                      "final scene"
                     ],
                     "markingCriteria": "4 marks: Demonstrates a plan in which each idea leads to the next and supports a clear argument, with cohesive links between paragraphs\n3 marks: Demonstrates an ordered plan with a clear argument but uneven links between ideas\n2 marks: Lists ideas in sequence with a general argument\n1 mark: Names ideas without showing how they are arranged",
                     "sampleAnswers": [
@@ -3500,7 +3528,10 @@
                       "perspectives",
                       "critical",
                       "creative",
-                      "reflect"
+                      "reflect",
+                      "vignette",
+                      "rationale",
+                      "speaker"
                     ],
                     "markingCriteria": "6 marks: Constructs a text that reflects a particular value and perspective with critical or creative control, and the rationale explains precisely how the choices reflect that value\n5 marks: Constructs a text that reflects a clear value and perspective with some control, and the rationale explains most choices\n4 marks: Presents a text that reflects a value from a general perspective, and the rationale describes the choices in general terms\n3 marks: States a value in the text with little development\n2 marks: Produces a brief text in which the link to a value is unclear\n1 mark: Makes a general statement about values in writing",
                     "sampleAnswers": [
@@ -3553,7 +3584,9 @@
                       "values",
                       "creative",
                       "reflect",
-                      "language feature"
+                      "language feature",
+                      "diminutives",
+                      "point of view"
                     ],
                     "markingCriteria": "4 marks: Applies the idea to her own poem, naming a clear perspective and linking one specific language feature to how the poem expresses it\n3 marks: Names a perspective and a language feature with a general link between them\n2 marks: Names a perspective or a language feature without a clear link\n1 mark: Makes a general statement about perspective in writing",
                     "sampleAnswers": [
@@ -3623,7 +3656,10 @@
                       "forms",
                       "features",
                       "audience",
-                      "purpose"
+                      "purpose",
+                      "rhetorical questions",
+                      "conversational tone",
+                      "newspaper column"
                     ],
                     "markingCriteria": "3 marks: Outlines three or more specific language features, forms or features and links each one to the audience and purpose\n2 marks: Outlines two features with a general link to audience or purpose\n1 mark: Names a feature without linking it to audience or purpose",
                     "sampleAnswers": [
@@ -3676,7 +3712,9 @@
                       "forms",
                       "features",
                       "shape meaning",
-                      "audience"
+                      "audience",
+                      "colloquial words",
+                      "blunt statistics"
                     ],
                     "markingCriteria": "5 marks: Explains clearly how specific language, forms and features shape meaning for the intended audience and purpose, with sustained links between each choice and its effect\n4 marks: Explains how several features shape meaning for the audience, with clear links to purpose\n3 marks: Explains some features and their effect on the audience, with a general link to purpose\n2 marks: Identifies features with a general statement about the audience\n1 mark: Makes a general observation about the text",
                     "sampleAnswers": [
@@ -3789,7 +3827,10 @@
                       "forms",
                       "human experiences",
                       "readers",
-                      "contrast"
+                      "contrast",
+                      "first-person language",
+                      "third-person language",
+                      "fragmented structure"
                     ],
                     "markingCriteria": "4 marks: Contrasts the two texts precisely, showing how their language and forms present human experiences differently to readers\n3 marks: Contrasts the texts with clear examples of language or forms and a general link to readers\n2 marks: Describes the language or forms of each text, with limited contrast\n1 mark: States that the texts differ without evidence",
                     "sampleAnswers": [
@@ -4778,7 +4819,10 @@
                       "power of language",
                       "personal ideas",
                       "experiences",
-                      "express"
+                      "express",
+                      "imagery",
+                      "soft repetition",
+                      "emotional honesty"
                     ],
                     "markingCriteria": "6 marks: Appreciates the poem's aesthetic qualities and the power of its language to express personal ideas and experiences, with precise evidence and a sustained account of its craft\n5 marks: Appreciates aesthetic qualities and language choices with clear evidence and a developed account of their effect\n4 marks: Appreciates some qualities with examples and a general account of their effect\n3 marks: Describes qualities of the poem with limited appreciation\n2 marks: Makes a general positive comment with little evidence\n1 mark: States an opinion of the poem without reasons",
                     "sampleAnswers": [
@@ -4830,7 +4874,10 @@
                       "features",
                       "language",
                       "experience",
-                      "personal"
+                      "personal",
+                      "rhythm",
+                      "repeated consonants",
+                      "short lines"
                     ],
                     "markingCriteria": "3 marks: Classifies the features clearly into aesthetic and expressive groups, with a specific example of each group\n2 marks: Classifies features into two groups with general examples\n1 mark: Lists features without classifying them",
                     "sampleAnswers": [
@@ -4889,7 +4936,10 @@
                       "questioning",
                       "challenging",
                       "speculating",
-                      "language"
+                      "language",
+                      "rhetorical questions",
+                      "conditional phrases",
+                      "blunt sentences"
                     ],
                     "markingCriteria": "4 marks: Describes the language used for connections, questioning, challenging and speculating, with specific examples and their effects\n3 marks: Describes language for at least three of these purposes, with examples\n2 marks: Describes language for one or two of these purposes with general examples\n1 mark: Identifies a language choice without its purpose",
                     "sampleAnswers": [
@@ -4942,7 +4992,9 @@
                       "affirm",
                       "language",
                       "readers",
-                      "views"
+                      "views",
+                      "rhetorical questions",
+                      "shared frustration"
                     ],
                     "markingCriteria": "3 marks: Deduces a clear intention from specific language, explaining what the language signals about whether the writer aims to challenge or affirm views\n2 marks: Deduces an intention with some reference to language and a general explanation\n1 mark: States an intention without reference to the language",
                     "sampleAnswers": [
@@ -5000,7 +5052,11 @@
                       "metalanguage",
                       "informed judgements",
                       "personal perspective",
-                      "criteria"
+                      "criteria",
+                      "narrative voice",
+                      "economy of plot",
+                      "consistency of voice",
+                      "qualified praise"
                     ],
                     "markingCriteria": "7-8 marks: Evaluates the critic's evaluative language and metalanguage against clear criteria, reaching a sustained and explicit judgement of how well informed judgements are made, and states a considered personal perspective\n6 marks: Evaluates the language against stated criteria and reaches a clear judgement, with a personal perspective\n5 marks: Evaluates some language against criteria, with a judgement that is partly supported\n3-4 marks: Describes the critic's language and makes a general judgement\n2 marks: Identifies evaluative language with little judgement\n1 mark: Makes a general statement about the critic's opinion",
                     "sampleAnswers": [
@@ -5052,7 +5108,9 @@
                       "metalanguage",
                       "judgement",
                       "critical review",
-                      "informed"
+                      "informed",
+                      "pacing",
+                      "emotional power"
                     ],
                     "markingCriteria": "2 marks: Identifies two specific examples of evaluative language or metalanguage in a critical review and states the judgement each one makes\n1 mark: Identifies one example, or names a type of language without stating the judgement it makes",
                     "sampleAnswers": [
@@ -5108,7 +5166,10 @@
                       "informed",
                       "sustained",
                       "interpretation",
-                      "close textual analysis"
+                      "close textual analysis",
+                      "imagery",
+                      "withdrawal motif",
+                      "withholding"
                     ],
                     "markingCriteria": "7-8 marks: Assesses the interpretation as creative, informed and sustained, weighing its use of close textual analysis against clear criteria and reaching an explicit judgement of its quality\n5-6 marks: Assesses some features of the interpretation against criteria, with a clear judgement that is partly supported by analysis, though the weighing is uneven or brief\n4 marks: Describes the interpretation and makes a general judgement with limited analysis of its creativity or evidence\n2-3 marks: Makes a broad comment on the interpretation with little analysis, or names a criterion without testing the interpretation against it\n1 mark: States an opinion of the interpretation without reasons",
                     "sampleAnswers": [
@@ -5160,7 +5221,10 @@
                       "creative",
                       "informed",
                       "interpretation",
-                      "sustained"
+                      "sustained",
+                      "passive construction",
+                      "sentence rhythm",
+                      "central idea"
                     ],
                     "markingCriteria": "4 marks: Applies close textual analysis to the passage to develop a creative, informed interpretation of its central idea, with precise reasoning at each step\n3 marks: Applies close textual analysis to develop an interpretation of the passage, with some reasoning\n2 marks: Applies a general reading of the passage with limited analysis\n1 mark: Offers an interpretation of the passage without analysis",
                     "sampleAnswers": [
@@ -6273,7 +6337,9 @@
                       "critical",
                       "affirm",
                       "challenge",
-                      "ideas"
+                      "ideas",
+                      "first-person reflection",
+                      "closing line"
                     ],
                     "markingCriteria": "6-7 marks: Constructs a text that affirms or challenges the idea with critical or creative control across its structure and language, and the rationale explains the choices precisely and connects them to the range of texts studied\n4-5 marks: Responds clearly to the idea in a composed text with some control, and the rationale explains most choices\n2-3 marks: States a view on the idea with limited development, and the rationale describes the choices in general terms\n1 mark: Makes a general statement about the idea without a composed text",
                     "sampleAnswers": [
@@ -6325,7 +6391,9 @@
                       "challenge",
                       "values",
                       "creative",
-                      "stylistic choice"
+                      "stylistic choice",
+                      "repetition",
+                      "belonging"
                     ],
                     "markingCriteria": "3 marks: Explains clearly how one stylistic choice in a creative text affirms or challenges a value across the texts, with a precise link\n2 marks: Explains a stylistic choice with a general link to a value\n1 mark: Names a stylistic choice without linking it to a value",
                     "sampleAnswers": [
@@ -6384,7 +6452,11 @@
                       "language features",
                       "stylistic elements",
                       "audience",
-                      "reinterpret"
+                      "reinterpret",
+                      "letter form",
+                      "direct address",
+                      "imperatives",
+                      "short sentences"
                     ],
                     "markingCriteria": "7-8 marks: Constructs a text that reinterprets the idea for younger students through a deliberate structure, language features and stylistic elements, and the rationale explains how each choice suits the audience and the reinterpretation\n5-6 marks: Reinterprets the idea for the audience with clear choices of structure and style, and the rationale explains most choices\n3-4 marks: Addresses the audience with a general reinterpretation, and the rationale describes the choices in general terms\n1-2 marks: Offers little reinterpretation or does not suit the audience, and the rationale is absent or only restates the piece",
                     "sampleAnswers": [
@@ -6437,7 +6509,10 @@
                       "audience",
                       "reinterpret",
                       "language features",
-                      "adapt"
+                      "adapt",
+                      "subordinate clauses",
+                      "imperatives",
+                      "pacing"
                     ],
                     "markingCriteria": "4 marks: Demonstrates with a precise example how a stylistic element is adapted for the new audience, with a clear account of the reinterpreted idea\n3 marks: Demonstrates an adaptation with a general account of the audience\n2 marks: Names an adaptation without showing how it changes for the audience\n1 mark: Refers to the audience without an adaptation",
                     "sampleAnswers": [
@@ -6560,7 +6635,10 @@
                       "cultural",
                       "context",
                       "shape meaning",
-                      "readers"
+                      "readers",
+                      "shared beliefs",
+                      "family loss",
+                      "expectations about grief"
                     ],
                     "markingCriteria": "3 marks: Clarifies the difference between personal and cultural contexts, with a precise example of how each shapes meaning for readers\n2 marks: Clarifies the difference with a general example of how one context shapes meaning\n1 mark: Defines one context without showing how it shapes meaning",
                     "sampleAnswers": [
@@ -6619,7 +6697,10 @@
                       "forms",
                       "perceptions",
                       "cultural perspectives",
-                      "influence"
+                      "influence",
+                      "generalisations",
+                      "measured tone",
+                      "single viewpoint"
                     ],
                     "markingCriteria": "5 marks: Contrasts the two texts precisely, showing how their language features and forms influence perceptions of other people and of cultural perspectives, with sustained evidence\n4 marks: Contrasts the two texts with clear evidence of language features and forms and a link to perceptions\n3 marks: Contrasts the texts with some evidence and a general link to cultural perspectives\n2 marks: Describes the features of each text with limited contrast\n1 mark: States that the texts differ without evidence",
                     "sampleAnswers": [
@@ -6672,7 +6753,10 @@
                       "forms",
                       "influence",
                       "perceptions",
-                      "people"
+                      "people",
+                      "direct speech",
+                      "commentary",
+                      "distant register"
                     ],
                     "markingCriteria": "4 marks: Interprets with precision how the text's forms influence the reader's perceptions of a group of people, with specific textual evidence\n3 marks: Interprets how the forms influence perceptions, with some evidence\n2 marks: Makes a general interpretation of the text's influence on perceptions\n1 mark: States a view of the group without reference to the forms",
                     "sampleAnswers": [
@@ -7171,7 +7255,10 @@
                       "medium",
                       "shape meaning",
                       "audience",
-                      "text"
+                      "text",
+                      "spoken voice",
+                      "pacing",
+                      "layout"
                     ],
                     "markingCriteria": "4 marks: Describes precisely how the mode and medium of the text shape meaning for its audience, with specific examples of each\n3 marks: Describes how the mode or medium shapes meaning, with some examples\n2 marks: Names the mode or medium with a general statement about meaning\n1 mark: Identifies a medium without linking it to meaning",
                     "sampleAnswers": [
@@ -7224,7 +7311,10 @@
                       "medium",
                       "shape meaning",
                       "spoken",
-                      "written"
+                      "written",
+                      "transcript",
+                      "recording",
+                      "pauses"
                     ],
                     "markingCriteria": "3 marks: Distinguishes clearly between the spoken and written modes, showing with examples how each shapes meaning\n2 marks: Distinguishes the modes with a general reference to meaning\n1 mark: Identifies a difference without linking it to meaning",
                     "sampleAnswers": [
@@ -7282,7 +7372,10 @@
                       "implicit cultural assumptions",
                       "perspectives",
                       "ideas",
-                      "author"
+                      "author",
+                      "rapid social change",
+                      "common sense",
+                      "narrator"
                     ],
                     "markingCriteria": "9-10 marks: Assesses the extent to which context and implicit cultural assumptions influence perspectives and ideas, weighing competing influences against evidence and reaching a sustained, explicit judgement\n7-8 marks: Assesses the influence of context and assumptions on perspectives and ideas with clear evidence, reaching a developed judgement\n5-6 marks: Assesses the influence with a clear judgement and some evidence, though the weighing of competing influences is brief\n3-4 marks: Describes context and assumptions and their effect on perspectives, with a general judgement\n1-2 marks: Makes a general statement about the author's influences with little evidence, or states that context affects authors without assessment",
                     "sampleAnswers": [
@@ -7334,7 +7427,9 @@
                       "context",
                       "author",
                       "perspectives",
-                      "ideas"
+                      "ideas",
+                      "family duty",
+                      "men lead"
                     ],
                     "markingCriteria": "2 marks: States two implicit cultural assumptions, each with an example of how it shapes a text's perspectives or ideas\n1 mark: States one assumption, or gives an example without stating the assumption",
                     "sampleAnswers": [
@@ -7447,7 +7542,10 @@
                       "social",
                       "moral",
                       "ethical",
-                      "positions"
+                      "positions",
+                      "unresolved compromise",
+                      "empty canteen",
+                      "unpaid final wages"
                     ],
                     "markingCriteria": "6 marks: Evaluates how effectively the content shapes social, moral and ethical positions against clear criteria, reaching an explicit and well-supported judgement\n5 marks: Evaluates the effect of content on positions with clear criteria and a judgement partly supported\n4 marks: Evaluates some positions with examples and a general judgement\n3 marks: Describes the content and positions with a limited judgement\n2 marks: Makes a general judgement about the positions without evidence\n1 mark: States a view of the story's content",
                     "sampleAnswers": [
@@ -7499,7 +7597,10 @@
                       "social",
                       "moral",
                       "positions",
-                      "reader"
+                      "reader",
+                      "loyalty to family",
+                      "hierarchy",
+                      "fairness"
                     ],
                     "markingCriteria": "5 marks: Discusses several aspects of the content that present the position, and how a reader might question it, with clear evidence and a balanced judgement\n4 marks: Discusses how the content presents the position, with some evidence of how a reader might question it\n3 marks: Describes the content and the position with a general reference to the reader\n2 marks: Names the position with little discussion\n1 mark: States a view of the story without reference to its content",
                     "sampleAnswers": [
@@ -7979,7 +8080,10 @@
                       "wind farm",
                       "letters to the editor",
                       "farmer",
-                      "engineer"
+                      "engineer",
+                      "local independence",
+                      "long-term security",
+                      "farmland"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct perspectives on the wind farm, each stated in specific terms and attributed to the correct writer\n1 mark: Identifies one perspective, or two perspectives stated only in general terms",
                     "sampleAnswers": [
@@ -9254,7 +9358,9 @@
                       "diary entries",
                       "meaning",
                       "recurring",
-                      "image"
+                      "image",
+                      "dam level",
+                      "classroom wall"
                     ],
                     "markingCriteria": "2 marks: Defines a motif accurately as a recurring element, such as an image, word or idea, that builds meaning across a text, and gives a specific example from the diary entries\n1 mark: Gives a partial definition, or an example without a definition",
                     "sampleAnswers": [
@@ -10379,7 +10485,9 @@
                       "sentence structure",
                       "response",
                       "shape",
-                      "fence posts"
+                      "fence posts",
+                      "second clause",
+                      "emotion"
                     ],
                     "markingCriteria": "3 marks: Demonstrates how the detail and the sentence structure work together to shape the response, using precise terms and a clear account of the effect\n2 marks: Identifies the stylistic choice and the sentence structure, with a general account of the effect\n1 mark: Names the detail or the structure without explaining the effect",
                     "sampleAnswers": [
@@ -11061,7 +11169,10 @@
                       "final line",
                       "historical",
                       "ecological",
-                      "perspective"
+                      "perspective",
+                      "automation",
+                      "living world",
+                      "human audience"
                     ],
                     "markingCriteria": "4 marks: Interprets the final line from both perspectives, with a specific reading in each case that links the line's wording to the perspective, and a clear point of difference\n3 marks: Interprets the line from both perspectives, with some link to the wording, but the difference between the readings is not made clear\n2 marks: Offers a reading from one perspective in detail, or two readings with little link to the line\n1 mark: Paraphrases the final line without interpreting it",
                     "sampleAnswers": [
@@ -12109,7 +12220,9 @@
                       "memoir",
                       "example",
                       "kitchen",
-                      "weather"
+                      "weather",
+                      "metaphor",
+                      "simile"
                     ],
                     "markingCriteria": "3 marks: Describes two examples of figurative language accurately, with what each one shows about the kitchen and the father's grief\n2 marks: Describes two examples with a brief account of each, or describes one example in detail\n1 mark: Names one example of figurative language without description",
                     "sampleAnswers": [
@@ -12162,7 +12275,10 @@
                       "grief",
                       "memoir extract",
                       "example",
-                      "restraint"
+                      "restraint",
+                      "flat tone",
+                      "ordinary routines",
+                      "final paragraph"
                     ],
                     "markingCriteria": "2 marks: States the central perspective on grief clearly and supports it with one specific example from the extract\n1 mark: States a perspective without support, or describes grief without stating a perspective",
                     "sampleAnswers": [
@@ -12796,7 +12912,9 @@
                       "narrative",
                       "original scene",
                       "retelling",
-                      "close third person"
+                      "close third person",
+                      "first person",
+                      "bus driver"
                     ],
                     "markingCriteria": "2 marks: Identifies both points of view accurately, naming the narrator of each text and the form of narration\n1 mark: Identifies one point of view, or both without naming the form of narration",
                     "sampleAnswers": [
@@ -12902,7 +13020,11 @@
                       "perspectives",
                       "stylistic choices",
                       "belonging",
-                      "reflect"
+                      "reflect",
+                      "symbol",
+                      "first-person",
+                      "open question",
+                      "central image"
                     ],
                     "markingCriteria": "5 marks: Accounts fully for the values and perspectives in the piece, including the writer's own, linking each to specific stylistic choices and explaining why these reflect the writer's position\n4 marks: Accounts for the values and perspectives with clear reference to two stylistic choices and a reason for each\n3 marks: Identifies the values and perspectives with reference to one or two stylistic choices, and a general reason\n2 marks: Describes values in the piece with little reference to stylistic choices\n1 mark: Names a value or perspective without accounting for it",
                     "sampleAnswers": [

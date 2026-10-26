@@ -1,5 +1,15 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-26 (Broader syllabus terms)
+
+- **Added.** "Broaden Terms" in the Content Audit studio: the Syllabus Terms generator (the panel's "Suggest with
+  AI"), given the same syllabus context the workspace builds, run across every selected question with fewer than six
+  terms. It appends up to ten terms in all and never removes or reorders a teacher's own.
+- **Changed.** 349 shipped questions that had five terms or fewer have broader lists (954 terms in all, 2–4
+  each, most lists now 7–9). Each new term passes the app's own syllabus-term rule (`isSyllabusTerm`) and is one the
+  question's full-mark exemplar already uses, so the model answer still models every term. Shipped-course change:
+  `DATA_VERSION` 2.23.0.
+
 ## [Unreleased] - 2026-10-26 (English Standard past papers, 2019–2023)
 
 - **Added.** 74 past HSC questions to HSC English Standard (`prompt-en-158`–`231`): every Paper 1 Section II and Paper

@@ -76,7 +76,9 @@ import {
 // once more and every exemplar sits in the band of the guide row that holds it.
 // 2.22.0: 74 English Standard past HSC questions from the 2019–2023 papers (Paper 1 Section II and
 // Paper 2), with exemplars. Browsers at 2.21.0 sync again to receive them.
-export const DATA_VERSION = '2.22.0';
+// 2.23.0: the Syllabus Terms of 349 shipped questions that had five or fewer are broadened,
+// each new term one the question's full-mark exemplar already uses.
+export const DATA_VERSION = '2.23.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

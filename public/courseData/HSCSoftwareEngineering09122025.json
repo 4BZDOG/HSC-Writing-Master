@@ -712,7 +712,8 @@
                       "objects",
                       "OOP",
                       "methods",
-                      "encapsulation"
+                      "encapsulation",
+                      "parameter"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -2661,7 +2662,9 @@
                       "Algorithm",
                       "Program code",
                       "Selection",
-                      "Iteration"
+                      "Iteration",
+                      "front sensor",
+                      "repeating loop"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -2902,7 +2905,9 @@
                       "Programming code",
                       "Mechatronic devices",
                       "Pseudocode",
-                      "State variable"
+                      "State variable",
+                      "toggle",
+                      "if branch"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -3741,7 +3746,9 @@
                       "testing and debugging",
                       "software development steps",
                       "stakeholders",
-                      "defects"
+                      "defects",
+                      "project scope",
+                      "club members"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01"
@@ -3857,7 +3864,8 @@
                       "version control",
                       "shared repository",
                       "code review",
-                      "commit"
+                      "commit",
+                      "pull requests"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06"
@@ -3980,7 +3988,10 @@
                       "algorithmic design",
                       "sequence",
                       "selection",
-                      "iteration"
+                      "iteration",
+                      "borrower ID",
+                      "loan date",
+                      "due date"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -4097,7 +4108,9 @@
                       "algorithmic design",
                       "merge sort",
                       "subproblems",
-                      "sorted list"
+                      "sorted list",
+                      "single values",
+                      "merge"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -4214,7 +4227,10 @@
                       "pseudocode",
                       "subprogram",
                       "return value",
-                      "parameters"
+                      "parameters",
+                      "selection",
+                      "main algorithm",
+                      "arguments"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -4331,7 +4347,9 @@
                       "top-down design",
                       "main module",
                       "sub-module",
-                      "data flow"
+                      "data flow",
+                      "student details",
+                      "test marks"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -4448,7 +4466,9 @@
                       "written algorithm",
                       "inputs and outputs",
                       "trace table",
-                      "purpose of the algorithm"
+                      "purpose of the algorithm",
+                      "test data",
+                      "while loop"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -4565,7 +4585,9 @@
                       "functions",
                       "return value",
                       "subprogram",
-                      "algorithm"
+                      "algorithm",
+                      "PrintReceipt",
+                      "TaxAmount"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02"
@@ -4619,7 +4641,9 @@
                       "functions",
                       "main algorithm",
                       "subprogram",
-                      "return value"
+                      "return value",
+                      "loan record",
+                      "record-keeping"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -4680,7 +4704,10 @@
                       "functional programming",
                       "programming paradigms",
                       "recursion",
-                      "running total"
+                      "running total",
+                      "change of state",
+                      "variable",
+                      "loop"
                     ],
                     "linkedOutcomes": [
                       "SE-11-02",
@@ -4735,7 +4762,10 @@
                       "logic programming",
                       "programming paradigms",
                       "objects",
-                      "facts and rules"
+                      "facts and rules",
+                      "inheritance",
+                      "classes",
+                      "query"
                     ],
                     "linkedOutcomes": [
                       "SE-11-01",
@@ -5858,7 +5888,9 @@
                       "Breakpoints",
                       "Single line stepping",
                       "Watches",
-                      "IDE"
+                      "IDE",
+                      "loop counter",
+                      "accumulation"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06"
@@ -5911,7 +5943,10 @@
                       "Breakpoints",
                       "Watches",
                       "IDE",
-                      "Loop"
+                      "Loop",
+                      "logic error",
+                      "trace",
+                      "iteration"
                     ],
                     "linkedOutcomes": [
                       "SE-11-06",
@@ -6027,7 +6062,9 @@
                       "Path coverage",
                       "Boundary values",
                       "Abnormal data",
-                      "Branches"
+                      "Branches",
+                      "negative weight",
+                      "typical value"
                     ],
                     "linkedOutcomes": [
                       "SE-11-07",
@@ -6088,7 +6125,10 @@
                       "Syntax",
                       "Logic",
                       "Runtime",
-                      "Likely causes"
+                      "Likely causes",
+                      "typing mistakes",
+                      "incomplete statements",
+                      "incorrect starting value"
                     ],
                     "linkedOutcomes": [
                       "SE-11-07"
@@ -6140,7 +6180,10 @@
                       "Syntax",
                       "Typical errors",
                       "Likely causes",
-                      "Loop"
+                      "Loop",
+                      "off-by-one error",
+                      "comparison operator",
+                      "wrong starting value"
                     ],
                     "linkedOutcomes": [
                       "SE-11-07"
@@ -6351,7 +6394,10 @@
                       "Vulnerability management",
                       "Defence in depth",
                       "Risk management",
-                      "Security strategy"
+                      "Security strategy",
+                      "attack surface",
+                      "secure coding",
+                      "key management"
                     ],
                     "markingCriteria": "6-7 marks: Makes a sustained, well-reasoned evaluative judgement on whether data protection or vulnerability prevention is more effective, weighing both against each other and the budget constraint with precise examples\n5 marks: Evaluates both focus areas with relevant reasoning and a clear overall position, but the weighing of their limitations is only partly developed\n4 marks: Discusses both focus areas with some relevant reasoning, but the evaluation is mostly descriptive and the judgement is limited\n3 marks: Describes data protection and vulnerability prevention with limited link to effectiveness, and any judgement is largely unsupported\n2 marks: Makes brief, mostly unsupported statements about one or both approaches with little evaluation\n1 mark: Makes one relevant but undeveloped point about security priorities",
                     "sampleAnswers": [
@@ -6624,7 +6670,10 @@
                       "Security requirements",
                       "Non-functional requirements",
                       "Compliance",
-                      "Threat modelling"
+                      "Threat modelling",
+                      "data sensitivity",
+                      "hashing",
+                      "project scope"
                     ],
                     "markingCriteria": "3 marks: Describes how security is incorporated into requirements definition, explaining characteristics of security requirements gathering and specific types of security requirements, such as data privacy or access control, supported by a clear example\n2 marks: Describes one characteristic of security requirements gathering or one specific type of security requirement, with limited detail or no example\n1 mark: Makes a brief statement that security should be captured during requirements definition, without describing how this is done",
                     "sampleAnswers": [
@@ -7908,7 +7957,10 @@
                       "Agile",
                       "Peer review",
                       "Pull request",
-                      "Continuous integration"
+                      "Continuous integration",
+                      "SAST",
+                      "input validation",
+                      "sprint"
                     ],
                     "markingCriteria": "6 marks: Proposes a specific, lightweight security code review process, such as mandatory peer review of pull requests with automated SAST checks, and justifies it with sustained reasoning about how it fits Agile sprints and improves security\n5 marks: Proposes a clear, specific review process using pull requests and peer review, and justifies how it integrates with Agile workflows, though the security benefits are only partly developed\n4 marks: Proposes a review process with a clear step, such as peer review before merging, and explains how it suits an Agile team, with limited detail on how it improves security\n3 marks: Proposes a code review practice with a brief justification for Agile, such as frequent reviews, but the process is general and the security benefit is limited\n2 marks: Proposes a basic review step without a clear process or a justification linked to Agile workflows\n1 mark: Makes a general suggestion that code should be checked for security, without proposing a process or justifying it",
                     "sampleAnswers": [
@@ -8372,7 +8424,10 @@
                       "Exception management",
                       "Error handling",
                       "Robustness",
-                      "try-catch"
+                      "try-catch",
+                      "runtime error",
+                      "error message",
+                      "root cause"
                     ],
                     "markingCriteria": "3 marks: Outlines the purpose of exception management in building robust software, covering the prevention of crashes, graceful recovery and logging for debugging, with a clear link to robustness\n2 marks: Outlines two purposes of exception management, such as preventing crashes and allowing graceful failure, with limited explanation of how each supports robustness\n1 mark: Outlines one purpose of exception management, such as stopping the program from crashing, without explaining its wider value",
                     "sampleAnswers": [
@@ -8507,7 +8562,10 @@
                       "Race condition",
                       "Concurrency",
                       "Time-of-check to time-of-use",
-                      "Vulnerability"
+                      "Vulnerability",
+                      "multiple threads",
+                      "simultaneous requests",
+                      "discount voucher"
                     ],
                     "markingCriteria": "4 marks: Explains how a race condition arises from concurrent access to shared state in a web application, how an attacker could exploit the timing gap, and gives a specific example\n3 marks: Explains the race condition and how it can be exploited with an example, but the exploitation or the mechanism is less fully developed\n2 marks: Describes a race condition in general terms with a brief example, but does not explain how it is exploited\n1 mark: Makes a basic statement that two things happen at once and break the program, without explaining the exploit",
                     "sampleAnswers": [
@@ -8561,7 +8619,10 @@
                       "Broken authentication",
                       "Vulnerability",
                       "Credentials",
-                      "Session management"
+                      "Session management",
+                      "session cookies",
+                      "legitimate user",
+                      "attacker"
                     ],
                     "markingCriteria": "2 marks: Defines broken authentication as a vulnerability in authentication or session management and gives an example of how an attacker could impersonate a user\n1 mark: Makes a basic statement that broken authentication is a login fault, without identifying the vulnerability or what it allows an attacker to do",
                     "sampleAnswers": [
@@ -8746,7 +8807,10 @@
                       "Side-channel attack",
                       "Timing attack",
                       "Cryptography",
-                      "Constant-time"
+                      "Constant-time",
+                      "password checker",
+                      "response time",
+                      "secret information"
                     ],
                     "markingCriteria": "3 marks: Describes a timing attack as a side-channel attack that infers secret information from how long an operation takes, explaining how measured response times reveal information and why the leak comes from the implementation\n2 marks: Describes a timing attack as a side-channel attack, or explains that response times reveal information, with limited description of the mechanism\n1 mark: Makes a basic statement about timing attacks without identifying them as side-channel attacks or describing how timing reveals information",
                     "sampleAnswers": [
@@ -9625,7 +9689,11 @@
                       "UDP",
                       "Connection-oriented",
                       "Reliable delivery",
-                      "Low latency"
+                      "Low latency",
+                      "handshake",
+                      "datagrams",
+                      "error checking",
+                      "VoIP"
                     ],
                     "markingCriteria": "5 marks: Explains the transport roles of TCP and UDP, including the reliability and speed trade-off, with specific web and streaming use cases and reasons for each\n4 marks: Explains the roles of TCP and UDP with a clear use case for each, but the reasons for choosing them are less fully developed\n3 marks: Describes what TCP or UDP does with a relevant use case, with limited explanation of the trade-off between them\n2 marks: Identifies a feature of TCP or UDP with limited explanation of when it is used\n1 mark: Makes a basic statement about TCP or UDP without explaining their roles",
                     "sampleAnswers": [
@@ -9682,7 +9750,9 @@
                       "POP3",
                       "IMAP",
                       "Email Protocol",
-                      "Mail Server"
+                      "Mail Server",
+                      "single-device access",
+                      "local device"
                     ],
                     "markingCriteria": "4 marks: Distinguishes accurately and in depth between SMTP as the sending protocol and POP3 and IMAP as receiving protocols, explaining how POP3 downloads mail while IMAP synchronises it with the server, and the effect on users\n3 marks: Distinguishes SMTP as the sending protocol from POP3 and IMAP as receiving protocols, and describes a difference between the download and synchronisation models with limited implications\n2 marks: Identifies SMTP for sending and POP3 and IMAP for receiving email, with little or no explanation of how POP3 and IMAP differ\n1 mark: Identifies protocols relevant to email with a general or fragmentary response that does not distinguish their roles",
                     "sampleAnswers": [
@@ -9724,7 +9794,9 @@
                       "HTTPS",
                       "Protocol",
                       "Encryption",
-                      "Data Transfer"
+                      "Data Transfer",
+                      "browser",
+                      "server"
                     ],
                     "sampleAnswers": [
                       {
@@ -9770,7 +9842,10 @@
                       "Port 443",
                       "Encryption",
                       "SSL/TLS",
-                      "Data Integrity"
+                      "Data Integrity",
+                      "communication channel",
+                      "plain text",
+                      "web server"
                     ],
                     "sampleAnswers": [
                       {
@@ -9907,7 +9982,10 @@
                       "SQL Injection",
                       "Input sanitisation",
                       "Prepared statements",
-                      "CSP"
+                      "CSP",
+                      "parameterisation",
+                      "allow-listing",
+                      "defence in depth"
                     ],
                     "markingCriteria": "6-7 marks: Evaluates the effectiveness of sanitisation, prepared statements and CSP against injection and XSS with a sustained judgement, distinguishing preventive controls from defence-in-depth and applying this to the defaced login page\n5 marks: Evaluates each named practice with relevant reasoning and a supported judgement, though the comparison of their effectiveness is less developed\n4 marks: Explains how each practice works against injection or XSS with some evaluation, but the judgement is limited\n3 marks: Describes the named practices with limited reference to the attacks and little evaluation\n2 marks: Makes brief statements about one practice with minimal evaluation\n1 mark: Makes one general, undeveloped point about web security",
                     "sampleAnswers": [
@@ -10008,7 +10086,9 @@
                       "SSL",
                       "TLS",
                       "Encryption",
-                      "Digital Certificates"
+                      "Digital Certificates",
+                      "secure data transmission",
+                      "web traffic"
                     ],
                     "sampleAnswers": [
                       {
@@ -10135,7 +10215,10 @@
                       "Columnar storage",
                       "Data lake",
                       "Analytics",
-                      "big data"
+                      "big data",
+                      "distributed file system",
+                      "aggregate queries",
+                      "semi-structured"
                     ],
                     "markingCriteria": "6 marks: Analyses how distributed file systems and columnar databases each address the volume, velocity and variety of big data, identifying the trade-offs and their relationship in web applications with precise examples\n5 marks: Analyses both technologies with relevant reasoning and examples, but the trade-offs or the relationship between them are less fully developed\n4 marks: Explains the roles of distributed file systems and columnar databases with some analysis of how each handles big data demands\n3 marks: Describes one or both technologies with a basic reason for their use in big data, with little analysis\n2 marks: Identifies one technology and a brief big data benefit, with limited explanation\n1 mark: Makes a basic statement about big data storage without naming a technology or analysing its role",
                     "sampleAnswers": [
@@ -10234,7 +10317,10 @@
                       "Web Architecture",
                       "Distributed Systems",
                       "Scalability",
-                      "Storage"
+                      "Storage",
+                      "distributed file system",
+                      "data ingestion",
+                      "horizontal scaling"
                     ],
                     "sampleAnswers": [
                       {
@@ -10295,7 +10381,10 @@
                       "Recommendation Engine",
                       "Pattern Recognition",
                       "Personalisation",
-                      "web architecture"
+                      "web architecture",
+                      "cross-selling",
+                      "up-selling",
+                      "transaction history"
                     ],
                     "markingCriteria": "4 marks: Explains how data mining techniques, such as association rules or collaborative filtering, are applied in e-commerce architecture, linking each technique to a user experience or sales outcome\n3 marks: Explains one data mining technique and how it is applied in the web architecture, with a link to user experience or sales\n2 marks: Describes data mining in general terms with a basic example of its use on an e-commerce site\n1 mark: Makes a basic statement that data mining finds patterns, without linking it to e-commerce architecture",
                     "sampleAnswers": [
@@ -10467,7 +10556,10 @@
                       "i18n",
                       "Localisation",
                       "Unicode",
-                      "Bi-directional text"
+                      "Bi-directional text",
+                      "character encoding",
+                      "mojibake",
+                      "CSS logical properties"
                     ],
                     "markingCriteria": "4 marks: Describes two distinct technical challenges that the W3C internationalisation activity helps with, such as character encoding and text direction, and explains how the standards or guidance help developers address each for a global website\n3 marks: Describes two technical challenges with a basic explanation of how the W3C helps, but the explanation of one is limited\n2 marks: Describes one challenge accurately, or two challenges with little explanation\n1 mark: Names a challenge of global websites without describing it or the W3C's role",
                     "sampleAnswers": [
@@ -10640,7 +10732,9 @@
                       "WAI",
                       "Web standards",
                       "Internationalisation",
-                      "Working group"
+                      "Working group",
+                      "web accessibility",
+                      "people with disabilities"
                     ],
                     "markingCriteria": "2 marks: Correctly names two distinct W3C working groups or initiatives, such as WAI and Internationalisation\n1 mark: Correctly names one W3C working group or initiative, or names a second that is not distinct",
                     "sampleAnswers": [
@@ -10881,7 +10975,10 @@
                       "GraphQL",
                       "Over-fetching",
                       "Under-fetching",
-                      "N+1 problem"
+                      "N+1 problem",
+                      "single endpoint",
+                      "HTTP caching",
+                      "resolvers"
                     ],
                     "markingCriteria": "6 marks: Compares REST and GraphQL on endpoint design, data fetching, versioning and performance trade-offs, and justifies which suits the news reader app with precise reasons\n5 marks: Compares REST and GraphQL on endpoint design and data fetching with accurate trade-offs, but the justification for the news app is less developed\n4 marks: Explains the main differences between REST and GraphQL with some relevant trade-offs and limited reference to the news reader\n3 marks: Describes REST or GraphQL with one relevant point of comparison and limited contrast\n2 marks: Makes brief statements about REST or GraphQL without comparison\n1 mark: Makes one general, basic statement about APIs without comparison",
                     "sampleAnswers": [
@@ -11005,7 +11102,10 @@
                       "Debugging",
                       "Console",
                       "Breakpoints",
-                      "JavaScript"
+                      "JavaScript",
+                      "Sources tab",
+                      "error messages",
+                      "variable values"
                     ],
                     "markingCriteria": "2 marks: Accurately outlines two distinct, valid ways the browser's developer tools can be used to debug the front-end of a web application, such as viewing console errors and setting breakpoints\n1 mark: Outlines one valid use of the developer tools for debugging, or two uses that are not distinct",
                     "sampleAnswers": [
@@ -11062,7 +11162,11 @@
                       "Lighthouse",
                       "Performance",
                       "Accessibility",
-                      "Core Web Vitals"
+                      "Core Web Vitals",
+                      "SEO",
+                      "render-blocking scripts",
+                      "alternative text",
+                      "colour contrast"
                     ],
                     "markingCriteria": "5 marks: Explains how Lighthouse audits measure performance, accessibility and SEO, interprets the scores and recommendations, and shows how a developer acts on them to improve the site before launch\n4 marks: Explains how Lighthouse evaluates performance, accessibility or SEO, with some account of how the recommendations improve the site\n3 marks: Describes what Lighthouse audits and one area it evaluates, with a basic link to improving the site\n2 marks: Identifies Lighthouse as an audit tool with a brief description of one metric\n1 mark: Makes a basic statement that Lighthouse checks websites, without explaining how it helps improve them",
                     "sampleAnswers": [
@@ -11178,7 +11282,10 @@
                       "LocalStorage",
                       "Client-side storage",
                       "Bandwidth",
-                      "Persistence"
+                      "Persistence",
+                      "HTTP request",
+                      "authentication tokens",
+                      "JavaScript"
                     ],
                     "markingCriteria": "5 marks: Compares cookies and LocalStorage on size, when data is sent to the server, expiry and access, and recommends LocalStorage for the dark mode preference with a justified reason\n4 marks: Compares cookies and LocalStorage on two or more relevant features and recommends one, with limited justification\n3 marks: Describes both storage methods with one comparison point, and makes a recommendation with a basic reason\n2 marks: Describes one storage method accurately with limited comparison\n1 mark: Makes a basic statement about client-side storage without comparison or recommendation",
                     "sampleAnswers": [
@@ -11300,7 +11407,10 @@
                       "Media Queries",
                       "Breakpoints",
                       "Viewport",
-                      "display devices"
+                      "display devices",
+                      "CSS rules",
+                      "horizontal scrolling",
+                      "max-width"
                     ],
                     "markingCriteria": "3 marks: Explains how media queries detect device characteristics, such as screen width, and apply different CSS rules, so that the layout adapts across devices\n2 marks: Describes what media queries do, with a basic example, but does not explain how the layout changes\n1 mark: Identifies media queries as a CSS feature without explaining how they achieve responsiveness",
                     "sampleAnswers": [
@@ -11666,7 +11776,10 @@
                       "Git Flow",
                       "GitHub Flow",
                       "Feature branch",
-                      "Release management"
+                      "Release management",
+                      "hotfix branches",
+                      "release branches",
+                      "continuous release"
                     ],
                     "markingCriteria": "5 marks: Justifies Git Flow or GitHub Flow for the medium-sized team with specific reasons linked to the buggy releases, such as separated feature and release branches, and explains the trade-off with team size\n4 marks: Justifies a branching strategy with relevant reasons linked to the release problems, with limited discussion of trade-offs\n3 marks: Describes a branching strategy and gives one reason it would help the team, with limited justification\n2 marks: Identifies a branching strategy with a brief benefit and no link to the team's problems\n1 mark: Makes a basic statement that branches are useful, without justification",
                     "sampleAnswers": [
@@ -11851,7 +11964,8 @@
                       "Library",
                       "Inversion of Control",
                       "React",
-                      "Angular"
+                      "Angular",
+                      "lifecycle"
                     ],
                     "markingCriteria": "3 marks: Distinguishes a framework from a library accurately using Inversion of Control, explaining that the developer's code calls a library, while a framework calls the developer's code, with examples such as React and Angular\n2 marks: Identifies a difference between a framework and a library, such as one being a larger set of rules, without explaining Inversion of Control or who calls whose code\n1 mark: Makes a general statement about a framework or a library, describing each separately or comparing size, without a clear distinction in control",
                     "sampleAnswers": [
@@ -11963,7 +12077,10 @@
                       "Template Engine",
                       "Server-side rendering",
                       "Dynamic content",
-                      "Placeholders"
+                      "Placeholders",
+                      "HTML document",
+                      "back-end",
+                      "database"
                     ],
                     "markingCriteria": "3 marks: Describes how a server-side template engine combines HTML templates with dynamic back-end data to generate pages, and explains the benefit of separating presentation from logic in the development system\n2 marks: Describes what a template engine does, with one benefit, but with limited explanation of how the page is generated\n1 mark: Identifies a template engine or dynamic data without describing its function",
                     "sampleAnswers": [
@@ -12087,7 +12204,10 @@
                       "LAMP",
                       "Proprietary",
                       "Community Support",
-                      "Flexibility"
+                      "Flexibility",
+                      "vendor lock-in",
+                      "licensing fees",
+                      "in-house expertise"
                     ],
                     "markingCriteria": "5 marks: Justifies the open-source stack for a budget-limited startup with specific reasons and acknowledges the trade-offs, such as support and skills, with a clear recommendation\n4 marks: Justifies open source with a cost reason, but the reasons are not developed and the trade-offs are not discussed\n3 marks: Gives a reason for open source with limited justification for this startup\n2 marks: Identifies a feature of open-source software, such as being free, without justifying the decision for this startup\n1 mark: Makes a basic statement about open-source software without justification",
                     "sampleAnswers": [
@@ -12265,7 +12385,11 @@
                       "Core Web Vitals",
                       "LCP",
                       "INP",
-                      "CLS"
+                      "CLS",
+                      "field data",
+                      "lab data",
+                      "main thread",
+                      "content delivery network"
                     ],
                     "markingCriteria": "6 marks: Explains LCP, INP and CLS, what each measures and its good threshold, and gives a specific optimisation for each to achieve good scores on the news site\n5 marks: Explains the three metrics with accurate thresholds and gives relevant optimisations for most of them\n4 marks: Explains the three metrics in general terms and gives at least one relevant optimisation\n3 marks: Describes one or two Core Web Vitals metrics accurately, with limited optimisation advice\n2 marks: Names one Core Web Vitals metric with a brief description and no optimisation\n1 mark: Makes a general statement about page speed without naming a Core Web Vitals metric",
                     "sampleAnswers": [
@@ -12788,7 +12912,9 @@
                       "Database",
                       "Validation",
                       "HTTP Response",
-                      "Processing"
+                      "Processing",
+                      "PHP",
+                      "form data"
                     ],
                     "sampleAnswers": [
                       {
@@ -12855,7 +12981,10 @@
                       "Shell script",
                       "grep",
                       "Redirection",
-                      "Log analysis"
+                      "Log analysis",
+                      "pattern",
+                      "matching lines",
+                      "critical errors"
                     ],
                     "markingCriteria": "3 marks: Constructs a correct command that uses grep to search server.log for the pattern 500 and redirects the matching lines to errors.txt, with an explanation of how the command works\n2 marks: Constructs a command that searches for 500 but misses one requirement, such as saving the output to errors.txt\n1 mark: Identifies grep or a relevant command, or constructs a command that does not search for the error code or save the output",
                     "sampleAnswers": [
@@ -12913,7 +13042,11 @@
                       "Shell script",
                       "Deployment",
                       "CI/CD",
-                      "web application"
+                      "web application",
+                      "git pull",
+                      "executable file",
+                      "human error",
+                      "web server"
                     ],
                     "markingCriteria": "4 marks: Explains how a script groups deployment commands into one repeatable file, and describes at least two specific tasks with their purpose, showing how this reduces errors\n3 marks: Explains how a script automates deployment, with at least one specific task and its purpose, but the benefit is not fully explained\n2 marks: Describes that a script can run deployment commands, with a general example but no specific tasks\n1 mark: Makes a basic statement that automation saves time, without describing how a shell script does this",
                     "sampleAnswers": [
@@ -13094,7 +13227,10 @@
                       "WHERE",
                       "HAVING",
                       "GROUP BY",
-                      "Aggregate function"
+                      "Aggregate function",
+                      "syntax error",
+                      "SUM",
+                      "individual rows"
                     ],
                     "markingCriteria": "4 marks: Distinguishes WHERE from HAVING by the stage at which each filters, row-level versus group-level, and explains why the scenario's aggregate condition cannot be placed in WHERE\n3 marks: Distinguishes WHERE and HAVING by when they filter and notes the role of aggregate functions, but the explanation of why the scenario query fails is limited\n2 marks: Identifies one difference between WHERE and HAVING without explaining it, or describes one clause accurately\n1 mark: Makes a basic statement that both clauses filter data, without identifying a difference",
                     "sampleAnswers": [
@@ -13208,7 +13344,10 @@
                       "SQL",
                       "INNER JOIN",
                       "WHERE",
-                      "Database query"
+                      "Database query",
+                      "SELECT",
+                      "FROM",
+                      "comment text"
                     ],
                     "markingCriteria": "3 marks: Constructs a complete, correct query that joins Comments to Users on the commenter key, selects both required fields and filters on PostID = 123\n2 marks: Constructs a query with a correct join or filter, but omits one required element, such as the PostID filter or one of the requested fields\n1 mark: Constructs a relevant SELECT or JOIN statement that is incomplete or incorrect, such as a join with no join condition",
                     "sampleAnswers": [
@@ -13264,7 +13403,11 @@
                       "Database index",
                       "B-tree",
                       "Full table scan",
-                      "Read vs write trade-off"
+                      "Read vs write trade-off",
+                      "data structure",
+                      "O(log n)",
+                      "user authentication",
+                      "scalability"
                     ],
                     "markingCriteria": "5 marks: Explains indexing as a data structure that avoids full table scans, and evaluates the trade-off, including faster reads for email lookups against slower writes and extra storage, with a judgement suited to the login system\n4 marks: Explains the purpose of indexing and evaluates its impact on the login search, with a clear benefit and at least one cost, but the evaluation is brief\n3 marks: Explains that an index speeds up searches and links this to the login scenario, but does not evaluate any cost or limitation\n2 marks: Describes indexing or full table scans in general terms without linking indexing to the purpose\n1 mark: Makes a basic statement that indexing makes databases faster, without explanation",
                     "sampleAnswers": [
@@ -13707,7 +13850,10 @@
                       "Offline",
                       "Cache API",
                       "Install/Activate/Fetch lifecycle",
-                      "progressive web app"
+                      "progressive web app",
+                      "Web App Manifest",
+                      "app shell",
+                      "cache-first"
                     ],
                     "markingCriteria": "5 marks: Explains the role of service workers as a programmable proxy, their install and fetch behaviour and caching strategies, and shows precisely how cached responses enable offline use and PWA behaviour\n4 marks: Explains how service workers intercept requests and cache content to enable offline use, with at least two linked points, though the lifecycle or the link to PWA status is underdeveloped\n3 marks: Describes what a service worker does and that it caches files, but does not explain how the cache enables offline functionality\n2 marks: Identifies service workers or caching as relevant to PWAs with a brief description, but does not explain their role\n1 mark: States a basic fact about service workers or offline access without explanation",
                     "sampleAnswers": [
@@ -13807,7 +13953,9 @@
                       "PWA",
                       "Service Worker",
                       "Web App Manifest",
-                      "HTTPS"
+                      "HTTPS",
+                      "offline functionality",
+                      "JSON"
                     ],
                     "sampleAnswers": [
                       {
@@ -14074,7 +14222,9 @@
                       "Mind-mapping",
                       "Idea Generation",
                       "Requirements Elicitation",
-                      "Project Inception"
+                      "Project Inception",
+                      "central concept",
+                      "quantity over quality"
                     ],
                     "markingCriteria": "4 marks: Compares brainstorming and mind-mapping on structure, purpose and outcome, and explains which is better suited to the early generation of features for the app project\n3 marks: Describes both tools and identifies a difference in structure, with limited comparison of their outcomes or suitability\n2 marks: Describes one tool accurately, or notes a similarity between the two without comparing their structure or use\n1 mark: Makes a general statement that both tools generate ideas, without describing either",
                     "sampleAnswers": [
@@ -14938,7 +15088,11 @@
                       "Professional responsibility",
                       "Stakeholder conflict",
                       "Dual-use technology",
-                      "Code of ethics"
+                      "Code of ethics",
+                      "duty of care",
+                      "public good",
+                      "privacy",
+                      "contractual obligation"
                     ],
                     "markingCriteria": "7-8 marks: Discusses the competing responsibilities to the client, the public and the profession, weighs the consequences of the feature for users' mental health, and reaches a reasoned position on what the engineer should do\n5-6 marks: Discusses the main ethical responsibilities and their conflict, with reasoning about the consequences for users, though the conclusion is less developed\n4 marks: Identifies the ethical conflict between the client and wider responsibilities and makes a reasoned point, but the discussion considers only one perspective\n2-3 marks: Describes the engineer's obligations or the feature's effects briefly, without discussing how the responsibilities conflict\n1 mark: Makes a basic statement that the engineer should or should not do the work, without ethical reasoning",
                     "sampleAnswers": [
@@ -14996,7 +15150,10 @@
                       "Communication",
                       "Stakeholder management",
                       "Agile",
-                      "Feedback"
+                      "Feedback",
+                      "working software",
+                      "Agile sprint",
+                      "backlog"
                     ],
                     "markingCriteria": "3 marks: Describes two specific, relevant strategies, such as regular demonstrations and client-led prioritisation, and explains how each gives the client a voice in the project\n2 marks: Describes two strategies briefly, or describes one strategy in detail with limited explanation of how it empowers the client\n1 mark: Names one general strategy, such as talking to the client, without describing how it works",
                     "sampleAnswers": [
@@ -15238,7 +15395,10 @@
                       "Quality assurance",
                       "Continuous integration (CI)",
                       "Automated testing",
-                      "Continual checking"
+                      "Continual checking",
+                      "rapid feedback",
+                      "integration errors",
+                      "defects"
                     ],
                     "markingCriteria": "3 marks: Outlines the continual checking process as automated testing triggered by each change, with its main features, and explains how it prevents defects from building up over time\n2 marks: Outlines the process in general terms, or names one feature of it without explaining its role in preventing defects\n1 mark: Makes a basic statement that code is checked, without outlining the process",
                     "sampleAnswers": [
@@ -15708,7 +15868,10 @@
                       "presentation software",
                       "slides",
                       "speaker notes",
-                      "demonstration"
+                      "demonstration",
+                      "prototype",
+                      "testing results",
+                      "requirements"
                     ],
                     "linkedOutcomes": [
                       "SE-12-06",
@@ -15763,7 +15926,9 @@
                       "software engineering solution",
                       "slides",
                       "speaker notes",
-                      "demonstration"
+                      "demonstration",
+                      "evidence from testing",
+                      "closing slide"
                     ],
                     "linkedOutcomes": [
                       "SE-12-06",
@@ -15838,7 +16003,9 @@
                       "Algorithm",
                       "Documentation",
                       "Maintainability",
-                      "Collaboration"
+                      "Collaboration",
+                      "debug",
+                      "bugs"
                     ],
                     "markingCriteria": "3 marks: Describes two distinct reasons, such as maintainability for future developers and collaboration within the team, and explains how each affects the long-term health of the project\n2 marks: States two reasons with only brief explanation, or explains one reason in depth\n1 mark: States one reason without explanation, or makes a general statement that documentation is useful",
                     "sampleAnswers": [
@@ -15947,7 +16114,8 @@
                       "software engineering solution",
                       "development",
                       "developer hours",
-                      "testing"
+                      "testing",
+                      "time plan"
                     ],
                     "linkedOutcomes": [
                       "SE-12-09"
@@ -16197,7 +16365,9 @@
                       "Version control",
                       "VCS",
                       "Git",
-                      "Source control"
+                      "Source control",
+                      "codebase",
+                      "revert"
                     ],
                     "markingCriteria": "2 marks: Defines version control as a system that records and manages changes to files over time, and identifies a feature such as tracking history or supporting collaboration\n1 mark: Gives a partly accurate definition, such as a tool that saves versions, without describing what the system records or manages",
                     "sampleAnswers": [
@@ -16564,7 +16734,9 @@
                       "White-box testing",
                       "Testing methodology",
                       "Internal code structure",
-                      "Test cases"
+                      "Test cases",
+                      "source code",
+                      "internal logic"
                     ],
                     "markingCriteria": "3 marks: Distinguishes the two methods by the tester's perspective and knowledge of the code, and states what each method tests, with accurate detail\n2 marks: Distinguishes the methods by one feature, such as whether the code is viewed, without explaining the focus of each test\n1 mark: Makes a general statement that both are types of testing, without distinguishing them",
                     "sampleAnswers": [
@@ -16790,7 +16962,9 @@
                       "respond",
                       "prioritisation",
                       "change log",
-                      "client"
+                      "client",
+                      "login screen",
+                      "redesign"
                     ],
                     "linkedOutcomes": [
                       "SE-12-08",
@@ -16845,7 +17019,9 @@
                       "respond",
                       "prioritisation",
                       "change log",
-                      "client"
+                      "client",
+                      "login layout",
+                      "reminder frequency"
                     ],
                     "linkedOutcomes": [
                       "SE-12-08",
@@ -16922,7 +17098,9 @@
                       "Test cases",
                       "Black-box testing",
                       "Input validation",
-                      "Error detection"
+                      "Error detection",
+                      "input domain",
+                      "exhaustive testing"
                     ],
                     "markingCriteria": "4 marks: Evaluates boundary value analysis with reasoning about why errors cluster at input boundaries and how efficient the technique is, and applies it accurately to the age field with a clear judgement\n3 marks: Describes boundary value analysis and gives a relevant example, with some evaluation of its effectiveness, though the judgement is limited\n2 marks: Describes boundary value analysis or gives an example, without evaluating its effectiveness\n1 mark: Makes a basic statement about testing the edges of inputs without describing or evaluating the technique",
                     "sampleAnswers": [
@@ -16981,7 +17159,11 @@
                       "UI/UX",
                       "Usability testing",
                       "Evaluation",
-                      "Test plan"
+                      "Test plan",
+                      "think aloud",
+                      "task success rate",
+                      "direct observation",
+                      "pain points"
                     ],
                     "markingCriteria": "5 marks: Proposes a specific, feasible two-part plan that synthesises the feedback through usability testing and data analysis, and evaluates the interface against measurable criteria, with a justified rationale\n4 marks: Proposes a plan that gathers and organises the feedback and evaluates the interface with reasons, though one part is underdeveloped or the criteria are not measurable\n3 marks: Proposes a relevant method for gathering feedback, such as user testing, with a basic link to evaluating the interface\n2 marks: Proposes a general step, such as asking users what is confusing, without explaining how the feedback will be synthesised or evaluated\n1 mark: Makes a basic comment about the interface without proposing a plan",
                     "sampleAnswers": [
@@ -17179,7 +17361,10 @@
                       "Commit",
                       "Integration",
                       "Immediate feedback",
-                      "Regression testing"
+                      "Regression testing",
+                      "CI/CD pipeline",
+                      "test suite",
+                      "manual intervention"
                     ],
                     "markingCriteria": "4 marks: Explains how a CI/CD pipeline runs automated tests on every change, giving immediate feedback and regression checks before deployment, linked to the goal of verifying every change\n3 marks: Explains that the pipeline runs tests automatically on each change, with one benefit, but the explanation is limited\n2 marks: Describes CI/CD or automated tests in general terms, without explaining how the pipeline supports testing\n1 mark: Makes a basic statement that CI/CD runs tests, without explaining the automation or its benefit",
                     "sampleAnswers": [
@@ -17293,7 +17478,9 @@
                       "Feedback",
                       "Speed",
                       "Efficiency",
-                      "Bugs"
+                      "Bugs",
+                      "deployment",
+                      "immediate feedback"
                     ],
                     "markingCriteria": "2 marks: Identifies one benefit of automated testing in a DevOps pipeline, such as immediate feedback or faster releases, with a brief explanation of how it is achieved\n1 mark: Identifies a benefit without explaining how automated testing achieves it",
                     "sampleAnswers": [
@@ -17462,7 +17649,9 @@
                       "Subset",
                       "Field",
                       "Relationship",
-                      "artificial intelligence"
+                      "artificial intelligence",
+                      "machine learning",
+                      "AI system"
                     ],
                     "markingCriteria": "2 marks: States correctly that Machine Learning is a subset or sub-field of Artificial Intelligence, so ML sits inside AI\n1 mark: States that the two are related or both part of computer science, without giving the direction of the relationship",
                     "sampleAnswers": [
@@ -17517,7 +17706,9 @@
                       "Unlabelled data",
                       "Patterns",
                       "Structure",
-                      "Clustering"
+                      "Clustering",
+                      "unsupervised learning",
+                      "training model"
                     ],
                     "markingCriteria": "2 marks: Defines unsupervised learning as machine learning on unlabelled data that finds patterns or structure without predefined correct answers, with a purpose such as clustering\n1 mark: Gives a partly accurate definition, such as learning from unlabelled data, without describing what the model finds",
                     "sampleAnswers": [
@@ -17694,7 +17885,8 @@
                       "Labelled data",
                       "Unlabelled data",
                       "Cost of labelling",
-                      "Accuracy"
+                      "Accuracy",
+                      "supervised learning"
                     ],
                     "markingCriteria": "5 marks: Distinguishes semi-supervised from supervised learning by the proportion and use of labelled and unlabelled data, and justifies semi-supervised learning for the scenario with reasons about cost, labelling effort and performance\n4 marks: Distinguishes the two models clearly and justifies semi-supervised learning for the scenario, with one justification less developed\n3 marks: Distinguishes the models on their use of labelled data and gives a basic reason for the scenario, with limited justification\n2 marks: Describes one model accurately, or states a difference without justifying a scenario\n1 mark: Makes a basic statement about labels or cost without distinguishing the two models",
                     "sampleAnswers": [
@@ -17932,7 +18124,10 @@
                       "Historical data",
                       "Patterns",
                       "Prediction",
-                      "Trends"
+                      "Trends",
+                      "forecasting",
+                      "correlations",
+                      "seasonal trends"
                     ],
                     "markingCriteria": "3 marks: Outlines the process: ML analyses historical data to identify patterns and trends, such as seasonality, and uses them to predict future values, in order\n2 marks: Outlines that ML uses historical data to find patterns and predict, without describing the steps or the types of pattern\n1 mark: Makes a basic statement that ML predicts the future, without describing the process",
                     "sampleAnswers": [
@@ -17988,7 +18183,9 @@
                       "Image recognition",
                       "Voice assistants",
                       "Recommendations",
-                      "common applications"
+                      "common applications",
+                      "Siri",
+                      "facial recognition"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct everyday applications of ML, such as facial recognition and voice assistants, and names them accurately\n1 mark: Identifies one correct everyday application of ML",
                     "sampleAnswers": [
@@ -18160,7 +18357,10 @@
                       "Neurons",
                       "Layers",
                       "Weights",
-                      "Connections"
+                      "Connections",
+                      "input layer",
+                      "hidden layer",
+                      "output layer"
                     ],
                     "markingCriteria": "2 marks: Identifies two distinct structural components of a neural network, such as layers and neurons, or the input, hidden and output layers\n1 mark: Identifies one correct structural component, such as neurons or layers",
                     "sampleAnswers": [
@@ -18214,7 +18414,8 @@
                       "Neighbours",
                       "Comparison",
                       "Voting",
-                      "K-nearest neighbour"
+                      "K-nearest neighbour",
+                      "data point"
                     ],
                     "markingCriteria": "2 marks: States that K is the number of nearest neighbours the algorithm considers when classifying a new data point\n1 mark: States a partly correct purpose, such as how many neighbours to look at, without linking K to the classification",
                     "sampleAnswers": [
@@ -18273,7 +18474,9 @@
                       "Feature space",
                       "Distance metric",
                       "Majority vote",
-                      "Classification"
+                      "Classification",
+                      "instance-based learning",
+                      "Euclidean distance"
                     ],
                     "markingCriteria": "4 marks: Describes KNN as an instance-based method that measures distances to the K nearest stored points and assigns the class by majority vote, illustrated with a simple worked example\n3 marks: Describes the distance and majority-vote steps with a simple example, but the explanation of distance or the vote is brief\n2 marks: Describes KNN in general terms, or gives an example without explaining how the neighbours determine the class\n1 mark: Makes a basic statement that KNN finds the nearest points and picks their class, without describing the process",
                     "sampleAnswers": [
@@ -18521,7 +18724,9 @@
                       "Attributes",
                       "Slope",
                       "Intercept",
-                      "Coefficients"
+                      "Coefficients",
+                      "private attributes",
+                      "y-axis"
                     ],
                     "markingCriteria": "2 marks: Outlines two distinct private attributes, such as the slope or coefficient and the intercept, and states what each one stores\n1 mark: Outlines one attribute, or names two attributes without stating what they store",
                     "sampleAnswers": [
@@ -18643,7 +18848,11 @@
                       "Layers",
                       "Object-Oriented syntax",
                       "Parameters",
-                      "neural network"
+                      "neural network",
+                      "encapsulation",
+                      "weights",
+                      "sigmoid",
+                      "DenseLayer"
                     ],
                     "markingCriteria": "5 marks: Constructs pseudocode that instantiates a feedforward network object, adds a hidden layer through the library's method, and calls a prediction method on new input, using correct object-oriented syntax\n4 marks: Constructs pseudocode that instantiates the network and adds a hidden layer, with the prediction step incomplete or unclear\n3 marks: Constructs pseudocode that creates the network object and adds a layer, without a prediction step\n2 marks: Constructs a partial outline that creates an object or a layer, with the method calls incorrect or missing\n1 mark: Describes the steps in words, or writes code that does not use object-oriented syntax to create a network",
                     "sampleAnswers": [
@@ -18760,7 +18969,10 @@
                       "Routine tasks",
                       "Soft skills",
                       "Technical literacy",
-                      "Complex problem solving"
+                      "Complex problem solving",
+                      "hollowing out",
+                      "emotional intelligence",
+                      "data entry"
                     ],
                     "markingCriteria": "3 marks: Outlines how automation removes routine tasks and shifts demand toward technical literacy, complex problem solving and soft skills, with an example for each shift\n2 marks: Outlines one shift in required skills, or describes automation's effect on jobs without naming the skills\n1 mark: States that robots take jobs and people need to learn computers, without outlining the shift",
                     "sampleAnswers": [
@@ -18993,7 +19205,8 @@
                       "Accuracy",
                       "24/7 operation",
                       "Production efficiency",
-                      "Automation"
+                      "Automation",
+                      "robots"
                     ],
                     "markingCriteria": "2 marks: States one way automation improves efficiency and gives a reason, such as robots operating continuously with consistent accuracy\n1 mark: States one way automation improves efficiency without a reason",
                     "sampleAnswers": [
@@ -19048,7 +19261,10 @@
                       "Dopamine",
                       "Anxiety",
                       "FOMO",
-                      "Notifications"
+                      "Notifications",
+                      "variable reward schedules",
+                      "compulsion loop",
+                      "gambling"
                     ],
                     "markingCriteria": "2 marks: Identifies one specific way AI software influences a psychological response, such as variable reward timing causing anxiety, and explains the effect on the user\n1 mark: Identifies a general effect, such as notifications causing stress, without explaining the mechanism",
                     "sampleAnswers": [
@@ -19229,7 +19445,9 @@
                       "Skewed data",
                       "Real-world",
                       "Sampling",
-                      "dataset source bias"
+                      "dataset source bias",
+                      "systematic error",
+                      "problem space"
                     ],
                     "markingCriteria": "2 marks: Defines dataset source bias as a systematic error in the training data that makes it unrepresentative of the real-world population or task, with its effect on the model\n1 mark: Gives a partly accurate definition, such as unbalanced or incomplete data, without describing the systematic error or its effect",
                     "sampleAnswers": [
@@ -19287,7 +19505,10 @@
                       "Subjectivity",
                       "Ground truth",
                       "Reliability",
-                      "Human error"
+                      "Human error",
+                      "unconscious bias",
+                      "mental prototype",
+                      "deployed model"
                     ],
                     "markingCriteria": "4 marks: Explains how a labeller's bias enters the labels, which the model treats as ground truth, and how this reduces accuracy and reliability for some inputs, with a specific example\n3 marks: Explains that biased or mistaken labels teach the model incorrect patterns, with limited reasoning about reliability\n2 marks: Describes human labelling in general terms, or notes that labellers may be biased without explaining the effect on the model\n1 mark: Makes a basic statement that humans make mistakes, without linking this to the model",
                     "sampleAnswers": [
@@ -19404,7 +19625,10 @@
                       "Data auditing",
                       "Bias testing",
                       "Explainability",
-                      "Inclusive design"
+                      "Inclusive design",
+                      "algorithmic impact assessments",
+                      "re-sampling",
+                      "counterfactual examples"
                     ],
                     "markingCriteria": "6 marks: Recommends specific strategies, such as diverse teams, data auditing and bias testing, justifies each against the risk of human bias, and weighs their effectiveness and limitations to reach a clear recommendation\n5 marks: Recommends several specific strategies with justification, with one limitation or the recommendation less developed\n4 marks: Recommends at least two relevant strategies with a basic justification, without weighing their effectiveness\n3 marks: Recommends one relevant strategy, such as diverse teams or data auditing, with a basic reason linked to human bias\n2 marks: Names a general action, such as checking the data, without a clear recommendation or reason\n1 mark: Makes a general statement about bias without recommending a strategy",
                     "sampleAnswers": [

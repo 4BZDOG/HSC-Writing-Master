@@ -161,7 +161,10 @@
                 "Vulnerability management",
                 "Defence in depth",
                 "Risk management",
-                "Security strategy"
+                "Security strategy",
+                "attack surface",
+                "secure coding",
+                "key management"
               ],
               "markingCriteria": "6-7 marks: Makes a sustained, well-reasoned evaluative judgement on whether data protection or vulnerability prevention is more effective, weighing both against each other and the budget constraint with precise examples\n5 marks: Evaluates both focus areas with relevant reasoning and a clear overall position, but the weighing of their limitations is only partly developed\n4 marks: Discusses both focus areas with some relevant reasoning, but the evaluation is mostly descriptive and the judgement is limited\n3 marks: Describes data protection and vulnerability prevention with limited link to effectiveness, and any judgement is largely unsupported\n2 marks: Makes brief, mostly unsupported statements about one or both approaches with little evaluation\n1 mark: Makes one relevant but undeveloped point about security priorities",
               "sampleAnswers": [
@@ -434,7 +437,10 @@
                 "Security requirements",
                 "Non-functional requirements",
                 "Compliance",
-                "Threat modelling"
+                "Threat modelling",
+                "data sensitivity",
+                "hashing",
+                "project scope"
               ],
               "markingCriteria": "3 marks: Describes how security is incorporated into requirements definition, explaining characteristics of security requirements gathering and specific types of security requirements, such as data privacy or access control, supported by a clear example\n2 marks: Describes one characteristic of security requirements gathering or one specific type of security requirement, with limited detail or no example\n1 mark: Makes a brief statement that security should be captured during requirements definition, without describing how this is done",
               "sampleAnswers": [
@@ -1718,7 +1724,10 @@
                 "Agile",
                 "Peer review",
                 "Pull request",
-                "Continuous integration"
+                "Continuous integration",
+                "SAST",
+                "input validation",
+                "sprint"
               ],
               "markingCriteria": "6 marks: Proposes a specific, lightweight security code review process, such as mandatory peer review of pull requests with automated SAST checks, and justifies it with sustained reasoning about how it fits Agile sprints and improves security\n5 marks: Proposes a clear, specific review process using pull requests and peer review, and justifies how it integrates with Agile workflows, though the security benefits are only partly developed\n4 marks: Proposes a review process with a clear step, such as peer review before merging, and explains how it suits an Agile team, with limited detail on how it improves security\n3 marks: Proposes a code review practice with a brief justification for Agile, such as frequent reviews, but the process is general and the security benefit is limited\n2 marks: Proposes a basic review step without a clear process or a justification linked to Agile workflows\n1 mark: Makes a general suggestion that code should be checked for security, without proposing a process or justifying it",
               "sampleAnswers": [
@@ -2182,7 +2191,10 @@
                 "Exception management",
                 "Error handling",
                 "Robustness",
-                "try-catch"
+                "try-catch",
+                "runtime error",
+                "error message",
+                "root cause"
               ],
               "markingCriteria": "3 marks: Outlines the purpose of exception management in building robust software, covering the prevention of crashes, graceful recovery and logging for debugging, with a clear link to robustness\n2 marks: Outlines two purposes of exception management, such as preventing crashes and allowing graceful failure, with limited explanation of how each supports robustness\n1 mark: Outlines one purpose of exception management, such as stopping the program from crashing, without explaining its wider value",
               "sampleAnswers": [
@@ -2317,7 +2329,10 @@
                 "Race condition",
                 "Concurrency",
                 "Time-of-check to time-of-use",
-                "Vulnerability"
+                "Vulnerability",
+                "multiple threads",
+                "simultaneous requests",
+                "discount voucher"
               ],
               "markingCriteria": "4 marks: Explains how a race condition arises from concurrent access to shared state in a web application, how an attacker could exploit the timing gap, and gives a specific example\n3 marks: Explains the race condition and how it can be exploited with an example, but the exploitation or the mechanism is less fully developed\n2 marks: Describes a race condition in general terms with a brief example, but does not explain how it is exploited\n1 mark: Makes a basic statement that two things happen at once and break the program, without explaining the exploit",
               "sampleAnswers": [
@@ -2371,7 +2386,10 @@
                 "Broken authentication",
                 "Vulnerability",
                 "Credentials",
-                "Session management"
+                "Session management",
+                "session cookies",
+                "legitimate user",
+                "attacker"
               ],
               "markingCriteria": "2 marks: Defines broken authentication as a vulnerability in authentication or session management and gives an example of how an attacker could impersonate a user\n1 mark: Makes a basic statement that broken authentication is a login fault, without identifying the vulnerability or what it allows an attacker to do",
               "sampleAnswers": [
@@ -2556,7 +2574,10 @@
                 "Side-channel attack",
                 "Timing attack",
                 "Cryptography",
-                "Constant-time"
+                "Constant-time",
+                "password checker",
+                "response time",
+                "secret information"
               ],
               "markingCriteria": "3 marks: Describes a timing attack as a side-channel attack that infers secret information from how long an operation takes, explaining how measured response times reveal information and why the leak comes from the implementation\n2 marks: Describes a timing attack as a side-channel attack, or explains that response times reveal information, with limited description of the mechanism\n1 mark: Makes a basic statement about timing attacks without identifying them as side-channel attacks or describing how timing reveals information",
               "sampleAnswers": [
