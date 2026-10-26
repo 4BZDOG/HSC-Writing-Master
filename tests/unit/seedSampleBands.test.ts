@@ -2,7 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { preseededCourses } from '../../data/seedData';
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
-import { getBandForMark, getCommandTermInfo, commandTerms } from '../../data/commandTerms';
+import { getCommandTermInfo, commandTerms } from '../../data/commandTerms';
+import { promptBandForMark } from '../../utils/guideBands';
 import { wholeSampleMark } from '../../utils/dataManagerUtils';
 import type { Course, PromptVerb, Topic } from '../../types';
 
@@ -10,7 +11,7 @@ import type { Course, PromptVerb, Topic } from '../../types';
  * `SampleAnswer.band` is a CACHE of the Verb Gate, not a fact of its own.
  *
  * Three parts of the app already say so. The v2.4.0 migration rewrites it from
- * `getBandForMark` (`recalculateSampleAnswerBands` in `utils/storageUtils.ts`);
+ * `promptBandForMark` (`recalculateSampleAnswerBands` in `utils/storageUtils.ts`);
  * `RecalibrateSamplesModal` reports `sample.band !== derivedBand` as a mismatch
  * to repair; and the content audit writes the strict band over it. Every
  * surface that DISPLAYS a band derives it — `SampleAnswersAccordion` computes
@@ -73,7 +74,9 @@ const everySample = () => {
             for (const sample of prompt.sampleAnswers ?? []) {
               out.push({
                 band: sample.band,
-                derived: getBandForMark(sample.mark, prompt.totalMarks, tier),
+                // The question's own band for the mark: its guide's row on a ranged
+                // guide, the Verb Gate's formula otherwise (utils/guideBands.ts).
+                derived: promptBandForMark(prompt, sample.mark),
                 where: `${sample.id} (${sample.mark}/${prompt.totalMarks} ${prompt.verb}, tier ${tier})`,
               });
             }
@@ -92,7 +95,7 @@ describe('the bundled seed stores the band the Verb Gate derives', () => {
     expect(everySample().length).toBeGreaterThan(0);
   });
 
-  it('agrees with getBandForMark on every sample', () => {
+  it('agrees with promptBandForMark on every sample', () => {
     const wrong = everySample()
       .filter(({ band, derived }) => band !== derived)
       .map(({ band, derived, where }) => `${where}: stored ${band}, derived ${derived}`);
@@ -100,8 +103,8 @@ describe('the bundled seed stores the band the Verb Gate derives', () => {
     expect(
       wrong,
       'A sample answer stores a band the Verb Gate does not agree with. The stored ' +
-        'value is a cache of getBandForMark(mark, totalMarks, verb tier) — the mark ' +
-        'and the command verb decide the band, and a full-mark answer to a low-tier ' +
+        'value is a cache of promptBandForMark(prompt, mark) — the mark, the command ' +
+        "verb and the guide's rows decide the band, and a full-mark answer to a low-tier " +
         'verb does NOT reach Band 6. Correct the `band` in data/seedData.ts rather ' +
         'than the formula — `npx tsx scripts/canonicaliseCourseData.mts` does it for ' +
         'the files under public/courseData.'

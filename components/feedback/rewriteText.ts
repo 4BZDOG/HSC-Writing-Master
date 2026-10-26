@@ -1,5 +1,6 @@
 import type { EvaluationResult } from '../../types';
-import { getBandForMark, getNextLevelTarget } from '../../data/commandTerms';
+import { getNextLevelTarget } from '../../data/commandTerms';
+import { bandOnGuide } from '../../utils/guideBands';
 
 export interface PresentableRewrite {
   /** The rewritten answer, or '' when there is nothing this client may show. */
@@ -47,14 +48,16 @@ export function rewriteTarget(
   revised: EvaluationResult['revisedAnswer'] | undefined,
   overallMark: number,
   totalMarks: number,
-  tier: number
+  tier: number,
+  /** The question's guide, so the band is the one its row shows (utils/guideBands.ts). */
+  markingCriteria?: string
 ): { mark: number; band: number } {
   const reported = typeof revised === 'object' ? revised.mark : undefined;
   const mark =
     typeof reported === 'number' && Number.isFinite(reported)
       ? Math.min(totalMarks, Math.max(0, reported))
       : getNextLevelTarget(overallMark, totalMarks, tier).targetMark;
-  return { mark, band: getBandForMark(mark, totalMarks, tier) };
+  return { mark, band: bandOnGuide(mark, totalMarks, tier, markingCriteria) };
 }
 
 /**

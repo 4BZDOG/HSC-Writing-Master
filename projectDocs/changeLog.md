@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-25 (One band colour per question)
+
+- **Fixed.** A 20-mark DISCUSS was drawn in two colours: the Writing Prompt in its verb tier's blue (Band 5), the
+  Syllabus Terms, Marking Guide and Sample Answers in Band 6's purple. A question's band ceiling is its verb's tier
+  again, everywhere, the cap the Writing Prompt shows (this withdraws the "extended response reaches Band 6" rule of
+  2026-10-24; `projectDocs/calibration-pilot.md` §4).
+- **Fixed.** On a guide written in mark ranges, an exemplar could read a band below the row it sits in (a 13/20 in the
+  13–16 row, a 5/8 in the 5–6 row): rows were labelled by the band of their top mark, exemplars by their own. A ranged
+  guide now gives one band per row, the ceiling at the top, and a mark takes the band of its row
+  (`promptBandForMark`, `utils/guideBands.ts`), in the guide, the exemplars, the editors and the feedback. The app's
+  own one-row-per-band rubrics read exactly as before. A 2.21.0 data migration and a one-off `schema.sql` step
+  re-derive stored bands.
+- **Changed.** The verb ribbon and the question picker's tier headings name the tier's band again.
+
 ## [Unreleased] - 2026-10-25 (Pastel syllabus-term chips)
 
 - **Changed.** The Syllabus Terms pills are pastel tints of the question's band instead of a neutral pill that turned

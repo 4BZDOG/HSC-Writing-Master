@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { promptBandForMark } from '../utils/guideBands';
 import { getBandConfig } from '../utils/renderUtils';
 import { Scale, X, AlertTriangle, Loader2, Check } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -97,16 +97,14 @@ const RecalibrateSamplesModal: React.FC<RecalibrateSamplesModalProps> = ({
     'Sample answers are still being recalibrated. Leaving now will lose the ones not yet saved.'
   );
 
-  const tier = useMemo(() => getCommandTermInfo(prompt.verb).tier, [prompt.verb]);
-
   const rows = useMemo(() => {
     return [...(prompt.sampleAnswers || [])]
       .sort((a, b) => b.mark - a.mark)
       .map((sample: SampleAnswer) => {
-        const derivedBand = getBandForMark(sample.mark, prompt.totalMarks, tier);
+        const derivedBand = promptBandForMark(prompt, sample.mark);
         return { sample, derivedBand, mismatched: sample.band !== derivedBand };
       });
-  }, [prompt.sampleAnswers, prompt.totalMarks, tier]);
+  }, [prompt]);
 
   const mismatchedIds = useMemo(
     () => rows.filter((r) => r.mismatched).map((r) => r.sample.id),

@@ -139,7 +139,12 @@ export const parseMarkingCriteria = (
 
   if (currentItem) items.push(currentItem);
 
-  return items.sort((a, b) => b.markRange[1] - a.markRange[1]);
+  items.sort((a, b) => b.markRange[1] - a.markRange[1]);
+
+  // Each row keeps the band of its top mark; `promptBandForMark`
+  // (utils/guideBands.ts) gives every mark in the row that same band, so an
+  // exemplar at the foot of a row no longer reads a band below it.
+  return items;
 };
 
 /**

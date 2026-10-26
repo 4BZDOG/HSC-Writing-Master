@@ -34,7 +34,6 @@ import {
   getExpectedCharRange,
   getExpectedTerms,
   getRecommendedTime,
-  EXTENDED_RESPONSE_MARKS,
   getTargetBand,
   getTierTargetBand,
   fitVerbsToLength,
@@ -45,6 +44,7 @@ import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
 import { guideLadderProblem } from '../utils/markingGuideLadder';
 import { capOutcomeLinks, OUTCOME_LINK_RULE } from '../utils/outcomeCodes';
+import { promptBandForMark } from '../utils/guideBands';
 import {
   formatMarkingCriteria,
   normalizeSyllabusStructure,
@@ -226,10 +226,9 @@ export const evaluateAnswer = async (
 ): Promise<EvaluationResult> => {
   const termInfo = tierInfo || getCommandTermInfo(prompt.verb);
 
-  // The cognitive demand of the verb caps the achievable NESA band on a short
-  // question (an extended response reaches Band 6). This is the same ceiling
-  // the rest of the app shows (e.g. the "Top Level: Band X" label in
-  // MarkingCriteriaAccordion), kept consistent here.
+  // The cognitive demand of the verb caps the achievable NESA band. This is the
+  // same tier-aware ceiling the rest of the app shows (e.g. the "Top Level: Band X"
+  // label in MarkingCriteriaAccordion), kept consistent here.
   const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier);
   // Scaled to this question's marks, as the live guide and the exemplars are.
   const fullMarkChars = getExpectedCharRange(prompt.totalMarks, termInfo);
@@ -327,11 +326,7 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
                     **Max Marks:** ${prompt.totalMarks}
                     **Command Verb:** ${prompt.verb} (Cognitive Tier ${termInfo.tier} - ${termInfo.definition})
                     **Band Discrimination:** ${termInfo.bandDiscrimination}
-                    **Maximum Achievable Band:** Band ${maxBand}. ${
-                      prompt.totalMarks >= EXTENDED_RESPONSE_MARKS
-                        ? `This is a ${prompt.totalMarks}-mark extended response, so a full-mark answer reaches Band 6: the top mark range is Band 6 standard, as NESA's own samples for these questions are.`
-                        : `The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.`
-                    }
+                    **Maximum Achievable Band:** Band ${maxBand}. The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.
                     **Expected Response for Full Marks (${prompt.totalMarks}/${prompt.totalMarks}):** ${getStructureGuide(prompt.totalMarks)} Use this to judge whether the response has the depth and length the marks demand — a response far shorter or thinner than this cannot reach the top marks, but do not reward padding either.
                     **Expected Length:** ${fullMarkChars[0]}-${fullMarkChars[1]} characters for full marks, written in about ${Math.round(getRecommendedTime(prompt.totalMarks, termInfo) / 60)} minutes. Length shows how much a response had room to do, not how well it did it: a long response that does not answer the question still earns a low mark.
                     **Expected Syllabus Terms:** ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]} relevant syllabus terms should be used.
@@ -501,9 +496,9 @@ ${rewriteStep}
   // Single source of truth for the band: derive it deterministically from the
   // (reconciled) mark and the question's cognitive tier rather than trusting the
   // model's free choice. This guarantees the band can never exceed the tier
-  // ceiling and stays consistent with getBandForMark everywhere else in the app
+  // ceiling and stays consistent with promptBandForMark everywhere else in the app
   // (sample answers, the marking-criteria panel, recalibration).
-  data.overallBand = getBandForMark(data.overallMark, prompt.totalMarks, termInfo.tier);
+  data.overallBand = promptBandForMark(prompt, data.overallMark);
 
   return data;
 };
@@ -1284,7 +1279,7 @@ export const reviseSampleAnswer = async (
     id: generateId('sa'),
     answer: data.answer,
     mark: targetMark,
-    band: getBandForMark(targetMark, prompt.totalMarks, termInfo.tier),
+    band: promptBandForMark(prompt, targetMark),
     source: 'AI',
     feedback: data.feedback,
   };
@@ -1683,7 +1678,7 @@ export const generateSampleAnswer = async (
   // requested quality is coherent with the verb (e.g. a Tier-2 'Describe' question
   // tops out below Band 6, and we should never ask for a "Band 6 exemplar" there).
   const termInfo = getCommandTermInfo(prompt.verb);
-  const targetBand = getBandForMark(mark, prompt.totalMarks, termInfo.tier);
+  const targetBand = promptBandForMark(prompt, mark);
   const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier);
 
   let qualityInstruction = '';
@@ -1807,7 +1802,7 @@ export const generateSampleAnswer = async (
     id: generateId('sa'),
     answer: data.answer,
     mark: mark,
-    band: targetBand, // Tier-aware band (see getBandForMark)
+    band: targetBand, // Tier-aware band (see promptBandForMark)
     source: 'AI',
     feedback: data.feedback,
   };

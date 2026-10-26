@@ -19,9 +19,8 @@ import type { Course, PromptVerb } from '../../types';
 /**
  * A mark is only a band step while a question is short. At 12 marks an Explain
  * has three bands four marks apart, so an 8 and a 12 read as the same result.
- * An extended response (15+ marks) reaches all six bands whatever its verb, but
- * NESA marks it on a sustained, judged argument, which a low-tier verb does not
- * ask for. The floor keeps both combinations from being created, and these tests
+ * An extended response (15+ marks) is marked on a sustained, judged argument,
+ * which a low-tier verb does not ask for. The floor keeps both combinations from being created, and these tests
  * hold the places that create questions to it.
  */
 describe('minimum verb tier by length', () => {
@@ -82,7 +81,7 @@ describe('minimum verb tier by length', () => {
     expect(note).toContain('split');
   });
 
-  it('gives an extended response the task as the reason, since every verb reaches Band 6 there', () => {
+  it('gives an extended response the task as the reason', () => {
     const note = lengthMismatchNote('EXPLAIN' as PromptVerb, 20);
     expect(note).toContain('20-mark extended response');
     expect(note).toContain('DISCUSS');
@@ -106,21 +105,19 @@ describe('minimum verb tier by length', () => {
     expect(fitVerbsToLength([explain], 5).map((v) => v.term)).toEqual(['EXPLAIN']);
   });
 
-  it('gives a long question the ladder NESA’s own samples sit on', () => {
-    // An extended response reaches Band 6 whatever its verb. Over 20 marks Band 6
-    // is 17-20, the top range of NESA's guidelines, and each band border falls
-    // where NESA's border samples for 2012 Business Studies Question 26 were
-    // marked (projectDocs/calibration-pilot.md).
+  it('caps every question at its verb’s tier, so NESA’s five rows fall one to a band', () => {
+    // The ceiling is the verb's tier whatever the length: the colour the Writing
+    // Prompt draws, on every surface. A 20-mark DISCUSS then reads NESA's
+    // 17-20 / 13-16 / 9-12 / 5-8 / 1-4 guide exactly, one row per band.
     expect(bandMarkRanges(20, 5).map((r) => `B${r.band} ${r.lo}-${r.hi}`)).toEqual([
-      'B6 17-20',
-      'B5 14-16',
-      'B4 11-13',
-      'B3 7-10',
-      'B2 4-6',
-      'B1 1-3',
+      'B5 17-20',
+      'B4 13-16',
+      'B3 9-12',
+      'B2 5-8',
+      'B1 1-4',
     ]);
-    expect(getQuestionBandCeiling(EXTENDED_RESPONSE_MARKS, 5)).toBe(6);
-    expect(getQuestionBandCeiling(EXTENDED_RESPONSE_MARKS - 1, 5)).toBe(5);
+    expect(getQuestionBandCeiling(EXTENDED_RESPONSE_MARKS, 5)).toBe(5);
+    expect(getQuestionBandCeiling(25, 6)).toBe(6);
     expect(getQuestionBandCeiling(4, 2)).toBe(2);
   });
 

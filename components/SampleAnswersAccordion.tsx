@@ -2,7 +2,8 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo } from '../data/commandTerms';
+import { promptBandForMark } from '../utils/guideBands';
 import { AccordionSection } from './ReferenceMaterials';
 import { LadderRowGutter, ladderBandVars } from './LadderRow';
 import {
@@ -132,7 +133,7 @@ const countWords = (text: string | undefined): number =>
 interface GroupedSampleAnswers {
   mark: number;
   answers: SampleAnswer[];
-  /** Band for this mark level, derived via the Verb Gate (getBandForMark). */
+  /** Band for this mark level, derived via the Verb Gate (promptBandForMark). */
   calculatedBand: number;
 }
 
@@ -352,7 +353,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
 
     const currentSample = group.answers[currentIndex];
     const safeAnswer = currentSample?.answer || '';
-    // Band number AND colour both come from the Verb Gate (getBandForMark) —
+    // Band number AND colour both come from the Verb Gate (promptBandForMark) —
     // so a Band 5 is always blue, and this row mirrors the Marking Guide's row
     // for the same mark exactly.
     const displayBand = group.calculatedBand;
@@ -965,14 +966,14 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         groups[sa.mark] = {
           mark: sa.mark,
           answers: [],
-          calculatedBand: getBandForMark(sa.mark, prompt.totalMarks, tier),
+          calculatedBand: promptBandForMark(prompt, sa.mark),
         };
       }
       groups[sa.mark].answers.push(sa);
     });
     Object.values(groups).forEach((g) => g.answers.sort(byTrustworthiness));
     return Object.values(groups).sort((a, b) => b.mark - a.mark);
-  }, [prompt.sampleAnswers, prompt.totalMarks, tier]);
+  }, [prompt]);
 
   // The marks already on the question, for the revision dialog. A fresh array per
   // render would hand that dialog a new prop every time the panel re-renders.

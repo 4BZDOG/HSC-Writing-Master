@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { promptBandForMark } from '../utils/guideBands';
 import { X, Save, AlertCircle, Award, FileText } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { useEscapeKey } from '../hooks/useEscapeKey';
@@ -68,7 +69,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
   const handleMarkChange = (val: number) => {
     setMark(val);
     // Auto-calculate suggested band based on mark, but user can override
-    const suggestedBand = getBandForMark(val, prompt.totalMarks, commandTermInfo.tier);
+    const suggestedBand = promptBandForMark(prompt, val);
     setBand(suggestedBand);
   };
 
