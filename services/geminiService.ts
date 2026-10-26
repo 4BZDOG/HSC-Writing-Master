@@ -43,8 +43,16 @@ import { generateId } from '../utils/idUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
 import { guideLadderProblem } from '../utils/markingGuideLadder';
-import { capOutcomeLinks, OUTCOME_LINK_RULE } from '../utils/outcomeCodes';
 import { promptBandForMark } from '../utils/guideBands';
+import { capOutcomeLinks, OUTCOME_LINK_RULE } from '../utils/outcomeCodes';
+import {
+  buildGuideCalibrationBrief,
+  buildQuestionCalibrationBrief,
+  buildSampleCalibrationBrief,
+  locatePrompt,
+  selectCalibrationExamples,
+} from '../utils/pastPaperCalibration';
+import { buildScenarioRules, SCENARIO_TYPE_BRIEF } from '../utils/scenarioConventions';
 import {
   formatMarkingCriteria,
   normalizeSyllabusStructure,
@@ -724,6 +732,8 @@ Outcomes: ${OUTCOME_LINK_RULE}
 ${contextBlock}
 ${keywordInstruction(targetBand, !!contextBlock)}
 
+${buildScenarioRules(context.name)}
+
 Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": string[] }`,
         },
       ],
@@ -751,13 +761,21 @@ Return JSON: { "scenario": string, "keywords": string[], "linkedOutcomes": strin
 };
 
 export const generateScenarioForPrompt = async (prompt: Prompt): Promise<string> => {
+  // The question alone was all this had, so a Legal Studies question got the same
+  // invented cast of characters a Business Studies one did. The course decides the
+  // conventions, and the library knows the course.
+  const courseName = locatePrompt(prompt.id)?.courseName ?? '';
   const request = {
     ...aiTarget('basic'),
     __feature: 'aiContentStudio',
     contents: {
       parts: [
         {
-          text: `Write a realistic scenario (2-3 sentences) for this exam question: "${prompt.question}".`,
+          text:
+            `Write a realistic scenario (2-3 sentences) for this ${courseName ? `${courseName} ` : ''}` +
+            `exam question (${prompt.totalMarks} marks): "${prompt.question}".\n` +
+            'Return only the scenario text.\n\n' +
+            buildScenarioRules(courseName),
         },
       ],
     },
@@ -1402,7 +1420,7 @@ export const refineManualPrompt = async (
                        - 7+ marks: Evaluate, Assess, Justify, Discuss, Critically Analyse.`;
 
   const scenarioInstruction = includeScenario
-    ? `3. **Create a Scenario**: Write a realistic, industry-relevant scenario (Who/What/Why) that gives context to the question.`
+    ? `3. **Create a Scenario**: Write a short, realistic scenario that gives the question its context, following the scenario conventions below.\n${buildScenarioRules(courseName)}`
     : `3. **No Scenario**: This is a direct question with no case-study framing. The stem must stand on its own. Return scenario as an empty string.`;
 
   const availableOutcomes = pinnedOutcomes.length
@@ -1417,6 +1435,10 @@ export const refineManualPrompt = async (
   const dotPointBlock = dotPoint
     ? `Syllabus Dot Point: "${dotPoint}" — the question must sit within this content, not beside it.`
     : '';
+
+  const calibrationBrief = buildQuestionCalibrationBrief(
+    selectCalibrationExamples({ courseName, topicName, dotPoint, marks: targetMarks })
+  );
 
   const request = {
     ...aiTarget('reasoning'),
@@ -1447,6 +1469,8 @@ export const refineManualPrompt = async (
                     ${outcomeInstruction}
                     5. **Marking Criteria**: ${buildMarkingCriteriaInstruction(targetMarks, pinnedVerbInfo?.tier ?? (targetMarks >= 7 ? 5 : 4), pinnedVerbInfo?.term)}
                     6. **Keywords**: Extract 5-10 key technical terms.
+
+                    ${calibrationBrief}
 
                     **OUTPUT:**
                     Return valid JSON matching the schema.
@@ -1581,8 +1605,19 @@ export const generateNewPrompt = async (
   // a manufactured context. When scenarios are off, we tell the model not to
   // write one, drop it from the required schema fields, and force it empty.
   const scenarioLine = includeScenario
-    ? `- scenario (A realistic context paragraph)`
+    ? `- scenario (A short, realistic context, written to the scenario conventions above)`
     : `- Do NOT write a scenario. This is a direct question with no case-study context. Return scenario as an empty string.`;
+
+  // Real past questions from this course (or, failing that, from others) show the
+  // model the paper it is writing for; see utils/pastPaperCalibration.ts.
+  const calibrationBrief = buildQuestionCalibrationBrief(
+    selectCalibrationExamples({ courseName, topicName, dotPoint, marks })
+  );
+  // The modal sends an id ("financial", "random"); the model needs the words.
+  const scenarioTypeLine =
+    includeScenario && scenarioType
+      ? `Scenario Type: ${SCENARIO_TYPE_BRIEF[scenarioType] ?? scenarioType}`
+      : '';
 
   const request = {
     ...aiTarget('reasoning'),
@@ -1600,7 +1635,7 @@ export const generateNewPrompt = async (
                     Target Marks: ${marks}
                     ${verbInstruction}
                     ${focusBlock}
-                    ${includeScenario && scenarioType ? `Scenario Type: ${scenarioType}` : ''}
+                    ${scenarioTypeLine}
                     ${skillFocus ? `Skill Focus: ${skillFocus}` : ''}
                     ${targetBand ? `Target Band Difficulty: ${targetBand}` : ''}
                     ${includeScenario ? '' : 'This is a scenario-free question: the stem must stand on its own without any case study, business, or narrative framing.'}
@@ -1608,6 +1643,10 @@ export const generateNewPrompt = async (
                     ${verbs.length === 1 && primaryVerb ? `CRITICAL VERB RULE: The question text MUST use the command verb "${primaryVerb}" as its directive. The question stem should begin with or be built around this verb. Do NOT substitute a different verb, even if the syllabus dot point uses a different one. The verb field in the JSON MUST be "${primaryVerb}".` : ''}
                     The marking criteria MUST reflect the cognitive demand of the chosen command verb — the depth of analysis, evaluation, or reasoning expected must match the verb's tier.
                     Use British/Australian English throughout (e.g. analyse, organise, colour, behaviour, programme, centre, defence, judgement).
+
+                    ${includeScenario ? buildScenarioRules(courseName) : ''}
+
+                    ${calibrationBrief}
 
                     Generate a JSON object with:
                     - question (The exam question text${verbs.length === 1 && primaryVerb ? ` — MUST use the command verb ${primaryVerb}` : ''})
@@ -1693,6 +1732,16 @@ export const generateSampleAnswer = async (
   }
 
   const scopeBrief = buildSampleScopeBrief(prompt, mark, termInfo, syllabus);
+  // The marking guide the answer is held to. The generator was told the mark and
+  // the band but never shown the rows, so an answer could be "a 4" in general and
+  // miss what this question's 4-mark row asks for.
+  const guideBlock = prompt.markingCriteria?.trim()
+    ? `- Marking guide (write to the row that awards ${mark}):\n${prompt.markingCriteria
+        .split('\n')
+        .map((row) => `                      ${row.trim()}`)
+        .join('\n')}`
+    : '';
+  const sampleCalibration = buildSampleCalibrationBrief(prompt, mark);
 
   // Everything already on this question, plus whatever the caller has written
   // in the current batch and not yet saved. The batch answers arrive in
@@ -1757,8 +1806,10 @@ export const generateSampleAnswer = async (
                     - Verb: ${prompt.verb} (Tier ${termInfo.tier})
                     - Scenario: ${prompt.scenario || 'None'}
                     - Target Mark: ${mark}/${prompt.totalMarks}
+                    ${guideBlock}
 
                     ${scopeBrief}
+                    ${sampleCalibration}
                     ${ladderBrief}
                     ${siblingBrief}
 
@@ -2275,6 +2326,20 @@ export const generateRubricForPrompt = async (
   outcomes: CourseOutcome[]
 ): Promise<string> => {
   const termInfo = getCommandTermInfo(prompt.verb);
+  // Real NESA guides at similar marks, for wording: from this course where it has
+  // past papers, otherwise from others. Never the question's own guide.
+  const place = locatePrompt(prompt.id);
+  const guideBrief = place
+    ? buildGuideCalibrationBrief(
+        selectCalibrationExamples({
+          courseName: place.courseName,
+          topicName: place.topicName,
+          dotPoint: place.dotPoint,
+          marks: prompt.totalMarks,
+          excludePromptId: prompt.id,
+        })
+      )
+    : '';
   // Extended-response rubrics (>6 marks) need genuine band discrimination —
   // worth the reasoning engine. Short per-mark rubrics stay on the basic tier.
   const request = {
@@ -2294,6 +2359,8 @@ export const generateRubricForPrompt = async (
 
                        - For full marks, criteria MUST demand the full cognitive depth of '${prompt.verb}' (e.g. if Analyse, must require 'relationship/implication', not just 'description').
                        - Lower marks should reflect a progressive drop in cognitive skill (e.g. 'Describes' instead of 'Explains').
+
+                       ${guideBrief}
 
                        Do NOT use bullet points, headings, or paragraphs.`,
         },

@@ -51,7 +51,9 @@ describe('generateNewPrompt scenario handling', () => {
     // The request asks for a scenario and marks it required.
     const body = bodyOf(fetchMock);
     const sent = JSON.stringify(body);
-    expect(sent).toContain('A realistic context paragraph');
+    expect(sent).toContain('- scenario (A short, realistic context');
+    // …and the conventions it is written to.
+    expect(sent).toContain('SCENARIO CONVENTIONS');
     const required = body.config.responseSchema.required as string[];
     expect(required).toContain('scenario');
   });

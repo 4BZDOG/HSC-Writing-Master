@@ -912,7 +912,11 @@
                       "identity theft",
                       "organised crime",
                       "property crime",
-                      "family violence"
+                      "family violence",
+                      "online fraud",
+                      "motor vehicle theft",
+                      "dwelling break-ins",
+                      "digital investigation"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained analysis of how the nature and types of crime have changed, linking technology and globalisation to the effects on individuals and society, with precise examples\n5-6 marks: Analyses at least two changes in the nature or types of crime with accurate examples and some explanation of their effects\n3-4 marks: Describes changes in crime with some accuracy and limited analysis of their effects\n1-2 marks: Makes a basic or general statement about crime",
                     "sampleAnswers": [
@@ -966,7 +970,10 @@
                       "identity theft",
                       "property crime",
                       "crime statistics",
-                      "digital investigation"
+                      "digital investigation",
+                      "dwelling break-ins",
+                      "online fraud",
+                      "digital offences"
                     ],
                     "markingCriteria": "4 marks: Accurately describes two changes in the types of crime, with a clear example of each and an indication of how each affects police or courts\n3 marks: Accurately describes two changes in the types of crime with an example for one\n2 marks: Identifies two changes in the types of crime with little or no description\n1 mark: Identifies one change in crime in general terms",
                     "sampleAnswers": [
@@ -1083,7 +1090,10 @@
                       "peer influence",
                       "family background",
                       "substance abuse",
-                      "early intervention"
+                      "early intervention",
+                      "criminal behaviour",
+                      "legitimate opportunities",
+                      "supervised activities"
                     ],
                     "markingCriteria": "4 marks: Applies two relevant factors to the scenario and explains precisely how the program addresses each one\n3 marks: Applies two relevant factors to the scenario with some explanation of how the program responds\n2 marks: Applies one relevant factor to the scenario with a brief link to the program\n1 mark: Makes a general statement about the program without applying a factor",
                     "sampleAnswers": [
@@ -1144,7 +1154,10 @@
                       "crime prevention",
                       "situational crime prevention",
                       "CCTV",
-                      "natural surveillance"
+                      "natural surveillance",
+                      "opportunistic theft",
+                      "victimisation",
+                      "secure design"
                     ],
                     "markingCriteria": "7-8 marks: Discusses the importance of both situational and social crime prevention, weighing their strengths and limits in a reasoned conclusion about their relative importance and how they work together\n5-6 marks: Discusses the importance of both forms of prevention with accurate examples and some consideration of their limits\n4 marks: Describes both forms of prevention with some accuracy and limited discussion of their importance\n2-3 marks: Identifies situational or social crime prevention with a basic example\n1 mark: Makes a general statement about preventing crime",
                     "sampleAnswers": [
@@ -1199,7 +1212,10 @@
                       "natural surveillance",
                       "CCTV",
                       "target hardening",
-                      "lighting"
+                      "lighting",
+                      "theft from vehicles",
+                      "clear sightlines",
+                      "secure parking"
                     ],
                     "markingCriteria": "6 marks: Explains how several situational crime prevention measures would change the opportunity for theft, linking each measure to its effect on offenders and an accurate evaluation of its limits\n5 marks: Explains several measures and how each reduces opportunity for theft, with an accurate example\n4 marks: Explains two measures with some reasoning about how each reduces theft\n3 marks: Describes measures with limited explanation of their effect\n2 marks: Identifies measures without explanation\n1 mark: Makes a general statement about security",
                     "sampleAnswers": [
@@ -1265,7 +1281,10 @@
                       "protecting the community",
                       "rule of law",
                       "police",
-                      "evidence"
+                      "evidence",
+                      "warrant",
+                      "CCTV footage",
+                      "fingerprints"
                     ],
                     "markingCriteria": "4 marks: Accurately describes all three roles of police with a concrete example of each and how each applies to the scenario\n3 marks: Accurately describes two roles of police with an example for each\n2 marks: Identifies two roles of police with little description\n1 mark: Makes a general statement about what police do",
                     "sampleAnswers": [
@@ -1320,7 +1339,10 @@
                       "protecting the community",
                       "rule of law",
                       "reasonable force",
-                      "public order"
+                      "public order",
+                      "proportionate",
+                      "arrest",
+                      "legitimacy"
                     ],
                     "markingCriteria": "6 marks: Explains how police balance the two duties in response to the disturbance, with accurate examples of lawful and proportionate action and a judgement on the tension between them\n5 marks: Explains how police balance both duties with accurate examples and clear reasoning\n4 marks: Explains both duties and the tension between them with some reasoning\n3 marks: Describes each duty with limited explanation of the balance\n2 marks: Identifies a duty of police without explanation\n1 mark: Makes a general statement about police responsibilities",
                     "sampleAnswers": [
@@ -1437,7 +1459,9 @@
                       "warrant",
                       "reasonable suspicion",
                       "lawful basis",
-                      "evidence"
+                      "evidence",
+                      "without a warrant",
+                      "stolen goods"
                     ],
                     "markingCriteria": "4 marks: Applies the reasonable suspicion requirement and the role of a warrant to the scenario facts and reaches a supported conclusion about the search\n3 marks: Applies the requirement for reasonable suspicion to the facts and reaches a conclusion with some reasoning\n2 marks: States the reasonable suspicion requirement and makes a brief application to the facts\n1 mark: Makes a general statement about police searches without applying the rules",
                     "sampleAnswers": [
@@ -1498,7 +1522,10 @@
                       "warnings",
                       "cautions",
                       "fines",
-                      "diversion"
+                      "diversion",
+                      "penalty notices",
+                      "Young Offenders Act",
+                      "rehabilitation"
                     ],
                     "markingCriteria": "6 marks: Explains police discretion and the options of warnings, cautions and fines, with reasoned evaluation of the benefits and the risks of inconsistency\n5 marks: Explains police discretion and each option with accurate examples and some evaluation\n4 marks: Explains the role of discretion and at least two options with reasonable accuracy\n3 marks: Describes discretion or one option with limited explanation\n2 marks: Identifies options without explanation\n1 mark: Makes a general statement about police responses to offences",
                     "sampleAnswers": [
@@ -1552,7 +1579,9 @@
                       "caution",
                       "discretion",
                       "informal",
-                      "formal"
+                      "formal",
+                      "recorded response",
+                      "serious consequence"
                     ],
                     "markingCriteria": "3 marks: Clarifies the difference between a warning and a caution, identifying how each is formal or informal and when each is used\n2 marks: States the difference between a warning and a caution with a brief indication of when each is used\n1 mark: Makes a general statement about police responses",
                     "sampleAnswers": [
@@ -1613,7 +1642,10 @@
                       "right to silence",
                       "presumption of innocence",
                       "legal representation",
-                      "admissible evidence"
+                      "admissible evidence",
+                      "beyond reasonable doubt",
+                      "self-incrimination",
+                      "Evidence Act 1995"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained assessment of how far the rights of the accused are recognised in law and practice, weighing the right to silence and its limits against other safeguards and reaching a supported judgement\n5-6 marks: Assesses the right to silence and at least one other right of the accused with accurate detail and a judgement on their effectiveness, developed at the top of the band and limited at the bottom\n4 marks: Discusses the rights of the accused with some accurate detail and a limited judgement\n2-3 marks: Describes or identifies the right to silence or another right of the accused with a brief example and little or no judgement\n1 mark: Makes a general statement about rights in the criminal justice system",
                     "sampleAnswers": [
@@ -1668,7 +1700,9 @@
                       "self-incrimination",
                       "legal advice",
                       "admissions",
-                      "suspect"
+                      "suspect",
+                      "Evidence Act 1995",
+                      "forced confessions"
                     ],
                     "markingCriteria": "6-7 marks: Examines in detail how the right to silence protects or affects the suspect, linking the scenario to the risks of admissions and the role of legal advice, with accurate use of legal concepts\n4-5 marks: Examines the effect of the right to silence on the suspect with accurate reasoning and some link to the scenario\n2-3 marks: Describes the right to silence with a brief link to the questioning\n1 mark: Makes a general statement about the right to silence",
                     "sampleAnswers": [
@@ -1729,7 +1763,10 @@
                       "advocacy",
                       "victims",
                       "Legal Aid NSW",
-                      "victim support"
+                      "victim support",
+                      "duty solicitor",
+                      "community legal centres",
+                      "counselling"
                     ],
                     "markingCriteria": "4 marks: Accurately describes support measures for both the accused and victims, with a concrete example of each and an explanation of what each measure does\n3 marks: Accurately describes support measures for both groups with an example for one\n2 marks: Identifies two support measures with little description\n1 mark: Makes a general statement about helping people involved in crime",
                     "sampleAnswers": [
@@ -1784,7 +1821,10 @@
                       "advocacy",
                       "victims",
                       "criminal justice",
-                      "fairness"
+                      "fairness",
+                      "victim impact statement",
+                      "sentencing",
+                      "plea"
                     ],
                     "markingCriteria": "5 marks: Analyses how support measures for accused people and for victims affect fairness, drawing out relationships and consequences for each group and for the process as a whole\n4 marks: Analyses the effect of support measures on fairness for at least one group, with clear reasoning\n3 marks: Explains how support measures affect fairness for both groups, with limited analysis\n2 marks: Describes support measures with a brief link to fairness\n1 mark: Makes a general statement about fairness",
                     "sampleAnswers": [
@@ -1851,7 +1891,10 @@
                       "charge",
                       "plea",
                       "court hearing",
-                      "brief of evidence"
+                      "brief of evidence",
+                      "plea of guilty",
+                      "exchange of evidence",
+                      "legal advice"
                     ],
                     "markingCriteria": "6 marks: Explains the roles of pre-trial processes and decisions and their impact on the accused, victims and the court, with accurate examples and a reasoned comment on their effect on fairness\n5 marks: Explains several pre-trial processes and their impact with accurate examples and some reasoning\n4 marks: Explains at least two pre-trial processes and their role, with some comment on impact\n3 marks: Describes pre-trial processes with limited explanation of impact\n2 marks: Identifies pre-trial processes without explanation\n1 mark: Makes a general statement about what happens before trial",
                     "sampleAnswers": [
@@ -1906,7 +1949,10 @@
                       "plea of guilty",
                       "plea of not guilty",
                       "trial",
-                      "court hearing"
+                      "court hearing",
+                      "sentencing",
+                      "exchange of evidence",
+                      "admission"
                     ],
                     "markingCriteria": "4 marks: Distinguishes between a plea of guilty and a plea of not guilty, explaining the effect of each on the pre-trial process and the trial\n3 marks: Distinguishes the two pleas with an accurate explanation of the effect of one\n2 marks: States the difference between the two pleas with little explanation\n1 mark: Makes a general statement about pleas",
                     "sampleAnswers": [
@@ -1967,7 +2013,10 @@
                       "presumption of innocence",
                       "bail conditions",
                       "Bail Act 2013 (NSW)",
-                      "unacceptable risk"
+                      "unacceptable risk",
+                      "show cause",
+                      "fail to appear",
+                      "individual liberty"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained analysis of the bail process, linking the test for bail and bail conditions to the presumption of innocence and to the consequences for the accused, with accurate reference to the Bail Act 2013 (NSW)\n5-6 marks: Analyses at least two features of the bail process and how they affect the presumption of innocence, with accurate examples\n3-4 marks: Describes the bail process with some explanation of its effect on the presumption of innocence\n1-2 marks: Makes a basic or general statement about bail",
                     "sampleAnswers": [
@@ -2021,7 +2070,10 @@
                       "unacceptable risk",
                       "bail conditions",
                       "Bail Act 2013 (NSW)",
-                      "community protection"
+                      "community protection",
+                      "fail to appear",
+                      "interfering with witnesses",
+                      "breaches of bail"
                     ],
                     "markingCriteria": "3 marks: Accurately describes at least three factors a court considers, including the unacceptable risk test and bail conditions, with a brief explanation of each\n2 marks: Describes two factors a court considers with some accuracy\n1 mark: Identifies one factor a court considers",
                     "sampleAnswers": [
@@ -2082,7 +2134,11 @@
                       "custody",
                       "presumption of innocence",
                       "overcrowding",
-                      "rehabilitation"
+                      "rehabilitation",
+                      "unacceptable risk",
+                      "bail supervision",
+                      "correctional centres",
+                      "plead guilty"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained assessment of the role of remand and its impact on the accused and on society, weighing the protection it provides against its costs and reaching a supported judgement about its use\n5-6 marks: Assesses the role of remand and at least one impact on the accused or on society with accurate detail and a judgement, developed at the top of the band and limited at the bottom\n4 marks: Discusses the role of remand and an impact on the accused with some accurate detail and a limited judgement\n2-3 marks: Describes the role of remand and its impact with limited assessment, or identifies one impact with a brief example\n1 mark: Makes a general statement about custody before trial",
                     "sampleAnswers": [
@@ -2137,7 +2193,11 @@
                       "justified",
                       "presumption of innocence",
                       "custody",
-                      "alternatives to custody"
+                      "alternatives to custody",
+                      "unacceptable risk",
+                      "fail to appear",
+                      "electronic monitoring",
+                      "non-custodial sentences"
                     ],
                     "markingCriteria": "5 marks: Discusses whether remand is justified, weighing the protective purpose against the presumption of innocence and the alternatives to custody, with a reasoned conclusion\n4 marks: Discusses the justification for remand with some weighing of its purpose and its effect on the presumption of innocence\n3 marks: Discusses one reason remand may be justified and one limitation\n2 marks: Identifies a reason for or against remand\n1 mark: Makes a general statement about remand",
                     "sampleAnswers": [
@@ -2204,7 +2264,11 @@
                       "appeal",
                       "District Court",
                       "Court of Criminal Appeal",
-                      "Local Court"
+                      "Local Court",
+                      "miscarriage of justice",
+                      "error of law",
+                      "indictable offences",
+                      "Supreme Court"
                     ],
                     "markingCriteria": "6 marks: Explains the reasons for the criminal court hierarchy and how it operates, including the appeal process, with accurate reference to each court and a reasoned comment on its effect\n5 marks: Explains the reasons for and the operation of the hierarchy with accurate examples of the appeal process\n4 marks: Explains how the hierarchy operates with some reasons and a description of the appeal process\n3 marks: Describes courts in the hierarchy with limited explanation\n2 marks: Identifies two courts or appeal processes without explanation\n1 mark: Makes a general statement about courts",
                     "sampleAnswers": [
@@ -2259,7 +2323,10 @@
                       "appeal",
                       "special leave",
                       "Court of Criminal Appeal",
-                      "precedent"
+                      "precedent",
+                      "final court of appeal",
+                      "question of law",
+                      "Judiciary Act 1903 (Cth)"
                     ],
                     "markingCriteria": "4 marks: Outlines the High Court's role as the final appeal court, including the requirement of special leave and the effect of its decisions on lower courts\n3 marks: Outlines the High Court's role as a final appeal court and one key feature of how it hears appeals\n2 marks: Identifies two features of the High Court's role with little explanation\n1 mark: Makes a general statement about the High Court",
                     "sampleAnswers": [
@@ -2376,7 +2443,10 @@
                       "prosecution",
                       "defence",
                       "burden of proof",
-                      "beyond reasonable doubt"
+                      "beyond reasonable doubt",
+                      "standard of proof",
+                      "admissibility of evidence",
+                      "neutral decision-maker"
                     ],
                     "markingCriteria": "6 marks: Explains how the prosecution and defence each operate in an adversarial trial, including the burden of proof and the role of the decision-maker, with accurate reference to the scenario\n5 marks: Explains both roles accurately with some reference to the burden of proof\n4 marks: Explains the roles of the prosecution and defence with reasonable accuracy\n3 marks: Describes one role with limited explanation\n2 marks: Identifies the prosecution or defence without explanation\n1 mark: Makes a general statement about trials",
                     "sampleAnswers": [
@@ -2437,7 +2507,11 @@
                       "criminal charges",
                       "partial defence",
                       "self-defence",
-                      "substantial impairment"
+                      "substantial impairment",
+                      "cognitive impairment",
+                      "manslaughter",
+                      "reduced culpability",
+                      "Crimes Act 1900 (NSW)"
                     ],
                     "markingCriteria": "6 marks: Explains the use of complete and partial defences to criminal charges, with accurate examples and a reasoned comment on how they balance the rights of the accused against community expectations\n5 marks: Explains both types of defence with accurate examples and some reasoning about their use\n4 marks: Explains the difference between complete and partial defences with some examples\n3 marks: Describes one type of defence with limited explanation\n2 marks: Identifies a defence without explanation\n1 mark: Makes a general statement about defences",
                     "sampleAnswers": [
@@ -2492,7 +2566,10 @@
                       "partial defence",
                       "criminal trial",
                       "manslaughter",
-                      "acquittal"
+                      "acquittal",
+                      "reduced culpability",
+                      "self-defence",
+                      "lesser charge"
                     ],
                     "markingCriteria": "4 marks: Contrasts a complete defence and a partial defence, explaining the different legal effect of each on liability and the verdict at a criminal trial\n3 marks: Contrasts the two defences with an accurate explanation of the effect of each\n2 marks: States a difference between the two defences with little explanation\n1 mark: Makes a general statement about defences",
                     "sampleAnswers": [
@@ -2553,7 +2630,11 @@
                       "judge-alone trial",
                       "community participation",
                       "impartiality",
-                      "complex trial"
+                      "complex trial",
+                      "wrongful conviction",
+                      "written reasons",
+                      "technical evidence",
+                      "interests of justice"
                     ],
                     "markingCriteria": "7-8 marks: Discusses reasons for and against juries and judge-alone trials, weighing them against the nature of the case and reaching a reasoned conclusion about their use\n5-6 marks: Discusses reasons for and against both forms of trial with accurate examples and some consideration of their value\n4 marks: Discusses reasons for and against with limited accuracy and little weighing of the arguments\n2-3 marks: Identifies a reason for or against one form of trial with a brief example\n1 mark: Makes a general statement about trials",
                     "sampleAnswers": [
@@ -2608,7 +2689,11 @@
                       "complex",
                       "fraud",
                       "jury",
-                      "impartiality"
+                      "impartiality",
+                      "written reasons",
+                      "legal training",
+                      "community participation",
+                      "prejudicial material"
                     ],
                     "markingCriteria": "5 marks: Explains several reasons an accused might prefer a judge-alone trial in a complex fraud matter, with accurate reasoning about the nature of the evidence and the benefits and risks of each form of trial\n4 marks: Explains at least two reasons with accurate reasoning and a link to the scenario\n3 marks: Explains one reason with some accuracy\n2 marks: Identifies a reason without explanation\n1 mark: Makes a general statement about trials",
                     "sampleAnswers": [
@@ -2669,7 +2754,10 @@
                       "access to justice",
                       "means test",
                       "merit test",
-                      "duty lawyer"
+                      "duty lawyer",
+                      "full grant",
+                      "first appearance",
+                      "full representation"
                     ],
                     "markingCriteria": "5 marks: Explains how legal aid is provided and how it improves access to justice, with accurate reference to eligibility tests and the scenario, and a reasoned comment on its limits\n4 marks: Explains how legal aid is provided and how it improves access to justice, with accurate detail\n3 marks: Explains the provision of legal aid with some reference to its effect on access to justice\n2 marks: Describes legal aid with limited explanation of access to justice\n1 mark: Identifies legal aid or a service without explanation",
                     "sampleAnswers": [
@@ -2724,7 +2812,10 @@
                       "access to justice",
                       "funding",
                       "community legal centres",
-                      "self-representation"
+                      "self-representation",
+                      "early legal advice",
+                      "civil matters",
+                      "pleads guilty"
                     ],
                     "markingCriteria": "6 marks: Justifies a clear position on whether increased legal aid funding is the most effective way to improve access to justice, weighing alternatives such as community legal centres and supporting the position with accurate reasoning\n5 marks: Justifies a position with reasoning that considers at least one alternative\n4 marks: Justifies a position with some reasoning and limited consideration of alternatives\n3 marks: Describes the effect of legal aid funding on access to justice with a brief position\n2 marks: Identifies a reason related to legal aid without a position\n1 mark: Makes a general statement about legal services",
                     "sampleAnswers": [
@@ -2785,7 +2876,11 @@
                       "access to justice",
                       "advocacy",
                       "support services",
-                      "Aboriginal Legal Service"
+                      "Aboriginal Legal Service",
+                      "court support",
+                      "culturally appropriate",
+                      "kinship obligations",
+                      "geographic isolation"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained assessment of the impact of support services and advocacy on access to justice, weighing their benefits against barriers and funding limits, and reaching a supported judgement\n5-6 marks: Assesses the impact of support services and advocacy on access to justice with accurate detail and a judgement, developed at the top of the band and limited at the bottom\n4 marks: Discusses the impact of support services and advocacy with accurate detail and a limited judgement\n2-3 marks: Describes support services and advocacy with limited assessment of their impact, or identifies one service or form of advocacy with a brief example\n1 mark: Makes a general statement about access to justice",
                     "sampleAnswers": [
@@ -2839,7 +2934,10 @@
                       "Aboriginal and Torres Strait Islander Peoples",
                       "access to justice",
                       "court support",
-                      "Aboriginal Legal Service"
+                      "Aboriginal Legal Service",
+                      "legal representation",
+                      "Aboriginal community workers",
+                      "referral agencies"
                     ],
                     "markingCriteria": "4 marks: Accurately describes two support services that help Aboriginal and Torres Strait Islander Peoples access justice, with an explanation of how each helps the person in the scenario\n3 marks: Accurately describes two support services with an explanation of one\n2 marks: Identifies two support services with little description\n1 mark: Makes a general statement about help for Aboriginal people in court",
                     "sampleAnswers": [
@@ -2906,7 +3004,11 @@
                       "deterrence",
                       "protection",
                       "rehabilitation",
-                      "victims"
+                      "victims",
+                      "general deterrence",
+                      "proportionality",
+                      "prior convictions",
+                      "custodial sentence"
                     ],
                     "markingCriteria": "9-10 marks: Makes a sustained evaluation of the purposes of sentencing and their roles in balancing the rights of victims, offenders and society, weighing each purpose against the others with precise examples and reaching an explicit, well-supported judgement\n7-8 marks: Evaluates the purposes of sentencing with accurate examples, weighing their effectiveness and reaching a judgement about balance\n6 marks: Explains the purposes of sentencing and their effects on victims, offenders and society with some evaluation and a limited judgement\n4-5 marks: Describes the purposes of sentencing and how they operate with some accuracy and little evaluation\n2-3 marks: Identifies purposes of sentencing with a brief link to victims, offenders or society\n1 mark: Makes a general statement about punishment",
                     "sampleAnswers": [
@@ -2961,7 +3063,10 @@
                       "deterrence",
                       "protection",
                       "rehabilitation",
-                      "sentencing"
+                      "sentencing",
+                      "backward-looking",
+                      "forward-looking",
+                      "future conduct"
                     ],
                     "markingCriteria": "4 marks: Classifies each purpose of sentencing as backward-looking or forward-looking, with a brief reason for each classification\n3 marks: Classifies three of the purposes correctly with a reason\n2 marks: Classifies two purposes correctly\n1 mark: Makes a general statement about the purposes of sentencing",
                     "sampleAnswers": [
@@ -3022,7 +3127,11 @@
                       "sentencing guidelines",
                       "mitigating factors",
                       "aggravating factors",
-                      "guilty plea"
+                      "guilty plea",
+                      "guideline judgments",
+                      "Court of Criminal Appeal",
+                      "good character",
+                      "prior record"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained analysis of how statutory and judicial guidelines, aggravating and mitigating factors and judicial discretion interact to shape a sentencing decision, with precise examples and a reasoned judgement about consistency and fairness\n5-6 marks: Analyses at least two of the factors affecting a sentencing decision and their effect on the sentence, with accurate examples\n3-4 marks: Describes the factors affecting sentencing with some explanation of their effect\n1-2 marks: Makes a basic or general statement about sentencing",
                     "sampleAnswers": [
@@ -3077,7 +3186,10 @@
                       "mitigating factors",
                       "first-time offender",
                       "sentencing guidelines",
-                      "conditional release order"
+                      "conditional release order",
+                      "prospects of rehabilitation",
+                      "maximum penalty",
+                      "good character"
                     ],
                     "markingCriteria": "6 marks: Explains how a judge uses judicial discretion to weigh mitigating factors for a first-time offender, linking the factors to the sentencing guidelines and the sentence options, with accurate reasoning from the scenario\n5 marks: Explains judicial discretion and at least two mitigating factors with accurate reasoning\n4 marks: Explains how judicial discretion operates and identifies a mitigating factor with some reasoning\n3 marks: Describes judicial discretion or a mitigating factor with limited explanation\n2 marks: Identifies a mitigating factor without explanation\n1 mark: Makes a general statement about sentencing",
                     "sampleAnswers": [
@@ -3138,7 +3250,10 @@
                       "sentencing",
                       "harm",
                       "emotional harm",
-                      "maximum penalty"
+                      "maximum penalty",
+                      "financial loss",
+                      "legal elements",
+                      "sentencing court"
                     ],
                     "markingCriteria": "6 marks: Explains the role of victim impact statements in sentencing and how the court considers them, including their limits, with accurate reference to the scenario and a reasoned comment on their effect\n5 marks: Explains the role and consideration of victim impact statements with accurate detail and some reference to limits\n4 marks: Explains the role of victim impact statements with some reasoning about how they are considered\n3 marks: Describes what a victim impact statement contains with limited explanation of its role\n2 marks: Identifies a feature of victim impact statements without explanation\n1 mark: Makes a general statement about victims in court",
                     "sampleAnswers": [
@@ -3192,7 +3307,10 @@
                       "sentencing",
                       "emotional harm",
                       "financial loss",
-                      "physical injury"
+                      "physical injury",
+                      "damage to property",
+                      "medical treatment",
+                      "sense of safety"
                     ],
                     "markingCriteria": "3 marks: Accurately describes at least three types of content a victim impact statement may include, with a brief explanation of how each relates to the harm caused\n2 marks: Describes two types of content with some accuracy\n1 mark: Identifies one type of content in general terms",
                     "sampleAnswers": [
@@ -3253,7 +3371,11 @@
                       "non-custodial penalties",
                       "intended outcomes",
                       "imprisonment",
-                      "re-offending"
+                      "re-offending",
+                      "community-based order",
+                      "general deterrence",
+                      "incapacitation",
+                      "high-risk offenders"
                     ],
                     "markingCriteria": "7-8 marks: Discusses the types of custodial and non-custodial penalties and the extent to which each achieves its intended outcomes, weighing their strengths and limits with accurate examples and reaching a reasoned conclusion about the scenario\n5-6 marks: Discusses several types of penalty and their intended outcomes with accurate examples and some evaluation\n4 marks: Describes custodial and non-custodial penalties with some discussion of their effectiveness\n2-3 marks: Identifies types of penalty with a brief comment on their outcomes\n1 mark: Makes a general statement about punishment",
                     "sampleAnswers": [
@@ -3308,7 +3430,10 @@
                       "custodial sentence",
                       "non-custodial",
                       "intended outcomes",
-                      "rehabilitation"
+                      "rehabilitation",
+                      "first-time offender",
+                      "pleaded guilty",
+                      "further offending"
                     ],
                     "markingCriteria": "5 marks: Explains several reasons a court might impose a conditional release order rather than a short custodial sentence, linking them to the intended outcomes of sentencing and to the facts of the scenario\n4 marks: Explains at least two reasons with accurate reasoning and a link to the scenario\n3 marks: Explains one reason with some accuracy\n2 marks: Identifies a reason without explanation\n1 mark: Makes a general statement about sentencing",
                     "sampleAnswers": [
@@ -3369,7 +3494,11 @@
                       "intervention",
                       "treatment",
                       "rehabilitation",
-                      "Drug Court"
+                      "Drug Court",
+                      "Youth Justice Conferencing",
+                      "Circle Sentencing",
+                      "drug dependence",
+                      "court supervision"
                     ],
                     "markingCriteria": "4 marks: Accurately describes at least three types of diversionary program, including intervention, treatment and rehabilitation, with a named example of each and what each aims to achieve\n3 marks: Accurately describes two types of diversionary program with an example for each\n2 marks: Identifies two types of diversionary program with little description\n1 mark: Makes a general statement about diversion",
                     "sampleAnswers": [
@@ -3423,7 +3552,9 @@
                       "intervention",
                       "treatment",
                       "Drug Court",
-                      "Youth Justice Conferencing"
+                      "Youth Justice Conferencing",
+                      "court supervision",
+                      "eligible offenders"
                     ],
                     "markingCriteria": "2 marks: Identifies two types of diversionary program, one focused on intervention and one on treatment, each with a named example\n1 mark: Identifies one type of diversionary program with a named example",
                     "sampleAnswers": [
@@ -3476,7 +3607,11 @@
                       "Aboriginal and Torres Strait Islander Peoples",
                       "Circle Sentencing",
                       "Elders",
-                      "community participation"
+                      "community participation",
+                      "kinship obligations",
+                      "cultural authority",
+                      "community knowledge",
+                      "conventional court processes"
                     ],
                     "markingCriteria": "6 marks: Explains the role of culturally appropriate options and the participation of Aboriginal and Torres Strait Islander Peoples in them, with accurate examples such as Circle Sentencing and an evaluation of their limits\n5 marks: Explains the role and participation in culturally appropriate options with accurate examples and some reasoning about outcomes\n4 marks: Explains the role of culturally appropriate options and some of the participation involved, with a limited comment on outcomes\n3 marks: Describes culturally appropriate options with limited explanation of their role\n2 marks: Identifies an option without explanation\n1 mark: Makes a general statement about Aboriginal offenders",
                     "sampleAnswers": [
@@ -3531,7 +3666,11 @@
                       "Aboriginal and Torres Strait Islander Peoples",
                       "Circle Sentencing",
                       "over-representation",
-                      "community participation"
+                      "community participation",
+                      "cultural obligations",
+                      "Elders",
+                      "custodial sentences",
+                      "breach"
                     ],
                     "markingCriteria": "5 marks: Analyses how culturally appropriate sentencing options affect outcomes for Aboriginal and Torres Strait Islander Peoples, drawing out the chain of effects on engagement, compliance and custody\n4 marks: Analyses at least one effect of culturally appropriate options on outcomes with clear reasoning\n3 marks: Explains how culturally appropriate options may improve outcomes with some reasoning\n2 marks: Describes culturally appropriate options with a brief link to outcomes\n1 mark: Makes a general statement about Aboriginal offenders",
                     "sampleAnswers": [
@@ -3592,7 +3731,11 @@
                       "recidivism",
                       "alternative approaches",
                       "diverting offenders",
-                      "evidence"
+                      "evidence",
+                      "net-widening",
+                      "Youth Justice Conferencing",
+                      "Circle Sentencing",
+                      "low-level offenders"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained assessment of the impact of diversionary programs and alternative approaches on diverting offenders and reducing recidivism, weighing their benefits against their limits, including net-widening, and reaching a supported judgement\n5-6 marks: Assesses the impact of diversion and alternative approaches on recidivism with accurate detail and a judgement, developed at the top of the band and limited at the bottom\n4 marks: Discusses the impact of diversion on recidivism with accurate detail and a limited judgement\n2-3 marks: Describes diversionary programs and alternative approaches with limited assessment of their impact, or identifies one with a brief comment on recidivism\n1 mark: Makes a general statement about sentencing",
                     "sampleAnswers": [
@@ -3647,7 +3790,11 @@
                       "cost",
                       "effectiveness",
                       "young offenders",
-                      "sentencing"
+                      "sentencing",
+                      "Youth Justice Conferencing",
+                      "reoffending outcomes",
+                      "school disengagement",
+                      "custodial sentence"
                     ],
                     "markingCriteria": "6-7 marks: Examines in detail how diversionary programs affect the cost and effectiveness of sentencing for young offenders, linking cost and effectiveness and applying the scenario with accurate reasoning\n4-5 marks: Examines the effect of diversionary programs on cost or effectiveness with accurate reasoning and some link to young offenders\n2-3 marks: Describes diversionary programs with a brief link to cost or effectiveness\n1 mark: Makes a general statement about diversion",
                     "sampleAnswers": [
@@ -3714,7 +3861,10 @@
                       "placement",
                       "correctional centre",
                       "security classification",
-                      "risk assessment"
+                      "risk assessment",
+                      "history of escape",
+                      "drug dependence",
+                      "treatment programs"
                     ],
                     "markingCriteria": "4 marks: Accurately describes how offenders are classified and placed, including the security classification, the risk assessment and the link to programs, with an example for the scenario\n3 marks: Accurately describes the classification and placement of offenders with a reason for one of the factors\n2 marks: Identifies two features of classification or placement with little description\n1 mark: Makes a general statement about prison",
                     "sampleAnswers": [
@@ -3768,7 +3918,9 @@
                       "placement",
                       "correctional centre",
                       "risk assessment",
-                      "security classification"
+                      "security classification",
+                      "history of escape",
+                      "risk to others"
                     ],
                     "markingCriteria": "2 marks: Identifies two relevant factors, such as security classification and risk assessment, with a brief reference to each\n1 mark: Identifies one relevant factor for placement",
                     "sampleAnswers": [
@@ -3821,7 +3973,11 @@
                       "conditions",
                       "State Parole Authority",
                       "supervision",
-                      "reintegration"
+                      "reintegration",
+                      "conditional release",
+                      "release plan",
+                      "supervising officer",
+                      "risk of relapse"
                     ],
                     "markingCriteria": "6 marks: Explains the purpose of parole and the conditions that may be imposed, linking the conditions to reintegration and risk management, with accurate reference to the scenario and a reasoned comment on their effect\n5 marks: Explains the purpose and conditions of parole with accurate detail and clear reasoning\n4 marks: Explains the purpose of parole and some conditions with reasonable accuracy\n3 marks: Describes parole or its conditions with limited explanation\n2 marks: Identifies a feature of parole without explanation\n1 mark: Makes a general statement about release from prison",
                     "sampleAnswers": [
@@ -3876,7 +4032,11 @@
                       "non-parole period",
                       "supervision",
                       "release",
-                      "total sentence"
+                      "total sentence",
+                      "State Parole Authority",
+                      "full custody",
+                      "minimum period",
+                      "eligible for release"
                     ],
                     "markingCriteria": "4 marks: Distinguishes between a non-parole period and a parole period, explaining the custody and supervision status of the offender in each and the role of the State Parole Authority\n3 marks: Distinguishes the two periods with an accurate explanation of one\n2 marks: States a difference between the two periods with little explanation\n1 mark: Makes a general statement about parole",
                     "sampleAnswers": [
@@ -3937,7 +4097,11 @@
                       "supervision orders",
                       "detention orders",
                       "community protection",
-                      "Crimes (High Risk Offenders) Act 2006 (NSW)"
+                      "Crimes (High Risk Offenders) Act 2006 (NSW)",
+                      "continuing detention order",
+                      "extended supervision order",
+                      "unacceptable risk",
+                      "risk assessment"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained evaluation of how detention and supervision orders operate for high-risk offenders, weighing community protection against the tensions with the offender's rights and reaching a reasoned judgement on when the orders are justified, with accurate reference to the Crimes (High Risk Offenders) Act 2006 (NSW)\n6 marks: Evaluates the use of detention and supervision orders with accurate examples and a developed judgement about their effect on community protection\n5 marks: Discusses the orders with accurate detail, at least one tension and a limited judgement\n3-4 marks: Describes detention and supervision orders with some explanation of their use\n2 marks: Makes a basic statement about one order and high-risk offenders\n1 mark: Makes a general statement about high-risk offenders",
                     "sampleAnswers": [
@@ -3992,7 +4156,10 @@
                       "community protection",
                       "supervision orders",
                       "human rights",
-                      "proportionality"
+                      "proportionality",
+                      "second punishment",
+                      "less restrictive conditions",
+                      "regular review"
                     ],
                     "markingCriteria": "5 marks: Explains the tension between community protection and the rights of high-risk offenders, linking it to the restrictions of supervision orders, the role of prediction and the principle of proportionality\n4 marks: Explains the tension with accurate reasoning and at least one link to the restrictions imposed\n3 marks: Explains one aspect of the tension with some accuracy\n2 marks: Identifies community protection or the rights of offenders without explanation\n1 mark: Makes a general statement about high-risk offenders",
                     "sampleAnswers": [
@@ -6671,7 +6838,11 @@
                       "media",
                       "defamation",
                       "suppression order",
-                      "investigative journalism"
+                      "investigative journalism",
+                      "free press",
+                      "public interest",
+                      "independent inquiry",
+                      "commercial pressures"
                     ],
                     "markingCriteria": "7-8 marks: Makes a sustained assessment of how the media promote human rights through investigation and public scrutiny, and of the limits on media reporting (such as defamation law, suppression orders, commercial pressure and bias), applies these to the scenario and reaches a supported judgement\n5-6 marks: Assesses the role of the media in promoting human rights with accurate examples and at least one clear limit, with a judgement developed at the top of the band and limited at the bottom\n4 marks: Explains the role of the media in promoting human rights, with some assessment and a limited judgement\n2-3 marks: Describes media coverage of human rights with some accuracy and limited assessment, or makes one accurate general statement about the media\n1 mark: Makes a basic or unsupported statement",
                     "sampleAnswers": [
@@ -7615,7 +7786,10 @@
                       "traditional advertising",
                       "targeted advertising",
                       "social media",
-                      "influencer marketing"
+                      "influencer marketing",
+                      "user data",
+                      "real-time responses",
+                      "broad audience"
                     ],
                     "markingCriteria": "2 marks: States two accurate differences, such as digital marketing using data to target individual users, or digital content being shared and responded to in real time, compared with traditional advertising\n1 mark: States one accurate difference without elaboration",
                     "sampleAnswers": [

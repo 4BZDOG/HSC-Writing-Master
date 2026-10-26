@@ -11,18 +11,18 @@ Related: `docs/hsc-exam-profiles.md` (what a real paper looks like per course),
 
 ## 1. Where the seed stands
 
-| Course               | Syllabus the seed follows      | Past HSC questions in the seed                                                                 | Notes                                                                                      |
-| -------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Business Studies     | 2010 (still current)           | 90 from 2020–2025: Section II parts, Section III report, Section IV (`prompt-bs-hsc-…`)        | 3 questions left out because they need a diagram or chart                                  |
-| Geography            | 2022                           | 20 from 2024–2025 (`prompt-geo-hsc-…`)                                                         | Parts that need the Stimulus Booklet are in `data/referencePapers/` only                   |
-| English Standard     | 2024 syllabus (first HSC 2027) | 2024 Paper 2 (14, `prompt-en-140`–`153`), 2025 Paper 2 and Paper 1 Section II (4, `154`–`157`) | The papers are the 2017 syllabus; module names match, so they map straight on              |
-| English Advanced     | 2024 syllabus (first HSC 2027) | 2024 Paper 2 and 2025 Paper 1 Section II (4, `prompt-ea-75`–`78`)                              | 2025 Paper 2 has 19 text-specific variants, not added                                      |
-| Software Engineering | 2022                           | none                                                                                           | NESA publishes marking guidelines only, no paper wording; kept as reference                |
-| Enterprise Computing | 2022                           | none                                                                                           | As above                                                                                   |
-| Legal Studies        | 2025 (new; not examined yet)   | none                                                                                           | 2020–2025 papers are the **2011** syllabus: kept in `data/referencePapers/` as calibration |
-| Economics            | 2025 (new)                     | none                                                                                           | Wait for the new-syllabus work                                                             |
-| Modern History       | 2024 (new)                     | none                                                                                           | As above                                                                                   |
-| Ancient History      | 2024 (new)                     | none                                                                                           | As above                                                                                   |
+| Course               | Syllabus the seed follows      | Past HSC questions in the seed                                                                                                                             | Notes                                                                                                                                         |
+| -------------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| Business Studies     | 2010 (still current)           | 90 from 2020–2025: Section II parts, Section III report, Section IV (`prompt-bs-hsc-…`)                                                                    | 3 questions left out because they need a diagram or chart                                                                                     |
+| Geography            | 2022                           | 20 from 2024–2025 (`prompt-geo-hsc-…`)                                                                                                                     | Parts that need the Stimulus Booklet are in `data/referencePapers/` only                                                                      |
+| English Standard     | 2024 syllabus (first HSC 2027) | 2024 Paper 2 (14, `prompt-en-140`–`153`), 2025 Paper 2 and Paper 1 Section II (4, `154`–`157`), 2019–2023 Paper 1 Section II and Paper 2 (74, `158`–`231`) | The papers are the 2017 syllabus; module names match, so they map straight on. 2019–2023 Paper 1 Section I is in `data/referencePapers/` only |
+| English Advanced     | 2024 syllabus (first HSC 2027) | 2024 Paper 2 and 2025 Paper 1 Section II (4, `prompt-ea-75`–`78`)                                                                                          | 2025 Paper 2 has 19 text-specific variants, not added                                                                                         |
+| Software Engineering | 2022                           | none                                                                                                                                                       | NESA publishes marking guidelines only, no paper wording; kept as reference                                                                   |
+| Enterprise Computing | 2022                           | none                                                                                                                                                       | As above                                                                                                                                      |
+| Legal Studies        | 2025 (new; not examined yet)   | none                                                                                                                                                       | 2020–2025 papers are the **2011** syllabus: kept in `data/referencePapers/` as calibration                                                    |
+| Economics            | 2025 (new)                     | none                                                                                                                                                       | Wait for the new-syllabus work                                                                                                                |
+| Modern History       | 2024 (new)                     | none                                                                                                                                                       | As above                                                                                                                                      |
+| Ancient History      | 2024 (new)                     | none                                                                                                                                                       | As above                                                                                                                                      |
 
 Structure-only courses (October 2026, no questions yet): Health and Movement Science (2023, first HSC 2026),
 Biology (2025, first HSC 2028), English Studies, English EAL/D, English Extension 1 and History Extension (all
@@ -109,6 +109,14 @@ review. Do this each time:
 - Real places and texts need sources; invented businesses are labelled "Hypothetical:".
 - Reviewers asked to "improve stems" rewrite the task. Reject changes that alter what the
   student must do (for example replacing "a text you have studied" with a named title).
+
+The 2019–2023 English Standard exemplars (October 2026) were written by Haiku writers and fact-checked by a
+second set of Haiku reviewers against Project Gutenberg (Shakespeare, Shaw, Lawson, Orwell), Wikipedia, LitCharts,
+Reading Australia and Australian Screen Online. 22 errors and 81 doubtful details were corrected or softened. Texts
+not freely available (Vertigo, Past the Shallows, Rainbow's End, Dobson, Slessor, Gray, Noonuccal, Namatjira, The
+Boy Behind the Curtain, Stasiland, Waste Land, the films) were written from secondary sources with few or no
+quotations; their scene-level detail still wants a teacher's check. Four 2021–2022 parts were left out because NESA
+withheld the stimulus for copyright (2021 3(a)–(b), 2022 2(b) and 2(h)).
 
 Still to be checked by a teacher against the printed texts: The Crucible, King Richard III
 and Nineteen Eighty-Four quotations in the 2025 English exemplars; the Geography 20-mark

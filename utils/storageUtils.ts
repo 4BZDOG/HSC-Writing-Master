@@ -74,7 +74,11 @@ import {
 // 2.21.0: that is withdrawn. A question's ceiling is its verb's tier again, and a guide written
 // in mark ranges gives one band per row (utils/guideBands.ts), so stored bands are recalculated
 // once more and every exemplar sits in the band of the guide row that holds it.
-export const DATA_VERSION = '2.21.0';
+// 2.22.0: 74 English Standard past HSC questions from the 2019–2023 papers (Paper 1 Section II and
+// Paper 2), with exemplars. Browsers at 2.21.0 sync again to receive them.
+// 2.23.0: the Syllabus Terms of 349 shipped questions that had five or fewer are broadened,
+// each new term one the question's full-mark exemplar already uses.
+export const DATA_VERSION = '2.23.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

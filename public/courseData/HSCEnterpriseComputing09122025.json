@@ -129,7 +129,10 @@
                       "user experience",
                       "UX",
                       "communicate information",
-                      "audience"
+                      "audience",
+                      "consistent layout",
+                      "clear labels",
+                      "zoom and filter"
                     ],
                     "linkedOutcomes": [
                       "EC-11-11",
@@ -184,7 +187,11 @@
                       "user experience",
                       "UX",
                       "communicate information",
-                      "audience"
+                      "audience",
+                      "clear feedback",
+                      "main menu",
+                      "back button",
+                      "navigation"
                     ],
                     "linkedOutcomes": [
                       "EC-11-11",
@@ -245,7 +252,10 @@
                       "social issue",
                       "ethical issue",
                       "legal issue",
-                      "privacy"
+                      "privacy",
+                      "Privacy Act 1988",
+                      "personal information",
+                      "class leaderboard"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07"
@@ -299,7 +309,10 @@
                       "student data",
                       "trade-off",
                       "privacy",
-                      "informed consent"
+                      "informed consent",
+                      "privacy law",
+                      "personalised feedback",
+                      "opt out"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -360,7 +373,10 @@
                       "blogs",
                       "online video",
                       "interactive media",
-                      "research"
+                      "research",
+                      "digital radio",
+                      "architectural details",
+                      "written articles"
                     ],
                     "linkedOutcomes": [
                       "EC-11-06",
@@ -477,7 +493,9 @@
                       "delivery tracking",
                       "specialist apps",
                       "communication",
-                      "enterprises"
+                      "enterprises",
+                      "notification",
+                      "drop-off"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -532,7 +550,10 @@
                       "gamification",
                       "augmented reality",
                       "online training",
-                      "learning"
+                      "learning",
+                      "points and badges",
+                      "safety prompts",
+                      "virtual depot"
                     ],
                     "linkedOutcomes": [
                       "EC-11-06",
@@ -593,7 +614,9 @@
                       "uncompressed",
                       "frames per second",
                       "megabytes",
-                      "pixels"
+                      "pixels",
+                      "bytes",
+                      "video"
                     ],
                     "linkedOutcomes": [
                       "EC-11-08",
@@ -648,7 +671,10 @@
                       "hardware",
                       "virtual reality",
                       "frame rate",
-                      "workstation"
+                      "workstation",
+                      "graphics card",
+                      "real-time rendering",
+                      "RAM"
                     ],
                     "linkedOutcomes": [
                       "EC-11-08",
@@ -709,7 +735,9 @@
                       "creative process",
                       "experiment",
                       "social media",
-                      "iteration"
+                      "iteration",
+                      "immediate visual feedback",
+                      "trial and error"
                     ],
                     "linkedOutcomes": [
                       "EC-11-06",
@@ -764,7 +792,10 @@
                       "digital creative commons",
                       "creative process",
                       "feedback",
-                      "attribution"
+                      "attribution",
+                      "licence conditions",
+                      "production stage",
+                      "commercial use"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -825,7 +856,9 @@
                       "explore",
                       "participate",
                       "captions",
-                      "transcript"
+                      "transcript",
+                      "screen readers",
+                      "hard of hearing"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -880,7 +913,11 @@
                       "human behaviour",
                       "people with disability",
                       "explore",
-                      "participate"
+                      "participate",
+                      "push notifications",
+                      "voice navigation",
+                      "vision impairment",
+                      "accessible design"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -941,7 +978,10 @@
                       "consumer behaviour",
                       "digital marketing",
                       "pre-ticked",
-                      "informed consent"
+                      "informed consent",
+                      "inertia",
+                      "nudge",
+                      "mailing list"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -996,7 +1036,10 @@
                       "autofill",
                       "cookies",
                       "pop-ups",
-                      "digital marketing"
+                      "digital marketing",
+                      "browsing history",
+                      "urgency",
+                      "informed choice"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -1057,7 +1100,10 @@
                       "social media",
                       "massive online open courses",
                       "massive multiplayer online games",
-                      "human connections"
+                      "human connections",
+                      "enrolled learners",
+                      "shared world",
+                      "footpath reports"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -1112,7 +1158,10 @@
                       "crowdsourcing",
                       "social media",
                       "massive online open courses",
-                      "massive multiplayer online games"
+                      "massive multiplayer online games",
+                      "cyber safety",
+                      "moderation",
+                      "real time"
                     ],
                     "linkedOutcomes": [
                       "EC-11-10",
@@ -2677,7 +2726,10 @@
                       "personal data",
                       "individual",
                       "trade-off",
-                      "consent"
+                      "consent",
+                      "consent settings",
+                      "location access",
+                      "personalised recommendations"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -2912,7 +2964,10 @@
                       "integrity",
                       "privacy implications",
                       "breach",
-                      "personal information"
+                      "personal information",
+                      "identity theft",
+                      "inaccurate records",
+                      "bank account details"
                     ],
                     "linkedOutcomes": [
                       "EC-11-07",
@@ -3334,7 +3389,9 @@
                       "cybersecurity strategy",
                       "ongoing training",
                       "vulnerabilities",
-                      "enterprise"
+                      "enterprise",
+                      "phishing",
+                      "out-of-date systems"
                     ],
                     "linkedOutcomes": [
                       "EC-11-09",
@@ -5305,7 +5362,10 @@
                       "fibre-optic cable",
                       "twisted-pair cable",
                       "signal loss",
-                      "interference"
+                      "interference",
+                      "electromagnetic interference",
+                      "repeaters",
+                      "light pulses"
                     ],
                     "linkedOutcomes": [
                       "EC-11-01",
@@ -5366,7 +5426,10 @@
                       "topography",
                       "physical barriers",
                       "environmental barriers",
-                      "attenuation"
+                      "attenuation",
+                      "line of sight",
+                      "rain fade",
+                      "radio waves"
                     ],
                     "linkedOutcomes": [
                       "EC-11-08",
@@ -5539,7 +5602,10 @@
                       "proximity",
                       "modes of connectivity",
                       "wi-fi",
-                      "wireless broadband"
+                      "wireless broadband",
+                      "access point",
+                      "congestion",
+                      "line of sight"
                     ],
                     "linkedOutcomes": [
                       "EC-11-08",
@@ -5656,7 +5722,10 @@
                       "connectedness",
                       "weighted graphs",
                       "network theory",
-                      "adjacency"
+                      "adjacency",
+                      "single point of failure",
+                      "alternative routes",
+                      "shortest route"
                     ],
                     "linkedOutcomes": [
                       "EC-11-05",
@@ -5717,7 +5786,9 @@
                       "SCADA",
                       "Internet of Things",
                       "sensors",
-                      "control room"
+                      "control room",
+                      "pressure sensors",
+                      "remote equipment"
                     ],
                     "linkedOutcomes": [
                       "EC-11-06",
@@ -5950,7 +6021,9 @@
                       "IoT",
                       "predictive maintenance",
                       "sensors",
-                      "manufacturing"
+                      "manufacturing",
+                      "bearing wear",
+                      "unplanned stoppages"
                     ],
                     "linkedOutcomes": [
                       "EC-11-06",
@@ -8782,7 +8855,10 @@
                       "store",
                       "organise",
                       "data visualisation",
-                      "suburb codes"
+                      "suburb codes",
+                      "date formats",
+                      "dated backup",
+                      "official state dataset"
                     ],
                     "linkedOutcomes": [
                       "EC-12-03",
@@ -9967,7 +10043,10 @@
                       "unstructured data",
                       "dataset",
                       "fields",
-                      "table"
+                      "table",
+                      "data types",
+                      "free text",
+                      "chat transcripts"
                     ],
                     "linkedOutcomes": [
                       "EC-12-02"
@@ -12811,7 +12890,9 @@
                       "rule-based",
                       "probability",
                       "processing power",
-                      "hardware costs"
+                      "hardware costs",
+                      "probabilistic reasoning",
+                      "real time"
                     ],
                     "linkedOutcomes": [
                       "EC-12-06"
@@ -12865,7 +12946,10 @@
                       "probability",
                       "data availability",
                       "neural network",
-                      "webometrics"
+                      "webometrics",
+                      "large data sets",
+                      "web content",
+                      "privacy rules"
                     ],
                     "linkedOutcomes": [
                       "EC-12-06",
@@ -12926,7 +13010,10 @@
                       "changing needs",
                       "Internet of Things",
                       "Internet of Me",
-                      "smart home"
+                      "smart home",
+                      "personal health data",
+                      "fitness band",
+                      "sensor readings"
                     ],
                     "linkedOutcomes": [
                       "EC-12-01"
@@ -12980,7 +13067,10 @@
                       "changing needs",
                       "Industry 4.0",
                       "manufacturing",
-                      "Internet of Things"
+                      "Internet of Things",
+                      "faster changeovers",
+                      "customised orders",
+                      "connected sensors"
                     ],
                     "linkedOutcomes": [
                       "EC-12-01",
@@ -13041,7 +13131,9 @@
                       "simplistic",
                       "predictive search",
                       "search engine",
-                      "rules"
+                      "rules",
+                      "condition-action rules",
+                      "search strings"
                     ],
                     "linkedOutcomes": [
                       "EC-12-06"
@@ -13095,7 +13187,10 @@
                       "simplistic",
                       "complex",
                       "voice assistant",
-                      "interaction"
+                      "interaction",
+                      "wake word",
+                      "fixed rule",
+                      "stored preferences"
                     ],
                     "linkedOutcomes": [
                       "EC-12-06"
@@ -13155,7 +13250,9 @@
                       "inference engine",
                       "fuzzy logic",
                       "degree of truth",
-                      "degree of membership"
+                      "degree of membership",
+                      "true or false",
+                      "fixed cut-off"
                     ],
                     "linkedOutcomes": [
                       "EC-12-06"
@@ -13209,7 +13306,10 @@
                       "hypothetical reasoning",
                       "inference engine",
                       "conclusion",
-                      "expert system"
+                      "expert system",
+                      "justification",
+                      "competing assumptions",
+                      "temporary hypotheses"
                     ],
                     "linkedOutcomes": [
                       "EC-12-06",
@@ -13441,7 +13541,10 @@
                       "pattern recognition",
                       "intelligent system",
                       "algorithm",
-                      "sensor"
+                      "sensor",
+                      "decomposition",
+                      "historical data",
+                      "fill levels"
                     ],
                     "linkedOutcomes": [
                       "EC-12-08"
@@ -13501,7 +13604,9 @@
                       "intelligent system",
                       "logical process",
                       "decision",
-                      "sensor"
+                      "sensor",
+                      "direction of flow",
+                      "rectangle"
                     ],
                     "linkedOutcomes": [
                       "EC-12-11"
@@ -13555,7 +13660,10 @@
                       "data flow diagram",
                       "infographic",
                       "logical process",
-                      "intelligent system"
+                      "intelligent system",
+                      "ordered sequence",
+                      "systems designer",
+                      "quick reference"
                     ],
                     "linkedOutcomes": [
                       "EC-12-11"
@@ -13670,7 +13778,10 @@
                       "automation",
                       "manufacturing",
                       "employment",
-                      "artificial intelligence"
+                      "artificial intelligence",
+                      "repetitive tasks",
+                      "quality checks",
+                      "skilled staff"
                     ],
                     "linkedOutcomes": [
                       "EC-12-07"
@@ -16160,7 +16271,9 @@
                       "needs and wants",
                       "enterprise project",
                       "criteria",
-                      "working collaboratively"
+                      "working collaboratively",
+                      "informatics",
+                      "data definitions"
                     ],
                     "linkedOutcomes": [
                       "EC-12-08",
