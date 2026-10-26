@@ -39,6 +39,8 @@ import {
   hasOffSyllabusTerms,
   offSyllabusTermCount,
   syllabusTermGaps,
+  hasThinTerms,
+  broadenTermList,
 } from './contentAudit/auditModel';
 import { InstrumentMetric, AuditActionButton, FilterRow } from './contentAudit/AuditPieces';
 import AuditTreeRow, { INDENT_STEP } from './contentAudit/AuditTreeRow';
@@ -56,7 +58,9 @@ import {
   suggestOutcomesForPrompt,
   evaluateAnswer,
   screenContentQuality,
+  generateKeywordsForPrompt,
 } from '../../services/geminiService';
+import { getFocusAreas } from '../../utils/dataManagerUtils';
 import {
   getCommandTermsForMarks,
   extractCommandVerb,
@@ -94,6 +98,7 @@ import {
   Download,
   Eraser,
   ListPlus,
+  Sparkles,
   Trash2,
 } from 'lucide-react';
 
@@ -146,6 +151,7 @@ const ACTION_LABELS: Record<BulkActionType, string> = {
   generateSamples: 'Draft Samples',
   recalibrateSamples: 'Re-mark Samples',
   screenQuality: 'Score Quality',
+  broadenTerms: 'Broaden Terms',
   fixAllGaps: 'Fix All Gaps',
 };
 
@@ -390,6 +396,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     let screenings = 0;
     let termLists = 0;
     let termGaps = 0;
+    let thinTerms = 0;
 
     selectedIds.forEach((id) => {
       const node = flatMap.get(id);
@@ -404,6 +411,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       if (node.type === 'prompt') screenings++;
       if (hasOffSyllabusTerms(node)) termLists++;
       if (syllabusTermGaps(node).length > 0) termGaps++;
+      if (hasThinTerms(node)) thinTerms++;
     });
 
     return {
@@ -416,6 +424,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
       screenings,
       termLists,
       termGaps,
+      thinTerms,
       allGaps: questions + rubrics + samples + outcomes,
     };
   }, [selectedIds, flatMap]);
@@ -1169,6 +1178,41 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
     },
   });
 
+  /**
+   * The Syllabus Terms panel's "Suggest with AI", run across the selection: the
+   * same generator, given the same syllabus context the workspace builds, and the
+   * same merge (nothing already on the list is touched; new terms are appended).
+   */
+  const makeTermsTask = (node: TreeNode): BatchTask<void> => ({
+    id: `terms-${node.id}`,
+    description: `Broadening syllabus terms: ${node.label.slice(0, 30)}…`,
+    action: async () => {
+      const prompt = requireLivePrompt(node.path);
+      const course = coursesRef.current.find((c) => c.id === node.path.courseId);
+      if (!course) throw new Error('The course was deleted before this task ran.');
+      const topic = course.topics.find((t) => t.id === node.path.topicId);
+      const subTopic = topic?.subTopics.find((st) => st.id === node.path.subTopicId);
+      const dotPoint = subTopic?.dotPoints.find((dp) => dp.id === node.path.dotPointId);
+      const outcomeTexts = (prompt.linkedOutcomes ?? [])
+        .map((code) => course.outcomes.find((o) => o.code === code))
+        .filter((o): o is CourseOutcome => !!o)
+        .map((o) => `${o.code}: ${o.description}`);
+      const generated = await generateKeywordsForPrompt(prompt, getCommandTermInfo(prompt.verb), {
+        topicName: topic?.name,
+        subTopicName: subTopic?.name,
+        dotPoint: dotPoint?.description,
+        focusAreas: getFocusAreas(dotPoint),
+        outcomeTexts,
+      });
+      updateCourses((draft) => {
+        const p = findDraftPrompt(draft, node.path);
+        if (p) p.keywords = broadenTermList(p.keywords ?? [], generated);
+      });
+      if (node.path.promptId && node.path.dotPointId)
+        recordTouch(node.path.promptId, node.path.dotPointId, node.label);
+    },
+  });
+
   const makeRubricRevisionTask = (node: TreeNode): BatchTask<void> => ({
     id: `revise-rubric-${node.id}`,
     description: `Reformatting marking guide: ${node.label.slice(0, 30)}…`,
@@ -1305,6 +1349,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         tasks.push(...makeRecalibrationTasks(node));
       if (actionType === 'screenQuality' && node.type === 'prompt')
         tasks.push(makeScreeningTask(node));
+      if (actionType === 'broadenTerms' && hasThinTerms(node)) tasks.push(makeTermsTask(node));
     });
 
     return tasks;
@@ -2268,6 +2313,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
                   label="Add Terms"
                   count={selectionTargets.termGaps}
                   icon={<ListPlus className="w-3.5 h-3.5" />}
+                />
+                <AuditActionButton
+                  onClick={handleBulkAction.bind(null, 'broadenTerms')}
+                  disabled={isProcessing || selectionTargets.thinTerms === 0}
+                  title="Run the Syllabus Terms generator on each selected question with fewer than six terms, and append the terms it suggests (up to ten in all). Nothing already on a list is touched."
+                  tone="lime"
+                  label="Broaden Terms"
+                  count={selectionTargets.thinTerms}
+                  icon={<Sparkles className="w-3.5 h-3.5" />}
                 />
                 <AuditActionButton
                   onClick={handleTidyTerms}

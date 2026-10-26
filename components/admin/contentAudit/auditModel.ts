@@ -107,6 +107,7 @@ export type BulkActionType =
   | 'linkOutcomes'
   | 'recalibrateSamples'
   | 'screenQuality'
+  | 'broadenTerms'
   | 'fixAllGaps';
 
 /**
@@ -146,6 +147,36 @@ export const verbNotInQuestion = (n: TreeNode) =>
   n.type === 'prompt' && n.stats.verbNotInQuestion > 0;
 export const needsOutcomes = (n: TreeNode) => n.type === 'prompt' && n.stats.missingOutcomes > 0;
 export const hasSamplesToRecalibrate = (n: TreeNode) => n.type === 'prompt' && n.stats.samples > 0;
+
+/**
+ * Fewer terms than this and a question's Syllabus Terms list is thin: the
+ * generator asks for 6-10, and many shipped questions were written with four or
+ * five, before the terms carried their must-use and supporting split.
+ */
+export const THIN_TERMS_BELOW = 6;
+export const hasThinTerms = (n: TreeNode) =>
+  n.type === 'prompt' &&
+  ((n.dataRef as Prompt).keywords ?? []).filter((k) => typeof k === 'string' && k.trim()).length <
+    THIN_TERMS_BELOW;
+
+/**
+ * A broadened list: every term the question already has, in its order, then the
+ * generated terms it does not have yet (matched without case), up to ten in all.
+ * Nothing already on a list is removed or moved, the same promise "Add Terms"
+ * makes, so a teacher's own terms survive a run.
+ */
+export const broadenTermList = (existing: string[], generated: string[], cap = 10): string[] => {
+  const out = existing.filter((k) => typeof k === 'string' && k.trim());
+  const seen = new Set(out.map((k) => k.trim().toLowerCase()));
+  for (const term of generated) {
+    if (out.length >= Math.max(cap, existing.length)) break;
+    const key = term.trim().toLowerCase();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(term.trim());
+  }
+  return out;
+};
 export const qualityOf = (n: TreeNode): number | null =>
   n.type === 'prompt' ? ((n.dataRef as Prompt).qualityScore ?? null) : null;
 // Thresholds match the Review Queue's QualityBadge: <50 needs a close look.
