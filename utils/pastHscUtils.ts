@@ -45,6 +45,18 @@ export const getPastHscLabel = (prompt: Prompt): PastHscLabel | null => {
   return { text, title };
 };
 
+/**
+ * True for a question the paper sets once per prescribed text ("6(a)–(n)",
+ * "1(a), (b), (d), (j)") and the library holds once, to be answered on whichever
+ * text the student studied. A part set on one named text carries `hscText`.
+ */
+export const isAnsweredOnOwnText = (
+  prompt: Pick<Prompt, 'isPastHSC' | 'hscQuestionNumber' | 'hscText'>
+): boolean =>
+  !!prompt.isPastHSC &&
+  !prompt.hscText &&
+  /\([a-z]\)\s*(?:[–-]|,)\s*\(?[a-z]\)/.test(prompt.hscQuestionNumber ?? '');
+
 /*
  * The past-HSC navigator filter.
  *

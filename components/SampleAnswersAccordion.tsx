@@ -594,7 +594,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                                     : SAMPLE_PICKER_TAB_IDLE
                                 }`}
                               >
-                                {sourceLabel(sample)}{' '}
+                                {sample.prescribedText ?? sourceLabel(sample)}{' '}
                                 <span className="font-normal tabular-nums">
                                   · {countWords(sample.answer)}w
                                 </span>

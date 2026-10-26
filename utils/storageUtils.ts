@@ -78,7 +78,7 @@ import {
 // Paper 2), with exemplars. Browsers at 2.21.0 sync again to receive them.
 // 2.23.0: the Syllabus Terms of 349 shipped questions that had five or fewer are broadened,
 // each new term one the question's full-mark exemplar already uses.
-export const DATA_VERSION = '2.24.0';
+export const DATA_VERSION = '2.25.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

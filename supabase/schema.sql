@@ -140,6 +140,8 @@ create table if not exists public.prompts (
   is_past_hsc              boolean not null default false,
   hsc_year                 int,
   hsc_question_number      text,
+  hsc_section              text,
+  hsc_text                 text,
   -- moderation + provenance (new content starts private — see section 9)
   status                   content_status not null default 'private',
   -- AI pre-screen score (0-100) + summary, attached at submission time so
@@ -164,6 +166,7 @@ create table if not exists public.sample_answers (
   source      answer_source not null default 'AI',
   feedback    text,
   quick_tip   text,
+  prescribed_text text,
   status      content_status not null default 'private',
   quality_score int,
   quality_notes text,
@@ -506,6 +509,13 @@ update public.sample_answers
    set quality_score = null, quality_notes = null
  where quality_screened_at is null
    and (quality_score is not null or quality_notes is not null);
+
+-- Past-paper front matter (2026-10): the paper and section a past question sits
+-- in, the prescribed text a per-text part is set on, and the text a sample
+-- answer writes on. Shown beside the question instead of inside its scenario.
+alter table public.prompts        add column if not exists hsc_section text;
+alter table public.prompts        add column if not exists hsc_text text;
+alter table public.sample_answers add column if not exists prescribed_text text;
 
 -- Scenario image (carousel) support — Storage object reference, not inline
 -- bytes. Additive/optional; existing rows are unaffected. The IndexedDB path

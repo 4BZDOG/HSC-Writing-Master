@@ -989,10 +989,11 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Paper 1, Section II — Texts and Human Experiences (20 marks). Allow about 45 minutes. The prescribed texts for Section II are: Prose Fiction — Anthony Doerr, All the Light We Cannot See; Amanda Lohrey, Vertigo; George Orwell, Nineteen Eighty-Four; Favel Parrett, Past the Shallows. Poetry — Rosemary Dobson, Rosemary Dobson Collected (Young Girl at a Window; Over the Hill; Summer’s End; The Conversation; Cock Crow; Amy Caroline; Canberra Morning); Kenneth Slessor, Selected Poems (Wild Grapes; Gulliver; Out of Time; Vesper-Song of the Reverend Samuel Marsden; William Street; Beach Burial). Drama — Jane Harrison, Rainbow’s End from Vivienne Cleven et al., Contemporary Indigenous Plays; Arthur Miller, The Crucible; William Shakespeare, The Merchant of Venice. Nonfiction — Tim Winton, The Boy Behind the Curtain (Havoc: A Life in Accidents; Betsy; Twice on Sundays; The Wait and the Flow; In the Shadow of the Hospital; The Demon Shark; Barefoot in the Temple of Art); Malala Yousafzai and Christina Lamb, I am Malala. Film — Stephen Daldry, Billy Elliot. Media — Ivan O’Mahoney, Go Back to Where You Came From (Series 1: Episodes 1, 2 and 3 and The Response); Lucy Walker, Waste Land. Your answer will be assessed on how well you: demonstrate understanding of human experiences in texts; analyse, explain and assess the ways human experiences are represented in texts; organise, develop and express ideas using language appropriate to audience, purpose and context.",
+                    "scenario": "Your answer will be assessed on how well you: demonstrate understanding of human experiences in texts; analyse, explain and assess the ways human experiences are represented in texts; organise, develop and express ideas using language appropriate to audience, purpose and context.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "6"
+                    "hscQuestionNumber": "6",
+                    "hscSection": "Paper 1, Section II — Texts and Human Experiences (20 marks). Allow about 45 minutes."
                   }
                 ]
               },
@@ -1984,10 +1985,11 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Paper 2, Section I — Module A: Textual Conversations (20 marks). Allow about 40 minutes. The Module A prescribed texts are: Shakespearean Drama and Film — William Shakespeare, King Richard III and Al Pacino, Looking for Richard. Prose Fiction and Film — Virginia Woolf, Mrs Dalloway and Stephen Daldry, The Hours. Prose Fiction and Prose Fiction — Albert Camus, The Stranger and Kamel Daoud, The Meursault Investigation. Poetry and Drama — John Donne, John Donne: A Selection of His Poetry (The Sunne Rising; The Apparition; A Valediction: forbidding mourning; This is my playes last scene; At the round earths imagin’d corners; If poysonous mineralls; Death be not proud; Hymne to God my God, in my sicknesse) and Margaret Edson, W;t. Poetry and Film — John Keats, The Complete Poems (La Belle Dame sans Merci; To Autumn; Bright star! would I were steadfast as thou art; Ode to a Nightingale; Ode on a Grecian Urn; When I have fears that I may cease to be; The Eve of St Agnes, XXIII) and Jane Campion, Bright Star. Poetry and Poetry — Sylvia Plath, Ariel (Daddy; Nick and the Candlestick; A Birthday Present; Lady Lazarus; Fever 103°; The Arrival of the Bee Box) and Ted Hughes, Birthday Letters (Fulbright Scholars; The Shot; A Picture of Otto; Fever; Red; The Bee God). Shakespearean Drama and Prose Fiction — William Shakespeare, The Tempest and Margaret Atwood, Hag-Seed. Your answer will be assessed on how well you: demonstrate understanding of how composers are influenced by another text’s concepts and values; evaluate the relationships between texts and contexts; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "scenario": "Your answer will be assessed on how well you: demonstrate understanding of how composers are influenced by another text’s concepts and values; evaluate the relationships between texts and contexts; organise, develop and express ideas using language appropriate to audience, purpose and form.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "1"
+                    "hscQuestionNumber": "1",
+                    "hscSection": "Paper 2, Section I — Module A: Textual Conversations (20 marks). Allow about 40 minutes."
                   }
                 ]
               }
@@ -2879,10 +2881,11 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Paper 2, Section II — Module B: Critical Study of Literature (20 marks). Allow about 40 minutes. The Module B prescribed texts are: Prose Fiction — Jane Austen, Emma; Charles Dickens, Great Expectations; Kazuo Ishiguro, An Artist of the Floating World. Poetry — T S Eliot, T S Eliot: Selected Poems (The Love Song of J Alfred Prufrock; Preludes; Rhapsody on a Windy Night; The Hollow Men; Journey of the Magi); David Malouf, Earth Hour (Aquarius; Radiance; Ladybird; A Recollection of Starlings: Rome ’84; Eternal Moment at Poggia Madonna; Towards Midnight; Earth Hour; Aquarius II). Drama — Henrik Ibsen, A Doll’s House; Dylan Thomas, Under Milk Wood. Nonfiction — Edmund de Waal, The Hare with Amber Eyes; Vladimir Nabokov, Speak, Memory. Film — George Clooney, Good Night, and Good Luck. Media — Gillian Armstrong, Unfolding Florence. Shakespearean Drama — William Shakespeare, King Henry IV, Part 1. Your answer will be assessed on how well you: demonstrate an informed understanding of the ideas expressed in the text; evaluate the text’s distinctive language and stylistic qualities; organise, develop and express ideas using language appropriate to audience, purpose and form.",
+                    "scenario": "Your answer will be assessed on how well you: demonstrate an informed understanding of the ideas expressed in the text; evaluate the text’s distinctive language and stylistic qualities; organise, develop and express ideas using language appropriate to audience, purpose and form.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "2"
+                    "hscQuestionNumber": "2",
+                    "hscSection": "Paper 2, Section II — Module B: Critical Study of Literature (20 marks). Allow about 40 minutes."
                   }
                 ]
               },
@@ -4574,10 +4577,11 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes. Stimulus: ‘For all the benefits gained by time-saving inventions, there’s much to be said for going back to basics . . . So, could there be benefits to leading a life less convenient?’ — Jessica Powell, Worth the while. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
+                    "scenario": "Stimulus: ‘For all the benefits gained by time-saving inventions, there’s much to be said for going back to basics . . . So, could there be benefits to leading a life less convenient?’ — Jessica Powell, Worth the while. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "3"
+                    "hscQuestionNumber": "3",
+                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes."
                   }
                 ]
               },

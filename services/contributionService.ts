@@ -106,6 +106,12 @@ export interface PromptInsertRow {
   is_past_hsc: boolean;
   hsc_year: number | null;
   hsc_question_number: string | null;
+  /**
+   * Sent only when set: the columns arrived after the first deployments, and an
+   * insert naming a column the database lacks fails outright.
+   */
+  hsc_section?: string;
+  hsc_text?: string;
   scenario_image_path: string | null;
   scenario_image_alt: string | null;
   scenario_image_updated_at: string | null;
@@ -122,6 +128,8 @@ export interface SampleAnswerInsertRow {
   source: SampleAnswer['source'];
   feedback: string | null;
   quick_tip: string | null;
+  /** Sent only when set, as for the prompt's past-paper fields. */
+  prescribed_text?: string;
   status: ContributionStatus;
   created_by: string;
 }
@@ -152,6 +160,8 @@ export const promptToRow = (
   is_past_hsc: prompt.isPastHSC ?? false,
   hsc_year: prompt.hscYear ?? null,
   hsc_question_number: prompt.hscQuestionNumber ?? null,
+  ...(prompt.hscSection ? { hsc_section: prompt.hscSection } : {}),
+  ...(prompt.hscText ? { hsc_text: prompt.hscText } : {}),
   scenario_image_path: prompt.scenarioImage?.storagePath ?? null,
   scenario_image_alt: prompt.scenarioImage?.alt ?? null,
   scenario_image_updated_at: prompt.scenarioImage
@@ -175,6 +185,7 @@ export const sampleAnswerToRow = (
   source: answer.source ?? 'USER',
   feedback: answer.feedback ?? null,
   quick_tip: answer.quickTip ?? null,
+  ...(answer.prescribedText ? { prescribed_text: answer.prescribedText } : {}),
   status,
   created_by: userId,
 });

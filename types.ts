@@ -87,6 +87,12 @@ export interface SampleAnswer {
    * student's structure and voice), so the library labels it as its own thing.
    */
   derivedFromStudent?: boolean;
+  /**
+   * The prescribed text this answer writes on, for a question each student
+   * answers on their own text ("Nineteen Eighty-Four"). It names the exemplar in
+   * the picker, so a student finds the one on the text they studied.
+   */
+  prescribedText?: string;
   feedback?: string;
   quickTip?: string;
   contentFlag?: ContentFlag;
@@ -151,6 +157,19 @@ export interface Prompt {
   isPastHSC?: boolean;
   hscYear?: number;
   hscQuestionNumber?: string;
+  /**
+   * The paper and section the question sits in, as the paper heads it: "Paper 2,
+   * Section III — Module C: The Craft of Writing (20 marks). Allow about 40
+   * minutes." Shown above the question rather than inside the scenario, which
+   * holds only what the student reads to answer it.
+   */
+  hscSection?: string;
+  /**
+   * The prescribed text a past question is set on, when the paper sets one part
+   * per text: "Prose Fiction — George Orwell, Nineteen Eighty-Four". Absent when
+   * the question is answered on whichever text the student studied.
+   */
+  hscText?: string;
   userDraft?: string;
   /**
    * Seconds already spent writing this question's draft.

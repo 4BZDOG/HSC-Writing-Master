@@ -214,6 +214,8 @@ const describeExample = (x: CalibrationExample, i: number): string => {
     `${i + 1}. ${label} — ${x.prompt.totalMarks} marks, ${x.prompt.verb} (${where})`,
     `   Question: ${clip(x.prompt.question, 420)}`,
   ];
+  // The paper's own heading, kept apart from the scenario since 2026-10.
+  if (x.prompt.hscSection) lines.splice(1, 0, `   On the paper: ${clip(x.prompt.hscSection, 180)}`);
   if (x.prompt.scenario?.trim())
     lines.push(`   Scenario/stimulus: ${clip(x.prompt.scenario, 360)}`);
   if (x.prompt.markingCriteria?.trim())

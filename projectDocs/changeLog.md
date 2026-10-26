@@ -1,5 +1,25 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-26 (Past HSC front matter beside the question; one question per text-neutral part)
+
+- **Changed.** A past HSC question's paper heading ("Paper 2, Section III — Module C: The Craft of Writing (20 marks).
+  Allow about 40 minutes.") and the prescribed text a part is set on are now shown above the question
+  (`PastHscExamLine`), beside the year and question number on the card's chip, instead of opening the scenario.
+  New optional fields `hscSection` and `hscText` on a question, editable in the past-paper editor. The scenario keeps
+  only what the student reads to answer: the stimulus or extract, instructions, and "Your answer will be assessed on
+  how well you: …". Lists of every prescribed text were dropped. All 63 English Standard and 4 English Advanced past
+  questions were split this way.
+- **Changed.** Parts the paper sets once per prescribed text with the same wording are one question on "your
+  prescribed text": 2022 Q6(a)–(n), 2021 Q2(a)–(i), and 2024 Q1 as three questions by concept (place, family,
+  change). Stems, marker notes, common errors and syllabus terms were rewritten for any text; every part's
+  exemplars are kept (102 in all), and the exemplar picker names each one by its text (`prescribedText`) so a
+  student finds the ladder on the text they studied. Parts that ask about a different idea for each text (2019 Q6,
+  2020 Q2–4) or print an extract from each text (2022 Q2) stay separate. English Standard holds 63 past questions,
+  down from 92, with every paper part still present.
+- **Supabase.** `prompts.hsc_section`, `prompts.hsc_text` and `sample_answers.prescribed_text` (added if missing).
+  Contributions send them only when set, so a database that has not applied the columns still accepts new rows.
+  Re-apply `supabase/schema.sql`, then re-run `supabase/seed.mjs`. `DATA_VERSION` 2.25.0.
+
 ## [Unreleased] - 2026-10-26 (Newer shipped courses offered to edited copies)
 
 - **Fixed.** A course you had changed was kept as it was at every update and never told about the newer version,
