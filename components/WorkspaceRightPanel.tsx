@@ -287,7 +287,8 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       raw,
       evaluationResult.overallMark,
       currentPrompt.totalMarks,
-      commandTermInfo.tier
+      commandTermInfo.tier,
+      currentPrompt.markingCriteria
     );
     return {
       text,

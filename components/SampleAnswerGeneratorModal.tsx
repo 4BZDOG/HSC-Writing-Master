@@ -2,7 +2,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { generateSampleAnswer, type SyllabusKeywordContext } from '../services/geminiService';
-import { getCommandTermInfo, getBandForMark, bandsForQuestion } from '../data/commandTerms';
+import { getCommandTermInfo, bandsForQuestion } from '../data/commandTerms';
+import { promptBandForMark } from '../utils/guideBands';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import {
@@ -105,11 +106,9 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   // suggestion at a band that was already covered.
   const coveredBands = useMemo(() => {
     const bands = new Set<number>();
-    (prompt.sampleAnswers || []).forEach((sa) =>
-      bands.add(getBandForMark(sa.mark, prompt.totalMarks, commandTermInfo.tier))
-    );
+    (prompt.sampleAnswers || []).forEach((sa) => bands.add(promptBandForMark(prompt, sa.mark)));
     return bands;
-  }, [prompt.sampleAnswers, prompt.totalMarks, commandTermInfo.tier]);
+  }, [prompt]);
 
   // The rungs this question HAS, highest first. A question with fewer marks
   // than bands cannot award the bottom of the range — a 4-mark Evaluate runs
@@ -124,10 +123,10 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   const markOptions = useMemo(() => {
     return Array.from({ length: prompt.totalMarks + 1 }, (_, i) => i).map((mark) => ({
       mark,
-      band: getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier),
+      band: promptBandForMark(prompt, mark),
       count: existingCounts.get(mark) || 0,
     }));
-  }, [prompt.totalMarks, existingCounts, commandTermInfo.tier]);
+  }, [prompt, existingCounts]);
 
   const suggestedMark = useMemo(() => {
     // No samples yet → start with full marks (natural first exemplar)
@@ -277,17 +276,13 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   // The chrome colours itself from the highest mark in the selection — the top
   // of the ladder being built.
   const topMark = selectedMarks.length > 0 ? Math.max(...selectedMarks) : null;
-  const selectedBand =
-    topMark !== null ? getBandForMark(topMark, prompt.totalMarks, commandTermInfo.tier) : 1;
+  const selectedBand = topMark !== null ? promptBandForMark(prompt, topMark) : 1;
   const activeBandConfig = getBandConfig(selectedBand);
   const selectedBands = Array.from(
-    new Set(selectedMarks.map((m) => getBandForMark(m, prompt.totalMarks, commandTermInfo.tier)))
+    new Set(selectedMarks.map((m) => promptBandForMark(prompt, m)))
   ).sort((a, b) => a - b);
   // The busy overlay follows the answer being written, not the top of the batch.
-  const progressBand =
-    progress !== null
-      ? getBandForMark(progress.mark, prompt.totalMarks, commandTermInfo.tier)
-      : selectedBand;
+  const progressBand = progress !== null ? promptBandForMark(prompt, progress.mark) : selectedBand;
 
   return createPortal(
     <div className={CREATOR_BACKDROP} onClick={handleClose}>
@@ -370,7 +365,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
 
               <div className="mt-4 space-y-3">
                 {duplicates.map(({ answer, against, score }) => {
-                  const band = getBandForMark(answer.mark, prompt.totalMarks, commandTermInfo.tier);
+                  const band = promptBandForMark(prompt, answer.mark);
                   const config = getBandConfig(band);
                   return (
                     <div
@@ -594,7 +589,7 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
                       : `${selectedMarks.length} answers · Band${selectedBands.length > 1 ? 's' : ''} ${selectedBands.join(', ')}`}
                   </span>
                   {selectedMarks.map((m) => {
-                    const b = getBandForMark(m, prompt.totalMarks, commandTermInfo.tier);
+                    const b = promptBandForMark(prompt, m);
                     const c = getBandConfig(b);
                     return (
                       <span

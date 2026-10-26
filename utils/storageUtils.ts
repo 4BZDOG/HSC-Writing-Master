@@ -71,7 +71,10 @@ import {
 // Advanced syllabuses added as structure, and five Geography dot points put on one line.
 // 2.20.0: an extended response (15+ marks) reaches Band 6 whatever its verb, so the bands
 // stored on its sample answers are recalculated (projectDocs/calibration-pilot.md).
-export const DATA_VERSION = '2.20.0';
+// 2.21.0: that is withdrawn. A question's ceiling is its verb's tier again, and a guide written
+// in mark ranges gives one band per row (utils/guideBands.ts), so stored bands are recalculated
+// once more and every exemplar sits in the band of the guide row that holds it.
+export const DATA_VERSION = '2.21.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
@@ -928,6 +931,11 @@ export const runMigrations = (courses: Course[], fromVersion: string): Course[] 
 
   if (isOlderThan(fromVersion, '2.20.0')) {
     console.log('Applying v2.20.0 migration: Band 6 ceiling for extended responses...');
+    migrated = recalculateSampleAnswerBands(migrated);
+  }
+
+  if (isOlderThan(fromVersion, '2.21.0')) {
+    console.log('Applying v2.21.0 migration: bands from the verb tier and the guide rows...');
     migrated = recalculateSampleAnswerBands(migrated);
   }
 

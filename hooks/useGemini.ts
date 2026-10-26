@@ -313,7 +313,8 @@ export const useGemini = ({
                 result.revisedAnswer,
                 result.overallMark,
                 prompt.totalMarks,
-                getCommandTermInfo(prompt.verb).tier
+                getCommandTermInfo(prompt.verb).tier,
+                prompt.markingCriteria
               );
               const aiSample: SampleAnswer = {
                 id: generateId('sa'),

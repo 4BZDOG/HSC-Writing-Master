@@ -3627,6 +3627,41 @@ begin
   end if;
 end $$;
 
+-- October 2026, the next day: that rule is withdrawn. A question's ceiling is its
+-- verb's tier again (getQuestionBandCeiling), the same cap the Writing Prompt is
+-- drawn in, and a NESA guide of five ranges (17-20 … 1-4) falls one row to a band.
+-- The rows the step above rewrote are re-derived ONCE through the tier, as
+-- getBandForMark computes it: least(tier, ceil(mark × tier / total)). An unknown
+-- verb reads as Tier 4, as getCommandTermInfo falls back. The browser re-derives a
+-- band from the guide's own rows on load (utils/guideBands.ts); this keeps the
+-- stored value, which the withheld gate reads, on the same ceiling.
+do $$
+begin
+  if not exists (select 1 from public.plan_settings where key = 'migrated_tier_bands_2026_10') then
+    update public.sample_answers s
+       set band = case
+             when s.mark <= 0 then 1
+             else least(t.tier, greatest(1, ceil(least(s.mark, p.total_marks)::numeric * t.tier / p.total_marks)::int))
+           end
+      from public.prompts p
+      cross join lateral (
+        select case
+                when upper(trim(p.verb)) in ('IDENTIFY', 'RECALL', 'RECOUNT', 'CALCULATE', 'EXTRACT', 'STATE') then 1
+                when upper(trim(p.verb)) in ('DEFINE', 'OUTLINE', 'DESCRIBE', 'SUMMARISE', 'CLARIFY', 'CLASSIFY') then 2
+                when upper(trim(p.verb)) in ('EXPLAIN', 'COMPARE', 'CONTRAST', 'DEMONSTRATE', 'PREDICT', 'ACCOUNT') then 3
+                when upper(trim(p.verb)) in ('ANALYSE', 'APPLY', 'EXAMINE', 'DISTINGUISH', 'INTERPRET', 'EXTRAPOLATE', 'CONSTRUCT', 'DIFFERENTIATE') then 4
+                when upper(trim(p.verb)) in ('DISCUSS', 'ASSESS', 'JUSTIFY', 'DEDUCE', 'RECOMMEND', 'APPRECIATE') then 5
+                when upper(trim(p.verb)) in ('EVALUATE', 'CRITICALLY ANALYSE', 'CRITICALLY EVALUATE', 'SYNTHESISE', 'PROPOSE', 'INVESTIGATE') then 6
+                else 4
+              end as tier
+      ) t
+     where p.id = s.prompt_id
+       and p.total_marks >= 15;
+    insert into public.plan_settings (key, value) values ('migrated_tier_bands_2026_10', 1)
+    on conflict (key) do nothing;
+  end if;
+end $$;
+
 -- What the reader is missing, without any of it.
 --
 -- Returns no `answer`, `feedback` or `quick_tip` — not nulled, ABSENT — so this

@@ -64,6 +64,7 @@ import {
 import {
   getCommandTermInfo,
   getTargetBand,
+  getTierTargetBand,
   tierShortLabel,
   TIER_GROUPS,
 } from '../data/commandTerms';
@@ -1288,13 +1289,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             // own heading at the top rather than being repeated there — one
             // question appearing twice in a picker reads as a bug, and the
             // heading has to say what the row is doing at the top of the list.
-            // The heading names no band: each row carries the band its own
-            // question reaches, and an extended response reaches Band 6 whatever
-            // its tier (getQuestionBandCeiling), so a tier-wide "Band 5" heading
-            // sat over a 20-mark row reading "Band 6".
             group: isSuggested
               ? SUGGESTION_HEADINGS[suggestion.reason](suggestion.fromTier)
-              : tierGroupTitle(safeTier),
+              : `${tierGroupTitle(safeTier)} · Band ${getTierTargetBand(safeTier)}`,
             // Sort rank: the suggestion first, then the tier ladder.
             rank: isSuggested ? 0 : 1,
           };

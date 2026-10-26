@@ -952,10 +952,9 @@ export const fitVerbsToLength = (
 /**
  * Why a verb does not fit, in words a teacher can act on.
  *
- * An extended response reaches every band whatever its verb (see
- * EXTENDED_RESPONSE_MARKS), so there the reason is the task, not the ladder:
- * NESA marks these questions on a sustained, judged argument, which a lower
- * verb does not ask for.
+ * On an extended response (see EXTENDED_RESPONSE_MARKS) the reason given is the
+ * task, not the ladder: NESA marks these questions on a sustained, judged
+ * argument, which a lower verb does not ask for.
  */
 export const lengthMismatchNote = (verb: PromptVerb | string, totalMarks: number): string => {
   const info = getCommandTermInfo(verb as PromptVerb);
@@ -1051,37 +1050,40 @@ export const getCommandTermsForMarks = (
 };
 
 /**
- * The fewest marks that make a question an extended response, which can reach
- * Band 6 whatever its verb.
+ * The fewest marks that make a question an extended response: a sustained, judged
+ * argument, which a low verb does not ask for (see `lengthMismatchNote`).
  *
- * NESA's HSC extended responses (15 to 25 marks) are where the course's top band
- * is decided, and NESA publishes responses to them as Band 5/6 standard. Capping
- * a 20-mark DISCUSS at Band 5, as the verb tier does for a short question, told a
- * student scoring 18/20 they were a band below where NESA's own samples put them.
- * Over 20 marks, ceil(mark × 6 / 20) makes Band 6 exactly 17-20, the top range of
- * NESA's guidelines for these questions (projectDocs/calibration-pilot.md).
+ * It does NOT lift the band ceiling. For two days in October 2026 it did (Band 6
+ * whatever the verb), and the result was a question in two colours: the Writing
+ * Prompt drew a 20-mark DISCUSS in its tier's blue while the terms, guide and
+ * exemplars beside it were purple, and NESA's five rows (17-20 … 1-4) no longer
+ * fell one to a band, so an exemplar at the foot of a row read a band below the
+ * row. A question's ceiling is its verb's tier, everywhere.
  */
 export const EXTENDED_RESPONSE_MARKS = 15;
 
 /**
  * The highest band a full-mark response to this question can demonstrate: the
- * verb tier's ceiling, except on an extended response, which reaches Band 6.
+ * verb tier's ceiling (tier N → Band N). The same cap the Writing Prompt is drawn
+ * in, so every surface of a question is one colour. `totalMarks` is accepted so a
+ * caller states the question, not only the verb.
  */
-export const getQuestionBandCeiling = (totalMarks: number, tier: number = 4): number => {
-  if (totalMarks >= EXTENDED_RESPONSE_MARKS) return 6;
+export const getQuestionBandCeiling = (_totalMarks: number, tier: number = 4): number => {
   const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
   return tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
 };
 
 /**
  * Calculates the Performance Band (1-6) based on the mark achieved,
- * constrained by the question's ceiling: the verb's cognitive tier (tier N →
- * max Band N), or Band 6 on an extended response (see EXTENDED_RESPONSE_MARKS).
+ * constrained only by the verb's cognitive tier (tier N → max Band N).
  *
  * NESA's own band descriptors map full marks to the verb's ceiling band
- * regardless of mark count (3/3 on an Evaluate = Band 6), so on a short
- * question the verb tier is the sole cap — there is no secondary marks-based
- * limit.
+ * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier is
+ * the sole cap — there is no secondary marks-based limit.
+ *
+ * A question whose marking guide is written in mark ranges (NESA's 17-20 / 13-16
+ * …) reads its bands from the guide's rows instead: `promptBandForMark` in
+ * `utils/guideBands.ts`. Call that wherever the question is in hand.
  *
  * Below that ceiling there is ONE rule, and it is a ladder of marks, not a
  * fraction of them: each mark dropped costs exactly one band. On a 4-mark

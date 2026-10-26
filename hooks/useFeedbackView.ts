@@ -53,8 +53,21 @@ export function useFeedbackView({ result, prompt, userAnswer, hierarchy }: UseFe
   // (`rewriteTarget`). The band is derived from the mark, never taken from the
   // model, so the header cannot promise a band above the Verb Gate's ceiling.
   const { mark: exemplarMark, band: exemplarBand } = useMemo(
-    () => rewriteTarget(result.revisedAnswer, result.overallMark, prompt.totalMarks, termInfo.tier),
-    [result.revisedAnswer, result.overallMark, prompt.totalMarks, termInfo.tier]
+    () =>
+      rewriteTarget(
+        result.revisedAnswer,
+        result.overallMark,
+        prompt.totalMarks,
+        termInfo.tier,
+        prompt.markingCriteria
+      ),
+    [
+      result.revisedAnswer,
+      result.overallMark,
+      prompt.totalMarks,
+      termInfo.tier,
+      prompt.markingCriteria,
+    ]
   );
 
   const exemplarConfig = getBandConfig(exemplarBand);

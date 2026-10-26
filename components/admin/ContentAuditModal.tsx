@@ -60,9 +60,9 @@ import {
 import {
   getCommandTermsForMarks,
   extractCommandVerb,
-  getBandForMark,
   getCommandTermInfo,
 } from '../../data/commandTerms';
+import { promptBandForMark } from '../../utils/guideBands';
 import { isCurriculumRemote } from '../../services/curriculumService';
 import {
   savePromptContribution,
@@ -1230,9 +1230,9 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         // 2. Ask AI to evaluate the Mark (quality), passing the Tier context
         const result = await evaluateAnswer(liveSample.answer, calibrationPrompt, verbInfo);
 
-        // 3. Enforce STRICT band calculation based on the AI's Mark and the Question's Tier.
+        // 3. Enforce STRICT band calculation based on the AI's Mark and the Question's guide.
         // This overrides any band hallucinated by the AI, ensuring structural consistency across the dataset.
-        const strictBand = getBandForMark(result.overallMark, current.totalMarks, verbTier);
+        const strictBand = promptBandForMark(current, result.overallMark);
 
         updateCourses((draft) => {
           const p = findDraftPrompt(draft, node.path);

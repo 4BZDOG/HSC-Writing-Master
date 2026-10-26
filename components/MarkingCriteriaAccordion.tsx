@@ -3,6 +3,7 @@ import { Prompt, UserRole, CourseOutcome } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { promptBandForMark } from '../utils/guideBands';
 import { AlertCircle, BookOpen, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { generateRubricForPrompt } from '../services/geminiService';
 import {
@@ -113,13 +114,8 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   // guide that mounts after the exemplar opened still shows the link.
   const linkedMark = useLinkedExemplar(prompt.id);
   const rowFor = useCallback(
-    (mark: number) =>
-      criterionForMark(
-        parsedCriteria,
-        mark,
-        getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier)
-      ),
-    [parsedCriteria, prompt.totalMarks, commandTermInfo.tier]
+    (mark: number) => criterionForMark(parsedCriteria, mark, promptBandForMark(prompt, mark)),
+    [parsedCriteria, prompt]
   );
   const linkedItem = useMemo(
     () => (linkedMark === null ? undefined : rowFor(linkedMark)),

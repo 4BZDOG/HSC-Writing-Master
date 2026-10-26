@@ -15,7 +15,6 @@ import { yearOfOutcome, yearOfTopic } from './syllabusYear';
 import {
   commandTerms,
   getCommandTermsForMarks,
-  getBandForMark,
   getCommandTermInfo,
   extractCommandVerb,
   leadingCommandVerb,
@@ -24,6 +23,7 @@ import {
 import { generateId } from './idUtils';
 import { buildLlmSeedInstructions } from './llmSeedBrief';
 import { normaliseGuideRows } from './markingGuideLadder';
+import { promptBandForMark } from './guideBands';
 
 // Deep clone via structuredClone, falling back to a JSON round-trip only if the
 // value is not structured-cloneable. (Previously this recursed into itself,
@@ -1135,14 +1135,12 @@ export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
         dotPoints: subTopic.dotPoints.map((dotPoint) => ({
           ...dotPoint,
           prompts: dotPoint.prompts.map((prompt) => {
-            const termInfo = getCommandTermInfo(prompt.verb);
-            const tier = termInfo.tier;
             return {
               ...prompt,
               sampleAnswers:
                 prompt.sampleAnswers?.map((sa) => {
                   const mark = wholeSampleMark(sa.mark, prompt.totalMarks);
-                  return { ...sa, mark, band: getBandForMark(mark, prompt.totalMarks, tier) };
+                  return { ...sa, mark, band: promptBandForMark(prompt, mark) };
                 }) || [],
             };
           }),

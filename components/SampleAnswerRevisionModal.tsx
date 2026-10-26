@@ -13,6 +13,7 @@ import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
 import { X, RefreshCw, Info } from 'lucide-react';
 import { getBandConfig, getBandRgb } from '../utils/renderUtils';
+import { promptBandForMark } from '../utils/guideBands';
 import AiErrorNotice from './AiErrorNotice';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -87,7 +88,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   //
   // Three parts of the app already treat the stored value as a cache of this
   // one rather than a fact: the v2.4.0 migration rewrites it from
-  // `getBandForMark` (`recalculateSampleAnswerBands`), `RecalibrateSamplesModal`
+  // `promptBandForMark` (`recalculateSampleAnswerBands`), `RecalibrateSamplesModal`
   // reports `sample.band !== derivedBand` as a mismatch to repair, and the
   // content audit writes the strict band over it. This modal was the last
   // reader trusting it, and the bundled seed shows what that costs: a 4/4
@@ -96,8 +97,8 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   // same way `SampleAnswersAccordion` derives the row's own placard, so the
   // dialog cannot disagree with the thing that opened it.
   const sourceBand = useMemo(
-    () => getBandForMark(sampleToRevise.mark, prompt.totalMarks, commandTermInfo.tier),
-    [sampleToRevise.mark, prompt.totalMarks, commandTermInfo.tier]
+    () => promptBandForMark(prompt, sampleToRevise.mark),
+    [sampleToRevise.mark, prompt]
   );
   const bandConfig = useMemo(() => getBandConfig(sourceBand), [sourceBand]);
   const tierInfo = useMemo(
@@ -106,10 +107,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   );
 
   // Calculate the band for the *currently selected* target mark to display in the UI
-  const targetBand = useMemo(
-    () => getBandForMark(targetMark, prompt.totalMarks, commandTermInfo.tier),
-    [targetMark, prompt.totalMarks, commandTermInfo.tier]
-  );
+  const targetBand = useMemo(() => promptBandForMark(prompt, targetMark), [targetMark, prompt]);
 
   // Calculate potential band (uncapped) to detect if capping is active
   const potentialBand = useMemo(
@@ -260,7 +258,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
               >
                 {availableMarks.length > 0 ? (
                   availableMarks.map((mark) => {
-                    const b = getBandForMark(mark, prompt.totalMarks, commandTermInfo.tier);
+                    const b = promptBandForMark(prompt, mark);
                     return (
                       <option key={mark} value={mark}>
                         {mark} / {prompt.totalMarks} (Band {b})

@@ -1,12 +1,6 @@
 import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
-import {
-  commandTerms,
-  EXTENDED_RESPONSE_MARKS,
-  TIER_GROUPS,
-  getTierTargetBand,
-  tierShortLabel,
-} from '../data/commandTerms';
+import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
 import { ChevronDown, Layers } from 'lucide-react';
 import { tierIcon } from '../utils/verbTierIcon';
 import {
@@ -687,11 +681,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   // for every one of them.
                   <p className={`${RIBBON_INK_CAPTION} ${PROSE_FLOW}`}>
                     {activeTermInfo.term} questions cap a response at Band{' '}
-                    {getTierTargetBand(activeTermInfo.tier)}
-                    {/* An extended response is the exception (getQuestionBandCeiling). */}
-                    {getTierTargetBand(activeTermInfo.tier) < 6 &&
-                      `, except an extended response of ${EXTENDED_RESPONSE_MARKS} marks or more, which can reach Band 6`}
-                    .
+                    {getTierTargetBand(activeTermInfo.tier)}.
                   </p>
                 )}
 

@@ -118,7 +118,18 @@ much nearer the 20/20 anchor by length than it should.
 **Recommended.** Regenerate the 12/20 exemplars, now that the scope brief asks for 2,700–3,600 characters at 12/20.
 That needs AI calls, so it was not done here.
 
-### 4. The verb cap held a 20-mark DISCUSS at Band 5 (applied)
+### 4. The verb cap held a 20-mark DISCUSS at Band 5 (applied, then withdrawn)
+
+**Withdrawn on 25 October 2026.** The six-band ladder below drew a question in two colours: the Writing Prompt shows a
+question in its verb tier's colour (a 20-mark DISCUSS is Tier 5, blue), while the Syllabus Terms, Marking Guide and
+Sample Answers beside it took the purple of Band 6. It also broke the guide's own rows: NESA writes five ranges (17–20,
+13–16, 9–12, 5–8, 1–4), six bands cannot fall one to a row, so the 13–16 row read Band 5 while a 13/20 exemplar in it
+read Band 4. The owner asked for the Writing Prompt's cap everywhere. A question's ceiling is its verb's tier again,
+and a guide written in mark ranges now gives one band per row, the ceiling at the top (`utils/guideBands.ts`), so the
+guide, its exemplars and the feedback agree by construction. The 2.21.0 data migration and a second one-off step in
+`schema.sql` re-derive the stored bands. The border evidence below stands: on the tier ladder NESA's Band 5/6 samples
+read Band 5, which is the trade made for one colour per question. In English Standard in particular a Band 6 is rare
+(NESA's band labels are per course), so a 20/20 reading Band 5 overstates the gap less than it might elsewhere.
 
 `getBandForMark` capped a Tier 5 verb (DISCUSS, ASSESS, JUSTIFY) at Band 5, whatever the marks. A student scoring
 18/20 on a Business Studies extended response saw "Band 5", and so did a perfect 20/20. NESA publishes three
@@ -150,8 +161,8 @@ and the 1/2 samples straddle 160.
 - The verb floor still stops a low verb on a long question. Its note now gives the task as the reason, not the
   ladder.
 - The question picker's tier headings no longer name a band, because each row carries its own.
-- With the free plan's exemplar cap at Band 3, the 12/20 exemplar on an extended response (now Band 4) becomes part of
-  Plus. Free students still see the 5/20 one.
+- With the free plan's exemplar cap at Band 3, the 12/20 exemplar on an extended response (Band 4 under this rule)
+  became part of Plus. Free students still saw the 5/20 one. Under the tier ladder it is Band 3 and free again.
 
 ### 5. Where the proxy marker went wrong: deducting, not best-fit (applied; check with the real model)
 
