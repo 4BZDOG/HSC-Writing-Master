@@ -1,5 +1,26 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-26 (Generators calibrated against real HSC papers)
+
+Evidence and rules in `docs/hsc-scenario-conventions.md`.
+
+- **Changed.** The question generator, the manual-question refiner, the marking-guide writer and the sample-answer
+  writer see real past HSC questions from the library (`utils/pastPaperCalibration.ts`): from the same course where
+  it has any, nearest first (the same dot point, then the topic, then the course, by marks), and from other courses
+  where it has none, with the brief limiting what may be taken from them to the craft (stem length, how a stimulus
+  is set up and referred to, how the guide words each row), never the content. Paper variants of one question
+  count once. The sample-answer writer is now shown the question's marking guide, and, for a full-mark answer,
+  how long NESA's own samples at that mark run.
+- **Changed.** Every generator that writes a scenario follows the conventions measured across 472 items of the
+  2020–2025 papers (`utils/scenarioConventions.ts`): unlocated by default, Australia named only when the question is
+  about Australia and then once, an Australian setting signalled by institutions and law rather than cliché (no
+  kangaroos, outback, surf or "mate"), people as roles rather than a cast of names, short scenarios, invented
+  businesses named only for an extended report, plus a per-course default. The old generators named Australia in
+  more than half of Business Studies scenarios (a third in the papers), named thirteen cities where the papers name
+  one, invented Geography place names and cast named characters in Legal Studies and Enterprise Computing.
+- **Fixed.** The generator modal sent its scenario type as a bare id ("financial", "random"); the model now gets the
+  words. The scenario regenerator was given the question alone; it now knows the course.
+
 ## [Unreleased] - 2026-10-25 (One band colour per question)
 
 - **Fixed.** A 20-mark DISCUSS was drawn in two colours: the Writing Prompt in its verb tier's blue (Band 5), the

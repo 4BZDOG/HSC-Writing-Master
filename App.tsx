@@ -21,6 +21,7 @@ import { useNavigation } from './hooks/useNavigation';
 import { useNavigatorFocusHandoff } from './hooks/useNavigatorFocusHandoff';
 import { activeSyllabusYear, resolveSyllabusYear, yearShortLabel } from './utils/syllabusYear';
 import { useSyllabusData } from './hooks/useSyllabusData';
+import { registerCalibrationLibrary } from './utils/pastPaperCalibration';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
 import { useToast } from './hooks/useToast';
@@ -163,6 +164,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   // would show nothing selected while Workspace quietly rendered the hidden
   // course anyway.
   const navigatorCourses = useMemo(() => visibleCourses(courses, user.role), [courses, user.role]);
+
+  // The AI generators calibrate against the library's real past HSC questions
+  // (utils/pastPaperCalibration.ts); they read it from here rather than through
+  // every modal that calls one.
+  useEffect(() => registerCalibrationLibrary(courses), [courses]);
 
   const {
     statePath,
