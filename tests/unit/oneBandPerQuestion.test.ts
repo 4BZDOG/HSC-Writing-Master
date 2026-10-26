@@ -3,7 +3,7 @@ import { allQuestions } from './support/shippedCourseData';
 import { getCommandTermInfo } from '../../data/commandTerms';
 import { questionCeilingBand, parseMarkingCriteria } from '../../utils/markingGuideParse';
 import { promptBandForMark } from '../../utils/guideBands';
-import type { PromptVerb } from '../../types';
+import type { Prompt, PromptVerb } from '../../types';
 
 /**
  * One colour per question. The Writing Prompt draws a question in its verb tier's
@@ -42,7 +42,7 @@ describe('one band colour per question', () => {
             sa.mark >= r.markRange[0] &&
             sa.mark <= r.markRange[1]
         );
-        if (row && promptBandForMark(prompt, sa.mark) !== row.band) {
+        if (row && promptBandForMark(prompt as Prompt, sa.mark) !== row.band) {
           off.push(
             `${sa.id}: ${sa.mark}/${prompt.totalMarks} row ${row.markLabel} is Band ${row.band}`
           );
