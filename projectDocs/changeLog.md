@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-26 (English Standard past papers, 2019–2023)
+
+- **Added.** 74 past HSC questions to HSC English Standard (`prompt-en-158`–`231`): every Paper 1 Section II and Paper
+  2 question from 2019 to 2023, including each text-specific variant, word for word with NESA's marking guidelines.
+  The papers are the 2017 syllabus, whose modules and prescribed texts are the ones the 2024 syllabus carries on, so
+  they sit under the matching Year 12 dot points. Each has three exemplars (full, middle and bottom marks), marker
+  notes, common errors and syllabus terms, written by Haiku agents and fact-checked by a second set against Project
+  Gutenberg, Wikipedia, LitCharts, Reading Australia and Australian Screen Online (22 errors and 81 doubtful details
+  corrected). Four parts are left out because NESA withheld their stimulus for copyright.
+- **Added.** `data/referencePapers/english-standard-2019-2023-past-papers.json`: all 102 written-response parts,
+  including Paper 1 Section I and NESA's sample answers there, as calibration (the unseen texts are not reproduced).
+- Shipped-course change: `DATA_VERSION` 2.22.0.
+
 ## [Unreleased] - 2026-10-26 (Generators calibrated against real HSC papers)
 
 Evidence and rules in `docs/hsc-scenario-conventions.md`.
