@@ -319,7 +319,10 @@ const RailNode = ({
 }) => {
   const theme = THEMES[colorKey] || THEMES.blue;
   const base =
-    'absolute -left-[0.95rem] top-1/2 -translate-y-1/2 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
+    // Centred by its wrapper (the 40px column left of each step), so it sits on
+    // the rail line. It used to be absolute and pulled a further 0.95rem left,
+    // which put it off the line at every width and off the screen on a phone.
+    'relative rounded-full transition-all duration-500 z-10 flex items-center justify-center';
   // Plays once when a step first turns complete — either right as this node
   // mounts already-done, or the moment the user's own action completes it —
   // and never replays on later re-renders while it merely stays complete.
@@ -1503,13 +1506,17 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   };
 
   return (
-    <div className="flex flex-col pl-4 md:pl-12 relative animate-fade-in">
-      <div className="absolute left-[1.35rem] md:left-[2.35rem] top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"></div>
+    // The rail and its nodes are drawn from `md` up. A phone has no room for the
+    // 40px column they need; the steps take the full width instead. On wider
+    // screens the line is at 28px: the middle of that column (48px padding less
+    // half of 40px), which is where each node is centred.
+    <div className="flex flex-col md:pl-12 relative animate-fade-in">
+      <div className="hidden md:block absolute left-7 top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"></div>
 
       {/* 1. Course Selection */}
       <div className={getContainerClasses(isCourseSelected, 'z-50')}>
         <div className={getBoxClasses(isCourseSelected, !isCourseSelected, LEVEL_HUE.course)}>
-          <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
+          <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
             <RailNode
               isSelected={isCourseSelected}
               isComplete={isTopicSelected}
@@ -1683,7 +1690,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {selectedCourse && (
         <div className={getContainerClasses(isTopicSelected, 'z-40')}>
           <div className={getBoxClasses(isTopicSelected, !isTopicSelected, LEVEL_HUE.topic)}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
+            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
               <RailNode
                 isSelected={isTopicSelected}
                 isComplete={isSubTopicSelected}
@@ -1886,7 +1893,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           <div
             className={getBoxClasses(isSubTopicSelected, !isSubTopicSelected, LEVEL_HUE.subTopic)}
           >
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
+            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
               <RailNode
                 isSelected={isSubTopicSelected}
                 isComplete={isDotPointSelected}
@@ -1984,7 +1991,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           <div
             className={getBoxClasses(isDotPointSelected, !isDotPointSelected, LEVEL_HUE.dotPoint)}
           >
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
+            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
               <RailNode
                 isSelected={isDotPointSelected}
                 isComplete={isPromptSelected}
@@ -2207,7 +2214,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {selectedDotPoint && (
         <div className={getContainerClasses(isPromptSelected, 'z-10')}>
           <div className={getBoxClasses(isPromptSelected, !isPromptSelected, LEVEL_HUE.prompt)}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 flex items-center justify-center">
+            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
               <RailNode
                 isSelected={isPromptSelected}
                 isComplete={false}
