@@ -69,6 +69,7 @@ export type GuardianErrorCode =
   | 'invite_not_found'
   | 'invite_expired'
   | 'invite_used'
+  | 'too_many_attempts'
   | 'own_invite'
   | 'link_limit'
   | 'not_a_guardian'
@@ -98,12 +99,16 @@ export const guardianErrorMessage = (code: GuardianErrorCode, name = 'Your child
   switch (code) {
     case 'unavailable':
       return 'Parent accounts need an online account. This copy of the app is not connected to one, so linking and billing are not available here.';
+    // One sentence for every way a code can fail. The server says the same thing for an
+    // unknown, used, expired or malformed code, so the message must not hint at which.
     case 'invite_not_found':
-      return 'That code does not match a child’s account. Check it with your child and try again.';
+      return 'That code didn’t work. Check it with your child, or ask them to make a new one. A code works once and lasts 7 days.';
     case 'invite_expired':
       return 'That code has expired. Ask your child to create a new one.';
     case 'invite_used':
       return 'That code has already been used. Ask your child for a new one.';
+    case 'too_many_attempts':
+      return 'Too many codes have been tried from this account. Wait an hour, then try again.';
     case 'own_invite':
       return 'You cannot link to your own account.';
     case 'link_limit':
@@ -132,6 +137,8 @@ const RPC_MESSAGE_CODES: ReadonlyArray<readonly [RegExp, GuardianErrorCode]> = [
   [/expired/i, 'invite_expired'],
   [/already (been )?(redeemed|used)/i, 'invite_used'],
   [/itself|yourself|own (code|invite|account)|caller is the student/i, 'own_invite'],
+  // Before link_limit, whose `too many` would otherwise catch the attempt limit too.
+  [/too many codes tried/i, 'too_many_attempts'],
   [/up to 6|linked to up to|limit|six|6 linked|too many/i, 'link_limit'],
   [
     /you are linked to|can only view the progress|not a guardian|not linked|not authori[sz]ed|permission denied/i,
@@ -220,15 +227,25 @@ export const createGuardianInvite = async (): Promise<GuardianInvite> => {
   return { code: data.code, expiresAt: data.expiresAt };
 };
 
-/** A parent redeems a child's code. The code is matched ignoring case, spaces and hyphens. */
+/**
+ * A parent redeems a child's code. The code is matched ignoring case, spaces and hyphens.
+ *
+ * A code that does not work is `{ ok: false, reason: 'invalid_code' }` from the database,
+ * not an error, so one sentence covers an unknown, used, expired or malformed code. The
+ * too-many-attempts limit is still a raised error, mapped by its message.
+ */
 export const redeemGuardianInvite = async (code: string): Promise<RedeemedInvite> => {
   const trimmed = code.trim();
   if (!trimmed) {
     throw new GuardianError('invite_not_found', 'Enter the code your child shows you.');
   }
-  const data = await callRpc<Partial<RedeemedInvite> | null>('redeem_guardian_invite', {
-    p_code: trimmed,
-  });
+  const data = await callRpc<(Partial<RedeemedInvite> & { ok?: boolean }) | null>(
+    'redeem_guardian_invite',
+    { p_code: trimmed }
+  );
+  if (data?.ok === false) {
+    throw new GuardianError('invite_not_found', guardianErrorMessage('invite_not_found'));
+  }
   if (!data?.studentId) throw new GuardianError('unknown', guardianErrorMessage('unknown'));
   return { studentId: data.studentId, displayName: data.displayName ?? 'Your child' };
 };

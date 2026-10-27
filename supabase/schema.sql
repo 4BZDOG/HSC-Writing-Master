@@ -4375,6 +4375,14 @@ grant execute on function public.school_seat_usage(integer) to authenticated;
 --     bearer secret, so it is never read back by anyone. Every RPC is security
 --     definer with `set search_path = public`, revoked from public and anon.
 --
+--     A CODE CAN BE GUESSED ONLY SO OFTEN. Every failed redeem writes one row to
+--     guardian_redeem_attempts, and a guardian with ten in the last hour is refused
+--     until the window clears. A bad, unknown, used, expired or own code all get the
+--     same answer, { ok: false, reason: 'invalid_code' }, so a guesser learns nothing
+--     about which codes exist. The RPC RETURNS for those failures rather than raising:
+--     a raise would roll back the attempt row it has just written. The attempt table
+--     has no client grant or policy, so only the RPC reads or writes it.
+--
 --     The role is 'parent' on app_role (§1). It is compared as text here
 --     (current_role()::text), so this section applies in one pass on a database where
 --     the value is new, and applies again unchanged.
@@ -4403,6 +4411,16 @@ create table if not exists public.guardian_invites (
 );
 create index if not exists guardian_invites_student_idx on public.guardian_invites (student_id);
 
+-- One row per failed redeem, so the attempt limit can count them. Written for a bad,
+-- unknown, used, expired or own code alike. Rows older than a day are deleted by the
+-- RPC itself, so the table never grows without bound. Nothing reads it but the RPC.
+create table if not exists public.guardian_redeem_attempts (
+  guardian_id  uuid not null references public.profiles (id) on delete cascade,
+  attempted_at timestamptz not null default now()
+);
+create index if not exists guardian_redeem_attempts_idx
+  on public.guardian_redeem_attempts (guardian_id, attempted_at);
+
 -- Who paid. Null means the holder paid for their own subscription.
 alter table public.subscriptions
   add column if not exists payer_id uuid references public.profiles (id) on delete set null;
@@ -4410,8 +4428,9 @@ create index if not exists subscriptions_payer_idx on public.subscriptions (paye
 
 -- ---- Row-level security and grants --------------------------------------------
 
-alter table public.guardian_links   enable row level security;
-alter table public.guardian_invites enable row level security;
+alter table public.guardian_links           enable row level security;
+alter table public.guardian_invites         enable row level security;
+alter table public.guardian_redeem_attempts enable row level security;
 
 drop policy if exists "Guardian links are seen by the two people they join" on public.guardian_links;
 create policy "Guardian links are seen by the two people they join"
@@ -4423,6 +4442,9 @@ create policy "Guardian links are seen by the two people they join"
 revoke all on public.guardian_links   from anon, authenticated;
 grant select on public.guardian_links to authenticated;
 revoke all on public.guardian_invites from anon, authenticated;
+-- No policy at all: with RLS on and no grant, a client read or write is refused. The
+-- definer RPC is the only path in, and it runs as the table's owner.
+revoke all on public.guardian_redeem_attempts from anon, authenticated;
 
 -- A payer reads the subscription they pay for. The holder's own policy
 -- ("Users read own subscriptions", §13) still applies to the same row.
@@ -4507,20 +4529,31 @@ end; $$;
 
 -- Links the caller (a parent or guardian) to the student who made the code.
 --   - The code is matched case-insensitively, ignoring spaces and hyphens.
---   - It fails if the code is unknown, already redeemed, expired, or the caller is
---     the student who made it. A second redeem of the same code always fails.
---   - It fails once the guardian already has six linked students. Redeeming a code for
---     a student the guardian is ALREADY linked to is not a new link: it succeeds, and
---     the code is marked redeemed.
+--   - A code that is malformed, unknown, already redeemed, expired, or the caller's
+--     own returns { ok: false, reason: 'invalid_code' }. It is the SAME answer for all
+--     of them, and it is a return, not a raise, so the attempt row is kept (see the
+--     section header). A second redeem of the same code always fails.
+--   - A guardian with ten failed attempts in the last hour is refused with a raise,
+--     whatever code they send. Attempts older than a day are deleted here.
+--   - It raises once the guardian already has six linked students. That is about the
+--     guardian's count, not the code. Redeeming a code for a student the guardian is
+--     ALREADY linked to is not a new link: it succeeds, and the code is marked redeemed.
+--   - On success it returns { ok: true, studentId, displayName }. Attempt rows are not
+--     cleared by a success, so a guesser cannot reset the count by linking once.
 create or replace function public.redeem_guardian_invite(p_code text)
 returns jsonb language plpgsql security definer set search_path = public as $$
 declare
-  v_me      uuid := auth.uid();
-  v_limit   constant integer := 6;
-  v_code    text := upper(regexp_replace(coalesce(p_code, ''), '[\s-]', '', 'g'));
-  v_invite  public.guardian_invites%rowtype;
-  v_student public.profiles%rowtype;
-  v_linked  integer;
+  v_me           uuid := auth.uid();
+  v_limit        constant integer  := 6;
+  v_max_attempts constant integer  := 10;
+  v_window       constant interval := interval '1 hour';
+  v_keep         constant interval := interval '1 day';
+  v_code         text := upper(regexp_replace(coalesce(p_code, ''), '[\s-]', '', 'g'));
+  v_invite       public.guardian_invites%rowtype;
+  v_student      public.profiles%rowtype;
+  v_valid        boolean := false;
+  v_recent       integer;
+  v_linked       integer;
 begin
   if v_me is null then
     raise exception 'Sign in to link a student';
@@ -4530,25 +4563,32 @@ begin
   end if;
 
   -- Serialise this guardian's redemptions, so two codes redeemed at once cannot
-  -- both pass the six-student count below.
+  -- both pass the attempt count below, or the six-student count further down.
   perform 1 from public.profiles where id = v_me for update;
 
-  if v_code !~ '^[A-HJ-NP-Z2-9]{8}$' then
-    raise exception 'No guardian code matches that. Check it with your child and try again';
+  delete from public.guardian_redeem_attempts
+   where guardian_id = v_me and attempted_at < now() - v_keep;
+
+  -- Counted before the code is looked at, so the limit holds whether or not the code
+  -- is real. The raise rolls back, so the eleventh attempt is not recorded either.
+  select count(*) into v_recent from public.guardian_redeem_attempts
+   where guardian_id = v_me and attempted_at > now() - v_window;
+  if v_recent >= v_max_attempts then
+    raise exception 'Too many codes tried. Wait an hour, then try again';
   end if;
 
-  select * into v_invite from public.guardian_invites where code = v_code for update;
-  if not found then
-    raise exception 'No guardian code matches that. Check it with your child and try again';
+  if v_code ~ '^[A-HJ-NP-Z2-9]{8}$' then
+    select * into v_invite from public.guardian_invites where code = v_code for update;
+    if found then
+      v_valid := v_invite.redeemed_at is null
+             and v_invite.expires_at > now()
+             and v_invite.student_id <> v_me;
+    end if;
   end if;
-  if v_invite.redeemed_at is not null then
-    raise exception 'That guardian code has already been used';
-  end if;
-  if v_invite.expires_at <= now() then
-    raise exception 'That guardian code has expired. Ask your child to make a new one';
-  end if;
-  if v_invite.student_id = v_me then
-    raise exception 'You cannot link an account to itself';
+
+  if not v_valid then
+    insert into public.guardian_redeem_attempts (guardian_id) values (v_me);
+    return jsonb_build_object('ok', false, 'reason', 'invalid_code');
   end if;
 
   if not exists (
@@ -4570,6 +4610,7 @@ begin
 
   select * into v_student from public.profiles where id = v_invite.student_id;
   return jsonb_build_object(
+    'ok', true,
     'studentId', v_student.id,
     'displayName', coalesce(nullif(v_student.display_name, ''), v_student.username)
   );

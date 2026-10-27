@@ -9,7 +9,12 @@
 --     reads progress and sees who pays);
 --   - each refusal is the one documented: a second redeem, an expired code, a
 --     student redeeming, a stranger reading progress, a parent writing the link
---     table directly, a payer reading the subscription and a stranger not.
+--     table directly, a payer reading the subscription and a stranger not;
+--   - a bad code is an ANSWER, not an error: unknown, used, expired and malformed
+--     codes return { ok: false, reason: 'invalid_code' } and look identical, and each
+--     one leaves a row in guardian_redeem_attempts. Ten in the hour stop the guardian
+--     with a raise, even for a valid code; the window ages out; another parent is not
+--     affected; and the attempt table is closed to the client.
 --
 -- Negative cases use the `attempt` helper below, which RECORDS the error text and
 -- then fails the test if there was none. A test that only catches an exception
@@ -56,6 +61,9 @@ end $$;
 --   ...e4  gd_other_student  a second student, for the 'a student cannot redeem' case
 --   ...e5  gd_cap_parent     a parent used for the six-student cap
 --   ...f01..f06              gd_cap_1..gd_cap_6, students to fill that cap
+--   ...6e0a  gd_limit_parent   a parent who runs into the attempt limit
+--   ...6e0b  gd_other_parent   a parent who must be unaffected by 6e0a's failures
+--   ...6e0c  gd_window_parent  a parent with old attempts that must not count
 -- Sign-up goes through handle_new_user, so this also proves the parent mapping. These
 -- inserts are plain, not `on conflict do nothing`: a fixture id already in use must stop
 -- the run, not quietly keep someone else's row.
@@ -81,7 +89,13 @@ insert into auth.users (id, email, raw_user_meta_data) values
   ('00000000-0000-0000-0000-000000006f05', 'gd_cap_5@example.test',
    '{"username":"gd_cap_5","display_name":"Gd Cap 5"}'),
   ('00000000-0000-0000-0000-000000006f06', 'gd_cap_6@example.test',
-   '{"username":"gd_cap_6","display_name":"Gd Cap 6"}');
+   '{"username":"gd_cap_6","display_name":"Gd Cap 6"}'),
+  ('00000000-0000-0000-0000-000000006e0a', 'gd_limit_parent@example.test',
+   '{"username":"gd_limit_parent","display_name":"Gd Limit Parent","account_type":"parent"}'),
+  ('00000000-0000-0000-0000-000000006e0b', 'gd_other_parent@example.test',
+   '{"username":"gd_other_parent","display_name":"Gd Other Parent","account_type":"parent"}'),
+  ('00000000-0000-0000-0000-000000006e0c', 'gd_window_parent@example.test',
+   '{"username":"gd_window_parent","display_name":"Gd Window Parent","account_type":"parent"}');
 
 -- ---- Sign-up maps account_type to a role, and nothing else does ---------------
 do $$
@@ -155,18 +169,25 @@ begin
   raise notice 'PASS: the student lists the guardian who is linked to them';
 end $$;
 
--- ---- A second redeem of the same code fails -------------------------------------
+-- ---- A second redeem of the same code is an invalid code, not a second link ------
+-- The answer is a return, not a raise: the attempt is recorded and the parent is told
+-- only that the code did not work.
 do $$
-declare v_err text;
+declare v jsonb; v_links integer;
 begin
   perform pg_temp.as_user('00000000-0000-0000-0000-000000006e02');
-  v_err := pg_temp.attempt(format('select public.redeem_guardian_invite(%L)',
-                                  current_setting('gd.code')));
+  v := public.redeem_guardian_invite(current_setting('gd.code'));
   perform pg_temp.as_owner();
-  if v_err is null or v_err not like '%already been used%' then
-    raise exception 'TEST FAILED: a second redeem of a used code was not refused (%)', v_err;
+  if v is distinct from '{"ok": false, "reason": "invalid_code"}'::jsonb then
+    raise exception 'TEST FAILED: a second redeem of a used code did not return invalid_code: %', v;
   end if;
-  raise notice 'PASS: a code cannot be redeemed twice';
+
+  select count(*) into v_links from public.guardian_links
+   where guardian_id = '00000000-0000-0000-0000-000000006e02';
+  if v_links <> 1 then
+    raise exception 'TEST FAILED: a second redeem changed the links (% rows)', v_links;
+  end if;
+  raise notice 'PASS: a code cannot be redeemed twice, and the second try returns invalid_code';
 end $$;
 
 -- ---- An expired code fails --------------------------------------------------------
@@ -175,13 +196,13 @@ insert into public.guardian_invites (code, student_id, expires_at)
 values ('EXPRD234', '00000000-0000-0000-0000-000000006e01', now() - interval '1 day');
 
 do $$
-declare v_err text; v_links integer;
+declare v jsonb; v_links integer;
 begin
   perform pg_temp.as_user('00000000-0000-0000-0000-000000006e03');
-  v_err := pg_temp.attempt($q$select public.redeem_guardian_invite('EXPR-D234')$q$);
+  v := public.redeem_guardian_invite('EXPR-D234');
   perform pg_temp.as_owner();
-  if v_err is null or v_err not like '%has expired%' then
-    raise exception 'TEST FAILED: an expired code was accepted (%)', v_err;
+  if v is distinct from '{"ok": false, "reason": "invalid_code"}'::jsonb then
+    raise exception 'TEST FAILED: an expired code did not return invalid_code: %', v;
   end if;
 
   select count(*) into v_links from public.guardian_links
@@ -189,7 +210,167 @@ begin
   if v_links <> 0 then
     raise exception 'TEST FAILED: an expired code still linked a parent (% rows)', v_links;
   end if;
-  raise notice 'PASS: an expired code is refused and links nobody';
+  raise notice 'PASS: an expired code returns invalid_code and links nobody';
+end $$;
+
+-- ---- Unknown, used, expired and malformed codes look identical -----------------------
+-- A guesser must not learn whether a code exists, so the four answers are compared
+-- byte for byte. Each call is also one failed attempt, so each adds one row.
+do $$
+declare
+  v_codes  text[] := array['ABC', 'QQQQQQQQ', current_setting('gd.code'), 'EXPRD234'];
+  v_code   text;
+  v        jsonb;
+  v_first  jsonb;
+  v_before integer;
+  v_after  integer;
+begin
+  foreach v_code in array v_codes loop
+    select count(*) into v_before from public.guardian_redeem_attempts
+     where guardian_id = '00000000-0000-0000-0000-000000006e03';
+
+    perform pg_temp.as_user('00000000-0000-0000-0000-000000006e03');
+    v := public.redeem_guardian_invite(v_code);
+    perform pg_temp.as_owner();
+
+    select count(*) into v_after from public.guardian_redeem_attempts
+     where guardian_id = '00000000-0000-0000-0000-000000006e03';
+    if v_after - v_before <> 1 then
+      raise exception 'TEST FAILED: the failed code % recorded % attempt rows, expected 1', v_code, v_after - v_before;
+    end if;
+
+    if v_first is null then
+      v_first := v;
+    elsif v is distinct from v_first then
+      raise exception 'TEST FAILED: code % answered differently: % against %', v_code, v, v_first;
+    end if;
+  end loop;
+
+  if v_first is distinct from '{"ok": false, "reason": "invalid_code"}'::jsonb then
+    raise exception 'TEST FAILED: the failed codes did not answer invalid_code: %', v_first;
+  end if;
+  raise notice 'PASS: unknown, used, expired and malformed codes return the same answer, and each records one attempt';
+end $$;
+
+-- ---- The attempt table is closed to the client ---------------------------------------
+do $$
+declare v_select text; v_insert text;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e02');
+  v_select := pg_temp.attempt('select count(*) from public.guardian_redeem_attempts');
+  v_insert := pg_temp.attempt(
+    'insert into public.guardian_redeem_attempts (guardian_id) values (' ||
+    quote_literal('00000000-0000-0000-0000-000000006e02') || ')');
+  perform pg_temp.as_owner();
+
+  -- No grant and no policy, so both are refused by the grant (SQLSTATE 42501).
+  if v_select is null or v_select not like '42501%' then
+    raise exception 'TEST FAILED: a parent read guardian_redeem_attempts directly (%)', v_select;
+  end if;
+  if v_insert is null or v_insert not like '42501%' then
+    raise exception 'TEST FAILED: a parent inserted into guardian_redeem_attempts directly (%)', v_insert;
+  end if;
+  raise notice 'PASS: a parent cannot read or write the attempt table directly';
+end $$;
+
+-- ---- Ten failures in the hour stop the guardian, even for a valid code ----------------
+-- Ten bad codes are each an answer and each a row. The eleventh is a raise, and it is
+-- raised even for a code that would link, so the limit is about the guardian, not the code.
+do $$
+declare v jsonb; v_err text; v_code text; v_links integer; v_live integer; v_count integer;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e0a');
+  for i in 1..10 loop
+    v := public.redeem_guardian_invite('QQQQQQQQ');
+    if v is distinct from '{"ok": false, "reason": "invalid_code"}'::jsonb then
+      perform pg_temp.as_owner();
+      raise exception 'TEST FAILED: failure % was not an invalid_code answer: %', i, v;
+    end if;
+  end loop;
+  perform pg_temp.as_owner();
+
+  -- A live code, made by a student who is not linked to this parent.
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e04');
+  v := public.create_guardian_invite();
+  perform pg_temp.as_owner();
+  v_code := replace(v->>'code', '-', '');
+
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e0a');
+  v_err := pg_temp.attempt(format('select public.redeem_guardian_invite(%L)', v_code));
+  perform pg_temp.as_owner();
+
+  if v_err is null or v_err not like '%Too many codes tried%' then
+    raise exception 'TEST FAILED: an eleventh try in the hour was not refused (%)', v_err;
+  end if;
+
+  -- The refusal is a raise, so nothing is linked, the code stays live, and the
+  -- refused call is not recorded either: still exactly ten rows.
+  select count(*) into v_links from public.guardian_links
+   where guardian_id = '00000000-0000-0000-0000-000000006e0a';
+  select count(*) into v_live from public.guardian_invites
+   where code = v_code and redeemed_at is null;
+  select count(*) into v_count from public.guardian_redeem_attempts
+   where guardian_id = '00000000-0000-0000-0000-000000006e0a';
+  if v_links <> 0 or v_live <> 1 then
+    raise exception 'TEST FAILED: the refused redeem changed state (% links, % live codes)', v_links, v_live;
+  end if;
+  if v_count <> 10 then
+    raise exception 'TEST FAILED: attempts were recorded past the limit (% rows, expected 10)', v_count;
+  end if;
+
+  perform set_config('gd.limit_code', v_code, true);
+  raise notice 'PASS: ten failures in the hour refuse the guardian with a raise, even for a valid code';
+end $$;
+
+-- A different parent is not affected by another parent's failures.
+do $$
+declare v jsonb;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e0b');
+  v := public.redeem_guardian_invite(current_setting('gd.limit_code'));
+  perform pg_temp.as_owner();
+  if (v->>'ok') is distinct from 'true' then
+    raise exception 'TEST FAILED: a different parent was refused after another parent''s failures: %', v;
+  end if;
+  raise notice 'PASS: another parent is not affected by the first parent''s failures';
+end $$;
+
+-- Attempts older than an hour do not count. Ten of them, an hour and a half old, must not
+-- block a valid redeem. Attempts older than a day are deleted by the RPC, so three two
+-- days old are gone after one call, leaving the ten.
+insert into public.guardian_redeem_attempts (guardian_id, attempted_at)
+select '00000000-0000-0000-0000-000000006e0c', now() - interval '90 minutes'
+  from generate_series(1, 10);
+insert into public.guardian_redeem_attempts (guardian_id, attempted_at)
+select '00000000-0000-0000-0000-000000006e0c', now() - interval '2 days'
+  from generate_series(1, 3);
+
+do $$
+declare v jsonb; v_code text; v_count integer; v_old integer;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e04');
+  v := public.create_guardian_invite();
+  perform pg_temp.as_owner();
+  v_code := replace(v->>'code', '-', '');
+
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006e0c');
+  v := public.redeem_guardian_invite(v_code);
+  perform pg_temp.as_owner();
+  if (v->>'ok') is distinct from 'true' then
+    raise exception 'TEST FAILED: attempts older than an hour still refused a valid code: %', v;
+  end if;
+
+  -- A success is not an attempt and does not clear anything: the ten hour-old rows stay,
+  -- and the two-day-old rows went during the call.
+  select count(*) into v_count from public.guardian_redeem_attempts
+   where guardian_id = '00000000-0000-0000-0000-000000006e0c';
+  select count(*) into v_old from public.guardian_redeem_attempts
+   where guardian_id = '00000000-0000-0000-0000-000000006e0c'
+     and attempted_at < now() - interval '1 day';
+  if v_count <> 10 or v_old <> 0 then
+    raise exception 'TEST FAILED: attempt housekeeping left % rows, % of them over a day old (expected 10 and 0)', v_count, v_old;
+  end if;
+  raise notice 'PASS: attempts older than an hour do not count, and attempts older than a day are cleared';
 end $$;
 
 -- ---- A student cannot redeem a code -----------------------------------------------
@@ -415,6 +596,10 @@ begin
   perform pg_temp.as_user('00000000-0000-0000-0000-000000006e05');
   v := public.redeem_guardian_invite(replace(v->>'code', '-', ''));
   perform pg_temp.as_owner();
+  -- A refused code returns rather than raises, and the count below would not notice.
+  if (v->>'ok') is distinct from 'true' then
+    raise exception 'TEST FAILED: a code for an already-linked student was refused: %', v;
+  end if;
 
   select count(*) into v_links from public.guardian_links
    where guardian_id = '00000000-0000-0000-0000-000000006e05';

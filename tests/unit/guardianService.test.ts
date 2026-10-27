@@ -82,6 +82,7 @@ describe('RPC error messages become codes', () => {
     ['That code has already been redeemed', 'invite_used'],
     ['You cannot link to yourself', 'own_invite'],
     ['Guardian already has 6 linked students', 'link_limit'],
+    ['Too many codes tried. Wait an hour, then try again', 'too_many_attempts'],
     ['Not a guardian of this student', 'not_a_guardian'],
     ['Invite not found', 'invite_not_found'],
     ['Something unexpected happened', 'unknown'],
@@ -176,7 +177,7 @@ describe('checkout refusals', () => {
 describe('RPC wrappers', () => {
   it('redeems a code with the trimmed value and the contract parameter name', async () => {
     rpcMock.mockResolvedValue({
-      data: { studentId: 'child-1', displayName: 'Sam' },
+      data: { ok: true, studentId: 'child-1', displayName: 'Sam' },
       error: null,
     });
 
@@ -184,6 +185,40 @@ describe('RPC wrappers', () => {
 
     expect(rpcMock).toHaveBeenCalledWith('redeem_guardian_invite', { p_code: 'K7QM-4PXR' });
     expect(result).toEqual({ studentId: 'child-1', displayName: 'Sam' });
+  });
+
+  it('turns an ok: false answer into one invite_not_found sentence, whatever the cause', async () => {
+    // The database returns this for an unknown, used, expired or malformed code alike.
+    rpcMock.mockResolvedValue({
+      data: { ok: false, reason: 'invalid_code' },
+      error: null,
+    });
+
+    const failure = await redeemGuardianInvite('K7QM-4PXR').catch((err: unknown) => err);
+
+    expect(failure).toBeInstanceOf(GuardianError);
+    expect((failure as GuardianError).code).toBe('invite_not_found');
+    expect((failure as GuardianError).message).toBe(
+      'That code didn’t work. Check it with your child, or ask them to make a new one. A code works once and lasts 7 days.'
+    );
+  });
+
+  it('gives the attempt limit its own sentence, not the link limit', async () => {
+    rpcMock.mockResolvedValue({
+      data: null,
+      error: {
+        code: 'P0001',
+        message: 'Too many codes tried. Wait an hour, then try again',
+      },
+    });
+
+    const failure = await redeemGuardianInvite('K7QM-4PXR').catch((err: unknown) => err);
+
+    expect(failure).toBeInstanceOf(GuardianError);
+    expect((failure as GuardianError).code).toBe('too_many_attempts');
+    expect((failure as GuardianError).message).toBe(
+      'Too many codes have been tried from this account. Wait an hour, then try again.'
+    );
   });
 
   it('refuses an empty code without calling the database', async () => {
