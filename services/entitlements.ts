@@ -330,12 +330,18 @@ export interface AccessDescription {
   explanation: string;
 }
 
-const accessAudience = (user: User | null): AccessAudience => {
-  if (user?.role === 'admin') return 'admin';
-  if (user?.role === 'teacher') return 'teacher';
-  if (user?.role === 'parent') return 'parent';
-  return 'student';
+/** Which access wording a role is shown. Exhaustive on `UserRole`. */
+const ACCESS_AUDIENCE_FOR_ROLE: Record<UserRole, AccessAudience> = {
+  admin: 'admin',
+  teacher: 'teacher',
+  user: 'student',
+  guest: 'student',
+  parent: 'parent',
 };
+
+// A signed-out caller (no user) is described as a student, as before.
+const accessAudience = (user: User | null): AccessAudience =>
+  user ? ACCESS_AUDIENCE_FOR_ROLE[user.role] : 'student';
 
 const OPEN: Omit<AccessDescription, 'audience'> = {
   state: 'open',

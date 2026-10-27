@@ -347,11 +347,17 @@ create policy profiles_update_self on public.profiles
 -- gap: a real end-user session (auth.uid() is not null) may only change
 -- `role` if they are already an admin. `auth.uid()` is null for the SQL
 -- editor and the service-role key, so bootstrapping/admin scripts still work.
+--
+-- The check keys on current_user as well (as §32 does). A sanctioned definer RPC
+-- runs as its owner, yet auth.uid() still reads the caller, so without this the
+-- RPCs that change a role (claim_parent_account, §31) would be refused too. A direct
+-- client write runs as `authenticated` and is still refused.
 create or replace function public.prevent_role_self_escalation()
 returns trigger language plpgsql as $$
 begin
   if new.role is distinct from old.role
      and auth.uid() is not null
+     and current_user in ('authenticated', 'anon')
      and not public.is_admin() then
     raise exception 'Only admins can change a profile''s role';
   end if;
@@ -823,7 +829,8 @@ create table if not exists public.ai_quota_limits (
   daily_limit integer not null check (daily_limit >= 0)
 );
 
--- Sensible defaults; adjust with set_role_ai_quota() (admin-only).
+-- Sensible defaults; adjust with set_role_ai_quota() (admin-only). The parent row (30,
+-- the same as a free student) is seeded in §31, once app_role has the value.
 -- Student 30 and teacher 200 since October 2026 (were 60 and 400): a call costs up
 -- to about A$0.07 on the marking model, and neither role pays for its allowance.
 -- Thirty covers the free tier's three markings with room for everything around
@@ -2206,12 +2213,23 @@ end; $$;
 alter table public.profiles
   add column if not exists agreement_version      text,
   add column if not exists agreement_accepted_at  timestamptz,
+  add column if not exists agreement_audience     text,
   add column if not exists quick_start_seen_version text;
+
+-- The charter the user read (services/agreementService.ts writes it). Without this
+-- column the soft patch names a column that does not exist and the WHOLE update is
+-- refused, so the durable acceptance was never written at all. Parents (§31) read
+-- their own charter, so 'parent' is a value here.
+alter table public.profiles drop constraint if exists profiles_agreement_audience_check;
+alter table public.profiles add constraint profiles_agreement_audience_check
+  check (agreement_audience is null or agreement_audience in ('student', 'teacher', 'parent'));
 
 comment on column public.profiles.agreement_version is
   'AGREEMENT_VERSION (data/legalContent.ts) the user last accepted. Null = never accepted.';
 comment on column public.profiles.agreement_accepted_at is
   'When the user accepted agreement_version.';
+comment on column public.profiles.agreement_audience is
+  'The charter the user read: student, teacher or parent (CharterAudience, data/legalContent.ts). Null = recorded before this was tracked.';
 comment on column public.profiles.quick_start_seen_version is
   'QUICK_START_VERSION the user has been shown, so the guide stops auto-opening.';
 
@@ -4822,6 +4840,78 @@ begin
   );
 end; $$;
 
+-- ---- RPCs: a new sign-up becomes a parent account ----------------------------
+
+-- Turns the CALLER's brand-new student account into a parent account.
+--
+-- Why it exists: email sign-up sends `account_type = 'parent'` in its metadata, which
+-- handle_new_user (§7) reads. signInWithOAuth cannot carry user metadata, so a Google,
+-- Microsoft or GitHub sign-up always lands as a student. The app keeps the choice in
+-- the browser across the redirect and calls this once the session is back.
+--
+-- Why the guards: the change is offered to a brand-new account only, so it cannot be
+-- used to re-label an account that has been in use. Refused unless ALL of these hold:
+--   - the caller is signed in;
+--   - the account is a student (already a parent is a no-op that returns the role);
+--   - the profile was created within the last 30 minutes;
+--   - the account holds no work: no responses, no response events, no AI usage, no
+--     school, no paid plan, no class, no subscription, no guardian link or code.
+-- An established student cannot discard their record by becoming a parent, and a used
+-- account cannot change role at all. Teachers and admins are never changed here.
+--
+-- Why it can write `role`: it runs as its owner, which prevent_role_self_escalation (§9)
+-- lets through. The caller gains no UPDATE privilege: a direct client write to `role` is
+-- still refused.
+create or replace function public.claim_parent_account()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_me      uuid := auth.uid();
+  v_role    text;
+  v_created timestamptz;
+  v_plan    text;
+  v_school  uuid;
+begin
+  if v_me is null then
+    raise exception 'Sign in to set up a parent account';
+  end if;
+
+  -- Serialise this account's calls, so two at once cannot both pass the checks below.
+  select p.role::text, p.created_at, p.stripe_plan, p.school_id
+    into v_role, v_created, v_plan, v_school
+    from public.profiles p
+   where p.id = v_me
+     for update;
+  if not found then
+    raise exception 'No profile was found for this account';
+  end if;
+
+  if v_role = 'parent' then
+    return jsonb_build_object('role', 'parent');
+  end if;
+  if v_role is distinct from 'student' then
+    raise exception 'Only a student account can be set up as a parent account';
+  end if;
+  if v_created < now() - interval '30 minutes' then
+    raise exception 'This account is more than 30 minutes old, so it cannot become a parent account. Sign up with a different email address to make one';
+  end if;
+  if v_school is not null or coalesce(v_plan, 'free') <> 'free' then
+    raise exception 'This account has a school or paid plan, so it cannot become a parent account';
+  end if;
+  if exists (select 1 from public.responses where user_id = v_me)
+     or exists (select 1 from public.response_events where user_id = v_me)
+     or exists (select 1 from public.ai_usage where user_id = v_me)
+     or exists (select 1 from public.class_members where user_id = v_me)
+     or exists (select 1 from public.subscriptions where user_id = v_me)
+     or exists (select 1 from public.guardian_links
+                 where student_id = v_me or guardian_id = v_me)
+     or exists (select 1 from public.guardian_invites where student_id = v_me) then
+    raise exception 'This account already has work in it, so it cannot become a parent account';
+  end if;
+
+  update public.profiles set role = 'parent' where id = v_me;
+  return jsonb_build_object('role', 'parent');
+end; $$;
+
 -- ---- Grants --------------------------------------------------------------------
 
 revoke all on function public.is_guardian_of(uuid) from public, anon;
@@ -4844,6 +4934,30 @@ grant execute on function public.remove_guardian_link(uuid) to authenticated;
 
 revoke all on function public.get_guardian_student_progress(uuid, integer) from public, anon;
 grant execute on function public.get_guardian_student_progress(uuid, integer) to authenticated;
+
+revoke all on function public.claim_parent_account() from public, anon;
+grant execute on function public.claim_parent_account() to authenticated;
+
+-- ---- The parent AI allowance (§11 seeds the other groups) ---------------------
+-- A parent is metered at the group default of 30 a day, the same as a free student.
+-- Without this row resolve_ai_quota falls back to the built-in 50, which gave a parent
+-- more than a student. Seeded here, not in §11's insert, because 'parent' is added to
+-- app_role by the `alter type` at the top of this file. PostgreSQL will not let a value
+-- added in the same transaction be used until that transaction commits, so a literal
+-- 'parent' in §11 fails when the file runs as one transaction (psql -1, or a migration
+-- runner that wraps it), with SQLSTATE 55P04 "unsafe use of new value". The insert is
+-- therefore dynamic SQL. Where the value is not usable yet, the step is skipped with a
+-- notice, and the next apply seeds it once the enum change has committed.
+--
+-- `on conflict do nothing` keeps whatever an admin has set since, so re-applying this
+-- file never resets a parent's allowance to 30. Change it with set_role_ai_quota('parent', n).
+do $$
+begin
+  execute 'insert into public.ai_quota_limits (role, daily_limit) '
+       || 'values (''parent''::public.app_role, 30) on conflict (role) do nothing';
+exception when sqlstate '55P04' then
+  raise notice 'parent AI quota not seeded: app_role.parent is not committed yet; re-apply schema.sql to seed it (30 a day)';
+end $$;
 
 -- =============================================================================
 -- §32 · Entitlement columns on profiles are written by the server only

@@ -15,6 +15,11 @@ import {
   isEmailDomainAllowed,
   allowedDomainMessage,
 } from './signupPolicy';
+import {
+  clearPendingAccountType,
+  readPendingParentChoice,
+  rememberPendingAccountType,
+} from './pendingAccountType';
 
 // Surfaced when the durable IndexedDB profile write fails (quota, private
 // browsing) so a silent data-loss no longer looks like a successful save. App
@@ -410,6 +415,40 @@ const clearAuthRedirectParams = (): void => {
     }
   } catch {
     // Non-fatal: a blocked history write leaves a messy URL, nothing worse.
+  }
+};
+
+/**
+ * Applies a parent choice made on the sign-up form before the redirect (see
+ * loginWithOAuth). It runs before the profile is read, so the user comes back as
+ * a parent with no reload.
+ *
+ * It never blocks the sign-in. A refusal (the account is older than 30 minutes,
+ * or already holds work) leaves a student account, and `onNotice` says so. The
+ * choice is forgotten whatever the outcome.
+ */
+const applyPendingParentChoice = async (
+  client: NonNullable<typeof supabase>,
+  authUser: { app_metadata?: { provider?: string } },
+  onNotice?: (message: string) => void
+): Promise<void> => {
+  if (!readPendingParentChoice()) {
+    clearPendingAccountType();
+    return;
+  }
+  try {
+    const { error } = await client.rpc('claim_parent_account');
+    if (error) throw error;
+  } catch {
+    const provider = authUser.app_metadata?.provider;
+    const label = provider ? PROVIDER_LABELS[provider as Provider] : undefined;
+    const who = label ? `${label} account` : 'account';
+    onNotice?.(
+      `This ${who} already has a student account, so it stays a student account. ` +
+        'To make a parent account, sign up with a different email.'
+    );
+  } finally {
+    clearPendingAccountType();
   }
 };
 
@@ -832,10 +871,17 @@ export const authService = {
     return guestUser;
   },
 
-  loginWithOAuth: async (provider: Provider): Promise<void> => {
+  /**
+   * `accountType` is the sign-up form's choice. Only `parent` matters: it is kept
+   * in the browser because the redirect leaves the page and `signInWithOAuth`
+   * cannot carry it, and handleOAuthCallback applies it on return. A sign-in
+   * passes nothing, which also clears any choice left from an earlier sign-up.
+   */
+  loginWithOAuth: async (provider: Provider, accountType?: SignUpAccountType): Promise<void> => {
     if (!isSupabaseConfigured || !supabase) {
       throw new Error('OAuth login requires Supabase to be configured.');
     }
+    rememberPendingAccountType(accountType);
     const { error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
@@ -857,6 +903,8 @@ export const authService = {
     // useless to the student reading it on a login screen. Name the actual
     // remedy instead, and who has to do it.
     if (error) {
+      // No redirect happened, so no callback will use the choice.
+      clearPendingAccountType();
       if (/provider is not enabled|unsupported provider/i.test(error.message)) {
         throw new Error(
           `${PROVIDER_LABELS[provider] ?? provider} sign-in is not enabled for this deployment. ` +
@@ -868,7 +916,13 @@ export const authService = {
     }
   },
 
-  handleOAuthCallback: async (): Promise<User | null> => {
+  /**
+   * `onNotice` receives a sentence to show the person when a sign-up could not
+   * become a parent account. The sign-in itself still succeeds.
+   */
+  handleOAuthCallback: async (
+    options: { onNotice?: (message: string) => void } = {}
+  ): Promise<User | null> => {
     if (!isSupabaseConfigured || !supabase) return null;
 
     // A recovery return carries the same `?code=` as an OAuth sign-in. If this
@@ -936,12 +990,14 @@ export const authService = {
       if (typeof window !== 'undefined') {
         window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
       }
+      clearPendingAccountType();
       throw new Error(
         `${authUser.email ?? 'That account'} cannot be used here. ` +
           allowedDomainMessage(allowedDomains)
       );
     }
 
+    await applyPendingParentChoice(client, authUser, options.onNotice);
     const user = await hydrateSessionUser(authUser);
 
     clearAuthRedirectParams();

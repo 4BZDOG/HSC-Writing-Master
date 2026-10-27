@@ -39,8 +39,33 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   parent: 'Parent/guardian',
 };
 
-/** The role as the account holder should read it. */
+/**
+ * The role as the account holder should read it.
+ *
+ * `ROLE_LABELS` is exhaustive on `UserRole`, so the typed call sites cannot fall
+ * through. The `?? 'Student'` is for the user object itself, which is read back
+ * from local storage and may carry a role string this build does not know (say,
+ * one written by a newer deployment). Naming such an account a student is the
+ * least surprising thing to print, and it is the only place a fallback is kept.
+ */
 export const roleLabel = (role: UserRole): string => ROLE_LABELS[role] ?? 'Student';
+
+/**
+ * Who may send a question to the shared library for reviewer approval. A guest
+ * has no account to credit it to. A parent or guardian browses questions to see
+ * what their child practises, not to author them, so the button would only add
+ * noise to the review queue. Exhaustive on `UserRole`, so a new role must decide.
+ */
+const CONTRIBUTES_TO_LIBRARY: Record<UserRole, boolean> = {
+  admin: true,
+  teacher: true,
+  user: true,
+  guest: false,
+  parent: false,
+};
+
+export const canContributeToLibrary = (role: UserRole): boolean =>
+  CONTRIBUTES_TO_LIBRARY[role] ?? false;
 
 /** Create and edit curriculum content: questions, samples, rubrics, keywords. */
 export const canCurateContent = (role: UserRole): boolean => role === 'admin' || role === 'teacher';

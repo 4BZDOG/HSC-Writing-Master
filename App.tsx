@@ -12,6 +12,7 @@ import ApiStatusIndicator from './components/ApiStatusIndicator';
 import BackgroundTaskIndicator from './components/BackgroundTaskIndicator';
 import GlobalLoadingOverlay from './components/GlobalLoadingOverlay';
 import AppModals from './components/AppModals';
+import QuickStartModal from './components/QuickStartModal';
 import UpgradeModal from './components/UpgradeModal';
 import CourseRequestModal from './components/CourseRequestModal';
 import LoginPage from './components/LoginPage';
@@ -45,6 +46,7 @@ import { visibleCourses } from './utils/courseVisibility';
 import { User, WritingMode } from './types';
 import type { StatePath, SyllabusCrumb } from './types';
 import {
+  canContributeToLibrary,
   canCreateCurriculum,
   canCurateContent,
   canModerate,
@@ -309,8 +311,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [isSubmittingPrompt, setIsSubmittingPrompt] = useState(false);
 
   // Shared-library contribution is only meaningful when Supabase is configured
-  // and the caller has a real account (guests have no session to attribute to).
-  const canContribute = isCurriculumRemote() && user.role !== 'guest';
+  // and the role contributes at all (see canContributeToLibrary).
+  const canContribute = isCurriculumRemote() && canContributeToLibrary(user.role);
 
   const handleSubmitPromptToLibrary = async () => {
     if (!currentPrompt || !statePath.dotPointId) return;
@@ -1355,6 +1357,9 @@ const App: React.FC = () => {
   // Bumped each time a parent returns from a Plus checkout, so the dashboard re-reads
   // the child's card. Reset when the parent leaves the dashboard or signs out.
   const [guardianCheckoutReturns, setGuardianCheckoutReturns] = useState(0);
+  // The quick-start guide opened from the parent dashboard. The workspace has its own
+  // modal manager; the dashboard is outside it, so it keeps this one flag.
+  const [isGuardianQuickStartOpen, setIsGuardianQuickStartOpen] = useState(false);
 
   const handleAcceptAgreement = useCallback(async () => {
     if (!user) return;
@@ -1536,7 +1541,7 @@ const App: React.FC = () => {
     } else {
       // No cached user — check for an OAuth redirect that just completed.
       authService
-        .handleOAuthCallback()
+        .handleOAuthCallback({ onNotice: (message) => showToast(message, 'warning') })
         .then((oauthUser) => {
           // No "Signed in as …" toast here or on the form below. A first
           // sign-in lands on the agreement, the quick start and the syllabus
@@ -1605,17 +1610,28 @@ const App: React.FC = () => {
       {!user ? (
         <LoginPage onLogin={setUser} />
       ) : isBlockedByAgreement ? null : user.role === 'parent' && !isBrowsingQuestions ? (
-        <Suspense fallback={null}>
-          <GuardianDashboard
+        <>
+          <Suspense fallback={null}>
+            <GuardianDashboard
+              user={user}
+              onBrowseQuestions={() => {
+                setGuardianCheckoutReturns(0);
+                setIsBrowsingQuestions(true);
+              }}
+              onOpenQuickStart={() => setIsGuardianQuickStartOpen(true)}
+              onSignOut={handleLogout}
+              checkoutReturn={guardianCheckoutReturns}
+            />
+          </Suspense>
+          {/* The guide for a parent is mounted here, because AppModals only exists in
+              the workspace. No legal reader is mounted on this view, so no footer link. */}
+          <QuickStartModal
+            isOpen={isGuardianQuickStartOpen}
+            onClose={() => setIsGuardianQuickStartOpen(false)}
             user={user}
-            onBrowseQuestions={() => {
-              setGuardianCheckoutReturns(0);
-              setIsBrowsingQuestions(true);
-            }}
-            onSignOut={handleLogout}
-            checkoutReturn={guardianCheckoutReturns}
+            showToast={showToast}
           />
-        </Suspense>
+        </>
       ) : (
         <AuthenticatedApp
           user={user}

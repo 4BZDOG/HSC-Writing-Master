@@ -146,6 +146,33 @@ export const pastHscYears = (topics: readonly Pick<Topic, 'subTopics'>[]): numbe
   return [...years].sort((a, b) => a - b);
 };
 
+/** "a", "a and b", "a, b and c" — for a line of words in a sentence. */
+export const joinWords = (words: string[]): string =>
+  words.length <= 1
+    ? (words[0] ?? '')
+    : `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}`;
+
+/**
+ * The line that says which saved years this course's past papers do not carry.
+ * A saved year is kept in storage on purpose (switching back restores it), so
+ * the filter has to say when it is not applying one, rather than dropping it
+ * without a word. Null when every saved year is available, or none is saved.
+ */
+export const missingPastHscYearsNote = (
+  saved: readonly number[],
+  available: readonly number[]
+): string | null => {
+  const have = new Set(available);
+  const missing = [...new Set(saved.filter((y) => !have.has(y)))].sort((a, b) => a - b);
+  if (missing.length === 0) return null;
+  const applied = saved.filter((y) => have.has(y)).length;
+  const names = joinWords(missing.map(String));
+  const isOne = missing.length === 1;
+  const notFound = `${names} ${isOne ? "isn't" : "aren't"} in this course's past papers`;
+  if (applied === 0) return `${notFound}, so all years are shown.`;
+  return `${notFound}, so ${isOne ? "it isn't" : "they aren't"} applied.`;
+};
+
 /**
  * What the navigator remembers for one course. `years` is empty for "All years",
  * which is also where a course with nothing stored starts.

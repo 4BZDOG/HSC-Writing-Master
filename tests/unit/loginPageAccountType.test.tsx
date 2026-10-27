@@ -10,6 +10,7 @@ import userEvent from '@testing-library/user-event';
  */
 
 const signUpMock = vi.fn();
+const loginWithOAuthMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
   isSupabaseConfigured: true,
@@ -23,7 +24,7 @@ vi.mock('../../services/authService', () => ({
     signUp: (...args: unknown[]) => signUpMock(...args),
     login: vi.fn(),
     loginAsGuest: vi.fn(),
-    loginWithOAuth: vi.fn(),
+    loginWithOAuth: (...args: unknown[]) => loginWithOAuthMock(...args),
   },
 }));
 
@@ -87,5 +88,58 @@ describe('LoginPage sign-up: account type', () => {
     render(<LoginPage onLogin={onLogin} />);
 
     expect(screen.queryByRole('radio', { name: /parent or guardian/i })).toBeNull();
+  });
+});
+
+/**
+ * The provider buttons create the account as the picker says. A Google, Microsoft or
+ * GitHub sign-up carries a parent choice across the redirect; a sign-in carries none.
+ */
+describe('LoginPage sign-up: the provider buttons follow the picker', () => {
+  it('passes the parent choice to the provider', async () => {
+    const user = userEvent.setup();
+    loginWithOAuthMock.mockResolvedValue(undefined);
+    render(<LoginPage onLogin={onLogin} />);
+    await openSignUp(user);
+
+    await user.click(screen.getByRole('radio', { name: /parent or guardian/i }));
+    await user.click(screen.getByRole('button', { name: /google/i }));
+
+    expect(loginWithOAuthMock).toHaveBeenCalledTimes(1);
+    expect(loginWithOAuthMock.mock.calls[0]).toEqual(['google', 'parent']);
+  });
+
+  it('says so under the buttons when the parent choice is made', async () => {
+    const user = userEvent.setup();
+    render(<LoginPage onLogin={onLogin} />);
+    await openSignUp(user);
+
+    expect(screen.getByText('or sign up with')).toBeTruthy();
+    await user.click(screen.getByRole('radio', { name: /parent or guardian/i }));
+    expect(screen.getByText('Signing up as a parent or guardian')).toBeTruthy();
+    expect(screen.queryByText('or sign up with')).toBeNull();
+  });
+
+  it('passes a student sign-up through as no choice', async () => {
+    const user = userEvent.setup();
+    loginWithOAuthMock.mockResolvedValue(undefined);
+    render(<LoginPage onLogin={onLogin} />);
+    await openSignUp(user);
+
+    await user.click(screen.getByRole('button', { name: /microsoft/i }));
+
+    expect(loginWithOAuthMock.mock.calls[0][0]).toBe('azure');
+    expect(loginWithOAuthMock.mock.calls[0][1]).toBe('student');
+  });
+
+  it('a sign-in passes no choice, whatever the picker last showed', async () => {
+    const user = userEvent.setup();
+    loginWithOAuthMock.mockResolvedValue(undefined);
+    render(<LoginPage onLogin={onLogin} />);
+
+    expect(screen.getByText('or continue with')).toBeTruthy();
+    await user.click(screen.getByRole('button', { name: /google/i }));
+
+    expect(loginWithOAuthMock.mock.calls[0]).toEqual(['google', undefined]);
   });
 });

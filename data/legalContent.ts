@@ -109,8 +109,12 @@ export const AI_MARKING_DISCLAIMER =
 // The charter — the short, human version everyone reads before they accept
 // ---------------------------------------------------------------------------
 
-/** Audience for a charter. `user` and `guest` both read the student charter. */
-export type CharterAudience = 'student' | 'teacher';
+/**
+ * Audience for a charter. `user` and `guest` both read the student charter.
+ * `parent` is a parent or guardian, who links to a child's account and pays for
+ * the child's plan (schema §31).
+ */
+export type CharterAudience = 'student' | 'teacher' | 'parent';
 
 /** Icon keys resolved to lucide components in `components/agreementIcons.ts`. */
 export type CharterIcon =
@@ -229,9 +233,62 @@ const TEACHER_CHARTER: Charter = {
   acceptLabel: 'I have read this and I agree',
 };
 
+/**
+ * The parent and guardian charter. Written for an adult who links to a child's
+ * account, reads a read-only progress summary and pays for the child's plan.
+ *
+ * REVIEW: this charter was written with the parent account feature. It has not
+ * yet been through the review the student and teacher charters went through.
+ * Whoever signs those off should read this one before it reaches parents.
+ */
+const PARENT_CHARTER: Charter = {
+  audience: 'parent',
+  eyebrow: 'Your agreement',
+  title: 'What you agree to as a parent or guardian',
+  intro:
+    'You can see your child’s progress and you pay for their plan, and both depend on their consent. Six things to know before you link to their account.',
+  promises: [
+    {
+      icon: 'users',
+      title: 'Your child decides who links',
+      body: 'Nothing is linked until your child makes a one-time code in their profile and you enter it. The code works once and expires after seven days. Either of you can remove the link at any time.',
+      emphasis: true,
+    },
+    {
+      icon: 'eye',
+      title: 'You see how they are going, not what they wrote',
+      body: 'Once linked, you see their display name, username and plan, whether you pay for it, and a read-only progress summary: attempts, average band and marks by command verb, and a recent trend. Their written answers are never shown to you. Use the summary to support their practice, not as general monitoring.',
+    },
+    {
+      icon: 'brain',
+      title: 'The marker is an AI, and its marks are practice feedback',
+      body: 'It marks against the syllabus, and it is good at it, but it can still get things wrong. A mark is never an official result, and it never counts towards the HSC.',
+      emphasis: true,
+    },
+    {
+      icon: 'scale',
+      title: 'You pay, and the plan belongs to your child',
+      body: 'A plan you buy for your child is charged to your card and renews until it is cancelled, while your child holds the plan on their account. Manage billing from the billing portal. Removing the link does not cancel a subscription you pay for: cancel it in the billing portal, which stays open to you after the link is gone.',
+      emphasis: true,
+    },
+    {
+      icon: 'pencil',
+      title: 'Help them practise, and do not write for them',
+      body: 'Explaining a band, a command term or a feedback comment is what the app is for. Do not write or rewrite your child’s answers, and do not pass AI text off as their work. Their school’s rules on AI apply as well as ours.',
+    },
+    {
+      icon: 'shield',
+      title: 'Be 18 or over, and keep the account to yourself',
+      body: 'Parent and guardian accounts are for adults. One person per account, no sharing logins, nothing abusive or unlawful in the writing box, and no attempts to get around the usage limits.',
+    },
+  ],
+  acceptLabel: 'I have read this and I agree',
+};
+
 export const CHARTERS: Record<CharterAudience, Charter> = {
   student: STUDENT_CHARTER,
   teacher: TEACHER_CHARTER,
+  parent: PARENT_CHARTER,
 };
 
 // ---------------------------------------------------------------------------

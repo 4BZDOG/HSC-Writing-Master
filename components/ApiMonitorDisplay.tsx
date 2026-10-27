@@ -12,7 +12,6 @@ import {
   type QuotaStatus,
   type QuotaRole,
   QUOTA_ROLES,
-  isOptionalQuotaRole,
 } from '../services/quotaService';
 
 const QUOTA_ROLE_LABELS: Record<QuotaRole, string> = {
@@ -78,13 +77,16 @@ const AiQuotaPanel: React.FC = () => {
     setMessage(null);
     setMessageIsError(false);
     try {
-      for (const role of QUOTA_ROLES) {
-        if (isOptionalQuotaRole(role) && !limits[role].trim()) continue;
+      // Check every group before writing any, so one bad field saves nothing.
+      const parsedLimits = QUOTA_ROLES.map((role) => {
         const parsed = Number.parseInt(limits[role], 10);
         if (!Number.isFinite(parsed) || parsed < 0) {
           throw new Error(`${QUOTA_ROLE_LABELS[role]}: enter a non-negative number.`);
         }
-        await setRoleQuota(role, parsed);
+        return { role, limit: parsed };
+      });
+      for (const { role, limit } of parsedLimits) {
+        await setRoleQuota(role, limit);
       }
       report('Group limits saved.');
     } catch (e) {

@@ -18,6 +18,7 @@ import { clearOnboarding, signIn } from './support/workspace';
  */
 
 const COURSE = 'HSC Business Studies';
+const COURSE_ID = 'course-hsc-business-studies';
 const YEAR = '2024';
 
 /** The picker trigger that still shows its placeholder, so each step is found in order. */
@@ -43,6 +44,25 @@ const pastHscSwitch = (page: Page): Locator =>
   page.getByRole('button', { name: 'Past HSC', exact: true });
 
 const yearGroup = (page: Page): Locator => page.getByRole('group', { name: 'Years' });
+
+/**
+ * Stores a navigator state for Business Studies before the app loads, the way
+ * an earlier visit would have left it. The app reads it on first render.
+ */
+const seedNavigator = async (page: Page, years: number[]): Promise<void> => {
+  await page.addInitScript(
+    ([key, value]) => window.localStorage.setItem(key, value),
+    [`hsc.pastHscNavigator.${COURSE_ID}`, JSON.stringify({ on: true, years })]
+  );
+};
+
+/** Signs in, clears onboarding and selects Business Studies, leaving the navigator as seeded. */
+const openBusinessStudies = async (page: Page): Promise<void> => {
+  await signIn(page, 'user');
+  await clearOnboarding(page);
+  await openPicker(page, page.locator('button[aria-haspopup="listbox"]').first());
+  await page.getByRole('option', { name: COURSE, exact: true }).click({ timeout: 30_000 });
+};
 
 test.describe('past HSC navigator filter', () => {
   test.describe.configure({ timeout: 180_000 });
@@ -143,5 +163,41 @@ test.describe('past HSC navigator filter', () => {
     expect(offTexts.length).toBeGreaterThan(onTexts.length);
     expect(offTexts.some((text) => !/HSC \d{4}/.test(text))).toBe(true);
     await closePicker(page);
+  });
+
+  test('names a saved year this course does not have, and applies the rest', async ({ page }) => {
+    // 2018 is not in the bundled Business Studies past papers; 2024 is.
+    await seedNavigator(page, [2018, 2024]);
+    await openBusinessStudies(page);
+
+    await expect(pastHscSwitch(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 30_000 });
+    await expect(
+      page.getByText("2018 isn't in this course's past papers, so it isn't applied.", {
+        exact: true,
+      })
+    ).toBeVisible({ timeout: 30_000 });
+    // The year that does exist is still the one applied.
+    await expect(yearGroup(page).getByRole('button', { name: YEAR, exact: true })).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await expect(
+      yearGroup(page).getByRole('button', { name: 'All years', exact: true })
+    ).toHaveAttribute('aria-pressed', 'false');
+  });
+
+  test('says all years are shown when no saved year is in this course', async ({ page }) => {
+    await seedNavigator(page, [2018]);
+    await openBusinessStudies(page);
+
+    await expect(pastHscSwitch(page)).toHaveAttribute('aria-pressed', 'true', { timeout: 30_000 });
+    await expect(
+      page.getByText("2018 isn't in this course's past papers, so all years are shown.", {
+        exact: true,
+      })
+    ).toBeVisible({ timeout: 30_000 });
+    await expect(
+      yearGroup(page).getByRole('button', { name: 'All years', exact: true })
+    ).toHaveAttribute('aria-pressed', 'true');
   });
 });

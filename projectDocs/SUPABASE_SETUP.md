@@ -381,6 +381,9 @@ SELECT public.set_user_ai_quota('jane.smith', 200);
 SELECT public.set_user_ai_quota('jane.smith', NULL);
 ```
 
+Seeded defaults, per UTC day: admin 1000, teacher 200, student 30, parent 30. An
+existing database keeps whatever an admin has set since.
+
 Or use the admin dashboard → AI usage pill → Daily AI Quotas.
 
 ---

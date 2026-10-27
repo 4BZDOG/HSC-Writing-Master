@@ -6,6 +6,7 @@ import {
   countPastHscInTopics,
   dotPointHasPastHsc,
   isPastHscInYears,
+  missingPastHscYearsNote,
   pastHscYears,
   readPastHscNavigatorState,
   subTopicHasPastHsc,
@@ -206,5 +207,48 @@ describe('the saved navigator state', () => {
     writePastHscNavigatorState('', { on: true, years: [2023] });
     expect(setItem).not.toHaveBeenCalled();
     expect(readPastHscNavigatorState('')).toEqual({ on: false, years: [] });
+  });
+});
+
+describe('missingPastHscYearsNote', () => {
+  it('says nothing when every saved year is available', () => {
+    expect(missingPastHscYearsNote([2023, 2024], [2022, 2023, 2024])).toBeNull();
+  });
+
+  it('says nothing when no year is saved', () => {
+    expect(missingPastHscYearsNote([], [2023, 2024])).toBeNull();
+  });
+
+  it('names one missing year while another is still applied', () => {
+    expect(missingPastHscYearsNote([2018, 2024], [2023, 2024])).toBe(
+      "2018 isn't in this course's past papers, so it isn't applied."
+    );
+  });
+
+  it('names several missing years, oldest first, while some are still applied', () => {
+    expect(missingPastHscYearsNote([2018, 2017, 2024], [2023, 2024])).toBe(
+      "2017 and 2018 aren't in this course's past papers, so they aren't applied."
+    );
+  });
+
+  it('says all years are shown when no saved year is available', () => {
+    expect(missingPastHscYearsNote([2018], [2023, 2024])).toBe(
+      "2018 isn't in this course's past papers, so all years are shown."
+    );
+    expect(missingPastHscYearsNote([2017, 2018], [2023, 2024])).toBe(
+      "2017 and 2018 aren't in this course's past papers, so all years are shown."
+    );
+  });
+
+  it('says all years are shown when the course has no past papers at all', () => {
+    expect(missingPastHscYearsNote([2024], [])).toBe(
+      "2024 isn't in this course's past papers, so all years are shown."
+    );
+  });
+
+  it('counts a repeated saved year once', () => {
+    expect(missingPastHscYearsNote([2018, 2018], [2024])).toBe(
+      "2018 isn't in this course's past papers, so all years are shown."
+    );
   });
 });

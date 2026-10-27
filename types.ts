@@ -400,10 +400,12 @@ export interface UserAgreement {
   /**
    * Which charter they read. Students and staff agree to materially different
    * things — the staff charter covers student visibility and moderation — so a
-   * promoted account has to read the other one. Absent on records written
-   * before this was tracked, which are accepted as-is rather than re-prompted.
+   * promoted account has to read the other one, and a parent or guardian reads
+   * their own charter. Absent on records written before this was tracked; those
+   * are accepted as-is, except for a parent, who is asked again (see
+   * `agreementPromptReason` in services/agreementService.ts).
    */
-  audience?: 'student' | 'teacher';
+  audience?: 'student' | 'teacher' | 'parent';
 }
 
 export interface User {

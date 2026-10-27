@@ -44,7 +44,6 @@ import {
   type QuotaStatus,
   type QuotaRole,
   QUOTA_ROLES,
-  isOptionalQuotaRole,
   type UsageReportRow,
   type ModelUsageRow,
   type SchoolRow,
@@ -464,13 +463,16 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
   const handleSaveLimits = async () => {
     setIsBusy(true);
     try {
-      for (const role of QUOTA_ROLES) {
-        if (isOptionalQuotaRole(role) && !limits[role].trim()) continue;
+      // Check every group before writing any, so one bad field saves nothing.
+      const parsedLimits = QUOTA_ROLES.map((role) => {
         const parsed = Number.parseInt(limits[role], 10);
         if (!Number.isFinite(parsed) || parsed < 0) {
           throw new Error(`${ROLE_LABEL[role]} limit must be a non-negative number.`);
         }
-        await setRoleQuota(role, parsed);
+        return { role, limit: parsed };
+      });
+      for (const { role, limit } of parsedLimits) {
+        await setRoleQuota(role, limit);
       }
       showToast('Group limits saved — they apply to the next call.', 'success');
     } catch (e) {

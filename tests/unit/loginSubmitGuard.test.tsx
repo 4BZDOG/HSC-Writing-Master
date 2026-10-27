@@ -54,7 +54,8 @@ describe('LoginPage submit button during an OAuth redirect', () => {
 
     await user.click(screen.getByRole('button', { name: /^google$/i }));
 
-    await waitFor(() => expect(loginWithOAuthMock).toHaveBeenCalledWith('google'));
+    // Second argument is the sign-up account type: none for a sign-in.
+    await waitFor(() => expect(loginWithOAuthMock).toHaveBeenCalledWith('google', undefined));
     expect(submitButton.disabled).toBe(true);
   });
 });

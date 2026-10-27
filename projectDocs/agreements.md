@@ -15,8 +15,8 @@ been wired up wrong — the fix belongs in `data/`.
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | `data/agreementVersion.ts`      | `AGREEMENT_VERSION` and `QUICK_START_VERSION`, in a module with **no imports** (see below)                                   |
 | `services/planLimits.ts`        | The free/paid limit numbers, also **import-free**. `entitlements.ts` re-exports them                                         |
-| `data/legalContent.ts`          | The charter (student + teacher), the Terms of Use, the Privacy Notice, the changelog, and the one-line AI marking disclaimer |
-| `data/quickStartContent.ts`     | The quick-start tracks (student / teacher / guest) and the power tips                                                        |
+| `data/legalContent.ts`          | The charter (student, teacher, parent), the Terms of Use, the Privacy Notice, the changelog, and the one-line AI marking disclaimer |
+| `data/quickStartContent.ts`     | The quick-start tracks (student / teacher / guest / parent) and the power tips                                               |
 | `utils/planComparison.ts`       | The Free / Plus / School table — **derived**, not written                                                                    |
 | `services/agreementService.ts`  | Who has to accept, why, and recording it                                                                                     |
 | `services/dataRightsService.ts` | Export my data, delete my account                                                                                            |
@@ -75,7 +75,7 @@ literal braces to a student.
 | ------------- | ------------------------------------------------ | ---------------------------------- |
 | `first`       | Never accepted                                   | The charter, plainly               |
 | `updated`     | Accepted an older version                        | "We have updated this" + changelog |
-| `roleChanged` | Accepted as a student, now staff (or vice versa) | "Your account has changed"         |
+| `roleChanged` | Accepted a different charter from the one now due (a student promoted to staff, or a parent who accepted the student charter) | "Your account has changed"         |
 | `none`        | Up to date                                       | Nothing — no dialog                |
 
 The `roleChanged` case matters: the staff charter covers student visibility and
@@ -83,7 +83,15 @@ moderation, which the student charter says nothing about. A promoted teacher
 has not agreed to it just because they agreed to something else.
 
 Records written before `audience` was tracked carry none, and are honoured
-as-is — an old acceptance is not invalidated by a field we added later.
+as-is — an old acceptance is not invalidated by a field we added later. The one
+exception is a parent: every parent accepted the student charter before the
+parent charter existed, so a parent with no audience on record is asked again.
+
+Parents and guardians read their own charter (`audience: 'parent'`). Which
+charter, quick-start track and progress report each role gets is a `Record<UserRole, …>`
+in `services/agreementService.ts`, `data/quickStartContent.ts` and
+`utils/progressReportOptions.ts`, so adding a role is a compile error until each
+is filled in. `tests/unit/roleMaps.test.ts` checks every role in each.
 
 **Guests are never blocked.** They see the same charter as a dismissible
 notice. A read-only trial that persists nothing server-side is not the moment

@@ -24,14 +24,10 @@ export type QuotaRole = 'admin' | 'teacher' | 'student' | 'parent';
 
 /**
  * Every group that can hold a daily limit, in display order. `parent` (schema §31) is
- * not seeded in ai_quota_limits, so it starts blank and parents fall back to the
- * built-in default until an admin sets one; a blank parent field is therefore left
- * alone on save rather than rejected.
+ * seeded in ai_quota_limits like the others, so every field is required on save: a
+ * blank or invalid field is an error, not a skipped row.
  */
 export const QUOTA_ROLES: QuotaRole[] = ['admin', 'teacher', 'student', 'parent'];
-
-/** Whether a blank field for this group means "keep the default" rather than an error. */
-export const isOptionalQuotaRole = (role: QuotaRole): boolean => role === 'parent';
 
 export interface RoleQuota {
   role: QuotaRole;

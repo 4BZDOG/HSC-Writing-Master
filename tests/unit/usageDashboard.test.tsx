@@ -41,6 +41,8 @@ vi.mock('../../services/quotaService', async (importOriginal) => {
       { role: 'admin', daily_limit: 1000 },
       { role: 'teacher', daily_limit: 400 },
       { role: 'student', daily_limit: 60 },
+      // Every group is seeded (schema §11 and §31), parents included.
+      { role: 'parent', daily_limit: 30 },
     ]),
     setRoleQuota: vi.fn().mockResolvedValue(undefined),
     setUserQuotaOverride: vi.fn().mockResolvedValue(undefined),
@@ -161,6 +163,7 @@ describe('UsageDashboard', () => {
     await waitFor(() => expect(quotaService.setRoleQuota).toHaveBeenCalledWith('student', 80));
     expect(quotaService.setRoleQuota).toHaveBeenCalledWith('admin', 1000);
     expect(quotaService.setRoleQuota).toHaveBeenCalledWith('teacher', 400);
+    expect(quotaService.setRoleQuota).toHaveBeenCalledWith('parent', 30);
   });
 
   it('shows an empty state when there are no calls today', async () => {

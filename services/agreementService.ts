@@ -34,13 +34,24 @@ import { QUICK_START_VERSION } from '../data/quickStartContent';
 // ---------------------------------------------------------------------------
 
 /**
+ * Which charter each role reads. Keyed on every `UserRole`, so a new role is a
+ * compile error here until it is given a charter.
+ *
  * Students and guests read the student charter — a guest is almost always a
  * student or a teacher having a look, and the student charter is the one that
  * explains what the marker is. Teachers and admins read the teacher charter,
- * which additionally covers student visibility and moderation.
+ * which additionally covers student visibility and moderation. Parents and
+ * guardians read their own, because they link to a child and pay for the plan.
  */
-export const audienceForRole = (role: UserRole): CharterAudience =>
-  role === 'admin' || role === 'teacher' ? 'teacher' : 'student';
+export const AUDIENCE_FOR_ROLE: Record<UserRole, CharterAudience> = {
+  admin: 'teacher',
+  teacher: 'teacher',
+  user: 'student',
+  guest: 'student',
+  parent: 'parent',
+};
+
+export const audienceForRole = (role: UserRole): CharterAudience => AUDIENCE_FOR_ROLE[role];
 
 export const charterForRole = (role: UserRole): Charter => CHARTERS[audienceForRole(role)];
 
@@ -65,6 +76,10 @@ export const agreementPromptReason = (user: User | null | undefined): AgreementP
   // seeing other people's work or about moderation. Records written before the
   // audience was tracked carry no audience and are left alone.
   if (accepted.audience && accepted.audience !== audienceForRole(user.role)) return 'roleChanged';
+  // A parent who accepted before audience was tracked accepted the one charter
+  // there was, the student charter, which says nothing about linking to a child
+  // or paying for their plan. Only parents are asked again for that case.
+  if (!accepted.audience && user.role === 'parent') return 'roleChanged';
   return 'none';
 };
 

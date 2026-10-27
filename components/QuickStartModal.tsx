@@ -31,8 +31,9 @@ interface QuickStartModalProps {
   isOpen: boolean;
   onClose: () => void;
   user: User;
-  /** Opens the Terms & Privacy reader — offered as a footer link. */
-  onOpenLegal: () => void;
+  /** Opens the Terms & Privacy reader — offered as a footer link. Left out where
+   *  no reader is mounted (the parent dashboard). */
+  onOpenLegal?: () => void;
   /** Passed through to the plan comparison, whose School licence route can
    *  start a checkout and has to be able to report a failure. */
   showToast: (message: string, type: ToastType) => void;
@@ -272,21 +273,23 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
                 ))}
               </ul>
 
-              <button
-                onClick={onOpenLegal}
-                className="mt-5 w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/[0.03] light:bg-surface-elevated border border-white/5 light:border-slate-300 hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
-              >
-                <Scale className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
-                <span className="flex-1 min-w-0">
-                  <span className="t-label block text-[rgb(var(--color-text-primary))]">
-                    Your agreement, terms and privacy
+              {onOpenLegal && (
+                <button
+                  onClick={onOpenLegal}
+                  className="mt-5 w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/[0.03] light:bg-surface-elevated border border-white/5 light:border-slate-300 hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
+                >
+                  <Scale className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
+                  <span className="flex-1 min-w-0">
+                    <span className="t-label block text-[rgb(var(--color-text-primary))]">
+                      Your agreement, terms and privacy
+                    </span>
+                    <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
+                      What the AI marker is, who can see what, and what we do with the work.
+                    </span>
                   </span>
-                  <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
-                    What the AI marker is, what your teacher can see, and what we do with your work.
-                  </span>
-                </span>
-                <ArrowRight className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
-              </button>
+                  <ArrowRight className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
+                </button>
+              )}
             </>
           )}
         </div>
