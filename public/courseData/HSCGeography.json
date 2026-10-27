@@ -6921,7 +6921,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; refer to case studies, illustrative examples and the Stimulus Booklet where appropriate; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "25"
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section III (40 marks). Attempt TWO questions from Questions 25–27. Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -8554,7 +8555,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "24(a)"
+                    "hscQuestionNumber": "24(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 10 minutes for this section."
                   }
                 ]
               },
@@ -10276,7 +10278,8 @@
                     "scenario": "Refer to pages 2–3 of the Stimulus Booklet to answer parts (a)–(c).",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 10 minutes for this section."
                   }
                 ]
               },
@@ -13616,7 +13619,8 @@
                     "scenario": "Your answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "23"
+                    "hscQuestionNumber": "23",
+                    "hscSection": "Section IV (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -14068,7 +14072,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "18(b)"
+                    "hscQuestionNumber": "18(b)",
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
                   }
                 ]
               },
@@ -14296,7 +14301,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; refer to case studies, illustrative examples and the Stimulus Booklet where appropriate; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "26"
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section III (40 marks). Attempt TWO questions from Questions 25–27. Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -15586,7 +15592,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "20(a)"
+                    "hscQuestionNumber": "20(a)",
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
                   }
                 ]
               }
@@ -15881,7 +15888,8 @@
                     "scenario": "Answer parts (b)–(c) with reference to an economic activity you have studied.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "23(c)"
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 10 minutes for this section."
                   }
                 ]
               }
@@ -16063,7 +16071,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "23(a)"
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 10 minutes for this section."
                   }
                 ]
               },
@@ -16238,7 +16247,8 @@
                     "scenario": "Answer parts (b)–(c) with reference to an economic activity you have studied.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "23(b)"
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 10 minutes for this section."
                   },
                   {
                     "id": "prompt-geo-hsc-2025-20b",
@@ -16297,7 +16307,8 @@
                     "scenario": "Answer parts (b) and (c) with reference to a global economic activity you have studied.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "20(b)"
+                    "hscQuestionNumber": "20(b)",
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
                   }
                 ]
               },
@@ -16471,7 +16482,8 @@
                     "scenario": "Answer parts (b) and (c) with reference to a global economic activity you have studied.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "20(c)"
+                    "hscQuestionNumber": "20(c)",
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
                   }
                 ]
               }
@@ -17121,7 +17133,8 @@
                     "scenario": "The diagram shows the four pillars of sustainability.\nPillars of sustainability\nSocial Economic Environmental Cultural",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "21"
+                    "hscQuestionNumber": "21",
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
                   }
                 ]
               }
@@ -17418,7 +17431,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "19(a)"
+                    "hscQuestionNumber": "19(a)",
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
                   }
                 ]
               },
@@ -17592,7 +17606,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "19(b)"
+                    "hscQuestionNumber": "19(b)",
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
                   }
                 ]
               },
@@ -18001,7 +18016,8 @@
                     "scenario": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.\n\nYour answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "22(a)"
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -18228,7 +18244,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "24(b)"
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 10 minutes for this section."
                   }
                 ]
               },
@@ -18402,7 +18419,8 @@
                     "scenario": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.\n\nYour answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -18577,7 +18595,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; refer to case studies, illustrative examples and the Stimulus Booklet where appropriate; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "27"
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section III (40 marks). Attempt TWO questions from Questions 25–27. Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-geo-hsc-2025-22c",
@@ -18636,7 +18655,8 @@
                     "scenario": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.\n\nYour answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "22(c)"
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               }
