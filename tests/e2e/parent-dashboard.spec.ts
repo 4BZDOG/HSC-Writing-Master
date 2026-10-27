@@ -1,5 +1,6 @@
 import { expect, Page, test } from '@playwright/test';
 import { clearOnboarding } from './support/workspace';
+import { expectOnTop } from './support/paint';
 
 /**
  * The parent account, as it lands. A parent is sent to the children dashboard
@@ -41,6 +42,13 @@ test.describe('parent dashboard', () => {
       page.getByRole('heading', { name: 'Parent accounts need an online account' })
     ).toBeVisible();
 
+    // Visible is not the same as readable. The dashboard once sat beneath the
+    // app's own background, and every check above still passed while it was
+    // blank, so each key element is also checked to be what is painted on top.
+    await expectOnTop(heading);
+    await expectOnTop(page.getByRole('button', { name: 'Browse questions' }));
+    await expectOnTop(page.getByRole('region', { name: 'Parent accounts need an online account' }));
+
     // Browse questions leaves the dashboard for the question bank.
     await page.getByRole('button', { name: 'Browse questions' }).click({ timeout: 60_000 });
     const back = page.getByRole('button', { name: 'Back to your children' });
@@ -54,5 +62,6 @@ test.describe('parent dashboard', () => {
     // And the way back returns to the dashboard.
     await back.click({ timeout: 60_000 });
     await expect(heading).toBeVisible({ timeout: 60_000 });
+    await expectOnTop(heading);
   });
 });
