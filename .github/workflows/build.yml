@@ -14,6 +14,10 @@ on:
     branches: [main, develop]
   pull_request:
     branches: [main, develop]
+  # Lets a maintainer run the full push matrix (desktop WebKit, Firefox, Mobile
+  # Chrome) on any branch from the Actions tab before merging. The deploy job is
+  # gated on a push to main, so a manual run never deploys.
+  workflow_dispatch:
 
 # Superseded runs are cancelled rather than left to finish. Pushing three fixes
 # in quick succession used to queue three complete pipelines, and on a runner
