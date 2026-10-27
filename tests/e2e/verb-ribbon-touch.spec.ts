@@ -169,4 +169,58 @@ test.describe('the verb ribbon on a phone', () => {
     const after = await page.evaluate(() => window.visualViewport?.scale ?? 1);
     expect(after).toBe(before);
   });
+
+  test('the drawer, the strip and the scoreboard stay on the screen, and their figures are whole', async ({
+    page,
+  }) => {
+    await openWorkspace(page);
+    await openVerbRibbon(page);
+    // A verb chosen, so the scoreboard is on screen: the state the figures live in.
+    await strip(page).getByRole('button', { name: 'SYNTHESISE', exact: true }).tap();
+    await expect(page.getByText('Band Cap', { exact: true })).toBeVisible();
+
+    const viewport = page.viewportSize()!;
+    /** Whether a box lies wholly inside the screen, with a pixel of rounding either side. */
+    const inScreen = (box: { x: number; width: number } | null) =>
+      !!box && box.x >= -1 && box.x + box.width <= viewport.width + 1;
+
+    // The ribbon's own frame, the strip that scrolls inside it, and the scoreboard.
+    const stage = page.locator('.ribbon-stage-hue');
+    expect(inScreen(await stage.boundingBox()), 'ribbon frame is off the screen').toBe(true);
+    expect(inScreen(await strip(page).boundingBox()), 'tier strip is off the screen').toBe(true);
+
+    const scoreboard = page.getByText('Band Cap', { exact: true }).locator('xpath=../..');
+    expect(inScreen(await scoreboard.boundingBox()), 'scoreboard is off the screen').toBe(true);
+
+    // Each figure sits inside its cell and is not cut short by it: a value wider
+    // than its cell is `nowrap`, so it would overflow silently and be clipped.
+    const cells = await page.evaluate(() => {
+      const label = Array.from(document.querySelectorAll('.ribbon-stage-hue span')).find(
+        (el) => el.textContent?.trim() === 'Band Cap'
+      );
+      const board = label?.parentElement?.parentElement;
+      if (!board) return [];
+      return Array.from(board.children).map((cell) => {
+        const value = cell.lastElementChild as HTMLElement;
+        const r = cell.getBoundingClientRect();
+        return {
+          left: r.left,
+          right: r.right,
+          valueFits: value.scrollWidth <= value.clientWidth + 1,
+        };
+      });
+    });
+    expect(cells).toHaveLength(4);
+    for (const cell of cells) {
+      expect(cell.left).toBeGreaterThanOrEqual(-1);
+      expect(cell.right).toBeLessThanOrEqual(viewport.width + 1);
+      expect(cell.valueFits, 'a scoreboard figure is wider than its cell').toBe(true);
+    }
+
+    // And the page itself still does not scroll sideways.
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth
+    );
+    expect(overflow).toBeLessThanOrEqual(1);
+  });
 });
