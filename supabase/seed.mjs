@@ -165,6 +165,8 @@ async function importCourse(course, subject) {
             is_past_hsc: !!prompt.isPastHSC,
             hsc_year: prompt.hscYear ?? null,
             hsc_question_number: prompt.hscQuestionNumber ?? null,
+            hsc_section: prompt.hscSection ?? null,
+            hsc_text: prompt.hscText ?? null,
             status: 'approved',
             created_by: createdBy,
           });
@@ -180,6 +182,7 @@ async function importCourse(course, subject) {
               source: sa.source ?? 'AI',
               feedback: sa.feedback ?? null,
               quick_tip: sa.quickTip ?? null,
+              prescribed_text: sa.prescribedText ?? null,
               status: 'approved',
               created_by: createdBy,
             });

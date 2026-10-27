@@ -805,6 +805,7 @@ const SampleAnswerSchema = z
     mark: z.union([z.string(), z.number()]).transform((val) => Number(val) || 0),
     source: z.enum(['AI', 'USER', 'HSC_EXEMPLAR']).catch('AI').default('AI'),
     derivedFromStudent: z.boolean().optional().catch(undefined),
+    prescribedText: z.string().optional().catch(undefined),
     feedback: z.string().optional(),
     quickTip: z.string().optional(),
     contentFlag: ContentFlagSchema.optional(),
@@ -847,6 +848,8 @@ const PromptSchema = z
     isPastHSC: z.boolean().optional().default(false),
     hscYear: z.number().optional(),
     hscQuestionNumber: z.string().optional(),
+    hscSection: z.string().optional().catch(undefined),
+    hscText: z.string().optional().catch(undefined),
     contentFlag: ContentFlagSchema.optional(),
   })
   .passthrough()
@@ -1310,6 +1313,8 @@ const mergePromptContent = (existingPrompt: Prompt, importedPrompt: Prompt): Pro
     existingPrompt.hscQuestionNumber,
     importedPrompt.hscQuestionNumber
   ),
+  hscSection: mergeScalarText(existingPrompt.hscSection, importedPrompt.hscSection),
+  hscText: mergeScalarText(existingPrompt.hscText, importedPrompt.hscText),
   linkedOutcomes: dedupeStringArray([
     ...(existingPrompt.linkedOutcomes || []),
     ...(importedPrompt.linkedOutcomes || []),

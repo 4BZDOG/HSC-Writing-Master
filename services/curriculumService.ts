@@ -83,6 +83,9 @@ interface PromptRow {
   is_past_hsc: boolean;
   hsc_year: number | null;
   hsc_question_number: string | null;
+  /** Added after the first deployments; absent on a database without it. */
+  hsc_section?: string | null;
+  hsc_text?: string | null;
   scenario_image_path: string | null;
   scenario_image_alt: string | null;
   scenario_image_updated_at: string | null;
@@ -97,6 +100,7 @@ interface SampleAnswerRow {
   source: SampleAnswer['source'] | null;
   feedback: string | null;
   quick_tip: string | null;
+  prescribed_text?: string | null;
   /**
    * Set only on the rows synthesised from `withheld_sample_answers()`. The
    * table itself has no such column — a withheld exemplar is not a row with a
@@ -161,6 +165,7 @@ const mapSampleAnswer = (row: SampleAnswerRow): SampleAnswer => ({
   source: row.source ?? 'AI',
   feedback: row.feedback ?? undefined,
   quickTip: row.quick_tip ?? undefined,
+  ...(row.prescribed_text ? { prescribedText: row.prescribed_text } : {}),
   ...(row.withheld ? { withheld: true } : {}),
 });
 
@@ -183,6 +188,8 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   isPastHSC: row.is_past_hsc ?? false,
   hscYear: row.hsc_year ?? undefined,
   hscQuestionNumber: row.hsc_question_number ?? undefined,
+  hscSection: row.hsc_section ?? undefined,
+  hscText: row.hsc_text ?? undefined,
   scenarioImage: row.scenario_image_path
     ? {
         id: appId(row),

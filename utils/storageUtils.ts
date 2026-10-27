@@ -78,7 +78,7 @@ import {
 // Paper 2), with exemplars. Browsers at 2.21.0 sync again to receive them.
 // 2.23.0: the Syllabus Terms of 349 shipped questions that had five or fewer are broadened,
 // each new term one the question's full-mark exemplar already uses.
-export const DATA_VERSION = '2.24.0';
+export const DATA_VERSION = '2.25.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
@@ -110,6 +110,9 @@ export const STORAGE_KEYS = {
   // Last theme shown, read by the inline script in index.html before React
   // mounts so the sign-in screen opens in it. Keep the two strings in step.
   THEME: 'hsc-ai-evaluator-theme',
+  // The prescribed texts this reader has picked in the sample answers, most
+  // recent first, so a question set on several texts opens on theirs.
+  MY_PRESCRIBED_TEXTS: 'hsc-ai-evaluator-my-prescribed-texts',
 } as const;
 
 export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Supabase' | 'Error' | 'Loading';

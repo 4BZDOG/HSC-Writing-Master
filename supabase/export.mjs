@@ -104,6 +104,7 @@ const toSampleAnswer = (row) => ({
   source: row.source ?? 'AI',
   ...(row.feedback ? { feedback: row.feedback } : {}),
   ...(row.quick_tip ? { quickTip: row.quick_tip } : {}),
+  ...(row.prescribed_text ? { prescribedText: row.prescribed_text } : {}),
 });
 
 const toPrompt = (row, answers) => ({
@@ -122,6 +123,8 @@ const toPrompt = (row, answers) => ({
   isPastHSC: row.is_past_hsc ?? false,
   hscYear: row.hsc_year ?? undefined,
   hscQuestionNumber: row.hsc_question_number ?? undefined,
+  ...(row.hsc_section ? { hscSection: row.hsc_section } : {}),
+  ...(row.hsc_text ? { hscText: row.hsc_text } : {}),
   sampleAnswers: answers
     .slice()
     .sort((a, b) => a.band - b.band)

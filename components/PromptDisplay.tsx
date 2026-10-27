@@ -61,6 +61,9 @@ import {
   CARD_HEADER_ZOOM_BUTTON,
 } from '../utils/cardChrome';
 import { getPastHscLabel } from '../utils/pastHscUtils';
+import PastHscExamLine from './PastHscExamLine';
+import PastHscScenario from './PastHscScenario';
+import { splitPastHscScenario } from '../utils/pastHscScenario';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import AiBusyOverlay from './AiBusyOverlay';
 import LoadingIndicator from './LoadingIndicator';
@@ -269,7 +272,7 @@ const OutcomeChip: React.FC<{
 /**
  * Which HSC paper a question came from, editable in place.
  *
- * The three fields have always existed on `Prompt`, but only a bulk import
+ * The provenance fields have always existed on `Prompt`, but only a bulk import
  * could write them — so a question tagged with the wrong year, or a real past
  * paper question added by hand, could not be corrected anywhere in the app.
  */
@@ -280,6 +283,8 @@ const ProvenanceEditor: React.FC<{
 }> = ({ prompt, onSave, onCancel }) => {
   const [year, setYear] = useState(prompt.hscYear ? String(prompt.hscYear) : '');
   const [questionNumber, setQuestionNumber] = useState(prompt.hscQuestionNumber ?? '');
+  const [section, setSection] = useState(prompt.hscSection ?? '');
+  const [text, setText] = useState(prompt.hscText ?? '');
 
   const parsedYear = Number(year);
   const yearIsUsable = !year || (Number.isFinite(parsedYear) && parsedYear > 1900);
@@ -311,13 +316,39 @@ const ProvenanceEditor: React.FC<{
             className="w-32 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
           />
         </label>
+        <label className="flex flex-col gap-1.5 basis-full">
+          <span className="t-label text-slate-500">Paper and section</span>
+          <input
+            type="text"
+            value={section}
+            onChange={(e) => setSection(e.target.value)}
+            placeholder="e.g. Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes."
+            className="w-full px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+          />
+        </label>
+        <label className="flex flex-col gap-1.5 basis-full">
+          <span className="t-label text-slate-500">Prescribed text (a part set on one text)</span>
+          <input
+            type="text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="e.g. Prose Fiction — George Orwell, Nineteen Eighty-Four"
+            className="w-full px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+          />
+        </label>
         <div className="flex items-center gap-2 ml-auto">
           {prompt.isPastHSC && (
             // Untagging is the other half of "can be corrected": a question
             // wrongly imported as a past paper has to be able to stop being one.
             <button
               onClick={() =>
-                onSave({ isPastHSC: false, hscYear: undefined, hscQuestionNumber: undefined })
+                onSave({
+                  isPastHSC: false,
+                  hscYear: undefined,
+                  hscQuestionNumber: undefined,
+                  hscSection: undefined,
+                  hscText: undefined,
+                })
               }
               className="px-3 py-2 rounded-xl text-xs font-bold text-slate-500 hover:text-red-400 transition-colors"
             >
@@ -336,6 +367,8 @@ const ProvenanceEditor: React.FC<{
                 isPastHSC: true,
                 hscYear: year && yearIsUsable ? parsedYear : undefined,
                 hscQuestionNumber: questionNumber.trim() || undefined,
+                hscSection: section.trim() || undefined,
+                hscText: text.trim() || undefined,
               })
             }
             disabled={!yearIsUsable}
@@ -443,6 +476,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // the carousel is laid inside it.
   const scenarioIsPlainText = !!prompt.scenario && !prompt.scenarioImage;
   const pastHsc = useMemo(() => getPastHscLabel(prompt), [prompt]);
+  // A past paper's scenario is drawn in the parts the paper prints it in.
+  const pastHscScenario = useMemo(
+    () => (prompt.isPastHSC && prompt.scenario ? splitPastHscScenario(prompt.scenario) : null),
+    [prompt.isPastHSC, prompt.scenario]
+  );
   // Filler for the void a short question leaves — see the block that uses it.
   // Keyed off the absence of a real scenario rather than of the scenario
   // SECTION: a curator sees a dashed "no scenario" placeholder in that case,
@@ -909,6 +947,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </div>
               ) : (
                 <div className="relative pl-2">
+                  <PastHscExamLine prompt={prompt} />
                   {/* The question fills its card at every width. It was once capped at
                     70 characters a line, but the product owner ruled that a card
                     left empty down its right side reads as unfinished, so the
@@ -975,7 +1014,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       none — see `openQuestionWithOutcomes`. The light partner
                       is unchanged; it was already clearing the floor. */}
                   <h3 className="text-sm font-bold text-slate-400 light:text-slate-600 flex items-center gap-2">
-                    <BookOpen className="w-3.5 h-3.5" /> Context scenario
+                    <BookOpen className="w-3.5 h-3.5" />{' '}
+                    {pastHscScenario ? 'From the paper' : 'Context scenario'}
                   </h3>
                   {canCurate && !isEditingScenario && (
                     <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
@@ -1087,6 +1127,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <ScenarioCarousel
                         scenarioText={prompt.scenario}
                         scenarioImage={prompt.scenarioImage}
+                        keywords={prompt.keywords}
+                        verb={prompt.verb}
+                        fontSize={fontSize}
+                      />
+                    ) : pastHscScenario ? (
+                      <PastHscScenario
+                        parts={pastHscScenario}
                         keywords={prompt.keywords}
                         verb={prompt.verb}
                         fontSize={fontSize}
