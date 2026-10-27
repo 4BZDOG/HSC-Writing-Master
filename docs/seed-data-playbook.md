@@ -77,7 +77,10 @@ syllabus's first HSC year on NESA's syllabus page rather than trusting this tabl
   prescribed text are left out. `scenario` keeps only what the student reads to answer:
   the stimulus or extract, instructions such as "You are not required to write out the
   opening words", and "Your answer will be assessed on how well you: …". The card shows
-  the first two above the question (`PastHscExamLine`).
+  the first two above the question (`PastHscExamLine`). A one-paper course with untitled
+  sections (Business Studies, Geography) takes the heading from the paper's cover:
+  "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.", with the
+  attempt line only where it is a choice ("Attempt either Question 26 or Question 27.").
 - **One question for parts that differ only by text.** Where the paper sets the same
   question once per prescribed text, with only the composer, title or form words changed,
   the seed holds one question on "your prescribed text": `hscQuestionNumber` lists the

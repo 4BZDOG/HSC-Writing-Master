@@ -1148,7 +1148,8 @@
                     "scenario": "A denim jeans clothing store is concerned about declining sales. They have identified that the lower sales are a result of:\n• outdated store presentation\n• increased foreign competition\n• a reluctance to adopt modern in-store payment methods.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "23(a)"
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -1314,7 +1315,8 @@
                     "scenario": "A cafe produces quality food and friendly, personalised service. It donates its left-over food to a local charity at the end of each day.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "21(b)"
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -1488,7 +1490,8 @@
                     "scenario": "A manufacturer of flags has seen a steady increase in sales, which coincides with the start of a major sporting event. The operations manager has increased the working hours of all employees to meet this demand.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "21(a)"
+                    "hscQuestionNumber": "21(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -1669,7 +1672,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "27"
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-21c",
@@ -1728,7 +1732,8 @@
                     "scenario": "A cafe produces quality food and friendly, personalised service. It donates its left-over food to a local charity at the end of each day.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "21(c)"
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -1903,7 +1908,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "27"
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-21a",
@@ -1954,7 +1960,8 @@
                     "scenario": "A cafe produces quality food and friendly, personalised service. It donates its left-over food to a local charity at the end of each day.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "21(a)"
+                    "hscQuestionNumber": "21(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -2464,7 +2471,8 @@
                     "scenario": "A building company has been contracted to build a new home for a customer. The contract requires the home to be completed within six months and within budget.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "21(a)"
+                    "hscQuestionNumber": "21(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -2869,7 +2877,8 @@
                     "scenario": "An ice-cream business is considering allowing customers to choose their own ice-cream flavours and toppings rather than having a set menu of ice-creams.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "21(c)"
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -3043,7 +3052,8 @@
                     "scenario": "A building company has been contracted to build a new home for a customer. The contract requires the home to be completed within six months and within budget.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "21(b)"
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -3782,7 +3792,8 @@
                     "scenario": "Michael would like to open a new burger restaurant.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "21(a)"
+                    "hscQuestionNumber": "21(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2022-27",
@@ -3842,7 +3853,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "27"
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-21a",
@@ -3893,7 +3905,8 @@
                     "scenario": "An Australian tyre manufacturer is expanding its business. In order to reduce operating costs and increase sales and profit, rubber will be sourced from the global market.\n\nThe business wants to:\n• maintain quality outputs\n• achieve economies of scale.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "21(a)"
+                    "hscQuestionNumber": "21(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -4297,7 +4310,8 @@
                     "scenario": "A cafe produces quality food and friendly, personalised service. It donates its left-over food to a local charity at the end of each day. The owners of the cafe would like to expand their dessert range. They plan to outsource cakes from the local bakery to sell at their cafe.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "21(d)"
+                    "hscQuestionNumber": "21(d)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -4473,7 +4487,8 @@
                     "scenario": "A denim jeans clothing store is concerned about declining sales. They have identified that the lower sales are a result of:\n• outdated store presentation\n• increased foreign competition\n• a reluctance to adopt modern in-store payment methods.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "23(b)"
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -4648,7 +4663,8 @@
                     "scenario": "Michael would like to open a new burger restaurant.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "21(b)"
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -4822,7 +4838,8 @@
                     "scenario": "A building company has been contracted to build a new home for a customer. The contract requires the home to be completed within six months and within budget.\n\nThe operations manager will need to outsource certain elements of the construction process.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "21(c)"
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -5336,7 +5353,8 @@
                     "scenario": "Ozzi Baby Food Pty Ltd have developed a trusted reputation in domestic and global markets due to their safe and sustainably-sourced product range. This has led to a significant increase in demand. As a result, they are considering the purchase of a larger automated factory. This will lead to some job losses. The business will require external finance to fund the factory purchase using either a mortgage or becoming a public company on the Australian Securities Exchange (ASX).\n\nYour answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply the hypothetical business situation; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response in the form of a business report.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "25"
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-21c",
@@ -5395,7 +5413,8 @@
                     "scenario": "An Australian tyre manufacturer is expanding its business. In order to reduce operating costs and increase sales and profit, rubber will be sourced from the global market.\n\nThe business wants to:\n• maintain quality outputs\n• achieve economies of scale.\n\nThe owners of the tyre manufacturing business have purchased leading-edge technology to help achieve economies of scale.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "21(c)"
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -5569,7 +5588,8 @@
                     "scenario": "An Australian tyre manufacturer is expanding its business. In order to reduce operating costs and increase sales and profit, rubber will be sourced from the global market.\n\nThe business wants to:\n• maintain quality outputs\n• achieve economies of scale.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "21(b)"
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -6570,7 +6590,8 @@
                     "scenario": "A piano teaching business which guarantees highly qualified and experienced teachers is rapidly expanding across all states of Australia.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "23(a)"
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -6743,7 +6764,8 @@
                     "scenario": "A business wishes to introduce new products into the market.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "24(c)"
+                    "hscQuestionNumber": "24(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -7030,7 +7052,8 @@
                     "scenario": "Be the envy of your neighbours\nThe best quality fridge in the market\nComes with a massive 6-month warranty***\n*This weekend only 30% off in-store only\n**Zero carbon emissions\n*30% off not applicable to this product. **Zero carbon emissions only in houses that are zero carbon powered. ***No repairs or returns will be considered after 6 months.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "24(b)"
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-26",
@@ -7090,7 +7113,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "26"
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2024-23b",
@@ -7150,7 +7174,8 @@
                     "scenario": "A piano teaching business which guarantees highly qualified and experienced teachers is rapidly expanding across all states of Australia.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "23(b)"
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -7324,7 +7349,8 @@
                     "scenario": "Be the envy of your neighbours\nThe best quality fridge in the market\nComes with a massive 6-month warranty***\n*This weekend only 30% off in-store only\n**Zero carbon emissions\n*30% off not applicable to this product. **Zero carbon emissions only in houses that are zero carbon powered. ***No repairs or returns will be considered after 6 months.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "24(c)"
+                    "hscQuestionNumber": "24(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -8071,7 +8097,8 @@
                     "scenario": "A popular Australian guitar manufacturer is about to enter the US market using a standardised marketing strategy.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "22(a)"
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2021-26",
@@ -8131,7 +8158,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "26"
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-23a",
@@ -8180,7 +8208,8 @@
                     "scenario": "A cereal manufacturer has decided to change the packaging of its product in an attempt to reverse a drop in sales and remain competitive with existing businesses. It is also considering growing its target market by catering for health-conscious consumers in Australia and eventually expanding into the global market.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "23(a)"
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-22a",
@@ -8231,7 +8260,8 @@
                     "scenario": "A business sells stainless steel water bottles. However, customers have complained that the bottles leak, and that they do not come in biodegradable packaging.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "22(a)"
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -8861,7 +8891,8 @@
                     "scenario": "A business wishes to introduce new products into the market.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "24(b)"
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-22c",
@@ -8920,7 +8951,8 @@
                     "scenario": "A business sells stainless steel water bottles. However, customers have complained that the bottles leak, and that they do not come in biodegradable packaging.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "22(c)"
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -9099,7 +9131,8 @@
                     "scenario": "A cereal manufacturer has decided to change the packaging of its product in an attempt to reverse a drop in sales and remain competitive with existing businesses. It is also considering growing its target market by catering for health-conscious consumers in Australia and eventually expanding into the global market.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "23(b)"
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2024-23c",
@@ -9161,7 +9194,8 @@
                     "scenario": "A piano teaching business which guarantees highly qualified and experienced teachers is rapidly expanding across all states of Australia.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "23(c)"
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -9326,7 +9360,8 @@
                     "scenario": "A business sells stainless steel water bottles. However, customers have complained that the bottles leak, and that they do not come in biodegradable packaging.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -9719,7 +9754,8 @@
                     "scenario": "A popular Australian guitar manufacturer is about to enter the US market using a standardised marketing strategy.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -10104,7 +10140,8 @@
                     "scenario": "A business wishes to introduce new products into the market.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "24(a)"
+                    "hscQuestionNumber": "24(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -10850,7 +10887,8 @@
                     "scenario": "Icecreams R Us exclusively delivers ice-cream to homes in Newcastle. To increase market share, they are negotiating with a major service station chain, Eucafuels Ltd, to sell their brand of ice-cream throughout NSW.\n\nBefore they agree to sell the ice-cream, Eucafuels Ltd have a number of concerns over the ability of Icecreams R Us to:\n• deliver ice-cream to their outlets in NSW in a timely manner\n• create an awareness that the ice-cream will be sold at Eucafuels Ltd outlets\n• produce an increased volume of ice-cream while maintaining a quality product.\n\nYour answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply the hypothetical business situation; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response in the form of a business report.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "25"
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -11016,7 +11054,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "26"
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -11306,7 +11345,8 @@
                     "scenario": "Bee Sticky Pty Ltd is an established Australian manufacturing business that produces a wide range of high quality and premium organic honey. It is expanding into global markets. It will lease warehouses in Malaysia and the USA.\n\nThe company has provided you with a recently completed SWOT analysis.\n\nSWOT analysis\nStrengths\n• High quality, premium and organic honey products\n• Approved for consumption and medical uses\n• Made by honeybees from Australian flora\nWeaknesses\n• Frequent breakage of product during transportation\n• Lack of experience in foreign payment systems\nOpportunities\n• Expanding market for high quality honey in countries overseas\n• Falling bee populations overseas\n• Potential collaborations with up-market restaurants/chefs\nThreats\n• Established competition in foreign markets\n• Fluctuations in the Australian dollar\n\nYour answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply the hypothetical business situation; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response in the form of a business report.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "25"
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-23c",
@@ -11366,7 +11406,8 @@
                     "scenario": "A cereal manufacturer has decided to change the packaging of its product in an attempt to reverse a drop in sales and remain competitive with existing businesses. It is also considering growing its target market by catering for health-conscious consumers in Australia and eventually expanding into the global market.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "23(c)"
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -11656,7 +11697,8 @@
                     "scenario": "A popular Australian guitar manufacturer is about to enter the US market using a standardised marketing strategy.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "22(c)"
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -11829,7 +11871,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "24(a)"
+                    "hscQuestionNumber": "24(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -12244,7 +12287,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "24(b)"
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -12644,7 +12688,8 @@
                     "scenario": "A luxury Australian handbag business is going to expand. They intend to borrow 30 million US dollars to buy several new retail properties across Australia.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -13400,7 +13445,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "26"
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -13575,7 +13621,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "27"
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -14431,7 +14478,8 @@
                     "scenario": "The following is an extract from a business balance sheet.\nAssets | Liabilities\nCash at bank $5 000 | Overdraft $9 000\nAccounts receivable $20 000 | Accounts payable $11 000\nInventory $5 000 | Long-term loan $90 000\nOffice equipment $70 000 | Owners’ equity\nMotor vehicles $80 000 | Capital $55 000\n | Retained profits $15 000",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "24(a)(ii)"
+                    "hscQuestionNumber": "24(a)(ii)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -14719,7 +14767,8 @@
                     "scenario": "A travel agency is focused on expanding its sales in several countries. The business provided the following financial information.\n2023 2024\nSales 600 000 700 000\nTotal expenses 140 000 210 000\nNet profit 160 000 170 000\nExpense ratio 23.3% ?\nDebt to equity ratio 0.6 : 1 1:1\nReturn on equity ratio 8% 8.5%\nINDUSTRY AVERAGES\n2023 2024\nExpense ratio 23% 20%\nDebt to equity ratio 0.6 : 1 0.6 : 1\nReturn on equity ratio 11% 12%\nExpense ratio = total expenses ÷ sales × 100",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "23(c)"
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -15012,7 +15061,8 @@
                     "scenario": "A gifts and homewares business sells goods such as candles, bags, cushions, soaps and jewellery.\n\nThey have provided the following financial information.\n\n($)\nOperating income (revenue) 1 500 000\nGross profit 1 100 000\nExpenses 600 000\nTotal liabilities 2 000 000\nNet profit 500 000\nOwner’s equity 1 800 000\n\nThe family-owned business is considering expansion by opening two new stores. Their bank has given approval to borrow $3 000 000 at 4% interest to finance their expansion.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "23(d)"
+                    "hscQuestionNumber": "23(d)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-25",
@@ -15074,7 +15124,8 @@
                     "scenario": "Future Century Gaming Pty Ltd operates an online gaming platform targeting players aged 18−40 in Australia. It has been in operation since 2012, providing subscription access to a variety of online games.\n\nThe business is considering expanding into emerging global markets but is finding it challenging to recruit and retain skilled, qualified game designers and developers in Australia. It is considering international labour markets to overcome staff shortages.\n\nThe business has decided to finance its expansion into global markets through external sources.\n\nYour answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply the hypothetical business situation; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response in the form of a business report.",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "25"
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -15342,7 +15393,8 @@
                     "scenario": "A luxury Australian handbag business is going to expand. They intend to borrow 30 million US dollars to buy several new retail properties across Australia.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "22(a)"
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-24a",
@@ -15393,7 +15445,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "24(a)"
+                    "hscQuestionNumber": "24(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -15567,7 +15620,8 @@
                     "scenario": "A luxury Australian handbag business is going to expand. They intend to borrow 30 million US dollars to buy several new retail properties across Australia.\n\nThe table shows financial information for this Australian handbag business.\nRatio | Current (Before loan) | Forecast (12 months after loan)\nGross profit | 65% | 70%\nNet profit | 21% | 18%\nDebt to equity | 0.85 : 1 or 85% | 1.5 : 1 or 150%",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "22(c)"
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -15732,7 +15786,8 @@
                     "scenario": "The following is an extract from a business balance sheet.\nAssets | Liabilities\nCash at bank $5 000 | Overdraft $9 000\nAccounts receivable $20 000 | Accounts payable $11 000\nInventory $5 000 | Long-term loan $90 000\nOffice equipment $70 000 | Owners’ equity\nMotor vehicles $80 000 | Capital $55 000\n | Retained profits $15 000",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "24(a)(i)"
+                    "hscQuestionNumber": "24(a)(i)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -15906,7 +15961,8 @@
                     "scenario": "A gifts and homewares business sells goods such as candles, bags, cushions, soaps and jewellery.\n\nThey have provided the following financial information.\n\n($)\nOperating income (revenue) 1 500 000\nGross profit 1 100 000\nExpenses 600 000\nTotal liabilities 2 000 000\nNet profit 500 000\nOwner’s equity 1 800 000\n\nThe family-owned business is considering expansion by opening two new stores. Their bank has given approval to borrow $3 000 000 at 4% interest to finance their expansion.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "23(c)"
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -16175,7 +16231,8 @@
                     "scenario": "Financial Information for robotics company\n($)\nSales 225 000\nCost of goods sold 105 000\nSelling expenses 8 500\nAdministration expenses 6 000\nFinancial expenses 4 000\nAccounts receivable 30 000\nRobotics company credit policy 30 days\nIndustry expense ratio 10%",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "24(a)"
+                    "hscQuestionNumber": "24(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2020-24b",
@@ -16224,7 +16281,8 @@
                     "scenario": "Financial Information for robotics company\n($)\nSales 225 000\nCost of goods sold 105 000\nSelling expenses 8 500\nAdministration expenses 6 000\nFinancial expenses 4 000\nAccounts receivable 30 000\nRobotics company credit policy 30 days\nIndustry expense ratio 10%",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "24(b)"
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2022-23a",
@@ -16265,7 +16323,8 @@
                     "scenario": "A gifts and homewares business sells goods such as candles, bags, cushions, soaps and jewellery.\n\nThey have provided the following financial information.\n\n($)\nOperating income (revenue) 1 500 000\nGross profit 1 100 000\nExpenses 600 000\nTotal liabilities 2 000 000\nNet profit 500 000\nOwner’s equity 1 800 000",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "23(a)"
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2022-23b",
@@ -16324,7 +16383,8 @@
                     "scenario": "A gifts and homewares business sells goods such as candles, bags, cushions, soaps and jewellery.\n\nThey have provided the following financial information.\n\n($)\nOperating income (revenue) 1 500 000\nGross profit 1 100 000\nExpenses 600 000\nTotal liabilities 2 000 000\nNet profit 500 000\nOwner’s equity 1 800 000",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "23(b)"
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-23a",
@@ -16374,7 +16434,8 @@
                     "scenario": "A travel agency is focused on expanding its sales in several countries. The business provided the following financial information.\n2023 2024\nSales 600 000 700 000\nTotal expenses 140 000 210 000\nNet profit 160 000 170 000\nExpense ratio 23.3% ?\nDebt to equity ratio 0.6 : 1 1:1\nReturn on equity ratio 8% 8.5%\nINDUSTRY AVERAGES\n2023 2024\nExpense ratio 23% 20%\nDebt to equity ratio 0.6 : 1 0.6 : 1\nReturn on equity ratio 11% 12%\nExpense ratio = total expenses ÷ sales × 100",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "23(a)"
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -16548,7 +16609,8 @@
                     "scenario": "Financial Information for robotics company\n($)\nSales 225 000\nCost of goods sold 105 000\nSelling expenses 8 500\nAdministration expenses 6 000\nFinancial expenses 4 000\nAccounts receivable 30 000\nRobotics company credit policy 30 days\nIndustry expense ratio 10%",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "24(d)"
+                    "hscQuestionNumber": "24(d)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-23b",
@@ -16608,7 +16670,8 @@
                     "scenario": "A travel agency is focused on expanding its sales in several countries. The business provided the following financial information.\n2023 2024\nSales 600 000 700 000\nTotal expenses 140 000 210 000\nNet profit 160 000 170 000\nExpense ratio 23.3% ?\nDebt to equity ratio 0.6 : 1 1:1\nReturn on equity ratio 8% 8.5%\nINDUSTRY AVERAGES\n2023 2024\nExpense ratio 23% 20%\nDebt to equity ratio 0.6 : 1 0.6 : 1\nReturn on equity ratio 11% 12%\nExpense ratio = total expenses ÷ sales × 100",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "23(b)"
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -16782,7 +16845,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "24(c)"
+                    "hscQuestionNumber": "24(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -17310,7 +17374,8 @@
                     "scenario": "Financial Information for robotics company\n($)\nSales 225 000\nCost of goods sold 105 000\nSelling expenses 8 500\nAdministration expenses 6 000\nFinancial expenses 4 000\nAccounts receivable 30 000\nRobotics company credit policy 30 days\nIndustry expense ratio 10%",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "24(c)"
+                    "hscQuestionNumber": "24(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2024-24b",
@@ -17370,7 +17435,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "24(b)"
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -18014,7 +18080,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "26"
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -20523,7 +20590,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "23(b)"
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -20686,7 +20754,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "21(a)"
+                    "hscQuestionNumber": "21(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2024-22a",
@@ -20737,7 +20806,8 @@
                     "scenario": "A business has highly skilled employees who are valued for their input in the decision-making process. Employees are consulted in setting objectives and have an influence on strategies adopted, including flexible working conditions.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "22(a)"
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-24b",
@@ -20796,7 +20866,8 @@
                     "scenario": "Employees at a factory have been discouraged by their employers from joining a union.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "24(b)"
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -20973,7 +21044,8 @@
                     "scenario": "A business pays migrant workers less, and bullies staff members.",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "24(c)"
+                    "hscQuestionNumber": "24(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -21140,7 +21212,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "22(a)"
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2022-22b",
@@ -21200,7 +21273,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-22b",
@@ -21259,7 +21333,8 @@
                     "scenario": "The advertisement for a store manager is shown.\n\nTeddy Bear Store\nEst. 1990\nTeddy Bear Store aims to bring joy to children.\nWe are looking for a Store Manager. If you are interested, please contact us.\nRole:\n– Manage a team of 8 staff members\n– Manage day-to-day operations\nResponsibilities:\n– Organise inventory\n– Train staff\n– Assist customers\nGeneral information:\n– $65 000 salary\n– Union membership not permitted\n– No superannuation included",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -21535,7 +21610,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "22(a)"
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -21826,7 +21902,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "21(c)"
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2025-24a",
@@ -21885,7 +21962,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2025,
-                    "hscQuestionNumber": "24(a)"
+                    "hscQuestionNumber": "24(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -22060,7 +22138,8 @@
                     "scenario": "In recent times governments have imposed restrictions on businesses such as lockdowns, social distancing and the movement of people. As a result, businesses have changed the way their employees work and communicate with each other.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "23(c)"
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2023-22c",
@@ -22119,7 +22198,8 @@
                     "scenario": "The table shows labour force participation rates for males and females in Australia, 1981−2021.\n\nYear  Males  Females\n1981  78%  44%\n2001  73%  55%\n2021  71%  62%",
                     "isPastHSC": true,
                     "hscYear": 2023,
-                    "hscQuestionNumber": "22(c)"
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -22295,7 +22375,8 @@
                     "scenario": "A business has highly skilled employees who are valued for their input in the decision-making process. Employees are consulted in setting objectives and have an influence on strategies adopted, including flexible working conditions.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "22(b)"
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -22477,7 +22558,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "22(d)"
+                    "hscQuestionNumber": "22(d)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -22769,7 +22851,8 @@
                     "scenario": "A business has highly skilled employees who are valued for their input in the decision-making process. Employees are consulted in setting objectives and have an influence on strategies adopted, including flexible working conditions.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "22(c)"
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -22941,7 +23024,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "21(b)"
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               }
@@ -23347,7 +23431,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "27"
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   },
                   {
                     "id": "prompt-bs-hsc-2024-25",
@@ -23409,7 +23494,8 @@
                     "scenario": "Hans-Made Watches is a business that designs and hand-makes European-style watches with a lifetime warranty.\n\nFeatures of the business include:\n• family run business\n• selling watches to the local community\n• autocratic leadership style.\n\nThe business has seen a decrease in sales and market share. The owner is retiring soon and his children are hoping to improve the performance of the business.\n\nBelow is an expression of interest for an assistant manager role that has been distributed to the business’s family and friends only.\n\nHans-Made Watches\nEstablished 1976\nExpression of interest: Assistant Manager\nYou will be required to work in the shop and manage day-to-day business needs. Hours of work are 8 am to 6 pm Monday to Saturday.\nGeneral information\n• award wages offered\n• free parking onsite\n• use of coffee machine\n• reports to the owner\n• no experience necessary.\n\nYour answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply the hypothetical business situation; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response in the form of a business report.",
                     "isPastHSC": true,
                     "hscYear": 2024,
-                    "hscQuestionNumber": "25"
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -23701,7 +23787,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "22(c)"
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -24106,7 +24193,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2022,
-                    "hscQuestionNumber": "26"
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -24404,7 +24492,8 @@
                     "scenario": "Your answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply relevant business case study/studies and contemporary business issues; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response.",
                     "isPastHSC": true,
                     "hscYear": 2020,
-                    "hscQuestionNumber": "27"
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section IV (20 marks). Attempt either Question 26 or Question 27. Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -24570,7 +24659,8 @@
                     "scenario": "",
                     "isPastHSC": true,
                     "hscYear": 2021,
-                    "hscQuestionNumber": "23(a)"
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },

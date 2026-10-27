@@ -1,5 +1,13 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-27 (Section headings on Business Studies and Geography past questions)
+
+- **Added.** Every Business Studies (2020–2025) and Geography (2024–2025) past question shows its section heading
+  above the question, as English questions do, taken from the cover of NESA's paper for that year: "Section II (40
+  marks). Allow about 1 hour and 15 minutes for this section." The attempt line is kept where it is a choice
+  ("Attempt either Question 26 or Question 27."). Geography's sections were checked against the section recorded in
+  `data/referencePapers/`. `DATA_VERSION` 2.26.0.
+
 ## [Unreleased] - 2026-10-26 (Past HSC front matter beside the question; one question per text-neutral part)
 
 - **Changed.** A past HSC question's paper heading ("Paper 2, Section III — Module C: The Craft of Writing (20 marks).

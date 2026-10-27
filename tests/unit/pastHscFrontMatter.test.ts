@@ -88,6 +88,28 @@ describe('English past questions in the seed', () => {
   });
 });
 
+describe('Business Studies and Geography past questions', () => {
+  // As each paper's cover prints it: the section, its marks, the choice when there is
+  // one, and the time. These papers have one paper and untitled sections.
+  const HEADING =
+    /^Section (II|III|IV) \(\d+ marks\)\. (Attempt [^.]+\. )?Allow about [^.]+ for this section\.$/;
+
+  for (const file of ['HSCBusinessStudies.json', 'HSCGeography.json']) {
+    it(`${file}: every question carries its section heading`, () => {
+      const questions = pastQuestions(course(file));
+      expect(questions.length).toBeGreaterThan(0);
+      for (const p of questions) expect(p.hscSection, p.id).toMatch(HEADING);
+    });
+  }
+
+  it('puts the Business Studies choice questions in Section IV, and only them', () => {
+    for (const p of pastQuestions(course('HSCBusinessStudies.json'))) {
+      const number = parseInt(p.hscQuestionNumber ?? '', 10);
+      expect(p.hscSection!.startsWith('Section IV'), p.id).toBe(number >= 26);
+    }
+  });
+});
+
 describe('isAnsweredOnOwnText', () => {
   const past = (hscQuestionNumber: string, hscText?: string) =>
     ({ isPastHSC: true, hscQuestionNumber, hscText }) as Prompt;
