@@ -341,11 +341,22 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     }
   };
 
+  // The provider buttons create the account as the picker says, so on the sign-up
+  // form their heading names that choice.
+  const oauthHeading =
+    mode !== 'signup'
+      ? 'or continue with'
+      : accountType === 'parent'
+        ? 'Signing up as a parent or guardian'
+        : 'or sign up with';
+
   const handleOAuthLogin = async (provider: Provider) => {
     setError(null);
     setOauthLoading(provider);
     try {
-      await authService.loginWithOAuth(provider);
+      // The picker applies to the provider buttons too. A sign-in passes no type, so
+      // it cannot carry a choice from an earlier sign-up.
+      await authService.loginWithOAuth(provider, mode === 'signup' ? accountType : undefined);
     } catch (err) {
       setError(
         err instanceof Error
@@ -687,7 +698,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                   <div className="flex items-center gap-4 mb-5">
                     <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
                     <span className="t-label text-slate-500 light:text-slate-600">
-                      or continue with
+                      {oauthHeading}
                     </span>
                     <div className="flex-1 h-px bg-white/10 light:bg-slate-300" />
                   </div>

@@ -347,11 +347,17 @@ create policy profiles_update_self on public.profiles
 -- gap: a real end-user session (auth.uid() is not null) may only change
 -- `role` if they are already an admin. `auth.uid()` is null for the SQL
 -- editor and the service-role key, so bootstrapping/admin scripts still work.
+--
+-- The check keys on current_user as well (as §32 does). A sanctioned definer RPC
+-- runs as its owner, yet auth.uid() still reads the caller, so without this the
+-- RPCs that change a role (claim_parent_account, §31) would be refused too. A direct
+-- client write runs as `authenticated` and is still refused.
 create or replace function public.prevent_role_self_escalation()
 returns trigger language plpgsql as $$
 begin
   if new.role is distinct from old.role
      and auth.uid() is not null
+     and current_user in ('authenticated', 'anon')
      and not public.is_admin() then
     raise exception 'Only admins can change a profile''s role';
   end if;
@@ -4822,6 +4828,78 @@ begin
   );
 end; $$;
 
+-- ---- RPCs: a new sign-up becomes a parent account ----------------------------
+
+-- Turns the CALLER's brand-new student account into a parent account.
+--
+-- Why it exists: email sign-up sends `account_type = 'parent'` in its metadata, which
+-- handle_new_user (§7) reads. signInWithOAuth cannot carry user metadata, so a Google,
+-- Microsoft or GitHub sign-up always lands as a student. The app keeps the choice in
+-- the browser across the redirect and calls this once the session is back.
+--
+-- Why the guards: the change is offered to a brand-new account only, so it cannot be
+-- used to re-label an account that has been in use. Refused unless ALL of these hold:
+--   - the caller is signed in;
+--   - the account is a student (already a parent is a no-op that returns the role);
+--   - the profile was created within the last 30 minutes;
+--   - the account holds no work: no responses, no response events, no AI usage, no
+--     school, no paid plan, no class, no subscription, no guardian link or code.
+-- An established student cannot discard their record by becoming a parent, and a used
+-- account cannot change role at all. Teachers and admins are never changed here.
+--
+-- Why it can write `role`: it runs as its owner, which prevent_role_self_escalation (§9)
+-- lets through. The caller gains no UPDATE privilege: a direct client write to `role` is
+-- still refused.
+create or replace function public.claim_parent_account()
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_me      uuid := auth.uid();
+  v_role    text;
+  v_created timestamptz;
+  v_plan    text;
+  v_school  uuid;
+begin
+  if v_me is null then
+    raise exception 'Sign in to set up a parent account';
+  end if;
+
+  -- Serialise this account's calls, so two at once cannot both pass the checks below.
+  select p.role::text, p.created_at, p.stripe_plan, p.school_id
+    into v_role, v_created, v_plan, v_school
+    from public.profiles p
+   where p.id = v_me
+     for update;
+  if not found then
+    raise exception 'No profile was found for this account';
+  end if;
+
+  if v_role = 'parent' then
+    return jsonb_build_object('role', 'parent');
+  end if;
+  if v_role is distinct from 'student' then
+    raise exception 'Only a student account can be set up as a parent account';
+  end if;
+  if v_created < now() - interval '30 minutes' then
+    raise exception 'This account is more than 30 minutes old, so it cannot become a parent account. Sign up with a different email address to make one';
+  end if;
+  if v_school is not null or coalesce(v_plan, 'free') <> 'free' then
+    raise exception 'This account has a school or paid plan, so it cannot become a parent account';
+  end if;
+  if exists (select 1 from public.responses where user_id = v_me)
+     or exists (select 1 from public.response_events where user_id = v_me)
+     or exists (select 1 from public.ai_usage where user_id = v_me)
+     or exists (select 1 from public.class_members where user_id = v_me)
+     or exists (select 1 from public.subscriptions where user_id = v_me)
+     or exists (select 1 from public.guardian_links
+                 where student_id = v_me or guardian_id = v_me)
+     or exists (select 1 from public.guardian_invites where student_id = v_me) then
+    raise exception 'This account already has work in it, so it cannot become a parent account';
+  end if;
+
+  update public.profiles set role = 'parent' where id = v_me;
+  return jsonb_build_object('role', 'parent');
+end; $$;
+
 -- ---- Grants --------------------------------------------------------------------
 
 revoke all on function public.is_guardian_of(uuid) from public, anon;
@@ -4844,6 +4922,9 @@ grant execute on function public.remove_guardian_link(uuid) to authenticated;
 
 revoke all on function public.get_guardian_student_progress(uuid, integer) from public, anon;
 grant execute on function public.get_guardian_student_progress(uuid, integer) to authenticated;
+
+revoke all on function public.claim_parent_account() from public, anon;
+grant execute on function public.claim_parent_account() to authenticated;
 
 -- =============================================================================
 -- §32 · Entitlement columns on profiles are written by the server only

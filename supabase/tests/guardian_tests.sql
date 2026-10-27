@@ -695,5 +695,163 @@ begin
   raise notice 'PASS: account deletion waits until a renewing plan is cancelled, for holder and payer';
 end $$;
 
+-- ---- A new OAuth sign-up can become a parent account (claim_parent_account, §31) ----
+-- An OAuth sign-up cannot carry account_type, so it lands as a student. These fixtures
+-- are plain students, as an OAuth sign-up is, and the claim is tested against each guard.
+--   ...6a01  gd_claim_new      a brand-new student with no work: the one that may claim
+--   ...6a02  gd_claim_worked   a student with a response
+--   ...6a03  gd_claim_old      a student created more than 30 minutes ago
+--   ...6a04  gd_claim_teacher  a teacher
+--   ...6a05  gd_claim_direct   a new student who tries to write the role directly
+--   ...6a06  gd_claim_school   a new student attached to a school
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-000000006a01'::uuid, 'gd_claim_new@example.test',
+   '{"username":"gd_claim_new","display_name":"Gd Claim New"}'),
+  ('00000000-0000-0000-0000-000000006a02'::uuid, 'gd_claim_worked@example.test',
+   '{"username":"gd_claim_worked","display_name":"Gd Claim Worked"}'),
+  ('00000000-0000-0000-0000-000000006a03'::uuid, 'gd_claim_old@example.test',
+   '{"username":"gd_claim_old","display_name":"Gd Claim Old"}'),
+  ('00000000-0000-0000-0000-000000006a04'::uuid, 'gd_claim_teacher@example.test',
+   '{"username":"gd_claim_teacher","display_name":"Gd Claim Teacher"}'),
+  ('00000000-0000-0000-0000-000000006a05'::uuid, 'gd_claim_direct@example.test',
+   '{"username":"gd_claim_direct","display_name":"Gd Claim Direct"}'),
+  ('00000000-0000-0000-0000-000000006a06'::uuid, 'gd_claim_school@example.test',
+   '{"username":"gd_claim_school","display_name":"Gd Claim School"}');
+
+-- A prompt for the work fixture to answer. Owner-written, so the content rules do not apply.
+insert into public.courses (id, name, status)
+  values ('00000000-0000-0000-0000-000000006a10'::uuid, 'Gd Claim Course', 'approved');
+insert into public.topics (id, course_id, name, status)
+  values ('00000000-0000-0000-0000-000000006a11'::uuid,
+          '00000000-0000-0000-0000-000000006a10'::uuid, 'Gd Claim Topic', 'approved');
+insert into public.sub_topics (id, topic_id, name, status)
+  values ('00000000-0000-0000-0000-000000006a12'::uuid,
+          '00000000-0000-0000-0000-000000006a11'::uuid, 'Gd Claim SubTopic', 'approved');
+insert into public.dot_points (id, sub_topic_id, description, status)
+  values ('00000000-0000-0000-0000-000000006a13'::uuid,
+          '00000000-0000-0000-0000-000000006a12'::uuid, 'Gd Claim DotPoint', 'approved');
+insert into public.prompts (id, dot_point_id, question, status)
+  values ('00000000-0000-0000-0000-000000006a14'::uuid,
+          '00000000-0000-0000-0000-000000006a13'::uuid, 'Gd Claim Prompt', 'approved');
+
+insert into public.responses (prompt_id, user_id, draft, word_count)
+  values ('00000000-0000-0000-0000-000000006a14'::uuid,
+          '00000000-0000-0000-0000-000000006a02'::uuid, 'GD-CLAIM-MARKER', 3);
+
+-- An account older than 30 minutes, and a teacher, and a school student: set owner-side,
+-- as an admin or the server would. The owner session has no JWT, so the role guard is quiet.
+update public.profiles set created_at = now() - interval '31 minutes'
+ where id = '00000000-0000-0000-0000-000000006a03'::uuid;
+update public.profiles set role = 'teacher'
+ where id = '00000000-0000-0000-0000-000000006a04'::uuid;
+update public.profiles set school_id = '00000000-0000-0000-0000-000000006e09'::uuid
+ where id = '00000000-0000-0000-0000-000000006a06'::uuid;
+
+do $$
+declare v jsonb; v_role text;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006a01'::uuid);
+  v := public.claim_parent_account();
+  perform pg_temp.as_owner();
+
+  select role::text into v_role from public.profiles
+   where id = '00000000-0000-0000-0000-000000006a01'::uuid;
+  if v->>'role' is distinct from 'parent' or v_role is distinct from 'parent' then
+    raise exception 'TEST FAILED: a new student did not become a parent (returned %, row %)', v, v_role;
+  end if;
+  raise notice 'PASS: a brand-new OAuth student account can claim to be a parent account';
+end $$;
+
+-- ---- Claiming again is a no-op, and a parent who calls it is not refused -----------
+do $$
+declare v jsonb;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006a01'::uuid);
+  v := public.claim_parent_account();
+  perform pg_temp.as_owner();
+  if v is distinct from '{"role":"parent"}'::jsonb then
+    raise exception 'TEST FAILED: a second claim did not return the parent role: %', v;
+  end if;
+  raise notice 'PASS: a second claim returns the parent role without changing anything';
+end $$;
+
+-- ---- Each guard refuses, and the role is left as it was ---------------------------
+do $$
+declare v_err text; v_role text;
+begin
+  -- A student with a response: the account has work in it.
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006a02'::uuid);
+  v_err := pg_temp.attempt('select public.claim_parent_account()');
+  perform pg_temp.as_owner();
+  select role::text into v_role from public.profiles where id = '00000000-0000-0000-0000-000000006a02'::uuid;
+  if v_err is null or v_err not like '%already has work%' or v_role <> 'student' then
+    raise exception 'TEST FAILED: a student with a response could claim (%, role %)', v_err, v_role;
+  end if;
+
+  -- An account older than 30 minutes.
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006a03'::uuid);
+  v_err := pg_temp.attempt('select public.claim_parent_account()');
+  perform pg_temp.as_owner();
+  select role::text into v_role from public.profiles where id = '00000000-0000-0000-0000-000000006a03'::uuid;
+  if v_err is null or v_err not like '%more than 30 minutes old%' or v_role <> 'student' then
+    raise exception 'TEST FAILED: an old account could claim (%, role %)', v_err, v_role;
+  end if;
+
+  -- A teacher is never changed by this route.
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006a04'::uuid);
+  v_err := pg_temp.attempt('select public.claim_parent_account()');
+  perform pg_temp.as_owner();
+  select role::text into v_role from public.profiles where id = '00000000-0000-0000-0000-000000006a04'::uuid;
+  if v_err is null or v_err not like '%Only a student account%' or v_role <> 'teacher' then
+    raise exception 'TEST FAILED: a teacher could be changed to a parent (%, role %)', v_err, v_role;
+  end if;
+
+  -- A student attached to a school.
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006a06'::uuid);
+  v_err := pg_temp.attempt('select public.claim_parent_account()');
+  perform pg_temp.as_owner();
+  select role::text into v_role from public.profiles where id = '00000000-0000-0000-0000-000000006a06'::uuid;
+  if v_err is null or v_err not like '%school or paid plan%' or v_role <> 'student' then
+    raise exception 'TEST FAILED: a school student could claim (%, role %)', v_err, v_role;
+  end if;
+
+  -- No caller at all.
+  perform pg_temp.as_owner();
+  v_err := pg_temp.attempt('select public.claim_parent_account()');
+  if v_err is null or v_err not like '%Sign in%' then
+    raise exception 'TEST FAILED: a signed-out call was not refused (%)', v_err;
+  end if;
+
+  raise notice 'PASS: a student with work, an old account, a teacher, a school student and a signed-out caller are all refused';
+end $$;
+
+-- ---- The role cannot be written directly, claim or no claim ------------------------
+-- The RPC runs as its owner, which the role trigger lets through. The client role does not.
+do $$
+declare v_err text; v_role text;
+begin
+  perform pg_temp.as_user('00000000-0000-0000-0000-000000006a05'::uuid);
+  v_err := pg_temp.attempt($q$update public.profiles set role = 'parent'
+                              where id = '00000000-0000-0000-0000-000000006a05'$q$);
+  perform pg_temp.as_owner();
+  select role::text into v_role from public.profiles where id = '00000000-0000-0000-0000-000000006a05'::uuid;
+  if v_err is null or v_err not like '%Only admins can change%' or v_role <> 'student' then
+    raise exception 'TEST FAILED: a direct update of role was not refused (%, role %)', v_err, v_role;
+  end if;
+  raise notice 'PASS: a direct update of profiles.role is still refused for an authenticated user';
+end $$;
+
+-- ---- Grants: signed-in users only ----------------------------------------------
+do $$
+begin
+  if not has_function_privilege('authenticated', 'public.claim_parent_account()', 'execute') then
+    raise exception 'TEST FAILED: authenticated cannot run claim_parent_account';
+  end if;
+  if has_function_privilege('anon', 'public.claim_parent_account()', 'execute') then
+    raise exception 'TEST FAILED: anon can run claim_parent_account';
+  end if;
+  raise notice 'PASS: claim_parent_account is callable by signed-in users only';
+end $$;
+
 reset role;
 rollback;

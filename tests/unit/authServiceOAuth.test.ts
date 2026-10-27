@@ -18,6 +18,7 @@ const getSessionMock = vi.fn();
 const onAuthStateChangeMock = vi.fn();
 const maybeSingleMock = vi.fn();
 const updateMock = vi.fn();
+const rpcMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
   isSupabaseConfigured: true,
@@ -29,6 +30,7 @@ vi.mock('../../services/supabaseClient', () => ({
       getUser: vi.fn(),
       signOut: (...args: unknown[]) => signOutMock(...args),
     },
+    rpc: (...args: unknown[]) => rpcMock(...args),
     from: () => ({
       select: () => ({ eq: () => ({ maybeSingle: () => maybeSingleMock() }) }),
       update: (payload: unknown) => ({ eq: () => updateMock(payload) }),
@@ -54,6 +56,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   signOutMock.mockResolvedValue({ error: null });
   updateMock.mockResolvedValue({ error: null });
+  rpcMock.mockResolvedValue({ data: { role: 'parent' }, error: null });
   maybeSingleMock.mockResolvedValue({ data: null, error: null });
   window.history.replaceState({}, '', '/');
   localStorage.clear();
@@ -217,5 +220,147 @@ describe('handleOAuthCallback', () => {
       getSessionMock.mockResolvedValue({ data: { session: { user: outsider } } });
       await expect(authService.handleOAuthCallback()).rejects.toThrow(/cannot be used here/i);
     });
+  });
+});
+
+/**
+ * A parent choice made on the sign-up form has to survive the provider redirect,
+ * which leaves the app. `signInWithOAuth` cannot carry it, so it is kept in the
+ * browser: written before the redirect, applied by the callback through
+ * `claim_parent_account`, and forgotten afterwards. A refused claim must never
+ * block the sign-in.
+ */
+describe('parent choice across the OAuth redirect', () => {
+  const PENDING_KEY = 'hsc.pendingAccountType';
+  const googleUser = {
+    id: 'user-7',
+    email: 'pat@gmail.com',
+    app_metadata: { provider: 'google' },
+  };
+
+  const storedMarker = () => localStorage.getItem(PENDING_KEY);
+  const freshParentMarker = () =>
+    localStorage.setItem(PENDING_KEY, JSON.stringify({ type: 'parent', at: Date.now() }));
+
+  it('stores the parent choice before leaving for the provider', async () => {
+    let seenAtRedirect: string | null | undefined;
+    signInWithOAuthMock.mockImplementation(() => {
+      seenAtRedirect = storedMarker();
+      return Promise.resolve({ data: {}, error: null });
+    });
+    await authService.loginWithOAuth('google', 'parent');
+    expect(seenAtRedirect).not.toBeNull();
+    expect(JSON.parse(seenAtRedirect!).type).toBe('parent');
+  });
+
+  it('a sign-in (no account type) clears a choice left by an earlier sign-up', async () => {
+    freshParentMarker();
+    signInWithOAuthMock.mockResolvedValue({ data: {}, error: null });
+    await authService.loginWithOAuth('google');
+    expect(storedMarker()).toBeNull();
+  });
+
+  it('forgets the choice when the provider refuses to start', async () => {
+    signInWithOAuthMock.mockResolvedValue({
+      data: {},
+      error: { message: 'Network request failed' },
+    });
+    await expect(authService.loginWithOAuth('google', 'parent')).rejects.toThrow();
+    expect(storedMarker()).toBeNull();
+  });
+
+  it('claims the parent role on return, and the user comes back as a parent', async () => {
+    freshParentMarker();
+    getSessionMock.mockResolvedValue({ data: { session: { user: googleUser } } });
+    maybeSingleMock.mockResolvedValue({
+      data: { username: 'pat', display_name: 'Pat', role: 'parent', preferences: {}, stats: {} },
+      error: null,
+    });
+
+    const user = await authService.handleOAuthCallback();
+
+    expect(rpcMock).toHaveBeenCalledWith('claim_parent_account');
+    expect(user!.role).toBe('parent');
+    expect(storedMarker()).toBeNull();
+  });
+
+  it('claims before the profile is read, so the role it loads is the new one', async () => {
+    freshParentMarker();
+    getSessionMock.mockResolvedValue({ data: { session: { user: googleUser } } });
+    const order: string[] = [];
+    rpcMock.mockImplementation(() => {
+      order.push('claim');
+      return Promise.resolve({ data: { role: 'parent' }, error: null });
+    });
+    maybeSingleMock.mockImplementation(() => {
+      order.push('profile');
+      return Promise.resolve({ data: null, error: null });
+    });
+
+    await authService.handleOAuthCallback();
+
+    expect(order.indexOf('claim')).toBeLessThan(order.indexOf('profile'));
+  });
+
+  it('a refused claim keeps the sign-in, says why, and clears the choice', async () => {
+    freshParentMarker();
+    getSessionMock.mockResolvedValue({ data: { session: { user: googleUser } } });
+    rpcMock.mockResolvedValue({
+      data: null,
+      error: { message: 'This account already has work in it' },
+    });
+    const onNotice = vi.fn();
+
+    const user = await authService.handleOAuthCallback({ onNotice });
+
+    expect(user).not.toBeNull();
+    expect(user!.role).toBe('user');
+    expect(onNotice).toHaveBeenCalledWith(
+      'This Google account already has a student account, so it stays a student account. ' +
+        'To make a parent account, sign up with a different email.'
+    );
+    expect(storedMarker()).toBeNull();
+  });
+
+  it('a thrown claim error is treated as a refusal, not a failed sign-in', async () => {
+    freshParentMarker();
+    getSessionMock.mockResolvedValue({ data: { session: { user: googleUser } } });
+    rpcMock.mockRejectedValue(new Error('network down'));
+    const onNotice = vi.fn();
+
+    await expect(authService.handleOAuthCallback({ onNotice })).resolves.not.toBeNull();
+    expect(onNotice).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call the claim when no choice was made', async () => {
+    getSessionMock.mockResolvedValue({ data: { session: { user: googleUser } } });
+    await authService.handleOAuthCallback();
+    expect(rpcMock).not.toHaveBeenCalled();
+  });
+
+  it('ignores a choice older than 30 minutes, and clears it', async () => {
+    localStorage.setItem(
+      PENDING_KEY,
+      JSON.stringify({ type: 'parent', at: Date.now() - 31 * 60 * 1000 })
+    );
+    getSessionMock.mockResolvedValue({ data: { session: { user: googleUser } } });
+    const onNotice = vi.fn();
+
+    await authService.handleOAuthCallback({ onNotice });
+
+    expect(rpcMock).not.toHaveBeenCalled();
+    expect(onNotice).not.toHaveBeenCalled();
+    expect(storedMarker()).toBeNull();
+  });
+
+  it('forgets the choice when the domain gate refuses the account', async () => {
+    testEnv.VITE_ALLOWED_EMAIL_DOMAINS = 'education.nsw.gov.au';
+    freshParentMarker();
+    getSessionMock.mockResolvedValue({ data: { session: { user: googleUser } } });
+
+    await expect(authService.handleOAuthCallback()).rejects.toThrow();
+
+    expect(rpcMock).not.toHaveBeenCalled();
+    expect(storedMarker()).toBeNull();
   });
 });

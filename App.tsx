@@ -1536,7 +1536,7 @@ const App: React.FC = () => {
     } else {
       // No cached user — check for an OAuth redirect that just completed.
       authService
-        .handleOAuthCallback()
+        .handleOAuthCallback({ onNotice: (message) => showToast(message, 'warning') })
         .then((oauthUser) => {
           // No "Signed in as …" toast here or on the form below. A first
           // sign-in lands on the agreement, the quick start and the syllabus
