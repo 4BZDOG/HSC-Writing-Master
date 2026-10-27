@@ -564,8 +564,9 @@ begin
 end $$;
 
 -- ---- The six-student cap ------------------------------------------------------------
--- Link the cap parent to six students directly, then check the seventh is refused,
--- and that a code for a student the parent is ALREADY linked to still goes through.
+-- Link the cap parent to six students directly, then check the seventh is refused. At
+-- the cap every code gets the cap answer, live or not, so the answer reveals nothing
+-- about the code; that includes a code for a student already linked.
 insert into public.guardian_links (guardian_id, student_id) values
   ('00000000-0000-0000-0000-000000006e05', '00000000-0000-0000-0000-000000006f01'),
   ('00000000-0000-0000-0000-000000006e05', '00000000-0000-0000-0000-000000006f02'),
@@ -589,16 +590,12 @@ begin
     raise exception 'TEST FAILED: a seventh student was linked (%)', v_err;
   end if;
 
-  -- An already-linked student's code is not a new link, so it goes through.
-  perform pg_temp.as_user('00000000-0000-0000-0000-000000006f01');
-  v := public.create_guardian_invite();
-  perform pg_temp.as_owner();
+  -- A code that never existed gets the same cap answer, so a live code is not singled out.
   perform pg_temp.as_user('00000000-0000-0000-0000-000000006e05');
-  v := public.redeem_guardian_invite(replace(v->>'code', '-', ''));
+  v_err := pg_temp.attempt('select public.redeem_guardian_invite(''ZZZZZZZZ'')');
   perform pg_temp.as_owner();
-  -- A refused code returns rather than raises, and the count below would not notice.
-  if (v->>'ok') is distinct from 'true' then
-    raise exception 'TEST FAILED: a code for an already-linked student was refused: %', v;
+  if v_err is null or v_err not like '%up to 6 students%' then
+    raise exception 'TEST FAILED: at the cap an unknown code got a different answer (%)', v_err;
   end if;
 
   select count(*) into v_links from public.guardian_links
@@ -606,7 +603,7 @@ begin
   if v_links <> 6 then
     raise exception 'TEST FAILED: the cap parent has % links, expected 6', v_links;
   end if;
-  raise notice 'PASS: a guardian is capped at six students, and a code for an already-linked student still works';
+  raise notice 'PASS: a guardian is capped at six students, and at the cap every code gets the same answer';
 end $$;
 
 -- ---- Progress and the link list stay scoped to the linked student ------------------

@@ -4369,6 +4369,14 @@ grant execute on function public.school_seat_usage(integer) to authenticated;
 --     already refuse them. They cannot curate, moderate, generate content or buy a
 --     School licence.
 --
+--     AFTER A LINK IS REMOVED the parent sees nothing of the child's profile or
+--     progress: list_my_students, is_guardian_of and the progress RPC all need the
+--     link. What remains is the subscription row they pay for ("Payers read
+--     subscriptions they pay for"): its status, price, period and the holder's user
+--     id, which is opaque. That is deliberate. The parent is the paying customer and
+--     needs it to see the charge and cancel it; the app names the child only as "a
+--     student you are no longer linked to".
+--
 --     WRITES GO THROUGH THE RPCs ONLY. guardian_links has a SELECT grant and a
 --     SELECT policy for the two people it joins (and admins), and no write grant or
 --     policy. guardian_invites has no client grant or policy at all: a code is a
@@ -4535,9 +4543,10 @@ end; $$;
 --     section header). A second redeem of the same code always fails.
 --   - A guardian with ten failed attempts in the last hour is refused with a raise,
 --     whatever code they send. Attempts older than a day are deleted here.
---   - It raises once the guardian already has six linked students. That is about the
---     guardian's count, not the code. Redeeming a code for a student the guardian is
---     ALREADY linked to is not a new link: it succeeds, and the code is marked redeemed.
+--   - It raises once the guardian already has six linked students, before the code is
+--     looked at, so the answer at the cap says nothing about the code. Below the cap,
+--     redeeming a code for a student the guardian is ALREADY linked to is not a new
+--     link: it succeeds, and the code is marked redeemed.
 --   - On success it returns { ok: true, studentId, displayName }. Attempt rows are not
 --     cleared by a success, so a guesser cannot reset the count by linking once.
 create or replace function public.redeem_guardian_invite(p_code text)
@@ -4577,6 +4586,15 @@ begin
     raise exception 'Too many codes tried. Wait an hour, then try again';
   end if;
 
+  -- The six-student cap is checked before the code too. Checked after it, a live code
+  -- would raise the cap message while a dead one returned invalid_code, which tells a
+  -- guardian at the cap which codes are real. So a guardian at the cap cannot redeem
+  -- any code, including one for a child already linked (that link stands anyway).
+  select count(*) into v_linked from public.guardian_links where guardian_id = v_me;
+  if v_linked >= v_limit then
+    raise exception 'You can be linked to up to % students', v_limit;
+  end if;
+
   if v_code ~ '^[A-HJ-NP-Z2-9]{8}$' then
     select * into v_invite from public.guardian_invites where code = v_code for update;
     if found then
@@ -4595,10 +4613,6 @@ begin
     select 1 from public.guardian_links
      where guardian_id = v_me and student_id = v_invite.student_id
   ) then
-    select count(*) into v_linked from public.guardian_links where guardian_id = v_me;
-    if v_linked >= v_limit then
-      raise exception 'You can be linked to up to % students', v_limit;
-    end if;
     insert into public.guardian_links (guardian_id, student_id)
       values (v_me, v_invite.student_id)
       on conflict do nothing;
