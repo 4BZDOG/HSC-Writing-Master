@@ -20,10 +20,12 @@ vi.mock('../../services/quotaService', async (importOriginal) => {
   return {
     ...actual,
     fetchMyQuotaStatus: vi.fn().mockResolvedValue({ used: 12, limit: 1000, remaining: 988 }),
+    // Every group is seeded (schema §11 and §31), parents included.
     fetchRoleQuotas: vi.fn().mockResolvedValue([
       { role: 'admin', daily_limit: 1000 },
       { role: 'teacher', daily_limit: 400 },
       { role: 'student', daily_limit: 60 },
+      { role: 'parent', daily_limit: 30 },
     ]),
     setRoleQuota: vi.fn().mockResolvedValue(undefined),
     setUserQuotaOverride: vi.fn().mockResolvedValue(undefined),
@@ -64,7 +66,21 @@ describe('AiQuotaPanel (admin quota console)', () => {
       expect(quotaService.setRoleQuota).toHaveBeenCalledWith('student', 80)
     );
     expect(quotaService.setRoleQuota).toHaveBeenCalledWith('teacher', 400);
+    expect(quotaService.setRoleQuota).toHaveBeenCalledWith('parent', 30);
     expect(await screen.findByText('Group limits saved.')).toBeTruthy();
+  });
+
+  it('treats a blank parent limit as an error, like every other group', async () => {
+    await openPanel();
+    await waitFor(() =>
+      expect((screen.getByLabelText('Parents daily limit') as HTMLInputElement).value).toBe('30')
+    );
+
+    fireEvent.change(screen.getByLabelText('Parents daily limit'), { target: { value: '' } });
+    fireEvent.click(screen.getByRole('button', { name: /save group limits/i }));
+
+    expect(await screen.findByText('Parents: enter a non-negative number.')).toBeTruthy();
+    expect(quotaService.setRoleQuota).not.toHaveBeenCalled();
   });
 
   it('rejects a negative group limit without calling the RPC', async () => {

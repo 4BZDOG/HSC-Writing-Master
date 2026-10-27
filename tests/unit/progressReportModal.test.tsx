@@ -269,6 +269,10 @@ describe('reportAudienceFor', () => {
   it('gives a guest no report at all', () => {
     expect(reportAudienceFor('guest')).toBeNull();
   });
+
+  it('gives a parent no report of their own: they read the child on the guardian dashboard', () => {
+    expect(reportAudienceFor('parent')).toBeNull();
+  });
 });
 
 describe('scope choices', () => {

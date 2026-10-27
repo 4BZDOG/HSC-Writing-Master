@@ -128,12 +128,56 @@ describe('who has to accept', () => {
 });
 
 describe('which charter a role reads', () => {
-  it('routes staff to the teacher charter and everyone else to the student one', () => {
+  it('routes staff to the teacher charter and students and guests to the student one', () => {
     expect(audienceForRole('admin')).toBe('teacher');
     expect(audienceForRole('teacher')).toBe('teacher');
     expect(audienceForRole('user')).toBe('student');
     expect(audienceForRole('guest')).toBe('student');
     expect(charterForRole('teacher').audience).toBe('teacher');
+  });
+
+  it('gives a parent or guardian their own charter, not the student one', () => {
+    expect(audienceForRole('parent')).toBe('parent');
+    expect(charterForRole('parent').audience).toBe('parent');
+    expect(charterForRole('parent').title).not.toBe(charterForRole('user').title);
+  });
+});
+
+describe('re-prompting a parent whose charter was the student one', () => {
+  it('asks a parent who accepted as a student, although the version has not moved', () => {
+    // Every parent accepted the student charter before this one existed. Their
+    // record names 'student', so the mismatch alone brings them back.
+    const parent = makeUser({
+      role: 'parent',
+      agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now(), audience: 'student' },
+    });
+    expect(needsAgreement(parent)).toBe(true);
+    expect(agreementPromptReason(parent)).toBe('roleChanged');
+    expect(isReAcceptance(parent)).toBe(false);
+  });
+
+  it('asks a parent whose record pre-dates audience tracking, which is the same charter', () => {
+    const legacyParent = makeUser({
+      role: 'parent',
+      agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now() },
+    });
+    expect(agreementPromptReason(legacyParent)).toBe('roleChanged');
+  });
+
+  it('leaves a parent who has accepted the parent charter alone', () => {
+    const parent = makeUser({
+      role: 'parent',
+      agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now(), audience: 'parent' },
+    });
+    expect(needsAgreement(parent)).toBe(false);
+  });
+
+  it('still honours a pre-audience record for a student, as before', () => {
+    const legacyStudent = makeUser({
+      role: 'user',
+      agreement: { version: AGREEMENT_VERSION, acceptedAt: Date.now() },
+    });
+    expect(agreementPromptReason(legacyStudent)).toBe('none');
   });
 });
 
@@ -191,6 +235,12 @@ describe('recording acceptance', () => {
   it('records which charter a teacher actually read', async () => {
     const updated = await acceptAgreement(makeUser({ role: 'teacher' }));
     expect(updated.agreement?.audience).toBe('teacher');
+  });
+
+  it('records the parent charter for a parent, so the re-prompt does not fire again', async () => {
+    const updated = await acceptAgreement(makeUser({ role: 'parent' }));
+    expect(updated.agreement?.audience).toBe('parent');
+    expect(needsAgreement(updated)).toBe(false);
   });
 
   it('leaves the rest of the user untouched', async () => {

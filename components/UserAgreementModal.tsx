@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { ChevronDown, ChevronUp, History, LogOut, ScrollText } from 'lucide-react';
-import type { User } from '../types';
+import type { User, UserRole } from '../types';
 import { CHARTER_ICONS } from './agreementIcons';
 import LegalDocumentReader from './LegalDocumentReader';
 import {
@@ -14,6 +14,23 @@ import {
 import { AGREEMENT_VERSION, LEGAL_CONFIG } from '../data/legalContent';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+
+/**
+ * Why a role is asked to read its charter again when the charter it read no
+ * longer matches its role. Exhaustive on `UserRole`, so a new role needs its
+ * own sentence here.
+ */
+const ROLE_CHANGED_LEDE: Record<UserRole, string> = {
+  admin:
+    'You now have staff access, which comes with responsibilities the student agreement does not cover — student visibility and moderation. Please read this version.',
+  teacher:
+    'You now have staff access, which comes with responsibilities the student agreement does not cover — student visibility and moderation. Please read this version.',
+  user: 'Your account has changed, and the agreement that applies to it is different from the one you accepted. Please read this version.',
+  guest:
+    'Your account has changed, and the agreement that applies to it is different from the one you accepted. Please read this version.',
+  parent:
+    'You now hold a parent or guardian account, which comes with its own agreement: linking to a child, what you can see of their progress, and paying for their plan. Please read this version.',
+};
 
 /**
  * The user agreement gate.
@@ -79,7 +96,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
     reason === 'updated'
       ? 'The agreement has changed since you last accepted it. Here it is again — the changes are listed below.'
       : reason === 'roleChanged'
-        ? 'You now have staff access, which comes with responsibilities the student agreement does not cover — student visibility and moderation. Please read this version.'
+        ? ROLE_CHANGED_LEDE[user.role]
         : charter.intro;
 
   // Guests can dismiss with Esc; a blocking gate deliberately cannot be

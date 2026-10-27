@@ -829,7 +829,8 @@ create table if not exists public.ai_quota_limits (
   daily_limit integer not null check (daily_limit >= 0)
 );
 
--- Sensible defaults; adjust with set_role_ai_quota() (admin-only).
+-- Sensible defaults; adjust with set_role_ai_quota() (admin-only). The parent row (30,
+-- the same as a free student) is seeded in §31, once app_role has the value.
 -- Student 30 and teacher 200 since October 2026 (were 60 and 400): a call costs up
 -- to about A$0.07 on the marking model, and neither role pays for its allowance.
 -- Thirty covers the free tier's three markings with room for everything around
@@ -2212,12 +2213,23 @@ end; $$;
 alter table public.profiles
   add column if not exists agreement_version      text,
   add column if not exists agreement_accepted_at  timestamptz,
+  add column if not exists agreement_audience     text,
   add column if not exists quick_start_seen_version text;
+
+-- The charter the user read (services/agreementService.ts writes it). Without this
+-- column the soft patch names a column that does not exist and the WHOLE update is
+-- refused, so the durable acceptance was never written at all. Parents (§31) read
+-- their own charter, so 'parent' is a value here.
+alter table public.profiles drop constraint if exists profiles_agreement_audience_check;
+alter table public.profiles add constraint profiles_agreement_audience_check
+  check (agreement_audience is null or agreement_audience in ('student', 'teacher', 'parent'));
 
 comment on column public.profiles.agreement_version is
   'AGREEMENT_VERSION (data/legalContent.ts) the user last accepted. Null = never accepted.';
 comment on column public.profiles.agreement_accepted_at is
   'When the user accepted agreement_version.';
+comment on column public.profiles.agreement_audience is
+  'The charter the user read: student, teacher or parent (CharterAudience, data/legalContent.ts). Null = recorded before this was tracked.';
 comment on column public.profiles.quick_start_seen_version is
   'QUICK_START_VERSION the user has been shown, so the guide stops auto-opening.';
 
@@ -4925,6 +4937,27 @@ grant execute on function public.get_guardian_student_progress(uuid, integer) to
 
 revoke all on function public.claim_parent_account() from public, anon;
 grant execute on function public.claim_parent_account() to authenticated;
+
+-- ---- The parent AI allowance (§11 seeds the other groups) ---------------------
+-- A parent is metered at the group default of 30 a day, the same as a free student.
+-- Without this row resolve_ai_quota falls back to the built-in 50, which gave a parent
+-- more than a student. Seeded here, not in §11's insert, because 'parent' is added to
+-- app_role by the `alter type` at the top of this file. PostgreSQL will not let a value
+-- added in the same transaction be used until that transaction commits, so a literal
+-- 'parent' in §11 fails when the file runs as one transaction (psql -1, or a migration
+-- runner that wraps it), with SQLSTATE 55P04 "unsafe use of new value". The insert is
+-- therefore dynamic SQL. Where the value is not usable yet, the step is skipped with a
+-- notice, and the next apply seeds it once the enum change has committed.
+--
+-- `on conflict do nothing` keeps whatever an admin has set since, so re-applying this
+-- file never resets a parent's allowance to 30. Change it with set_role_ai_quota('parent', n).
+do $$
+begin
+  execute 'insert into public.ai_quota_limits (role, daily_limit) '
+       || 'values (''parent''::public.app_role, 30) on conflict (role) do nothing';
+exception when sqlstate '55P04' then
+  raise notice 'parent AI quota not seeded: app_role.parent is not committed yet; re-apply schema.sql to seed it (30 a day)';
+end $$;
 
 -- =============================================================================
 -- §32 · Entitlement columns on profiles are written by the server only

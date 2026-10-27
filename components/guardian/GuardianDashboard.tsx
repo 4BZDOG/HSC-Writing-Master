@@ -270,6 +270,8 @@ interface GuardianDashboardProps {
   user: User;
   /** Leave the dashboard for the question workspace. */
   onBrowseQuestions: () => void;
+  /** Opens the quick-start guide, which is mounted by App for this view. */
+  onOpenQuickStart?: () => void;
   onSignOut: () => void;
   /**
    * Bumped by App each time the parent returns from a Plus checkout. 0, or absent,
@@ -281,6 +283,7 @@ interface GuardianDashboardProps {
 const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
   user,
   onBrowseQuestions,
+  onOpenQuickStart,
   onSignOut,
   checkoutReturn = 0,
 }) => {
@@ -444,6 +447,11 @@ const GuardianDashboard: React.FC<GuardianDashboardProps> = ({
           <p className="text-sm text-secondary">Signed in as {user.displayName}</p>
         </div>
         <div className="flex flex-wrap gap-2">
+          {onOpenQuickStart && (
+            <button type="button" onClick={onOpenQuickStart} className={BUTTON_QUIET}>
+              Quick start
+            </button>
+          )}
           <button type="button" onClick={onBrowseQuestions} className={BUTTON_QUIET}>
             Browse questions
           </button>

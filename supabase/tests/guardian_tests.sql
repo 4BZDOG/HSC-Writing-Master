@@ -853,5 +853,19 @@ begin
   raise notice 'PASS: claim_parent_account is callable by signed-in users only';
 end $$;
 
+-- ---- A parent with no allowance of their own is metered at the parent default (§31) ----
+-- gd_parent has no daily_ai_quota override and holds no plan (the child does), so the
+-- group row decides. The row is seeded at 30, the same as a free student. Without it the
+-- built-in 50 applied, which gave a parent more than a student.
+do $$
+declare v_limit integer;
+begin
+  v_limit := public.resolve_ai_quota('00000000-0000-0000-0000-000000006e02');
+  if v_limit is distinct from 30 then
+    raise exception 'TEST FAILED: a parent with no override is metered at % (expected the group default of 30)', v_limit;
+  end if;
+  raise notice 'PASS: a parent with no override is metered at the 30 a day group default';
+end $$;
+
 reset role;
 rollback;

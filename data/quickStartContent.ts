@@ -7,7 +7,8 @@
  *
  *   - Add a step to a track     → push a `QuickStartStep` into its `steps`.
  *   - Add a track for a role    → add it to `QUICK_START_TRACKS` and map the
- *                                 role in `trackForRole()`.
+ *                                 role in `TRACK_FOR_ROLE` (the compiler will
+ *                                 point at both when a role is added).
  *   - Add a shortcut / tip      → push onto `POWER_TIPS`.
  *
  * ACCURACY RULE: every step must describe something the app actually does. If
@@ -50,7 +51,7 @@ export interface QuickStartStep {
   planNote?: string;
 }
 
-export type QuickStartAudience = 'student' | 'teacher' | 'guest';
+export type QuickStartAudience = 'student' | 'teacher' | 'guest' | 'parent';
 
 export interface QuickStartTrack {
   audience: QuickStartAudience;
@@ -218,28 +219,88 @@ const GUEST_TRACK: QuickStartTrack = {
   closer: 'Nothing here is billed until you choose a paid plan. The free plan stays free.',
 };
 
+const PARENT_TRACK: QuickStartTrack = {
+  audience: 'parent',
+  eyebrow: 'Quick start',
+  title: 'Link your child in five steps',
+  intro:
+    'You link to your child’s account to see how they are going, and you can pay for their Band 6 Plus. Nothing is linked without their code, and you can stop at any time.',
+  timeToRead: '2 min read',
+  steps: [
+    {
+      icon: 'share',
+      title: 'Get the code from your child',
+      body: 'Your child makes the link, not you. They create a link code under Parent or guardian in their profile and give it to you.',
+      detail: [
+        'The code works once and expires after seven days. If it has lapsed, ask them to make a new one.',
+        'Enter it under Link a child on your dashboard, with or without the hyphen.',
+        'You can link up to six children.',
+      ],
+    },
+    {
+      icon: 'eye',
+      title: 'See how they are going',
+      body: 'Each child has a card on your dashboard with their plan and a read-only progress summary.',
+      detail: [
+        'Attempts, average band and average marks for each command verb, and a recent band trend.',
+        'Their written answers are never shown to you. The summary is there to support their practice, not to watch it.',
+      ],
+    },
+    {
+      icon: 'sparkles',
+      title: 'Pay for their Band 6 Plus',
+      body: 'Choose Get Band 6 Plus on a child’s card. You pay, and the plan goes onto their account.',
+      detail: [
+        'Pick monthly or yearly, then check out with Stripe. Your child gets the plan once payment goes through.',
+        'The card belongs to you, and the plan is theirs. A child on a school licence already has Plus, so there is nothing to buy.',
+      ],
+      planNote: 'Band 6 Plus is the paid plan a parent can buy for a child.',
+    },
+    {
+      icon: 'gauge',
+      title: 'Manage billing in one place',
+      body: 'Manage billing opens the billing portal, where you update your card or cancel.',
+      detail: [
+        'Your subscription renews until you cancel it. Your child keeps the plan to the end of the period you have paid for.',
+        'Manage billing stays on your dashboard for as long as you pay for any plan, even after you remove a link.',
+      ],
+    },
+    {
+      icon: 'shield',
+      title: 'Remove a link whenever you like',
+      body: 'Either of you can remove a link at any time. Use the Remove link button on the child’s card. Your child can also remove it from their side.',
+      detail: [
+        'Removing a link stops you seeing their progress. It does not cancel a plan you pay for.',
+      ],
+    },
+  ],
+  closer:
+    'Removing a link does not stop a plan you pay for. If you want the payments to stop, cancel in Manage billing first.',
+};
+
 export const QUICK_START_TRACKS: Record<QuickStartAudience, QuickStartTrack> = {
   student: STUDENT_TRACK,
   teacher: TEACHER_TRACK,
   guest: GUEST_TRACK,
+  parent: PARENT_TRACK,
 };
 
 /**
- * Which guide a role reads. Admins read the teacher track — they have every
- * teacher tool plus system administration, and the admin-only surfaces are
- * self-explanatory to whoever was given the role.
+ * Which guide each role reads, keyed on every `UserRole`: a new role is a
+ * compile error here until it has a guide. Admins read the teacher track — they
+ * have every teacher tool plus system administration, and the admin-only
+ * surfaces are self-explanatory to whoever was given the role.
  */
-export const trackForRole = (role: UserRole): QuickStartTrack => {
-  switch (role) {
-    case 'admin':
-    case 'teacher':
-      return QUICK_START_TRACKS.teacher;
-    case 'guest':
-      return QUICK_START_TRACKS.guest;
-    default:
-      return QUICK_START_TRACKS.student;
-  }
+export const TRACK_FOR_ROLE: Record<UserRole, QuickStartAudience> = {
+  admin: 'teacher',
+  teacher: 'teacher',
+  user: 'student',
+  guest: 'guest',
+  parent: 'parent',
 };
+
+export const trackForRole = (role: UserRole): QuickStartTrack =>
+  QUICK_START_TRACKS[TRACK_FOR_ROLE[role]];
 
 export interface PowerTip {
   label: string;

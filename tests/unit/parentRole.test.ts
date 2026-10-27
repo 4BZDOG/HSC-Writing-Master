@@ -2,6 +2,9 @@ import { describe, it, expect } from 'vitest';
 import type { User, UserRole } from '../../types';
 import { mapSupabaseRole } from '../../services/authService';
 import { describeAccess, getUserPlan } from '../../services/entitlements';
+import { audienceForRole, charterForRole } from '../../services/agreementService';
+import { trackForRole } from '../../data/quickStartContent';
+import { reportAudienceFor } from '../../utils/progressReportOptions';
 import {
   ROLE_LABELS,
   canCurateContent,
@@ -55,6 +58,17 @@ describe('the parent role', () => {
 
   it('holds no plan of its own', () => {
     expect(getUserPlan(parentUser)).toBe('free');
+  });
+
+  it('reads its own charter and its own quick start, never the student ones', () => {
+    expect(audienceForRole('parent')).toBe('parent');
+    expect(charterForRole('parent').audience).toBe('parent');
+    expect(trackForRole('parent').audience).toBe('parent');
+    expect(trackForRole('user').audience).toBe('student');
+  });
+
+  it('has no printable progress report, because it reads a child through the dashboard', () => {
+    expect(reportAudienceFor('parent')).toBeNull();
   });
 });
 

@@ -39,7 +39,15 @@ export const ROLE_LABELS: Record<UserRole, string> = {
   parent: 'Parent/guardian',
 };
 
-/** The role as the account holder should read it. */
+/**
+ * The role as the account holder should read it.
+ *
+ * `ROLE_LABELS` is exhaustive on `UserRole`, so the typed call sites cannot fall
+ * through. The `?? 'Student'` is for the user object itself, which is read back
+ * from local storage and may carry a role string this build does not know (say,
+ * one written by a newer deployment). Naming such an account a student is the
+ * least surprising thing to print, and it is the only place a fallback is kept.
+ */
 export const roleLabel = (role: UserRole): string => ROLE_LABELS[role] ?? 'Student';
 
 /** Create and edit curriculum content: questions, samples, rubrics, keywords. */

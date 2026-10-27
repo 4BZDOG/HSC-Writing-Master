@@ -160,7 +160,9 @@ atomic `consume_ai_quota()` RPC; when it's gone the proxy answers 429 and the
 paid provider is never contacted.
 
 - **Group (role) defaults** live in `ai_quota_limits` — seeded to
-  admin 1000 / teacher 400 / student 60 per UTC day. Change them with
+  admin 1000 / teacher 200 / student 30 / parent 30 per UTC day. The parent row is
+  seeded at the end of §31, after `app_role` gains the value, so a parent is metered
+  like a free student rather than at the built-in 50. Change them with
   `select set_role_ai_quota('student', 80);` (admin-only) or from the app's
   API telemetry widget (admin header → the floating usage pill → Daily AI
   Quotas).

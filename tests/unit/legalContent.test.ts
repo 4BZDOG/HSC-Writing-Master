@@ -56,8 +56,8 @@ describe('agreement versioning', () => {
 });
 
 describe('charters', () => {
-  it('covers both audiences with usable content', () => {
-    (['student', 'teacher'] as const).forEach((audience) => {
+  it('covers every audience with usable content', () => {
+    (['student', 'teacher', 'parent'] as const).forEach((audience) => {
       const charter = CHARTERS[audience];
       expect(charter.audience).toBe(audience);
       expect(charter.promises.length).toBeGreaterThanOrEqual(4);
@@ -74,6 +74,22 @@ describe('charters', () => {
     // that carry real consequences if missed, so both are emphasised.
     expect(CHARTERS.student.promises.filter((p) => p.emphasis).length).toBeGreaterThanOrEqual(2);
     expect(CHARTERS.teacher.promises.filter((p) => p.emphasis).length).toBeGreaterThanOrEqual(2);
+    expect(CHARTERS.parent.promises.filter((p) => p.emphasis).length).toBeGreaterThanOrEqual(2);
+  });
+
+  it('tells a parent what they cannot see and how the link is made', () => {
+    // These are the two claims a parent most needs to be right about, and both
+    // must match the database: the child makes the code, and written answers are
+    // not part of the progress a parent reads (schema §31).
+    const text = CHARTERS.parent.promises.map((p) => `${p.title} ${p.body}`).join(' ');
+    expect(text).toMatch(/one-time code/);
+    expect(text).toMatch(/seven days/);
+    expect(text).toMatch(/written answers are never shown to you/);
+  });
+
+  it('says that removing a link does not cancel a plan the parent pays for', () => {
+    const text = CHARTERS.parent.promises.map((p) => p.body).join(' ');
+    expect(text).toMatch(/Removing the link does not cancel a subscription/);
   });
 
   it('resolves every icon key to an icon', () => {
@@ -129,7 +145,7 @@ describe('legal documents', () => {
 });
 
 describe('quick start', () => {
-  const ROLES: UserRole[] = ['admin', 'teacher', 'user', 'guest'];
+  const ROLES: UserRole[] = ['admin', 'teacher', 'user', 'guest', 'parent'];
 
   it('gives every role a track', () => {
     ROLES.forEach((role) => {
@@ -139,11 +155,20 @@ describe('quick start', () => {
     });
   });
 
-  it('sends staff to the teacher track and everyone else to their own', () => {
+  it('sends staff to the teacher track, and each other role to its own', () => {
     expect(trackForRole('admin').audience).toBe('teacher');
     expect(trackForRole('teacher').audience).toBe('teacher');
     expect(trackForRole('user').audience).toBe('student');
     expect(trackForRole('guest').audience).toBe('guest');
+    expect(trackForRole('parent').audience).toBe('parent');
+  });
+
+  it('gives a parent a guide about linking and paying, not the student one', () => {
+    const text = QUICK_START_TRACKS.parent.steps.map((s) => `${s.title} ${s.body}`).join(' ');
+    expect(text).toMatch(/link code/i);
+    expect(text).toMatch(/Band 6 Plus/);
+    expect(text).toMatch(/Remove/);
+    expect(QUICK_START_TRACKS.parent.title).not.toBe(QUICK_START_TRACKS.student.title);
   });
 
   it('resolves every icon key to an icon', () => {

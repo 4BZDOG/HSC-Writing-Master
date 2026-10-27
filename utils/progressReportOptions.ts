@@ -17,19 +17,23 @@ import type { TeachingClass } from '../services/responseService';
 import type { UserRole } from '../types';
 import { roleLabel } from './permissions';
 
-/** The report a role reads, or null for a role that has none (a guest). */
-export const reportAudienceFor = (role: UserRole): ReportAudience | null => {
-  switch (role) {
-    case 'user':
-      return 'student';
-    case 'teacher':
-      return 'teacher';
-    case 'admin':
-      return 'school';
-    default:
-      return null;
-  }
+/**
+ * The report a role reads, or null for a role that has none. Exhaustive on
+ * `UserRole`: a guest has no saved work to report on, and a parent reads a
+ * child's progress on the guardian dashboard rather than printing a report. The
+ * report RPC reads the caller's own data, so a parent has nothing of their own
+ * to put in one.
+ */
+export const REPORT_AUDIENCE_FOR_ROLE: Record<UserRole, ReportAudience | null> = {
+  admin: 'school',
+  teacher: 'teacher',
+  user: 'student',
+  guest: null,
+  parent: null,
 };
+
+export const reportAudienceFor = (role: UserRole): ReportAudience | null =>
+  REPORT_AUDIENCE_FOR_ROLE[role];
 
 /** The title a report is printed under: the header names the report type. */
 export const REPORT_TITLES: Record<ReportAudience, string> = {
