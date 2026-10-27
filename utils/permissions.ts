@@ -50,6 +50,23 @@ export const ROLE_LABELS: Record<UserRole, string> = {
  */
 export const roleLabel = (role: UserRole): string => ROLE_LABELS[role] ?? 'Student';
 
+/**
+ * Who may send a question to the shared library for reviewer approval. A guest
+ * has no account to credit it to. A parent or guardian browses questions to see
+ * what their child practises, not to author them, so the button would only add
+ * noise to the review queue. Exhaustive on `UserRole`, so a new role must decide.
+ */
+const CONTRIBUTES_TO_LIBRARY: Record<UserRole, boolean> = {
+  admin: true,
+  teacher: true,
+  user: true,
+  guest: false,
+  parent: false,
+};
+
+export const canContributeToLibrary = (role: UserRole): boolean =>
+  CONTRIBUTES_TO_LIBRARY[role] ?? false;
+
 /** Create and edit curriculum content: questions, samples, rubrics, keywords. */
 export const canCurateContent = (role: UserRole): boolean => role === 'admin' || role === 'teacher';
 

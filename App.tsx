@@ -46,6 +46,7 @@ import { visibleCourses } from './utils/courseVisibility';
 import { User, WritingMode } from './types';
 import type { StatePath, SyllabusCrumb } from './types';
 import {
+  canContributeToLibrary,
   canCreateCurriculum,
   canCurateContent,
   canModerate,
@@ -310,8 +311,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [isSubmittingPrompt, setIsSubmittingPrompt] = useState(false);
 
   // Shared-library contribution is only meaningful when Supabase is configured
-  // and the caller has a real account (guests have no session to attribute to).
-  const canContribute = isCurriculumRemote() && user.role !== 'guest';
+  // and the role contributes at all (see canContributeToLibrary).
+  const canContribute = isCurriculumRemote() && canContributeToLibrary(user.role);
 
   const handleSubmitPromptToLibrary = async () => {
     if (!currentPrompt || !statePath.dotPointId) return;

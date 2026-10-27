@@ -5,7 +5,7 @@ import { audienceForRole, charterForRole } from '../../services/agreementService
 import { describeAccess } from '../../services/entitlements';
 import { QUICK_START_TRACKS, trackForRole } from '../../data/quickStartContent';
 import { reportAudienceFor } from '../../utils/progressReportOptions';
-import { ROLE_LABELS, roleLabel } from '../../utils/permissions';
+import { ROLE_LABELS, canContributeToLibrary, roleLabel } from '../../utils/permissions';
 
 /**
  * Every role-keyed list in the app must handle every role. A future role must
@@ -73,6 +73,11 @@ describe('every role has an entry in each role-keyed list', () => {
       ['guest', null],
       ['parent', null],
     ]);
+  });
+
+  it('settles who may send a question to the shared library', () => {
+    const contributors = ROLES.filter((role) => canContributeToLibrary(role));
+    expect(contributors.sort()).toEqual(['admin', 'teacher', 'user']);
   });
 
   it('maps each role to the charter and quick start it should read', () => {
