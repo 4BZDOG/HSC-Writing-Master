@@ -52,12 +52,22 @@ describe('shipped questions', () => {
   it('keeps lower-mark samples no longer than higher-mark ones', () => {
     const bad: string[] = [];
     for (const q of questions) {
-      const sa = [...(q.prompt.sampleAnswers ?? [])].sort(
-        (a: { mark: number }, b: { mark: number }) => b.mark - a.mark
-      );
-      for (let i = 1; i < sa.length; i++)
-        if (words(sa[i].answer) > words(sa[i - 1].answer))
-          bad.push(`${q.prompt.id}: ${sa[i].mark}m longer than ${sa[i - 1].mark}m`);
+      // One ladder per prescribed text: a question answered on the student's own
+      // text holds a full ladder for each text, and a 12-mark answer on one novel
+      // is not measured against a 20-mark answer on another.
+      const ladders = new Map<string, { mark: number; answer: string }[]>();
+      for (const a of q.prompt.sampleAnswers ?? []) {
+        const key = a.prescribedText ?? '';
+        ladders.set(key, [...(ladders.get(key) ?? []), a]);
+      }
+      for (const [text, ladder] of ladders) {
+        const sa = ladder.sort((a, b) => b.mark - a.mark);
+        for (let i = 1; i < sa.length; i++)
+          if (sa[i].mark < sa[i - 1].mark && words(sa[i].answer) > words(sa[i - 1].answer))
+            bad.push(
+              `${q.prompt.id}${text ? ` (${text})` : ''}: ${sa[i].mark}m longer than ${sa[i - 1].mark}m`
+            );
+      }
     }
     expect(bad.slice(0, 10)).toEqual([]);
   });
