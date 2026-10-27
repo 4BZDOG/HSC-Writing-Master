@@ -78,6 +78,8 @@ import {
   countPastHscInTopics,
   getPastHscLabel,
   isPastHscInYears,
+  joinWords,
+  missingPastHscYearsNote,
   pastHscYears,
   readPastHscNavigatorState,
   subTopicHasPastHsc,
@@ -493,12 +495,6 @@ const NavOptionRow = ({
   </div>
 );
 
-/** "a", "a and b", "a, b and c" — for the navigator's summary line. */
-const joinWords = (words: string[]): string =>
-  words.length <= 1
-    ? (words[0] ?? '')
-    : `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}`;
-
 interface PastHscNavigatorProps {
   on: boolean;
   /** The chosen years. Empty means every year. */
@@ -509,6 +505,8 @@ interface PastHscNavigatorProps {
   onYearsChange: (years: number[]) => void;
   /** What the filter shows and holds back, in words. Null while it is off. */
   summary: string | null;
+  /** Saved years this course does not have, in words. Null when there are none. */
+  missingYearsNote: string | null;
 }
 
 /**
@@ -524,6 +522,7 @@ const PastHscNavigator = ({
   onToggle,
   onYearsChange,
   summary,
+  missingYearsNote,
 }: PastHscNavigatorProps) => {
   const toggleYear = (year: number) =>
     onYearsChange(
@@ -572,6 +571,11 @@ const PastHscNavigator = ({
           className="t-label leading-snug text-[rgb(var(--color-text-muted))] light:text-slate-600"
         >
           {summary}
+        </p>
+      )}
+      {on && missingYearsNote && (
+        <p className="t-label leading-snug text-[rgb(var(--color-text-muted))] light:text-slate-600">
+          {missingYearsNote}
         </p>
       )}
     </div>
@@ -677,12 +681,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     [pastHscOverride, pastHscCourseId]
   );
   // A year chosen on an earlier visit may no longer exist in this course. It is
-  // dropped here rather than left selecting nothing.
+  // dropped here rather than left selecting nothing, and the navigator's note
+  // says so (`pastHscMissingNote`).
   const pastHscYearsInForce = useMemo(
     () => storedPastHsc.years.filter((y) => pastHscYearList.includes(y)),
     [storedPastHsc.years, pastHscYearList]
   );
   const pastHscNavOn = pastHscAvailable && storedPastHsc.on;
+  // Said aloud, not silently dropped: the stored years stay in storage, so a
+  // year this course lacks is not applied here and the reader is told so.
+  const pastHscMissingNote = useMemo(
+    () => (pastHscNavOn ? missingPastHscYearsNote(storedPastHsc.years, pastHscYearList) : null),
+    [pastHscNavOn, storedPastHsc.years, pastHscYearList]
+  );
 
   const setPastHscNav = useCallback(
     (next: PastHscNavigatorState) => {
@@ -1682,6 +1693,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             onToggle={togglePastHsc}
             onYearsChange={(years) => setPastHscNav({ ...storedPastHsc, years })}
             summary={pastHscSummary}
+            missingYearsNote={pastHscMissingNote}
           />
         </div>
       )}
