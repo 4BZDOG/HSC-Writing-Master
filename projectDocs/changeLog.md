@@ -16,6 +16,14 @@
   student finds the ladder on the text they studied. Parts that ask about a different idea for each text (2019 Q6,
   2020 Q2–4) or print an extract from each text (2022 Q2) stay separate. English Standard holds 63 past questions,
   down from 92, with every paper part still present.
+- **Changed.** A past question's scenario is drawn in the parts the paper prints it in (`splitPastHscScenario`,
+  `PastHscScenario`): an extract or stimulus under its own label, with a poem's or script's line breaks restored;
+  instructions such as "Refer to the piece you crafted for part (a)." as plain lines; the note on the model piece
+  as a note about the sample answers; and "Your answer will be assessed on how well you: …" as a short checklist.
+  A case study (Business Studies) keeps its quote. The heading reads "From the paper".
+- **Added.** On a question answered on the student's own text, the sample answers open with "Show answers on" a
+  chosen text; every level then shows that text's exemplar, and the choice is remembered for the next question
+  set on it. Each row names the text its exemplar writes on.
 - **Supabase.** `prompts.hsc_section`, `prompts.hsc_text` and `sample_answers.prescribed_text` (added if missing).
   Contributions send them only when set, so a database that has not applied the columns still accepts new rows.
   Re-apply `supabase/schema.sql`, then re-run `supabase/seed.mjs`. `DATA_VERSION` 2.25.0.

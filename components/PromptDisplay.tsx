@@ -62,6 +62,8 @@ import {
 } from '../utils/cardChrome';
 import { getPastHscLabel } from '../utils/pastHscUtils';
 import PastHscExamLine from './PastHscExamLine';
+import PastHscScenario from './PastHscScenario';
+import { splitPastHscScenario } from '../utils/pastHscScenario';
 import OutcomeDetailModal from './OutcomeDetailModal';
 import AiBusyOverlay from './AiBusyOverlay';
 import LoadingIndicator from './LoadingIndicator';
@@ -474,6 +476,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // the carousel is laid inside it.
   const scenarioIsPlainText = !!prompt.scenario && !prompt.scenarioImage;
   const pastHsc = useMemo(() => getPastHscLabel(prompt), [prompt]);
+  // A past paper's scenario is drawn in the parts the paper prints it in.
+  const pastHscScenario = useMemo(
+    () => (prompt.isPastHSC && prompt.scenario ? splitPastHscScenario(prompt.scenario) : null),
+    [prompt.isPastHSC, prompt.scenario]
+  );
   // Filler for the void a short question leaves — see the block that uses it.
   // Keyed off the absence of a real scenario rather than of the scenario
   // SECTION: a curator sees a dashed "no scenario" placeholder in that case,
@@ -1007,7 +1014,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       none — see `openQuestionWithOutcomes`. The light partner
                       is unchanged; it was already clearing the floor. */}
                   <h3 className="text-sm font-bold text-slate-400 light:text-slate-600 flex items-center gap-2">
-                    <BookOpen className="w-3.5 h-3.5" /> Context scenario
+                    <BookOpen className="w-3.5 h-3.5" />{' '}
+                    {pastHscScenario ? 'From the paper' : 'Context scenario'}
                   </h3>
                   {canCurate && !isEditingScenario && (
                     <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
@@ -1119,6 +1127,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <ScenarioCarousel
                         scenarioText={prompt.scenario}
                         scenarioImage={prompt.scenarioImage}
+                        keywords={prompt.keywords}
+                        verb={prompt.verb}
+                        fontSize={fontSize}
+                      />
+                    ) : pastHscScenario ? (
+                      <PastHscScenario
+                        parts={pastHscScenario}
                         keywords={prompt.keywords}
                         verb={prompt.verb}
                         fontSize={fontSize}

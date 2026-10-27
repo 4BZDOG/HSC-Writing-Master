@@ -4,6 +4,12 @@ import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { promptBandForMark } from '../utils/guideBands';
+import {
+  onText,
+  prescribedTextsOf,
+  rememberText,
+  rememberedTextAmong,
+} from '../utils/prescribedTextChoice';
 import { AccordionSection } from './ReferenceMaterials';
 import { LadderRowGutter, ladderBandVars } from './LadderRow';
 import {
@@ -259,6 +265,26 @@ const SourceBadge: React.FC<
 };
 
 /**
+ * The prescribed text an exemplar writes on, beside its source, on a question each
+ * student answers on their own text. Shut, a row previews one exemplar; this says
+ * which text it is on, so "693 words" is not read as an answer on the student's.
+ */
+const TextBadge: React.FC<{ text?: string; onSolid?: boolean }> = ({ text, onSolid = false }) =>
+  text ? (
+    <span
+      title={`Written on ${text}`}
+      className={`${CHIP} ${
+        onSolid
+          ? SAMPLE_PAGE_BAR_CHIP
+          : 'border-slate-300 bg-white/70 text-slate-700 dark:border-white/15 dark:bg-white/5 dark:text-slate-200'
+      }`}
+    >
+      <BookOpen className="w-2.5 h-2.5" aria-hidden="true" />
+      {text}
+    </span>
+  ) : null;
+
+/**
  * One mark level, drawn as a ladder row: the same gutter, edge and wash as the
  * Marking Guide's row for the same mark, so the two panels line up when they are
  * open side by side.
@@ -484,10 +510,13 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                     </span>
                   )}
                   {!isOpen && (
-                    <SourceBadge
-                      source={currentSample.source}
-                      derivedFromStudent={currentSample.derivedFromStudent}
-                    />
+                    <>
+                      <SourceBadge
+                        source={currentSample.source}
+                        derivedFromStudent={currentSample.derivedFromStudent}
+                      />
+                      <TextBadge text={currentSample.prescribedText} />
+                    </>
                   )}
                   {/* The flag stays in the header whether the row is open or shut, so it
                       is seen at a glance. */}
@@ -651,6 +680,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                                 derivedFromStudent={currentSample.derivedFromStudent}
                                 onSolid
                               />
+                              <TextBadge text={currentSample.prescribedText} onSolid />
                             </>
                           ))}
                         {criterion && (
@@ -994,6 +1024,23 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
    * over three levels and three models over three levels are very different things
    * to walk into, and the marks say which ladder they are on.
    */
+  // A question answered on the student's own text holds a ladder for every text.
+  // The reader picks theirs once; every level then shows the answers on it.
+  const prescribedTexts = useMemo(
+    () => prescribedTextsOf(prompt.sampleAnswers ?? []),
+    [prompt.sampleAnswers]
+  );
+  const [chosenText, setChosenText] = useState<string | null>(() =>
+    rememberedTextAmong(prescribedTexts)
+  );
+  useEffect(() => {
+    setChosenText(rememberedTextAmong(prescribedTexts));
+  }, [prompt.id, prescribedTexts]);
+  const shownGroups = useMemo(
+    () => groupedAnswers.map((g) => ({ ...g, answers: onText(g.answers, chosenText) })),
+    [groupedAnswers, chosenText]
+  );
+
   const subtitle =
     groupedAnswers.length > 0
       ? `${prompt.totalMarks} marks · ${totalSamples} exemplar${totalSamples === 1 ? '' : 's'} · ${groupedAnswers.length} level${groupedAnswers.length === 1 ? '' : 's'}`
@@ -1123,11 +1170,34 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
         )}
       </div>
 
+      {prescribedTexts.length > 1 && (
+        <label className="flex flex-wrap items-center gap-2 mb-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
+          <span>Show answers on</span>
+          <select
+            value={chosenText ?? ''}
+            onChange={(e) => {
+              const text = e.target.value || null;
+              setChosenText(text);
+              if (text) rememberText(text);
+            }}
+            className="min-h-9 px-3 py-1.5 rounded-xl bg-white dark:bg-[rgb(var(--color-bg-surface))] border border-slate-300 dark:border-white/15 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/40"
+          >
+            <option value="">All {prescribedTexts.length} prescribed texts</option>
+            {prescribedTexts.map((text) => (
+              <option key={text} value={text}>
+                {text}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       {groupedAnswers.length > 0 ? (
         <div className={LADDER_STACK}>
-          {groupedAnswers.map((group) => (
+          {shownGroups.map((group) => (
             <ExemplarRow
-              key={group.mark}
+              // Keyed by the text too: a row's place in its strip of exemplars
+              // means nothing once the strip is a different text's.
+              key={`${group.mark}:${chosenText ?? ''}`}
               group={group}
               prompt={prompt}
               isOpen={openGroupMark === group.mark}

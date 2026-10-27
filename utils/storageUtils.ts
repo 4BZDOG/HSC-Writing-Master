@@ -110,6 +110,9 @@ export const STORAGE_KEYS = {
   // Last theme shown, read by the inline script in index.html before React
   // mounts so the sign-in screen opens in it. Keep the two strings in step.
   THEME: 'hsc-ai-evaluator-theme',
+  // The prescribed texts this reader has picked in the sample answers, most
+  // recent first, so a question set on several texts opens on theirs.
+  MY_PRESCRIBED_TEXTS: 'hsc-ai-evaluator-my-prescribed-texts',
 } as const;
 
 export type StorageStatus = 'IndexedDB' | 'LocalStorage' | 'Supabase' | 'Error' | 'Loading';
