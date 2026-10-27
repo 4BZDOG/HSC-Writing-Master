@@ -50,9 +50,15 @@ test.describe('parent dashboard', () => {
     await expectOnTop(page.getByRole('region', { name: 'Parent accounts need an online account' }));
 
     // Browse questions leaves the dashboard for the question bank.
-    await page.getByRole('button', { name: 'Browse questions' }).click({ timeout: 60_000 });
+    // On a cold dev server the first click can land before the lazy question bank
+    // has loaded and be lost, so the click is retried until the bank opens.
     const back = page.getByRole('button', { name: 'Back to your children' });
-    await expect(back).toBeVisible({ timeout: 60_000 });
+    await expect(async () => {
+      if (!(await back.isVisible())) {
+        await page.getByRole('button', { name: 'Browse questions' }).click({ timeout: 10_000 });
+      }
+      await expect(back).toBeVisible({ timeout: 15_000 });
+    }).toPass({ timeout: 90_000 });
     await expect(heading).toHaveCount(0);
 
     // First-run dialogs (quick start, syllabus import) open over the question
