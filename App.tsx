@@ -989,10 +989,10 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             {/* The clip only needs to bite on the Y axis — it exists purely to
                 make `grid-rows-[0fr]` collapse to zero height instead of just
                 overflowing out the bottom. The navigator's progress rail hangs
-                its step dots into the left padding gutter (and a little past
-                it, by design, to sit on the connecting line), which a plain
-                `overflow-hidden` here clipped clean in half: its box starts
-                flush with the padding edge those dots are meant to cross.
+                its step dots into its own left padding gutter, centred on the
+                connecting line, and the current step's dot is scaled up past
+                its layout box; when the dots used to sit further left, a plain
+                `overflow-hidden` here clipped them clean in half.
                 `overflow-x: visible` can't fix that paired with
                 `overflow-y: hidden` — the spec silently promotes it to `auto`,
                 which still clips at the box edge. Pushing the box edge out

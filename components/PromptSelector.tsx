@@ -321,10 +321,7 @@ const RailNode = ({
 }) => {
   const theme = THEMES[colorKey] || THEMES.blue;
   const base =
-    // Centred by its wrapper (the 40px column left of each step), so it sits on
-    // the rail line. It used to be absolute and pulled a further 0.95rem left,
-    // which put it off the line at every width and off the screen on a phone.
-    'relative rounded-full transition-all duration-500 z-10 flex items-center justify-center';
+    'shrink-0 rounded-full transition-all duration-500 z-10 flex items-center justify-center';
   // Plays once when a step first turns complete — either right as this node
   // mounts already-done, or the moment the user's own action completes it —
   // and never replays on later re-renders while it merely stays complete.
@@ -361,6 +358,36 @@ const RailNode = ({
     />
   );
 };
+
+/**
+ * The rail's geometry, in one place so the line and the dots cannot drift apart
+ * again. They had: each dot was positioned twice (its wrapper sat 2.5rem left of
+ * the card, then the dot a further 0.95rem left of that), so on a desktop it sat
+ * about 36px left of the line and on a phone wholly off the left edge of the
+ * screen, while the line itself ran under the cards.
+ *
+ * The rule now is that the navigator's left padding is the rail's gutter, the
+ * line runs down the middle of it, and each dot is centred in a box exactly as
+ * wide as the gutter. So the three classes below must stay paired at each
+ * breakpoint: the line's offset is half the gutter's width.
+ */
+const RAIL_GUTTER = 'pl-8 md:pl-12';
+const RAIL_LINE_OFFSET = 'left-4 md:left-6';
+const RAIL_STOP_WIDTH = 'w-8 md:w-12';
+
+/**
+ * A step's dot, centred on the rail. It hangs off the step's outer container,
+ * not the card inside it: the card's border is 0, 1 or 2px depending on its
+ * state, and anything measured from inside the card moves with it.
+ */
+const RailStop = (props: { isSelected: boolean; isComplete: boolean; colorKey: string }) => (
+  <div
+    data-rail-stop
+    className={`absolute right-full top-1/2 -translate-y-1/2 ${RAIL_STOP_WIDTH} flex items-center justify-center`}
+  >
+    <RailNode {...props} />
+  </div>
+);
 
 const StepHeader = ({
   icon: Icon,
@@ -1517,23 +1544,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   };
 
   return (
-    // The rail and its nodes are drawn from `md` up. A phone has no room for the
-    // 40px column they need; the steps take the full width instead. On wider
-    // screens the line is at 28px: the middle of that column (48px padding less
-    // half of 40px), which is where each node is centred.
-    <div className="flex flex-col md:pl-12 relative animate-fade-in">
-      <div className="hidden md:block absolute left-7 top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0"></div>
+    <div className={`flex flex-col ${RAIL_GUTTER} relative animate-fade-in`}>
+      <div
+        data-rail-line
+        className={`absolute ${RAIL_LINE_OFFSET} -translate-x-1/2 top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0`}
+      ></div>
 
       {/* 1. Course Selection */}
       <div className={getContainerClasses(isCourseSelected, 'z-50')}>
+        <RailStop
+          isSelected={isCourseSelected}
+          isComplete={isTopicSelected}
+          colorKey={LEVEL_HUE.course}
+        />
         <div className={getBoxClasses(isCourseSelected, !isCourseSelected, LEVEL_HUE.course)}>
-          <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
-            <RailNode
-              isSelected={isCourseSelected}
-              isComplete={isTopicSelected}
-              colorKey={LEVEL_HUE.course}
-            />
-          </div>
           {!isCourseSelected && (
             <StepHeader icon={BookOpen} label="Course" colorKey={LEVEL_HUE.course} />
           )}
@@ -1701,14 +1725,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 2. Topic Selection */}
       {selectedCourse && (
         <div className={getContainerClasses(isTopicSelected, 'z-40')}>
+          <RailStop
+            isSelected={isTopicSelected}
+            isComplete={isSubTopicSelected}
+            colorKey={LEVEL_HUE.topic}
+          />
           <div className={getBoxClasses(isTopicSelected, !isTopicSelected, LEVEL_HUE.topic)}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
-              <RailNode
-                isSelected={isTopicSelected}
-                isComplete={isSubTopicSelected}
-                colorKey={LEVEL_HUE.topic}
-              />
-            </div>
             {!isTopicSelected && (
               <StepHeader icon={Layers} label="Topic" colorKey={LEVEL_HUE.topic} />
             )}
@@ -1902,16 +1924,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 3. Sub-Topic Selection */}
       {selectedTopic && (
         <div className={getContainerClasses(isSubTopicSelected, 'z-30')}>
+          <RailStop
+            isSelected={isSubTopicSelected}
+            isComplete={isDotPointSelected}
+            colorKey={LEVEL_HUE.subTopic}
+          />
           <div
             className={getBoxClasses(isSubTopicSelected, !isSubTopicSelected, LEVEL_HUE.subTopic)}
           >
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
-              <RailNode
-                isSelected={isSubTopicSelected}
-                isComplete={isDotPointSelected}
-                colorKey={LEVEL_HUE.subTopic}
-              />
-            </div>
             {!isSubTopicSelected && (
               <StepHeader icon={FolderOpen} label="Sub-topic" colorKey={LEVEL_HUE.subTopic} />
             )}
@@ -2000,16 +2020,14 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 4. Dot Point & Syllabus Focus (Merged Row) */}
       {selectedSubTopic && (
         <div className={getContainerClasses(isDotPointSelected, 'z-20')}>
+          <RailStop
+            isSelected={isDotPointSelected}
+            isComplete={isPromptSelected}
+            colorKey={LEVEL_HUE.dotPoint}
+          />
           <div
             className={getBoxClasses(isDotPointSelected, !isDotPointSelected, LEVEL_HUE.dotPoint)}
           >
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
-              <RailNode
-                isSelected={isDotPointSelected}
-                isComplete={isPromptSelected}
-                colorKey={LEVEL_HUE.dotPoint}
-              />
-            </div>
             {!isDotPointSelected && (
               <StepHeader icon={List} label="Syllabus point" colorKey={LEVEL_HUE.dotPoint} />
             )}
@@ -2225,14 +2243,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       {/* 5. Question Selection */}
       {selectedDotPoint && (
         <div className={getContainerClasses(isPromptSelected, 'z-10')}>
+          <RailStop isSelected={isPromptSelected} isComplete={false} colorKey={LEVEL_HUE.prompt} />
           <div className={getBoxClasses(isPromptSelected, !isPromptSelected, LEVEL_HUE.prompt)}>
-            <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-10 hidden md:flex items-center justify-center">
-              <RailNode
-                isSelected={isPromptSelected}
-                isComplete={false}
-                colorKey={LEVEL_HUE.prompt}
-              />
-            </div>
             {!isPromptSelected && (
               <StepHeader icon={FileQuestion} label="Question" colorKey={LEVEL_HUE.prompt} />
             )}
