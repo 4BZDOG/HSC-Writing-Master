@@ -45,6 +45,77 @@ const chrome = (page: Page) =>
     return { prompt: read('Writing Prompt'), response: read('Written Response') };
   });
 
+type Chrome = Awaited<ReturnType<typeof chrome>>;
+
+/** The next animation frame, on the page's own clock. */
+const nextFrame = (page: Page) =>
+  page.evaluate(() => new Promise<void>((r) => requestAnimationFrame(() => r())));
+
+/** Two frames: the first runs the layout, the second lands whatever it scheduled. */
+const twoFrames = (page: Page) =>
+  page.evaluate(
+    () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())))
+  );
+
+/**
+ * Waits until the CSS transitions a resize has started have finished, so a
+ * measurement reads where they end rather than where they begin.
+ *
+ * A fixed sleep was the wrong tool. A transition runs on the engine's own clock,
+ * and on a loaded WebKit runner that clock can trail the wall clock by more than
+ * the sleep, so a chip that is 44px at the end of its `transition-all` was read
+ * at 36px, its start value. Waiting on the transitions themselves is exact at any
+ * speed. Infinite animations (spinners, pulses) never finish, so they are left
+ * out of the wait rather than holding it open.
+ */
+const settleTransitions = (page: Page) =>
+  page.evaluate(async () => {
+    await new Promise<void>((r) => requestAnimationFrame(() => r()));
+    await Promise.all(
+      document
+        .getAnimations()
+        .filter((a) => Number(a.effect?.getComputedTiming().endTime) !== Infinity)
+        .map((a) => a.finished.catch(() => undefined))
+    );
+    await new Promise<void>((r) => requestAnimationFrame(() => r()));
+  });
+
+/**
+ * Both headers' geometry once the cross-card height sync has settled.
+ *
+ * The sync measures each header in an animation frame and writes the taller one
+ * back a render later, so a read taken straight after a resize can catch the
+ * pair before they have met. A fixed wait guessed how long that takes, and a
+ * slow runner takes longer than any guess. Instead the headers are read, a frame
+ * is let pass, and they are read again: the pair is accepted only once the two
+ * reads agree, both headers are within the test's 1px tolerance of each other,
+ * and the poll gives up after 15 seconds rather than hanging.
+ */
+const settledChrome = async (page: Page): Promise<Chrome> => {
+  let latest: Chrome = await chrome(page);
+  await expect
+    .poll(
+      async () => {
+        await nextFrame(page);
+        const previous = latest;
+        latest = await chrome(page);
+        // A missing header is reported by the assertions that follow, with its name.
+        if (!latest.prompt || !latest.response) return true;
+        const stable =
+          previous.prompt?.headerHeight === latest.prompt.headerHeight &&
+          previous.response?.headerHeight === latest.response.headerHeight;
+        return stable && Math.abs(latest.prompt.headerHeight - latest.response.headerHeight) <= 1;
+      },
+      {
+        message: 'the two headers did not settle to a matched height',
+        timeout: 15_000,
+        intervals: [100, 250, 500],
+      }
+    )
+    .toBe(true);
+  return latest;
+};
+
 /** How tall a header may be before it is carrying empty space again. */
 const HEADER_CEILING = 96;
 
@@ -72,10 +143,8 @@ test.describe('workspace card chrome', () => {
     // are measured rather than the safe one alone.
     for (const width of [1600, 1440, 1360, 1359, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
-      // The height sync settles over a frame or two; give it several.
-      await page.waitForTimeout(700);
-
-      const { prompt, response } = await chrome(page);
+      // Polled until the height sync has settled, not waited out: see settledChrome.
+      const { prompt, response } = await settledChrome(page);
       const at = `at ${width}px`;
 
       expect(prompt, `question card header missing ${at}`).not.toBeNull();
@@ -163,9 +232,14 @@ test.describe('workspace card chrome', () => {
 
     // 1600 and 1440 and 1280 are the two-column widths (1280 is the card at its
     // narrowest); 1024 is the single column; 390 is a phone.
+    //
+    // Each width waits for the transitions that resize starts to finish before it
+    // measures (settleTransitions), rather than for a fixed time. The chip's min-height
+    // changes at the phone breakpoint and animates there, and a read taken mid-way
+    // saw its 36px start value and failed the 44px requirement on a slow runner.
     for (const width of [1600, 1440, 1280, 1024, 390]) {
       await page.setViewportSize({ width, height: 1000 });
-      await page.waitForTimeout(700);
+      await settleTransitions(page);
 
       const m = await page.evaluate(() => {
         const h3 = Array.from(document.querySelectorAll('h3')).find((h) =>
@@ -387,18 +461,33 @@ test.describe('workspace card chrome', () => {
 
     const open = await heights();
     expect(open.settled.prompt).not.toBeNull();
-    // Shrink a few pixels at a time to a laptop-short window, where the cap is
-    // well below any question's own height.
-    for (let h = 760; h >= 640; h -= 8) {
+    // "Reaches the cap" means the window is short enough that the question's own
+    // height no longer fits: the cap is the window less VIEWPORT_RESERVE (296px),
+    // floored at MIN_CARD_HEIGHT (430px). So the cap takes over at the question's
+    // natural height plus 296px. That height is measured here, not assumed: it
+    // varies from run to run with the question's wrapping (523px, 517px, 609px
+    // have all been seen). The drag starts one 16px step above the crossing, where
+    // the question is still at its natural height, and goes down in 16px steps,
+    // through the cap, to 640px. Steps are 16px, not 8: each one is a resize plus
+    // four frames, and the property checked at each (the first frame is already
+    // final) does not depend on the step size, so the wall time on a slow engine is
+    // halved without weakening what is proved.
+    const VIEWPORT_RESERVE = 296;
+    const start = open.settled.prompt! + VIEWPORT_RESERVE + 16;
+    const questionHeights: number[] = [];
+    for (let h = start; h >= 640; h -= 16) {
       await page.setViewportSize({ width: 1440, height: h });
       const { first, settled } = await heights();
       expect(first, `the first frame is the final one at ${h}px`).toEqual(settled);
       expect(settled.response, `the writing area matches the question at ${h}px`).toBe(
         settled.prompt
       );
+      questionHeights.push(settled.prompt!);
     }
-    const last = await heights();
-    expect(last.settled.prompt!, 'the question is held at the cap').toBeLessThan(
+    // The range really does cross the cap: its first step is uncapped, and a later
+    // one is held below the question's natural height.
+    expect(questionHeights[0], 'the drag starts above the cap').toBe(open.settled.prompt);
+    expect(Math.min(...questionHeights), 'the question is held at the cap').toBeLessThan(
       open.settled.prompt!
     );
   });
@@ -474,27 +563,48 @@ test.describe('workspace card chrome', () => {
         requestAnimationFrame(sample);
       };
       requestAnimationFrame(sample);
-      (window as unknown as { __caretSamples: () => CaretSample[] }).__caretSamples = () => {
+      // Read without stopping, so the typing below can watch the count grow. Stopped
+      // separately, once the typing is done.
+      const hook = window as unknown as {
+        __caretSamples: () => CaretSample[];
+        __stopCaretSampling: () => void;
+      };
+      hook.__caretSamples = () => samples;
+      hook.__stopCaretSampling = () => {
         running = false;
-        return samples;
       };
       return true;
     });
     expect(installed, 'the writing body holds the textarea').toBe(true);
 
-    // Fourteen lines is enough to start scrolling in a 700px window, where the
-    // writing card is held at its floor.
-    for (let i = 1; i <= 14; i++) {
-      await page.keyboard.type(`Line ${i}`);
+    // Lines are typed until the body has scrolled and five frames have shown the
+    // text growing inside it. A fixed count of fourteen was tuned to a fast engine:
+    // on a loaded WebKit runner, consecutive Enter presses can share a frame, so
+    // fewer growth frames are sampled and the assertion below failed on timing. Here each
+    // line is followed by two frames of its own, and the count is read back from
+    // the samples so far. Thirty lines is the ceiling; the assertion below still
+    // fails if the ceiling is reached first, so a stuck area cannot pass.
+    const samplesSoFar = () =>
+      page.evaluate(() =>
+        (window as unknown as { __caretSamples: () => CaretSample[] }).__caretSamples()
+      );
+    const countGrowthFrames = (samples: CaretSample[]) => {
+      let count = 0;
+      for (let i = 1; i < samples.length; i++) {
+        if (samples[i].height > samples[i - 1].height + 1 && samples[i].scrolls) count++;
+      }
+      return count;
+    };
+    for (let line = 1; line <= 30; line++) {
+      if (countGrowthFrames(await samplesSoFar()) >= 5) break;
+      await page.keyboard.type(`Line ${line}`);
       await page.keyboard.press('Enter');
+      await twoFrames(page);
     }
-    // Two frames after the last keystroke, so its growth is sampled too.
-    await page.evaluate(
-      () => new Promise<void>((r) => requestAnimationFrame(() => requestAnimationFrame(() => r())))
-    );
-    const samples: CaretSample[] = await page.evaluate(() =>
-      (window as unknown as { __caretSamples: () => CaretSample[] }).__caretSamples()
-    );
+    const samples: CaretSample[] = await page.evaluate(() => {
+      (window as unknown as { __stopCaretSampling: () => void }).__stopCaretSampling();
+      return (window as unknown as { __caretSamples: () => CaretSample[] }).__caretSamples();
+    });
 
     let growthWhileScrolling = 0;
     for (let i = 1; i < samples.length; i++) {
