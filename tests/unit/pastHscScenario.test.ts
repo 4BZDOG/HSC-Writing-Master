@@ -75,18 +75,21 @@ describe('splitPastHscScenario', () => {
               if (!p.isPastHSC || !p.scenario) continue;
               const parts = splitPastHscScenario(p.scenario);
               const words = (s: string) => s.replace(/[^\p{L}\p{N}]/gu, '');
+              const stimulus = parts.stimulus ? parts.stimulus.lines.join('') : '';
+              // A stimulus held after a paragraph of context (a table beside its
+              // screenshot) follows that context.
+              const contextFirst = /\n\n(Stimulus|Extract):/.test(p.scenario);
               const rebuilt = [
                 ...parts.instructions,
                 parts.sampleNote ?? '',
-                parts.stimulus ? parts.stimulus.lines.join('') : '',
-                parts.context ?? '',
+                contextFirst ? (parts.context ?? '') + stimulus : stimulus + (parts.context ?? ''),
                 parts.assessedOn.join(''),
               ].join('');
               // Nothing dropped and nothing moved: the parts, read in order, are the
               // scenario without its lead-in and label.
               const original = p.scenario
                 .replace('Your answer will be assessed on how well you:', '')
-                .replace(/^(Stimulus|Extract):/, '');
+                .replace(/(^|\n\n)(Stimulus|Extract):/, '$1');
               expect(words(rebuilt), p.id).toBe(words(original));
             }
     }

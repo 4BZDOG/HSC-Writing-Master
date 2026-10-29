@@ -984,6 +984,72 @@
                 }
               ],
               "isPastHSC": false
+            },
+            {
+              "id": "prompt-se-hsc-2025-23c",
+              "question": "Security features have been included in the design of the website. Choose the fundamental security concept that matches each of the security features.",
+              "totalMarks": 3,
+              "verb": "IDENTIFY",
+              "linkedOutcomes": [
+                "SE-12-04",
+                "SE-12-05"
+              ],
+              "markerNotes": [
+                "The full-mark answer matches all five features to a concept: the price check to integrity, peak-time access to availability, the action log to accountability, payment encryption to confidentiality, and the admin restriction to authorisation.",
+                "The 2-mark answer gets three of these right, and the pairs that are easy to swap are confidentiality with authentication and authorisation with confidentiality.",
+                "Full marks need each feature read against the concept’s definition, such as encryption protecting data from unauthorised viewing rather than a login check."
+              ],
+              "commonStudentErrors": [
+                "Choosing authentication for payment encryption, confusing keeping card details private with checking who the user is.",
+                "Choosing authentication for the basic account feature, which checks who the user is rather than what they may access.",
+                "Choosing integrity for the feature that keeps the website accessible at peak times, when availability is the concept that means the system stays up."
+              ],
+              "keywords": [
+                "confidentiality",
+                "integrity",
+                "availability",
+                "authentication",
+                "authorisation",
+                "accountability",
+                "encryption"
+              ],
+              "markingCriteria": "3 marks: Provides the correct response for ALL items\n2 marks: Provides the correct response for THREE items\n1 mark: Provides the correct response for ONE item",
+              "scenario": "A food delivery service offers prepackaged meals tailored to different dietary preferences, for example, vegetarian and gluten-free. It has developed a website for customers to place orders. The website is ready for testing and feedback.\n\nThe website includes:\n- a menu that dynamically updates based on meal availability\n- user accounts where customers can track deliveries and manage subscriptions\n- a backend that processes orders and payments, updates stock and communicates with the delivery team.\n\nChoose from these concepts: integrity, availability, authorisation, accountability, confidentiality, authentication.\n\nStimulus: | Feature | Concept |\n| --- | --- |\n| The system verifies that the total price displayed matches the actual total after items are added to the cart. | ? |\n| The backend ensures the website remains accessible during peak order times. | ? |\n| The system logs all user actions, such as changes to subscriptions or delivery addresses. | ? |\n| User payment details, such as credit card numbers, are encrypted during transactions. | ? |\n| A user with a basic account can place orders but cannot access admin features. | ? |",
+              "scenarioImage": {
+                "id": "prompt-se-hsc-2025-23c",
+                "alt": "Five security features of the website, each to be matched to a security concept",
+                "updatedAt": 0,
+                "src": "courseData/images/se-2025-23c.png"
+              },
+              "isPastHSC": true,
+              "hscYear": 2025,
+              "hscQuestionNumber": "23(c)",
+              "sampleAnswers": [
+                {
+                  "id": "sa-se-hsc-2025-23c-1",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "Total price verified: integrity\nWebsite accessible during peak times: availability\nAll user actions logged: accountability\nPayment details encrypted: confidentiality\nBasic account cannot access admin features: authorisation",
+                  "feedback": "Meets the 3-mark row by giving the correct response for ALL five items, including “Payment details encrypted: confidentiality” and “Basic account cannot access admin features: authorisation”.",
+                  "band": 1
+                },
+                {
+                  "id": "sa-se-hsc-2025-23c-2",
+                  "source": "AI",
+                  "mark": 2,
+                  "answer": "Total price verified: integrity\nWebsite accessible during peak times: availability\nAll user actions logged: accountability\nPayment details encrypted: authentication\nBasic account cannot access admin features: confidentiality",
+                  "feedback": "Meets the 2-mark row by matching THREE items correctly: integrity, availability and accountability. To reach 3 marks, every item must be correct: encryption of payment details is confidentiality, not authentication, and restricting admin features for a basic account is authorisation.",
+                  "band": 1
+                },
+                {
+                  "id": "sa-se-hsc-2025-23c-3",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Total price verified: confidentiality\nWebsite accessible during peak times: availability\nAll user actions logged: integrity\nPayment details encrypted: authentication\nBasic account cannot access admin features: accountability",
+                  "feedback": "Meets the 1-mark row by correctly matching ONE item, availability for peak-time access. To reach 2 marks, THREE responses must be correct: the price check is integrity and the action log is accountability.",
+                  "band": 1
+                }
+              ]
             }
           ]
         },
@@ -1825,6 +1891,64 @@
                 }
               ],
               "isPastHSC": false
+            },
+            {
+              "id": "prompt-se-hsc-2025-13",
+              "question": "For each strategy, choose the most appropriate stage in software development for it to be applied. Indicate whether access to source code is required.",
+              "totalMarks": 2,
+              "verb": "IDENTIFY",
+              "linkedOutcomes": [
+                "SE-12-04",
+                "SE-12-05"
+              ],
+              "markerNotes": [
+                "The full-mark answer places SAST in Producing and implementing with source code access Yes, and DAST in Testing and evaluating with access No.",
+                "The 1-mark row covers a student who gets only one strategy right, so the top row depends on knowing that SAST analyses the code as written while DAST tests the application as it runs.",
+                "Students who understand this can work out the source code column from the method rather than guessing it from the timing."
+              ],
+              "commonStudentErrors": [
+                "Placing DAST in Producing and implementing, because it is run while the application is being built.",
+                "Reversing the source code column, so SAST is marked No and DAST is marked Yes.",
+                "Choosing Testing and evaluating for SAST, treating a static scan as a test of the finished product."
+              ],
+              "keywords": [
+                "static application security testing (SAST)",
+                "dynamic application security testing (DAST)",
+                "source code access",
+                "white-box testing",
+                "black-box testing",
+                "Producing and implementing",
+                "Testing and evaluating"
+              ],
+              "markingCriteria": "2 marks: Correctly identifies the timing and source code access for each strategy\n1 mark: Correctly identifies the timing and source code access for ONE strategy OR Correctly identifies the timing for each strategy",
+              "scenario": "A software developer plans to use static application security testing (SAST) and dynamic application security testing (DAST) to check an application that is being developed.\n\nChoose from these options. Timing in software development: Testing and evaluating; Identifying and defining; Researching and planning; Producing and implementing. Access to source code: Yes; No.\n\nStimulus: | Strategy | Timing in software development | Access to source code |\n| --- | --- | --- |\n| SAST | ? | ? |\n| DAST | ? | ? |",
+              "scenarioImage": {
+                "id": "prompt-se-hsc-2025-13",
+                "alt": "A table with a timing and an access-to-source-code choice for SAST and for DAST",
+                "updatedAt": 0,
+                "src": "courseData/images/se-2025-13.png"
+              },
+              "isPastHSC": true,
+              "hscYear": 2025,
+              "hscQuestionNumber": "13",
+              "sampleAnswers": [
+                {
+                  "id": "sa-se-hsc-2025-13-1",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 2,
+                  "answer": "SAST: Producing and implementing; access to source code: Yes\nDAST: Testing and evaluating; access to source code: No",
+                  "feedback": "Meets the 2-mark row by giving both rows fully correct: “Producing and implementing; access to source code: Yes” for SAST and “Testing and evaluating; access to source code: No” for DAST.",
+                  "band": 1
+                },
+                {
+                  "id": "sa-se-hsc-2025-13-2",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "SAST: Producing and implementing; access to source code: Yes\nDAST: Researching and planning; access to source code: Yes",
+                  "feedback": "Meets the 1-mark row by identifying the timing and source code access for ONE strategy, SAST. To reach 2 marks, DAST also needs the correct timing (Testing and evaluating) and access (No), since DAST tests the running application without the source code.",
+                  "band": 1
+                }
+              ]
             }
           ]
         },
