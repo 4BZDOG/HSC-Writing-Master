@@ -1,5 +1,27 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-29 (Software Engineering and Enterprise Computing past HSC questions, 2025)
+
+- **Added.** 20 past HSC questions from the 2025 papers: 11 to Software Engineering (`prompt-se-hsc-2025-…`: 16(a)–(c),
+  18, 19, 20, 21, 23(a)–(b), 24, 25) and 9 to Enterprise Computing (`prompt-ec-hsc-2025-…`: 14, 16(a)–(b), 17(a)–(b),
+  18, 22(b), 23(a), 24). NESA does not publish these online papers, but its "sample full mark responses" (August 2026)
+  print each question's wording. Stems and stimuli are word for word; the marking guide is NESA's ladder from the 2025
+  marking guidelines (checked against the PDF, which corrected a bullet in the wrong row of SE Q25 in the reference
+  file); NESA's "answers could include" is a marker note.
+- **Added.** Each question carries NESA's published student responses and the marking guidelines' sample answer as
+  verified exemplars (`HSC_EXEMPLAR`, shown as "Official"), 32 in all, transcribed from the PDF images with the
+  students' spelling kept as printed. These are what the marker calibrates on. Two lower-mark AI exemplars per
+  question, marker notes, common errors and syllabus terms were written by Haiku agents and reviewed.
+- **Left out.** Six parts with published responses: three answered as a diagram (EC Q19 interface design, EC Q21
+  data flow diagram, SE Q22 class diagram) and three that need a stimulus NESA does not reproduce (EC Q23(b) dashboard,
+  EC Q25 slideshow, SE Q27 video). Parts with no published response have no published wording.
+- **Added.** A fenced code block (```) in a question, exemplar or feedback is drawn exactly as written, so Python
+keeps its indentation and a spreadsheet formula's `\*`or a name such as`pw_check` is not read as italic or a
+  subscript.
+- **Changed.** The full-mark word-band test no longer holds verified past-HSC exemplars to the app's band: NESA's
+  published responses run past it (a 161-word 3-mark answer). The band still applies to the exemplars the app writes.
+- Shipped-course change: `DATA_VERSION` 2.27.0.
+
 ## [Unreleased] - 2026-10-27 (Section headings on Business Studies and Geography past questions)
 
 - **Added.** Every Business Studies (2020–2025) and Geography (2024–2025) past question shows its section heading

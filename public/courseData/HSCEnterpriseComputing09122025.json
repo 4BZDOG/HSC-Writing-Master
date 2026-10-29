@@ -7540,6 +7540,142 @@
                     ],
                     "isPastHSC": false,
                     "verb": "INVESTIGATE"
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-17b",
+                    "question": "Explain how the advancement of hardware can affect the processing of data from the data warehouse for this coffee shop chain.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC-12-03",
+                      "EC-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains how each hardware advance changes the processing of this chain’s warehouse data, for example faster processors analyse data sooner and more memory stores more branch data.",
+                      "A 2-mark answer identifies advances, such as faster processors or better storage, but does not explain how they affect the chain’s processing.",
+                      "Answers that also refer to communication media, such as fibre optics for the cloud warehouse, cover the full range of hardware the scenario points to."
+                    ],
+                    "commonStudentErrors": [
+                      "Names advances such as faster processors without saying how they affect processing this chain’s data.",
+                      "Describes what a data warehouse is rather than the hardware advance that affects it.",
+                      "Writes about software or the user interface instead of hardware."
+                    ],
+                    "keywords": [
+                      "processing power",
+                      "CPU",
+                      "RAM and memory",
+                      "solid-state drive",
+                      "fibre optics",
+                      "communication media",
+                      "volume and velocity"
+                    ],
+                    "markingCriteria": "3 marks: Explains how the advancement of hardware can affect the processing of data from the data warehouse for the coffee shop chain\n2 marks: Outlines how the advancement of hardware can affect the processing of data from the data warehouse for the coffee shop chain OR Identifies advancements in hardware that can affect the processing of data from the data warehouse\n1 mark: Provides some relevant information",
+                    "scenario": "A coffee shop chain has branches in all major cities in Australia. It collects a large volume of sales data as well as geographic and demographic data from each of its coffee shop branches.\n\nThe chain plans to use a cloud-based data warehouse for storage and for future analysis.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "17(b)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-17b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Advancements in hardware such as processing power can allow for the organisation to analyse data from the datawarehouse more quickly, increasing the volume and velocity at which it is processed. This would allow the organisation to discover trends and patterns more efficiently, leading to better decision making. Advancements in storage and memory can also allow for the data warehouse to store more data at a time, increasing its volume and variety of stored data, such as comparing data from multiple branches or timeframes at once. This in turn can be analysed to provide deeper insights into data, increasing the quickly at which data is processed, and allowing the coffee chain to make even better decisions and predictions. Finally, advancements in communication media involves improvements to cloud storage media, which the coffee shop chain is planning to use. This advancement would further enhance the above for a cloud storage data warehouse in securely storing and analysing data in an accessible cloud location.",
+                        "feedback": "Meets the 3-mark row by explaining how processing power lets the chain “analyse data from the datawarehouse more quickly”, and how more storage lets it “store more data at a time”. It also covers communication media for the cloud warehouse. It still earned full marks despite slips such as “datawarehouse” and “increasing the quickly at which”, because the ladder rewards the content, so students should not copy them.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-17b-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The CPUs used in the data warehouse servers will allow the coffee shop chain to quickly process large amounts of sales and demographic data, enabling faster decision-making. Advancements in storage such as faster RAM and Solid-State Disk drives can provide more secure and efficient ways to store vast amounts of data.\n\nBetter communication media such as fibre optics enable quicker sharing and online processing of data, to ensure that the coffee shop chain can access the latest information from each branch in real-time.",
+                        "feedback": "Meets the 3-mark row by explaining how faster CPUs let the chain “quickly process large amounts” of sales data, and how faster storage offers “more secure and efficient ways to store” data. It also links fibre optics to “real-time” access.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-17b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Advancements in hardware, such as faster processors and more memory, can improve how data is processed. Better communication media such as fibre optics also help.",
+                        "feedback": "Meets the 2-mark row by identifying advancements in hardware, faster processors, more memory and fibre optics, but not explaining how they affect the chain’s processing. To reach 3 marks, the answer must explain the effect, for example that faster processors let the chain analyse its branch data sooner.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-17b-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The coffee shop chain collects a large amount of sales data, so it will need powerful computers.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information about the chain’s data needs, with no advancement in hardware named. To reach 2 marks, the answer must identify an advancement in hardware, such as faster processors or better storage.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-23a",
+                    "question": "Describe how advancements in software have empowered data analytics. In your answer, refer to the scenario.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC-12-05",
+                      "EC-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer describes how software advances, such as automation and real-time updating, have empowered analytics, and then refers to the scenario’s dashboard and the move away from spreadsheets.",
+                      "A 2-mark answer outlines one advancement or identifies several without describing how they help analytics, and it does not need to use the scenario.",
+                      "Markers should look for the reference to the scenario, because the top row requires it and the 2-mark rows do not."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes dashboards in general as visual displays without naming an advancement in software.",
+                      "Describes the old spreadsheet process rather than how the new software improves analytics.",
+                      "Names software advances such as automation without describing their effect on analysing employee performance."
+                    ],
+                    "keywords": [
+                      "real-time data",
+                      "automation",
+                      "dashboard",
+                      "data visualisation",
+                      "data analytics",
+                      "software advancement",
+                      "key performance indicator (KPI)"
+                    ],
+                    "markingCriteria": "3 marks: Describes how advancements in software have empowered data analytics, with reference to the scenario\n2 marks: Outlines ONE advancement in software that has empowered data analytics OR Identifies advancements in software that affect data analytics\n1 mark: Provides some relevant information",
+                    "scenario": "As a result of advancements in technology, a company now presents employee performance information on a dashboard that is updated using real-time data, rather than spreadsheets. The data dashboard is shown.\n(The data dashboard can be viewed on the 2025 Enterprise Computing HSC online exam.)",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(a)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-23a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Advancemets in software have empowered data analytics as by updating the system under industry 4.o, the business is able to automate processes and allow for real time feedback and analytics which, in turn provide more in depth information on the perfomance on the business, allowing them to focus on their effiecency in other key areas. Instead of using spreadhseets, and manually uploading data to track performance, wasting unnessarcy amounts of time, they use a constantly updated data dashboard that visually highlights the key information such as employee performance in each departemnt, signifying where the business needs to implememt more resources, allowing for a more efficent and well performing business.",
+                        "feedback": "Meets the 3-mark row by describing how automation and “real time feedback and analytics” give more in-depth information, and by referring to the scenario, “Instead of using spreadsheets” and the “constantly updated data dashboard”. It still earned full marks despite slips such as “perfomance” and “effiecency”, because the ladder rewards the content, so students should not copy them.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-23a-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Advancements in software have transformed data analytics by enabling faster processing of large datasets, automation, real-time insights and enhanced visualisation. In the scenario, the company moved from static spreadsheets to dynamic dashboards, which will allow users to uncover patterns and trends that might have gone undetected in the past. These dashboards enable users to drill down into a specific area of interest without requiring programming skills. They also assist in improving decision-making by presenting trends, comparisons and key performance indicators clearly.",
+                        "feedback": "Meets the 3-mark row by describing how software advances bring “faster processing of large datasets” and automation, and by referring to the scenario, where the company “moved from static spreadsheets to dynamic dashboards”.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-23a-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Software that updates data automatically in real time has helped data analytics. Users can now see trends without building a new report each time.",
+                        "feedback": "Meets the 2-mark row by outlining ONE advancement, real-time updating, but without referring to the scenario. To reach 3 marks, the answer must describe how this advancement empowers analytics, for example by referring to the company’s move from spreadsheets to a dashboard.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-23a-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The company now shows employee performance on a dashboard rather than in spreadsheets.",
+                        "feedback": "Meets the 1-mark row by giving some relevant information from the scenario, but no advancement in software is named. To reach 2 marks, the answer must name an advancement in software that affects data analytics, such as real-time updating or automation.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -9191,6 +9327,74 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-22b",
+                    "question": "Justify TWO methods that the company can use to maintain the security of the data.",
+                    "totalMarks": 3,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "EC-12-06",
+                      "EC-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top answer justifies each of two methods by explaining how it protects this insurer’s customer and employee data, not just naming it.",
+                      "A 2-mark answer outlines two methods but does not say why either one keeps the data secure, and a 1-mark answer names only one method.",
+                      "Answers can draw on the scenario’s cloud storage and local backup, for example by explaining how encryption or access levels protect the data stored there."
+                    ],
+                    "commonStudentErrors": [
+                      "Gives a method, such as using passwords, with no explanation of how it protects the data.",
+                      "Gives two methods that overlap, such as two kinds of password protection, as if they were different.",
+                      "Describes a security risk, such as hacking, instead of a method the company can use."
+                    ],
+                    "keywords": [
+                      "access levels",
+                      "encryption",
+                      "two-factor authentication",
+                      "data backup",
+                      "authorisation",
+                      "phishing",
+                      "audit trail"
+                    ],
+                    "markingCriteria": "3 marks: Justifies TWO methods that the company can use to maintain the security of the data\n2 marks: Outlines TWO methods that the company can use\n1 mark: Identifies ONE method that the company can use",
+                    "scenario": "An insurance company hires a project team to develop a system that manages the personal information of customers and employees, customer claims and business contracts. The data will be stored and accessed on a cloud-based server and backed up locally.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(b)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-22b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The company can launch a training program for the employees. This program can do two things - train the employees about the importance of customer and data privacy, encouraging them to keep the information secure. It can also act as a proactive measure against data breaches, such as phishing scams, to prevent any leaks and breaches for the customer data. The company can also utilise two factor authentication for the people who will be able to access the data. This will ensure that whoever is trying to access the data is someone with authorization, and provide a digital record of who accessed it to persuade against any security breaches.",
+                        "feedback": "Meets the 3-mark row by justifying two methods, staff training against “phishing scams” and two-factor authentication, which “will ensure that whoever is trying to access the data is someone with authorization”. Each method is explained, not just named.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-22b-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Staff across the insurance company will be provided with different access levels to the data within the company. Supervisors will have greater access to customer and employee details. For example, supervisors can access historical data and finalise claims, whereas entry level staff may only see individual claim cases. This ensures employees only access data relevant to their roles.\n\nA customer can access their insurance claim from the cloud-based server. This will require a username and password to be entered and this would be encrypted during transmission. The data will not be understood if intercepted, ensuring privacy and security of customer data.",
+                        "feedback": "Meets the 3-mark row by justifying tiered access, because “This ensures employees only access data relevant to their roles”, and encryption, since “The data will not be understood if intercepted”.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-22b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The company can give staff different access levels, so only people who need the data can see it. It can also use two-factor authentication to check who is logging in.",
+                        "feedback": "Meets the 2-mark row by outlining TWO methods, access levels and two-factor authentication, but not justifying either one. To reach 3 marks, the answer must justify each method, for example by explaining how it stops an unauthorised person reading customer claims.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-22b-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The company can use passwords to stop people getting into the system.",
+                        "feedback": "Meets the 1-mark row by identifying ONE method, passwords, with no explanation. To reach 2 marks, the answer must outline TWO methods the company can use.",
+                        "band": 3
+                      }
+                    ]
                   }
                 ]
               }
@@ -10260,6 +10464,75 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-14",
+                    "question": "Describe how memes can be analysed to provide insights into the effectiveness of the advertising campaign.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC-12-10",
+                      "EC-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top answer describes how memes can be analysed, such as counting their reach, engagement and shares, and then says what the results show about whether the campaign worked.",
+                      "A 2-mark answer names or outlines a method but does not explain what it reveals about effectiveness, and a 1-mark answer only gives general facts about memes.",
+                      "NESA’s answers could include qualitative analysis of meme themes, tone and attitude, which earns credit when it is linked to the campaign rather than treated as general information.",
+                      "NESA notes that answers could include: Memes can be analysed qualitatively to understand customer perceptions by examining their themes, tone and attitude."
+                    ],
+                    "commonStudentErrors": [
+                      "Says the company can count how many people like or share memes, but never says what that shows about the campaign.",
+                      "Describes what a meme is (an image with text) instead of how analysing memes would give insight.",
+                      "Writes about memes in general, such as their popularity, without linking them to this company’s advertising campaign."
+                    ],
+                    "keywords": [
+                      "alternative data",
+                      "engagement",
+                      "reach",
+                      "data mining",
+                      "qualitative analysis",
+                      "sentiment analysis",
+                      "viral spread"
+                    ],
+                    "markingCriteria": "3 marks: Describes how memes can be analysed to provide insights into the effectiveness of the advertising campaign\n2 marks: Outlines how memes can be analysed to provide insights into the effectiveness of the advertising campaign\n1 mark: Provides some relevant information",
+                    "scenario": "A company wants to analyse memes on social media to assess the effectiveness of its advertising campaign.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "14",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-14-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "memes provide insights into advertising effectiveness by looking at reach and audience they attract and whether that works for the business. Analysis includes content type, humor, popularity, visuals, engagement/views. and also whether the business who is advertising recieved an increase in sales, interest or followers.",
+                        "feedback": "Meets the 3-mark row by describing how memes show campaign effectiveness through “reach and audience” and whether the business “recieved an increase in sales”. It still earned full marks despite the spelling slip in “recieved”, because the ladder rewards the content, so students should not copy the slip.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-14-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The frequency and spread of memes can be quantified to gauge engagement and the advertising campaign’s viral impact. Technologies such as data mining tools can be used to identify patterns, trends, and the reach of memes, helping the company understand the campaign’s impact.",
+                        "feedback": "Meets the 3-mark row by describing how the “frequency and spread” of memes can be quantified, and how data mining tools “identify patterns, trends” in reach. It links these measures to the campaign’s “impact”.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-14-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The company could count how many times memes about the campaign are shared and liked on social media.",
+                        "feedback": "Meets the 2-mark row by outlining a method, counting shares and likes of campaign memes, but it does not say what the counts reveal about effectiveness. To reach 3 marks, the answer must describe how these results show whether the campaign worked, for example by tracking whether reach rises after launch.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-14-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Memes are images with short text that people share quickly on social media.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information about memes, with no method for analysing them. To reach 2 marks, the answer must outline a way memes can be analysed, such as counting shares or likes.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -10728,6 +11001,74 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-17a",
+                    "question": "Explain how the use of data warehousing could benefit this coffee shop chain.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC-12-03",
+                      "EC-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains what the chain gains from holding its sales, geographic and demographic data from all branches in one warehouse, such as spotting customer patterns and trends.",
+                      "A 2-mark answer either outlines the benefit without explaining it, or only identifies features of data warehousing, such as large storage, without linking them to this chain.",
+                      "The NESA sample uses the cloud-based detail in the scenario, so a strong answer says that one remote store holds every branch’s data."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists features of data warehousing, such as storing large amounts of data, without saying how this coffee chain benefits.",
+                      "Explains the benefits of data analysis in general, not the benefits of storing the data in a warehouse.",
+                      "Ignores the cloud-based part of the scenario and describes an on-site warehouse instead."
+                    ],
+                    "keywords": [
+                      "data warehouse",
+                      "cloud storage",
+                      "structured data",
+                      "unstructured data",
+                      "data integration",
+                      "big data",
+                      "trend analysis"
+                    ],
+                    "markingCriteria": "3 marks: Explains how the use of data warehousing could benefit the coffee shop chain\n2 marks: Outlines how the use of data warehousing could benefit the coffee shop chain OR Identifies features of data warehousing\n1 mark: Identifies a feature of data warehousing",
+                    "scenario": "A coffee shop chain has branches in all major cities in Australia. It collects a large volume of sales data as well as geographic and demographic data from each of its coffee shop branches.\n\nThe chain plans to use a cloud-based data warehouse for storage and for future analysis.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "17(a)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-17a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Data warehousing is where large data can be stored, analysed and processed. The coffee shop chain can benefit off this by using the processed data from the data warehouse to analyse their customers behaviours in each coffee shop branches, allowing them to identify patterns and trends, as well as making future analysis and predictions. Using a cloud-based data warehouse can also be beneficial for all of the coffee shop branches as they can store all their data in a single remote cloud storage server, which can be more efficient for analysing and processing data.",
+                        "feedback": "Meets the 3-mark row by explaining how the warehouse lets the chain “analyse their customers behaviours” across branches to “identify patterns and trends”. It also links the cloud warehouse to storing all branch data “in a single remote cloud storage server”.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-17a-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The coffee shop chain can use data warehousing platforms to its benefit to store and process large volumes of data, expanding storage as needed, to handle high amounts of sales, demographic and other important data. By integrating a variety of data sources, the coffee shop chain can store both structured data and unstructured data in the one place. The data stored in the data warehouse would enable the coffee shop chain marketing team to identify seasonal trends and changes.",
+                        "feedback": "Meets the 3-mark row by explaining how the warehouse can “handle high amounts of sales” data and “identify seasonal trends and changes” for marketing. It also explains the value of storing “structured data and unstructured data” in one place.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-17a-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The chain could store all the sales, geographic and demographic data from its branches in one data warehouse. This means the data from every city can be kept together and accessed when needed.",
+                        "feedback": "Meets the 2-mark row by outlining how the chain can keep branch data in one warehouse, but it does not explain what the chain gains from doing so. To reach 3 marks, the answer must explain the benefit, such as spotting seasonal trends across branches for the marketing team.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-17a-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A data warehouse stores large amounts of data from different sources in one central place.",
+                        "feedback": "Meets the 1-mark row by identifying one feature of data warehousing, central storage of large data, with no link to the coffee shop chain. To reach 2 marks, the answer must outline how this helps the chain, or identify another feature of data warehousing.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -11790,6 +12131,74 @@
                         "answer": "A chart can show the customer numbers for each hour, which helps the owner see when the café is busiest.",
                         "feedback": "One feature is identified with a brief use, but there is no analysis of the extra hour or of the other features. Explain how statistical analysis and what-if modelling would test the decision.",
                         "band": 2
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-18",
+                    "question": "Part of the spreadsheet has been set up. Complete the spreadsheet so that the required information will automatically be displayed when rentals are entered.",
+                    "totalMarks": 4,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EC-12-05",
+                      "EC-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top answer builds formulas for all three calculated columns: a lookup for the daily rate, an IF test on the number of days for the discount, and a rental cost formula that applies the discount when it is due.",
+                      "A 2-mark answer has some correct information and an appropriate formula but misses a requirement, such as applying the discount in the rental cost, so the sheet does not fully update.",
+                      "Markers should check the formulas against each rule in the scenario, including the three daily rates, the 20% discount and the seven-day threshold."
+                    ],
+                    "commonStudentErrors": [
+                      "Writes a daily rate formula with no discount logic, so the discount and rental cost columns are left incomplete.",
+                      "Types the rates 200, 250 and 300 directly into the rental formulas, so the sheet does not update if a rate changes.",
+                      "Tests for at least 7 days with “greater than 7”, which misses rentals of exactly 7 days."
+                    ],
+                    "keywords": [
+                      "VLOOKUP",
+                      "IF function",
+                      "nested IF",
+                      "absolute cell reference",
+                      "data validation",
+                      "formula",
+                      "conditional calculation"
+                    ],
+                    "markingCriteria": "4 marks: Completes the spreadsheet, addressing all the requirements: allows input of driver’s name and number of days; allows input or selection of vehicle sizes; automatically generates daily rate, discount and rental cost\n3 marks: Completes the spreadsheet, addressing most of the requirements\n2 marks: Provides some correct information and an appropriate formula for the spreadsheet\n1 mark: Provides some relevant information",
+                    "scenario": "A small car rental business, with five vehicles, wants to use a spreadsheet to keep track of its bookings.\n\nA staff member will enter the driver’s name, vehicle size selected (small, medium, large), and the number of days of rental for each vehicle.\n\nThe spreadsheet should automatically provide the following information:\n- daily rate – small ($200), medium ($250), large ($300)\n- discount – a discount of 20% is allowed if the booking is for at least 7 days\n- rental cost – calculated by multiplying the daily rate and the number of days, and allowing for a discount if applicable.\n\n[The partly completed spreadsheet is shown in the online exam. NESA’s sample responses use this layout: row 2 holds the headings Vehicle (A), Driver (B), Vehicle size (C), Daily rate ($) (D), No. of days (E), Discount (%) (F) and Rental cost ($) (G); rows 3–7 hold vehicles 1–5. Write the formula you would enter in each calculated column.]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "18",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-18-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Student input\n\n```\n    A                 B               C             D                           E            F                    G\n1   Vehicle bookings\n2   Vehicle           Driver          Vehicle size  Daily rate ($)              No. of days  Discount (%)         Rental cost ($)\n3   1                 XX              Small         =VLOOKUP(C3,A$10:B$12,2)    7            =IF(E3>=7,\"20\",\"0\")  =IF(F3=20, D3*E3*0.8, D3*E3)\n4   2                 XX              Large         =VLOOKUP(C4,$A$10:$B$12,2)  9            =IF(E4>=7,\"20\",\"0\")  =IF(F4=20, D4*E4*0.8, D4*E4)\n5   3                 XX              Medium        =VLOOKUP(C5,A$10:B$12,2)    5            =IF(E5>=7,\"20\",\"0\")  =IF(F5=20, D5*E5*0.8, D5*E5)\n6   4                 XX              Large         =VLOOKUP(C6,A$10:B$12,2)    7            =IF(E6>=7,\"20\",\"0\")  =IF(F6=20, D6*E6*0.8, D6*E6)\n7   5                 XX              Small         =VLOOKUP(C7,A$10:B$12,2)    4            =IF(E7>=7,\"20\",\"0\")  =IF(F7=20, D7*E7*0.8, D7*E7)\n8\n9   Vehicle size      Daily rate ($)\n10  Small             200\n11  Medium            250\n12  Large             300\n```\n\nStudent output\n\n|  | A | B | C | D | E | F | G |\n|---|---|---|---|---|---|---|---|\n| 1 | Vehicle bookings | | | | | | |\n| 2 | Vehicle | Driver | Vehicle size | Daily rate ($) | No. of days | Discount (%) | Rental cost ($) |\n| 3 | 1 | XX | Small | 200 | 7 | 20 | 1120 |\n| 4 | 2 | XX | Large | 300 | 9 | 20 | 2160 |\n| 5 | 3 | XX | Medium | 250 | 5 | 0 | 1250 |\n| 6 | 4 | XX | Large | 300 | 7 | 20 | 1680 |\n| 7 | 5 | XX | Small | 200 | 4 | 0 | 800 |\n| 8 | | | | | | | |\n| 9 | Vehicle size | Daily rate ($) | | | | | |\n| 10 | Small | 200 | | | | | |\n| 11 | Medium | 250 | | | | | |\n| 12 | Large | 300 | | | | | |",
+                        "feedback": "Meets the 4-mark row by using VLOOKUP to fill the daily rate from the size table, an IF test on “E3>=7” for the discount, and a rental cost formula that multiplies by 0.8 when the discount applies. The sheet calculates all three columns from the size and day entries.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-18-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Student input\n\n```\n   A                 B       C             D                                                                      E            F                          G\n1  Vehicle bookings\n2  Vehicle           Driver  Vehicle size  Daily rate                                                             No. of days  Discount                   Rental cost\n3  1                         small         =IF(C3=\"small\", \"200\", IF(C3=\"medium\", \"250\", IF(C3=\"large\", \"300\")))  1            =IF(E3>=\"7\", \"Yes\", \"No\")  =IF(F3=\"Yes\",D3*E3*0.8, D3*E3)\n4  2                         medium        =IF(C4=\"small\", \"200\", IF(C4=\"medium\", \"250\", IF(C4=\"large\", \"300\")))  8            =IF(E4>=\"7\", \"Yes\", \"No\")  =IF(F4=\"Yes\",D4*E4*0.8, D4*E4)\n5  3                         large         =IF(C5=\"small\", \"200\", IF(C5=\"medium\", \"250\", IF(C5=\"large\", \"300\")))  7            =IF(E5>=\"7\", \"Yes\", \"No\")  =IF(F5=\"Yes\",D5*E5*0.8, D5*E5)\n6  4                         small         =IF(C6=\"small\", \"200\", IF(C6=\"medium\", \"250\", IF(C6=\"large\", \"300\")))  15           =IF(E6>=\"7\", \"Yes\", \"No\")  =IF(F6=\"Yes\",D6*E6*0.8, D6*E6)\n7  5                         large         =IF(C7=\"small\", \"200\", IF(C7=\"medium\", \"250\", IF(C7=\"large\", \"300\")))  20           =IF(E7>=\"7\", \"Yes\", \"No\")  =IF(F7=\"Yes\",D7*E7*0.8, D7*E7)\n```\n\nStudent output\n\n|  | A | B | C | D | E | F | G |\n|---|---|---|---|---|---|---|---|\n| 1 | Vehicle bookings | | | | | | |\n| 2 | Vehicle | Driver | Vehicle size | Daily rate | No. of days | Discount | Rental cost |\n| 3 | 1 | | small | 200 | 1 | No | 200 |\n| 4 | 2 | | medium | 250 | 8 | Yes | 1600 |\n| 5 | 3 | | large | 300 | 7 | Yes | 1680 |\n| 6 | 4 | | small | 200 | 15 | Yes | 2400 |\n| 7 | 5 | | large | 300 | 20 | Yes | 4800 |",
+                        "feedback": "Meets the 4-mark row by using a nested IF to return each daily rate from the typed vehicle size, and a Yes/No discount column that the rental cost formula tests before multiplying by 0.8.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-18-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "```\nDaily rate (column D): =IF(C3=\"Small\",200,IF(C3=\"Medium\",250,IF(C3=\"Large\",300)))\nDiscount (column F): =IF(E3>=7,20,0)\nRental cost (column G): =D3*E3\n```",
+                        "feedback": "Meets the 2-mark row by giving a correct daily rate formula and an appropriate discount formula, which is some correct information and an appropriate formula. To reach 3 marks, the rental cost formula must use the discount in column F, so that the spreadsheet addresses most of the requirements.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-18-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Column G should multiply the daily rate by the number of days.",
+                        "feedback": "Meets the 1-mark row by giving some relevant information about the rental cost, with no formula. To reach 2 marks, the answer must enter an appropriate formula that gives some correct results, such as a daily rate lookup.",
+                        "band": 1
                       }
                     ]
                   }
@@ -13112,6 +13521,74 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-16b",
+                    "question": "Explain the potential benefits of introducing an expert system into the manufacturing process. Support your answer with reference to Industry 4.0.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC-12-08",
+                      "EC-12-01"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains benefits of the expert system for this TV production line, such as fewer defects and lower labour costs, and links them to Industry 4.0.",
+                      "A 3-mark answer outlines benefits without the Industry 4.0 link, and a 2-mark answer outlines one benefit or one Industry 4.0 feature without developing the rest of the answer.",
+                      "Benefits are strongest when they are tied to the scenario’s processes, such as predicting maintenance from sensor data or catching defects before they reach the end of the line."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes expert systems in general, such as their rules and knowledge base, without naming a benefit for this factory.",
+                      "Gives one benefit, such as lower defect rates, and stops without a second benefit.",
+                      "Leaves out the Industry 4.0 reference that the question specifically asks for."
+                    ],
+                    "keywords": [
+                      "expert system",
+                      "knowledge base",
+                      "inference engine",
+                      "Industry 4.0",
+                      "predictive maintenance",
+                      "defect detection",
+                      "automation"
+                    ],
+                    "markingCriteria": "4 marks: Explains potential benefits of introducing an expert system into the manufacturing process, with reference to Industry 4.0\n3 marks: Outlines potential benefits of introducing an expert system into the manufacturing process\n2 marks: Outlines ONE potential benefit of introducing an expert system or ONE feature of Industry 4.0 OR Identifies potential benefits of introducing an expert system and/or features of Industry 4.0\n1 mark: Provides some relevant information",
+                    "scenario": "A TV manufacturer wants to improve the efficiency and reliability of its manufacturing system. It plans to incorporate an intelligent system into its manufacturing process to collect live data for analysis. Hardware devices will be installed to collect data on the system’s operations. The data is then sent to a server for processing.\n\nThe manufacturing processes include attaching the LCD panel to the motherboard and testing the brightness of the screen. The current system is controlled through manual processes and monitoring.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "16(b)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-16b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Industry 4.0 refers to the automation of general manufacturing and simple repetitive tasks through the use of expert systems and AI. The potential benefits of introducing this system into the manufacturing process are decreased defect rates, increasing efficiency, and lower costs. Expert systems and AI are less likely to generate mistakes, as there is no room for human error, meaning the company will have a lower rate of defect TV's which will allow for less expenses and greater profits. Additionally, expert systems can function at a much faster and more efficient rate than humans can due to constant improvements and updates, meaning greater manufacturing capabilities in a shorter time. Lastly, using one large scale expert system instead of a multitude of labour resources can be significantly cheaper in the long run, as the upfront cost of the system will be cheaper than the outgoing cost of continually paying labour, which save costs for the business.",
+                        "feedback": "Meets the 4-mark row by explaining benefits of the system, “decreased defect rates” and “lower costs”, and by referring to Industry 4.0 in “Industry 4.0 refers to”. It still earned full marks despite the apostrophe slip in “TV's”, because the ladder rewards the content, so students should not copy the slip.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-16b-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Integrating an expert system into the TV manufacturing line upgrade would bring several benefits, in line with Industry 4.0 concepts. The expert system would be able to predict when maintenance is needed, by analysing sensor data. The system would be able to alert staff before an issue arises, and therefore minimise downtime.\n\nQuality control of the TVs would be improved as the expert system would be able to find defects in the TVs better than a human could, by using algorithms and sensor data, as it can detect subtle issues and prevent defects reaching the end of the line. This links with Industry 4.0’s focus precision, reducing waste and improving product quality.",
+                        "feedback": "Meets the 4-mark row by explaining two benefits, predicting maintenance by “analysing sensor data” and better quality control that can “detect subtle issues”, and by linking them to Industry 4.0 through “reducing waste and improving product quality”.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-16b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "An expert system could find faults in the TV screens earlier than staff can, so fewer faulty sets reach customers.",
+                        "feedback": "Meets the 2-mark row by outlining one potential benefit, fewer faulty TVs, with no Industry 4.0 link. To reach 3 marks, the answer must outline more than one benefit of the expert system for the manufacturing process.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-16b-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "An expert system is a computer program that uses rules to make decisions, and many factories now use them.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information about expert systems, with no benefit named. To reach 2 marks, the answer must identify a benefit of the expert system or a feature of Industry 4.0, such as automation.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -13464,6 +13941,75 @@
                         "mark": 1,
                         "answer": "The controller has sensors and a vibration motor.",
                         "feedback": "Sensors and a motor are named, but their roles in producing feedback are not explained.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-16a",
+                    "question": "Describe the hardware that is needed for the intelligent system. Include examples of specific types of sensors in your answer.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EC-12-03",
+                      "EC-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer describes the hardware and gives examples of specific sensor types, such as light and voltage sensors, tied to the scenario’s brightness testing and assembly stages.",
+                      "A 3-mark answer outlines relevant devices and includes at least one sensor, while a 2-mark answer names one device or identifies devices without describing them or naming a sensor.",
+                      "The NESA model answer also covers networking hardware such as switches, routers and transmission media, which connect the sensors to the server.",
+                      "NESA notes that answers could include: Temperature sensors – environment; Pressure sensors – adhesion of screens; Power regulation sensors."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists devices such as a computer or a server without naming any sensor.",
+                      "Names sensors but does not say what each one would measure in the TV production line.",
+                      "Describes networking hardware such as Wi-Fi and routers but never names the sensors that collect the data."
+                    ],
+                    "keywords": [
+                      "sensors",
+                      "actuators",
+                      "light sensor",
+                      "vibration sensor",
+                      "proximity sensor",
+                      "Internet of Things (IoT)",
+                      "networking hardware"
+                    ],
+                    "markingCriteria": "4 marks: Describes hardware needed for the intelligent system; Includes examples of specific types of sensors\n3 marks: Outlines relevant hardware devices; Includes at least ONE sensor\n2 marks: Outlines ONE relevant hardware device OR Identifies relevant hardware devices\n1 mark: Provides some relevant information",
+                    "scenario": "A TV manufacturer wants to improve the efficiency and reliability of its manufacturing system. It plans to incorporate an intelligent system into its manufacturing process to collect live data for analysis. Hardware devices will be installed to collect data on the system’s operations. The data is then sent to a server for processing.\n\nThe manufacturing processes include attaching the LCD panel to the motherboard and testing the brightness of the screen. The current system is controlled through manual processes and monitoring.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "16(a)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-16a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The hardware that is needed for the intelligent system include a light sensor and a voltage sensor. A light sensor is needed as it will measure the brightness of the screen and ensure it passes a certain standard, whilst also sending the individual data recordings of how bright each screen to a server for processing, finding trends like the rate of screens that arent bright enough, the average brightness of each screen, etc. Additionally, a voltage sensor will ensure that electricity can flow through the TV and it can function properly, as if there is an issue with wiring or anything internal, then the sensor will pick up that the flow of electricity has halted. This will ensure less defects going out to shop front, and can catch them early in the manufacturing process to ensure that they don't cause further issues down the line. The data from this sensor will be sent to a server for processing finding trends such as defect rates.",
+                        "feedback": "Meets the 4-mark row by naming sensors and what they collect, a “light sensor” to measure brightness and a “voltage sensor” for the flow of electricity, and by sending the data to a server. It still earned full marks despite the missing apostrophe in “arent”, because the ladder rewards the content, so students should not copy the slip.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-16a-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Different types of sensors will be needed for the intelligent system and cameras can be used to collect visual information about the TV screens for quality assurance. Vibration and proximity sensors can be used to detect issues with the machinery, to potentially prevent a breakdown from occurring. Light sensors can be utilised to measure the brightness of the screens during the testing phase of manufacturing.\n\nAll sensors will need to be connected to the intelligent system via a network. The networking hardware could include switches, routers, servers, and transmission media such as Wi-Fi and ethernet cables.",
+                        "feedback": "Meets the 4-mark row by giving specific sensor examples, “vibration and proximity sensors” for the machinery and “light sensors” for screen brightness, with a reason for each. It also describes the networking hardware, “switches, routers, servers”, that connects them.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-16a-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "A computer at each workstation would record the results of the brightness test on every screen. The data would then be sent to a server.",
+                        "feedback": "Meets the 2-mark row by outlining one relevant hardware device, the workstation computer, with no sensor named. To reach 3 marks, the answer must outline hardware and include at least one sensor, such as a light sensor for screen brightness.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-16a-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The factory will need some new equipment so that the data from the production line can be collected and checked.",
+                        "feedback": "Meets the 1-mark row by giving some relevant information about new equipment, but no specific hardware device is named. To reach 2 marks, the answer must name at least one relevant hardware device, such as a camera or a computer.",
                         "band": 1
                       }
                     ]
@@ -15952,6 +16498,74 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-ec-hsc-2025-24",
+                    "question": "Explain the advantages and disadvantages to the company in using freelance work and offshore development for packaging design.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EC-12-06",
+                      "EC-12-09"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains an advantage and a disadvantage of both freelance work and offshore development for the food company, such as specialised skills against loss of flexibility.",
+                      "A 3-mark answer outlines features of the two options without saying whether they help or hurt the company, and a 4-mark answer outlines advantages and disadvantages without fully explaining them.",
+                      "The NESA sample gives an advantage and a disadvantage for each option, and the packaging design context frames each one in terms of the company’s operations."
+                    ],
+                    "commonStudentErrors": [
+                      "Defines freelance work or offshore development without giving any advantage or disadvantage to the company.",
+                      "Covers only one option, such as offshore development, and leaves out freelance work.",
+                      "Gives advantages only and does not explain any disadvantage, such as communication delays caused by time zones."
+                    ],
+                    "keywords": [
+                      "offshore development",
+                      "freelance work",
+                      "global talent pool",
+                      "outsourcing",
+                      "intellectual property",
+                      "time zones",
+                      "cost savings"
+                    ],
+                    "markingCriteria": "5 marks: Explains advantages and disadvantages to the company in using freelance work and offshore development for packaging design\n4 marks: Outlines advantages and disadvantages to the company in using freelance work and offshore development for packaging design\n3 marks: Outlines some features of freelance work and/or offshore development\n2 marks: Identifies some features of freelance work and/or offshore development\n1 mark: Provides some relevant information",
+                    "scenario": "A food company is considering the use of freelance work and offshore development to support its packaging design.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ec-hsc-2025-24-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "There are various factors to consider when hiring freelance work for the development of packaging design. The advantage of hiring a freelance designer is that the company obtains access to specialised skills. By resorting to an external source for package designing, they are saving the expenses on the costs involved in training one of their own employees to conduct the task themselves. This allows the company to invest their funds into other operational processes, optimising their allocation of resources. On the other hand, however, the freelance designer may require negotiation in terms of usage rights of their intellectual property, as a contract will be required to be signed upon agreement to collaboration, which may result in a loss of flexibility for the company in the designs they are provided.\n\nThere are also a multitude of considerations associated with offshore development. An advantage that the company will have by employing offshore development as a part of their business operations is that they are given access to a global talent pool which may extend over the scope of domestic talent. Despite this, time-zones can become a disadvantage when meetings are required, as communication between international sites may become delayed, potentially slowing down operations.",
+                        "feedback": "Meets the 5-mark row by explaining an advantage and a disadvantage for each option, such as “access to specialised skills” against “loss of flexibility” for freelancers, and a “global talent pool” against “time-zones can become a disadvantage” for offshore work.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-24-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Offshore development can provide the company with access to a global talent pool, allowing it to find staff with specialised skills not readily available domestically for technical design work. It also offers significant cost savings, as labour in many regions is less expensive. However, communication barriers such as time zone differences and language challenges can lead to delays and misunderstandings.\n\nFreelance work offers the company flexibility and the ability to hire experts for short-term or specialised designs. This can reduce overhead costs and improve the efficiency of the company’s design workflow. On the other hand, freelancers may not be fully aligned with the company’s vision or work processes, which can affect the cohesion of major design projects.",
+                        "feedback": "Meets the 5-mark row by explaining offshore development’s “global talent pool” and cost savings against “communication barriers”, and freelancers’ flexibility and “short-term or specialised designs” against freelancers who “may not be fully aligned” with the company’s vision.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-24-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Freelance designers work on a contract basis for short projects. Offshore development uses teams in other countries, which can be cheaper. Both can give the food company access to designers with specialised skills.",
+                        "feedback": "Meets the 3-mark row by outlining some features of freelance work and offshore development, but not whether they help or hurt the food company. To reach 4 marks, the answer must outline advantages and disadvantages to the company for both options, such as cost savings of offshore teams against communication delays.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ec-hsc-2025-24-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A food company could hire freelance designers or use offshore development teams for its packaging.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information about the two options, with no features described. To reach 2 marks, the answer must identify some features of freelance work or offshore development, such as flexibility or access to a global talent pool.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               }
