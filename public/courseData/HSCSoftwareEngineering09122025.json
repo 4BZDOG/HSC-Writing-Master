@@ -7217,6 +7217,72 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-23c",
+                    "question": "Security features have been included in the design of the website. Choose the fundamental security concept that matches each of the security features.",
+                    "totalMarks": 3,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "SE-12-04",
+                      "SE-12-05"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer matches all five features to a concept: the price check to integrity, peak-time access to availability, the action log to accountability, payment encryption to confidentiality, and the admin restriction to authorisation.",
+                      "The 2-mark answer gets three of these right, and the pairs that are easy to swap are confidentiality with authentication and authorisation with confidentiality.",
+                      "Full marks need each feature read against the concept’s definition, such as encryption protecting data from unauthorised viewing rather than a login check."
+                    ],
+                    "commonStudentErrors": [
+                      "Choosing authentication for payment encryption, confusing keeping card details private with checking who the user is.",
+                      "Choosing authentication for the basic account feature, which checks who the user is rather than what they may access.",
+                      "Choosing integrity for the feature that keeps the website accessible at peak times, when availability is the concept that means the system stays up."
+                    ],
+                    "keywords": [
+                      "confidentiality",
+                      "integrity",
+                      "availability",
+                      "authentication",
+                      "authorisation",
+                      "accountability",
+                      "encryption"
+                    ],
+                    "markingCriteria": "3 marks: Provides the correct response for ALL items\n2 marks: Provides the correct response for THREE items\n1 mark: Provides the correct response for ONE item",
+                    "scenario": "A food delivery service offers prepackaged meals tailored to different dietary preferences, for example, vegetarian and gluten-free. It has developed a website for customers to place orders. The website is ready for testing and feedback.\n\nThe website includes:\n- a menu that dynamically updates based on meal availability\n- user accounts where customers can track deliveries and manage subscriptions\n- a backend that processes orders and payments, updates stock and communicates with the delivery team.\n\nChoose from these concepts: integrity, availability, authorisation, accountability, confidentiality, authentication.\n\nStimulus: | Feature | Concept |\n| --- | --- |\n| The system verifies that the total price displayed matches the actual total after items are added to the cart. | ? |\n| The backend ensures the website remains accessible during peak order times. | ? |\n| The system logs all user actions, such as changes to subscriptions or delivery addresses. | ? |\n| User payment details, such as credit card numbers, are encrypted during transactions. | ? |\n| A user with a basic account can place orders but cannot access admin features. | ? |",
+                    "scenarioImage": {
+                      "id": "prompt-se-hsc-2025-23c",
+                      "alt": "Five security features of the website, each to be matched to a security concept",
+                      "updatedAt": 0,
+                      "src": "courseData/images/se-2025-23c.png"
+                    },
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(c)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-23c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Total price verified: integrity\nWebsite accessible during peak times: availability\nAll user actions logged: accountability\nPayment details encrypted: confidentiality\nBasic account cannot access admin features: authorisation",
+                        "feedback": "Meets the 3-mark row by giving the correct response for ALL five items, including “Payment details encrypted: confidentiality” and “Basic account cannot access admin features: authorisation”.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23c-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Total price verified: integrity\nWebsite accessible during peak times: availability\nAll user actions logged: accountability\nPayment details encrypted: authentication\nBasic account cannot access admin features: confidentiality",
+                        "feedback": "Meets the 2-mark row by matching THREE items correctly: integrity, availability and accountability. To reach 3 marks, every item must be correct: encryption of payment details is confidentiality, not authentication, and restricting admin features for a basic account is authorisation.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Total price verified: confidentiality\nWebsite accessible during peak times: availability\nAll user actions logged: integrity\nPayment details encrypted: authentication\nBasic account cannot access admin features: accountability",
+                        "feedback": "Meets the 1-mark row by correctly matching ONE item, availability for peak-time access. To reach 2 marks, THREE responses must be correct: the price check is integrity and the action log is accountability.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -8058,6 +8124,64 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-13",
+                    "question": "For each strategy, choose the most appropriate stage in software development for it to be applied. Indicate whether access to source code is required.",
+                    "totalMarks": 2,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "SE-12-04",
+                      "SE-12-05"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer places SAST in Producing and implementing with source code access Yes, and DAST in Testing and evaluating with access No.",
+                      "The 1-mark row covers a student who gets only one strategy right, so the top row depends on knowing that SAST analyses the code as written while DAST tests the application as it runs.",
+                      "Students who understand this can work out the source code column from the method rather than guessing it from the timing."
+                    ],
+                    "commonStudentErrors": [
+                      "Placing DAST in Producing and implementing, because it is run while the application is being built.",
+                      "Reversing the source code column, so SAST is marked No and DAST is marked Yes.",
+                      "Choosing Testing and evaluating for SAST, treating a static scan as a test of the finished product."
+                    ],
+                    "keywords": [
+                      "static application security testing (SAST)",
+                      "dynamic application security testing (DAST)",
+                      "source code access",
+                      "white-box testing",
+                      "black-box testing",
+                      "Producing and implementing",
+                      "Testing and evaluating"
+                    ],
+                    "markingCriteria": "2 marks: Correctly identifies the timing and source code access for each strategy\n1 mark: Correctly identifies the timing and source code access for ONE strategy OR Correctly identifies the timing for each strategy",
+                    "scenario": "A software developer plans to use static application security testing (SAST) and dynamic application security testing (DAST) to check an application that is being developed.\n\nChoose from these options. Timing in software development: Testing and evaluating; Identifying and defining; Researching and planning; Producing and implementing. Access to source code: Yes; No.\n\nStimulus: | Strategy | Timing in software development | Access to source code |\n| --- | --- | --- |\n| SAST | ? | ? |\n| DAST | ? | ? |",
+                    "scenarioImage": {
+                      "id": "prompt-se-hsc-2025-13",
+                      "alt": "A table with a timing and an access-to-source-code choice for SAST and for DAST",
+                      "updatedAt": 0,
+                      "src": "courseData/images/se-2025-13.png"
+                    },
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "13",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-13-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "SAST: Producing and implementing; access to source code: Yes\nDAST: Testing and evaluating; access to source code: No",
+                        "feedback": "Meets the 2-mark row by giving both rows fully correct: “Producing and implementing; access to source code: Yes” for SAST and “Testing and evaluating; access to source code: No” for DAST.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-13-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "SAST: Producing and implementing; access to source code: Yes\nDAST: Researching and planning; access to source code: Yes",
+                        "feedback": "Meets the 1-mark row by identifying the timing and source code access for ONE strategy, SAST. To reach 2 marks, DAST also needs the correct timing (Testing and evaluating) and access (No), since DAST tests the running application without the source code.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -14013,7 +14137,7 @@
                       "aggregate function"
                     ],
                     "markingCriteria": "4 marks: Provides a correct SQL query that extracts ‘Pending’ and ‘Escalated’ jobs for the ‘Software’ and ‘Hardware’ categories; counts the jobs for each status in each category; outputs results in descending order\n3 marks: Provides an SQL query that addresses most of the requirements of the problem\n2 marks: Provides an SQL query that shows some understanding of the problem\n1 mark: Shows some understanding of SQL or the problem",
-                    "scenario": "Below is the Issues table for a technical support company. FixTime, in minutes, is the time taken to complete each job.\n\n| JobID | Issue | Response | FixTime | Category | Status |\n| --- | --- | --- | --- | --- | --- |\n| 0001 | Cannot connect to the internet | Clear cache | 22 | Software | Pending |\n| 0002 | Installation failure | Reinstall the printer drivers | 76 | Hardware | Pending |\n| 0004 | Forgot password | Reset password | 97 | Software | Resolved |\n| 0005 | Installation failure | Follow the installation guide | 110 | Hardware | Escalated |\n| 0009 | Blue screen error | Run a system diagnostic test | 120 | Software | Pending |\n| 0011 | Installation failure | Verify email settings | 45 | Software | Escalated |",
+                    "scenario": "Below is the Issues table for a technical support company. FixTime, in minutes, is the time taken to complete each job.\n\nStimulus: | JobID | Issue | Response | FixTime | Category | Status |\n| --- | --- | --- | --- | --- | --- |\n| 0001 | Cannot connect to the internet | Clear cache | 22 | Software | Pending |\n| 0002 | Installation failure | Reinstall the printer drivers | 76 | Hardware | Pending |\n| 0004 | Forgot password | Reset password | 97 | Software | Resolved |\n| 0005 | Installation failure | Follow the installation guide | 110 | Hardware | Escalated |\n| 0009 | Blue screen error | Run a system diagnostic test | 120 | Software | Pending |\n| 0011 | Installation failure | Verify email settings | 45 | Software | Escalated |",
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "21",
@@ -14058,7 +14182,13 @@
                         "feedback": "Meets the 1-mark row by using SELECT and WHERE to pick jobs by category, which shows some understanding of SQL. To reach 2, count the jobs with COUNT and GROUP BY, and filter for the Pending and Escalated statuses.",
                         "band": 1
                       }
-                    ]
+                    ],
+                    "scenarioImage": {
+                      "id": "prompt-se-hsc-2025-21",
+                      "alt": "The Issues table: JobID, Issue, Response, FixTime, Category and Status for six jobs",
+                      "updatedAt": 0,
+                      "src": "courseData/images/se-2025-21.png"
+                    }
                   }
                 ]
               },
@@ -14928,6 +15058,72 @@
                         "mark": 1,
                         "answer": "Storyboarding is a planning tool used in software projects.",
                         "feedback": "The answer makes a general statement about storyboarding without explaining how it works or how it generates ideas. Describe the panels and what the team learns from them.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-15a",
+                    "question": "Select the correct entries to complete the data dictionary.",
+                    "totalMarks": 3,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "SE-12-09",
+                      "SE-12-01"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer completes all seven dropdowns, and each one depends on reading the stimulus closely.",
+                      "PlayerId is a String because its format NXXXXN mixes digits and characters, which fixes the size at 6 bytes and makes 2ATHA2 the only valid example.",
+                      "Level is an Integer because its example 27 is a whole number, OnMission is a Boolean because it holds one bit of Y or N, and LastSave needs hh:mm:ss.sss to keep the milliseconds shown in its example."
+                    ],
+                    "commonStudentErrors": [
+                      "Choosing Integer for OnMission, even though it holds one bit of Y or N.",
+                      "Choosing NATHAN as the PlayerId example, which starts with a letter where the NXXXXN format needs a digit.",
+                      "Choosing hh:mm:ss for LastSave, which drops the milliseconds shown in 13:45:21.221."
+                    ],
+                    "keywords": [
+                      "data dictionary",
+                      "data type",
+                      "String",
+                      "Integer",
+                      "Boolean",
+                      "field size in bytes",
+                      "display format"
+                    ],
+                    "markingCriteria": "3 marks: Correctly completes ALL the dropdowns\n2 marks: Correctly completes FIVE dropdowns\n1 mark: Correctly completes THREE dropdowns",
+                    "scenario": "A computer game is being developed.\n\nPart of a data dictionary for the computer game is shown.\n\nChoose from these options. Data type: Array, Boolean, Integer, String. Size in bytes for PlayerId: 5, 6, 7, 8. Example for PlayerId: NATHAN, 2ATHA2, NATH22, N2222N. Format for display for LastSave: hhmmss.sss, hh:mm:ss.sss, hh:mm:ss, ss:mm:hh.hhh.\n\nStimulus: | Variable | Data type | Format for display | Size in bytes | Description | Example |\n| --- | --- | --- | --- | --- | --- |\n| PlayerId | ? | NXXXXN | ? | Identifies player | ? |\n| PlayerName | ? | XX...XX | 15 | Player name | Nat Kim |\n| Level | ? | NN | 1 | Level of player | 27 |\n| OnMission | ? | X | 1 bit | Y or N | Y |\n| LastSave | Date and Time | ? | 12 | Time last saved 24-hour time | 13:45:21.221 |",
+                    "scenarioImage": {
+                      "id": "prompt-se-hsc-2025-15a",
+                      "alt": "Part of the data dictionary for the computer game, with entries to be completed",
+                      "updatedAt": 0,
+                      "src": "courseData/images/se-2025-15a.png"
+                    },
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "15(a)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-15a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "PlayerId: String; size 6 bytes; example 2ATHA2\nPlayerName: String\nLevel: Integer\nOnMission: Boolean\nLastSave: format hh:mm:ss.sss",
+                        "feedback": "Meets the 3-mark row by completing ALL the dropdowns, including “size 6 bytes” and “example 2ATHA2” for PlayerId and “hh:mm:ss.sss” for LastSave.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-15a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "PlayerId: String; size 6 bytes; example 2ATHA2\nPlayerName: String\nLevel: Integer\nOnMission: String\nLastSave: format hh:mm:ss",
+                        "feedback": "Meets the 2-mark row by correctly completing FIVE dropdowns, including PlayerId, PlayerName and Level. To reach 3 marks, ALL the dropdowns must be correct: OnMission holds one bit so it should be Boolean, and LastSave needs hh:mm:ss.sss to show milliseconds.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-15a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "PlayerId: String; size 8 bytes; example NATHAN\nPlayerName: String\nLevel: Integer\nOnMission: Integer\nLastSave: format hh:mm:ss",
+                        "feedback": "Meets the 1-mark row by correctly completing THREE dropdowns: PlayerId String, PlayerName String and Level Integer. To reach 2 marks, FIVE must be correct, so PlayerId needs a size of 6 bytes and a valid example such as 2ATHA2.",
                         "band": 1
                       }
                     ]
@@ -16470,6 +16666,67 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-26",
+                    "question": "Using Python, write a program that achieves this task.",
+                    "totalMarks": 5,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "SE-12-07",
+                      "SE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The full-mark program creates 15 unique random numbers, for example with random.sample or a checked loop, then uses a loop with a selection to print each of the 25 cells, with a row break after every fifth cell.",
+                      "The 3-mark answer addresses some of the requirements, such as generating numbers and printing the grid, but allows duplicate positions or prints every row on one line.",
+                      "Full marks need every requirement at once, so the output must match the 5 by 5 layout exactly rather than just placing the X marks in the right cells.",
+                      "NESA's sample answer draws numbers from 1 to 25 but tests grid positions 0 to 24, so position 0 is never a diamond. Credit any consistent numbering of the 25 cells."
+                    ],
+                    "commonStudentErrors": [
+                      "Using random.randint in a loop with no check for repeats, so the same cell can be picked twice and fewer than 15 diamonds appear.",
+                      "Printing all 25 cells on one line, or missing the closing bar and new line after each row, so the output does not match the grid.",
+                      "Using 0 to 24 for the positions in one part of the program and 1 to 25 in another, so the X marks are off by one."
+                    ],
+                    "keywords": [
+                      "random.sample()",
+                      "unique random numbers",
+                      "list membership (in)",
+                      "nested loops",
+                      "selection (if/else)",
+                      "print with end parameter",
+                      "2D grid indexing"
+                    ],
+                    "markingCriteria": "5 marks: Provides a correct python program that addresses the following requirements: creates a list of unique randomly generated numbers; processes the generated list correctly; uses selection and looping structures; provides correctly formatted output; uses inbuilt python functions\n4 marks: Provides a substantially correct python program that addresses most of the requirements\n3 marks: Provides a python program that addresses some of the requirements\n2 marks: Provides a python program that addresses one requirement\n1 mark: Shows some understanding of the problem",
+                    "scenario": "As part of a computer game, a program is needed to randomly place 15 diamonds on a 5 × 5 grid. Once the locations of the diamonds have been generated, the program outputs the 5 × 5 grid, with the location of each diamond signified by an ‘X’.\n\nAn example of the output required is shown below.\n\n```\n| X |   | X |   | X |\n|   | X |   |   | X |\n|   | X | X | X |   |\n| X |   | X |   |   |\n| X | X | X | X | X |\n```",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "26",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-26-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "```\nimport random\n\nrandList = []\nfor x in range(15):\n   nextInt = random.randint(1,25)\n   while nextInt in randList:\n      nextInt = random.randint(1,25)\n   randList.append(nextInt)\n\npos = 0\nwhile pos < 25:\n  if pos in randList:\n      print (\"| X\", end=\" \")\n  else:\n      print (\"| \", end=\" \")\n  pos = pos + 1\n  if (pos % 5 == 0):\n      print(\"| \\n\")\n```",
+                        "feedback": "Meets the 5-mark row by generating unique numbers with “while nextInt in randList” and building the grid with a selection inside a looping structure.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-26-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "```\nimport random\n\ndiamonds = []\nfor i in range(15):\n    diamonds.append(random.randint(1, 25))\n\nfor pos in range(1, 26):\n    if pos in diamonds:\n        print('| X ', end='')\n    else:\n        print('|   ', end='')\nprint('|')\n```",
+                        "feedback": "Meets the 3-mark row by addressing some requirements: it builds a list of 15 random numbers with random.randint and checks each position with a for loop and an if. To reach 4 marks, the numbers must be unique, which randint does not guarantee, and the grid must print row by row rather than on one line.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-26-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "```\nimport random\n\ngrid = [[0] * 5 for row in range(5)]\nfor diamond in range(15):\n    # choose a random position for a diamond\n    position = random.randint(0, 24)\nprint(grid)\n```",
+                        "feedback": "Meets the 1-mark row by showing some understanding of the problem: it sets up a 5 by 5 grid and picks a random position for each of 15 diamonds. To reach 2 marks, the positions must be stored and used, so that a list of random numbers is actually built and then drawn on the grid.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -16716,6 +16973,67 @@
                     ],
                     "isPastHSC": false,
                     "verb": "CONSTRUCT"
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-17",
+                    "question": "Using pseudocode, with a repeat-until loop, write an algorithm to determine the excursion risk rating for a location. You can assume that the scores for the 10 questions are already stored in the array Risks.",
+                    "totalMarks": 3,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "SE-12-09",
+                      "SE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer uses a REPEAT loop that totals all ten elements of Risks through an index, then a selection that gives High above 35, Low below 20 and Medium for every other total.",
+                      "The 2-mark answer may get the loop right but miss the Medium band, so totals from 20 to 35 are rated Low, which fails the scenario’s rule.",
+                      "CASEWHERE or IF … ELSEIF … ELSE are also accepted, so the mark depends on the rating logic being complete rather than on the structure used.",
+                      "NESA notes that answers could include: NESA's guidelines also accept a CASEWHERE selection (> 35: High; < 20: Low; OTHERWISE: Medium) or an IF … ELSEIF … ELSE … ENDIF in place of the nested IF."
+                    ],
+                    "commonStudentErrors": [
+                      "Using Total >= 35 for High, which rates a total of exactly 35 as High instead of Medium.",
+                      "Writing a REPEAT loop that does not initialise the index or the total before the loop starts.",
+                      "Writing a WHILE loop instead of the REPEAT … UNTIL structure the question asks for."
+                    ],
+                    "keywords": [
+                      "REPEAT … UNTIL loop",
+                      "array index",
+                      "accumulator",
+                      "selection (IF … ELSE)",
+                      "pseudocode",
+                      "boundary condition",
+                      "total"
+                    ],
+                    "markingCriteria": "3 marks: Provides a substantially correct pseudocode algorithm\n2 marks: Provides a pseudocode algorithm that addresses some aspects of the problem\n1 mark: Shows some understanding of the problem or pseudocode",
+                    "scenario": "An algorithm is required by a school to rate the risk of a location for school excursions.\n\nA teacher completes a 10-question survey to assess potential hazards for the location. Each question is given a score from 1 (low) to 5 (high), and the scores are stored in a 10-element integer array called Risks.\n\nThe scores for each question are added to give a total risk score.\n\nThe excursion risk is rated as:\n- Low (total less than 20)\n- Medium (total between 20 – 35)\n- High (total above 35).",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "17",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-17-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "```\nBEGIN RiskRating\n      Total = 0\n      index = 0\n      REPEAT\n             Total = Total + Risks[index]\n             index = index + 1\n      UNTIL index = 10\n      IF Total > 35 THEN\n             Rating = “High”\n      ELSE\n             IF Total < 20 THEN\n                    Rating = “Low”\n             ELSE\n                    Rating = “Medium”\n             ENDIF\n      ENDIF\n      Display Rating\nEND RiskRating\n```",
+                        "feedback": "Meets the 3-mark row with a substantially correct pseudocode algorithm: the REPEAT loop runs until “index = 10”, and the nested IF covers High, Low and Medium.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-17-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "```\nBEGIN RiskRating\n   Total = 0\n   index = 0\n   REPEAT\n      Total = Total + Risks[index]\n      index = index + 1\n   UNTIL index = 10\n   IF Total > 35 THEN\n      Rating = “High”\n   ELSE\n      Rating = “Low”\n   ENDIF\n   Display Rating\nEND RiskRating\n```",
+                        "feedback": "Meets the 2-mark row by addressing some aspects: the REPEAT loop totals all ten scores from Risks. To reach 3 marks, the selection must also rate totals from 20 to 35 as Medium, because this answer rates every total of 35 or less as Low.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-17-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "```\nBEGIN RiskRating\n   Total = 0\n   REPEAT\n      Total = Total + Risks\n   UNTIL Total > 35\n   Display Total\nEND RiskRating\n```",
+                        "feedback": "Meets the 1-mark row by showing some understanding of the pseudocode, with a REPEAT loop that accumulates a total. To reach 2 marks, the loop must read each of the ten elements of Risks with an index, and the algorithm must give a risk rating rather than the total.",
+                        "band": 2
+                      }
+                    ]
                   }
                 ]
               },
@@ -17439,6 +17757,65 @@
                         "mark": 1,
                         "answer": "The age field should be tested with some numbers to see if it works.",
                         "feedback": "The answer describes testing the field in general terms and does not identify any partitions. Identify the valid and invalid ranges, then choose a test value for each.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-15b",
+                    "question": "Outline TWO software debugging tools that can be used to identify these logic errors.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "SE-12-08"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer outlines two named debugging tools, saying what each one does and how it helps locate a logic error.",
+                      "A 2-mark answer either names two tools without explaining them or explains only one, and the ladder treats both as the same level, so the explanation is what separates the top row.",
+                      "Using the persistent logic errors in the scenario, the strongest answers say how a tool reveals the fault, such as stepping through the code to see a variable’s value at each line."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing debugging in general, such as finding and fixing errors, without naming any tool.",
+                      "Naming a tool such as “the IDE” with no description of what it does to find a logic error.",
+                      "Listing a test plan or unit testing as a debugging tool, when these are processes rather than tools."
+                    ],
+                    "keywords": [
+                      "breakpoint",
+                      "single line stepping",
+                      "watch",
+                      "debugging output statement",
+                      "logic error",
+                      "integrated development environment (IDE)",
+                      "variable value"
+                    ],
+                    "markingCriteria": "3 marks: Outlines TWO relevant software debugging tools\n2 marks: Outlines ONE relevant software debugging tool OR Identifies TWO relevant software debugging tools\n1 mark: Provides some relevant information",
+                    "scenario": "A computer game is being developed.\n\nWhile this game is being developed, there are persistent issues with the code.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "15(b)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-15b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Breakpoints can be added to specific lines of code to halt program execution, allowing the programmer to check the value of specific variables or to step through the program line by line. Debugging output statements can be added to the code to indicate that a certain section of code has been reached or to show the contents of a variable.",
+                        "feedback": "Meets the 3-mark row by outlining TWO tools: “Breakpoints can be added” halts execution so the programmer can check variables, and “Debugging output statements” show that a section of code has been reached.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-15b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Breakpoints and debugging output statements can be used to find the logic errors in the game code.",
+                        "feedback": "Meets the 2-mark row by identifying TWO relevant tools, breakpoints and debugging output statements, without explaining how either works. To reach 3 marks, outline both: a breakpoint halts execution so the variables can be checked, and an output statement shows which section of code has been reached.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-15b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A programmer can check what the variables hold to see where the code goes wrong.",
+                        "feedback": "Meets the 1-mark row by giving some relevant information about finding logic errors, without naming a tool. To reach 2 marks, name a debugging tool such as breakpoints and outline how it works, or identify two tools.",
                         "band": 1
                       }
                     ]

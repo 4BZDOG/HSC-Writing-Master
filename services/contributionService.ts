@@ -115,6 +115,7 @@ export interface PromptInsertRow {
   scenario_image_path: string | null;
   scenario_image_alt: string | null;
   scenario_image_updated_at: string | null;
+  scenario_image_src?: string;
   status: ContributionStatus;
   created_by: string;
 }
@@ -162,6 +163,8 @@ export const promptToRow = (
   hsc_question_number: prompt.hscQuestionNumber ?? null,
   ...(prompt.hscSection ? { hsc_section: prompt.hscSection } : {}),
   ...(prompt.hscText ? { hsc_text: prompt.hscText } : {}),
+  // Sent only when set, so a database without the column still accepts the row.
+  ...(prompt.scenarioImage?.src ? { scenario_image_src: prompt.scenarioImage.src } : {}),
   scenario_image_path: prompt.scenarioImage?.storagePath ?? null,
   scenario_image_alt: prompt.scenarioImage?.alt ?? null,
   scenario_image_updated_at: prompt.scenarioImage

@@ -1123,17 +1123,20 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                            }
                        `}
                   >
-                    {prompt.scenarioImage ? (
-                      <ScenarioCarousel
-                        scenarioText={prompt.scenario}
-                        scenarioImage={prompt.scenarioImage}
+                    {pastHscScenario ? (
+                      // A past paper's stimulus image is drawn inside the paper's
+                      // own layout, where the stimulus sits, not on a second slide.
+                      <PastHscScenario
+                        parts={pastHscScenario}
+                        image={prompt.scenarioImage}
                         keywords={prompt.keywords}
                         verb={prompt.verb}
                         fontSize={fontSize}
                       />
-                    ) : pastHscScenario ? (
-                      <PastHscScenario
-                        parts={pastHscScenario}
+                    ) : prompt.scenarioImage ? (
+                      <ScenarioCarousel
+                        scenarioText={prompt.scenario}
+                        scenarioImage={prompt.scenarioImage}
                         keywords={prompt.keywords}
                         verb={prompt.verb}
                         fontSize={fontSize}

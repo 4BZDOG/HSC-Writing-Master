@@ -530,6 +530,10 @@ alter table public.sample_answers add column if not exists prescribed_text text;
 alter table public.prompts add column if not exists scenario_image_path text;
 alter table public.prompts add column if not exists scenario_image_alt text;
 alter table public.prompts add column if not exists scenario_image_updated_at timestamptz;
+-- A stimulus image shipped with the app under public/ (2026-10): a past paper's
+-- table, dashboard or slideshow. A path relative to the app's base URL, so it
+-- needs no Storage object.
+alter table public.prompts add column if not exists scenario_image_src text;
 
 insert into storage.buckets (id, name, public)
 values ('scenario-images', 'scenario-images', false)

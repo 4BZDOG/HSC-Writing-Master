@@ -11,6 +11,17 @@ import {
 } from '../../utils/prescribedTextChoice';
 
 describe('splitPastHscScenario', () => {
+  it('splits context from a stimulus held after it (a table beside its screenshot)', () => {
+    const parts = splitPastHscScenario(
+      'Below is the Issues table.\n\nStimulus: | JobID | Status |\n| --- | --- |\n| 0001 | Pending |'
+    );
+    expect(parts.context).toBe('Below is the Issues table.');
+    expect(parts.stimulus).toEqual({
+      label: 'Stimulus',
+      lines: ['| JobID | Status |\n| --- | --- |\n| 0001 | Pending |'],
+    });
+  });
+
   it('lifts NESA’s criteria into a list', () => {
     const parts = splitPastHscScenario(
       'Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.'
@@ -64,18 +75,21 @@ describe('splitPastHscScenario', () => {
               if (!p.isPastHSC || !p.scenario) continue;
               const parts = splitPastHscScenario(p.scenario);
               const words = (s: string) => s.replace(/[^\p{L}\p{N}]/gu, '');
+              const stimulus = parts.stimulus ? parts.stimulus.lines.join('') : '';
+              // A stimulus held after a paragraph of context (a table beside its
+              // screenshot) follows that context.
+              const contextFirst = /\n\n(Stimulus|Extract):/.test(p.scenario);
               const rebuilt = [
                 ...parts.instructions,
                 parts.sampleNote ?? '',
-                parts.stimulus ? parts.stimulus.lines.join('') : '',
-                parts.context ?? '',
+                contextFirst ? (parts.context ?? '') + stimulus : stimulus + (parts.context ?? ''),
                 parts.assessedOn.join(''),
               ].join('');
               // Nothing dropped and nothing moved: the parts, read in order, are the
               // scenario without its lead-in and label.
               const original = p.scenario
                 .replace('Your answer will be assessed on how well you:', '')
-                .replace(/^(Stimulus|Extract):/, '');
+                .replace(/(^|\n\n)(Stimulus|Extract):/, '$1');
               expect(words(rebuilt), p.id).toBe(words(original));
             }
     }

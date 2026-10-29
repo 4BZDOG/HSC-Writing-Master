@@ -167,6 +167,13 @@ async function importCourse(course, subject) {
             hsc_question_number: prompt.hscQuestionNumber ?? null,
             hsc_section: prompt.hscSection ?? null,
             hsc_text: prompt.hscText ?? null,
+            // Only a shipped image is seeded: its bytes are in public/, not Storage.
+            ...(prompt.scenarioImage?.src
+              ? {
+                  scenario_image_src: prompt.scenarioImage.src,
+                  scenario_image_alt: prompt.scenarioImage.alt ?? null,
+                }
+              : {}),
             status: 'approved',
             created_by: createdBy,
           });

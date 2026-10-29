@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-29 (The rest of the 2025 SE and EC papers, with their stimulus)
+
+- **Added.** 13 more 2025 past HSC parts from NESA's online past exams (`fam.hsconline.nesa.nsw.edu.au`): Enterprise
+  Computing 13, 15(a), 15(b), 20, 22(a), 23(b) and 25, and Software Engineering 13, 15(a), 15(b), 17, 23(c) and 26,
+  each with NESA's ladder and its marking-guideline answer as a verified exemplar (and the published student response
+  for EC 23(b) and 25). Dropdown and matching items are answered by typing the choices, which are listed beside the
+  stimulus. Left out: the three parts answered as a diagram (EC 19, EC 21, SE 22), the SE 27 video and the tick-box
+  items.
+- **Added.** `ScenarioImageRef.src`: an image shipped under `public/` (`public/courseData/images/`). A past question's
+  table, data dictionary, dashboard, spreadsheet or slideshow is a screenshot from the online exam, drawn where the
+  paper prints the stimulus, with the text version (which the marker reads) under "Read as text". EC 18, EC 23(a)
+  and SE 21 gained theirs. A scenario can now hold context and then a stimulus (`…\n\nStimulus: …`).
+- **Supabase.** `prompts.scenario_image_src` (added if missing); `seed.mjs` writes it and the curriculum read maps it.
+  Re-apply `supabase/schema.sql`, then re-run `supabase/seed.mjs`. `DATA_VERSION` 2.28.0.
+
 ## [Unreleased] - 2026-10-29 (Software Engineering and Enterprise Computing past HSC questions, 2025)
 
 - **Added.** 20 past HSC questions from the 2025 papers: 11 to Software Engineering (`prompt-se-hsc-2025-…`: 16(a)–(c),
