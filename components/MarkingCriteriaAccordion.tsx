@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useId, useCallback } from 'react';
-import { Prompt, UserRole, CourseOutcome } from '../types';
+import { Prompt, PromptVerb, UserRole, CourseOutcome } from '../types';
+import { criterionParts } from '../utils/criterionParts';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
 import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
@@ -40,6 +41,47 @@ import {
   useOpenCriterionRequest,
 } from '../utils/ladderLink';
 import { PANEL_NAME } from './PanelDisclosure';
+
+/**
+ * A row's criterion as NESA prints it: one bullet per point, and "OR" on a line of
+ * its own between two ways to the same mark (see `criterionParts`). A row with a
+ * single point is drawn as the plain sentence it is.
+ */
+const CriterionText: React.FC<{ text: string; keywords?: string[]; verb?: PromptVerb }> = ({
+  text,
+  keywords,
+  verb,
+}) => {
+  const parts = useMemo(() => criterionParts(text), [text]);
+  if (parts.length === 1 && parts[0].length === 1) {
+    return <>{renderFormattedText(parts[0][0], keywords, verb)}</>;
+  }
+  return (
+    <div className="space-y-1.5">
+      {parts.map((points, a) => (
+        <React.Fragment key={a}>
+          {a > 0 && (
+            <p className="flex items-center gap-2 t-label text-slate-600 dark:text-slate-400">
+              <span>OR</span>
+              <span aria-hidden="true" className="h-px flex-1 bg-current opacity-25" />
+            </p>
+          )}
+          <ul className="space-y-1">
+            {points.map((point, i) => (
+              <li key={i} className="flex gap-2">
+                <span
+                  aria-hidden="true"
+                  className="mt-[0.7em] size-1 shrink-0 rounded-full bg-current opacity-60"
+                />
+                <span className="min-w-0">{renderFormattedText(point, keywords, verb)}</span>
+              </li>
+            ))}
+          </ul>
+        </React.Fragment>
+      ))}
+    </div>
+  );
+};
 
 interface MarkingCriteriaAccordionProps {
   prompt: Prompt;
@@ -358,7 +400,11 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
                     }
                   >
                     <div className={LADDER_READING}>
-                      {renderFormattedText(item.description, prompt.keywords, prompt.verb)}
+                      <CriterionText
+                        text={item.description}
+                        keywords={prompt.keywords}
+                        verb={prompt.verb}
+                      />
                     </div>
                   </LadderRow>
                 );

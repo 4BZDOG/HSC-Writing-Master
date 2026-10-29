@@ -166,7 +166,7 @@ const FOOTER_TOOL =
  * corner bar's pills.
  */
 const PHONE_STAT_CHIP =
-  't-label leading-none whitespace-nowrap inline-flex items-center gap-1 bg-black/20 px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm';
+  't-label leading-none whitespace-nowrap inline-flex items-center gap-1 bg-black/20 px-2 max-sm:px-1.5 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm';
 
 /** Half the preview panel's width (w-72), used to keep it on screen. */
 const OUTCOME_PREVIEW_HALF_WIDTH = 144;
@@ -672,7 +672,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     did at 320px. On one wrapping line the stats move down a line
                     instead. */}
                 <div
-                  className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:col-end-4 max-sm:row-start-2 max-sm:gap-x-1.5 max-sm:gap-y-0`}
+                  className={`${CARD_HEADER_META_ROW} max-sm:col-start-1 max-sm:col-end-4 max-sm:row-start-2 max-sm:mt-2 max-sm:gap-x-1 max-sm:gap-y-1.5`}
                 >
                   <button
                     onClick={onVerbClick}
@@ -692,7 +692,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     // one visual language means "this opens the verb guide" —
                     // and so this chip stops reading as another fact chip like
                     // the "4 Marks" and "Band 2" pills it sits beside.
-                    className={`t-label leading-none whitespace-nowrap bg-black/20 px-2.5 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
+                    className={`t-label leading-none whitespace-nowrap bg-black/20 px-2.5 max-sm:px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
                       examMode
                         ? 'cursor-default'
                         : 'underline decoration-dotted decoration-white/50 underline-offset-[3px] hover:bg-black/30 hover:decoration-solid hover:decoration-white active:scale-[0.98]'
@@ -739,24 +739,31 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       onClick={() => canCurate && !examMode && setIsEditingProvenance((v) => !v)}
                       disabled={!canCurate || examMode}
                       aria-expanded={canCurate && !examMode ? isEditingProvenance : undefined}
-                      // No `uppercase` here, unlike its neighbours: an HSC
-                      // question number is "12(b)", and shouting it as
-                      // "Q12(B)" changes what the label says.
-                      className={`inline-flex items-center gap-1 text-[9px] leading-none font-black tracking-[0.1em] rounded-full px-1.5 py-0.5 animate-fade-in transition-colors bg-black/20 border border-white/30 ${
+                      // The same chip as its neighbours (the verb, the marks, the
+                      // band), so the row reads as one set of facts. It used to be
+                      // a tracked 9px pill of its own. No `uppercase`: an HSC
+                      // question number is "12(b)", and "Q12(B)" changes what the
+                      // label says.
+                      className={`${PHONE_STAT_CHIP} font-semibold animate-fade-in transition-colors ${
                         canCurate && !examMode
                           ? 'hover:bg-black/30 cursor-pointer'
                           : 'cursor-default'
                       }`}
                       title={`${pastHsc.title}${canCurate && !examMode ? ' — click to edit' : ''}`}
                     >
-                      <Landmark className="w-2.5 h-2.5" />
-                      {pastHsc.text}
+                      <Landmark className="w-3 h-3 text-white/70" aria-hidden="true" />
+                      {/* On a phone the landmark says "HSC", so the chip keeps the row to
+                          one line at 390px; a screen reader still hears it. */}
+                      <span className="sm:hidden">
+                        <span className="sr-only">HSC </span>
+                        {pastHsc.text.replace(/^HSC\s+/, '')}
+                      </span>
+                      <span className="max-sm:hidden">{pastHsc.text}</span>
                     </button>
                   )}
-                  <span className={`${PHONE_STAT_CHIP} sm:hidden`}>
-                    <Award className="w-3 h-3 text-white/70" aria-hidden="true" />
-                    {prompt.totalMarks} Marks
-                  </span>
+                  {/* No award icon: its 16px is what keeps the four chips on one line
+                      at 390px when the question is a past paper. */}
+                  <span className={`${PHONE_STAT_CHIP} sm:hidden`}>{prompt.totalMarks} Marks</span>
                   {examMode ? (
                     <span
                       className={`${PHONE_STAT_CHIP} font-bold sm:hidden`}

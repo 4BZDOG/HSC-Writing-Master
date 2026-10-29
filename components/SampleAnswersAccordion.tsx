@@ -48,6 +48,7 @@ import {
   SAMPLE_ACTIONS,
   SAMPLE_AI_BUTTON,
   SAMPLE_ANSWER,
+  SAMPLE_CRITERION_LINK_PHONE,
   SAMPLE_CAROUSEL,
   SAMPLE_CAROUSEL_BUTTON,
   SAMPLE_CAROUSEL_COUNT,
@@ -120,6 +121,7 @@ import {
   MessageSquareQuote,
 } from 'lucide-react';
 import { useAnswerMetrics } from '../hooks/useAnswerMetrics';
+import { usePhoneWidth } from '../hooks/usePhoneWidth';
 import AnswerMetricsDisplay from './AnswerMetricsDisplay';
 import { freeTierLimits } from '../services/planPolicy';
 import {
@@ -347,6 +349,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
     const notesId = useId();
     const pickerId = useId();
     const paperId = useId();
+    const phone = usePhoneWidth();
     // The tabs by index, so the arrow keys can move focus with the selection.
     const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
     // The "Copied" confirmation's timer. It is cleared when the row unmounts, so it
@@ -509,6 +512,30 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       {locked ? '' : ` · ${countWords(currentSample.answer)} words`}
                     </span>
                   )}
+                  {/* On a phone the open row's source sits on this line, beside the
+                      summary. It used to sit on the paper's solid band bar, a second
+                      full-width strip of saturated colour that held only this badge
+                      and the criterion link; from `sm` the bar is still there. Each is
+                      drawn in one place only, so a screen reader meets it once. */}
+                  {isOpen && phone && (
+                    <span className="inline-flex items-center gap-2">
+                      {locked ? (
+                        <span
+                          className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
+                        >
+                          <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
+                        </span>
+                      ) : (
+                        <>
+                          <SourceBadge
+                            source={currentSample.source}
+                            derivedFromStudent={currentSample.derivedFromStudent}
+                          />
+                          <TextBadge text={currentSample.prescribedText} />
+                        </>
+                      )}
+                    </span>
+                  )}
                   {!isOpen && (
                     <>
                       <SourceBadge
@@ -552,6 +579,17 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
               {!isOpen && preview && <span className={SAMPLE_ROW_PREVIEW}>{preview}</span>}
             </button>
 
+            {isOpen && phone && criterion && (
+              <button
+                type="button"
+                onClick={() => requestOpenCriterion(prompt.id, group.mark)}
+                aria-label={`View marking criterion for ${group.mark} ${group.mark === 1 ? 'mark' : 'marks'}`}
+                className={SAMPLE_CRITERION_LINK_PHONE}
+              >
+                <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                Criterion
+              </button>
+            )}
             {isOpen && hasPicker && (
               <div className={SAMPLE_CAROUSEL}>
                 <button
@@ -655,54 +693,56 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                           is open. The open body stays mounted through its collapse, so this
                           bar would otherwise repeat the header's figures. The jump to the
                           criterion is drawn only when the guide has a row for this level. */}
-                      <div className={`${SAMPLE_PAGE_BAR} ${LADDER_SOLID}`}>
-                        <span className="flex items-center gap-2 max-sm:hidden">
-                          <span className={ZONE_LABEL}>Model answer</span>
-                          <span className={ZONE_FIGURE} aria-hidden="true">
-                            ·
-                          </span>
-                          <span className={ZONE_FIGURE}>
-                            {group.mark}/{prompt.totalMarks}
-                          </span>
-                        </span>
-                        {isOpen &&
-                          (locked ? (
-                            <span className={`${CHIP} ${SAMPLE_PAGE_BAR_CHIP}`}>
-                              <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
+                      {!phone && (
+                        <div className={`${SAMPLE_PAGE_BAR} ${LADDER_SOLID}`}>
+                          <span className="flex items-center gap-2 max-sm:hidden">
+                            <span className={ZONE_LABEL}>Model answer</span>
+                            <span className={ZONE_FIGURE} aria-hidden="true">
+                              ·
                             </span>
-                          ) : (
-                            <>
-                              <span className={`${SAMPLE_PAGE_BAR_FIGURE} max-sm:hidden`}>
-                                {countWords(currentSample.answer)} words
+                            <span className={ZONE_FIGURE}>
+                              {group.mark}/{prompt.totalMarks}
+                            </span>
+                          </span>
+                          {isOpen &&
+                            (locked ? (
+                              <span className={`${CHIP} ${SAMPLE_PAGE_BAR_CHIP}`}>
+                                <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
                               </span>
-                              <SourceBadge
-                                source={currentSample.source}
-                                derivedFromStudent={currentSample.derivedFromStudent}
-                                onSolid
-                              />
-                              <TextBadge text={currentSample.prescribedText} onSolid />
-                            </>
-                          ))}
-                        {criterion && (
-                          <button
-                            type="button"
-                            onClick={() => requestOpenCriterion(prompt.id, group.mark)}
-                            aria-label={`View marking criterion for ${group.mark} ${group.mark === 1 ? 'mark' : 'marks'}`}
-                            title="Open this level in the Marking Guide"
-                            className={SAMPLE_CRITERION_LINK}
-                          >
-                            <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
-                            {/* Both labels are in the DOM; the head's width picks one. The
+                            ) : (
+                              <>
+                                <span className={`${SAMPLE_PAGE_BAR_FIGURE} max-sm:hidden`}>
+                                  {countWords(currentSample.answer)} words
+                                </span>
+                                <SourceBadge
+                                  source={currentSample.source}
+                                  derivedFromStudent={currentSample.derivedFromStudent}
+                                  onSolid
+                                />
+                                <TextBadge text={currentSample.prescribedText} onSolid />
+                              </>
+                            ))}
+                          {criterion && (
+                            <button
+                              type="button"
+                              onClick={() => requestOpenCriterion(prompt.id, group.mark)}
+                              aria-label={`View marking criterion for ${group.mark} ${group.mark === 1 ? 'mark' : 'marks'}`}
+                              title="Open this level in the Marking Guide"
+                              className={SAMPLE_CRITERION_LINK}
+                            >
+                              <ListChecks className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                              {/* Both labels are in the DOM; the head's width picks one. The
                                 aria-label above names the full jump at every width. */}
-                            <span className={SAMPLE_CRITERION_LABEL_FULL}>
-                              View marking criterion
-                            </span>
-                            <span className={SAMPLE_CRITERION_LABEL_SHORT} aria-hidden="true">
-                              Criterion
-                            </span>
-                          </button>
-                        )}
-                      </div>
+                              <span className={SAMPLE_CRITERION_LABEL_FULL}>
+                                View marking criterion
+                              </span>
+                              <span className={SAMPLE_CRITERION_LABEL_SHORT} aria-hidden="true">
+                                Criterion
+                              </span>
+                            </button>
+                          )}
+                        </div>
+                      )}
 
                       {locked ? (
                         // A locked exemplar is a locked exemplar, not a blurred one.

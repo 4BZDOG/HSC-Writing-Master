@@ -3,7 +3,6 @@ import { ChevronDown, ListOrdered } from 'lucide-react';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import { tierIcon } from '../utils/verbTierIcon';
-import { PROSE_BLOCK } from '../utils/prose';
 import {
   collectStrategyDetail,
   groupStrategyMoves,
@@ -84,10 +83,10 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read })
           {info.term}
         </span>
         {/* The meaning, in the reading face. It wraps rather than truncating:
-            it is the sentence a student most needs. */}
-        <p
-          className={`row-start-2 col-span-3 sm:col-span-1 sm:col-start-2 min-w-0 font-serif ${PROSE_BLOCK} text-[13px] leading-snug text-[rgb(var(--color-text-secondary))]`}
-        >
+            it is the sentence a student most needs. Plain wrapping, not
+            `text-balance`: balanced, a one-sentence meaning split into two
+            half-width lines and left the right of the row empty. */}
+        <p className="row-start-2 col-span-3 sm:col-span-1 sm:col-start-2 min-w-0 font-serif text-[13px] leading-snug text-[rgb(var(--color-text-secondary))]">
           {info.definition}
         </p>
         {hasBody && (

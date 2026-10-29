@@ -52,8 +52,13 @@ const scaleFor = (variant: StrategyMovesVariant) =>
         lead: `pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-primary))] max-w-[52ch]`,
         step: `pt-1 text-sm leading-relaxed text-[rgb(var(--color-text-primary))] max-w-[52ch]`,
         badge: { lead: 'h-6 w-6 text-xs', step: 'h-6 w-6 text-xs' },
-        example: `${PROSE_FLOW} text-sm leading-relaxed max-w-[52ch]`,
-        watch: `${PROSE_FLOW} text-sm leading-relaxed max-w-[52ch]`,
+        // No `text-pretty` in the worked card. These are a line or two in a card
+        // narrower than the measure, and Safari's `pretty` evens every line of a
+        // short paragraph rather than only the last, so on an iPhone each step
+        // stopped well short of the card's edge. `wrap` is the plain fill.
+        wrap: '',
+        example: `text-sm leading-relaxed max-w-[52ch]`,
+        watch: `text-sm leading-relaxed max-w-[52ch]`,
       }
     : {
         Heading: 'h4' as const,
@@ -61,6 +66,7 @@ const scaleFor = (variant: StrategyMovesVariant) =>
         lead: 'pt-0.5 t-body text-[rgb(var(--color-text-primary))]',
         step: 'pt-1 text-base leading-relaxed text-[rgb(var(--color-text-secondary))]',
         badge: { lead: 'h-7 w-7 text-sm', step: 'h-6 w-6 text-xs' },
+        wrap: PROSE_FLOW,
         example: `${PROSE_BLOCK} t-body`,
         watch: `${PROSE_FLOW} text-base leading-relaxed`,
       };
@@ -115,7 +121,7 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
                     )}
                   </div>
                   <p
-                    className={`min-w-0 font-serif ${PROSE_FLOW} ${
+                    className={`min-w-0 font-serif ${scale.wrap} ${
                       isLead ? scale.lead : scale.step
                     } ${isLast ? '' : 'pb-4'}`}
                   >
