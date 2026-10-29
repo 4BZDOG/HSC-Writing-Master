@@ -117,6 +117,11 @@ export interface ScenarioImageRef {
   /** Present only once synced to Supabase Storage (bucket `scenario-images`,
    *  object path `${promptId}/${id}`). Absent in pure-IDB/offline mode. */
   storagePath?: string;
+  /** An image shipped with the app, as a path under `public/` relative to the
+   *  app's base URL ("courseData/images/ec-2025-23.png"). Used for a shipped
+   *  course's stimulus — a past paper's table, dashboard or slideshow — which
+   *  has no IndexedDB row or Storage object to load from. */
+  src?: string;
 }
 
 export interface Prompt {

@@ -89,6 +89,7 @@ interface PromptRow {
   scenario_image_path: string | null;
   scenario_image_alt: string | null;
   scenario_image_updated_at: string | null;
+  scenario_image_src?: string | null;
 }
 interface SampleAnswerRow {
   id: string;
@@ -190,16 +191,18 @@ const mapPrompt = (row: PromptRow, answers: SampleAnswerRow[]): Prompt => ({
   hscQuestionNumber: row.hsc_question_number ?? undefined,
   hscSection: row.hsc_section ?? undefined,
   hscText: row.hsc_text ?? undefined,
-  scenarioImage: row.scenario_image_path
-    ? {
-        id: appId(row),
-        alt: row.scenario_image_alt ?? undefined,
-        updatedAt: row.scenario_image_updated_at
-          ? new Date(row.scenario_image_updated_at).getTime()
-          : Date.now(),
-        storagePath: row.scenario_image_path,
-      }
-    : undefined,
+  scenarioImage:
+    row.scenario_image_path || row.scenario_image_src
+      ? {
+          id: appId(row),
+          alt: row.scenario_image_alt ?? undefined,
+          updatedAt: row.scenario_image_updated_at
+            ? new Date(row.scenario_image_updated_at).getTime()
+            : Date.now(),
+          ...(row.scenario_image_path ? { storagePath: row.scenario_image_path } : {}),
+          ...(row.scenario_image_src ? { src: row.scenario_image_src } : {}),
+        }
+      : undefined,
   sampleAnswers: dedupeById(
     answers
       .slice()

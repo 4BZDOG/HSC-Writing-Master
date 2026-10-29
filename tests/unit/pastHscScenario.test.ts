@@ -11,6 +11,17 @@ import {
 } from '../../utils/prescribedTextChoice';
 
 describe('splitPastHscScenario', () => {
+  it('splits context from a stimulus held after it (a table beside its screenshot)', () => {
+    const parts = splitPastHscScenario(
+      'Below is the Issues table.\n\nStimulus: | JobID | Status |\n| --- | --- |\n| 0001 | Pending |'
+    );
+    expect(parts.context).toBe('Below is the Issues table.');
+    expect(parts.stimulus).toEqual({
+      label: 'Stimulus',
+      lines: ['| JobID | Status |\n| --- | --- |\n| 0001 | Pending |'],
+    });
+  });
+
   it('lifts NESA’s criteria into a list', () => {
     const parts = splitPastHscScenario(
       'Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.'

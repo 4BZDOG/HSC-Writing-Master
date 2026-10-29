@@ -187,6 +187,51 @@ describe('assembleCourses (Supabase relational rows -> Course[])', () => {
     expect(prompts[0].id).toBe('prompt-dup');
   });
 
+  it('maps a shipped stimulus image (scenario_image_src) with no Storage object', () => {
+    const rows = emptyRows();
+    rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null, status: 'approved' }];
+    rows.topics = [
+      { id: 't', course_id: 'c', legacy_id: null, name: 'T', position: 0, band_descriptors: null },
+    ];
+    rows.subTopics = [{ id: 's', topic_id: 't', legacy_id: null, name: 'S', position: 0 }];
+    rows.dotPoints = [
+      { id: 'd', sub_topic_id: 's', legacy_id: null, description: 'D', position: 0 },
+    ];
+    rows.prompts = [
+      {
+        id: 'p',
+        dot_point_id: 'd',
+        legacy_id: 'prompt-se-hsc-2025-21',
+        question: 'Q',
+        total_marks: 4,
+        verb: 'CONSTRUCT',
+        scenario: null,
+        marking_criteria: null,
+        linked_outcomes: [],
+        related_topics: [],
+        prerequisite_knowledge: [],
+        marker_notes: [],
+        common_student_errors: [],
+        keywords: [],
+        is_past_hsc: true,
+        hsc_year: 2025,
+        hsc_question_number: '21',
+        scenario_image_path: null,
+        scenario_image_alt: 'The Issues table',
+        scenario_image_updated_at: null,
+        scenario_image_src: 'courseData/images/se-2025-21.png',
+      },
+    ];
+
+    const prompt = assembleCourses(rows)[0].topics[0].subTopics[0].dotPoints[0].prompts[0];
+    expect(prompt.scenarioImage).toMatchObject({
+      id: 'prompt-se-hsc-2025-21',
+      alt: 'The Issues table',
+      src: 'courseData/images/se-2025-21.png',
+    });
+    expect(prompt.scenarioImage?.storagePath).toBeUndefined();
+  });
+
   it('defaults a missing verb and null sample-answer source to safe values', () => {
     const rows = emptyRows();
     rows.courses = [{ id: 'c', legacy_id: null, name: 'C', subject: null, status: 'approved' }];

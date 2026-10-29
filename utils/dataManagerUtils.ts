@@ -834,6 +834,7 @@ const PromptSchema = z
         alt: z.string().optional(),
         updatedAt: z.number(),
         storagePath: z.string().optional(),
+        src: z.string().optional(),
       })
       .optional(),
     linkedOutcomes: z.array(z.string()).default([]).transform(normaliseOutcomeLinks),

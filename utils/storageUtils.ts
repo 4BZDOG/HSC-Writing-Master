@@ -80,7 +80,10 @@ import {
 // each new term one the question's full-mark exemplar already uses.
 // 2.27.0: 20 past HSC questions from the 2025 Software Engineering and Enterprise Computing
 // papers, with NESA's published full-mark responses as verified exemplars.
-export const DATA_VERSION = '2.27.0';
+// 2.28.0: `ScenarioImageRef.src`, an image shipped under public/ (a past paper's table, dashboard
+// or slideshow), and 13 more 2025 Software Engineering and Enterprise Computing past questions.
+// Additive and optional; browsers at 2.27.0 sync again to receive them.
+export const DATA_VERSION = '2.28.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
