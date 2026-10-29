@@ -83,7 +83,10 @@ import {
 // 2.28.0: `ScenarioImageRef.src`, an image shipped under public/ (a past paper's table, dashboard
 // or slideshow), and 13 more 2025 Software Engineering and Enterprise Computing past questions.
 // Additive and optional; browsers at 2.27.0 sync again to receive them.
-export const DATA_VERSION = '2.28.0';
+// 2.29.0: the marking guides, exemplar feedback and longest exemplars of 601 Software Engineering
+// and Enterprise Computing questions rewritten in NESA's 2025 marking-guideline style. Browsers at
+// 2.28.0 sync again to receive them.
+export const DATA_VERSION = '2.29.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

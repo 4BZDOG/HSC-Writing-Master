@@ -1,5 +1,23 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-29 (Software Engineering and Enterprise Computing in NESA's marking style)
+
+- **Changed.** The marking guides of all 601 non-past Software Engineering and Enterprise Computing questions are
+  rewritten in the style of NESA's 2025 marking guidelines for these courses: short rows that step down the verb
+  (Explains, Outlines, Identifies, "Provides some relevant information"), an OR alternative where an answer can
+  reach a row two ways, quantities in capitals, and no content lists or descriptions of what an answer lacks. Rows
+  and mark ranges are unchanged. Content the old rows credited moved to a marker note ("Answers could include: …",
+  62 questions). Haiku agents rewrote them; a second set checked every ladder for rows that ask more than the row
+  above, OR alternatives harder than their row, counts that rise going down and top rows that ask more than the
+  question; 96 were corrected.
+- **Changed.** Every exemplar's feedback (1,768) names the row it meets in the new guide's words. 106 full-mark
+  exemplars longer than NESA's own suggested length for the mark (the online exam's word guides: about 80 words for 3
+  marks, 110 for 4, 135 for 5, 185 for 6, 200 for 8) were cut down, with nothing added; lower exemplars were trimmed
+  only where they would otherwise run longer than the one above.
+- **Changed.** 46 stems that opened with the command verb in capitals ("CALCULATE the…") are in sentence case, as
+  NESA prints them.
+- Shipped-course change: `DATA_VERSION` 2.29.0.
+
 ## [Unreleased] - 2026-10-29 (The rest of the 2025 SE and EC papers, with their stimulus)
 
 - **Added.** 13 more 2025 past HSC parts from NESA's online past exams (`fam.hsconline.nesa.nsw.edu.au`): Enterprise
