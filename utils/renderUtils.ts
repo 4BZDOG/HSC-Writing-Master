@@ -1632,7 +1632,10 @@ function renderLine(
     'span',
     {
       className: 'inline-block text-[rgb(var(--color-accent))]',
-      style: { minWidth: gutter.min, marginRight: gutter.gap },
+      // `textIndent: 0` for the same reason as the words below: an inline-block
+      // starts a first line of its own, so the hang it inherits pulled the bullet a
+      // further gutter-width left, out past the paragraph's edge.
+      style: { minWidth: gutter.min, marginRight: gutter.gap, textIndent: 0 },
     },
     listMarker.endsWith('.') ? listMarker : '•'
   );

@@ -177,7 +177,9 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
               .filter(Boolean)
               .join(' ')}
           >
-            <div className={phoneFlush ? 'mt-5 max-sm:mt-0' : 'mt-5'}>
+            {/* A flush panel keeps a small gap on a phone: at none, its first line
+                (the syllabus terms' caption) sat on the header's rule. */}
+            <div className={phoneFlush ? 'mt-5 max-sm:mt-2.5' : 'mt-5'}>
               {!lazy || isOpen ? children : null}
             </div>
           </div>

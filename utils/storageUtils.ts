@@ -86,7 +86,10 @@ import {
 // 2.29.0: the marking guides, exemplar feedback and longest exemplars of 601 Software Engineering
 // and Enterprise Computing questions rewritten in NESA's 2025 marking-guideline style. Browsers at
 // 2.28.0 sync again to receive them.
-export const DATA_VERSION = '2.29.0';
+// 2.30.0: six 2025 past parts that are not answered in writing (dropdown, matching, table and
+// spreadsheet items: SE 13, 15(a), 23(c); EC 13, 15(a), 18) removed. Browsers at 2.29.0 sync
+// again to drop them.
+export const DATA_VERSION = '2.30.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

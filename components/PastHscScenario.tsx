@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Info, Loader2, Quote } from 'lucide-react';
+import { CheckCircle2, Info, Loader2 } from 'lucide-react';
 import type { PromptVerb, ScenarioImageRef } from '../types';
 import type { PastHscScenarioParts } from '../utils/pastHscScenario';
 import { renderFormattedText } from '../utils/renderUtils';
@@ -52,18 +52,16 @@ const PastHscScenario: React.FC<{
         </div>
       )}
 
+      {/* The paper's own words, set upright as the paper prints them. The italic
+          quote is the app's mark for a scenario it wrote; on a past paper it made
+          the stimulus read as commentary. A div, not a p: a bulleted list in the
+          scenario renders as block lines. */}
       {parts.context && (
-        <div className="relative">
-          <Quote
-            className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180 max-sm:hidden"
-            aria-hidden="true"
-          />
-          <p
-            className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words max-sm:pl-2.5"
-            style={{ fontSize: `${fontSize}px` }}
-          >
-            {renderFormattedText(parts.context, keywords, verb)}
-          </p>
+        <div
+          className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif break-words"
+          style={{ fontSize: `${fontSize}px` }}
+        >
+          {renderFormattedText(parts.context, keywords, verb)}
         </div>
       )}
 

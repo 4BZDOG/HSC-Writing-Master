@@ -296,3 +296,9 @@ export const SAMPLE_COMMENTARY =
  *  the slate pair beside the notes. */
 export const SAMPLE_COMMENTARY_HEAD =
   'sample-commentary-head flex flex-wrap max-sm:flex-nowrap items-center justify-between gap-x-2 sm:gap-x-3 gap-y-1 text-slate-800 dark:text-slate-100';
+
+/** The jump to an open exemplar's criterion on a phone, in the row's header beside
+ *  the summary (from `sm` it is on the paper's bar). Painted on the row's band fill,
+ *  not the solid, so it takes the page's ink in each theme. 44px tall to touch. */
+export const SAMPLE_CRITERION_LINK_PHONE =
+  'shrink-0 t-label inline-flex items-center gap-1.5 min-h-11 px-3 text-slate-800 dark:text-slate-200 underline underline-offset-2 touch-manipulation active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';

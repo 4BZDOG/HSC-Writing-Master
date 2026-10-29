@@ -340,6 +340,29 @@ describe('an exemplar’s "View marking criterion" takes the student to the guid
     });
   });
 
+  it('draws the jump once on a phone, in the row’s header, with no solid bar over the paper', () => {
+    const original = window.matchMedia;
+    window.matchMedia = vi.fn().mockReturnValue({
+      matches: true,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }) as unknown as typeof window.matchMedia;
+    try {
+      renderBoth(prompt);
+      fireEvent.click(guideToggle());
+      fireEvent.click(samplesToggle());
+      fireEvent.click(levelOf(4));
+      // getByRole throws on a second copy, so this also says there is only one.
+      const jump = jumpButton();
+      expect(jump.textContent).toBe('Criterion');
+      expect(within(screen.getByTestId('samples')).queryByText('Model answer')).toBeNull();
+      fireEvent.click(jump);
+      expect(document.activeElement).toBe(guideRowFor('4'));
+    } finally {
+      window.matchMedia = original;
+    }
+  });
+
   it('scrolls and focuses at once when the guide is already open', () => {
     renderBoth(prompt);
     fireEvent.click(guideToggle());

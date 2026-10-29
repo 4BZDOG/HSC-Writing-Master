@@ -8,6 +8,7 @@ import {
   TIER_GROUPS,
 } from '../data/commandTerms';
 import { getBandConfig } from '../utils/renderUtils';
+import AlternativesList from './AlternativesList';
 
 interface QuestionExpectationsProps {
   verb: PromptVerb;
@@ -61,6 +62,12 @@ const QuestionExpectations: React.FC<QuestionExpectationsProps> = ({
   const tierTitle = TIER_GROUPS.find((group) => group.tier === info.tier)?.title;
   const [minWords, maxWords] = getFullMarkWordRange(marks);
   const minutes = Math.max(1, Math.round(getRecommendedTime(marks, info) / 60));
+  const structure = getStructureExpectation(marks);
+  // "A OR B OR C." as its alternatives, each a sentence of its own.
+  const alternatives = structure
+    .replace(/\.$/, '')
+    .split(/\s+OR\s+/)
+    .map((alt) => `${alt.charAt(0).toUpperCase()}${alt.slice(1)}.`);
 
   return (
     <div>
@@ -78,12 +85,25 @@ const QuestionExpectations: React.FC<QuestionExpectationsProps> = ({
         />
         <Figure label="Time" value={`about ${minutes} min`} tone={tone} />
       </dl>
-      <p className="mt-3 t-body text-[rgb(var(--color-text-secondary))]">
-        <span className="font-semibold text-[rgb(var(--color-text-primary))]">
-          A full-mark answer:
-        </span>{' '}
-        {getStructureExpectation(marks)}
-      </p>
+      {alternatives.length > 1 ? (
+        // Two or three ways to full marks, as bullets with "OR" between: on one
+        // line they read as a single requirement.
+        <div className="mt-3 t-body text-[rgb(var(--color-text-secondary))]">
+          <p className="font-semibold text-[rgb(var(--color-text-primary))]">
+            A full-mark answer has any one of:
+          </p>
+          <div className="mt-1.5">
+            <AlternativesList parts={alternatives.map((alt) => [alt])} />
+          </div>
+        </div>
+      ) : (
+        <p className="mt-3 t-body text-[rgb(var(--color-text-secondary))]">
+          <span className="font-semibold text-[rgb(var(--color-text-primary))]">
+            A full-mark answer:
+          </span>{' '}
+          {structure}
+        </p>
+      )}
       {standalone && (
         <p className="mt-2 t-label text-[rgb(var(--color-text-dim))]">
           {tierTitle

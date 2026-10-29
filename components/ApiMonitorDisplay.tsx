@@ -283,7 +283,15 @@ const ApiMonitorDisplay: React.FC = () => {
   return (
     // Under every dialog (z-usage-pill, tailwind.config.js): it is a counter for
     // an admin, and over a dialog on a phone it covered the primary action.
-    <div className="fixed bottom-4 right-4 z-usage-pill select-none font-sans">
+    //
+    // On a phone the closed button tucks half off the right edge, a tab in the page's
+    // 16px gutter. Whole, it sat over the right of whatever card was beneath it (a
+    // marker's commentary, an answer) for as long as the page was open.
+    <div
+      className={`fixed bottom-4 right-4 z-usage-pill select-none font-sans ${
+        isExpanded ? '' : 'max-sm:right-0 max-sm:translate-x-1/2'
+      }`}
+    >
       {!isExpanded ? (
         // On a phone the chip is a 44px round button holding the bolt alone: its
         // two counts sat over the content beneath it at 390px. The counts stay in
@@ -303,7 +311,8 @@ const ApiMonitorDisplay: React.FC = () => {
           "
           title="Show API Usage Details"
         >
-          <div className="flex items-center gap-1.5 text-xs font-bold">
+          {/* On a phone the bolt sits in the visible half of the tab. */}
+          <div className="flex items-center gap-1.5 text-xs font-bold max-sm:-translate-x-2.5">
             <Zap className="w-3.5 h-3.5" aria-hidden="true" />
             <span className="font-mono max-sm:hidden">{sessionCalls}</span>
           </div>

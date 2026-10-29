@@ -1,5 +1,33 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-29 (Past paper display, and writing-only past questions)
+
+- **Removed.** Six 2025 past parts that are not answered in writing: Software Engineering 13, 15(a) and 23(c) and
+  Enterprise Computing 13, 15(a) and 18 (dropdown, matching, table-completion and spreadsheet items), with their stimulus images. The
+  app marks short and long written responses; the past questions left are those. 14 Software Engineering and 13
+  Enterprise Computing 2025 parts remain.
+- **Fixed.** A bulleted list's bullet sat a gutter left of its paragraph, out past the text's edge (the marker
+  inherited the hanging indent). This affected every list the app draws, the past papers' scenarios among them.
+- **Changed.** A past paper's scenario is set upright in the reading face, not as an italic quotation, and the
+  stimulus figure follows the scenario it belongs to.
+- **Changed.** On a phone the question's chips (verb, past paper, marks, band) sit on one full-width line beneath
+  the heading, and the past paper chip matches the others ("2025 · Q23(a)"; "HSC" is read out, not shown).
+- **Fixed.** The command verb's meaning in the writing area fills the row instead of breaking into two half-width
+  lines, and the How to answer method no longer evens its lines on Safari.
+- **Changed.** A marking guide row with two ways to the mark draws them as bullets with "OR" between, as NESA
+  prints them, instead of one run-on sentence; points within an alternative have a bullet each.
+- **Changed.** On a phone an open exemplar names its source and links to its criterion in its own header, in place
+  of the solid band bar over the paper. Each control is mounted once, where the width puts it
+  (`hooks/usePhoneWidth.ts`), rather than twice with one copy hidden.
+- **Changed.** The same fixes where they recur. The full-mark expectation in the outcome brief and the verb guide
+  ("Three clear points OR two points + one relevant example OR a simple cause-effect link") is a list with "OR"
+  between, drawn by the marking guide's own component (`AlternativesList`). In the question picker the marks are a
+  chip like the rest of the row, the past paper chip reads "2025 · Q23(a)" on a phone, and a question's title runs to
+  three lines there instead of two. The syllabus terms caption no longer sits on the panel's header rule on a phone.
+- **Fixed.** On a phone the admin's API usage button and the "connection unstable" dot tuck half off the screen's
+  edge, into the page's gutter, instead of sitting over the cards beneath them.
+- Shipped-course change: `DATA_VERSION` 2.30.0.
+
 ## [Unreleased] - 2026-10-29 (Software Engineering and Enterprise Computing in NESA's marking style)
 
 - **Changed.** The marking guides of all 601 non-past Software Engineering and Enterprise Computing questions are
