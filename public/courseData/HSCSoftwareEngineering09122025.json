@@ -6430,7 +6430,7 @@
                   },
                   {
                     "id": "prompt-489efc0f-c59b-46b0-b82f-a6b82acad463",
-                    "question": "CRITICALLY EVALUATE the extent to which developing secure software effectively delivers benefits in data protection, minimising cyber attacks, and reducing vulnerabilities within a dynamic, cloud-based financial technology (FinTech) environment.",
+                    "question": "Critically evaluate the extent to which developing secure software effectively delivers benefits in data protection, minimising cyber attacks, and reducing vulnerabilities within a dynamic, cloud-based financial technology (FinTech) environment.",
                     "totalMarks": 12,
                     "verb": "CRITICALLY EVALUATE",
                     "scenario": "A rapidly expanding FinTech startup, 'Quantum Finance', is developing a new mobile banking application that processes millions of customer transactions and stores highly sensitive personal and financial data. The development team is under pressure to deploy new features quickly while ensuring the highest level of security amidst increasing global cyber threats and stringent regulatory compliance requirements.",

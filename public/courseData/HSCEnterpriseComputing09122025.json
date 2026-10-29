@@ -4104,7 +4104,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-02-n0",
-                    "question": "CALCULATE the number of friendships each member has in this network, and the fewest links needed for Dev to reach Fay, to inform the app's design.",
+                    "question": "Calculate the number of friendships each member has in this network, and the fewest links needed for Dev to reach Fay, to inform the app's design.",
                     "verb": "CALCULATE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a student club is building a small social network app in which members are linked by mutual friendships. The network of six members has seven friendships: Ana–Ben, Ana–Chloe, Ana–Dev, Ana–Eli, Ben–Chloe, Chloe–Eli and Eli–Fay.",
@@ -4161,7 +4161,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-02-n0-n1",
-                    "question": "DISCUSS how graph and network theory could guide the design of friend suggestions for Fay, referring to mutual friends and the shortest path between members.",
+                    "question": "Discuss how graph and network theory could guide the design of friend suggestions for Fay, referring to mutual friends and the shortest path between members.",
                     "verb": "DISCUSS",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: Fay has only one friendship in the network above, with Eli. The app's designers want to suggest new friends to members with few links, and they are considering ranking suggestions by mutual friends and by the shortest path to the member.",
@@ -4223,7 +4223,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-03-n0",
-                    "question": "OUTLINE two ways that a dedicated app for mobile devices could support the success of this social networking platform, compared with a web application alone.",
+                    "question": "Outline two ways that a dedicated app for mobile devices could support the success of this social networking platform, compared with a web application alone.",
                     "verb": "OUTLINE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a start-up is launching a social networking platform for local sports clubs. Its founders must decide whether to offer members a web application that runs in any browser, a dedicated app for mobile devices, or both.",
@@ -4279,7 +4279,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-03-n0-n1",
-                    "question": "ASSESS the relative contribution of a web application and a dedicated app for mobile devices to the success of this social networking platform in its first year.",
+                    "question": "Assess the relative contribution of a web application and a dedicated app for mobile devices to the success of this social networking platform in its first year.",
                     "verb": "ASSESS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: the start-up has a limited budget and can build either a web application that runs in any browser or a dedicated app for mobile devices in its first year, but not both. Its founders expect most members to join on phones, but are unsure how much members will use the platform once they have joined.",
@@ -4341,7 +4341,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-04-n0",
-                    "question": "APPLY the 3-2-1 backup rule to the farm's sensor data, explaining how the farm should change its current arrangement to protect the data.",
+                    "question": "Apply the 3-2-1 backup rule to the farm's sensor data, explaining how the farm should change its current arrangement to protect the data.",
                     "verb": "APPLY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a small farm uses 40 IoT soil sensors that send readings to a local gateway every ten minutes. The farm manager keeps the only copy of the sensor data on the gateway's hard drive.",
@@ -4396,7 +4396,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-04-n0-n1",
-                    "question": "EVALUATE the decision to use edge computing for the company's IoT sensors rather than sending every reading to a central cloud server, considering the effects on the enterprise, cybersecurity and compliance.",
+                    "question": "Evaluate the decision to use edge computing for the company's IoT sensors rather than sending every reading to a central cloud server, considering the effects on the enterprise, cybersecurity and compliance.",
                     "verb": "EVALUATE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a logistics company has 200 IoT sensors in its warehouses, tracking the temperature of cold storage and the location of its delivery vehicles. The IT team is deciding whether to process readings in gateways at each warehouse, or to send every reading to a central cloud server.",
@@ -4458,7 +4458,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-05-n0",
-                    "question": "CLASSIFY each of these four features of the start-up as a business characteristic or an individual cultural characteristic, and justify each choice: (a) a fixed annual fee charged to each school; (b) a written plan with targets for the next 12 months; (c) founders accepting that early mistakes are part of learning; (d) team members sharing their work openly with one another.",
+                    "question": "Classify each of these four features of the start-up as a business characteristic or an individual cultural characteristic, and justify each choice: (a) a fixed annual fee charged to each school; (b) a written plan with targets for the next 12 months; (c) founders accepting that early mistakes are part of learning; (d) team members sharing their work openly with one another.",
                     "verb": "CLASSIFY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a Year 11 team has started a company that sells an app to school sports departments for tracking equipment. The team is deciding which features of its start-up will matter most in its first year.",
@@ -4514,7 +4514,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-05-n0-n1",
-                    "question": "JUSTIFY whether a clear business model or the individual cultural characteristics of resilience and openness contributes more to the start-up's success in its first year.",
+                    "question": "Justify whether a clear business model or the individual cultural characteristics of resilience and openness contributes more to the start-up's success in its first year.",
                     "verb": "JUSTIFY",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a Year 11 start-up team has a plan to sell its app to schools for a fixed annual fee. Its members differ in confidence, with some keen to adapt quickly after setbacks and others preferring to plan every step before acting.",
@@ -4582,7 +4582,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-01-n0",
-                    "question": "SUMMARISE how this improvement in network connectivity and speed has changed the work practices of the enterprise, particularly remote working and file sharing.",
+                    "question": "Summarise how this improvement in network connectivity and speed has changed the work practices of the enterprise, particularly remote working and file sharing.",
                     "verb": "SUMMARISE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a design agency of 25 staff has upgraded from a slow broadband connection to a faster fibre connection. It now uses cloud-based file sharing, and some staff work from home two days a week.",
@@ -4638,7 +4638,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-01-n0-n1",
-                    "question": "COMPARE the task delegation and monitoring of office staff with those of remote staff, now that faster network connectivity supports remote working.",
+                    "question": "Compare the task delegation and monitoring of office staff with those of remote staff, now that faster network connectivity supports remote working.",
                     "verb": "COMPARE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: the agency assigns design tasks through a shared project board. Office staff are supervised in person, while remote staff's progress is tracked through the board, timestamped file uploads and a monitoring tool that logs activity on company laptops.",
@@ -4700,7 +4700,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-02-n0",
-                    "question": "CONSTRUCT a digital workflow for this invoice approval process, set out as numbered steps that show who is responsible for each step.",
+                    "question": "Construct a digital workflow for this invoice approval process, set out as numbered steps that show who is responsible for each step.",
                     "verb": "CONSTRUCT",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a small builders' firm approves supplier invoices on paper. The office manager receives each invoice and passes it to the site supervisor to sign, and then the owner signs it before payment. Invoices are often lost between desks, and payments are late.",
@@ -4756,7 +4756,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-02-n0-n1",
-                    "question": "ANALYSE how the features of this digital workflow create both benefits and limitations for the enterprise, including the supervisor's approvals on a weak mobile signal.",
+                    "question": "Analyse how the features of this digital workflow create both benefits and limitations for the enterprise, including the supervisor's approvals on a weak mobile signal.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: the builders' firm adopts the digital workflow. The owner is pleased that invoices are tracked, but the site supervisor is often away from the site and must approve invoices on a phone with a weak mobile signal.",
@@ -4818,7 +4818,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-03-n0",
-                    "question": "CALCULATE the total storage capacity the group needs for seven years of records, including 20% spare capacity, and state the figure the enterprise should plan for.",
+                    "question": "Calculate the total storage capacity the group needs for seven years of records, including 20% spare capacity, and state the figure the enterprise should plan for.",
                     "verb": "CALCULATE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a group of 12 dental clinics generates 2 GB of patient records and scanned images per clinic each year. The group's policy is to keep each year's records for seven years, and it wants 20% spare capacity for growth.",
@@ -4874,7 +4874,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-03-n0-n1",
-                    "question": "RECOMMEND a storage arrangement for the group's records, weighing capacity, accessibility, location and security.",
+                    "question": "Recommend a storage arrangement for the group's records, weighing capacity, accessibility, location and security.",
                     "verb": "RECOMMEND",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a group of 12 clinics currently keeps records on local computers at each site, which makes records hard to share between clinics. The group's IT manager must choose between a cloud storage service hosted in an Australian data centre and a network-attached storage (NAS) unit kept in the group's central office.",
@@ -4936,7 +4936,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-04-n0",
-                    "question": "APPLY the categories Infrastructure as a Service (IaaS), Platform as a Service (PaaS) and Software as a Service (SaaS) to options (a), (b) and (c), explaining which party manages the operating system in each case.",
+                    "question": "Apply the categories Infrastructure as a Service (IaaS), Platform as a Service (PaaS) and Software as a Service (SaaS) to options (a), (b) and (c), explaining which party manages the operating system in each case.",
                     "verb": "APPLY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a school's IT team is choosing among three cloud computing services. Option (a) rents virtual servers, on which the school installs and manages its own operating system and database. Option (b) provides a development environment where the school writes and deploys its own web app without managing any servers. Option (c) provides an online timetabling and email application that staff use in a browser.",
@@ -4993,7 +4993,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-04-n0-n1",
-                    "question": "EVALUATE whether the school should move its timetabling service from its own server to Software as a Service (SaaS), considering cost, control of its data and reliance on one provider.",
+                    "question": "Evaluate whether the school should move its timetabling service from its own server to Software as a Service (SaaS), considering cost, control of its data and reliance on one provider.",
                     "verb": "EVALUATE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: the school already runs its student web app on a platform provided by a cloud vendor. Its timetabling service runs on a school-owned server that is ageing and needs a technician's time each term. A vendor offers the timetabling service as a subscription product, billed each year.",
@@ -9666,7 +9666,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-02-n0",
-                    "question": "CLASSIFY each of the four fields as quantitative or qualitative data, and state the data types that should be used to store them.",
+                    "question": "Classify each of the four fields as quantitative or qualitative data, and state the data types that should be used to store them.",
                     "verb": "CLASSIFY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a regional courier company records four fields for each delivery route: the number of parcels delivered, the distance driven in kilometres to one decimal place, the delivery status (Delivered, Pending or Returned), and the type of vehicle used (van, truck or bicycle). The database designer must choose a data type for each field.",
@@ -9722,7 +9722,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-02-n0-n1",
-                    "question": "EXPLAIN why the canteen ratings are qualitative data even though they are recorded as numbers, and how this should affect the data types chosen to store them.",
+                    "question": "Explain why the canteen ratings are qualitative data even though they are recorded as numbers, and how this should affect the data types chosen to store them.",
                     "verb": "EXPLAIN",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a secondary school records each student's rating of the canteen on a scale from 1 (very poor) to 5 (excellent). The IT team plans to store each rating as an integer so that the school's program can calculate an average rating for each term.",
@@ -10133,7 +10133,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-06-n0",
-                    "question": "OUTLINE two informatics methods the council could apply to these raw records to build a deeper understanding of passenger travel, and what each one reveals.",
+                    "question": "Outline two informatics methods the council could apply to these raw records to build a deeper understanding of passenger travel, and what each one reveals.",
                     "verb": "OUTLINE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a city council receives a spreadsheet of 50,000 bus trip records from its ticketing system. The records contain duplicate rows, blank fields and several spellings of the same station name, and the council wants to understand when and where passengers travel.",
@@ -10189,7 +10189,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-06-n0-n1",
-                    "question": "ASSESS the extent to which informatics has supported the retailer's move from describing past sales to predicting future demand, and whether this gives a deeper understanding of its customers.",
+                    "question": "Assess the extent to which informatics has supported the retailer's move from describing past sales to predicting future demand, and whether this gives a deeper understanding of its customers.",
                     "verb": "ASSESS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a regional retailer has used informatics for three years. It has moved from monthly sales summaries that describe what happened to a model that uses past sales data to predict demand for the next season.",
@@ -10252,7 +10252,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-07-n0",
-                    "question": "DESCRIBE how a map and a network diagram would each present data about these stores to the regional managers, and what each would help them interpret that the other would not.",
+                    "question": "Describe how a map and a network diagram would each present data about these stores to the regional managers, and what each would help them interpret that the other would not.",
                     "verb": "DESCRIBE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a supermarket chain has weekly sales figures for 40 stores across five regions, the postcode of each store, and records of which stores share the same supplier. The regional managers are not data specialists and need to interpret the results quickly.",
@@ -10308,7 +10308,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-07-n0-n1",
-                    "question": "RECOMMEND the presentation format the agency should use for each of its three board items, with a reason for each choice: monthly service demand, office locations and links to contractors.",
+                    "question": "Recommend the presentation format the agency should use for each of its three board items, with a reason for each choice: monthly service demand, office locations and links to contractors.",
                     "verb": "RECOMMEND",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a state agency must brief its board on three things: monthly service demand across regions, the locations of its 12 offices, and the links between its offices and the contractors it relies on. Board members meet monthly, have limited reading time and need to interpret the results at a glance.",
@@ -10371,7 +10371,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-08-n0",
-                    "question": "DEMONSTRATE the difference between the structured data and the unstructured data held by the pharmacy, giving one example of each from the scenario.",
+                    "question": "Demonstrate the difference between the structured data and the unstructured data held by the pharmacy, giving one example of each from the scenario.",
                     "verb": "DEMONSTRATE",
                     "totalMarks": 3,
                     "scenario": "Hypothetical: an online pharmacy stores its orders in a table with one row per order, holding fields for order number, date, product code and quantity. It also keeps a folder of customer emails, chat transcripts and photos of packaging sent with complaints.",
@@ -10427,7 +10427,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-08-n0-n1",
-                    "question": "ANALYSE how the structure of the transport authority's two datasets determines the tools needed to analyse each one, and the kinds of insight each can give.",
+                    "question": "Analyse how the structure of the transport authority's two datasets determines the tools needed to analyse each one, and the kinds of insight each can give.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a city transport authority holds two datasets. One is a table of ticket sales with a row for each trip, showing route, hour and fare. The other is a collection of 60,000 written feedback comments and social media posts about service delays.",
@@ -10490,7 +10490,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-09-n0",
-                    "question": "OUTLINE two advantages and one limitation of using likes, emoticons and memes as alternative data for feedback on the series.",
+                    "question": "Outline two advantages and one limitation of using likes, emoticons and memes as alternative data for feedback on the series.",
                     "verb": "OUTLINE",
                     "totalMarks": 3,
                     "scenario": "Hypothetical: a streaming service wants feedback on a new comedy series. Instead of running a survey, its analysts count likes, emoticon reactions and memes shared by viewers on social media.",
@@ -10545,7 +10545,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-09-n0-n1",
-                    "question": "EVALUATE whether likes, emoticons and memes are a sufficient replacement for customer surveys as the brand's main source of feedback on its new range.",
+                    "question": "Evaluate whether likes, emoticons and memes are a sufficient replacement for customer surveys as the brand's main source of feedback on its new range.",
                     "verb": "EVALUATE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a clothing brand is deciding whether to replace its paid customer surveys with likes, emoticon reactions and memes as its main source of feedback on a new range. The surveys cost about the same each quarter and reach a small group of loyal customers.",
@@ -10676,7 +10676,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-10-n0",
-                    "question": "DEFINE raw data and processed data, and give one way the team's processing of the river sensor readings could introduce an error.",
+                    "question": "Define raw data and processed data, and give one way the team's processing of the river sensor readings could introduce an error.",
                     "verb": "DEFINE",
                     "totalMarks": 3,
                     "scenario": "Hypothetical: a research team collects temperature readings from sensors in a river every few minutes. It removes readings it considers outliers, then averages the remaining readings to produce a daily chart.",
@@ -10731,7 +10731,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-10-n0-n1",
-                    "question": "DISCUSS how errors, uncertainty and bias in the survey data, together with the council's processing of the raw responses, affect how reliable the travel-time map is.",
+                    "question": "Discuss how errors, uncertainty and bias in the survey data, together with the council's processing of the raw responses, affect how reliable the travel-time map is.",
                     "verb": "DISCUSS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a council publishes a map of average travel time to work for each suburb. The averages come from an online survey answered by 800 residents who chose to take part. Before publishing, the council removes the highest and lowest 10 per cent of responses in each suburb and averages the rest.",
@@ -10910,7 +10910,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-12-n0",
-                    "question": "DESCRIBE how two software features in this scenario, autofill and public Wi-Fi connections, could affect the privacy and security of the student's data.",
+                    "question": "Describe how two software features in this scenario, autofill and public Wi-Fi connections, could affect the privacy and security of the student's data.",
                     "verb": "DESCRIBE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a student uses a shared library laptop. The browser offers to autofill her name, address and card details on shopping sites, and she often connects the laptop to the library's public Wi-Fi.",
@@ -10965,7 +10965,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-12-n0-n1",
-                    "question": "JUSTIFY whether a pre-ticked checkbox and long terms of agreement give a user informed consent for an app to share her data with a third party.",
+                    "question": "Justify whether a pre-ticked checkbox and long terms of agreement give a user informed consent for an app to share her data with a third party.",
                     "verb": "JUSTIFY",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a fitness app asks new users to agree to share their workout and location data with its advertising partners. The consent screen has a pre-ticked checkbox, and the long terms of agreement are linked by a small grey link beneath it.",
@@ -11212,7 +11212,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-14-n0",
-                    "question": "SUMMARISE one benefit and one risk of data mining for the supermarket's loyalty scheme.",
+                    "question": "Summarise one benefit and one risk of data mining for the supermarket's loyalty scheme.",
                     "verb": "SUMMARISE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a supermarket chain uses data mining on the purchase histories of its loyalty card members to find patterns in what customers buy together. Its marketing team wants to send personalised offers based on these patterns.",
@@ -11266,7 +11266,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-14-n0-n1",
-                    "question": "EXAMINE the benefits and risks of the unit's proposal to link the mined records to individual names.",
+                    "question": "Examine the benefits and risks of the unit's proposal to link the mined records to individual names.",
                     "verb": "EXAMINE",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a city's public health unit uses data mining on anonymised hospital admissions and pharmacy sales records to find early signs of seasonal illness. The unit is considering linking these records to individual names so it can target warnings more precisely.",
@@ -11329,7 +11329,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-15-n0",
-                    "question": "CLARIFY how the volume of raw data and continuous streaming of readings each affect the storage needs of the traffic department.",
+                    "question": "Clarify how the volume of raw data and continuous streaming of readings each affect the storage needs of the traffic department.",
                     "verb": "CLARIFY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a city traffic department receives continuous readings from 300 road sensors, each sending a new reading every few seconds. It stores every reading for several years.",
@@ -11383,7 +11383,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-15-n0-n1",
-                    "question": "PREDICT how the bank's move from overnight batches to streaming transactions into a machine learning model would change its fraud detection and the behaviour of its customers.",
+                    "question": "Predict how the bank's move from overnight batches to streaming transactions into a machine learning model would change its fraud detection and the behaviour of its customers.",
                     "verb": "PREDICT",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a regional bank currently analyses card transactions in an overnight batch. It is considering streaming every transaction into a machine learning model that flags possible fraud as it happens. Each customer's online banking activity would also add to a growing digital footprint.",
@@ -12098,7 +12098,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-01-n0-n1",
-                    "question": "JUSTIFY whether the mean or the median is the better summary of this café's weekly takings, using the values in the scenario.",
+                    "question": "Justify whether the mean or the median is the better summary of this café's weekly takings, using the values in the scenario.",
                     "verb": "JUSTIFY",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A café owner records weekly takings in a spreadsheet for six weeks: $1,850, $1,920, $2,010, $1,985, $9,400 and $2,050. The $9,400 week included a one-off wedding catering order, and the owner wants one figure that shows typical weekly takings for planning staff rosters.",
@@ -12159,7 +12159,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-02-n0",
-                    "question": "DEMONSTRATE how a what-if analysis shows the effect on profit of raising the price from $6.00 to $6.50, using the profit formula in cell B5 and the figures given.",
+                    "question": "Demonstrate how a what-if analysis shows the effect on profit of raising the price from $6.00 to $6.50, using the profit formula in cell B5 and the figures given.",
                     "verb": "DEMONSTRATE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: A school tuckshop records its inputs in a spreadsheet. The price per lunch is in cell B2 ($6.00), the units sold each week are in B3 (400), the cost per lunch is in B4 ($3.50), and profit is calculated in B5.",
@@ -12214,7 +12214,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-02-n0-n1",
-                    "question": "ANALYSE how a spreadsheet's charts, statistical analysis and what-if modelling can work together to help a café decide whether to change its opening hours.",
+                    "question": "Analyse how a spreadsheet's charts, statistical analysis and what-if modelling can work together to help a café decide whether to change its opening hours.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A café owner records customer numbers for each trading hour in a spreadsheet and wants to know whether opening one extra hour on Sundays would be profitable. The spreadsheet holds hourly customer numbers for the past eight Sundays, with the average spend per customer and the cost of staffing the extra hour as inputs.",
@@ -12350,7 +12350,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-03-n0",
-                    "question": "APPLY a filter that keeps only North region orders over $200, then sort the remaining orders by amount from largest to smallest, and list the customers in that order.",
+                    "question": "Apply a filter that keeps only North region orders over $200, then sort the remaining orders by amount from largest to smallest, and list the customers in that order.",
                     "verb": "APPLY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: A small online shop records its orders in a spreadsheet with the customer, region and amount in dollars. The orders are: Chen, North, $340; Okafor, South, $125; Patel, North, $280; Liu, East, $510; Brown, North, $150; Nguyen, North, $415; Costa, South, $390; Walsh, North, $205.",
@@ -12405,7 +12405,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-03-n0-n1",
-                    "question": "ASSESS how effectively linked sheets, summaries and conditional formatting help the manager compare store performance against targets.",
+                    "question": "Assess how effectively linked sheets, summaries and conditional formatting help the manager compare store performance against targets.",
                     "verb": "ASSESS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A regional sales manager receives a workbook with one sheet per store, each holding monthly sales by product. The manager wants a summary sheet that pulls each store's totals, highlights in red any store below its target, and can be read quickly in a meeting.",
@@ -12467,7 +12467,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-04-n0",
-                    "question": "CONSTRUCT a labelled sketch of a data dashboard for a gym manager, showing where a graph, a pivot table and a slicer would appear and the data each one displays.",
+                    "question": "Construct a labelled sketch of a data dashboard for a gym manager, showing where a graph, a pivot table and a slicer would appear and the data each one displays.",
                     "verb": "CONSTRUCT",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: A gym manager wants a one-page data dashboard to review membership sign-ups and cancellations by month and by membership type (basic, standard and premium). The data is held in a spreadsheet table with one row for each membership change, showing the date, membership type and whether it was a sign-up or a cancellation.",
@@ -12523,7 +12523,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-04-n0-n1",
-                    "question": "EVALUATE how effectively pivot tables and slicers in the data dashboard support the manager's weekly decision about which membership types to promote.",
+                    "question": "Evaluate how effectively pivot tables and slicers in the data dashboard support the manager's weekly decision about which membership types to promote.",
                     "verb": "EVALUATE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A gym manager checks the dashboard every Monday to decide which membership type (basic, standard or premium) to promote that week. The dashboard includes a graph of sign-ups, a pivot table of cancellations by membership type and a slicer that limits the view to the three most recent months.",
@@ -12585,7 +12585,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-06-n0",
-                    "question": "CONSTRUCT a field design for a flat-file database of school library loans, listing each field's name, data type and purpose, and identifying the key field.",
+                    "question": "Construct a field design for a flat-file database of school library loans, listing each field's name, data type and purpose, and identifying the key field.",
                     "verb": "CONSTRUCT",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: A school library records each loan in a single table holding the student's name, form, book title, ISBN, date borrowed and date due back. The librarian wants one flat-file database that can be sorted and filtered by student and by overdue loans.",
@@ -12641,7 +12641,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-06-n0-n1",
-                    "question": "JUSTIFY whether a single flat-file database is a suitable design for this school library's loan records, and give one limitation the librarian must manage.",
+                    "question": "Justify whether a single flat-file database is a suitable design for this school library's loan records, and give one limitation the librarian must manage.",
                     "verb": "JUSTIFY",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A school library has about 1,200 loan records a year and one librarian who maintains them. The librarian is considering a single flat-file table, rather than separate linked tables for students, books and loans.",
@@ -13001,7 +13001,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-08-n0",
-                    "question": "CLASSIFY each of the three scenarios as supervised learning, unsupervised learning or reinforcement learning, giving a reason for each.",
+                    "question": "Classify each of the three scenarios as supervised learning, unsupervised learning or reinforcement learning, giving a reason for each.",
                     "verb": "CLASSIFY",
                     "totalMarks": 3,
                     "scenario": "Hypothetical: Scenario 1: a bank trains a model on past loan applications that are labelled as repaid or defaulted. Scenario 2: a music app groups its listeners into clusters by listening habits, with no labels provided. Scenario 3: a delivery robot learns the fastest route through a warehouse by gaining points for each delivery and losing points for collisions.",
@@ -13056,7 +13056,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-08-n0-n1",
-                    "question": "DISCUSS how machine learning and statistical modelling can analyse big data and predict demand, including the limitations of relying on these predictions.",
+                    "question": "Discuss how machine learning and statistical modelling can analyse big data and predict demand, including the limitations of relying on these predictions.",
                     "verb": "DISCUSS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A regional supermarket chain holds several years of point-of-sale records, weather data and promotion dates, far more than its analysts can review by hand. The chain wants to use data analytics to forecast weekly demand for fresh produce so that it can reduce waste.",
