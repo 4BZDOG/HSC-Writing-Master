@@ -40,7 +40,12 @@ describe('shipped questions', () => {
     const over: string[] = [];
     for (const q of questions) {
       const total = q.prompt.totalMarks as number;
-      const full = (q.prompt.sampleAnswers ?? []).find((s: { mark: number }) => s.mark === total);
+      // A verified past-HSC exemplar is what a student wrote in the exam (NESA's
+      // published full-mark samples run past the band); the band is the target
+      // for the exemplars the app writes.
+      const full = (q.prompt.sampleAnswers ?? []).find(
+        (s: { mark: number; source?: string }) => s.mark === total && s.source !== 'HSC_EXEMPLAR'
+      );
       if (!full) continue;
       const [, max] = getFullMarkWordRange(total);
       const n = words(full.answer);

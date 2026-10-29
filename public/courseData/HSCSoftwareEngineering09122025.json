@@ -7640,6 +7640,74 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-16c",
+                    "question": "Describe ONE way that the ‘privacy by design’ approach could be implemented in this weather app.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "SE-12-01",
+                      "SE-12-04"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer describes one specific way the weather app would put privacy by design into practice, such as deleting stored user locations, and ties it to the app's need for live location.",
+                      "A 2-mark answer outlines a general feature of the approach, such as being proactive rather than reactive, without showing what the app would do.",
+                      "A 1-mark answer only names privacy or a privacy concept without saying how it would be built into the app."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing encryption or passwords only, which protect data but are not the privacy by design approach.",
+                      "Suggesting a privacy statement added at the end, which is the reactive approach the dot point contrasts with privacy by design.",
+                      "Describing a weather feature, such as alerts or a map, rather than the privacy aspect of the app."
+                    ],
+                    "keywords": [
+                      "privacy by design",
+                      "proactive",
+                      "data minimisation",
+                      "embed privacy into design",
+                      "user consent",
+                      "location data",
+                      "data retention"
+                    ],
+                    "markingCriteria": "3 marks: Describes ONE way that the ‘privacy by design’ approach could be implemented in the weather app\n2 marks: Outlines ONE feature of the ‘privacy by design’ approach\n1 mark: Identifies a feature of the ‘privacy by design’ approach",
+                    "scenario": "A weather app is to be designed to display real-time updates such as:\n- rain commencing within the next 10 minutes\n- weather event warnings and warning cancellations\n- location specific weather conditions.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "16(c)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-16c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The 'privacy by design' approach could be implemented in the weather app by ensuring privacy is an area of focus from the beginning of the development lifecycle, with requirements definitions and boundaries. For example, when defining the features and characteristics of the app's ability to show location specific weather conditions, privacy should be carefully considered; the storage of user locations should be minimsed where possible to reduce potential liability and increase data security and integrity, which in turn builds customer trust. It should be considered how users will be notified and clearly asked for their permission to use their location data.",
+                        "feedback": "Meets the 3-mark row by describing one way, 'ensuring privacy is an area of focus from the beginning', and applying it to the app's location feature, where the storage of user locations is kept to a minimum. The answer has spelling slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16c-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Embedded within the design of the weather app would be a process for regularly deleting identifiable data. For example, the app would likely record a person’s live location to deliver relevant weather details. The privacy by design approach would incorporate a regular process to delete these locations from cache.",
+                        "feedback": "Meets the 3-mark row by describing one way, a 'regular process to delete these locations' built into the app's design, linked to the live location used for relevant weather details.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16c-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Privacy by design means thinking about privacy at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage.",
+                        "feedback": "Meets the 2-mark row by outlining one feature of privacy by design, that it is proactive and built in from the start. To reach 3, describe how this would work in the weather app, such as deleting a user's location data once the forecast has been delivered.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16c-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "One feature of privacy by design is protecting personal information. The weather app should therefore keep users' details private.",
+                        "feedback": "Meets the 1-mark row by identifying protecting personal information as a feature of privacy by design. To reach 2, outline the feature in more detail, such as being proactive rather than reactive, or embedding privacy into the design.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -8124,6 +8192,74 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-19",
+                    "question": "Write a Python program that asks a new user for their username and password, and then checks whether the password rule has been followed.",
+                    "totalMarks": 3,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "SE-12-07",
+                      "SE-12-04"
+                    ],
+                    "markerNotes": [
+                      "The full-mark code builds the expected password from the first three letters of the username plus '123', compares it with the typed password in a selection structure, and prints the welcome or error message.",
+                      "The 2-mark code gets one part right, usually the if and else selection, but builds the password wrongly, such as joining the whole username to '123'.",
+                      "The top answer should also match the scenario's example, so 'NESA' gives 'NES123', because an answer that uses the whole username would fail that check."
+                    ],
+                    "commonStudentErrors": [
+                      "Using the whole username instead of its first three letters to make the password.",
+                      "Taking the wrong characters from the username, such as the last three letters or username[1:4].",
+                      "Comparing the typed password with the username rather than with the generated password."
+                    ],
+                    "keywords": [
+                      "input()",
+                      "if / else selection",
+                      "string slicing",
+                      "string concatenation",
+                      "input validation",
+                      "password rule",
+                      "print()"
+                    ],
+                    "markingCriteria": "3 marks: Provides correct code for the problem\n2 marks: Provides partially correct code that includes a correct selection structure OR password creation\n1 mark: Shows some understanding of the scenario and Python programming",
+                    "scenario": "In an organisation, temporary passwords are automatically generated for new user accounts. Each password is created from the first three letters of the username followed by ‘123’.\n\nFor example, the username ‘NESA’ will have the password ‘NES123’.\n\nWhen a user logs in for the first time, they are asked for their username and password. They receive a welcome message or an error message, depending on whether the password entered follows the rules of new user accounts.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "19",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-19-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Student input\n\n```\n# Input code\nusername = input(\"What is your username: \")\nusername = list(username)\npassword = username[0] + username[1] + username[2] + \"123\"\npw_check = input(\"What is your password: \")\nif (pw_check == password):\n    print(\"Welcome!\")\nelse:\n    print(\"Error! Your password did not follow the rules\")\n```\n\nStudent output\n\n```\n# Output\nWhat is your username: NESA\nWhat is your password: NES123\nWelcome!\n```",
+                        "feedback": "Meets the 3-mark row with correct code: the password is built from the first three letters, username[0] + username[1] + username[2], plus '123', and the if statement tests pw_check == password. The output for 'NESA' shows 'NES123' followed by 'Welcome!', which matches the scenario.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-19-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "```\nuName = input('What is your username?')\npassword = input('What is your password?')\npasswordP1 = uName[:3]\npasswordP1= passwordP1 + '123'\nif passwordP1 == password:\n      print ('Welcome!')\nelse:\n      print ('Incorrect password entered')\n```",
+                        "feedback": "Meets the 3-mark row with correct code: uName[:3] takes the first three letters, adding '123' builds the expected password, and the if statement chooses between the welcome and error messages.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-19-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "```\nusername = input('What is your username?')\npassword = input('What is your password?')\ntemp = username + '123'\nif password == temp:\n    print('Welcome!')\nelse:\n    print('Incorrect password entered')\n```",
+                        "feedback": "Meets the 2-mark row with a correct selection structure, if and else, but the password is built wrongly: username + '123' uses the whole username. To reach 3, take the first three letters with username[:3] before adding '123'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-19-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "```\nusername = input('What is your username?')\npassword = input('What is your password?')\nprint('Welcome!')\n```",
+                        "feedback": "Meets the 1-mark row by reading the username and password from the user, which shows some understanding of the scenario and Python. To reach 2, add an if and else that compares the password with the rule, such as the first three letters of the username plus '123'.",
+                        "band": 2
+                      }
+                    ]
                   }
                 ]
               },
@@ -8457,6 +8593,74 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-20",
+                    "question": "Describe how session management can affect the efficiency of code execution for the user.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "SE-12-06",
+                      "SE-12-07"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer describes a cause and effect: session data that is stored or kept for too long uses memory and slows execution, and removing sessions that are no longer needed prevents this.",
+                      "A 2-mark answer names features of session management, such as storing session data or session lifetime, without describing how they change execution efficiency.",
+                      "The NESA samples show either direct effect can earn full marks: saved sessions loading faster on return, or inactive sessions being closed to free performance.",
+                      "NESA notes that answers could include: Reducing database and network bottlenecks – frequent access to session stores, especially in distributed environments, can cause latency; Preventing memory leaks – poor session handling, particularly in server-side storage, can lead to memory leaks, triggering more frequent garbage collection and degrading performance; Enabling scalable, responsive systems – asynchronous or lazy cleanup can further optimise execution."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing what a session is, a record of a user's visit, with no link to how fast code runs.",
+                      "Saying session management makes the website more secure, which answers a different question from efficiency.",
+                      "Claiming sessions always slow things down, rather than explaining that efficient management and clean-up is what helps."
+                    ],
+                    "keywords": [
+                      "session data",
+                      "memory consumption",
+                      "session lifetime",
+                      "inactive sessions",
+                      "memory leaks",
+                      "garbage collection",
+                      "resource management"
+                    ],
+                    "markingCriteria": "3 marks: Describes how session management can affect code execution efficiency\n2 marks: Identifies some features of session management\n1 mark: Provides some relevant information",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "20",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-20-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Session management, when used effectively, can greatly increase the efficiency of code execution for a user. This is because session management allows for sessions to be saved up to a certain amount of time so that if a user were to go back to a previous site, there session and progress would have been saved on that site and it would be quicker to load. Furthermore, session management can automatically close inactive sessions after a certain amount of time which allows for more performance from a users computer on other sites and sessions",
+                        "feedback": "Meets the 3-mark row by describing how saved sessions mean a returning user's 'progress would have been saved', so the site 'would be quicker to load'. It also explains that automatically closing 'inactive sessions' gives 'more performance' for the user's other sessions. The answer has a grammar slip, but it still earned full marks because the ladder rewards the content, so do not copy it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-20-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Efficient session management limits memory consumption by restricting session data size and lifetime. Excessive reading, writing or storing large objects increases input/output operations and slows code execution for the user. Removing sessions when they are no longer required is essential to prevent unnecessary resource consumption.",
+                        "feedback": "Meets the 3-mark row by describing how efficient session management 'limits memory consumption' and how 'excessive reading, writing or storing large objects' slows code execution for the user. It also notes that 'removing sessions when they are no longer required' prevents unnecessary resource use.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-20-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit before they expire.",
+                        "feedback": "Meets the 2-mark row by identifying two features of session management, stored session data and an expiry time. To reach 3, describe how these affect execution, such as how large stored session data slows the program or how ending old sessions frees memory.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-20-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Sessions are used when a user logs in to a website, and they keep track of what the user is doing.",
+                        "feedback": "Meets the 1-mark row by giving relevant information about what sessions do. To reach 2, identify features of session management, such as how session data is stored and when inactive sessions end.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -9281,6 +9485,74 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-23a",
+                    "question": "Outline potential social and ethical issues associated with the use of this website.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "SE-12-05",
+                      "SE-12-08"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer names relevant issues, such as the security of payment and address data, the accessibility of pages in many languages, and the accuracy of dish information, and ties each one to this food delivery website.",
+                      "The 2-mark answer outlines one issue, or identifies issues without explaining why they matter to customers or the business.",
+                      "The NESA and MG answers both link the issue to a scenario feature, such as payment details or dietary preference data, and to an effect on people, such as privacy loss or harm to health."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing a general website issue, such as slow loading or cost, that is not social or ethical.",
+                      "Stopping at one issue, usually data security, when the top row asks for several relevant issues.",
+                      "Naming an issue such as 'hackers' without saying what is at risk for customers."
+                    ],
+                    "keywords": [
+                      "privacy",
+                      "data security",
+                      "data breach",
+                      "personal information",
+                      "accessibility",
+                      "inclusivity",
+                      "accuracy of information"
+                    ],
+                    "markingCriteria": "3 marks: Outlines relevant social and ethical issues\n2 marks: Outlines ONE relevant social or ethical issue OR Identifies relevant social and/or ethical issues\n1 mark: Identifies ONE relevant social or ethical issue",
+                    "scenario": "A food delivery service offers prepackaged meals tailored to different dietary preferences, for example, vegetarian and gluten-free. It has developed a website for customers to place orders. The website is ready for testing and feedback.\n\nThe website includes:\n- a menu that dynamically updates based on meal availability\n- user accounts where customers can track deliveries and manage subscriptions\n- a backend that processes orders and payments, updates stock and communicates with the delivery team.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(a)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-23a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Use of this website would require users to input sensitive information - location data, for the purposes of food delivery, and financial details for the purposes of payment and subscription. Thus, a potential ethical issue would be the leaking of these sensitive personal details in the event of a data breach, exposing critical information to malicious attackers. Furthermore, if the integrity of customer dietary preference data were to be compromised, customers may be delivered food in violation of their dietary preferences, creating a significant social issues with potential health consequences.",
+                        "feedback": "Meets the 3-mark row by outlining two issues: the 'leaking of these sensitive personal details' in a data breach, and the 'integrity of customer dietary preference data' being compromised, which could lead to meals that break customers' dietary preferences. It links this to 'potential health consequences'. The answer has a grammar slip, but it still earned full marks because the ladder rewards the content, so do not copy it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23a-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The website will need to ensure payment and address data is appropriately secured and accessible only to authorised personnel. It also needs to ensure that pages can be viewed in a wide variety of languages and that the information about dishes displayed is accurate and representative of the product.",
+                        "feedback": "Meets the 3-mark row by outlining that 'payment and address data' must be 'appropriately secured', that pages should be viewable in 'a wide variety of languages', and that dish information must be 'accurate and representative of the product'.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23a-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Customers will need to enter their address and payment details, so the company has to keep this personal information safe. If it is not protected, a hacker could steal it.",
+                        "feedback": "Meets the 2-mark row by outlining one relevant issue, the security of customers' personal and payment information. To reach 3, outline another distinct issue from the scenario, such as the accuracy of the dietary information shown on the menu.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23a-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Hackers might get into the website and steal customers' details.",
+                        "feedback": "Meets the 1-mark row by identifying one relevant issue, a security risk to customers' details. To reach 2, outline the effect of that issue on customers, or identify a second issue, such as dietary information being wrong.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               }
@@ -9410,6 +9682,75 @@
                         "mark": 1,
                         "answer": "Phones are common, and many people like using apps, so the club could think about one.",
                         "feedback": "This is a general comment about apps, with no decision and no reason tied to the club's members.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-16a",
+                    "question": "Compare the use of a progressive web app (PWA) with an interactive website, for delivering this weather app.",
+                    "totalMarks": 3,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "SE-12-06",
+                      "SE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer sets a PWA against an interactive website for this weather app, rather than describing each one separately, which is what the top row asks for.",
+                      "It uses the scenario's real-time needs to draw the contrast: a PWA can cache content for offline use and push warnings, but live updates need real time information, which an interactive website served from a server can display.",
+                      "A 2-mark answer typically describes caching or browser access for one of the two, but never puts them side by side or links either one to the live weather requirement.",
+                      "NESA notes that answers could include: Some PWAs prompt for initial installation or setup which might deter some users."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing a PWA and an interactive website separately, with no comparison between them.",
+                      "Saying a PWA always needs a constant internet connection, which ignores the caching that lets it work offline.",
+                      "Giving general app features such as being user friendly, rather than features of a PWA or an interactive website."
+                    ],
+                    "keywords": [
+                      "progressive web app (PWA)",
+                      "interactive website",
+                      "platform-independent",
+                      "caching",
+                      "offline access",
+                      "push notifications",
+                      "real-time updates"
+                    ],
+                    "markingCriteria": "3 marks: Compares the use of a PWA with an interactive website for the weather app\n2 marks: Outlines features of a PWA and/or an interactive website\n1 mark: Identifies a feature of a PWA or an interactive website",
+                    "scenario": "A weather app is to be designed to display real-time updates such as:\n- rain commencing within the next 10 minutes\n- weather event warnings and warning cancellations\n- location specific weather conditions.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "16(a)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-16a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "A progressive web app, designed to operate as a native application on a device, would offer features such as offline access through caching, however for this whether app, the live updates require live up to date real time information updates. The PWA would however be able to push notafications such as weather warnings. By using a interactive website, hosted by a sever and accessed directly from a web broweser, can display this live updated data. Both of these methods can encorperate location specific conditions.",
+                        "feedback": "Meets the 3-mark row by comparing the two for this app: a PWA offers 'offline access through caching', but live updates need real time information, which an interactive website served from a server can display. The answer has spelling slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16a-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Both PWAs and interactive websites are platform-independent, allowing users to access the app on any device with a browser. PWAs can pre-cache updates to enable offline updates when a stable internet connection is not available but may not provide real time updates for the most recent changes to weather or warnings. Meanwhile, interactive websites require a constant internet connection to provide any updates.",
+                        "feedback": "Meets the 3-mark row by comparing both approaches on the same point: both are 'platform-independent', but a PWA can 'pre-cache updates' while interactive websites 'require a constant internet connection'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16a-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "A progressive web app can store the weather data on the phone through caching, so the last forecast can still be shown when there is no signal. It can also send push notifications, which would suit the weather warnings.",
+                        "feedback": "Meets the 2-mark row by outlining features of a PWA, caching and push notifications, but it never compares them with an interactive website. To reach 3, compare the two for this app, such as the PWA's cached data against the website's need for a live connection to show real-time updates.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16a-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "An interactive website can be opened in any web browser, so users do not need to download anything from an app store.",
+                        "feedback": "Meets the 1-mark row by identifying one feature of an interactive website, browser access. To reach 2, outline a feature of a PWA or the website, such as caching for offline use or live data from a server.",
                         "band": 1
                       }
                     ]
@@ -10516,6 +10857,74 @@
                       "Naming general improvements, such as faster servers, instead of architectural components.",
                       "Listing two components that do the same job, such as two types of distributed storage."
                     ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-18",
+                    "question": "Explain how the streaming service can use metadata and data mining to prevent technical difficulties during the broadcast of this weekly event.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "SE-12-04",
+                      "SE-12-03"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer explains how the streaming service would use data mining on viewing patterns to predict peak demand, then prepare for the Sunday broadcast.",
+                      "Metadata is needed to make that mining effective and accurate, and the top answer links it to the question rather than just defining it.",
+                      "A 2-mark answer outlines one use, such as mining to find peak times, without explaining how that prevents technical difficulties during the live broadcast."
+                    ],
+                    "commonStudentErrors": [
+                      "Defining big data or metadata in general without applying either one to the weekly live broadcast.",
+                      "Describing data mining only as collecting user information, with no link to predicting demand or fixing faults.",
+                      "Suggesting the service simply buys more servers, with no use of metadata or data mining."
+                    ],
+                    "keywords": [
+                      "data mining",
+                      "metadata",
+                      "peak demand",
+                      "viewing patterns",
+                      "server load balancing",
+                      "real-time data",
+                      "streaming service management"
+                    ],
+                    "markingCriteria": "3 marks: Explains how metadata and data mining can be used to prevent technical difficulties during the broadcast of the live event\n2 marks: Outlines how metadata AND/OR data mining can be used to prevent broadcast technical difficulties\n1 mark: Identifies a feature of metadata or data mining",
+                    "scenario": "A streaming service has exclusive rights to broadcast a live event each Sunday afternoon.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "18",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-18-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "By using metadata and data mining, streaming service can collect the website traffic and peak user time of the website or the app on a specific time. This allows the streaming service to predict the high user using time and plan the broadcast of this weekly event into a different time where it is less user on the streaming service to prevent technical difficulties. Steaming service can also use the collected data from data mining to see what is the most common problems that most user are dealing with so they can fix the problem and improve their steaming platform before the event occur.",
+                        "feedback": "Meets the 3-mark row by explaining how mining 'website traffic and peak user time' lets the service 'predict the high user using time' and move the broadcast to a quieter period. It also says mined data shows 'the most common problems' so they can be fixed before the event. The answer has spelling and grammar slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-18-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Metadata describes the content, structure and meaning of raw data, enabling more effective, accurate and efficient data mining. Data mining identifies user preferences and viewing patterns from large datasets, helping streaming services personalise recommendations and identify times of predicted high demand. Streaming service management uses this along with real-time user data to balance server loads and deliver smooth playback experiences.",
+                        "feedback": "Meets the 3-mark row by explaining that metadata makes data mining 'effective, accurate and efficient', and by using 'real-time user data to balance server loads' to keep playback smooth.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-18-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The streaming service can use data mining on past viewing figures to find when the Sunday broadcast will have the most viewers. This means it can add server capacity before the event starts.",
+                        "feedback": "Meets the 2-mark row by outlining how data mining of past viewing figures can predict peak demand so that capacity is added. To reach 3, explain why this prevents the problem, such as how the extra capacity stops the stream buffering or cutting out for viewers.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-18-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Metadata is information that describes the broadcast data, such as its format and length.",
+                        "feedback": "Meets the 1-mark row by identifying a feature of metadata. To reach 2, outline how metadata or data mining could prevent a broadcast problem, such as using past viewing figures to predict busy times.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               }
@@ -11008,6 +11417,74 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-23b",
+                    "question": "Explain why server-side web programming would be needed to develop this website. Support your answer with examples from the website.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "SE-12-01",
+                      "SE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer explains that the menu, subscriptions and order tracking are dynamic, so the server must read stored data and send it to the front-end, and it uses those scenario features as examples.",
+                      "A 2-mark answer outlines a feature of server-side programming, such as connecting to a database, with a scenario example, but does not explain why the website needs it.",
+                      "A 1-mark answer identifies a feature or gives one scenario example without explaining either."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing server-side programming as the part of the website the customer sees, which is client-side (front-end) code.",
+                      "Giving examples that are not from the scenario, such as generic online shopping, without referring to the menu, accounts or payments.",
+                      "Saying server-side code is needed to set colours or layout, which are front-end design tasks."
+                    ],
+                    "keywords": [
+                      "server-side (back-end)",
+                      "client-side (front-end)",
+                      "dynamic content",
+                      "database",
+                      "web request",
+                      "stored data",
+                      "validation"
+                    ],
+                    "markingCriteria": "3 marks: Explains why server-side web programming is needed to develop the website with examples from the scenario\n2 marks: Outlines some features of server-side web programming for developing the website with examples from the scenario\n1 mark: Identifies a feature of server-side web programming and/or providing relevant examples from the scenario",
+                    "scenario": "A food delivery service offers prepackaged meals tailored to different dietary preferences, for example, vegetarian and gluten-free. It has developed a website for customers to place orders. The website is ready for testing and feedback.\n\nThe website includes:\n- a menu that dynamically updates based on meal availability\n- user accounts where customers can track deliveries and manage subscriptions\n- a backend that processes orders and payments, updates stock and communicates with the delivery team.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(b)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-23b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Sever-side web programming is the implementation of code that functions between the database and website, allowing for clients to securely make requests with sensitive information and store their data without fear for a lack of confidentiality. For example, the user needs to securely transfer their bank information and process orders to the website server, preventing potential malcious intenders from injecting javascript code that could manipulate and stealing unauthorised information. Additonally, the server-side web programming can update and change the stored data in the database to future new requests, preventing any errors regarding buying an item that may not be in stock.",
+                        "feedback": "Meets the 3-mark row by explaining that server-side code 'functions between the database and website', with scenario examples: processing orders so a customer can 'securely transfer their bank information', and updating stored data so customers avoid 'buying an item that may not be in stock'. The answer has spelling slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23b-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Server-side development will need to be used to provide dynamic information to the front-end (website). There are many dynamic aspects to the website, including the menu which changes along with subscription information and order tracking information. Server-side scripting will need to be written to read the relevant information from storage (most likely, a database) and then provide this information to the front-end.",
+                        "feedback": "Meets the 3-mark row by explaining that 'the menu which changes along with subscription information and order tracking information' is dynamic, so server-side scripts must 'read the relevant information from storage' and pass it to the front-end.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Server-side programming runs on the web server and connects to the database. For example, the menu is updated by reading the current meal availability from the database and sending it to the page.",
+                        "feedback": "Meets the 2-mark row by outlining that server-side code connects to the database, with the menu as a scenario example. To reach 3, explain why the server is needed, such as the stored order and stock information having to be read from the database and sent to the page.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-23b-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The backend processes orders and payments, which is an example of server-side programming.",
+                        "feedback": "Meets the 1-mark row by identifying a feature of server-side programming, processing orders, with a scenario example. To reach 2, outline how this works, such as connecting to the database to store and update each order.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -12476,6 +12953,74 @@
                       "Describing caching as storing data in a database, rather than in the browser or on a CDN.",
                       "Describing both techniques without linking them to load times."
                     ]
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-16b",
+                    "question": "Outline TWO ways, other than the use of a PWA, to minimise the load time of this weather app.",
+                    "totalMarks": 3,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "SE-12-03",
+                      "SE-12-06"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer gives two distinct methods that are not PWAs, such as caching and data compression, and explains each one in terms of the weather app's data.",
+                      "Each method has to be different from the other and must not be a PWA, so two versions of the same idea would not earn the top row.",
+                      "A 2-mark answer outlines one way, or identifies two without explaining them, and a 1-mark answer gives general information about speed without naming a method."
+                    ],
+                    "commonStudentErrors": [
+                      "Giving a PWA as one of the two ways, even though the question excludes it.",
+                      "Naming a method, such as 'use caching', without saying how it reduces load time.",
+                      "Suggesting the user upgrade their phone or internet connection, which is not something the app itself does to minimise load time."
+                    ],
+                    "keywords": [
+                      "caching",
+                      "data compression",
+                      "load time",
+                      "image optimisation",
+                      "lazy loading",
+                      "server response time",
+                      "content delivery network (CDN)"
+                    ],
+                    "markingCriteria": "3 marks: Outlines TWO ways, other than the use of a PWA, to minimise the load time of the weather app\n2 marks: Outlines ONE way, other than the use of a PWA, to minimise load time OR Identifies TWO ways, other than the use of a PWA, to minimise load time\n1 mark: Provides some relevant information",
+                    "scenario": "A weather app is to be designed to display real-time updates such as:\n- rain commencing within the next 10 minutes\n- weather event warnings and warning cancellations\n- location specific weather conditions.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "16(b)",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-16b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Two ways to minimise the load time of a weather app, would be data caching, where comminly used data is temporarily stored to be reused, and data compressions, where the data size, and resolution of data is selected, appropriaite to its application.",
+                        "feedback": "Meets the 3-mark row by outlining two ways that are not PWAs: 'data caching', where commonly used data is 'temporarily stored to be reused', and 'data compressions'. The answer has spelling slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16b-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "One way would be to provide the option to select lower resolution images or text only display. Another way would be to utilise caching as this would provide high speed access to commonly requested weather data.",
+                        "feedback": "Meets the 3-mark row by outlining two ways that are not PWAs: showing 'lower resolution images' or 'text only display', and to 'utilise caching' for 'high speed access'.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Caching would help. The app could store the weather data people look at most often on their phone, so it does not have to download it again each time.",
+                        "feedback": "Meets the 2-mark row by outlining one way, caching, that is not a PWA. To reach 3, outline a second distinct way, such as reducing image resolution or compressing the data it downloads.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-16b-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The app should not download too much information at once, because large files take longer to load.",
+                        "feedback": "Meets the 1-mark row by giving relevant information about the size of the data, but no specific way to minimise load time is named. To reach 2, name one way, such as caching the most requested weather data, and outline how it reduces load time.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -13438,6 +13983,82 @@
                     ],
                     "isPastHSC": false,
                     "verb": "EXPLAIN"
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-21",
+                    "question": "Construct a SQL query that displays:\n- the number of pending software jobs\n- the number of pending hardware jobs\n- the number of escalated software jobs\n- the number of escalated hardware jobs\n\nList the results in order from the highest to lowest, based on the number of jobs.",
+                    "totalMarks": 4,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "SE-12-08",
+                      "SE-12-02"
+                    ],
+                    "markerNotes": [
+                      "The full-mark query filters on both statuses within the Software and Hardware categories, groups by Status and Category to count each combination, and sorts the counts in descending order.",
+                      "Each of the four counts depends on the GROUP BY, so a query that counts only one status or leaves out the ordering loses marks, as the 3-mark row's 'most of the requirements' implies.",
+                      "Both NESA samples group the two fields in the same way and sort either by COUNT(*) or by its alias, so students should not lose marks for choosing either form of ordering."
+                    ],
+                    "commonStudentErrors": [
+                      "Using AND between two status values, such as Status = 'Pending' AND Status = 'Escalated', which returns no rows.",
+                      "Leaving out GROUP BY, or grouping by only one field, so the counts do not appear for each status and category pair.",
+                      "Leaving out DESC, so the results are sorted from lowest to highest."
+                    ],
+                    "keywords": [
+                      "SELECT",
+                      "WHERE",
+                      "GROUP BY",
+                      "COUNT()",
+                      "ORDER BY ... DESC",
+                      "OR / AND operators",
+                      "aggregate function"
+                    ],
+                    "markingCriteria": "4 marks: Provides a correct SQL query that extracts ‘Pending’ and ‘Escalated’ jobs for the ‘Software’ and ‘Hardware’ categories; counts the jobs for each status in each category; outputs results in descending order\n3 marks: Provides an SQL query that addresses most of the requirements of the problem\n2 marks: Provides an SQL query that shows some understanding of the problem\n1 mark: Shows some understanding of SQL or the problem",
+                    "scenario": "Below is the Issues table for a technical support company. FixTime, in minutes, is the time taken to complete each job.\n\n| JobID | Issue | Response | FixTime | Category | Status |\n| --- | --- | --- | --- | --- | --- |\n| 0001 | Cannot connect to the internet | Clear cache | 22 | Software | Pending |\n| 0002 | Installation failure | Reinstall the printer drivers | 76 | Hardware | Pending |\n| 0004 | Forgot password | Reset password | 97 | Software | Resolved |\n| 0005 | Installation failure | Follow the installation guide | 110 | Hardware | Escalated |\n| 0009 | Blue screen error | Run a system diagnostic test | 120 | Software | Pending |\n| 0011 | Installation failure | Verify email settings | 45 | Software | Escalated |",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-21-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "```\nSELECT Status, Category, COUNT(*) AS Number\nFROM Issues\nWHERE ((Category = 'Software') OR (Category = 'Hardware'))\nAND ((Status = 'Pending') OR (Status = 'Escalated'))\nGROUP BY Status, Category\nORDER BY COUNT(*) DESC\n```\n\nOutput\n\n| Status | Category | Number |\n|---|---|---|\n| Pending | Software | 2 |\n| Escalated | Hardware | 1 |\n| Escalated | Software | 1 |\n| Pending | Hardware | 1 |",
+                        "feedback": "Meets the 4-mark row by filtering for 'Pending' and 'Escalated' within 'Software' and 'Hardware', counting with COUNT(*) grouped by 'Status, Category', and sorting with 'ORDER BY COUNT(*) DESC'.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-21-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "```\nSELECT Category, Status, COUNT(*) AS \"Count\"FROM Issues\nWHERE Status = \"Pending\" OR Status = \"Escalated\"\nGROUP BY Status, Category\nORDER BY Count Desc\n```\n\nOutput\n\n| Category | Status | Count |\n|---|---|---|\n| Software | Pending | 2 |\n| Hardware | Escalated | 1 |\n| Software | Escalated | 1 |\n| Hardware | Pending | 1 |",
+                        "feedback": "Meets the 4-mark row by filtering on 'Pending' and 'Escalated', grouping by 'GROUP BY Status, Category', and sorting with 'Count Desc'. It does not filter on Category in the WHERE clause, but the grouping still returns counts for both Software and Hardware in this table.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-21-3",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "```\nSELECT Category, Status, COUNT(JobID) AS Jobs\nFROM Issues\nWHERE (Status = ‘Pending’ OR Status = ‘Escalated’)\nGROUP BY Status, Category\nORDER BY Jobs DESC\n```",
+                        "feedback": "Meets the 4-mark row by filtering on the 'Pending' and 'Escalated' statuses, grouping by Status and Category to count each pair, and sorting with 'ORDER BY Jobs DESC'. It does not name the Software and Hardware categories in a WHERE clause, but this table holds only those two categories.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-21-4",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "```\nSELECT Category, Status, COUNT(*)\nFROM Issues\nWHERE Status = 'Pending'\nGROUP BY Category, Status\n```",
+                        "feedback": "Meets the 2-mark row by counting jobs by category and status with a correct GROUP BY, but the WHERE clause keeps only Pending jobs. To reach 3, include Escalated as well and sort the results from highest to lowest, which covers most of the requirements.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-21-5",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "```\nSELECT Status, Category\nFROM Issues\nWHERE Category = 'Software'\n```",
+                        "feedback": "Meets the 1-mark row by using SELECT and WHERE to pick jobs by category, which shows some understanding of SQL. To reach 2, count the jobs with COUNT and GROUP BY, and filter for the Pending and Escalated statuses.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -19229,6 +19850,82 @@
                     ],
                     "isPastHSC": false,
                     "verb": "STATE"
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-24",
+                    "question": "Discuss the possible impact of this monitoring system on workers.",
+                    "totalMarks": 5,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "SE-12-05",
+                      "SE-12-03"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer discusses both positive effects, such as fewer injuries from real-time alerts, and negative effects, such as privacy concerns and misidentified behaviour, and refers to the scenario's cameras, wearables and PPE detection.",
+                      "The 3-mark answer outlines some ways, usually positive ones, without covering both sides of the impact.",
+                      "The top row asks for a comprehensive discussion, so an answer that covers both sides only briefly stays at 4 marks."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing only positive impacts, such as fewer injuries, and never discussing a negative effect on workers.",
+                      "Writing about what the cameras and sensors do, rather than how the workers are affected.",
+                      "Discussing privacy in general terms without linking it to the scenario's wearables or cameras."
+                    ],
+                    "keywords": [
+                      "real-time alerts",
+                      "personal protective equipment (PPE)",
+                      "privacy",
+                      "workplace safety",
+                      "surveillance",
+                      "wearable sensors",
+                      "misidentification"
+                    ],
+                    "markingCriteria": "5 marks: Provides a comprehensive discussion of the impact of the safety monitoring system on workers with reference to the scenario\n4 marks: Outlines both positive and negative ways, that the safety monitoring system can affect workers\n3 marks: Outlines some ways that the safety monitoring system can affect workers\n2 marks: Outlines ONE way that the safety monitoring system can affect workers OR Identifies some ways that the safety monitoring system can affect workers\n1 mark: Provides some relevant information",
+                    "scenario": "A construction company introduces a safety monitoring system that uses artificial intelligence. Cameras and wearable sensors track worker movements and environmental conditions. The system detects unsafe behaviours through artificial intelligence, such as:\n- standing too close to operating machinery\n- entering restricted zones\n- failure to wear personal protective equipment (PPE).\n\nAlerts are sent in real-time to site supervisors, and long-term data is stored for further analysis.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-24-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "The possible impacts of the monitoring system can positively boost safety and productivity. Through the use of artifical intelligence, workers are incentivised to avoid unsafe behaviours, preventing potential injury and mistake throughout the work-zone. Furthermore the wearable sensors allows site supervisors to supervise workers that may act unaccordingly and underproductive, further showing midigated risk of injury and reduced chance of workers failing to comply to work regulations. Long-term data allows supervisors to monitor each worker, ensuring safety while monitoring productivity, efficiency at completing tasks, and creates a data base analysising users, allowing supervisors to arrange the workers in order of safest to unsafe, potentially causing shifts in job positions and workers being let off.",
+                        "feedback": "Meets the 5-mark row by discussing a positive impact, that workers are 'incentivised to avoid unsafe behaviours', and a negative impact, 'workers being let off' after long-term data ranks them, with reference to supervisors and the stored data. The answer has spelling slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-24-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "The introduction of this system should lead to increased safety of workers as they are able better understand safety risks of the workplace and be reported of any unsafe actions they are performing without concious decision. It will additionally discourge risky workplace behavour as workers can be held accountable for their actions by supervisors. If someone is identied as a repeat offender due to the long term storage of data they can be removed from the workplace, increasing personal and colleague safety. However it can also lead to a disregard of safety by workers and they think that the cameras will detect the risks and they can simply do their job, introducing oversight in potentially hazardous environments. This could also be viewed as an infringement of personal privacy and some workers may feel uncomfortable with the adoption of this additional security measure leading to misuse or risky behaviour.",
+                        "feedback": "Meets the 5-mark row by discussing a positive impact, 'increased safety of workers', and negative impacts, a 'disregard of safety by workers' and an 'infringement of personal privacy'. The answer has spelling slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-24-3",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "The AI monitoring system can improve safety on site by reducing human error through real-time alerts and remote monitoring. It can also help supervisors track workers' compliance with PPE requirements and identify risky behaviours, potentially preventing accidents. However, some workers might feel their privacy is invaded, especially if the wearables continue monitoring during breaks or in private areas like bathrooms. There’s also a risk of the system misidentifying safe behaviour as unsafe, leading to unnecessary alerts or stress which could cause distractions at critical times. Additionally, the long-term data collection could be used to improve training, but workers may worry about how the data is stored or used.",
+                        "feedback": "Meets the 5-mark row by outlining positive effects, such as 'reducing human error through real-time alerts', and negative effects, such as 'privacy is invaded' and 'misidentifying safe behaviour as unsafe'. It also covers how workers 'may worry about how the data is stored or used', which links the long-term data to the scenario.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-24-4",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The alerts will warn workers in real time when they stand too close to machinery, so they are less likely to be injured. The supervisors can also see which workers are not wearing their PPE, so they can act on it quickly.",
+                        "feedback": "Meets the 3-mark row by outlining two ways the system affects workers, real-time alerts and PPE checks, both tied to the scenario. To reach 4, outline a negative effect as well, such as the privacy concerns of wearables that keep tracking workers.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-24-5",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The construction company is using cameras and wearable sensors to watch the workers on site.",
+                        "feedback": "Meets the 1-mark row by giving relevant information about the cameras and sensors in the scenario. To reach 2, outline one way the system affects workers, such as workers being warned when they enter a restricted zone.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },
@@ -19412,6 +20109,74 @@
                       }
                     ],
                     "isPastHSC": false
+                  },
+                  {
+                    "id": "prompt-se-hsc-2025-25",
+                    "question": "Explain how the neural network supports the virtual personal assistant. Include ONE positive and ONE negative impact of using the virtual personal assistant.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "SE-12-05",
+                      "SE-12-03"
+                    ],
+                    "markerNotes": [
+                      "The full-mark answer explains how the neural network works in this assistant, such as recognising language patterns to route queries and using weightings to refine recommendations, and it names one positive and one negative impact.",
+                      "The 3-mark answer outlines features of neural networks or one impact, but does not explain how the network supports the assistant in this scenario.",
+                      "A strong answer uses the scenario's tone and turnaround data as inputs, so the impacts are tied to the airline's support process rather than to AI in general."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing a neural network only in general (input, hidden and output layers) without saying what it does for the virtual assistant.",
+                      "Giving two positives, or two negatives, rather than the one positive and one negative the question asks for.",
+                      "Discussing AI in general, such as jobs being lost, without connecting it to customer support or the airline."
+                    ],
+                    "keywords": [
+                      "neural network",
+                      "nodes",
+                      "weightings",
+                      "hidden layer",
+                      "natural language processing",
+                      "pattern recognition",
+                      "virtual personal assistant"
+                    ],
+                    "markingCriteria": "5 marks: Explains how the neural network supports the virtual personal assistant; Includes one positive AND one negative impact of using the virtual personal assistant\n4 marks: Explains how the neural network supports the virtual personal assistant OR Outlines how the neural network supports the assistant and includes one positive AND one negative impact of using the virtual personal assistant\n3 marks: Outlines features of neural network AND/OR impacts of using the virtual personal assistant\n2 marks: Outlines a feature of neural network OR an impact of using the virtual personal assistant OR Identifies features of neural network AND/OR impacts of using the virtual personal assistant\n1 mark: Provides some relevant information",
+                    "scenario": "An airline introduces a virtual personal assistant as an initial support contact point for cancelled flights, missed connections, or lost luggage. The virtual personal assistant uses a neural network to:\n- analyse support queries to direct customers to the appropriate department\n- recommend appropriate tone and wording to be used by the human customer support representative\n- assess data such as support turnaround time, customer ratings, and repeat contacts.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-se-hsc-2025-25-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Neural networks are machine learning algorithms inspired by the human brains that have an input layer, hidden layer and output layer. The hidden layer has interconnected nodes that form as linear regression models, that each have a certain weighting which determines the importance of an output. Hence these neural networks support the virtual assistant as it aids in making decisions depending on the given scenario, based on the weighting of each node. A positive impact is that it reduces human error and efficiently routes customers to appropriate departments based on a set of input scenarios. This also helps save time and need for human intervention. If the customer has entered that they lost luggage, the neural network will process this and output to the customer the appropriate department. A negative however, is that this neural network may only be fitted to a range of certain scenarios or outcomes, and if a customer has a very specific or unusual need, the virtual assistant may be unable to help as it is untrained in for that specific input. So for this case, human input and adaptability would be better.",
+                        "feedback": "Meets the 5-mark row by explaining the input, hidden and output layers, and how the 'weighting of each node' decides the routing of a case such as lost luggage. It names a positive impact, 'reduces human error', and a negative impact, that the assistant 'may only be fitted to a range of certain scenarios'. The answer has a grammar slip, but it still earned full marks because the ladder rewards the content, so do not copy it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-25-2",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Neural networks recognise natural language patterns to categorise common support queries, such as lost luggage, and use nodes to assist with processing. They assess language tone to gauge frustration or urgency, allowing the virtual personal assistant to recommend specific phrasing for customer service staff. For instance, calming language may be suggested for distressed customers. By tracking customer ratings and turnaround times, the neural network uses weightings to refine recommendations to prioritise high-frequency queries or improve suggestions for poorly rated interactions. While this system streamlines support processes and improves response accuracy, it may also impact the role of customer service staff. As the neural network learns from interactions, staff may rely more on its recommendations, potentially reducing their familiarity with emerging query trends or response strategies. Customers may come to expect faster, more precise service, raising the standard for human interactions.",
+                        "feedback": "Meets the 5-mark row by explaining that the network can 'recognise natural language patterns' to categorise queries and uses weightings to refine recommendations, then naming a positive impact, that it 'streamlines support processes', and a negative impact, that staff 'may rely more on its recommendations'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-25-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The virtual assistant uses a neural network, which is made of connected nodes with weightings that decide how strongly each input affects the result. One benefit is that customers with lost luggage can be sent to the right department more quickly.",
+                        "feedback": "Meets the 3-mark row by outlining a feature of the neural network, connected nodes with weightings, and one positive impact, faster routing of lost-luggage queries. To reach 4, outline how the network supports the assistant in the scenario and add one negative impact as well.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-se-hsc-2025-25-4",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A virtual personal assistant can help customers whose flight has been cancelled.",
+                        "feedback": "Meets the 1-mark row by giving relevant information about the assistant's role for cancelled flights. To reach 2, identify a feature of the neural network or an impact, such as its use of weightings or its effect on wait times.",
+                        "band": 1
+                      }
+                    ]
                   }
                 ]
               },

@@ -476,3 +476,30 @@ describe('list markers in prose', () => {
     expect(b.textContent).toBe(a.textContent);
   });
 });
+
+describe('renderFormattedText — fenced code', () => {
+  it('draws a fenced block exactly as written, with no inline formatting', () => {
+    const code = "pw_check = input('Password: ')\nif pw_check == password:\n    print('Welcome!')";
+    const { container } = render(
+      <>{renderFormattedText(`My program:\n\`\`\`\n${code}\n\`\`\`\nIt checks it.`)}</>
+    );
+    const pre = container.querySelector('pre');
+    expect(pre?.textContent).toBe(code);
+    expect(container.querySelector('sub')).toBeNull();
+    expect(container.textContent).toContain('My program:');
+    expect(container.textContent).toContain('It checks it.');
+  });
+
+  it('keeps asterisks and dollar signs in spreadsheet formulas', () => {
+    const formula = '=IF(F3=20, D3*E3*0.8, D3*E3)\n=VLOOKUP(C3,A$10:B$12,2)';
+    const { container } = render(<>{renderFormattedText('```\n' + formula + '\n```')}</>);
+    expect(container.querySelector('pre')?.textContent).toBe(formula);
+    expect(container.querySelector('em')).toBeNull();
+  });
+
+  it('leaves an unclosed fence as prose', () => {
+    const { container } = render(<>{renderFormattedText('```\nnot closed')}</>);
+    expect(container.querySelector('pre')).toBeNull();
+    expect(container.textContent).toContain('not closed');
+  });
+});

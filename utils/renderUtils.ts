@@ -1417,6 +1417,33 @@ const renderTable = (
   );
 };
 
+/**
+ * Text cut at its fenced code blocks: prose parts carry `text`, code parts
+ * `code` (the lines between the fences, without them). An opening fence with no
+ * closing one is left as prose, so a stray ``` cannot swallow the rest.
+ */
+const splitCodeFences = (text: string): { text: string; code?: string }[] => {
+  const lines = text.split('\n');
+  const parts: { text: string; code?: string }[] = [];
+  let prose: string[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    if (/^\s*```/.test(lines[i])) {
+      const close = lines.findIndex((l, j) => j > i && /^\s*```\s*$/.test(l));
+      if (close !== -1) {
+        if (prose.join('\n').trim())
+          parts.push({ text: prose.join('\n').replace(/^\n+|\n+$/g, '') });
+        prose = [];
+        parts.push({ text: '', code: lines.slice(i + 1, close).join('\n') });
+        i = close;
+        continue;
+      }
+    }
+    prose.push(lines[i]);
+  }
+  if (prose.join('\n').trim()) parts.push({ text: prose.join('\n').replace(/^\n+|\n+$/g, '') });
+  return parts;
+};
+
 export const renderFormattedText = (
   text: string,
   keywords?: string[],
@@ -1433,6 +1460,35 @@ export const renderFormattedText = (
   options: FormattedTextOptions = {}
 ): React.ReactNode => {
   if (!text) return text;
+
+  // A fenced code block (``` on its own line, to the next ```) is drawn exactly
+  // as written: an answer's Python or spreadsheet formulas lose their meaning
+  // when `pw_check` becomes a subscript, `D3*E3*0.8` an italic and indentation
+  // collapses. It is split off before anything below reads the text.
+  const fenced = splitCodeFences(text);
+  if (fenced.some((part) => part.code !== undefined)) {
+    return React.createElement(
+      React.Fragment,
+      null,
+      fenced.map((part, i) =>
+        part.code !== undefined
+          ? React.createElement(
+              'pre',
+              {
+                key: `code${i}`,
+                className:
+                  'my-2 overflow-x-auto rounded-lg bg-surface-inset px-3 py-2 font-mono text-[0.85em] leading-snug whitespace-pre text-primary',
+              },
+              part.code
+            )
+          : React.createElement(
+              React.Fragment,
+              { key: `text${i}` },
+              renderFormattedText(part.text, keywords, commandVerb, onVerbClick, options)
+            )
+      )
+    );
+  }
 
   const keywordRegex = createKeywordRegex(keywords || []);
   const verbRegex = createVerbRegex(commandVerb);

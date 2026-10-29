@@ -1407,6 +1407,74 @@
                   "band": 1
                 }
               ]
+            },
+            {
+              "id": "prompt-se-hsc-2025-16c",
+              "question": "Describe ONE way that the ‘privacy by design’ approach could be implemented in this weather app.",
+              "totalMarks": 3,
+              "verb": "DESCRIBE",
+              "linkedOutcomes": [
+                "SE-12-01",
+                "SE-12-04"
+              ],
+              "markerNotes": [
+                "The full-mark answer describes one specific way the weather app would put privacy by design into practice, such as deleting stored user locations, and ties it to the app's need for live location.",
+                "A 2-mark answer outlines a general feature of the approach, such as being proactive rather than reactive, without showing what the app would do.",
+                "A 1-mark answer only names privacy or a privacy concept without saying how it would be built into the app."
+              ],
+              "commonStudentErrors": [
+                "Describing encryption or passwords only, which protect data but are not the privacy by design approach.",
+                "Suggesting a privacy statement added at the end, which is the reactive approach the dot point contrasts with privacy by design.",
+                "Describing a weather feature, such as alerts or a map, rather than the privacy aspect of the app."
+              ],
+              "keywords": [
+                "privacy by design",
+                "proactive",
+                "data minimisation",
+                "embed privacy into design",
+                "user consent",
+                "location data",
+                "data retention"
+              ],
+              "markingCriteria": "3 marks: Describes ONE way that the ‘privacy by design’ approach could be implemented in the weather app\n2 marks: Outlines ONE feature of the ‘privacy by design’ approach\n1 mark: Identifies a feature of the ‘privacy by design’ approach",
+              "scenario": "A weather app is to be designed to display real-time updates such as:\n- rain commencing within the next 10 minutes\n- weather event warnings and warning cancellations\n- location specific weather conditions.",
+              "isPastHSC": true,
+              "hscYear": 2025,
+              "hscQuestionNumber": "16(c)",
+              "sampleAnswers": [
+                {
+                  "id": "sa-se-hsc-2025-16c-1",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "The 'privacy by design' approach could be implemented in the weather app by ensuring privacy is an area of focus from the beginning of the development lifecycle, with requirements definitions and boundaries. For example, when defining the features and characteristics of the app's ability to show location specific weather conditions, privacy should be carefully considered; the storage of user locations should be minimsed where possible to reduce potential liability and increase data security and integrity, which in turn builds customer trust. It should be considered how users will be notified and clearly asked for their permission to use their location data.",
+                  "feedback": "Meets the 3-mark row by describing one way, 'ensuring privacy is an area of focus from the beginning', and applying it to the app's location feature, where the storage of user locations is kept to a minimum. The answer has spelling slips, but it still earned full marks because the ladder rewards the content, so do not copy them.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-16c-2",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "Embedded within the design of the weather app would be a process for regularly deleting identifiable data. For example, the app would likely record a person’s live location to deliver relevant weather details. The privacy by design approach would incorporate a regular process to delete these locations from cache.",
+                  "feedback": "Meets the 3-mark row by describing one way, a 'regular process to delete these locations' built into the app's design, linked to the live location used for relevant weather details.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-16c-3",
+                  "source": "AI",
+                  "mark": 2,
+                  "answer": "Privacy by design means thinking about privacy at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage.",
+                  "feedback": "Meets the 2-mark row by outlining one feature of privacy by design, that it is proactive and built in from the start. To reach 3, describe how this would work in the weather app, such as deleting a user's location data once the forecast has been delivered.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-16c-4",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "One feature of privacy by design is protecting personal information. The weather app should therefore keep users' details private.",
+                  "feedback": "Meets the 1-mark row by identifying protecting personal information as a feature of privacy by design. To reach 2, outline the feature in more detail, such as being proactive rather than reactive, or embedding privacy into the design.",
+                  "band": 1
+                }
+              ]
             }
           ]
         },
@@ -1891,6 +1959,74 @@
                   "band": 1
                 }
               ]
+            },
+            {
+              "id": "prompt-se-hsc-2025-19",
+              "question": "Write a Python program that asks a new user for their username and password, and then checks whether the password rule has been followed.",
+              "totalMarks": 3,
+              "verb": "CONSTRUCT",
+              "linkedOutcomes": [
+                "SE-12-07",
+                "SE-12-04"
+              ],
+              "markerNotes": [
+                "The full-mark code builds the expected password from the first three letters of the username plus '123', compares it with the typed password in a selection structure, and prints the welcome or error message.",
+                "The 2-mark code gets one part right, usually the if and else selection, but builds the password wrongly, such as joining the whole username to '123'.",
+                "The top answer should also match the scenario's example, so 'NESA' gives 'NES123', because an answer that uses the whole username would fail that check."
+              ],
+              "commonStudentErrors": [
+                "Using the whole username instead of its first three letters to make the password.",
+                "Taking the wrong characters from the username, such as the last three letters or username[1:4].",
+                "Comparing the typed password with the username rather than with the generated password."
+              ],
+              "keywords": [
+                "input()",
+                "if / else selection",
+                "string slicing",
+                "string concatenation",
+                "input validation",
+                "password rule",
+                "print()"
+              ],
+              "markingCriteria": "3 marks: Provides correct code for the problem\n2 marks: Provides partially correct code that includes a correct selection structure OR password creation\n1 mark: Shows some understanding of the scenario and Python programming",
+              "scenario": "In an organisation, temporary passwords are automatically generated for new user accounts. Each password is created from the first three letters of the username followed by ‘123’.\n\nFor example, the username ‘NESA’ will have the password ‘NES123’.\n\nWhen a user logs in for the first time, they are asked for their username and password. They receive a welcome message or an error message, depending on whether the password entered follows the rules of new user accounts.",
+              "isPastHSC": true,
+              "hscYear": 2025,
+              "hscQuestionNumber": "19",
+              "sampleAnswers": [
+                {
+                  "id": "sa-se-hsc-2025-19-1",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "Student input\n\n```\n# Input code\nusername = input(\"What is your username: \")\nusername = list(username)\npassword = username[0] + username[1] + username[2] + \"123\"\npw_check = input(\"What is your password: \")\nif (pw_check == password):\n    print(\"Welcome!\")\nelse:\n    print(\"Error! Your password did not follow the rules\")\n```\n\nStudent output\n\n```\n# Output\nWhat is your username: NESA\nWhat is your password: NES123\nWelcome!\n```",
+                  "feedback": "Meets the 3-mark row with correct code: the password is built from the first three letters, username[0] + username[1] + username[2], plus '123', and the if statement tests pw_check == password. The output for 'NESA' shows 'NES123' followed by 'Welcome!', which matches the scenario.",
+                  "band": 4
+                },
+                {
+                  "id": "sa-se-hsc-2025-19-2",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "```\nuName = input('What is your username?')\npassword = input('What is your password?')\npasswordP1 = uName[:3]\npasswordP1= passwordP1 + '123'\nif passwordP1 == password:\n      print ('Welcome!')\nelse:\n      print ('Incorrect password entered')\n```",
+                  "feedback": "Meets the 3-mark row with correct code: uName[:3] takes the first three letters, adding '123' builds the expected password, and the if statement chooses between the welcome and error messages.",
+                  "band": 4
+                },
+                {
+                  "id": "sa-se-hsc-2025-19-3",
+                  "source": "AI",
+                  "mark": 2,
+                  "answer": "```\nusername = input('What is your username?')\npassword = input('What is your password?')\ntemp = username + '123'\nif password == temp:\n    print('Welcome!')\nelse:\n    print('Incorrect password entered')\n```",
+                  "feedback": "Meets the 2-mark row with a correct selection structure, if and else, but the password is built wrongly: username + '123' uses the whole username. To reach 3, take the first three letters with username[:3] before adding '123'.",
+                  "band": 3
+                },
+                {
+                  "id": "sa-se-hsc-2025-19-4",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "```\nusername = input('What is your username?')\npassword = input('What is your password?')\nprint('Welcome!')\n```",
+                  "feedback": "Meets the 1-mark row by reading the username and password from the user, which shows some understanding of the scenario and Python. To reach 2, add an if and else that compares the password with the rule, such as the first three letters of the username plus '123'.",
+                  "band": 2
+                }
+              ]
             }
           ]
         },
@@ -2224,6 +2360,74 @@
                 }
               ],
               "isPastHSC": false
+            },
+            {
+              "id": "prompt-se-hsc-2025-20",
+              "question": "Describe how session management can affect the efficiency of code execution for the user.",
+              "totalMarks": 3,
+              "verb": "DESCRIBE",
+              "linkedOutcomes": [
+                "SE-12-06",
+                "SE-12-07"
+              ],
+              "markerNotes": [
+                "The full-mark answer describes a cause and effect: session data that is stored or kept for too long uses memory and slows execution, and removing sessions that are no longer needed prevents this.",
+                "A 2-mark answer names features of session management, such as storing session data or session lifetime, without describing how they change execution efficiency.",
+                "The NESA samples show either direct effect can earn full marks: saved sessions loading faster on return, or inactive sessions being closed to free performance.",
+                "NESA notes that answers could include: Reducing database and network bottlenecks – frequent access to session stores, especially in distributed environments, can cause latency; Preventing memory leaks – poor session handling, particularly in server-side storage, can lead to memory leaks, triggering more frequent garbage collection and degrading performance; Enabling scalable, responsive systems – asynchronous or lazy cleanup can further optimise execution."
+              ],
+              "commonStudentErrors": [
+                "Describing what a session is, a record of a user's visit, with no link to how fast code runs.",
+                "Saying session management makes the website more secure, which answers a different question from efficiency.",
+                "Claiming sessions always slow things down, rather than explaining that efficient management and clean-up is what helps."
+              ],
+              "keywords": [
+                "session data",
+                "memory consumption",
+                "session lifetime",
+                "inactive sessions",
+                "memory leaks",
+                "garbage collection",
+                "resource management"
+              ],
+              "markingCriteria": "3 marks: Describes how session management can affect code execution efficiency\n2 marks: Identifies some features of session management\n1 mark: Provides some relevant information",
+              "isPastHSC": true,
+              "hscYear": 2025,
+              "hscQuestionNumber": "20",
+              "sampleAnswers": [
+                {
+                  "id": "sa-se-hsc-2025-20-1",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "Session management, when used effectively, can greatly increase the efficiency of code execution for a user. This is because session management allows for sessions to be saved up to a certain amount of time so that if a user were to go back to a previous site, there session and progress would have been saved on that site and it would be quicker to load. Furthermore, session management can automatically close inactive sessions after a certain amount of time which allows for more performance from a users computer on other sites and sessions",
+                  "feedback": "Meets the 3-mark row by describing how saved sessions mean a returning user's 'progress would have been saved', so the site 'would be quicker to load'. It also explains that automatically closing 'inactive sessions' gives 'more performance' for the user's other sessions. The answer has a grammar slip, but it still earned full marks because the ladder rewards the content, so do not copy it.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-20-2",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "Efficient session management limits memory consumption by restricting session data size and lifetime. Excessive reading, writing or storing large objects increases input/output operations and slows code execution for the user. Removing sessions when they are no longer required is essential to prevent unnecessary resource consumption.",
+                  "feedback": "Meets the 3-mark row by describing how efficient session management 'limits memory consumption' and how 'excessive reading, writing or storing large objects' slows code execution for the user. It also notes that 'removing sessions when they are no longer required' prevents unnecessary resource use.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-20-3",
+                  "source": "AI",
+                  "mark": 2,
+                  "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit before they expire.",
+                  "feedback": "Meets the 2-mark row by identifying two features of session management, stored session data and an expiry time. To reach 3, describe how these affect execution, such as how large stored session data slows the program or how ending old sessions frees memory.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-20-4",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Sessions are used when a user logs in to a website, and they keep track of what the user is doing.",
+                  "feedback": "Meets the 1-mark row by giving relevant information about what sessions do. To reach 2, identify features of session management, such as how session data is stored and when inactive sessions end.",
+                  "band": 1
+                }
+              ]
             }
           ]
         },
@@ -3048,6 +3252,74 @@
                 }
               ],
               "isPastHSC": false
+            },
+            {
+              "id": "prompt-se-hsc-2025-23a",
+              "question": "Outline potential social and ethical issues associated with the use of this website.",
+              "totalMarks": 3,
+              "verb": "OUTLINE",
+              "linkedOutcomes": [
+                "SE-12-05",
+                "SE-12-08"
+              ],
+              "markerNotes": [
+                "The full-mark answer names relevant issues, such as the security of payment and address data, the accessibility of pages in many languages, and the accuracy of dish information, and ties each one to this food delivery website.",
+                "The 2-mark answer outlines one issue, or identifies issues without explaining why they matter to customers or the business.",
+                "The NESA and MG answers both link the issue to a scenario feature, such as payment details or dietary preference data, and to an effect on people, such as privacy loss or harm to health."
+              ],
+              "commonStudentErrors": [
+                "Describing a general website issue, such as slow loading or cost, that is not social or ethical.",
+                "Stopping at one issue, usually data security, when the top row asks for several relevant issues.",
+                "Naming an issue such as 'hackers' without saying what is at risk for customers."
+              ],
+              "keywords": [
+                "privacy",
+                "data security",
+                "data breach",
+                "personal information",
+                "accessibility",
+                "inclusivity",
+                "accuracy of information"
+              ],
+              "markingCriteria": "3 marks: Outlines relevant social and ethical issues\n2 marks: Outlines ONE relevant social or ethical issue OR Identifies relevant social and/or ethical issues\n1 mark: Identifies ONE relevant social or ethical issue",
+              "scenario": "A food delivery service offers prepackaged meals tailored to different dietary preferences, for example, vegetarian and gluten-free. It has developed a website for customers to place orders. The website is ready for testing and feedback.\n\nThe website includes:\n- a menu that dynamically updates based on meal availability\n- user accounts where customers can track deliveries and manage subscriptions\n- a backend that processes orders and payments, updates stock and communicates with the delivery team.",
+              "isPastHSC": true,
+              "hscYear": 2025,
+              "hscQuestionNumber": "23(a)",
+              "sampleAnswers": [
+                {
+                  "id": "sa-se-hsc-2025-23a-1",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "Use of this website would require users to input sensitive information - location data, for the purposes of food delivery, and financial details for the purposes of payment and subscription. Thus, a potential ethical issue would be the leaking of these sensitive personal details in the event of a data breach, exposing critical information to malicious attackers. Furthermore, if the integrity of customer dietary preference data were to be compromised, customers may be delivered food in violation of their dietary preferences, creating a significant social issues with potential health consequences.",
+                  "feedback": "Meets the 3-mark row by outlining two issues: the 'leaking of these sensitive personal details' in a data breach, and the 'integrity of customer dietary preference data' being compromised, which could lead to meals that break customers' dietary preferences. It links this to 'potential health consequences'. The answer has a grammar slip, but it still earned full marks because the ladder rewards the content, so do not copy it.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-23a-2",
+                  "source": "HSC_EXEMPLAR",
+                  "mark": 3,
+                  "answer": "The website will need to ensure payment and address data is appropriately secured and accessible only to authorised personnel. It also needs to ensure that pages can be viewed in a wide variety of languages and that the information about dishes displayed is accurate and representative of the product.",
+                  "feedback": "Meets the 3-mark row by outlining that 'payment and address data' must be 'appropriately secured', that pages should be viewable in 'a wide variety of languages', and that dish information must be 'accurate and representative of the product'.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-23a-3",
+                  "source": "AI",
+                  "mark": 2,
+                  "answer": "Customers will need to enter their address and payment details, so the company has to keep this personal information safe. If it is not protected, a hacker could steal it.",
+                  "feedback": "Meets the 2-mark row by outlining one relevant issue, the security of customers' personal and payment information. To reach 3, outline another distinct issue from the scenario, such as the accuracy of the dietary information shown on the menu.",
+                  "band": 2
+                },
+                {
+                  "id": "sa-se-hsc-2025-23a-4",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Hackers might get into the website and steal customers' details.",
+                  "feedback": "Meets the 1-mark row by identifying one relevant issue, a security risk to customers' details. To reach 2, outline the effect of that issue on customers, or identify a second issue, such as dietary information being wrong.",
+                  "band": 1
+                }
+              ]
             }
           ]
         }
