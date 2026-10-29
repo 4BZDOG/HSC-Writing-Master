@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect, useId, useCallback } from 'react';
 import { Prompt, PromptVerb, UserRole, CourseOutcome } from '../types';
+import AlternativesList from './AlternativesList';
 import { criterionParts } from '../utils/criterionParts';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
@@ -57,29 +58,10 @@ const CriterionText: React.FC<{ text: string; keywords?: string[]; verb?: Prompt
     return <>{renderFormattedText(parts[0][0], keywords, verb)}</>;
   }
   return (
-    <div className="space-y-1.5">
-      {parts.map((points, a) => (
-        <React.Fragment key={a}>
-          {a > 0 && (
-            <p className="flex items-center gap-2 t-label text-slate-600 dark:text-slate-400">
-              <span>OR</span>
-              <span aria-hidden="true" className="h-px flex-1 bg-current opacity-25" />
-            </p>
-          )}
-          <ul className="space-y-1">
-            {points.map((point, i) => (
-              <li key={i} className="flex gap-2">
-                <span
-                  aria-hidden="true"
-                  className="mt-[0.7em] size-1 shrink-0 rounded-full bg-current opacity-60"
-                />
-                <span className="min-w-0">{renderFormattedText(point, keywords, verb)}</span>
-              </li>
-            ))}
-          </ul>
-        </React.Fragment>
-      ))}
-    </div>
+    <AlternativesList
+      parts={parts}
+      renderPoint={(point) => renderFormattedText(point, keywords, verb)}
+    />
   );
 };
 

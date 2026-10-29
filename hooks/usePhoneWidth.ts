@@ -20,9 +20,11 @@ const isPhone = (): boolean => query()?.matches ?? false;
  * Whether the window is narrower than `sm`, for the few places that draw a
  * control in a different spot on a phone rather than only restyling it.
  *
- * Hiding one of two copies with `sm:hidden` leaves both in the accessibility
- * tree, so a screen reader meets the same button twice. A component that moves
- * a control renders it once, where this says it goes. Without `matchMedia`
- * (jsdom, a server render) it answers false: the `sm`-and-up layout.
+ * Two copies of a control, one hidden with `sm:hidden`, are both mounted: the
+ * screen reader is spared (`display: none` leaves the tree), but anything that
+ * finds the control by its name (a test, a focus hand-off) meets two. A
+ * component that moves a control renders it once, where this says it goes.
+ * Without `matchMedia` (jsdom, a server render) it answers false: the
+ * `sm`-and-up layout.
  */
 export const usePhoneWidth = (): boolean => useSyncExternalStore(subscribe, isPhone, () => false);

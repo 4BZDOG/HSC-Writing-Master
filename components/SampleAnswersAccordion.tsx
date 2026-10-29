@@ -516,7 +516,7 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       summary. It used to sit on the paper's solid band bar, a second
                       full-width strip of saturated colour that held only this badge
                       and the criterion link; from `sm` the bar is still there. Each is
-                      drawn in one place only, so a screen reader meets it once. */}
+                      drawn in one place only, so it is mounted once. */}
                   {isOpen && phone && (
                     <span className="inline-flex items-center gap-2">
                       {locked ? (

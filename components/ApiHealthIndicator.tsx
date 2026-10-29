@@ -45,7 +45,7 @@ const ApiHealthIndicator: React.FC = () => {
   return (
     <div
       className={`
-        fixed bottom-4 left-4 z-overlay-status
+        fixed bottom-4 left-4 max-sm:left-0 max-sm:-translate-x-1/2 z-overlay-status
         flex items-center justify-center w-9 h-9 rounded-full
         backdrop-blur-md border
         transition-all duration-300
@@ -55,7 +55,10 @@ const ApiHealthIndicator: React.FC = () => {
       aria-label={config.title}
       role="status"
     >
-      <config.Icon className={`w-4 h-4 ${config.color}`} />
+      {/* On a phone the dot tucks half off the left edge, into the page's gutter, with
+          the glyph in its visible half: whole, it sat over the icon of whichever card
+          was beneath it. The count badge, on its right, stays in view. */}
+      <config.Icon className={`w-4 h-4 max-sm:translate-x-2 ${config.color}`} />
 
       {config.content && (
         <div

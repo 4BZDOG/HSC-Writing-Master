@@ -1262,9 +1262,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   `whitespace-normal`, because the title inherits `nowrap` from
                   whatever wraps it: the closed control's `truncate` (lifted for this
                   row by `multiline`), or the list's option. Without it the question
-                  was cut at one line, mid-word, whatever the clamp said. */}
+                  was cut at one line, mid-word, whatever the clamp said. Three lines
+                  on a phone: at two, a one-sentence question lost its last clause
+                  in a row that had the room. */}
                   <span
-                    className={`leading-snug font-semibold line-clamp-2 whitespace-normal break-words ${
+                    className={`leading-snug font-semibold line-clamp-3 sm:line-clamp-2 whitespace-normal break-words ${
                       tierLocked
                         ? 'text-[rgb(var(--color-text-secondary))] light:text-slate-700'
                         : 'text-[rgb(var(--color-text-primary))] light:text-slate-900'
@@ -1278,10 +1280,11 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     >
                       {verbInfo.term}
                     </span>
-                    {/* 12px, not 10. On the light tier tints the old `slate-500` was
-                    3.9–4.3:1; `slate-700` is 8.5–9.4:1 on the same six. The dark
-                    token already clears 4.5:1 over the tint, so it stays. */}
-                    <span className="text-xs font-mono font-bold text-[rgb(var(--color-text-muted))] light:text-slate-700">
+                    {/* A chip like the rest of the row, not bare figures: on its own
+                    it read as a fourth style beside three chips. On the light tier
+                    tints `slate-700` is 8.5–9.4:1; the dark token already clears
+                    4.5:1 over the tint. */}
+                    <span className="t-label tabular-nums px-1.5 py-px rounded-lg border border-slate-500/40 text-[rgb(var(--color-text-muted))] light:text-slate-700">
                       {p.totalMarks} {p.totalMarks === 1 ? 'Mark' : 'Marks'}
                     </span>
                     <span
@@ -1295,8 +1298,15 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                         className="t-label flex items-center gap-1 px-1.5 py-px rounded-lg border bg-amber-500/15 light:bg-amber-100 text-amber-400 light:text-amber-800 border-amber-500/40 light:border-amber-400"
                         title={pastHsc.title}
                       >
-                        <Landmark className="w-2.5 h-2.5" />
-                        {pastHsc.text}
+                        <Landmark className="w-2.5 h-2.5" aria-hidden="true" />
+                        {/* "HSC" is the landmark's and is read out, not shown, on a
+                            phone, as on the question card: the whole chip then sits
+                            on the row's line instead of wrapping to its own. */}
+                        <span className="sm:hidden">
+                          <span className="sr-only">HSC </span>
+                          {pastHsc.text.replace(/^HSC\s+/, '')}
+                        </span>
+                        <span className="max-sm:hidden">{pastHsc.text}</span>
                       </span>
                     )}
                     {attempt && (
