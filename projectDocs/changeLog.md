@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-30 (English Advanced text-specific past questions, remaining texts)
+
+- **Added.** The 36 English Advanced past questions NESA set for one prescribed text or pair that is not in the
+  public domain: Module B on An Artist of the Floating World, Earth Hour, A Doll's House, Under Milk Wood, The Hare
+  with Amber Eyes, Speak, Memory, Good Night, and Good Luck and Unfolding Florence (2019, 2020, 2022 and 2025), and
+  Module A on The Stranger and The Meursault Investigation, and Plath and Hughes (2021, 2022 and 2025). Each carries
+  NESA's stem, extract and ladder, its text in `hscText`, and three exemplars on that text; the film screenshots
+  and stills are images, with a description in the scenario. The exemplars quote only the extract NESA printed;
+  every other reference to the texts (about 700 claims) was checked against published sources and corrected where
+  wrong, such as Willy Wee being Polly Garter's dead lover, not her child.
+- **Left out.** 2021 1(c), 2022 1(a)–(b) and 2025 2(j), whose extracts NESA withheld for copyright. In 2021 1(f)
+  NESA withheld the Lady Lazarus extract but printed the one from The Shot, so that part is in.
+- English Advanced now has 104 past questions.
+- Shipped-course change: `DATA_VERSION` 2.34.0.
+
 ## [Unreleased] - 2026-10-30 (English Advanced text-specific past questions, public-domain texts)
 
 - **Added.** 29 English Advanced past questions that NESA set for one prescribed text or pair, each with its own
