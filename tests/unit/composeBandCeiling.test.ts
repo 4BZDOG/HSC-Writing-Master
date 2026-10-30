@@ -13,8 +13,8 @@ import type { Course, Prompt, PromptVerb } from '../../types';
  * A composition is COMPOSE, a top-tier verb: a 20/20 Module C piece in English
  * Advanced is Band 6 work. In English Standard, Studies and EAL/D the same task
  * tops out at Band 5. CONSTRUCT stays Tier 4 for a built table, graph or plan.
- * In English Advanced and Extension every extended response (15+ marks) reaches
- * Band 6, whatever its verb.
+ * In every other course an extended response (15+ marks) reaches Band 6,
+ * whatever its verb.
  */
 describe('composition band ceiling', () => {
   it('puts COMPOSE in the top tier and leaves CONSTRUCT at Tier 4', () => {
@@ -32,7 +32,7 @@ describe('composition band ceiling', () => {
     expect(courseBandCeiling('HSC Geography', 'COMPOSE')).toBeUndefined();
   });
 
-  it('lifts an Advanced or Extension extended response to Band 6, and no other', () => {
+  it('lifts an extended response to Band 6 in every course but the Standard English ones', () => {
     for (const name of ['HSC English Advanced', 'HSC English Extension 1']) {
       expect(courseBandCeiling(name, 'DISCUSS', 20), name).toBe(6);
       expect(courseBandCeiling(name, 'ASSESS', 15), name).toBe(6);
@@ -41,8 +41,14 @@ describe('composition band ceiling', () => {
       // Shorter than an extended response: the verb's tier stands.
       expect(courseBandCeiling(name, 'DISCUSS', 12), name).toBeUndefined();
     }
-    expect(courseBandCeiling('HSC English Standard', 'DISCUSS', 20)).toBeUndefined();
-    expect(courseBandCeiling('HSC Business Studies', 'DISCUSS', 20)).toBeUndefined();
+    for (const name of ['HSC Business Studies', 'HSC Geography', 'HSC Modern History']) {
+      expect(courseBandCeiling(name, 'DISCUSS', 20), name).toBe(6);
+    }
+    // The Standard English courses keep their verbs' tiers.
+    for (const name of ['HSC English Standard', 'HSC English Studies', 'HSC English EAL/D']) {
+      expect(courseBandCeiling(name, 'DISCUSS', 20), name).toBeUndefined();
+      expect(courseBandCeiling(name, 'ASSESS', 20), name).toBeUndefined();
+    }
   });
 
   it('reads a question’s tier through its ceiling', () => {
