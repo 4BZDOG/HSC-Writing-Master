@@ -13,8 +13,10 @@
   feedback flags); every AI exemplar sits in the row its feedback names. Fixed: a duplicated, garbled marker note
   on Q17 ("NESA notes that answers could include: NESA's guidelines also accept…"), and the Q26 note on NESA's
   sample, which draws 1–25 but prints cells 0–24, so the first cell is never a diamond and a drawn 25 never
-  shows. The same duplicated note was removed from Enterprise Computing 2025 Q14. The questions carry no paper
-  section because the online exam has none.
+  shows. The questions carry no paper section because the online exam has none.
+- **Reviewed.** The 13 Enterprise Computing 2025 past questions the same way: every stem, ladder and NESA exemplar
+  matches. Fixed: the duplicated marker note on Q14, and five questions (15(b), 20, 22(a), 23(b), 25) whose marker
+  notes were one run-on paragraph, now split into separate notes like every other past question.
 - Shipped-course change: `DATA_VERSION` 2.36.0.
 
 ## [Unreleased] - 2026-10-30 (COMPOSE, and Band 6 for extended responses outside Standard English)

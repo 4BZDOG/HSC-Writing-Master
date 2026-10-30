@@ -107,7 +107,8 @@ import {
 // In every course but English Standard, Studies and EAL/D an extended response (15+ marks) reaches Band 6
 // whatever its verb.
 // 2.36.0: Software Engineering past-question review: a duplicated, garbled marker note on 2025 Q17 removed and
-// the note on NESA's Q26 sample corrected; the same duplicate removed from Enterprise Computing 2025 Q14.
+// the note on NESA's Q26 sample corrected; the same duplicate removed from Enterprise Computing 2025 Q14, and five
+// EC 2025 questions' run-on marker notes split into separate notes.
 export const DATA_VERSION = '2.36.0';
 
 /**
