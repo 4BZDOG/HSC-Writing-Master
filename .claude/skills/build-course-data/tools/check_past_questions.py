@@ -5,7 +5,8 @@
 <nesa_dir> holds the year's PDFs as NESA names them (download them from the year's page on
 nsw.gov.au/education-and-training/nesa/curriculum/hsc-exam-papers/<subject>/<year>) and, beside each,
 the `pdftotext -layout` .txt of the paper. <subject-slug> is the slug in those names:
-"business-studies", "english-standard" (also matches "english-std"), "geography".
+"business-studies", "english-standard" (also matches "english-std"), "english-advanced"
+(also "english-adv"), "geography".
 
 For every past question it reports:
 - STEM: a sentence of the stem that is not word for word in the paper (expected only where a question
@@ -75,7 +76,8 @@ def rows_of(guide):
 def files_for(nesa, slug, p):
     """(paper stem, guidelines pdf) for a question, by NESA's file naming."""
     year = p['hscYear']
-    pats = [slug] + (['english-std'] if slug == 'english-standard' else [])
+    short = {'english-standard': 'english-std', 'english-advanced': 'english-adv'}
+    pats = [slug] + ([short[slug]] if slug in short else [])
     cands = sorted({f for pat in pats for f in glob.glob(os.path.join(nesa, f'{year}-hsc-{pat}*.pdf'))})
     paper_no = None
     if (p.get('hscSection') or '').startswith('Paper'):
