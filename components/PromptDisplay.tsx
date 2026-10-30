@@ -41,7 +41,12 @@ import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTer
 import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
 import ScenarioCarousel from './ScenarioCarousel';
-import { getCommandTermInfo, getRecommendedTime, getTargetBand } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getRecommendedTime,
+  getTargetBand,
+  getPromptTermInfo,
+} from '../data/commandTerms';
 import { cappedCardHeight, naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import {
@@ -502,7 +507,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
       ...supporting.map((term) => ({ term, isKeyTerm: false })),
     ];
   }, [prompt.keywords, prompt.question, prompt.scenario, syllabus]);
-  const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const verbInfo = useMemo(() => getPromptTermInfo(prompt), [prompt.verb, prompt.bandCeiling]);
   // The suggested time the card states, from the one function the metrics strip
   // and the verb guide use, so the three never quote different numbers.
   const suggestedMinutes = useMemo(

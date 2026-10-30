@@ -2605,9 +2605,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-13",
-                    "question": "Construct a creative or critical text that challenges ONE idea, value or perspective represented in a range of texts you have studied, then write a short rationale explaining your choices.",
+                    "question": "Compose a creative or critical text that challenges ONE idea, value or perspective represented in a range of texts you have studied, then write a short rationale explaining your choices.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-05"
@@ -2628,7 +2628,7 @@
                       "perspectives",
                       "texts"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a sustained creative and critical text that challenges ideas, values and perspectives with control of voice and form, and gives a precise rationale linking choices to the texts studied\n5-6 marks: Constructs a text that challenges a perspective with clear control, and a rationale that explains some choices\n3-4 marks: Constructs a text with a relevant perspective, and a general rationale\n1-2 marks: Produces a short text with limited control, and a rationale that describes rather than explains",
+                    "markingCriteria": "7-8 marks: Composes a sustained creative and critical text that challenges ideas, values and perspectives with control of voice and form, and gives a precise rationale linking choices to the texts studied\n6 marks: Composes a text that challenges a perspective with clear control, and a rationale that explains some choices\n5 marks: Composes a text that challenges a perspective with some control, and a rationale that describes some choices\n3-4 marks: Composes a text with a relevant perspective, and a general rationale\n2 marks: Produces a short text with limited control, and a rationale that describes rather than explains\n1 mark: Produces a brief text with minimal control, and a rationale that is absent or unclear",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-13-1",
@@ -2636,7 +2636,7 @@
                         "mark": 8,
                         "answer": "Composed text: 'The Mill Was Never Ours'\n\nEvery council meeting in Harrow Vale begins with the same word: progress. We are told that the new estate on the old mill flats will bring families, jobs and a future. I have walked those flats since I was six. I know where the river used to run, and I know which of the families who sold up never got the chance to return. Progress, in this town, has always been a story told by people who did not have to live with its cost.\n\nThe values we call community belong to the ones who stayed. Their trades, their hands and their stubborn gardens made Harrow Vale, and the new brochure does not mention them. A plan that reads only as profit forgets whose labour built the place. So when the planners say the estate is for everyone, I ask: for whom, and at what price? Let us stop calling it a future until we can say who it is for.\n\nRationale: The column sets out to challenge the perspective that progress is a single good, a view that appears across the council documents and the local texts studied in class. It also challenges the perspectives of council members who treat every change as an improvement, and it does so without naming any one speaker. I chose a first-person opinion voice so the reader meets the argument as a witness rather than a policy claim. The word progress opens and closes the piece, framing it as something contested. The river image is a creative choice that carries the critical point: it asks the reader to picture what was lost, which facts alone would not do. The short paragraphs and rhetorical questions create a critical register that asks the reader to weigh the values on both sides before deciding. A reader who reaches the final question is left to decide which values matter most, which is the critical purpose of the piece.",
                         "feedback": "Full marks: the composed column challenges one perspective (progress as a single good) with a controlled first-person voice and a deliberate frame of repeated words. The rationale explains specific choices (the river image, the opening and closing word, the rhetorical questions) and links them to the texts studied and to the reader's weighing of values, which is the precision the top band asks for.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-13-2",
@@ -2644,7 +2644,7 @@
                         "mark": 5,
                         "answer": "Composed text: 'Progress for Who?'\n\nThe council says the estate is progress. I think it costs too much. The old mill workers would have wanted to stay and see their town kept. Progress should include everyone, not only the new families who are moving in.\n\nRationale: I wanted to challenge the idea of progress and show a different perspective on the town. I used a short first-person voice because it sounds like a local person.",
                         "feedback": "Five marks: the piece challenges a perspective clearly enough and the voice is controlled, but the text is thin and the rationale explains the intention rather than the choices. The link to the texts studied is absent, which places it in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-13-3",
@@ -2652,7 +2652,7 @@
                         "mark": 2,
                         "answer": "Composed text: a short note that the mill should not be a new estate.\n\nRationale: I wanted to be creative.",
                         "feedback": "Two marks: the text is short with limited control and the rationale does not explain any choice. The answer produces a text but does not construct a challenge to a perspective.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A student is preparing a portfolio for a school publication on civic life. The task asks for an original piece that challenges a perspective commonly found in council documents and local media, followed by a rationale that explains how the piece engages with the texts studied in class. The student's piece is an invented opinion column for a fictional country town, Harrow Vale."
@@ -2721,9 +2721,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-15",
-                    "question": "Construct a short text for a younger audience that reinterprets a perspective from a text you have studied, using structures, language features and stylistic elements, then explain your choices in a brief rationale.",
+                    "question": "Compose a short text for a younger audience that reinterprets a perspective from a text you have studied, using structures, language features and stylistic elements, then explain your choices in a brief rationale.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-06"
@@ -2752,7 +2752,7 @@
                         "mark": 6,
                         "answer": "Composed text: 'The Ferry Keeper's Night'\n\nEvery evening the big boat leaves Mollin Cove, and every evening Mr Ansel stays on the jetty to watch it go. Tonight the fog is thick, and the buoy bell rings slow and low, like a question nobody answers.\n\n'Wait for me,' he whispers, though nobody can hear. Someone has to keep the light on for the ones who are still coming home. 'Wait for me,' he says again, and keeps the light on.\n\nRationale: The piece reinterprets the story's perspectives by reversing the structures of the original. The senior story follows the passenger out of the cove; this one stays on the jetty, so the keeper's waiting organises the text. For a Year 4 audience I used short sentences and a repeated refrain. The language features are concrete and gentle, and the bell and the light are stylistic elements that give young readers a sensory route into the idea that those left behind also matter.",
                         "feedback": "Full marks: the structure is reversed so that the keeper's perspective organises the piece, which reinterprets the story rather than just simplifying the vocabulary. The rationale names the structural choice first, then the refrain, the language features and the stylistic elements, and ties each one to the younger audience.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-15-2",
@@ -2760,7 +2760,7 @@
                         "mark": 4,
                         "answer": "Composed text: a short piece about a man on the jetty who watches the boat leave every night and keeps the light on for the people who are coming home.\n\nRationale: I wrote it for younger readers with short sentences and a refrain. The keeper is the main character now, so it is a different view from the story.",
                         "feedback": "Four marks: the audience is clear and some control of form is shown, with a refrain and a changed central character. The rationale is general and does not explain the structural reversal in detail, so it sits at the middle band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-15-3",
@@ -4631,9 +4631,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-29",
-                    "question": "Construct a text that explores text structures, language features and stylistic elements from a different context, then write a rationale explaining how the piece deepens understanding of how meaning is made.",
+                    "question": "Compose a text that explores text structures, language features and stylistic elements from a different context, then write a rationale explaining how the piece deepens understanding of how meaning is made.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-06"
@@ -4654,7 +4654,7 @@
                       "understanding",
                       "meaning"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a sustained text that explores text structures, language features and stylistic elements from a different context, with a rationale that explains how the piece deepens understanding of how meaning is made\n5-6 marks: Constructs a controlled text from a different context, with a rationale that explains some choices and their effect on meaning\n3-4 marks: Constructs a short text with some relevant features and a general rationale\n1-2 marks: Produces a brief text with limited control, and a rationale that describes rather than explains",
+                    "markingCriteria": "7-8 marks: Composes a sustained text that explores text structures, language features and stylistic elements from a different context, with a rationale that explains how the piece deepens understanding of how meaning is made\n6 marks: Composes a controlled text from a different context, with a rationale that explains some choices and their effect on meaning\n5 marks: Composes a text from a different context with some control, and a rationale that describes some choices and their effect on meaning\n3-4 marks: Composes a short text with some relevant features and a general rationale\n2 marks: Produces a brief text with limited control, and a rationale that describes rather than explains\n1 mark: Produces a brief text with minimal control, and a rationale that is absent or unclear",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-29-1",
@@ -4662,7 +4662,7 @@
                         "answer": "Composed text: 'Shift Notes, Lamp Street Tram Depot, Sydney, 1960'\n\n5.42 a.m. The depot wakes before the city does. Brakes sigh. A driver's thermos clicks open, and somewhere a tap runs and stops.\n\nHarold counts the trams the way some men count prayers: one, two, three. Each number is a small mercy. Overhead, the wire hums its single note, and the note does not change whatever the weather does to the sky.\n\nNine years he has worked this shift. Nine winters of grease in the creases of his knuckles, nine summers of the same timetable pinned above the tea urn. He has never been late. He has never been asked to explain himself, and he has never asked anyone else to.\n\nThen the bell rings for the seventh tram, and the depot falls silent, as it always does, for a moment longer than it needs to.\n\n6.00 a.m. The first tram leaves. Nobody watches it go.\n\nRationale: The piece explores text structures through a timestamped sequence that the reader must assemble, so the day's routine becomes the form of the piece. Each time marker moves the reader forward, and the gaps between them carry as much meaning as the lines. Language features include the fragments ('Brakes sigh.') and the repetition of counting, which mirror a worker who finds comfort in order. The sentences are short and concrete because a 1960 context of rigid shifts and public silence is best rendered through restraint rather than explanation. The stylistic elements, the single-note hum of the wire and the silence after the bell, convey the unspoken weight of labour. I chose not to name Harold's feelings, so the reader infers his loneliness from what the structure withholds. The shift in context, from the rural texts studied in class to an inner-city depot, deepens understanding of how meaning is made, because the reader must work out the emotional logic for themselves rather than receive it. Each choice is deliberate: the structure invites inference, the language is spare, and the sound imagery carries the weight that the narrator will not state.",
                         "source": "AI",
                         "feedback": "Full marks: the text is structured as timestamps the reader must assemble, so the structure carries meaning. The rationale names the structural choice first, then the fragments, repetition and stylistic sound elements, and explains how the shift in context deepens understanding of how meaning is made.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-29-2",
@@ -4670,7 +4670,7 @@
                         "answer": "Composed text: 'Shift Notes'\n\n6.00 a.m. The first tram leaves. Nobody watches it go. The depot is quiet and the wire hums.\n\nRationale: I used short sentences and timestamps because the depot has a routine. The hum of the wire is a stylistic element that shows the quiet of the place. The setting is a 1960 tram depot, which is a different context from the texts studied, and the timestamps and fragments help the reader see the routine.",
                         "source": "AI",
                         "feedback": "Five marks: the text is controlled and set in a different context, and the rationale explains some choices. The text is very thin and the rationale does not explain how the choices deepen understanding of how meaning is made, so it sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-29-3",
@@ -4678,7 +4678,7 @@
                         "answer": "Composed text: The depot is busy with trams.\n\nRationale: I wanted to write about trams in Sydney.",
                         "source": "AI",
                         "feedback": "Two marks: the text is brief with limited control of structure, and the rationale describes an intention without explaining any choice.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A student is writing for a historical fiction anthology that asks for a short piece set in a different time and place from the texts studied in class. The piece must use text structures, language features and stylistic elements to deepen the reader's understanding of how meaning is made."
@@ -5292,9 +5292,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-33",
-                    "question": "Construct a sustained critical response, in TWO paragraphs, that affirms ONE value and challenges ONE perspective across a pair of texts you have studied, then add a brief rationale.",
+                    "question": "Compose a sustained critical response, in TWO paragraphs, that affirms ONE value and challenges ONE perspective across a pair of texts you have studied, then add a brief rationale.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-05"
                     ],
@@ -5314,7 +5314,7 @@
                       "pair of texts",
                       "perspectives"
                     ],
-                    "markingCriteria": "6 marks: Constructs a sustained critical response that affirms and challenges ideas, values and perspectives across the pair, with control of argument and a rationale that explains the choices\n5 marks: Constructs a controlled critical response that affirms and challenges across the pair, with a rationale that explains most choices\n4 marks: Constructs a response that affirms or challenges across the pair, with a general rationale\n3 marks: Constructs a short critical response with some reference to the pair and a brief rationale\n2 marks: Produces a brief response with limited critical control\n1 mark: Produces a response that restates the texts without critical argument",
+                    "markingCriteria": "6 marks: Composes a sustained critical response that affirms and challenges ideas, values and perspectives across the pair, with control of argument and a rationale that explains the choices\n5 marks: Composes a controlled critical response that affirms and challenges across the pair, with a rationale that explains most choices\n4 marks: Composes a response that affirms or challenges across the pair, with a general rationale\n3 marks: Composes a short critical response with some reference to the pair and a brief rationale\n2 marks: Produces a brief response with limited critical control\n1 mark: Produces a response that restates the texts without critical argument",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-33-1",
@@ -5322,7 +5322,7 @@
                         "mark": 6,
                         "answer": "Both 'The Fence at Halloran Creek' and 'The Last Ferry from Mollin Cove' affirm the value of patient care: the narrator who repairs a fence and the keeper who returns to the jetty each night show love as sustained attention rather than grand gesture. The essay makes this visible through the steady labour of its present tense, and the story through the keeper's refusal to leave the light. Both honour quiet devotion, and in doing so affirm values that reward endurance over speed.\n\nThe pair of texts also challenges perspectives they seem to share: that a loss can be resolved by action or by waiting alone. Repetition can become a way of avoiding the future, and neither text fully admits this risk. The fence is repaired again and again, and the keeper returns to the same jetty each night. A reader must ask whether such devotion responds to loss or refuses to accept it.\n\nRationale: This critical response affirms the shared value of patient care and challenges the perspectives that action or waiting alone can resolve loss, so the argument moves from affirmation to challenge.",
                         "feedback": "Full marks: the response affirms a shared value (patient care) and then challenges the perspectives it can hide (action or waiting as a resolution of loss). Both moves are argued from the texts, and the rationale explains how the response moves from affirmation to challenge in one sustained critical voice.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-33-2",
@@ -5330,7 +5330,7 @@
                         "mark": 4,
                         "answer": "Both texts show that waiting and repairing are caring. But the texts might also be too slow, and a reader could question whether patience is enough for the family. I wanted to show the value of care and challenge the idea that patience always works.",
                         "feedback": "Four marks: the response affirms a value and challenges an idea across both texts, with a general rationale. The challenge is stated but not developed through specific evidence, so it sits in the middle band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-33-3",
@@ -9130,9 +9130,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-55",
-                    "question": "Construct a critical text that affirms or challenges the ideas, values and perspectives represented in the novel. Follow your text with a short rationale explaining your choices.",
+                    "question": "Compose a critical text that affirms or challenges the ideas, values and perspectives represented in the novel. Follow your text with a short rationale explaining your choices.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-05"
                     ],
@@ -9154,7 +9154,7 @@
                       "perspectives",
                       "complex text"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a sustained critical text that affirms and challenges the ideas, values and perspectives of the complex text with control of form and register, and a rationale that explains specific choices\n5-6 marks: Constructs a critical text that affirms or challenges the complex text with clear control of form, and a rationale that describes some choices\n3-4 marks: Constructs a brief critical text with an uneven position, and a rationale that makes a general claim\n1-2 marks: Constructs a text with a limited critical position and little or no rationale",
+                    "markingCriteria": "7-8 marks: Composes a sustained critical text that affirms and challenges the ideas, values and perspectives of the complex text with control of form and register, and a rationale that explains specific choices\n6 marks: Composes a critical text that affirms or challenges the complex text with clear control of form, and a rationale that describes some choices\n5 marks: Composes a critical text that affirms or challenges the complex text with some control of form, and a rationale that identifies some choices\n3-4 marks: Composes a brief critical text with an uneven position, and a rationale that makes a general claim\n2 marks: Composes a text with a limited critical position and little or no rationale\n1 mark: Composes a text with no discernible critical position and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-55-1",
@@ -9162,7 +9162,7 @@
                         "answer": "Review: A Family Ledger Rewritten\n\nThe invented novel in this scenario presents inheritance as a debt that each generation must settle on its own terms, and its ideas about duty deserve critical affirmation. Yet the complex text is most powerful when it resists its own moral certainties. Its values are presented through a narrator who insists that loyalty to the family is the highest good, and the novel asks the reader to share that conviction for most of its length. Affirmation lies in the way the book makes this loyalty costly. Each sacrifice made for the family is recorded with a precision that holds the reader's sympathy, and the perspectives of the younger characters surface in small, unresolved ways that gather weight. Challenge emerges in the final chapters, where the narrator's ledger is revealed to be incomplete. The novel does not condemn loyalty; it asks whether the family's ideas about it have been applied to some members and not others. A critical reader cannot leave the book with the narrator's values intact. The complex text thus affirms duty as a value worth dignifying while challenging the perspective that duty alone justifies its cost. That tension is the novel's achievement, and it is why the work rewards the reader willing to disagree with it.\n\nRationale: I chose the review form because it allows a critical voice to affirm the novel's ideas about duty while disputing its values. The register is measured and evaluative, matching a literary magazine's readers. I used the narrator's ledger as the controlling image so that affirmation and challenge arise from the same textual detail. The closing sentence returns to tension to leave the reader with an open judgement, which is the perspective the review models.",
                         "source": "AI",
                         "feedback": "The composed review holds a developed critical position: it affirms the ideas about duty and challenges the values behind them, using one controlling image throughout. The rationale names specific choices (form, register, the ledger) and matches the text, so it earns full marks.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-55-2",
@@ -9170,7 +9170,7 @@
                         "answer": "Review: The ideas about family duty in this novel are strong, and the narrator's loyalty is admirable. However, the novel challenges some values, because the younger characters suffer for the family's sake. The complex text makes the reader think about whether duty is always right, and I think it is worth reading for that reason.\n\nRationale: I wrote this as a review because it is a critical form, and I wanted to say both what the novel does well and where it goes wrong.",
                         "source": "AI",
                         "feedback": "The composed text takes a position that affirms and challenges, but the two are placed side by side rather than argued, and the rationale describes the form without explaining choices of evidence. This sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-55-3",
@@ -9178,7 +9178,7 @@
                         "answer": "The novel is about a family and their duty. It affirms some values and challenges others.\n\nRationale: I wrote a review.",
                         "source": "AI",
                         "feedback": "A limited critical position and a rationale that does not explain any choice. This is the 1-2 mark band at its upper end.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A literary magazine invites students to contribute a critical review of the invented complex text in this scenario, a multi-layered novel about a family's inheritance, written for this task. Contributions must argue whether the novel's ideas about duty deserve affirmation or challenge. Its narrator keeps a ledger recording each family sacrifice, and insists that loyalty is the highest good. Its younger characters' perspectives surface in small ways, and in its final chapters the ledger is revealed to be incomplete."
@@ -10050,9 +10050,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-57",
-                    "question": "Construct an informed personal response shaped by critical interpretations of the short novel and close textual analysis. Follow your response with a short rationale.",
+                    "question": "Compose an informed personal response shaped by critical interpretations of the short novel and close textual analysis. Follow your response with a short rationale.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-05"
                     ],
@@ -10075,7 +10075,7 @@
                       "blank page",
                       "reflective voice"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a sustained, informed personal response in which critical interpretations and textual analysis clearly shape the reader's changing view, with a rationale explaining the choices\n5-6 marks: Constructs a personal response that draws on critical interpretation and some textual analysis, with a rationale that describes some choices\n3-4 marks: Constructs a personal response with limited critical interpretation, and a general rationale\n1-2 marks: Constructs a reaction with little critical content and little or no rationale",
+                    "markingCriteria": "7-8 marks: Composes a sustained, informed personal response in which critical interpretations and textual analysis clearly shape the reader's changing view, with a rationale explaining the choices\n6 marks: Composes a personal response that draws on critical interpretation and some textual analysis, with a rationale that describes some choices\n5 marks: Composes a personal response that draws on critical interpretation with limited textual analysis, and a rationale that identifies some choices\n3-4 marks: Composes a personal response with limited critical interpretation, and a general rationale\n2 marks: Composes a reaction with little critical content and little or no rationale\n1 mark: Composes a brief reaction with no critical content and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-57-1",
@@ -10083,7 +10083,7 @@
                         "answer": "My personal response to the short novel began with discomfort. I had expected the widow's careful routines to read as comfort, and instead they felt like a barrier held up against the guests. Only on a second reading, shaped by critical interpretations that the notebook is a form of control, did the routines begin to look like a survival strategy I could recognise from my own family's kitchen table. Textual analysis changed how I felt about the final scene. The notebook entries stop abruptly, and the reader is left with a blank page, which I had first taken as a flaw. Read closely, the blank page is the only place where the widow's voice is absent, and that absence is a deliberate choice. My response is therefore informed rather than reactive. I still find the widow frustrating, but I now see the frustration as the novel's intention, and I feel the weight of the choice she has made. The text has changed how I remember winter, and I think that change is what a good novel should do.\n\nRationale: I wrote this as a first-person reflection because the task asks for a personal response, and a reflective voice shows how my understanding changed. The critical interpretations are presented as a process rather than a conclusion, so the reader can see the response becoming informed. The blank page is the textual analysis that anchors the change, which keeps the emotion tied to the text rather than to general sentiment. The rationale also explains why the response ends on uncertainty: an informed personal response can admit that the text has not settled its own questions, and that admission is part of what the reader takes from it.",
                         "source": "AI",
                         "feedback": "The response shows a reader's change of view caused by a critical interpretation (the notebook as control) and a specific textual analysis (the blank page). The rationale explains the choice of voice and the role of the detail, so it earns full marks.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-57-2",
@@ -10091,7 +10091,7 @@
                         "answer": "At first I found the widow's routines cold. After reading some critical interpretations of the notebook, I saw that it was a way of controlling her grief rather than recording her guests. The final blank page is an important part of the novel. My response is more thoughtful now, and I think the text is effective.\n\nRationale: I wrote this as a reflection on my own reading.",
                         "source": "AI",
                         "feedback": "A change of view is shown and linked to a critical interpretation, but the textual analysis is brief and the rationale does not explain the choices made. This sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-57-3",
@@ -10099,7 +10099,7 @@
                         "answer": "I liked the novel because the widow was sad. It made me think about winter.",
                         "source": "AI",
                         "feedback": "A personal reaction with no critical interpretation or textual analysis. This is the 1-2 mark band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A reader's column invites students to write a personal response to an invented short novel, written for this task, in which a widow keeps a guesthouse by the sea through one winter and records her guests' stories in a notebook. The response must show informed insight shaped by close critical reading, rather than a simple reaction. The notebook entries stop abruptly before a blank final page, and the sea appears in repeated images that track the widow's control."
@@ -10600,9 +10600,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-65",
-                    "question": "Construct a personal, critical or creative text that experiments with emerging forms, language features and literary devices, including imagery, motif and allusion. Follow your text with a short rationale.",
+                    "question": "Compose a personal, critical or creative text that experiments with emerging forms, language features and literary devices, including imagery, motif and allusion. Follow your text with a short rationale.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04"
                     ],
@@ -10623,7 +10623,7 @@
                       "motif",
                       "allusion"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a sustained text that experiments with emerging forms and uses literary devices with control, and a rationale that explains the purpose of each choice\n5-6 marks: Constructs a text that uses emerging forms and literary devices with some control, and a rationale that describes some choices\n3-4 marks: Constructs a text with an experimental element that is not fully controlled, and a general rationale\n1-2 marks: Constructs a text with a conventional form and little or no rationale",
+                    "markingCriteria": "7-8 marks: Composes a sustained text that experiments with emerging forms and uses literary devices with control, and a rationale that explains the purpose of each choice\n6 marks: Composes a text that uses emerging forms and literary devices with some control, and a rationale that describes some choices\n5 marks: Composes a text that uses emerging forms and literary devices with limited control, and a rationale that identifies some choices\n3-4 marks: Composes a text with an experimental element that is not fully controlled, and a general rationale\n2 marks: Composes a text with a conventional form and little or no rationale\n1 mark: Composes a brief text with a conventional form and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-65-1",
@@ -10631,7 +10631,7 @@
                         "answer": "1. Imagery: the kitchen window fogs each morning, and I write my name in the mist before it clears. Salt on the sill, the same white crust my mother scrubbed away every Sunday.\n\n2. The motif returns: keys. Her keys on the hook, my keys in my pocket, the keys she gave me the day I left, never used. I keep returning to the hook.\n\n3. Allusion: I think of the boatman in the old story who carried the dead across the river and asked for a coin only from those who had one. I have never had a coin to give, and I keep rowing.\n\n4. Emerging form: this is not an essay, though it began as one. The numbered fragments are a sequence of rooms, and you may enter any one of them. The arguments are missing because I no longer believe that memory argues.\n\n5. The window clears. The name is gone, the salt remains on the sill, and I am still at the hook, deciding whether to take the keys down.\n\nRationale: I experimented with emerging forms by combining a numbered fragment sequence with lyric prose, so the reader moves between rooms rather than along a single line. The imagery of fog and salt is a deliberate pattern that becomes a motif, returning from the sill to the keys on the hook. The allusion to the boatman frames the narrator's inability to pay, which links to the motif of debt. I chose a personal voice because the text is about inheritance, and the emerging form lets the grief remain partly unresolved, which is the effect the piece is designed to produce. Its literary devices are arranged so that the imagery introduces the motif, the allusion deepens it, and the form lets the reader complete the pattern.",
                         "source": "AI",
                         "feedback": "The text experiments with form through numbered fragments and uses imagery, motif and allusion so that each device changes how the others read. The rationale explains the purpose of each choice and matches the text, so it earns full marks.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-65-2",
@@ -10639,7 +10639,7 @@
                         "answer": "1. The window fogs each morning and I write my name in the mist before it clears.\n\n2. The keys are on the hook again. I keep returning to them.\n\n3. The boatman in the old story asked for a coin. I have none.\n\nRationale: I used numbered sections to make the piece look experimental, and I put in some imagery and a motif of keys. The allusion is about a boatman because it links to the idea of paying.",
                         "source": "AI",
                         "feedback": "The piece uses fragments and three devices, but the emerging form is not used to do work the content could not, and the rationale describes choices without explaining their effect. This sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-65-3",
@@ -10647,7 +10647,7 @@
                         "answer": "I wrote a poem about my mother and the kitchen. It has some imagery of fog and salt in it.",
                         "source": "AI",
                         "feedback": "A conventional text with one device named and no rationale. This is the 1-2 mark band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A creative writing elective asks students to produce a text that experiments with form, such as a hybrid lyric essay, a prose poem sequence or a short digital narrative. The text must use imagery, motif and allusion deliberately, and students must justify their choices in a short rationale."
@@ -10716,9 +10716,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-67",
-                    "question": "Construct a text that uses the language of critical and creative expression for a chosen audience. Follow your text with a short rationale.",
+                    "question": "Compose a text that uses the language of critical and creative expression for a chosen audience. Follow your text with a short rationale.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-05"
                     ],
@@ -10741,7 +10741,7 @@
                       "rationale",
                       "public space"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a sustained text that uses the language of critical and creative expression with control for a chosen audience, and a rationale that explains how the choices serve the audience\n5-6 marks: Constructs a text that uses the language with some control for a clearly identified audience, and a rationale that describes some choices\n3-4 marks: Constructs a text with some critical or creative language and an uneven sense of audience, and a general rationale\n1-2 marks: Constructs a text with limited use of the language and little or no rationale",
+                    "markingCriteria": "7-8 marks: Composes a sustained text that uses the language of critical and creative expression with control for a chosen audience, and a rationale that explains how the choices serve the audience\n6 marks: Composes a text that uses the language with some control for a clearly identified audience, and a rationale that describes some choices\n5 marks: Composes a text that uses the language with limited control for an identified audience, and a rationale that identifies some choices\n3-4 marks: Composes a text with some critical or creative language and an uneven sense of audience, and a general rationale\n2 marks: Composes a text with limited use of the language and little or no rationale\n1 mark: Composes a text with minimal use of the language and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-67-1",
@@ -10749,7 +10749,7 @@
                         "answer": "To the councillors of our district,\n\nLast summer I cycled past the skate park on Harbour Street and found the ramps fenced off, the paint peeling from the rails and a sign promising a review that never came. I want to argue that closing the park was a mistake, and that the decision reveals how little the council hears from those who use it. The case for reopening it is practical as well as principled. Young people who have nowhere to skate will find somewhere less safe to be, and the cost of supervising them later is greater than the cost of a single repair. Consider the image the park offered every evening: a crowd of riders, arguing over lines and laughing when one of them fell, a small community organising itself without a single adult telling it how. That is the imagery of a public space working as it should, and it is exactly what the fence has erased.\n\nI ask you to reopen the park and invite the young riders to a public forum, so that their argument can be heard in the same chamber where the decision was made. I speak as someone who learned to fall on that concrete, and I know it was never only about tricks.\n\nRationale: I chose councillors as my chosen audience because they hold the decision, and I wrote in the language of critical and creative expression so that argument and feeling reinforce each other. The opening anecdote about the peeling rails gives the council a concrete picture before any claim is made. The imagery of riders arguing over lines makes the community visible, and the closing paragraph answers the council's likely objection by offering the riders a voice. The letter form suits a chosen audience who must be persuaded, not simply informed.",
                         "source": "AI",
                         "feedback": "The text uses the language of critical and creative expression with control: an anecdote opens the argument, imagery makes the community visible, and the closing invitation answers the audience's objection. The rationale explains how these choices serve the chosen audience, so it earns full marks.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-67-2",
@@ -10757,7 +10757,7 @@
                         "answer": "To the council, The skate park was closed and it should be reopened. Young people need somewhere to go, and the park is good for the community. I think the council should listen to the riders and reopen it, because it is their park too.\n\nRationale: I wrote this to the council because they are the people who decided to close it. I used an anecdote about my bike ride to show the problem.",
                         "source": "AI",
                         "feedback": "An argument and an anecdote are present and the audience is identified, but the language is plain and the rationale describes the choices rather than explaining how they serve the audience. This sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-67-3",
@@ -10765,7 +10765,7 @@
                         "answer": "The skate park should be open again because young people use it. The council should fix it.",
                         "source": "AI",
                         "feedback": "A basic argument with little critical or creative language and no rationale. This is the 1-2 mark band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A community newsletter invites students to construct a text for a chosen audience, such as council members or Year 7 students, about a local issue. Contributions must mix argument with anecdote and use the language of critical and creative expression."
@@ -10825,9 +10825,9 @@
                 "prompts": [
                   {
                     "id": "prompt-ea-69",
-                    "question": "Construct an imaginative, discursive, persuasive or reflective text that affirms or challenges the ideas, values and perspectives represented in the short story. Follow your text with a short rationale.",
+                    "question": "Compose an imaginative, discursive, persuasive or reflective text that affirms or challenges the ideas, values and perspectives represented in the short story. Follow your text with a short rationale.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-05"
                     ],
@@ -10851,7 +10851,7 @@
                       "values",
                       "perspectives"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a sustained text in one of the four forms that affirms and challenges the ideas, values and perspectives of the story, with control of form and voice, and a rationale that explains the choice of form\n5-6 marks: Constructs a text in one of the four forms that affirms or challenges the story's ideas and values with clear control, and a rationale that describes some choices\n3-4 marks: Constructs a brief text with an uneven position on the story's values, and a general rationale\n1-2 marks: Constructs a text with a limited position on the story's values and little or no rationale",
+                    "markingCriteria": "7-8 marks: Composes a sustained text in one of the four forms that affirms and challenges the ideas, values and perspectives of the story, with control of form and voice, and a rationale that explains the choice of form\n6 marks: Composes a text in one of the four forms that affirms or challenges the story's ideas and values with clear control, and a rationale that describes some choices\n5 marks: Composes a text in one of the four forms that affirms or challenges the story's ideas and values with some control, and a rationale that identifies some choices\n3-4 marks: Composes a brief text with an uneven position on the story's values, and a general rationale\n2 marks: Composes a text with a limited position on the story's values and little or no rationale\n1 mark: Composes a brief text with no clear position on the story's values and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-ea-69-1",
@@ -10859,7 +10859,7 @@
                         "answer": "Letter to the Editor: In Defence of the Town's Silence\n\nWhen the lighthouse closed last winter, I stood on the harbour wall and felt, for the first time, the loyalty the invented story in this scenario asks its characters to hold. My grandmother kept the lamp lit for forty years. I was told it was duty. I now wonder whether duty was the only word available to her.\n\nThe story affirms loyalty to the town as a value worth keeping, and I want to challenge the way it turns loyalty into silence. Some residents were asked to give up their voices so that the town could look unbroken. Others, who asked why the lamp was going out, were told it was not their concern. A community that expects its members to stay quiet is not united; it is merely frightened.\n\nConsider the alternative. If the town asked its people what they valued, loyalty would survive, but it would be earned rather than demanded. I ask the council to hold an open meeting before the next closure is decided. Let the harbour wall be a place where people speak, not one where they are expected to keep watch in silence.\n\nI write as someone who stood on that wall and said nothing. I am asking that the next person who stands there be given a reason to speak.\n\nRationale: I considered an imaginative monologue, a discursive essay and a persuasive speech before choosing a letter, because a letter can hold a reflective opening, an argument and a call to act. The reflective anecdote about the lighthouse opens the piece so that the reader shares the loyalty before it is questioned. The text affirms the story's ideas about belonging while challenging its values where loyalty becomes silence. Including the perspectives of residents who were told to stay quiet gives the argument its human weight.",
                         "source": "AI",
                         "feedback": "The letter holds a single, developed position: it affirms the story's ideas about belonging and challenges its values where loyalty becomes silence. The rationale names the four forms, explains why a letter suits the position, and points to specific choices, so it earns full marks.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-69-2",
@@ -10867,7 +10867,7 @@
                         "answer": "Letter to the Editor: The story is about loyalty to the town, and I think loyalty is good. But the story also makes people stay quiet, which is wrong. I want the council to hold a meeting so that people can speak about the lighthouse.\n\nRationale: I wrote a letter because it is persuasive, and I used a memory of the lighthouse to start.",
                         "source": "AI",
                         "feedback": "The text affirms and challenges the story and has a clear form, but the position is a general contrast and the rationale describes the form without explaining the choices. This sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-69-3",
@@ -10875,7 +10875,7 @@
                         "answer": "The story is about loyalty. I agree that loyalty is important and the town should keep it.",
                         "source": "AI",
                         "feedback": "A limited position on the story's value with no construction of a text and no rationale. This is the 1-2 mark band at its upper end.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A community forum asks students to construct a text that affirms or challenges the values in an invented short story about a lighthouse town, written for this task. In it, loyalty to the town is the central value and residents are told to keep quiet about a closure. Students may choose an imaginative, discursive, persuasive or reflective form, and must explain the choice in a short rationale."
@@ -10940,7 +10940,7 @@
                     "id": "prompt-ea-77",
                     "question": "Craft a discursive or persuasive piece of writing that incorporates the ideas in the stimulus above.",
                     "totalMarks": 20,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-05",
                       "EAV-12-03"
@@ -10974,7 +10974,7 @@
                         "mark": 20,
                         "answer": "Consider the kettle. For most of history, water in a home was carried, heated and poured by hand, and every cup of tea was the end of a slow chain of effort. Now the kettle clicks off by itself, and we barely notice the minutes it has returned to us. Yet we have been handed so many time-saving inventions that we have stopped asking what they have quietly taken. This piece argues that there is much to be said for going back to basics, and that a life less convenient might give back what the labour-saving devices cannot.\n\nBegin with bread. Anyone who has kneaded dough knows its resistance under the heel of the hand, and how it turns smooth only if you refuse to hurry. A loaf from a packet may be just as nourishing, but the person who bought it has skipped the waiting, and the waiting was where the attention lived. Convenience removes friction. Friction, it turns out, is where we learn that we can do something hard and come through it.\n\nConsider also the handwritten letter. Its ink smudges where a thumb has rested too long. Its crossings-out show a mind changing course in real time. The message I could send in ten seconds carries no such evidence of thought. The effort is part of what a message says, and when every reply costs nothing, very little of it is worth much.\n\nThose who doubt this will say that inconvenience is simply a cost, and that a sensible society removes costs wherever it can. That is true of some costs. Nobody wants to return to hauling water from the river, or to lose a week to a fever a doctor could have cured. But a cost is not the same as a challenge, and the two are easily confused. A challenge is chosen, bounded and returned with interest. Walking home rather than catching the train, reading a paper map on a Saturday morning, cooking one dish from scratch for a friend: these are not burdens. They are small, deliberate refusals to let the next button decide how my day feels.\n\nI accept that the argument can be overstated. A person who romanticises the hard life may forget how hard it was, and nostalgia is a poor guide to the past. The question is not whether the old world was better. It is whether we have let ease make our choices for us. When the easiest option is always selected, we stop learning which of our preferences are truly ours. Look at what is lost when everything arrives at once. Waiting for a bus, I used to watch the street. Now I hold a small glowing rectangle and the street passes unseen. Some inconvenience is a kind of attention, and attention is the raw material of thought.\n\nA life less convenient will not suit everyone, and I would not ask a night-shift nurse to hand-wash her linen. But the benefits of deliberate inconvenience are open to most of us in small doses. Choose the route that takes longer. Write the letter. Let the bread rise in its own time. Each choice returns a little of what the inventions took, because a person who has done a hard thing unaided learns something the easy path never shows.\n\nSo could there be benefits to leading a life less convenient? I believe there are, and they are not hidden. They are the slow ink, the stubborn dough, the walk that arrives late and somehow richer. The problem is not the inventions but the habit of spending their gifts unnoticed. Go back to basics, and notice. The minutes you save are worth less than the attention you can keep.",
                         "feedback": "Meets the top criteria row: the piece engages the stimulus from its first lines, controls its structure through the kettle, bread and letter sequence, and uses a rhetorical question to close. To sharpen it, the middle section on the bus stop could be tightened so the final paragraph lands harder.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-77-2",
@@ -10982,7 +10982,7 @@
                         "mark": 12,
                         "answer": "Modern life is full of inventions that save us time. Dishwashers, online shopping, microwave meals and navigation apps all promise that we will have more hours for the things we actually want to do. These inventions have clear benefits. Nobody wants to spend an afternoon washing dishes by hand or walking to the shops in the rain. However, there is much to be said for going back to basics, because some of the things we give up are worth keeping.\n\nTake cooking. When a meal is made from scratch, you have to plan, measure, chop and wait. This takes longer, but it teaches patience and gives a real sense of achievement. A packet meal does not offer the same reward. Similarly, a handwritten letter takes longer to write than an email, but the person receiving it can tell that you sat down and thought about them.\n\nSome people say that inconvenience is just wasted time and that sensible people should avoid it. I disagree. Inconvenience is not the same as hardship. Walking to school rather than being driven, or reading a paper map instead of following a phone, can make a day more interesting because you have to pay attention to where you are. When everything is easy, we stop noticing things.\n\nOf course, a life less convenient is not for everyone. Some people need time-saving devices to work, to look after family or to stay healthy. But most of us could choose a few inconvenient habits without much trouble. We could cook one meal a week from scratch, write one letter a month by hand, or take the longer route home to see something new.\n\nIn conclusion, the benefits of time-saving inventions are real, but they should not be the only thing we value. A life with a little less convenience can give us patience, attention and a closer connection to what we do.",
                         "feedback": "Meets the middle criteria row: the piece engages the stimulus and holds a clear position, but it leans on description of everyday examples more than on argument. To lift it, each example should be followed by a step that explains why the inconvenience matters, and the closing should answer the question rather than summarise.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-77-3",
@@ -10990,7 +10990,7 @@
                         "mark": 5,
                         "answer": "Inventions make life easier. We have dishwashers, phones and microwaves, and they save lots of time. Some people think we should go back to basics and live a life that is less convenient. I think this is a good idea because doing things the old way can be good for you. For example, you could cook dinner from scratch instead of buying it, or write letters by hand. These things take longer, but you learn something from them. So there might be benefits to living a less convenient life, even though the inventions are useful.",
                         "feedback": "Meets the lowest criteria row: the piece attempts the stimulus but lists examples with little craft and no developed argument. To lift it, the student should use one or two images and a clear sense of audience, so that the stimulus idea shapes the sentences rather than sitting beside them.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Stimulus: ‘For all the benefits gained by time-saving inventions, there’s much to be said for going back to basics . . . So, could there be benefits to leading a life less convenient?’ — Jessica Powell, Worth the while. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
@@ -11003,7 +11003,7 @@
                     "id": "prompt-ea-84",
                     "question": "Continue this extract as a piece of imaginative, discursive or persuasive writing that evokes a particular emotional response in the reader.",
                     "totalMarks": 10,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-05"
@@ -11038,7 +11038,7 @@
                         "mark": 10,
                         "answer": "The third book found him in the corridor outside Room 14, where the vending machine hummed like a fridge left open in an empty house. His sister had left it on the plastic chair beside him, wrapped in the brown paper their mother saved for birthdays, with a pencil pushed into the spine as if someone had meant to keep a place. He did not open it at once. He turned it over and felt the weight of something carried a long way, and he knew before he saw the cover that it had been their father’s.\n\nThe first two books had arrived like weather: a battered paperback on a bus seat at nineteen, a hardback bought in a rain-soaked shop at thirty-four. Each had split him open and left him standing in a different country. He had believed the splitting was finished. A man of fifty-eight does not expect the furniture of his mind to be moved again.\n\nInside, the margins were thick with handwriting he recognised before he read a word. Small, careful capitals beside a passage about a river. A pencilled question beside a sentence about leaving home. Someone had underlined a line about rain on a tin roof and written beneath it, in pencil worn almost through the paper: “Tell him.”\n\nHe had never been told anything in that voice. His father spoke in shrugs and in the hum of the radio, and he had died with a letter half-written in the desk drawer. Now the notes ran for two hundred pages, each one an argument with a book, a man arguing with himself about what a life was for.\n\nBy the time the nurse called his name, the light in the corridor had turned the colour of weak tea. He did not stand up. He kept his finger in the place where the pencil lay and read the last note again, the one in ink, dated the winter before the diagnosis: “Some things only make sense when someone else reads them.”\n\nIt was the cruellest kind of kindness, and it was also the thing he had been waiting his whole life to be given. He lifted his head and saw, through the glass, the car park lit orange and the rain falling on every parked car in exactly the same way. For the first time since the phone call, he could hear himself breathe.",
                         "feedback": "Meets the 9-10 mark row: the piece composes a highly engaging continuation of the stimulus, crafting language to sustain an emotional response through the father’s margin notes, the sensory detail of the corridor and a closing image of breath. The move that would lift it is to cut the sentence beginning “It was the cruellest kind of kindness”, which names the feeling just before the image earns it.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-84-2",
@@ -11046,7 +11046,7 @@
                         "mark": 6,
                         "answer": "The third book came from his father’s house in a box marked BOOKS in his sister’s handwriting. He did not expect it to change anything. He had read two books that had already changed his life, and he thought he knew how it felt. But when he opened the cover he found his father’s notes in the margins, and he felt very sad, because he had never really talked to his father about books at all.\n\nHis father had always been a quiet man who liked the radio. He did not talk much about what he read. Now the notes were all over the pages, in pencil, and some of them were questions he had asked himself. One said “Tell him.” He read it many times. It made him want to ring his sister and say sorry for the arguments they had after the funeral, which seemed a long time ago now.\n\nBy evening the house was dark and he was still at the kitchen table. The book had changed him again, the way the other two had, but this time it was harder. He understood that his father had been lonely too. He closed the cover and left the pencil in the spine where it had been, and he sat with the book in his lap until the clock on the wall had moved past midnight.",
                         "feedback": "Meets the 5-6 mark row: the piece continues the stimulus with a situation and a loss, and it holds the feeling across several paragraphs, but the feeling is named rather than evoked (he felt very sad, it made him want) and the notes are summarised rather than seen. To reach 7, replace one named feeling with a concrete detail from the margins.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-84-3",
@@ -11054,7 +11054,7 @@
                         "mark": 3,
                         "answer": "The box came after the funeral. I was sad when I saw it. My dad liked books and he wrote in them, so there is writing in the margins and a pencil in the middle. The pages are soft from being turned. I read some of it and it said Tell him. I did not know what it meant. Now I feel strange and I cannot stop thinking about the box and how he was not here to tell me. I put the pencil back in the spine where it was. The house is quiet and nobody comes to the door, so I read it again. He wanted me to read them because he loved me, I think.",
                         "feedback": "Meets the 3-4 mark row: the piece attempts to respond to the stimulus and names a loss, but nearly every sentence states a feeling (I was sad, I feel strange) and the tense shifts without purpose, so the control of language is variable. To reach 5, let one concrete detail carry the emotion and hold the tense from start to finish.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Stimulus: ‘Twice before, a book had turned him inside out and altered who he was, had blasted apart his assumptions about the world and thrust him onto a new ground where everything in the world suddenly looked different — and would remain different for the rest of time, for as long as he himself went on living in time and occupied space in the world.’ — Paul Auster, 4 3 2 1\n\nYou are not required to write out the extract as part of your response. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
@@ -11067,7 +11067,7 @@
                     "id": "prompt-ea-86",
                     "question": "Compose a piece of imaginative writing that begins with the words: ‘Some things are unknowable. A person’s secrets may be revealed by the things they leave behind; but what are they, those supposedly uncovered secrets? They are words, ideas . . . Dry and dead as dust.’",
                     "totalMarks": 20,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-05"
@@ -11102,7 +11102,7 @@
                         "mark": 20,
                         "answer": "Still, I carried the box up the stairs as though it held something that might bite. Forty years of my grandfather’s letters lay inside, tied with string gone the colour of old tobacco, and I had been promised that they would explain him. I sat on the landing and untied the first bundle. The letters were courteous. They asked after the weather, the price of wool and the health of a sister in the hills. They thanked a neighbour for a jar of plums. Nowhere did they say what had happened on the night the telephone rang and he went out without his coat.\n\nI read them the way you read someone else’s post, guiltily and too quickly, and by the third bundle I understood the trick. Every sentence was a lid. Each one closed over whatever it meant to hide, the way a sheet is drawn over a table nobody has yet cleared. Words and ideas, the careful drafts of a man who would not be seen. Dry and dead as dust, yes. But dust settles on whatever is left in a room, and I had begun to notice what was left.\n\nAt the bottom of the box, under a tin of tacks and a mouth organ with two notes missing, lay a child’s exercise book. Its cover had been coloured in with crayon: a blue sky, a yellow house, a figure in the doorway with both arms stretched wide. Inside, a boy had copied one sentence eleven times. I will come back before the rain. Each copy leaned further than the last, the letters running downhill as if the pencil were hurrying to finish before someone called him in for tea. Nobody had written down what he was afraid of. The pages did the telling in the only language a child truly commands, which is repetition.\n\nI had come to read a man and was reading a house. The mouth organ had been played until its brass went soft at the edges; someone had pressed a thumb into it every night, the way you test a bruise. The tacks were the kind used for mending lino or hanging a picture in a hall. The exercise book had been kept, not thrown out, and that was the secret of it. A person does not keep what means nothing. They keep whatever would hurt more to lose.\n\nOutside, a magpie began its long and uncertain song. The boy at the table, I realised, had been my grandfather, writing the same sentence until it was true. I wanted to tell him that he had written his letters too politely to be understood. The real account of his life was not in what he had said but in what he had carried up and down the same stairs for forty years: the tacks, the mouth organ, a small promise kept in pencil and then in a box.\n\nI set the exercise book on top of the pile and the letters underneath it, so that the boy would be read first. Then I went down to the kitchen to make tea, the way my grandmother did whenever news had arrived that nobody could yet bear to say aloud. The kettle ticked as it cooled. I thought about the things I would leave behind, the receipts and recipes and half-finished crosswords, and about the strange hope that someone might one day sit on a landing with my shoebox and find me not in the words but in the stubborn small evidence of having been here.\n\nDust is what remains when everything has been said. I had mistaken it for the end of the story. It is only the place where the story waits for a reader willing to kneel down and look under the furniture.",
                         "feedback": "Meets the 17-20 mark row: the piece composes a sustained and engaging continuation that moves from the courteous letters to the child’s book, and it crafts language skilfully so that the reader reaches the grandfather’s boyhood before the narrator names it. The move that would lift it is to cut the sentence beginning “Dust is what remains”, since the room and the furniture already carry the idea.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-86-2",
@@ -11110,7 +11110,7 @@
                         "mark": 12,
                         "answer": "Still, I took the box upstairs and sat on the bed with it, because the letters were what I had come for. Forty years of my grandfather’s correspondence lay inside, tied in bundles with string. I expected the letters to explain him. They did not. They were polite and careful, about the weather, the price of wool and a sister who had moved to the coast. They thanked people for small kindnesses. I read through three bundles and felt that I had learned nothing new about the man I thought I knew.\n\nThen I found the rest of the box, at the bottom, under the letters. It held a tin of tacks, a mouth organ and an exercise book with a blue cover. The book had been coloured in by a child. Inside, a boy had written the same sentence over and over: I will come back before the rain. The handwriting got worse with each copy, and by the end the letters were sloping down the page. I realised that nobody had told the child what to say. He had decided it himself, and he had kept repeating it until he believed it.\n\nI thought about how easily the things we leave behind can be misread. A letter is written for a reader, so it shows the face a person wants to show. A mouth organ is only what it is. Someone had played it every night until the brass wore soft, and that wear was more honest than anything my grandfather had written down. The tacks had been kept too, in a tin that rattled whenever the box was moved.\n\nI put the book on top of the letters and went downstairs. The kettle was already on and the kitchen smelled of the plums in the jar. I could not stop thinking about the boy, or about the sentence he had copied so many times. Perhaps it had been true. Perhaps the man who kept it had needed one promise to hold on to, and the rest of his life had been a long wait for it to come back.\n\nWords are not the only record of a life. The things we keep, even dull things like tacks, tell a reader where a person’s attention went. I had come to the box to find a man. I found a house, and a child in it, and I began to understand that the secret had never been in the letters at all.",
                         "feedback": "Meets the 9-12 mark row: the piece composes a sound continuation that moves from the letters to the child’s book, and its language is competent, though the last paragraph restates the opening idea (words are not the only record of a life) rather than extending it. To reach 13, carry the image of the child’s book through to the end, so that the reader reaches the conclusion without its being stated.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-86-3",
@@ -11118,7 +11118,7 @@
                         "mark": 5,
                         "answer": "I opened the box and the letters were all about the weather and the price of wool. They did not say much about him, and I could not tell which of them mattered. The box was heavier than I expected, and the string had rotted at the knots. Then I found a book that a boy had written in, and it said I will come back before the rain many times. I felt sad for the boy. I think things tell you more than words do, because people write what they want you to read. The kitchen clock was loud, and the tea took a long time to brew. I put the book on top and went downstairs.",
                         "feedback": "Meets the 5-8 mark row: the piece attempts to continue the extract simply, moving from the letters to the child’s book, but the language shifts between plain statement and an abstract claim (I think things tell you more than words do), and no image is developed. To reach 9, follow one object from the box through the paragraph so that the reader sees the boy rather than being told about him.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "The opening words are from Jenny Sinclair, ‘Tamby East’. You are not required to write out the opening words as part of your response. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
@@ -11131,7 +11131,7 @@
                     "id": "prompt-ea-87",
                     "question": "Use the image provided to craft a central metaphor in a piece of imaginative, discursive or persuasive writing.",
                     "totalMarks": 10,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-05"
@@ -11166,7 +11166,7 @@
                         "mark": 10,
                         "answer": "The gate is locked at six, so I have stopped waiting for it. My hand comes through the chain-link first, then my wrist, then the pencil I sharpened on the concrete step, a stub of yellow wood with a point worn to a grey tooth. I lay the paper flat in the dirt below the wire and begin. The first footprint is narrow and deliberate, the shoe of someone who has decided not to look back. The second lands further on, in the long grass where the fence throws its shadow in diamonds. Each line I draw is a step I am allowed to take.\n\nPeople tell me a fence is a fence. They point at the wire and the padlock and the bins behind the bus shelter, and they are right about everything except the paper. Paper has no gate. A footprint pressed into it does not ask permission to leave the car park or the concrete yard where the boys in bright jackets wait. It simply goes. By the time the sun has moved over the bitumen, the trail has reached the tree line, and I can see the path bending round the hill as clearly as if a surveyor had marked it with string.\n\nHere is what I want you to understand. A road is only a line that enough feet have agreed to trust. Somebody walked the first one, and then somebody else walked it, until the council paved it and the route seemed inevitable. I am starting that trust again, with a pencil and a scrap of paper and a hand that has grown tired of holding onto wire. Draw the way out before you try to climb. The paper will carry you further than the fence was ever built to allow.\n\nThe fence will still be here tomorrow, and the padlock will still hang on the gate. But the footprints are already walking, and a body that walks is much harder to lock in than a body that waits. I ease my hand back through the wire, the way you draw a thread out of a knot. The pencil stays on the paper a moment longer. Then I follow the trail I have made.",
                         "feedback": "Meets the 9-10 mark row: the piece composes a highly engaging piece of writing that uses the stimulus as a central metaphor, with the footprints becoming a road and the final image returning the walking to the hand in the fence, and control of language holds across all four paragraphs. The move that would lift it is to cut the sentence “Here is what I want you to understand.”, which announces the metaphor before the image has finished working.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-87-2",
@@ -11174,7 +11174,7 @@
                         "mark": 6,
                         "answer": "The fence is high and the gate is locked, so I draw a way out instead. My hand goes through the wire and the pencil makes footprints on the paper underneath. Each footprint is a step. If I keep drawing, the footprints go all the way to the trees, and that is like a road. A road is a line that people walk on, so I am making one. The fence cannot stop a drawing. People say you cannot get out of a place like this, but I think you can if you draw it first.\n\nThe pencil is my leg and the paper is the field. I press the wire down with my other hand so the paper does not slip. The grass is wet and cold on my knees, and every footprint I draw is a little more certain than the one before. Behind me the bus rattles past and the wire hums, and I do not look round. I do not need the gate. I need the paper to be big enough and the footprints to look as if they know where they are going. When I pull my hand back through the fence, the trail is still there, and I can follow it. That is the only way I have got out so far.",
                         "feedback": "Meets the 5-6 mark row: the piece uses the stimulus as a metaphor and keeps the footprints walking away from the fence, but the metaphor is explained in sentences of comment (that is like a road; that is the only way) rather than carried by the image, and several sentences open in the same pattern. To reach 7, let the footprints do the explaining in the description and cut the comment.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-87-3",
@@ -11182,7 +11182,7 @@
                         "mark": 3,
                         "answer": "I can see a fence and a hand holding a pencil. The pencil has drawn footprints on the paper under the fence. The fence is metal and it is high, so the person cannot get out. The footprints go away from the fence. I think drawing is a useful way to escape because you can go anywhere on paper. The footprints are the important part, and they show the person is leaving the place they are stuck in. The paper is on the ground, and the hand is still in the fence, so the drawing is the only thing that moves. The fence is cold, and the person looks tired.",
                         "feedback": "Meets the 3-4 mark row: the piece attempts to respond to the stimulus and names the fence, the hand and the footprints, but the metaphor is announced (I think drawing is a useful way to escape) rather than developed, and the control of language is variable. To reach 5, let the footprints stand for the escape within the description itself, without comment.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Stimulus: a drawing by Agim Sulaj. A hand reaches through a chain-link fence holding a pencil, and on the paper beneath the fence the pencil has drawn a trail of footprints walking away.\n\nYour answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
@@ -11201,7 +11201,7 @@
                     "id": "prompt-ea-90",
                     "question": "Craft an imaginative or discursive piece of writing that explores a shared experience which brings about a sense of fulfilment.",
                     "totalMarks": 15,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-05"
@@ -11236,7 +11236,7 @@
                         "mark": 15,
                         "answer": "The power went at six, somewhere between the first crack of thunder and the second, and by seven the whole street had come out to stare at the dark. Nobody had a plan. Mrs Kovac from number four had a pot of soup she could not heat. Dev from across the road had a sack of potatoes he had been meaning to get rid of since winter. I had two bread rolls and a bottle of red I had been saving for a birthday I had forgotten to celebrate.\n\nWe built the fire in the cul-de-sac from the fence palings Dev had been stacking since spring. It caught slowly, then all at once, and the crack of it went across the wet bitumen like a second storm. Somebody dragged out the patio chairs. Somebody else found a camp stove and two saucepans that did not match. By eight there was a ring of us, twelve people perhaps, holding paper plates on our knees and not quite looking at one another, the way neighbours do when they have never needed anything from each other.\n\nFood changed that. Mrs Kovac’s soup was thin and salty and too hot to eat, and she stood over the pot with a wooden spoon, refusing help, until the children were fed first. Dev’s potatoes went into the coals wrapped in foil, and we burned our fingers pulling them out. The bread was torn rather than sliced. Nobody said grace, but everybody waited for the first mouthful, and when it was the youngest boy who got it, the whole circle laughed as if somebody had told a joke.\n\nI had not planned to speak. I have spent most of my life in other people’s stories, the quiet one at the edge of the room who is good at listening. But the stories began to come by themselves. Dev’s father had once rowed a borrowed boat across a lake in a storm and come home with the oars bent. Mrs Kovac, silent through the soup, told us about a winter when the snow rose to the windowsills and the whole street shared one radio. When my turn came I told them about my grandmother’s kitchen, which had no power either, and how she lit the stove with newspaper and read aloud by its glow. My voice shook. Nobody interrupted. The fire took each story and gave it back to us warmer.\n\nSomewhere after ten the flames sank to a low orange breath, and we moved closer without anybody suggesting it. Knees touched. A child fell asleep against Dev’s shoulder and he did not shift for an hour. The talk slowed into something like music: long pauses, then a laugh that started in the middle of a sentence and rolled around the circle. I felt something loosen in my chest, something I had been holding since the funeral in March, and I let it go without deciding to.\n\nAt eleven the power came back. The street lamps flickered on one by one, a fridge hummed in number six, and a television blared behind a closed door. Nobody got up. A small girl asked whether the fire could stay on until morning, and nobody had the heart to say no. Mrs Kovac rolled her eyes at the lights, then turned back to the coals. ‘Well,’ said Dev, in the voice that meant not yet. I pulled the blanket from the back of my chair and tucked it around my knees. The embers settled to grey. The street stayed lit, and we stayed where we were.",
                         "feedback": "Meets the 13-15 mark row: the piece composes a highly engaging piece of imaginative writing that effectively responds to the question. It crafts language skilfully to explore a shared experience that brings about a sense of fulfilment, building the feeling through the food, the stories and the closeness of the circle rather than announcing it. It demonstrates highly effective control of language and structure appropriate to audience, purpose, context and selected form, with the power returning at the end to close the arc.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-90-2",
@@ -11244,7 +11244,7 @@
                         "mark": 9,
                         "answer": "The four of us had driven down to the coast on the last weekend of the year, and by the second night we had run out of things to say to each other. Tom had brought a guitar but only knew two chords. Priya had brought enough food for a wedding. I had brought a camera I never used. We had been friends since high school and somewhere along the way we had become polite.\n\nThen the fire went up. We had gathered driftwood from the dunes, and when Tom struck the match the flames shot higher than any of us expected and we all jumped back, laughing. After that it was easy. We cooked sausages on a grill that Priya had borrowed from her uncle, burned half of them, and ate the rest with our fingers. The sand was cold and the air was warm, and the sea kept coming in behind us.\n\nPriya told the story about her grandmother’s garden. Tom admitted he had cried at a film the week before. I talked about the year I moved away and came home again, and how strange it felt to be back. We listened to each other properly for the first time in months. It felt like a gift that nobody had asked for.\n\nAs the fire burned down we sat close together and watched the sparks climb into the dark. I felt complete. It was the best night I could remember, and I did not want it to end. I felt grateful for these people and for the chance to be together somewhere with no phone signal and no work.\n\nWhen the coals went grey we walked back up the dunes in the dark, our torches swinging. Tom was still humming his two chords. We knew it was the start of a new year, and we knew we would be different because of what we had shared.",
                         "feedback": "Meets the 7-9 mark row: the piece composes an imaginative piece that responds to the question and uses language competently to explore a shared experience among friends at the coast. It demonstrates sound control of language and structure appropriate to selected form. To reach 10, build the sense of fulfilment through action and dialogue rather than stating it: the closing paragraphs tell the reader the night was complete, and the sparks appear once and are not carried through the piece.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-ea-90-3",
@@ -11252,7 +11252,7 @@
                         "mark": 4,
                         "answer": "We went down to the beach for a fire with some friends. We had food, and we cooked sausages and marshmallows. Everyone was there and it was nice. We talked about school and the holidays and what we were going to do next year. The sand was cold and somebody played music on a phone. I got sausage on my shirt and everyone laughed at me about it. Then the fire went out and we went home. It is a good night and I feel happy about being with my friends. It was a nice time and we were all very relaxed. Sharing food and stories with people is important, and I think everyone needs that.",
                         "feedback": "Meets the 4-6 mark row: the piece attempts to respond to the question, naming a gathering at the beach without developing it, and it demonstrates variable control of language and structure, since the tense moves from past to present in the closing sentences. To reach 7, render the gathering through specific moments and detail, and keep the tense and the point of view stable.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Stimulus: ‘Her mind wandered. Last night had been something. Alive. Yes. She had felt alive. Kindled. Lit. Blazing. She had forgotten the way being around other people could feel . . . The sharing of food. The sharing of stories. The gathering around a fire. Elemental. And no one had required anything of her. She had been allowed to just listen. To absorb. She’d forgotten how much she was capable of absorbing.’ — Vanessa McCausland, The Beautiful Words\n\nYour answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
@@ -11265,7 +11265,7 @@
                     "id": "prompt-ea-91",
                     "question": "Use this extract as the stimulus for an imaginative or discursive piece of writing that explores the hope that comes with anticipation.",
                     "totalMarks": 12,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-05"
@@ -11300,7 +11300,7 @@
                         "mark": 12,
                         "answer": "The bird starts at four. I know it is four because the clock on my bedside table has just turned from 3:59 to 4:00 in its pale green light, and because the first notes come through the open window the way they always do: one, two, three, four, then a silence long enough for me to wonder whether I dreamed them. I did not dream them. Somewhere in the gum tree beyond the back fence, a small bird is telling the street that the night is nearly finished.\n\nMum comes home today. For six weeks the word home has belonged to a ward with a window that looks onto a car park, and now it belongs to this house: the kitchen where the kettle clicks, the hallway where her slippers wait under the coat hooks. The doctors have finally given us a time, ten o’clock, after the morning round and the paperwork. I have been awake since two, rehearsing the day the way you rehearse a speech. Sheets on the line. Soup in the pot. The armchair turned to face the garden.\n\nI count the notes with my fingers under the blanket. One for the kettle, two for the bread, three for the car door, four for the moment she walks through the gate and does not need my arm on the step. It is a silly game, I know. But anticipation is like that. It cuts a long wait into small handholds, each one a little more solid than the last.\n\nFear arrives all at once, with a phone call or a shadow across the ceiling. Hope is slower. It builds the way the light builds in the corners of the room, one thread at a time, until the wardrobe door shows its crack of brightness and the cup on the sill comes into focus.\n\nDad rang last night to say the nurses had found her walking the corridor with her cardigan buttoned wrong, asking for the bus home. He laughed when he told me, and so did I. It was the first laugh in weeks that sounded like the old house.\n\nThe bird sings again, and this time I answer it, not aloud, only in the small voice I keep for things that might be listening. All is well, I think. Morning is coming. Then the street begins to wake: a car turns over two doors down, a dog barks once and thinks better of it, and the sky above the fence loosens from grey into a thin blue that promises a warm day.\n\nAt half past six I open the window wider and let in the cold, the wet grass and somebody’s wood smoke. The bird is still going, slower now, as though it has decided its work is done. I make two cups of tea. Then, because the day is too full to stand still, I make a third and carry it upstairs to the room where she will sleep tonight. I set it on the sill and watch the steam climb into the light.",
                         "feedback": "Meets the 10-12 mark row: the piece composes a highly engaging piece of writing that skilfully uses the stimulus, and crafts language skilfully to explore the hope that comes with anticipation. The four-note song is counted out as a daily rhythm and the light builds slowly, so the waiting is held open until the final paragraph. It demonstrates highly effective control of language and structure appropriate to audience, purpose, context and selected form.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-91-2",
@@ -11308,7 +11308,7 @@
                         "mark": 7,
                         "answer": "I wake at four because a bird is singing. It is a small bird and it sings four notes at a time, then stops. I lie there and listen to it. I know Mum comes home today, which is why I am awake, and I feel happy and nervous at the same time.\n\nThe doctors said she could come home today. We have been waiting for six weeks. I have cleaned the house twice and bought the biscuits she likes, the ones with the chocolate on the bottom. I want everything to be right when she arrives. I think she will be pleased, but I am not sure.\n\nI hear the bird again and it makes me hopeful. I think the bird is saying that morning is coming and everything will be all right. I did not expect to feel so calm, but I suppose waiting makes you hopeful. Dad rang last night and said Mum was getting better every day. This made me very happy.\n\nThe sky gets lighter. The street wakes up. A car starts two doors down and a dog barks. I make a cup of tea and drink it at the kitchen table, looking out at the garden. It is going to be a nice day. I can feel something good is about to happen, and I am excited about it.\n\nBy ten o’clock Mum will be here, and the house will feel like a home again. I hope she likes the chair I turned to face the garden. The bird has stopped singing now. I think it is finished too.",
                         "feedback": "Meets the 7-9 mark row: the piece composes an engaging piece of writing that uses the stimulus, and crafts language effectively to explore the hope that comes with anticipation. The song frames the opening and closing, but the narrator names her feelings directly (happy and nervous, very happy, excited) and the middle paragraphs are organised as a sequence of events. To reach 10, replace each stated feeling with a detail of the waiting and keep the song shaping the middle of the piece.",
-                        "band": 3
+                        "band": 5
                       },
                       {
                         "id": "sa-ea-91-3",
@@ -11316,7 +11316,7 @@
                         "mark": 3,
                         "answer": "This is about a girl who is waiting for her mum to come home from hospital. It is early in the morning and there is a bird singing outside the window. She is happy because her mum is coming back and she has made tea. The bird sings four notes and then it stops. Hope is a good feeling to have when you are waiting for something. The girl is hopeful that everything will be alright and she is going to see her mum soon. She has cleaned the house and bought biscuits. In the end the sun comes up and the day starts, and that is the end of the story.",
                         "feedback": "Meets the 1-3 mark row: the piece attempts to compose a piece of writing with some relevance to the question, and demonstrates limited control of language. It retells events in order and states the hope in general terms rather than showing the anticipation. To reach 4, use the stimulus to organise the waiting, with the bird’s song setting the time, and show the hope through what the narrator does.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Stimulus: ‘In the middle of the night, around four am, sometimes/often/but not always, a bird sings a four-note song at intervals. It doesn’t wake me up but when I lie there I hear it and imagine it is letting all the other birds and the rest of us know that all is well. Morning is coming.’ — Stephanie Radok, Under the Bed\n\nYour answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",
@@ -11329,7 +11329,7 @@
                     "id": "prompt-ea-93",
                     "question": "Craft an imaginative piece of writing which incorporates the provided image as the focus of your narrative.",
                     "totalMarks": 12,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EAV-12-04",
                       "EAV-12-05"
@@ -11364,7 +11364,7 @@
                         "mark": 12,
                         "answer": "Everyone under the clock is a silhouette. I notice this before the timetable, before the cold, before the boy with the skateboard who keeps circling the pillar. The morning light pours through the great round face of glass, so the people waiting beneath it are turned to shadow, each one cut flat against the brightness. Roman numerals burn at the edge of the light. A crossed frame divides the face into quarters, and the people nearest the centre look like figures trapped inside a window.\n\nI told Dad to meet me here. Under the clock, I said, the way Mum used to say when I was small and wandering off in the crowd. It has been four years since I heard his voice properly. Four years since the phone calls stopped and the birthday cards began arriving late, with stamps that do not match the postmarks. I have rehearsed what I will say. Now the rehearsed words have gone, and I am holding the ticket in my hand as if it might be evidence.\n\nThe hour is close. I can feel it in the crowd, the small shifts as people check their watches and then lift their faces to the glass, as though the clock were a promise it must keep. The minute hand moves. The shadows slide across the stone floor and reshape themselves. A man in a long coat steps into the light and becomes only a shape. A woman with a pram stops. A boy swings his bag in a slow circle, and his shadow swings with him, bigger and blacker than the boy himself.\n\nI want to step forward and be part of it. Instead I stay where I am, one foot in the glare and one in the cool shade of the pillar, and I watch the silhouettes the way I would watch a film I have already seen: knowing the ending, hoping it might change.\n\nThen one figure separates from the rest. It walks out from beneath the clock with its hands pushed into its pockets, unhurried, as though it has walked this path a thousand times. Its outline is too thin at the shoulders and too straight at the back. It stops two metres away, with the light behind it, and I can see nothing of its face at all.\n\n‘Ruby?’\n\nThe voice is lower than I remember and rougher at the edges. It is the only thing in this whole building I am sure of. I take the step I could not take a moment ago, and the light slides off his face and onto mine. Above us the great glass face ticks over into the next minute, and for the first time all morning, we are both standing in the light.",
                         "feedback": "Meets the 10-12 mark row: the piece composes a highly engaging piece of writing that skilfully incorporates the image as the focus of the narrative. It crafts language skilfully, with the silhouettes, the Roman numerals, the crossed frame and the light all working in the plot, and it demonstrates highly effective control of language and structure appropriate to audience, purpose, context and narrative form. The return to the image in the final paragraph changes its meaning, from a meeting point to a moment of recognition.",
-                        "band": 4
+                        "band": 6
                       },
                       {
                         "id": "sa-ea-93-2",
@@ -11372,7 +11372,7 @@
                         "mark": 7,
                         "answer": "The clock in the station is huge and made of glass, with Roman numerals around its edge. I am meeting my dad under it for the first time in years. I got here early and I stand near the pillar, watching the crowd. People are standing in front of the clock and they look like shadows because the light is coming through the glass. It is very bright.\n\nI feel nervous. The last time I saw Dad I was eleven and he was leaving for work. Mum said he would come back when he was ready. I do not know what he will say. I hope he is different now and I hope I am too.\n\nThe minute hand goes round. A man in a coat walks past and his shape is black against the light. A woman with a pram waits by the bench. A boy is swinging his bag, and it makes a shadow on the floor that is bigger than him. Everybody is looking at the clock because it is nearly time.\n\nThen a figure comes out from under the clock. It is a man, but I cannot see his face because of the light behind him. He stops in front of me and says my name. I feel relief and fear at the same time. The light moves and now I can see him, and it is Dad, and he looks older than I thought. We stand under the clock and everything feels different now, like a new start.",
                         "feedback": "Meets the 7-9 mark row: the piece composes an engaging piece of writing that uses the image as the focus of the narrative, and crafts language effectively, though the clock is often the setting rather than a driver of the plot. The narrator names her feelings (nervous, relief and fear, everything feels different), and the closing lines summarise the meaning. To reach 10, let the image do the work in the final paragraph and cut the statements of feeling.",
-                        "band": 3
+                        "band": 5
                       },
                       {
                         "id": "sa-ea-93-3",
@@ -11380,7 +11380,7 @@
                         "mark": 3,
                         "answer": "There is a big clock in a station and people are standing under it. It is made of glass and it has numbers on it. The light comes through the glass and makes the people look dark. I am waiting for somebody. The clock says it is nearly ten o’clock. I am looking at the people and wondering who they are. A lot of people are here today, and the clock is a nice place to meet because everyone can see it. There are lots of people in the station and it is very busy. Some of them are standing still and some of them are walking. The shadows are long on the floor. I hope the person I am waiting for comes soon.",
                         "feedback": "Meets the 1-3 mark row: the piece attempts to compose a piece of writing with some relevance to the question, and demonstrates limited control of language. It lists what is visible in the photograph without a narrative in which the image matters. To reach 4, give the narrator a problem under the clock and show what the silhouettes mean to her.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Stimulus: a black-and-white photograph looking out through a huge round clock face of glass, with Roman numerals and a crossed frame; people stand in silhouette before it, with light flooding through.\n\nYour answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and context to deliberately shape meaning.",

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { allQuestions } from './support/shippedCourseData';
-import { getCommandTermInfo } from '../../data/commandTerms';
+import { getPromptTermInfo } from '../../data/commandTerms';
 import { questionCeilingBand, parseMarkingCriteria } from '../../utils/markingGuideParse';
 import { promptBandForMark } from '../../utils/guideBands';
 import type { Prompt, PromptVerb } from '../../types';
@@ -23,8 +23,11 @@ describe('one band colour per question', () => {
   it('draws the reference panels in the Writing Prompt’s tier colour', () => {
     const off = questions
       .filter(({ prompt }) => {
-        const tier = getCommandTermInfo(prompt.verb as PromptVerb).tier;
-        return questionCeilingBand(prompt.totalMarks, prompt.verb as PromptVerb) !== tier;
+        const tier = getPromptTermInfo(prompt as Prompt).tier;
+        return (
+          questionCeilingBand(prompt.totalMarks, prompt.verb as PromptVerb, prompt.bandCeiling) !==
+          tier
+        );
       })
       .map(({ prompt }) => `${prompt.id} (${prompt.totalMarks} ${prompt.verb})`);
     expect(off).toEqual([]);
@@ -33,7 +36,7 @@ describe('one band colour per question', () => {
   it('puts every exemplar in the band of the guide row that holds its mark', () => {
     const off: string[] = [];
     for (const { prompt } of questions) {
-      const tier = getCommandTermInfo(prompt.verb as PromptVerb).tier;
+      const tier = getPromptTermInfo(prompt as Prompt).tier;
       const rows = parseMarkingCriteria(prompt.markingCriteria ?? '', prompt.totalMarks, tier);
       for (const sa of prompt.sampleAnswers ?? []) {
         const row = rows.find(

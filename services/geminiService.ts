@@ -38,6 +38,7 @@ import {
   getTierTargetBand,
   fitVerbsToLength,
   liftVerbForLength,
+  getPromptTermInfo,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
@@ -232,7 +233,7 @@ export const evaluateAnswer = async (
   syllabus?: SyllabusKeywordContext,
   { withRewrite = true }: EvaluateOptions = {}
 ): Promise<EvaluationResult> => {
-  const termInfo = tierInfo || getCommandTermInfo(prompt.verb);
+  const termInfo = tierInfo || getPromptTermInfo(prompt);
 
   // The cognitive demand of the verb caps the achievable NESA band. This is the
   // same tier-aware ceiling the rest of the app shows (e.g. the "Top Level: Band X"
@@ -544,7 +545,7 @@ export const improveAnswer = async (
   prompt: Prompt,
   evaluation: EvaluationResult
 ): Promise<{ text: string; mark: number; band: number; keyChanges: string[] }> => {
-  const termInfo = getCommandTermInfo(prompt.verb);
+  const termInfo = getPromptTermInfo(prompt);
   const { targetMark, targetBand } = getNextLevelTarget(
     evaluation.overallMark,
     prompt.totalMarks,
@@ -702,7 +703,7 @@ export const enrichPromptDetails = async (
   prompt: Prompt,
   context: { name: string; outcomes: CourseOutcome[]; syllabus?: SyllabusKeywordContext }
 ): Promise<{ scenario: string; keywords: string[]; linkedOutcomes: string[] }> => {
-  const termInfo = getCommandTermInfo(prompt.verb);
+  const termInfo = getPromptTermInfo(prompt);
   const targetBand = getTargetBand(prompt.totalMarks, termInfo.tier);
   const contextBlock = buildSyllabusContextBlock(context.syllabus);
   const request = {
@@ -1264,7 +1265,7 @@ export const reviseSampleAnswer = async (
   targetMark: number,
   syllabus?: SyllabusKeywordContext
 ): Promise<SampleAnswer> => {
-  const termInfo = getCommandTermInfo(prompt.verb);
+  const termInfo = getPromptTermInfo(prompt);
   const request = {
     ...aiTarget('reasoning'),
     __feature: 'aiContentStudio',
@@ -1549,7 +1550,7 @@ export const refineManualPrompt = async (
  * needing one — rather than with a wrong one the marker would be handed.
  */
 const withLadderGuide = async (prompt: Prompt): Promise<Prompt> => {
-  const tier = getCommandTermInfo(prompt.verb).tier;
+  const tier = getPromptTermInfo(prompt).tier;
   if (!prompt.markingCriteria?.trim()) return prompt;
   if (!guideLadderProblem(prompt.markingCriteria, prompt.totalMarks, tier)) return prompt;
   try {
@@ -1716,7 +1717,7 @@ export const generateSampleAnswer = async (
   // Derive the target band from the mark and the question's cognitive tier so the
   // requested quality is coherent with the verb (e.g. a Tier-2 'Describe' question
   // tops out below Band 6, and we should never ask for a "Band 6 exemplar" there).
-  const termInfo = getCommandTermInfo(prompt.verb);
+  const termInfo = getPromptTermInfo(prompt);
   const targetBand = promptBandForMark(prompt, mark);
   const maxBand = getBandForMark(prompt.totalMarks, prompt.totalMarks, termInfo.tier);
 
@@ -2325,7 +2326,7 @@ export const generateRubricForPrompt = async (
   prompt: Prompt,
   outcomes: CourseOutcome[]
 ): Promise<string> => {
-  const termInfo = getCommandTermInfo(prompt.verb);
+  const termInfo = getPromptTermInfo(prompt);
   // Real NESA guides at similar marks, for wording: from this course where it has
   // past papers, otherwise from others. Never the question's own guide.
   const place = locatePrompt(prompt.id);
@@ -2428,7 +2429,7 @@ export const reviseRubricForPrompt = async (
   prompt: Prompt,
   existingRubric: string
 ): Promise<string> => {
-  const termInfo = getCommandTermInfo(prompt.verb);
+  const termInfo = getPromptTermInfo(prompt);
   const request = {
     ...aiTarget(prompt.totalMarks > 6 ? 'reasoning' : 'basic'),
     __feature: 'aiContentStudio',

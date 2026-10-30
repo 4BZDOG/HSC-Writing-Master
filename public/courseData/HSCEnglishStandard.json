@@ -746,9 +746,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-13",
-                    "question": "Construct a persuasive-discursive article of about 250 words for the school magazine that explores the complex ideas of learning, integrity and fairness in using AI writing tools for assessed work. Follow the article with a rationale of about 80 words that explains your choices of structure, language and counter-argument.",
+                    "question": "Compose a persuasive-discursive article of about 250 words for the school magazine that explores the complex ideas of learning, integrity and fairness in using AI writing tools for assessed work. Follow the article with a rationale of about 80 words that explains your choices of structure, language and counter-argument.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-05",
                       "EST-12-05"
@@ -770,7 +770,7 @@
                       "counter-argument",
                       "rationale"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a cohesive persuasive-discursive article that explores a complex idea through a sustained, controlled argument and a developed counter-argument, using deliberate language and structure, with a rationale that justifies the choices\n5-6 marks: Constructs an article that argues a position on a complex idea, with a clear structure and some counter-argument, and a rationale that describes the choices\n3-4 marks: Constructs a coherent article that presents an opinion with limited complexity, and a rationale that identifies some choices\n1-2 marks: Constructs a short text that states an opinion with minimal structure, and little or no rationale",
+                    "markingCriteria": "7-8 marks: Composes a cohesive persuasive-discursive article that explores a complex idea through a sustained, controlled argument and a developed counter-argument, using deliberate language and structure, with a rationale that justifies the choices\n5-6 marks: Composes an article that argues a position on a complex idea, with a clear structure and some counter-argument, and a rationale that describes the choices\n4 marks: Composes a coherent article that presents an opinion with limited complexity, and a rationale that identifies some choices\n2-3 marks: Composes a short text that states an opinion with minimal structure, and a rationale that restates the view\n1 mark: Composes a brief statement of opinion without structure, and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-13-1",
@@ -778,7 +778,7 @@
                         "mark": 8,
                         "answer": "Using AI in Assessment: Who Is Really Being Tested?\n\nStudents are told that AI writing tools are either a shortcut to cheating or a harmless helper. Neither view does justice to the complex ideas at stake. When a student uses an AI tool to draft an essay, the question is not only whether the work is original, but whether the learning that assessment measures has taken place. Integrity is more than a rule against copying: it asks whether the work truly represents what the writer understands.\n\nThe strongest objection is that banning these tools is neither fair nor realistic. Students with less access to tutors, or those who speak English as an additional language, may benefit from a tool that explains structure. Fairness therefore asks who is helped and who is hindered by a blanket ban. Teachers who suspect misuse also carry an unfair burden, because detection tools are imperfect.\n\nYet the answer is not to surrender to the technology. A school can allow AI for brainstorming and feedback while requiring students to show their drafts, explain their reasoning and sit a short in-class task. Learning is then what gets assessed, and the complex ideas of learning, integrity and fairness stay in view together.\n\nAssessments must test thinking, not just the ability to produce a neat paragraph. Students need the chance to fail, revise and understand. Let us make that the standard for everyone.\n\nRationale: The opening rejects the simple yes-or-no debate, which signals the complex ideas the article explores. The second paragraph gives the strongest objection, on fairness and access, so the counter-argument is developed rather than dismissed. The third paragraph answers it with a proposal, a discursive move that lets readers weigh the evidence before the persuasive close. The short sentences of the final paragraph keep the language deliberate and the tone persuasive.",
                         "feedback": "Full marks: the article explores a complex idea rather than a yes or no answer, and it sustains the argument through a developed counter-argument (fairness and access) and a proposal that answers it. The structure moves deliberately from framing to objection to resolution. The rationale justifies the choices of structure, language and counter-argument, which is what lifts it into the top band.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-13-2",
@@ -786,7 +786,7 @@
                         "mark": 5,
                         "answer": "AI writing tools are often treated as cheating, but the issue is more complicated than that. Students who use these tools may be learning from them, or they may be avoiding the learning altogether, and the school has to decide what counts as honest work. Some people say the tools are unfair because not everyone can access them, but others say that banning them is also unfair because it is hard to check. I think the school should allow AI for brainstorming but not for the final essay, because then students still have to write the actual essay themselves and their integrity is protected.\n\nRationale: I started with a question to get the reader thinking. I used two sides of the argument so it is not one-sided, and I finished with my opinion.",
                         "feedback": "Earns 5 marks: a clear position is argued on an issue that is treated as complex, with a counter-argument, and the structure is adequate. The complexity is named rather than explored, fairness and integrity are asserted rather than developed, and the rationale describes the choices without justifying them.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-13-3",
@@ -794,10 +794,11 @@
                         "mark": 2,
                         "answer": "AI tools are good or bad. I think they should be allowed in school because some students need help and it's fair. Teachers should decide.\n\nRationale: I wrote what I think.",
                         "feedback": "Earns 2 marks: a short text states an opinion with minimal structure and no counter-argument, and the rationale is one line that does not identify any choice.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
-                    "scenario": "A student is contributing to a school magazine debate about whether students should be allowed to use AI writing tools for assessed work. The article must explore a complex idea rather than a simple yes or no, and it will be read by Year 10 and Year 11 students and their teachers."
+                    "scenario": "A student is contributing to a school magazine debate about whether students should be allowed to use AI writing tools for assessed work. The article must explore a complex idea rather than a simple yes or no, and it will be read by Year 10 and Year 11 students and their teachers.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-14",
@@ -860,9 +861,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-15",
-                    "question": "Construct a short imaginative text of about 150 words that makes a thematic and stylistic connection with the poem. Follow your text with a brief rationale of about 60 words that identifies the connection.",
+                    "question": "Compose a short imaginative text of about 150 words that makes a thematic and stylistic connection with the poem. Follow your text with a brief rationale of about 60 words that identifies the connection.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-02",
                       "EST-11-04"
@@ -891,7 +892,7 @@
                         "mark": 6,
                         "answer": "Last Light at Harrow Road\n\nThe platform is painted with the last of the afternoon. A man in a grey coat counts the rails as though numbers could bring the train back. The timetable has been pasted over with an advert for a phone company, and the bench has lost its slats one by one. Still he waits, one hand on the cold iron post, listening for a whistle the town stopped hearing years ago.\n\nThe light leaves the tracks one rail at a time. A pigeon settles on the sign that once said Platform Two, then thinks better of it and leaves. The man does not move. Somewhere past the cutting, a train that was never going to stop here goes through the dark without slowing, and the platform becomes a place where waiting is the only thing that still arrives.\n\nRationale: This imaginative text shares the poem's dusk setting and its figure of a patient waiter. The shared theme is waiting for something that has been left behind, and that is the thematic connection. The stylistic connection is the poem's short, measured sentences and its habit of ending on a quiet image, which I echo in the final line. I kept my own detail so that the link is an echo, not a copy.",
                         "feedback": "Full marks: the thematic connection (waiting for what has been left behind) is clear, and the stylistic echoes (short measured sentences, a closing quiet image, the station as a symbol of change) are named and visible in the text. The composed text is imaginative in its own right, and the rationale explains the connection rather than asserting it.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-15-2",
@@ -899,7 +900,7 @@
                         "mark": 4,
                         "answer": "The platform is empty. An old man waits for a train that does not come any more. He thinks about his wife and how she used to meet him here. The station is closed now. I wanted to write about waiting like the poem does.\n\nRationale: The text is about waiting like the poem. It has an old man too and it is set at a station, so there is a connection.",
                         "feedback": "Earns 4 marks: the thematic connection (waiting) is clear and the text is composed, but the stylistic connection is not developed; the sentences do not echo the poem's form, and the rationale names the shared subject without naming an echo.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-15-3",
@@ -910,7 +911,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "An invented 12-line poem titled 'Last Train' describes a station platform at dusk, where an old man waits for a train that no longer stops there. Its lines are short and measured, and it often ends on a quiet image. The poem was written for this task. Students must respond with their own imaginative text, linking it to the poem through shared theme and style."
+                    "scenario": "An invented 12-line poem titled 'Last Train' describes a station platform at dusk, where an old man waits for a train that no longer stops there. Its lines are short and measured, and it often ends on a quiet image. The poem was written for this task. Students must respond with their own imaginative text, linking it to the poem through shared theme and style.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-16",
@@ -973,9 +975,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-17",
-                    "question": "Construct a discursive paragraph of about 120 words for a community newsletter that explores at least TWO values or perspectives on keeping the library open late, including your own. Follow the paragraph with a rationale of about 40 words.",
+                    "question": "Compose a discursive paragraph of about 120 words for a community newsletter that explores at least TWO values or perspectives on keeping the library open late, including your own. Follow the paragraph with a rationale of about 40 words.",
                     "totalMarks": 5,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-03",
                       "EST-11-05"
@@ -996,7 +998,7 @@
                       "evidence",
                       "audience"
                     ],
-                    "markingCriteria": "5 marks: Constructs a discursive paragraph that explores at least two values or perspectives on the issue with balance and evidence, makes a clear personal position, and uses language suited to the newsletter audience\n4 marks: Constructs a discursive paragraph that presents two perspectives and a personal position, with limited evidence\n3 marks: Constructs a paragraph that presents one perspective clearly and mentions another briefly\n2 marks: Constructs a paragraph with an opinion and little exploration of other values\n1 mark: Writes a relevant statement about the issue without a constructed paragraph",
+                    "markingCriteria": "5 marks: Composes a discursive paragraph that explores at least two values or perspectives on the issue with balance and evidence, makes a clear personal position, and uses language suited to the newsletter audience\n4 marks: Composes a discursive paragraph that presents two perspectives and a personal position, with limited evidence\n3 marks: Composes a paragraph that presents one perspective clearly and mentions another briefly\n2 marks: Composes a paragraph with an opinion and little exploration of other values\n1 mark: Writes a relevant statement about the issue without a constructed paragraph",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-17-1",
@@ -1004,7 +1006,7 @@
                         "mark": 5,
                         "answer": "Extending the library's hours until 9 pm on weeknights is presented as an easy win, but it involves competing values. For students and shift workers, a late library is a safe place to study and an equaliser. Parents may value the Saturday morning service more, when children read with a librarian and older residents visit most often. My view is that the council should trial the later hours for one term and measure both student use and the weekend loss before deciding, because evidence respects every group that depends on the library.\n\nRationale: I presented the students' and parents' perspectives before my own view, and 'competing values' signals the balance in a discursive paragraph for a newsletter readership.",
                         "feedback": "Full marks: two perspectives (students and shift workers, parents and older residents) are explored in fair terms before a personal position is reached, and that position is supported by evidence-based reasoning (a trial and a measured comparison). The language suits the newsletter's general readership. The rationale identifies the structural choice and why it works.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-17-2",
@@ -1023,7 +1025,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The community newsletter has asked residents to contribute a short paragraph on whether the local public library should stay open until 9 pm on weeknights, which would require reducing staff hours on Saturday mornings. The paragraph will be read by parents, students and older residents, who hold different views."
+                    "scenario": "The community newsletter has asked residents to contribute a short paragraph on whether the local public library should stay open until 9 pm on weeknights, which would require reducing staff hours on Saturday mornings. The paragraph will be read by parents, students and older residents, who hold different views.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-18",
@@ -1086,9 +1089,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-19",
-                    "question": "Construct a multimodal text of about 200 words that integrates a spoken script, a written caption and a storyboard description to inform families of Year 6 students about the school library. Follow the text with a rationale of about 60 words that explains how the modes work together for this audience.",
+                    "question": "Compose a multimodal text of about 200 words that integrates a spoken script, a written caption and a storyboard description to inform families of Year 6 students about the school library. Follow the text with a rationale of about 60 words that explains how the modes work together for this audience.",
                     "totalMarks": 7,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-04",
                       "EST-11-05"
@@ -1109,7 +1112,7 @@
                       "purpose",
                       "storyboard"
                     ],
-                    "markingCriteria": "6-7 marks: Constructs a multimodal text in which the spoken script, written caption and storyboard description are integrated, each mode contributing to the purpose and audience, with a rationale that explains how the modes work together\n4-5 marks: Constructs a text that combines the three modes with a clear purpose and audience, with a rationale that describes the choices\n2-3 marks: Constructs a text that uses more than one mode, with limited integration and a general rationale\n1 mark: Constructs a text in one mode only, or makes a relevant comment about multimodal writing",
+                    "markingCriteria": "6-7 marks: Composes a multimodal text in which the spoken script, written caption and storyboard description are integrated, each mode contributing to the purpose and audience, with a rationale that explains how the modes work together\n5 marks: Composes a text that combines the three modes with a clear purpose and audience, with a rationale that describes the choices\n3-4 marks: Composes a text that combines the three modes with a general purpose and audience, and a rationale that identifies some choices\n2 marks: Composes a text that uses more than one mode, with limited integration and a general rationale\n1 mark: Composes a text in one mode only, or makes a relevant comment about multimodal writing",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-19-1",
@@ -1117,7 +1120,7 @@
                         "mark": 7,
                         "answer": "STORYBOARD (panel 1): A wide shot of the library foyer, sunlight on the shelves.\nSCRIPT (spoken narration): Welcome to the library, where your child will learn that a book can be a door. Year 6 students borrow their first chapter books here and find quiet corners for homework.\nCAPTION (printed): 'Every class visits the library in Term 1. Come and see the reading room before you enrol.'\nSTORYBOARD (panel 2): A child's hands turning the pages of a picture book, then a librarian smiling over a shelf.\nSCRIPT: Our librarians will help your child choose a first book, and show you the online catalogue so you can track reading at home.\nCAPTION: Free library membership for all Year 6 students. Ask at the front desk on Open Day.\n\nRationale: The script carries the information and the reassurance, the storyboard shows a welcoming space, and the caption fixes the key facts for parents watching on a screen in a noisy foyer. For this audience of families, the modes integrate across the screen and print mediums, so each does a job the others cannot and the purpose is served only when all three work together.",
                         "feedback": "Full marks: the storyboard, script and caption are integrated, with each mode doing a different job for the families of Year 6 students (the storyboard shows the space, the script reassures, the caption fixes the key facts). The rationale explains how the modes work together, and the purpose and audience are visible in the composed text itself.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-19-2",
@@ -1136,7 +1139,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A school's Open Day committee has asked Year 10 students to prepare an information piece for families of incoming Year 6 students. The committee expects parents to view the piece on a screen in the library foyer, with a printed caption and a spoken commentary."
+                    "scenario": "A school's Open Day committee has asked Year 10 students to prepare an information piece for families of incoming Year 6 students. The committee expects parents to view the piece on a screen in the library foyer, with a printed caption and a spoken commentary.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-20",
@@ -1199,9 +1203,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-21",
-                    "question": "Construct a revised version of the draft paragraph for a Year 7 audience, showing the drafting, editing, revising and refining you have done. Follow the revised paragraph with a rationale of about 60 words that explains the purpose of your THREE most significant changes.",
+                    "question": "Compose a revised version of the draft paragraph for a Year 7 audience, showing the drafting, editing, revising and refining you have done. Follow the revised paragraph with a rationale of about 60 words that explains the purpose of your THREE most significant changes.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-06"
                     ],
@@ -1221,7 +1225,7 @@
                       "purpose",
                       "audience"
                     ],
-                    "markingCriteria": "6 marks: Constructs a revised paragraph that is precise, engaging and suited to the Year 7 audience and purpose, with a rationale that explains the most significant drafting, editing and refining decisions\n5 marks: Constructs a revised paragraph with clear improvements for the audience and purpose, and a rationale that identifies three changes\n4 marks: Constructs a revised paragraph with several improvements, and a rationale that identifies two changes\n3 marks: Constructs a revised paragraph with some improvements in clarity, and a general rationale\n2 marks: Makes minor edits to the draft, such as spelling or word substitution, without changing its focus on the audience or purpose\n1 mark: Makes a relevant comment about the draft without revising it",
+                    "markingCriteria": "6 marks: Composes a revised paragraph that is precise, engaging and suited to the Year 7 audience and purpose, with a rationale that explains the most significant drafting, editing and refining decisions\n5 marks: Composes a revised paragraph with clear improvements for the audience and purpose, and a rationale that identifies three changes\n4 marks: Composes a revised paragraph with several improvements, and a rationale that identifies two changes\n3 marks: Composes a revised paragraph with some improvements in clarity, and a general rationale\n2 marks: Makes minor edits to the draft, such as spelling or word substitution, without changing its focus on the audience or purpose\n1 mark: Makes a relevant comment about the draft without revising it",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-21-1",
@@ -1229,7 +1233,7 @@
                         "mark": 6,
                         "answer": "Our school should start a recycling club, and Year 7 students are the best people to lead it. Every day, the bins in our corridors fill with paper, bottles and cans that could be sorted and reused, and we all pay for sending them to landfill. A recycling club would give you a chance to make a real difference before you finish school. We could sort the bins at lunchtime, plan a poster campaign for the library and work with the canteen to reduce plastic. Joining takes one lunchtime a week and a willingness to get your hands a little dirty. Come to the club on Thursday and help us make our school a cleaner place to learn.\n\nRationale: I drafted a clear claim in the first sentence, then edited the vague word 'good' and replaced it with local detail about the corridor bins, because a Year 7 reader needs to see the problem before the solution. I chose to revise the reasons so they answer what a student would actually do, and I refine the closing call so it names a day and a place. Those changes serve the purpose of persuading younger students, and suit this audience.",
                         "feedback": "Full marks: the draft is revised for the Year 7 audience and purpose, with a specific local problem replacing the general claim, a concrete role for the reader, and a closing call that names a day and place. The rationale names three decisions (drafting the claim, editing the vague word, refining the call to action) and explains why each suits the reader.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-21-2",
@@ -1237,7 +1241,7 @@
                         "mark": 4,
                         "answer": "Recycling is important, and our school should start a recycling club because there is a lot of rubbish in the corridors. You could join and help us sort the bins at lunchtime. Come to the club on Thursday.\n\nRationale: I changed the first sentence to make the claim clearer, and I added the time and place of the club so that the call to action is specific.",
                         "feedback": "Earns 4 marks: several improvements are made (a clearer claim, a concrete problem, a specific call to action), and the rationale identifies two changes. The paragraph is still short and less engaging for the audience, and the rationale does not explain the purpose of each change.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-21-3",
@@ -1248,7 +1252,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The invented first draft paragraph reads: 'Recycling is good. Lots of people do it and it helps the planet. We should do more of it at school.' A student has been asked to draft, edit, revise and refine this paragraph for a Year 7 school newsletter, where the purpose is to persuade younger students to start a recycling club."
+                    "scenario": "The invented first draft paragraph reads: 'Recycling is good. Lots of people do it and it helps the planet. We should do more of it at school.' A student has been asked to draft, edit, revise and refine this paragraph for a Year 7 school newsletter, where the purpose is to persuade younger students to start a recycling club.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-22",
@@ -1515,9 +1520,9 @@
                   },
                   {
                     "id": "prompt-en-27",
-                    "question": "Construct a critical paragraph of about 120 words on a text you have studied, using accurate syntax, punctuation and metalanguage throughout. Follow the paragraph with a rationale of about 40 words that identifies two examples of your syntax or punctuation choices.",
+                    "question": "Compose a critical paragraph of about 120 words on a text you have studied, using accurate syntax, punctuation and metalanguage throughout. Follow the paragraph with a rationale of about 40 words that identifies two examples of your syntax or punctuation choices.",
                     "totalMarks": 5,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-05",
                       "EST-11-06"
@@ -1538,7 +1543,7 @@
                       "accurate",
                       "paragraph"
                     ],
-                    "markingCriteria": "5 marks: Constructs a critical paragraph that is accurate in syntax, punctuation and spelling, uses metalanguage precisely, and whose rationale identifies two specific choices and why they are accurate\n4 marks: Constructs a critical paragraph that is largely accurate, with precise metalanguage, and a rationale that identifies one choice\n3 marks: Constructs a critical paragraph with occasional errors in syntax or punctuation and some metalanguage, with a limited rationale\n2 marks: Constructs a paragraph with frequent errors and little metalanguage, with no rationale\n1 mark: Writes a relevant comment about the text without a constructed paragraph",
+                    "markingCriteria": "5 marks: Composes a critical paragraph that is accurate in syntax, punctuation and spelling, uses metalanguage precisely, and whose rationale identifies two specific choices and why they are accurate\n4 marks: Composes a critical paragraph that is largely accurate, with precise metalanguage, and a rationale that identifies one choice\n3 marks: Composes a critical paragraph with occasional errors in syntax or punctuation and some metalanguage, with a limited rationale\n2 marks: Composes a paragraph with frequent errors and little metalanguage, with no rationale\n1 mark: Writes a relevant comment about the text without a constructed paragraph",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-27-1",
@@ -1546,7 +1551,7 @@
                         "mark": 5,
                         "answer": "The shift from long sentences to one short sentence in the final section is the critical turning point of the narrative. Long sentences built from subordinate clauses give way to a short sentence that stands alone, and this change in syntax tells the reader the narrator has stopped waiting. The punctuation is accurate and deliberate: a full stop closes the long sentence, so the short one lands with full weight. The metalanguage of anaphora makes the repetition audible before the break, so the claim rests on the whole pattern, not a single word.\n\nRationale: The paragraph uses accurate syntax throughout. I placed the full stop before the short sentence so the break is visible, and I kept the subordinate clauses parallel so the repetition the anaphora creates is easy to follow.",
                         "feedback": "Full marks: the critical claim (the shift in syntax marks the turning point) is supported by precise metalanguage (anaphora, subordinate clauses) and accurate punctuation (the full stop that lands the break). The rationale identifies two specific choices and explains why each is accurate, which is what the top band requires.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-27-2",
@@ -1565,7 +1570,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 11 student is preparing a critical review for a school competition and must submit one paragraph that is free of errors in spelling, punctuation and syntax. The paragraph should make a single critical claim about a text the student has studied and support it with evidence. The text is an invented short story supplied by the teacher: its final section moves from long sentences to one short sentence as the narrator stops waiting, and a phrase is repeated before the break."
+                    "scenario": "A Year 11 student is preparing a critical review for a school competition and must submit one paragraph that is free of errors in spelling, punctuation and syntax. The paragraph should make a single critical claim about a text the student has studied and support it with evidence. The text is an invented short story supplied by the teacher: its final section moves from long sentences to one short sentence as the narrator stops waiting, and a phrase is repeated before the break.",
+                    "bandCeiling": 5
                   }
                 ]
               }
@@ -2143,9 +2149,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-38",
-                    "question": "Construct a 150-word mystery text written as a series of dated diary entries that experiments with the conventions of the mystery genre and its text structure. Follow your text with a rationale of about 60 words that explains the experiments you have made.",
+                    "question": "Compose a 150-word mystery text written as a series of dated diary entries that experiments with the conventions of the mystery genre and its text structure. Follow your text with a rationale of about 60 words that explains the experiments you have made.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-04"
                     ],
@@ -2173,7 +2179,7 @@
                         "mark": 6,
                         "answer": "Monday 3 March\nThe silver watch is gone from the hall table, and nobody in the house will admit to moving it. Dad says he put it in the drawer. I looked. It is not there.\n\nTuesday 4 March\nMrs Okafor from next door saw a grey car on our street last night, parked with its lights off. I did not tell her that the front door was unlocked when I got home.\n\nWednesday 5 March\nThe drawer has a new scratch on the brass handle, fresh enough to shine. Someone opened it in a hurry. Who knew the watch was in there? Only three people, and one of them has been crying all morning.\n\nThursday 6 March\nI found a receipt folded inside my school bag. It is from a pawn shop on Harrow Street, dated the day the watch went missing. My name is not on it. The handwriting is mine.\n\nRationale: This text experiments with the conventions of the mystery genre: clues, suspects and a withheld reveal are placed inside a diary. The text structure of dated fragments lets the reader piece the plot together in the order the narrator discovers it. The final entry makes the narrator a suspect, an unreliable-narrator convention in a new form.",
                         "feedback": "Full marks: the mystery is composed in dated diary form, with clues (the scratch, the car, the receipt), suspects and a withheld reveal. Two experiments are controlled and explained in the rationale (the withheld reveal in the diary structure and the narrator turned suspect), and the text structure does visible work in each entry.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-38-2",
@@ -2181,7 +2187,7 @@
                         "mark": 4,
                         "answer": "Monday 3 March\nThe watch is missing from the hall table. Nobody saw it go.\n\nTuesday 4 March\nA neighbour saw a grey car parked outside last night. The police might come.\n\nThursday 6 March\nI found a receipt from a pawn shop in my school bag. It is not my handwriting.\n\nRationale: I used a diary to tell a mystery story with clues in each entry, so the reader wants to know who took the watch.",
                         "feedback": "Earns 4 marks: the diary structure and a genre convention (the clue and the suspect) are used, and the rationale identifies one experiment. The text is too short and the clues are not developed, so the structure does little to withhold information from the reader.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-38-3",
@@ -2192,7 +2198,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A creative writing class is experimenting with the mystery genre, using a diary format in which each dated entry reveals a little more about a missing item. The teacher has asked for a text that tests genre conventions rather than copying a familiar story."
+                    "scenario": "A creative writing class is experimenting with the mystery genre, using a diary format in which each dated entry reveals a little more about a missing item. The teacher has asked for a text that tests genre conventions rather than copying a familiar story.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-39",
@@ -2255,9 +2262,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-40",
-                    "question": "Construct a logical, ordered and cohesive argument of about 250 words in response to the ideas generated by the two texts. Follow the argument with a rationale of about 60 words that explains how you ordered your points.",
+                    "question": "Compose a logical, ordered and cohesive argument of about 250 words in response to the ideas generated by the two texts. Follow the argument with a rationale of about 60 words that explains how you ordered your points.",
                     "totalMarks": 7,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-05",
                       "EST-12-05"
@@ -2278,7 +2285,7 @@
                       "ideas",
                       "texts"
                     ],
-                    "markingCriteria": "6-7 marks: Constructs a logical, ordered and cohesive argument that develops ideas drawn from both texts, with each point building on the last, and a rationale that explains the ordering choices\n4-5 marks: Constructs an ordered argument that draws on ideas from both texts, with clear links between points and a rationale that describes the order\n2-3 marks: Constructs an argument with a stated position and some ordering, with limited use of the source texts and a general rationale\n1 mark: Makes a relevant comment about the texts without constructing an argument",
+                    "markingCriteria": "6-7 marks: Composes a logical, ordered and cohesive argument that develops ideas drawn from both texts, with each point building on the last, and a rationale that explains the ordering choices\n5 marks: Composes an ordered argument that draws on ideas from both texts, with clear links between points and a rationale that describes the order\n3-4 marks: Composes an argument with a stated position and some ordering, with general use of both texts and a rationale that identifies the order\n2 marks: Composes a statement of position with limited ordering and little use of the source texts, and a general rationale\n1 mark: Makes a relevant comment about the texts without constructing an argument",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-40-1",
@@ -2286,7 +2293,7 @@
                         "mark": 7,
                         "answer": "Every school should run a phone-recycling scheme. The first reason is the one the article makes most clearly: old phones contain materials that cannot be replaced cheaply, and each phone left in a drawer is a small waste that adds up across a school. Recycling turns that waste into a resource and teaches students that a device is not disposable simply because it is out of date.\n\nThe second reason follows from the first, and both texts supply ideas about waste. The article argues that recycling works only when people can see it working, and the poem shows what happens when it does not: a phone sits in a drawer full of photographs nobody will look at again. A school scheme gives those phones a route out of the drawer, so the memories can be deleted safely and the devices reused or recycled responsibly.\n\nThe most serious objection is the burden on students and staff who must collect and transport devices. This cost is real but smaller than the cost of doing nothing, because a single collection box can run through a term. A school should therefore adopt the scheme, since it answers the article's concern for waste and the poem's concern for forgotten things through a logical, visible process.\n\nRationale: I ordered the points from the article's clearest reason to the poem's emotional one, then answered the objection last, so each paragraph builds on the last and the argument stays cohesive.",
                         "feedback": "Full marks: each point builds on the last, from the article's evidence on waste to the poem's image of forgetting, to the objection and the proposal. Both texts do work in the argument, and the rationale explains the ordering choices. The argument is logical, ordered and cohesive throughout.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-40-2",
@@ -2305,7 +2312,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Two invented texts provide the ideas for this task. The first is a 150-word article arguing that old phones should be recycled in every school, because their materials cannot be replaced cheaply and recycling works only when people can see it working, and the second is a short poem about a phone that sits in a drawer, forgotten and full of photographs. Students must build an argument on whether schools should adopt a phone-recycling scheme."
+                    "scenario": "Two invented texts provide the ideas for this task. The first is a 150-word article arguing that old phones should be recycled in every school, because their materials cannot be replaced cheaply and recycling works only when people can see it working, and the second is a short poem about a phone that sits in a drawer, forgotten and full of photographs. Students must build an argument on whether schools should adopt a phone-recycling scheme.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-41",
@@ -2369,9 +2377,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-42",
-                    "question": "Construct a critical and creative text of about 250 words that reflects a particular value and perspective on belonging, including your own. Follow the text with a rationale of about 80 words that explains how your values and perspective are reflected in your choices of form and language.",
+                    "question": "Compose a critical and creative text of about 250 words that reflects a particular value and perspective on belonging, including your own. Follow the text with a rationale of about 80 words that explains how your values and perspective are reflected in your choices of form and language.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-05",
                       "EST-11-03"
@@ -2392,7 +2400,7 @@
                       "belonging",
                       "rationale"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a critical and creative text that reflects a particular value and perspective on belonging with depth and control, and a rationale that explains how the values and perspective shape the choices of form and language\n5-6 marks: Constructs a text that reflects a clear value and perspective on belonging, with some control of form, and a rationale that describes the choices\n3-4 marks: Constructs a text that states a value on belonging with limited development, and a rationale that identifies some choices\n1-2 marks: Constructs a short text with a general value and minimal reflection, and little or no rationale",
+                    "markingCriteria": "7-8 marks: Composes a critical and creative text that reflects a particular value and perspective on belonging with depth and control, and a rationale that explains how the values and perspective shape the choices of form and language\n5-6 marks: Composes a text that reflects a clear value and perspective on belonging, with some control of form, and a rationale that describes the choices\n4 marks: Composes a text that states a value on belonging with limited development, and a rationale that identifies some choices\n2-3 marks: Composes a short text with a general value and minimal reflection, and little or no rationale\n1 mark: Composes a brief statement of a general value, with no reflection and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-42-1",
@@ -2400,7 +2408,7 @@
                         "answer": "The Starlight has been closed since the winter, but on Saturday mornings I still walk past it on my way to the bakery and look up at the marquee. Its letters have faded to a ghost of a title. Mr Dellaporta used to change them himself, standing on a ladder in a cardigan, and I used to think the whole town was waiting for him to finish.\n\nWe grew up in that cinema. We learned to be quiet during the slow films and loud during the cartoons; we learned that a stranger's laugh could make a Saturday better. Nobody owned the place, not really. It belonged to whoever sat in the back row on a wet afternoon, and I suppose that is what belonging means: a shared room that holds you without asking for anything.\n\nNow the council wants to turn it into apartments, and people say the town has moved on. Perhaps it has. But we owe the places we grow up in more than nostalgia. We owe them the effort of keeping them open, the patience to sit through a film we did not choose, and the courage to say when something matters.\n\nSo I stood on the pavement this morning with my hands in my pockets and read the faded marquee aloud, letter by letter. It was not a title any more. It was a list of everyone who had been there.\n\nRationale: This critical and creative text takes the view that nostalgia is not enough, and that belonging is kept alive by effort. I chose a first-person, reflective voice because belonging is felt personally, and the perspective of someone who has returned to a closed place lets the values show through memory rather than argument. The repeated 'we' sentences express the value that belonging is shared, while the sentence fragments in the final paragraph reflect the way the marquee has become a list of people rather than a title. My perspective, that the places we grow up in matter because of the people in them, is carried by that final image.",
                         "source": "AI",
                         "feedback": "Full marks: the value (belonging is shared and kept alive by effort) is shown through a character, a detail (the marquee) and a changing image, rather than stated. The rationale names the specific choices of voice, repetition and fragment and explains which values each expresses, which is the control the top band requires.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-42-2",
@@ -2408,7 +2416,7 @@
                         "answer": "The cinema has been closed for months, and I remember going there with my friends when we were small. We sat together and watched films, and it was a good place to be. Now they want to turn it into flats. I think we should try to keep it open because it belongs to the whole town and everyone should be able to use it.\n\nRationale: I wrote about a place I remember and used I and we so that the reader feels part of it. My value is that the town belongs to everyone.",
                         "source": "AI",
                         "feedback": "Earns 5 marks: a clear value (the place belongs to the town) and a personal perspective are reflected, with some control of voice. The value is stated more than shown, the form is simple, and the rationale describes the choices of pronoun without explaining how the imagery expresses the value.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-42-3",
@@ -2416,10 +2424,11 @@
                         "answer": "Old places are important to people. The cinema should stay open because it belongs to everyone.\n\nRationale: I wanted to say it is important.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: a general value is stated with minimal reflection, and the rationale does not identify any choice of form or language.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
-                    "scenario": "A school's creative anthology is inviting students to respond to the theme 'what we owe to the places we grow up in'. The editors expect pieces that show a clear value and a perspective the writer genuinely holds, and they will read the rationale to see how the choices of form and language express it."
+                    "scenario": "A school's creative anthology is inviting students to respond to the theme 'what we owe to the places we grow up in'. The editors expect pieces that show a clear value and a perspective the writer genuinely holds, and they will read the rationale to see how the choices of form and language express it.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-43",
@@ -2482,9 +2491,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-44",
-                    "question": "Construct a reflective text of about 150 words that reflects on the processes you used to compose a piece in a blog post and a podcast script. Follow your text with a rationale of about 60 words that explains which process changed most between the two mediums.",
+                    "question": "Compose a reflective text of about 150 words that reflects on the processes you used to compose a piece in a blog post and a podcast script. Follow your text with a rationale of about 60 words that explains which process changed most between the two mediums.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-06"
                     ],
@@ -2504,7 +2513,7 @@
                       "reflect",
                       "reflective"
                     ],
-                    "markingCriteria": "6 marks: Constructs a reflective text that explores the processes of composition across both mediums and technologies with insight, and a rationale that explains which process changed most and why\n5 marks: Constructs a reflective text that compares the processes across the two mediums, with a rationale that identifies the main change\n4 marks: Constructs a reflective text that describes the processes in both mediums, with a rationale that identifies one change\n3 marks: Constructs a text that reflects on one process and mentions the second medium, with a general rationale\n2 marks: Constructs a short text with a general comment on the processes and a minimal rationale\n1 mark: Makes a relevant comment about composing without a reflective text",
+                    "markingCriteria": "6 marks: Composes a reflective text that explores the processes of composition across both mediums and technologies with insight, and a rationale that explains which process changed most and why\n5 marks: Composes a reflective text that compares the processes across the two mediums, with a rationale that identifies the main change\n4 marks: Composes a reflective text that describes the processes in both mediums, with a rationale that identifies one change\n3 marks: Composes a text that reflects on one process and mentions the second medium, with a general rationale\n2 marks: Composes a short text with a general comment on the processes and a minimal rationale\n1 mark: Makes a relevant comment about composing without a reflective text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-44-1",
@@ -2512,7 +2521,7 @@
                         "mark": 6,
                         "answer": "This reflective text reflects on how my processes of composition changed between two mediums. When I began the blog post, I planned in a list of short headings and wrote quickly, trusting the sentences to find their order. I edited by reading the draft aloud and cutting any sentence I could not say in one breath, because a screen reader skims and needs short, clear paragraphs.\n\nThe podcast script was a different process. I planned by timing, because a spoken line takes only seconds, and I drafted by speaking into my phone. The transcript showed that spoken sentences were looser and more musical than my written ones. Editing meant listening rather than reading, so I marked pauses on the page to help the voice land where I wanted it. Each medium asked for a different kind of care.\n\nRationale: The process that changed most was revision. A blog can be reshaped visually at any stage, but a recording can only be reshaped by listening again, so the technologies of audio made me slower to revise and more careful about each line. The change matters because it shows that a plan is only a starting point, and that each medium asks the writer to test the plan against a different kind of reader.",
                         "feedback": "Full marks: the processes of composition are reflected on in both mediums (planning, drafting and editing), and the reflection judges how each process changed. The rationale commits to one change (revision) and explains why, with a precise reference to the technologies of audio. The reflection moves beyond describing the steps to what the steps show.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-44-2",
@@ -2520,7 +2529,7 @@
                         "mark": 4,
                         "answer": "For the blog I made a list of headings and wrote quickly. I read it aloud to edit it. For the podcast I planned in time blocks and recorded myself speaking, then listened to the recording to edit it.\n\nRationale: The process that changed most was editing, because a podcast has to be listened to again.",
                         "feedback": "Earns 4 marks: the processes are described in both mediums and one change (editing) is identified in the rationale. The reflection describes what was done rather than judging how the processes differed, and the technologies are not discussed.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-44-3",
@@ -2531,7 +2540,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A student's writing portfolio must include a reflective text on composing in two different mediums: a blog post and a podcast script. The reflection should show what changed in the student's processes, such as planning, drafting and editing, when the same idea moved from a written page to an audio recording."
+                    "scenario": "A student's writing portfolio must include a reflective text on composing in two different mediums: a blog post and a podcast script. The reflection should show what changed in the student's processes, such as planning, drafting and editing, when the same idea moved from a written page to an audio recording.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-45",
@@ -3393,9 +3403,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-60",
-                    "question": "Construct a short opinion piece that builds a logical, ordered and cohesive argument in response to the ideas generated by a literary text you have studied, then give a brief rationale explaining how the argument is built.",
+                    "question": "Compose a short opinion piece that builds a logical, ordered and cohesive argument in response to the ideas generated by a literary text you have studied, then give a brief rationale explaining how the argument is built.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-05",
                       "EST-11-03"
@@ -3416,7 +3426,7 @@
                       "literary text",
                       "ideas"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs an opinion piece that builds a logical, ordered and cohesive argument, developing its ideas in depth and using the protagonist's silence and the final answer to it as evidence for each claim, and the rationale explains the structural choices with precision\n5-6 marks: Argues a clear position in ordered paragraphs with some cohesion, supported by the text, and the rationale explains most structural choices\n3-4 marks: Makes a claim with uneven ordering or cohesion, and the rationale describes the structure in general terms\n1-2 marks: States an opinion with little argument, and the rationale is absent or only restates the piece",
+                    "markingCriteria": "7-8 marks: Composes an opinion piece that builds a logical, ordered and cohesive argument, developing its ideas in depth and using the protagonist's silence and the final answer to it as evidence for each claim, and the rationale explains the structural choices with precision\n5-6 marks: Argues a clear position in ordered paragraphs with some cohesion, supported by the text, and the rationale explains some structural choices\n4 marks: Makes a claim with uneven ordering or cohesion, and the rationale describes the structure in general terms\n2-3 marks: States an opinion with little argument, and the rationale is absent or only restates the piece\n1 mark: Makes an unsupported statement of opinion, with no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-60-1",
@@ -3424,7 +3434,7 @@
                         "answer": "Title: The Cost of Silence\n\nEvery literary text eventually asks its reader a question, and the question in the novel I studied is whether silence can ever be a form of care. The protagonist refuses to speak about her brother's disappearance, and many readers take that refusal as cowardice. I want to argue the opposite. Her silence is a logical response to a family that has made speech dangerous. Each time she tries to explain, her father changes the subject, so the silence becomes the only ordered way she can protect what remains of her household.\n\nSilence in this sense is not empty. It holds back a set of ideas she is not yet ready to test in public, and those ideas grow more coherent the longer she keeps them private. When she finally speaks, her argument is cohesive because it has been shaped by months of quiet reasoning. A reader who dismisses her silence misses the argument that the silence is building.\n\nThe strongest case for my reading comes from the final chapter, in which the protagonist's silence is answered by someone else's. Only then does the family's structure become visible, and the reader sees that the earlier silence was a sensible strategy rather than a failure. The novel therefore asks us to treat restraint as an argument in its own right, one that deserves a hearing before it is judged.\n\nRationale: I open with the question the literary text poses so the reader knows what the argument is answering. Each paragraph then develops one idea in order: the logic of the refusal, the way silence holds ideas until they can be tested, and the evidence of the final chapter. I used a clear sequence of claim, reasoning and conclusion to keep the argument cohesive. The strongest choice was to end with a challenge to the reader, so the argument invites a response rather than closing the discussion. The rationale is kept precise, so each structural choice is tied to its purpose.",
                         "source": "AI",
                         "feedback": "The exemplar describes an invented novel for illustration. The composed piece moves from a question to a logical claim, then to evidence and a closing challenge, so each paragraph builds on the last. The rationale names the structural choices and their intended effect on the reader, which is what the top band rewards.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-60-2",
@@ -3432,7 +3442,7 @@
                         "answer": "Silence is not always weakness. In the novel I studied, the main character stays quiet about her brother, and people think she is weak. But her silence is a sensible choice because talking would make things worse for her family. She has ideas she does not share yet, and this is an argument for patience.\n\nRationale: I wanted to show that silence can be an argument, which is my main point. I kept it short.",
                         "source": "AI",
                         "feedback": "The piece has a clear claim and some order, but the reasoning is brief and the ideas are not developed, and the rationale only restates the point. It sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-60-3",
@@ -3440,10 +3450,11 @@
                         "answer": "Silence can be a good thing, so people should not always judge quiet people. I wanted to write about it.",
                         "source": "AI",
                         "feedback": "States an opinion with little argument and no structural rationale, so it sits in the 1-2 band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
-                    "scenario": "Year 11 student Tomas must compose a short opinion piece of about 250 words for his school's literacy blog. The text is an invented novel in which the protagonist refuses to speak about her brother's disappearance and her father changes the subject whenever she tries to explain. In its final chapter her silence is answered by someone else. The piece responds to ideas raised by a literary text he has studied, and it must be followed by a brief rationale for his choices."
+                    "scenario": "Year 11 student Tomas must compose a short opinion piece of about 250 words for his school's literacy blog. The text is an invented novel in which the protagonist refuses to speak about her brother's disappearance and her father changes the subject whenever she tries to explain. In its final chapter her silence is answered by someone else. The piece responds to ideas raised by a literary text he has studied, and it must be followed by a brief rationale for his choices.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-61",
@@ -3508,9 +3519,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-62",
-                    "question": "Construct a short critical or creative text that reflects a particular value or perspective you hold, then give a brief rationale explaining how the text reflects that value.",
+                    "question": "Compose a short critical or creative text that reflects a particular value or perspective you hold, then give a brief rationale explaining how the text reflects that value.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-03",
                       "EST-11-05"
@@ -3533,7 +3544,7 @@
                       "rationale",
                       "speaker"
                     ],
-                    "markingCriteria": "6 marks: Constructs a text that reflects a particular value and perspective with critical or creative control, and the rationale explains precisely how the choices reflect that value\n5 marks: Constructs a text that reflects a clear value and perspective with some control, and the rationale explains most choices\n4 marks: Presents a text that reflects a value from a general perspective, and the rationale describes the choices in general terms\n3 marks: States a value in the text with little development\n2 marks: Produces a brief text in which the link to a value is unclear\n1 mark: Makes a general statement about values in writing",
+                    "markingCriteria": "6 marks: Composes a text that reflects a particular value and perspective with critical or creative control, and the rationale explains precisely how the choices reflect that value\n5 marks: Composes a text that reflects a clear value and perspective with some control, and the rationale explains most choices\n4 marks: Presents a text that reflects a value from a general perspective, and the rationale describes the choices in general terms\n3 marks: States a value in the text with little development\n2 marks: Produces a brief text in which the link to a value is unclear\n1 mark: Makes a general statement about values in writing",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-62-1",
@@ -3541,7 +3552,7 @@
                         "mark": 6,
                         "answer": "The river behind our house used to be brown in summer, and nobody questioned it. Now the council has put up a sign saying the water is safe to swim in, and my grandmother reads it aloud each morning as if it were a prayer. I have never trusted signs. I trust the smell of the water and the tyres half-buried in the reeds. Yet she is not foolish: she has watched the river change from a place of work into a place of leisure, and she believes the sign because she wants her grandchildren to have what she never had. I think of this as the values of an old woman pressed against the values of a young one. Perhaps the sign is a promise, worth something only if someone keeps it.\n\nRationale: The vignette reflects my value that public promises must be tested rather than trusted. The critical element is the speaker's refusal to settle the question: the sign is accepted as a promise, never as proof. I chose a creative form so two generations' perspectives sit side by side and the reader must weigh both.",
                         "feedback": "The vignette shows the value of testing public promises through the detail of the tyres, the smell and the sign, rather than stating it. The rationale explains which choices carry the value and why the speaker's doubt is kept open. The critical and creative control is what earns the top band.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-62-2",
@@ -3549,7 +3560,7 @@
                         "mark": 4,
                         "answer": "The river has a sign that says it is safe. My grandmother believes it. I do not. I think the sign is a promise and you have to see whether people keep promises.\n\nRationale: I wrote this to show two values about trust. I kept it short.",
                         "feedback": "Reflects a value with a general perspective, but the choices are not developed and the rationale describes them only in general terms, so it sits in the 4-mark band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-62-3",
@@ -3560,7 +3571,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Year 11 student Joel is building a short piece for a portfolio on the theme of public promises. His teacher asks him to show a perspective of his own, and to explain in a rationale how the piece reflects it."
+                    "scenario": "Year 11 student Joel is building a short piece for a portfolio on the theme of public promises. His teacher asks him to show a perspective of his own, and to explain in a rationale how the piece reflects it.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-63",
@@ -5977,9 +5989,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-76",
-                    "question": "Construct a short creative or critical text that affirms or challenges an idea represented across a range of texts you have studied, then give a brief rationale explaining your choices.",
+                    "question": "Compose a short creative or critical text that affirms or challenges an idea represented across a range of texts you have studied, then give a brief rationale explaining your choices.",
                     "totalMarks": 7,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-05",
                       "EST-12-03"
@@ -6001,7 +6013,7 @@
                       "first-person reflection",
                       "closing line"
                     ],
-                    "markingCriteria": "6-7 marks: Constructs a text that affirms or challenges the idea with critical or creative control across its structure and language, and the rationale explains the choices precisely and connects them to the range of texts studied\n4-5 marks: Responds clearly to the idea in a composed text with some control, and the rationale explains most choices\n2-3 marks: States a view on the idea with limited development, and the rationale describes the choices in general terms\n1 mark: Makes a general statement about the idea without a composed text",
+                    "markingCriteria": "6-7 marks: Composes a text that affirms or challenges the idea with critical or creative control across its structure and language, and the rationale explains the choices precisely and connects them to the range of texts studied\n5 marks: Responds clearly to the idea in a composed text with some control, and the rationale explains most choices\n3-4 marks: States a view on the idea with limited development, and the rationale describes the choices in general terms\n2 marks: Makes a general statement about the idea in a minimal text, with little or no rationale\n1 mark: Makes a general statement about the idea without a composed text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-76-1",
@@ -6009,7 +6021,7 @@
                         "mark": 7,
                         "answer": "Everyone in my town said the city was where stories began. The books we studied treated leaving as the only true adventure, and I believed them until my grandfather stopped me at the gate. 'Stay,' he said, not as a command but as a question. Instead of the speech I had rehearsed about ambition, I looked at the fence he had mended every spring for forty years, and understood that staying can be a story too. The idea that the city is the centre of meaning has hardened into a rule. I want to challenge it.\n\nRationale: This piece challenges the idea, shared by the texts we studied, that leaving home is the only route to meaning. I wrote it as a creative first-person reflection so the challenge feels personal rather than argued. The grandfather's question is the critical element, because the ideas in those texts cannot easily answer it. The mended fence affirms a different set of values, and the closing line leaves the question open. The piece therefore counters the city as the centre of stories without offering a rival rule, which is the defensible position a challenge needs.",
                         "feedback": "The exemplar describes invented texts and a town for illustration. The composed piece challenges one idea by staging it against a personal moment, and the rationale ties the challenge to the texts studied and to the image that affirms an alternative value. The control of both the creative and the critical element is what earns the top band.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-76-2",
@@ -6028,7 +6040,8 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Year 12 student Lina is composing a piece for a school anthology that responds to a range of texts studied in class. The texts she has studied present leaving home as the only route to adventure and meaning. Her teacher asks her to affirm or challenge one idea those texts present, and to explain her choices in a short rationale."
+                    "scenario": "Year 12 student Lina is composing a piece for a school anthology that responds to a range of texts studied in class. The texts she has studied present leaving home as the only route to adventure and meaning. Her teacher asks her to affirm or challenge one idea those texts present, and to explain her choices in a short rationale.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-77",
@@ -6092,9 +6105,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-78",
-                    "question": "Construct a short text for a specific audience that reinterprets an idea or perspective from a text you have studied, using structure, language features and stylistic elements, then give a rationale.",
+                    "question": "Compose a short text for a specific audience that reinterprets an idea or perspective from a text you have studied, using structure, language features and stylistic elements, then give a rationale.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-04",
                       "EST-11-05"
@@ -6118,7 +6131,7 @@
                       "imperatives",
                       "short sentences"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a text that reinterprets the idea for younger students through a deliberate structure, language features and stylistic elements, and the rationale explains how each choice suits the audience and the reinterpretation\n5-6 marks: Reinterprets the idea for the audience with clear choices of structure and style, and the rationale explains most choices\n3-4 marks: Addresses the audience with a general reinterpretation, and the rationale describes the choices in general terms\n1-2 marks: Offers little reinterpretation or does not suit the audience, and the rationale is absent or only restates the piece",
+                    "markingCriteria": "7-8 marks: Composes a text that reinterprets the idea for younger students through a deliberate structure, language features and stylistic elements, and the rationale explains how each choice suits the audience and the reinterpretation\n5-6 marks: Reinterprets the idea for the audience with clear choices of structure and style, and the rationale explains some choices\n4 marks: Addresses the audience with a general reinterpretation, and the rationale describes the choices in general terms\n2-3 marks: Offers little reinterpretation or does not suit the audience, and the rationale is absent or only restates the piece\n1 mark: Offers no reinterpretation for the audience, and the rationale is absent",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-78-1",
@@ -6126,7 +6139,7 @@
                         "answer": "Dear Year 7,\n\nWhen our teacher first mentioned courage, I thought it meant the moment a hero steps forward. The text we studied suggested something quieter. Its protagonist does not charge into the storm; she keeps the lighthouse lamp burning so that someone out at sea can see the rocks. I want to reinterpret that idea for you. Courage can be a lamp kept burning in an ordinary room, and you do not need a sword to carry it.\n\nTry this. Think of one small thing you do each day that someone else depends on. Maybe you open the door for the little ones, or you finish your reading even when it is hard. Those are the lamps. Nobody writes songs about them, but they keep people safe in their own way.\n\nSo the next time you feel afraid of speaking up in class, remember the lighthouse. You do not have to be the loudest voice. You only have to keep the light on for the person who is looking for it.\n\nFrom your older friend, the writer.\n\nRationale: I used a letter form, short sentences and direct address because the audience is Year 7 students, and the structure moves from the original interpretation to a reinterpretation, then to an invitation so the reader can follow a clear path. The language features are deliberately simple, using imperatives and everyday examples such as opening a door, so that the idea is accessible to a younger reader. The lighthouse image is one of several stylistic elements, and it reinterprets courage as steady care rather than dramatic action. I wanted the text to reinterpret the idea for a young audience without losing the perspective of the original text. I also checked the piece against its purpose: the text should leave the younger reader with a clear action, and the closing paragraph is designed to do exactly that. The care taken with vocabulary matters because a reinterpretation that the audience cannot follow does not reinterpret anything.",
                         "source": "AI",
                         "feedback": "The exemplar describes an invented text for illustration. The composed letter reinterprets courage as steady care, and its structure, direct address and everyday examples are matched to a Year 7 audience. The rationale explains how each choice suits the audience and the reinterpretation, which is what the top band requires.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-78-2",
@@ -6134,7 +6147,7 @@
                         "answer": "Dear Year 7, courage is not only about heroes. The story we read has a lighthouse keeper who keeps the light on. You can be brave like that too. Remember the lighthouse when you are scared.\n\nRationale: I wrote a short letter for Year 7 because they are young. I used short sentences. The lighthouse is the main idea.",
                         "source": "AI",
                         "feedback": "Reinterprets the idea for an audience with a clear letter structure, but the language choices are few and the rationale only restates them, so it sits in the 5-6 band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-78-3",
@@ -6142,10 +6155,11 @@
                         "answer": "Courage is good. Be brave at school.",
                         "source": "AI",
                         "feedback": "Makes little reinterpretation and does not show any choice matched to the audience, so it sits in the 1-2 band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
-                    "scenario": "Year 12 student Dev is writing a short text for younger students in a school literacy program. The studied text's protagonist keeps a lighthouse lamp burning rather than charging into a storm. The text must reinterpret one idea from a studied text, using a structure and stylistic elements that suit a young audience, and it must be followed by a rationale."
+                    "scenario": "Year 12 student Dev is writing a short text for younger students in a school literacy program. The studied text's protagonist keeps a lighthouse lamp burning rather than charging into a storm. The text must reinterpret one idea from a studied text, using a structure and stylistic elements that suit a young audience, and it must be followed by a rationale.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-79",
@@ -7577,9 +7591,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-93",
-                    "question": "Construct an argument paragraph of about 200 words that uses the three research sources to support the claim that a regional town needs a public swimming pool, then write a short rationale explaining how you used the evidence.",
+                    "question": "Compose an argument paragraph of about 200 words that uses the three research sources to support the claim that a regional town needs a public swimming pool, then write a short rationale explaining how you used the evidence.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-11-05",
                       "EST-11-02"
@@ -7611,7 +7625,7 @@
                         "mark": 6,
                         "answer": "Our town needs a public swimming pool, and the evidence before council makes that case. A survey of 400 households shows that many residents travel more than forty minutes to swim, so a local pool would remove that burden. The state health report on drowning rates in rural areas raises the stakes for families with children. Our swim coach runs lessons from a borrowed hall with a waiting list she cannot manage, so demand already exists. Some readers will argue that the town cannot afford a pool, yet families already bear the costs of distance and waiting, and a shared facility would spread them. The claim is clear: the town needs a pool now.\n\nRationale: This letter to the editor builds on the information and ideas in the folder rather than on opinion alone. I opened with the council survey because it is the council's own data. The health report raises the stakes, and the coach's waiting list gives a local face, though I have treated that evidence as anecdotal. The cost objection comes near the end so the argument stays sustained.",
                         "feedback": "The paragraph integrates all three sources as evidence for one explicit claim, sequences them logically and anticipates a counter-argument. The rationale explains the choices behind the order and the status of each source, so it meets the top band.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-93-2",
@@ -7619,7 +7633,7 @@
                         "mark": 4,
                         "answer": "A public pool would help our town. The council survey shows that many families travel more than forty minutes to swim, and children are learning later than they should. A swim coach who runs lessons in a borrowed hall has a waiting list she cannot manage. A pool would give our children a place to learn close to home.\n\nRationale: I used the survey and the coach because both are about local people. I also mentioned the health report about drowning.",
                         "feedback": "Two sources are used effectively and the claim is clear, but the health report appears only in the rationale and is not integrated, and the rationale describes its choices without explaining them. This is the 4-mark band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-93-3",
@@ -7630,7 +7644,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a letter to the editor of a regional newspaper, read by parents and local business owners. The student's research folder holds three invented sources for this task: a council survey of 400 households, a state health report on drowning rates in rural areas, and an interview with a local swim coach. The survey finds that many households travel more than forty minutes to swim, and the coach runs lessons from a borrowed hall with a waiting list."
+                    "scenario": "A Year 12 student is writing a letter to the editor of a regional newspaper, read by parents and local business owners. The student's research folder holds three invented sources for this task: a council survey of 400 households, a state health report on drowning rates in rural areas, and an interview with a local swim coach. The survey finds that many households travel more than forty minutes to swim, and the coach runs lessons from a borrowed hall with a waiting list.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-94",
@@ -7873,9 +7888,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-97",
-                    "question": "Construct a 200-word interpretive response to the poem, supported by close textual analysis of at least THREE techniques, then write a short rationale explaining the interpretive choices you made.",
+                    "question": "Compose a 200-word interpretive response to the poem, supported by close textual analysis of at least THREE techniques, then write a short rationale explaining the interpretive choices you made.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-05"
@@ -7899,7 +7914,7 @@
                       "cohesive",
                       "free verse"
                     ],
-                    "markingCriteria": "7-8 marks: Composes a cohesive, informed interpretation sustained across the whole piece, supported by precise close analysis of at least three techniques, with a rationale that explains the interpretive choices clearly\n5-6 marks: Composes a cohesive interpretation with close analysis of at least three techniques, and a rationale that describes the choices\n3-4 marks: Composes an interpretation with some textual evidence, but the analysis of techniques is general and the cohesion is uneven\n1-2 marks: Composes a response that paraphrases the poem with little analysis, and the rationale is missing or unclear",
+                    "markingCriteria": "7-8 marks: Composes a cohesive, informed interpretation sustained across the whole piece, supported by precise close analysis of at least three techniques, with a rationale that explains the interpretive choices clearly\n5-6 marks: Composes a cohesive interpretation with close analysis of at least three techniques, and a rationale that describes the choices\n4 marks: Composes an interpretation with some textual evidence, but the analysis of techniques is general and the cohesion is uneven\n2-3 marks: Composes a response that paraphrases the poem with little analysis, and the rationale is missing or unclear\n1 mark: Composes a response that retells the poem without analysis, and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-97-1",
@@ -7907,7 +7922,7 @@
                         "answer": "The bread tin in this poem is never opened, and that refusal is the key to the speaker's grief. In the first stanza the tin sits on the bench as a practical object, but enjambment carries the eye past the line break, so the tin seems to spill into the next thought, as if the kitchen cannot contain what it holds. The repeated image in the middle stanzas turns the tin into more than an object. The speaker keeps noticing the lid, which is always pressed on tightly, and each noticing becomes a small record of absence. The final stanza is where the interpretation turns. The shift from past tense to present tense brings the grandmother's memory into the room for a moment, and the tin is described as still on the bench. The poem does not resolve the grief. The reader is left with the tin, the shift in tense and an unfinished routine, and the poem trusts that image to carry the loss. It holds the speaker in the present, where the tin remains and the baking has not started again. Read this way, the poem argues that grief is less a process of letting go than a process of keeping a place for someone within everyday routines.\n\nRationale: I treated the bread tin as the organising image, because the poem is in free verse and has no rhyme to hold it together, so the repeated object does that work. My close textual analysis focused on three techniques: the enjambment in the first stanza, the repeated tin in the middle stanzas and the tense shift in the final stanza. I kept the interpretation cohesive by returning to the tin in each paragraph, which lets the reader see that the grief is organised around the same absence. I deliberately did not claim that the speaker is recovering, since the final stanza holds the speaker in the present without resolving it.",
                         "source": "AI",
                         "feedback": "One interpretation is sustained across the whole response, three techniques are analysed precisely in relation to the poem's images and tense, and the rationale explains why each choice was made. This meets the top band.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-97-2",
@@ -7915,7 +7930,7 @@
                         "answer": "The poem is about a grandchild who misses her grandmother, and the bread tin on the bench stands for the memories of baking. In the first stanza the line breaks run on, which makes the reader keep moving down the page, and this feels like grief that does not stop. The repeated tin shows that the speaker keeps thinking about the grandmother. In the last stanza the tense changes to present, so the grandmother seems to be there again, and this makes the ending sad because the tin is still there.\n\nRationale: I looked at the enjambment and the tin, and I tried to show how the poem feels sad from start to finish.",
                         "source": "AI",
                         "feedback": "The response has a reading and analyses two techniques with some precision, but the third technique is not developed and the interpretation shifts from memory to sadness without a clear thread. The rationale describes rather than explains, which places it in the 5-6 mark band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-97-3",
@@ -7923,10 +7938,11 @@
                         "answer": "The poem is about a girl who misses her grandmother. The bread tin is still on the bench and the poem ends with the tin.",
                         "source": "AI",
                         "feedback": "The response paraphrases the poem's content with no technique named and no rationale, which matches the 1-2 mark line.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
-                    "scenario": "Students are studying an invented 30-line free-verse poem, written for this question, about a grandchild's grief for a grandmother who stopped baking years before she died. The bread tin she left on the kitchen bench is the poem's central image, the speaker keeps noticing that the tin's lid is always pressed down tightly, and the poem uses enjambment, a repeated image of the tin and a final stanza in which the speaker shifts from past tense to present tense."
+                    "scenario": "Students are studying an invented 30-line free-verse poem, written for this question, about a grandchild's grief for a grandmother who stopped baking years before she died. The bread tin she left on the kitchen bench is the poem's central image, the speaker keeps noticing that the tin's lid is always pressed down tightly, and the poem uses enjambment, a repeated image of the tin and a final stanza in which the speaker shifts from past tense to present tense.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-98",
@@ -9814,9 +9830,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-112",
-                    "question": "Construct a 200-word short scene that integrates language features, form and stylistic choices to shape a reader's response to the issue of young people leaving rural towns, then write a rationale explaining how these choices work together.",
+                    "question": "Compose a 200-word short scene that integrates language features, form and stylistic choices to shape a reader's response to the issue of young people leaving rural towns, then write a rationale explaining how these choices work together.",
                     "totalMarks": 8,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-06"
@@ -9839,7 +9855,7 @@
                       "response",
                       "rationale"
                     ],
-                    "markingCriteria": "7-8 marks: Constructs a scene in which language features, form and stylistic choices are integrated so that they shape one intended response, with a rationale that explains how the choices work together and why they suit the audience\n5-6 marks: Constructs a scene with language features, form and stylistic choices that shape the response, and a rationale that describes the choices\n3-4 marks: Constructs a scene with some integration of language and form, but the choices sit side by side rather than shaping one response, and the rationale is general\n1-2 marks: Constructs a piece with limited use of language and form, and the rationale is missing or unclear",
+                    "markingCriteria": "7-8 marks: Composes a scene in which language features, form and stylistic choices are integrated so that they shape one intended response, with a rationale that explains how the choices work together and why they suit the audience\n5-6 marks: Composes a scene with language features, form and stylistic choices that shape the response, and a rationale that describes the choices\n4 marks: Composes a scene with some integration of language and form, but the choices sit side by side rather than shaping one response, and the rationale is general\n2-3 marks: Composes a piece with limited use of language and form, and a rationale that is general or unclear\n1 mark: Composes a brief piece with minimal use of language and form, and no rationale",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-112-1",
@@ -9847,7 +9863,7 @@
                         "mark": 8,
                         "answer": "The bus leaves at 6.10, and Jess has learned to be early. The shelter's plastic panel is cracked into a web, and the timetable behind it still lists a route that stopped running in March. Her mum waves from the kitchen window, but the wave is small, the way people wave when they have already said everything. She notices the kitchen light still on after the bus turns the corner, the only thing in the street that has not changed. Inside, the seats are split and the air smells of diesel. Outside, the paddocks slide past in grey light: wheat stubble, a silo with its name painted over, a single letterbox at the end of a dirt track. Jess counts the stops the way other people count sheep. Eleven. Twelve. The town has become a list of things she will not see again. At the station in the city the doors open onto a noise she cannot yet name, and she steps down with her bag held tight against her chest. The piece ends where it began, with a timetable and a waiting, and the city's noise closes over the silence of the bus like water over a stone.\n\nRationale: In this scene language features and form are integrated, so the sense of loss comes from the structure as well as the imagery. The counting of stops repeats the form of a timetable, so the reader experiences the town as a diminishing sequence rather than a place. The cracked shelter and the out-of-date timetable are stylistic choices that show neglect without authorial comment, which keeps the piece open for the young adult readers the competition targets. The short sentences at the start slow the reader, and the longer sentence about the paddocks lets the landscape linger, so the rhythm is designed to shape the response: an understanding of the cost of leaving, without being told that leaving is wrong. I did not resolve the ending, because a decision would undercut the loss the form has built.",
                         "feedback": "The scene integrates language features and form so that the imagery, structure and rhythm all shape one response, and the rationale explains how the choices work together for a young adult audience. This is the full-mark standard.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-112-2",
@@ -9855,7 +9871,7 @@
                         "mark": 5,
                         "answer": "The bus leaves early and Jess is already waiting at the shelter. The timetable is out of date and the panel is cracked. Her mum waves from the window, but the wave is small. The town goes past outside, and Jess counts the stops until she reaches the city.\n\nRationale: I used a list of stops to show the town getting smaller, and short sentences to show that Jess feels flat. I wanted the reader to feel sad about leaving the town.",
                         "feedback": "A scene is constructed with language features and some form, and the choices shape a sense of leaving, but the rationale describes the choices rather than explaining how they work together. This is the 5-6 mark band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-112-3",
@@ -9866,7 +9882,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is entering a creative writing competition for a magazine read by young adults. The competition asks for a short piece that makes readers think differently about a social issue, and the student has chosen young people leaving rural towns for the city."
+                    "scenario": "A Year 12 student is entering a creative writing competition for a magazine read by young adults. The competition asks for a short piece that makes readers think differently about a social issue, and the student has chosen young people leaving rural towns for the city.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-113",
@@ -10387,9 +10404,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-117",
-                    "question": "Construct a personal interpretation of about 170 words of the lighthouse poem's final image, supported by close textual analysis, then write a short rationale explaining how your reading differs from the readings discussed in class.",
+                    "question": "Compose a personal interpretation of about 170 words of the lighthouse poem's final image, supported by close textual analysis, then write a short rationale explaining how your reading differs from the readings discussed in class.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-05",
                       "EST-12-01"
@@ -10411,7 +10428,7 @@
                       "lighthouse",
                       "informed"
                     ],
-                    "markingCriteria": "6 marks: Constructs an informed personal interpretation of the final image, supported by close textual analysis of precise language, with a rationale that explains how the reading differs from the class readings\n5 marks: Constructs a clear personal interpretation with close analysis of the final image, and a rationale that explains most of the differences\n4 marks: Constructs a personal interpretation with some textual evidence, and a rationale that describes the differences\n3 marks: Constructs a personal reading of the final image with limited textual analysis, and the rationale is general\n2 marks: Constructs a response that paraphrases the final image with a personal comment, and gives no rationale\n1 mark: Offers an opinion about the poem without reference to the text",
+                    "markingCriteria": "6 marks: Composes an informed personal interpretation of the final image, supported by close textual analysis of precise language, with a rationale that explains how the reading differs from the class readings\n5 marks: Composes a clear personal interpretation with close analysis of the final image, and a rationale that explains most of the differences\n4 marks: Composes a personal interpretation with some textual evidence, and a rationale that describes the differences\n3 marks: Composes a personal reading of the final image with limited textual analysis, and the rationale is general\n2 marks: Composes a response that paraphrases the final image with a personal comment, and gives no rationale\n1 mark: Offers an opinion about the poem without reference to the text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-117-1",
@@ -10419,7 +10436,7 @@
                         "mark": 6,
                         "answer": "The final image of the lighthouse poem, a lamp that turns on for no one, is for me an act of faith rather than a sign of loss. The keeper has gone and the mechanism runs on a timer, yet the verb 'turns' keeps the light in motion, so something continues without being watched. Close textual analysis of that verb shows the poem choosing continuity over mourning. This reading is informed by my own experience: when my family's farm was sold, I kept an image of its unlit kitchen window for years, believing someone was still looking in. The lamp captures that belief, since the light does not need an audience to be meaningful.\n\nRationale: My personal interpretation differs from the class readings because the historical reading locates loss in the keeper's work, and the ecological reading locates continuity in the sea and birds. I locate the meaning in the verb 'turns', which neither reading emphasised. I make my personal experience explicit so the reader can judge how far it shapes the interpretation, and I keep the close textual analysis focused on the final line, where the poem's meaning is concentrated.",
                         "feedback": "The personal interpretation is grounded in close textual analysis of the verb and the final image, and the rationale names the precise difference from the class readings and explains why the personal experience is made explicit. This is the full-mark standard.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-117-2",
@@ -10427,7 +10444,7 @@
                         "mark": 4,
                         "answer": "The final image is a lamp that turns on for no one. I think it shows hope, because the light keeps working after the keeper leaves. The word 'turns' makes it seem like something is still happening, and people keep doing things even when nobody is watching.\n\nRationale: My reading is different from the historical one because it is about hope and not about the job ending.",
                         "feedback": "The personal reading has some textual evidence in the verb, and the rationale describes the difference from the historical reading, but the analysis is brief and the differences from the ecological reading are not addressed. This is the 4-mark band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-117-3",
@@ -10438,7 +10455,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are composing an informed personal interpretation of the invented 24-line lighthouse poem (written for this question) for their folio. The class has already discussed a historical reading and an ecological reading, and the final image is a lamp that turns on for no one."
+                    "scenario": "Students are composing an informed personal interpretation of the invented 24-line lighthouse poem (written for this question) for their folio. The class has already discussed a historical reading and an ecological reading, and the final image is a lamp that turns on for no one.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-118",
@@ -11154,9 +11172,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-119",
-                    "question": "Construct a logically ordered paragraph of about 150 words that builds an argument about isolation, using the ideas generated from the lighthouse poem in class, then write a short rationale explaining the order of your claims.",
+                    "question": "Compose a logically ordered paragraph of about 150 words that builds an argument about isolation, using the ideas generated from the lighthouse poem in class, then write a short rationale explaining the order of your claims.",
                     "totalMarks": 5,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-06"
@@ -11186,7 +11204,7 @@
                         "mark": 5,
                         "answer": "The lighthouse poem presents isolation as a condition the keeper cannot escape, but not as its main concern. The keeper's solitude is real, and the repeated images of stairs and glass stress the emptiness of the tower. Yet the automated light reveals that the keeper's presence was never the only thing connecting the coast. The poem's isolation is therefore relational rather than absolute, and the final line, which reads the light as turning for no one, confirms that its deeper concern is continuity.\n\nRationale: The argument is logically ordered from the tower to the sea to the final line, so each claim builds on the one before. The order matters because continuity can only be seen once isolation has been granted. The paragraph is cohesive because each link carries the same idea.",
                         "feedback": "The paragraph is logically ordered, with each claim building on the one before to argue a clear position on isolation, and the rationale explains why the order was chosen. This is the full-mark standard.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-119-2",
@@ -11205,7 +11223,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Students are preparing a paragraph for a class debate on whether isolation is the lighthouse poem's main concern. The poem repeats images of stairs and glass, and its final line reads the light as turning for no one. The class has generated ideas about the keeper's solitude, the automated light and the sea, and the composition will be submitted as part of a folio with a short rationale."
+                    "scenario": "Students are preparing a paragraph for a class debate on whether isolation is the lighthouse poem's main concern. The poem repeats images of stairs and glass, and its final line reads the light as turning for no one. The class has generated ideas about the keeper's solitude, the automated light and the sea, and the composition will be submitted as part of a folio with a short rationale.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-120",
@@ -11808,9 +11827,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-128",
-                    "question": "Construct a 170-word feature article for an online youth magazine about part-time work, manipulating the conventions of the feature genre so that they serve the purpose of informing and engaging teenage readers, then write a short rationale explaining the choices.",
+                    "question": "Compose a 170-word feature article for an online youth magazine about part-time work, manipulating the conventions of the feature genre so that they serve the purpose of informing and engaging teenage readers, then write a short rationale explaining the choices.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-05"
@@ -11832,7 +11851,7 @@
                       "audience",
                       "rationale"
                     ],
-                    "markingCriteria": "6 marks: Constructs a feature article that manipulates the conventions of the genre with clear purpose and audience awareness, and a rationale that explains each manipulation and its effect\n5 marks: Constructs a feature article that uses genre conventions purposefully for the audience, with a rationale that explains most of the choices\n4 marks: Constructs an article with recognisable feature conventions and some manipulation, and a rationale that describes the choices\n3 marks: Constructs a piece that follows the feature conventions with limited manipulation, and the rationale is general\n2 marks: Constructs a piece that is recognisable as an article but does not manipulate its conventions, and gives no rationale\n1 mark: Writes a piece without recognisable genre features",
+                    "markingCriteria": "6 marks: Composes a feature article that manipulates the conventions of the genre with clear purpose and audience awareness, and a rationale that explains each manipulation and its effect\n5 marks: Composes a feature article that uses genre conventions purposefully for the audience, with a rationale that explains most of the choices\n4 marks: Composes an article with recognisable feature conventions and some manipulation, and a rationale that describes the choices\n3 marks: Composes a piece that follows the feature conventions with limited manipulation, and the rationale is general\n2 marks: Composes a piece that is recognisable as an article but does not manipulate its conventions, and gives no rationale\n1 mark: Writes a piece without recognisable genre features",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-128-1",
@@ -11840,7 +11859,7 @@
                         "mark": 6,
                         "answer": "Headline: Off the Clock, Still on the Books. Your first pay slip feels like a small miracle, until you check the hours and wonder where the rest went. Part-time work is one of the first grown-up systems most teenagers join, with rules nobody explains at the interview. We spoke to four students who work fifteen to twenty hours a week in cafes, supermarkets and a bike shop. Their jobs differ, but most did not know their rights until something went wrong. So before you sign anything, do three things. Ask which award or agreement covers your job. Check your pay slip against the rate it sets. Keep a copy of your rostered hours, because rosters change without warning. One student assumed the rate was simply what she was offered, and she only found out otherwise when a friend compared pay slips. Ask anyway. Work you cannot question is not a favour; it is a job with a pay slip attached.\n\nRationale: This feature article keeps the conventions of the genre, a headline, a hooked opening, interviews and a closing image, but bends them for a teenage audience. The second-person address and three-point checklist turn information into action, serving the purpose of informing without preaching. The final line reverses the opening's pay-slip image to engage readers.",
                         "feedback": "The feature article bends the conventions of headline, interview and closing image for a teenage audience, with the second-person address and checklist serving the purpose of informing without preaching. The rationale names each manipulation and its effect on readers. This is the full-mark standard.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-128-2",
@@ -11848,7 +11867,7 @@
                         "mark": 4,
                         "answer": "Headline: The Hours Nobody Counts. Part-time work teaches a lot, but most teenagers do not know their rights. We spoke to some students. Ask which award covers your job and check your pay slip against it. Keep a record of your rostered hours, because rosters change without warning.\n\nRationale: I used a headline and a few short interviews because these are conventions of the feature article. I addressed the reader as you so that the article gives advice.",
                         "feedback": "The article uses recognisable feature conventions and a direct address to the reader, and the rationale describes these choices, but the manipulation of the genre is limited and the rationale does not explain its purpose. This is the 4-mark band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-128-3",
@@ -11859,7 +11878,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is contributing to an online youth magazine that publishes feature articles for teenage readers. The editor has asked for an article on part-time work that informs readers about their rights and engages them without preaching, and the student may bend the genre's conventions where the purpose requires."
+                    "scenario": "A Year 12 student is contributing to an online youth magazine that publishes feature articles for teenage readers. The editor has asked for an article on part-time work that informs readers about their rights and engages them without preaching, and the student may bend the genre's conventions where the purpose requires.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-129",
@@ -11919,7 +11939,7 @@
                     "id": "prompt-en-231",
                     "question": "Use at least ONE of the ideas in this extract as the basis for an imaginative or discursive piece of writing that explores the need for momentum in our lives.",
                     "totalMarks": 20,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-05"
@@ -11953,7 +11973,7 @@
                         "mark": 20,
                         "answer": "The clock in the window of Hollis & Daughter stopped at ten past four on a Tuesday in March, and for months nobody thought to start it again. Its pendulum hung behind the glass, a disc of brass catching the afternoon light and holding perfectly still. People on the high street glanced at it the way you glance at a sleeping animal, careful not to wake it.\n\nI was the daughter. My father had taught me to brush the dust from the movements and to listen for trouble in a clock the way a doctor listens to a chest. ‘A pendulum does not need much,’ he used to say, tilting his head towards the shelves of ticking. ‘It needs one small push at exactly the right moment, on every swing, or it forgets how to go on.’ He said it lightly, as though a clock were simply a machine that had learned to be patient.\n\nAfter he got sick, the shop shut and I did what a pendulum does when nothing pushes it. I slowed. I slept until noon. I answered messages with a single word and let my phone go flat on the kitchen bench. Days passed without my counting them, and the only evidence of their passing was the light moving across the floorboards, a little further each afternoon, as though it were the one thing in the house still willing to go somewhere.\n\nI was not sad, exactly. Sadness has its own noise, and mine had gone quiet. I was feeling stuck, which is a kind of stillness that looks like rest from the outside. I had become a clock stopped at the bottom of its swing: the weight still hanging, the wheels locked, everything in its place and nothing happening.\n\nOn a Sunday in late September I unlocked the shop without deciding to. The air smelled of oil and cold dust. I opened the glass door of the clock, took the pendulum between two fingers and drew it aside. When I let go, it swung. Four swings, then five, each arc a little narrower, the tick thinning until it was only a rumour in the wood. It was winding down in front of me the way I had been winding down in my room, one unhurried arc at a time.\n\nI knelt and looked at the escapement, the small wheel of brass teeth that gives the pendulum a push on every swing. I had watched my father do this a hundred times without understanding it. The pendulum cannot keep itself going. The tiny push is what turns a swing into a rhythm, and a rhythm into time.\n\nI did not fix anything that day. I only lifted the pendulum, let it go, and watched it lose its width again. But something in my chest had begun to move with it.\n\nThe next afternoon I walked to the bus stop instead of waiting for the bus to come to me. Nothing dramatic happened. I bought a coffee I did not want and read the notices on the library board. But a body that has been still for months starts the way a cold engine turns over, reluctantly, and then the second step is lighter than the first and the third lighter again. That was the momentum, if I am honest about it: not a grand force, only one small push making the next one easier.\n\nOn the Thursday I opened the shop. I dusted the counter, checked the stock book and wound the clock on the wall, listening for the tick to settle into its beat. Then I set the window pendulum swinging with one finger and waited. It made its first wide arc, then another, and the tick came back, small and certain, and carried out through the glass onto the street.\n\nA boy stopped on his bike to look at the window. The clock said twenty past three, which was wrong, and I did not mind. I would set it right in the morning, and the morning after that.",
                         "feedback": "This answer meets the 17-20 row: the pendulum from the extract is the frame for the whole piece, the stopped clock carries the sense of feeling stuck, and the piece closes on a future action rather than a summary. To lift it further, the paragraph on the bus stop could cut its explanation of momentum and let the second step carry the idea alone.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-231-2",
@@ -11976,7 +11996,8 @@
                     "isPastHSC": true,
                     "hscYear": 2023,
                     "hscQuestionNumber": "3",
-                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes."
+                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes.",
+                    "bandCeiling": 5
                   }
                 ]
               },
@@ -11986,9 +12007,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-130",
-                    "question": "Construct a 170-word retelling of the scene from the perspective of the bus driver, then write a short rationale that explains how the change of point of view alters the reader's sympathies.",
+                    "question": "Compose a 170-word retelling of the scene from the perspective of the bus driver, then write a short rationale that explains how the change of point of view alters the reader's sympathies.",
                     "totalMarks": 6,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-06"
@@ -12010,7 +12031,7 @@
                       "reader",
                       "sympathies"
                     ],
-                    "markingCriteria": "6 marks: Constructs a retelling that convincingly adopts the driver's perspective and voice, uses the change of point of view to shape sympathy, and has a rationale that explains the effect on the reader\n5 marks: Constructs a retelling from the driver's perspective with a consistent voice, and a rationale that explains most of the effects\n4 marks: Constructs a retelling that shifts perspective with some consistency, and a rationale that describes the change\n3 marks: Constructs a retelling with a shifted narrator but limited change in voice or sympathy, and a general rationale\n2 marks: Constructs a retelling that repeats the original scene with little change of voice, or gives no rationale\n1 mark: Writes a piece that does not adopt the driver's perspective",
+                    "markingCriteria": "6 marks: Composes a retelling that convincingly adopts the driver's perspective and voice, uses the change of point of view to shape sympathy, and has a rationale that explains the effect on the reader\n5 marks: Composes a retelling from the driver's perspective with a consistent voice, and a rationale that explains most of the effects\n4 marks: Composes a retelling that shifts perspective with some consistency, and a rationale that describes the change\n3 marks: Composes a retelling with a shifted narrator but limited change in voice or sympathy, and a general rationale\n2 marks: Composes a retelling that repeats the original scene with little change of voice, or gives no rationale\n1 mark: Writes a piece that does not adopt the driver's perspective",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-130-1",
@@ -12018,7 +12039,7 @@
                         "mark": 6,
                         "answer": "The mirror shows the girl before I see her clearly: a figure in a grey hoodie, running with her bag thumping against her hip. I have forty seconds before I should be moving, and three passengers who have had a long day. I see her, and my foot hovers. Rules are rules. A driver who waits for every runner is never on time. The doors stay shut. I tell myself the rule protects the passengers, and that is true, but not the whole truth. In the mirror she is slowing, hands on her knees. I tell myself she will find a lift. At the depot that night I check the timetable again, and I still cannot decide whether I did the job or failed the girl in the grey hoodie.\n\nRationale: This retelling from the bus driver's perspective shifts the reader's sympathy from the student's fear to the driver's uneasy compliance. Through the mirror the reader sees the girl and the driver's rule-bound reasons, so the reader judges a decision rather than feeling for a victim. The ambiguous ending keeps the question open, so the change of point of view alters sympathies without making the driver a villain.",
                         "feedback": "The driver's voice is consistent and carries his own rules and worries, the change of point of view is used to shift the reader's sympathy, and the rationale explains the effect on the reader. This is the full-mark standard.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-130-2",
@@ -12026,7 +12047,7 @@
                         "mark": 4,
                         "answer": "I saw the girl running. I had to keep to the timetable, so I did not stop. Then I saw her in the mirror, bent over. I think she got a lift. I felt bad at the end of the shift.\n\nRationale: I changed the point of view to the driver so the reader can see why he did not stop. This changes how the reader feels about the scene.",
                         "feedback": "The retelling shifts to the driver's perspective with some consistency, and the rationale describes the change, but the driver's voice is thin and the effect on the reader's sympathy is only stated. This is the 4-mark band.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-130-3",
@@ -12037,7 +12058,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "The class has read an invented 300-word scene, written for this question, in which a Year 12 student runs for the last bus home and misses it. She wears a grey hoodie, and her bag thumps against her hip as she runs. The bus driver saw her and drove on. The scene ends without saying whether she reaches home. The scene is narrated in close third person from the student's point of view and uses short sentences to show her panic."
+                    "scenario": "The class has read an invented 300-word scene, written for this question, in which a Year 12 student runs for the last bus home and misses it. She wears a grey hoodie, and her bag thumps against her hip as she runs. The bus driver saw her and drove on. The scene ends without saying whether she reaches home. The scene is narrated in close third person from the student's point of view and uses short sentences to show her panic.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-131",
@@ -12149,9 +12171,9 @@
                 "prompts": [
                   {
                     "id": "prompt-en-133",
-                    "question": "Construct a 200-word reflective piece that makes a thematic connection with the poem and reflects your own values about belonging, then write a short rationale explaining the connection.",
+                    "question": "Compose a 200-word reflective piece that makes a thematic connection with the poem and reflects your own values about belonging, then write a short rationale explaining the connection.",
                     "totalMarks": 7,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-06"
@@ -12173,7 +12195,7 @@
                       "connection",
                       "rationale"
                     ],
-                    "markingCriteria": "6-7 marks: Constructs a reflective piece that makes a sustained thematic connection with the poem and reflects the writer's own values and perspectives, with a rationale that explains the connection and its significance\n4-5 marks: Constructs a reflective piece with a clear thematic connection to the poem and some reflection of values, and a rationale that describes the connection\n2-3 marks: Constructs a piece with a loose link to the poem and limited reflection, and the rationale is general or missing\n1 mark: Writes a personal piece with no connection to the studied text",
+                    "markingCriteria": "6-7 marks: Composes a reflective piece that makes a sustained thematic connection with the poem and reflects the writer's own values and perspectives, with a rationale that explains the connection and its significance\n5 marks: Composes a reflective piece with a clear thematic connection to the poem and some reflection of values, and a rationale that describes the connection\n3-4 marks: Composes a reflective piece with a thematic link to the poem and limited reflection of values, and a rationale that describes the connection in general terms\n2 marks: Composes a piece with a loose link to the poem and minimal reflection, and the rationale is general or missing\n1 mark: Writes a personal piece with no connection to the studied text",
                     "sampleAnswers": [
                       {
                         "id": "sa-en-133-1",
@@ -12181,7 +12203,7 @@
                         "mark": 7,
                         "answer": "I still have the key to the house on Marlow Street, though the house now belongs to people I have never met. Some mornings I put my hand in my pocket and feel its teeth, and for a second I am back in a kitchen where the kettle always took too long. Belonging, I used to think, was a matter of addresses. The grandchild in the poem keeps a bread tin on a bench long after the baking has stopped, and I recognise that habit in myself. We keep objects because they hold a place open. The tin is not really about bread; it is about a version of the family that still has room in it. I have decided that belonging is less about where I live than about what I refuse to let go of, even when it no longer opens anything. The key is mine, and so, in a stubborn way, is the kitchen.\n\nRationale: This reflective piece makes a thematic connection with the bread tin poem through the idea of keeping a place open for someone who has gone. The grandchild's tin and my key both hold a place open. I test my own values about belonging, which I now think is held in objects as much as in addresses. The perspectives differ, since the poem holds grief in the present tense while the piece looks back, but both treat an object as a refusal to finish a loss.",
                         "feedback": "The piece connects thematically with the poem's idea of keeping objects that hold a place open, reflects a considered personal value about belonging, and the rationale explains the connection and why it matters to the writer. This is the full-mark standard.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-133-2",
@@ -12200,7 +12222,8 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "A Year 12 student is writing a reflective piece for the school's literary journal. The piece must connect thematically with the invented poem about a grandchild's grief and a bread tin, which the class studied in the close study unit. In the poem, the grandchild keeps a bread tin on a bench long after the grandmother stopped baking, and the final stanza shifts into the present tense, and it should show the student's own perspective on belonging."
+                    "scenario": "A Year 12 student is writing a reflective piece for the school's literary journal. The piece must connect thematically with the invented poem about a grandchild's grief and a bread tin, which the class studied in the close study unit. In the poem, the grandchild keeps a bread tin on a bench long after the grandmother stopped baking, and the final stanza shifts into the present tense, and it should show the student's own perspective on belonging.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-134",
@@ -12263,7 +12286,7 @@
                     "id": "prompt-en-152",
                     "question": "Craft an imaginative piece of writing that explores at least ONE idea from the stimulus.",
                     "totalMarks": 15,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-05"
@@ -12298,7 +12321,7 @@
                         "mark": 15,
                         "answer": "Ilse kneels beside the seedling with the watering can held low, the way her father taught her, so the water soaks into the ground instead of running off down the slope. The seedling is so small she could hide it under a cupped hand. It has two leaves, pale as paper, and she waters it anyway, every morning, through the long dry weeks when nothing seems to happen.\n\nHer father used to say that care for beginnings is mostly waiting. He said it while he hoed the bean rows, and she did not understand him until she had planted things that took a full year to show themselves. Now she understands it in her knees. Patience is not the absence of work. It is work that refuses to be seen.\n\nWhen the sun shifts, she looks up, and the hillside has changed. Cast up the slope from the seedling is a shadow far too large for anything with so little root: a tree in full leaf, its crown wider than the fence, and inside the crown a woman reaching for fruit. A basket waits at the trunk, heavy with red fruit. It is the only colour on the whole hill. Everything else is grey, as if even the light has learned to be patient.\n\nIlse stands and stretches her back. The shadow is not a threat. It is a measure. It lengthens as the afternoon lengthens and shrinks back toward the seedling at noon, and each time it moves she sees that the tree is still growing, still waiting for someone to arrive. She wonders who the woman is. She wonders whether it will be her, or whether a stranger will one day stand beneath those branches with a basket and never know whose hands first wet this soil.\n\nThat night she sleeps badly. In her dream the seedling rises to meet her palm like a child reaching for a parent, and the shadow of the tree spreads across the valley until the passage of time becomes something she can walk through.\n\nBy morning the shadow has moved again. It has crept past the stones her father stacked, and the tree inside it looks no fuller than yesterday, though she knows it is. She refills the can at the trough and climbs back up. Kneeling once more, she tips the water in a thin, steady stream and watches it sink. A single drop catches the light, then vanishes into the dark earth. Nothing about this moment will be recorded. It will be done anyway.\n\nShe thinks of the woman in the shadow, arms full of fruit that she did not plant and does not need to understand. The reward of long effort, her father would have said, is that it is handed on without a receipt.\n\nIlse rises and lifts the can. The seedling’s two leaves tremble and settle. Above her, the shadow of the tree stretches across the whole hill, and in its branches a stranger lifts her hand to the red fruit, unhurried, as though the summers were always going to come.",
                         "feedback": "This answer meets the highest descriptor: the shadow is sustained across every section as a way of showing time, the repetition in phrases such as 'It is a measure' and 'It will be done anyway' is deliberate, and the ending leaves the image to carry the idea. To lift it further, the shift from the father's saying to the present scene could be sharpened so that the movement between time-frames feels even more controlled.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-152-2",
@@ -12327,13 +12350,14 @@
                       "alt": "Illustration by Sergio Dulce: a small figure waters a seedling on a hillside, and their shadow is of a grown tree with a woman picking red fruit",
                       "updatedAt": 0,
                       "src": "courseData/images/en-2024-3.png"
-                    }
+                    },
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-156",
                     "question": "Using the stimulus above, craft an imaginative or discursive piece of writing that captures the richness of a fond memory.",
                     "totalMarks": 20,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-05"
                     ],
@@ -12365,7 +12389,7 @@
                         "mark": 20,
                         "answer": "A fond memory brings you a wave of comfort and ignites the senses, and mine always arrives through the screen door of my grandmother's kitchen. I can still hear it: a thin metallic complaint, a spring stretched too tight, then the soft slap of the frame settling against its catch. Everything inside that house ran a little slower than the world outside, as though the clocks had agreed among themselves to keep a gentler time.\n\nThe room smelt of lemon peel and scorched sugar. A tin of shortbread sat on the bench beside a cutting board stained the colour of weak tea, and my grandmother stood at the sink with her sleeves pushed past her elbows. Her forearms were freckled and strong. She moved with the unhurried certainty of someone who had never once needed to check a recipe. Water ran over her hands, and the tap made a low, thick sound, like a note held too long, while the refrigerator hummed its own tuneless song beneath it.\n\nI was nine, and I had been given the job of stirring. The wooden spoon was worn pale where other hands had gripped it for decades. At first the mixture resisted, then it loosened into something glossy, and I felt the grit of sugar between my fingers as I worked. The light came through the lace curtain and lay in squares across the floor. I remember that the squares were warm. I remember wanting nothing more than to stay exactly where I was.\n\nMy grandmother hummed as she worked, always the same three notes, and she never finished the tune. I used to believe she had forgotten the rest. Years later I understood that she stopped at the part she loved best and left the ending for whoever was listening. She was like that with stories, too. She would begin one about the drought year or the cousin who rode a borrowed horse into the creek, then glance at the window as if the rest had wandered off without her.\n\nNothing dramatic happened that afternoon. We ate the shortbread while it was still too hot to hold, crumbs catching at our lips, and she told me to wipe my face on the tea towel with the faded rooster on it. A fly circled the fruit bowl. Somewhere down the street a dog barked twice and then forgot why. These small things return to me most vividly, and I have come to think memory keeps them because they hold the whole afternoon, the way a single mouthful of something sweet can carry an entire summer.\n\nI have tried to explain to friends why this memory matters more than the birthdays that are better documented. The honest answer is that I can enter it. I can walk through the screen door in my mind, feel the step that always gave a little under my sandal, and find every object exactly where it was. I can smell the lemon and the scorched sugar before I reach the bench. A fond memory is not a photograph. It is a room, and it stays open for as long as I keep returning to it.\n\nThe house has changed. The screen door has been replaced with a heavier one that closes without a sound, and the lemon tree by the side fence came down in a storm. Yet when I stand in the doorway the old kitchen is still there, folded inside the new one like a letter inside its envelope. I bake nothing and stir nothing. I simply breathe in, and for a moment the clocks agree to run slowly again.",
                         "feedback": "This piece meets the top row of the craft criteria: it opens on the stimulus idea, builds a single sensory world, and uses concrete objects (the spoon, the lace curtain, the tea towel) to carry the emotion. The structure is controlled, with a return to the present that gives the memory a clear shape. To lift it further, the middle section could take one more risk in voice, so that the reader hears the writer's own rhythm rather than a steady, even pace.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-156-2",
@@ -12388,13 +12412,14 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "3",
-                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes."
+                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-179",
                     "question": "Create a piece of imaginative, discursive or persuasive writing that ENDS with the provided image.",
                     "totalMarks": 12,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-05"
@@ -12429,7 +12454,7 @@
                         "mark": 12,
                         "answer": "The council crew never comes in daylight. They arrive before the bakeries open, two men in hi-vis and a van that smells of thinners, and by the time I reach the laneway the first roller is already dripping grey. I stand by the bins with my coffee going cold and watch the wall I know best disappear. Nobody asked me to watch. I came anyway, the way you go back to a room after the furniture has gone.\n\nTwo summers ago my brother Tom and I borrowed a ladder from the hardware yard behind the station and climbed the left-hand wall after midnight. We were painting our grandmother. Nan had taught me to hold a brush the way she held a pen, and that is how I drew her eyes: half closed, as though she were still deciding whether to forgive us. Tom knocked a tin of pink off the top rung. It burst across the pavement in a fan of splashes, and we left them there. They were the only part of that night that nobody planned.\n\nBy nine the roller has reached the right-hand wall. The murals there go under one at a time: a blue bird with a broken wing, a row of raised hands, a city skyline that somebody spent a month on. The grey climbs over them like a tide over sand, slow at the edges and then all at once. I count the seconds between strokes because counting is easier than watching. Twelve. Eleven. The roller hums, soft and almost kind, and that is the part I cannot forgive.\n\nStreet art is never the last word on a wall. The council will be back next winter, and the winter after that, and every surface in this city has been scraped and written on again. The laneway is simply more honest about it. It does not pretend to be finished.\n\nBy ten both walls are grey, all except her. The older man stops in front of the face and looks up for a long moment. Then he wipes his brush on a rag and walks back to the van without touching her. She looks as if she has been left standing in the rain.\n\nBy six the artists have come, as they always do. A girl with a bucket of silver paint and a boy with a box of stencils arrive together. Nobody asks permission. The bird returns in blue and then in a brighter blue, the hands gather around it, and the skyline climbs out of the grey one building at a time.\n\nTonight the lane looks the way it always does. A painted face watches from the left-hand wall, eyes half closed, still deciding. Murals cover both walls, layered so thickly that no single colour wins. Near the bins the pink splashes have faded to a blush on the pavement, but they have outlasted two summers of rain and three rounds of paint. Down the middle of the grey pavement, a white centre line runs straight past the bins towards the street, unbroken.",
                         "feedback": "This answer meets the 10-12 row: it has a controlling idea (a lane that renews itself while one accident survives every repaint), a structure that runs from dawn to night and returns to the stimulus, and controlled imagery such as the grey climbing over the murals like a tide over sand. The move that would lift it further is to cut the fourth paragraph, which states the idea that the images already carry, so the final image does all the work.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-179-2",
@@ -12437,7 +12462,7 @@
                         "mark": 7,
                         "answer": "The council trucks come early on Saturdays. I hear them from my bed before I see them, the engine and then the beeping as the van reverses into the lane. My name is Nell and I have been coming to this lane since I was small, so I know what is going to happen. They are going to paint over the murals. I go down anyway with a coffee in my hand and stand by the bins to watch.\n\nI feel angry and sad at the same time. Two years ago my brother Tom and I painted our nan on the left wall. It was a big face and it took us all night. Tom knocked over a tin of pink paint and it splashed on the ground, which made Mum cross, but I think it looks nice now. I wanted the lane to stay the same forever.\n\nThe men start with the right wall. The bird that Tom liked goes first, then the hands, then the skyline. The roller goes up and down and the grey covers everything. It is quite quick. I did not expect it to be so quick, which made me upset.\n\nBy lunchtime the artists come back and paint new pictures, so I know the lane will change again. I suppose this is how it works. Nan’s face is still there, looking down the lane with her eyes half shut. The walls are full of colour again and the white line is still in the middle of the grey pavement, where it has always been. The pink splashes are still there too.",
                         "feedback": "This answer sits in the 7-9 row: it is a competent narrative with a clear setting that returns to the lane at the end, but the narrator tells feelings directly (I feel angry and sad) and some sentences flatten into plain statements such as it is quite quick. The move that would lift it is to replace one piece of telling with a concrete image, such as the grey reaching the bird’s broken wing.",
-                        "band": 3
+                        "band": 4
                       },
                       {
                         "id": "sa-en-179-3",
@@ -12445,7 +12470,7 @@
                         "mark": 3,
                         "answer": "I went to the lane this morning to look at the painting. There is a big face on one wall and there are murals on both sides. The ground is grey and there is a white line down the middle. Some pink paint is on the ground too, from when somebody spilt it. I like the street art because it makes the city look more interesting.\n\nIt is a good place to think about things. The lane is narrow, so it feels a bit like a tunnel, and the face looks sad to me. I think the artists want people to come and look at their work. The white line goes all the way down the lane, so I walked along it to the end.",
                         "feedback": "This answer sits in the 1-3 row: it attempts the task and names several details from the stimulus, but it is a list of observations with no story, no controlling idea and little control of language. The move that would lift it is to give the narrator a problem in the lane and let the final sentence return to the image.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Stimulus: Colour photograph of a narrow city laneway covered in street art: a large painted face on the left, murals on both walls and a grey paved lane with a white centre line and pink paint splashes (photograph by Brittany Kulick). Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.",
@@ -12458,13 +12483,14 @@
                       "alt": "Colour photograph of a narrow city laneway covered in street art, with a large painted face on the left wall",
                       "updatedAt": 0,
                       "src": "courseData/images/en-2019-8a.jpg"
-                    }
+                    },
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-192",
                     "question": "Compose a piece of imaginative writing that is set in a significant place. Begin with the words: ‘This is my world now, and it can be yours too, if you like. A place can soak through your skin like sweat, and ooze into your heart and soul. Breathe it in, and let me tell you a story.’",
                     "totalMarks": 20,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-05"
@@ -12499,7 +12525,7 @@
                         "mark": 20,
                         "answer": "The pan lies two hours past the last fence post, a white floor so flat that a car can come towards you across it for most of an hour before it seems to move. Nothing grows out there. The wind has nothing to hold on to, so it pushes the heat straight into your face and leaves salt in the creases of your skin. The pan is the most significant place I have known, and I have spent half my life trying to decide whether that is a compliment.\n\nMy father raked salt on that pan for twenty-six years. He taught me to read the water before I could read a book. Clear meant the brine was still too thin. Pink meant it was ready. A dark patch, almost black in the middle of the white, meant the ground was wet underneath, and wet salt would take a leg to the knee before you knew it had changed its mind. Walk on the ridges, he said. Walk where the crust sings.\n\nThe rake was taller than I was. He gave it to me on my seventh birthday without ceremony, the way other fathers hand over a bicycle, and showed me how to drag the salt into low white rows that caught the sun. My arms burned by eleven. He did not stop for me. He raked a long straight line, leaned on the handle at the end of it, and looked back at the marks we had made. Nobody else would ever see those lines, and I thought that was the point of them.\n\nI was nine the summer the rain came. It fell for eleven days on a country that had forgotten what rain was, and by the second week the pan had turned from white to a sheet of brown water the colour of weak tea. The company sent a letter. My father read it at the kitchen table with his hands flat on either side of the page, and he did not say a word for the rest of the night.\n\nIn town the mothers at the bakery said the company had been cruel, and the men at the pub said my father should have fought it. He did not fight. For six weeks after the letter, when there was nothing left to rake, he drove out to the pan every morning and stood at the edge with his boots in the mud. I followed him once. He did not see me, and I did not go any closer.\n\nIn March we drove out of town with everything we owned tied to the roof. I watched the pumphouse shrink in the back window until it was a single white mark, like a full stop at the end of a sentence I had not finished reading. Years later I came back on a Tuesday in autumn, alone. Nobody else wanted to see it. The water had gone and left a crust so bright I had to squint through my fingers. The pumphouse stood with its door open like a gate with no fence around it, and a tin sign on the shed had rusted to the colour of old blood. The wind kept knocking it against the post, the same flat knock I had fallen asleep to as a child.\n\nI walked out on the ridges, as I had been taught, and the crust sang under my boots in the same thin note I remembered. I had changed. The pan had not noticed. The crust held, as it always had in the places he taught me to trust, and I stood there longer than I meant to, listening to the sound of it, as if the pan were still reading me the rules. I knelt where the dark patch had been and pressed my palm flat to the salt. It was warm, and when I lifted my hand it was dusted white, the way his hands had been every evening of my childhood.\n\nI put a finger to my tongue, as he used to, and tasted the whole place at once: the rain, the rake, the years of brine, and something sharper that might have been me. It is already in my skin, and by now, I suspect, it is in yours.",
                         "feedback": "This answer meets the 17-20 row: it builds a significant sense of place from the flat pan, the father's rules and the salt on the skin, and it continues the extract's second-person invitation in a voice that stays steady throughout. One strength is the structure, which moves from instruction to loss to return without announcing each shift. The move that would lift it is to cut the final sentence, since the salt on the tongue already carries the idea.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-192-2",
@@ -12522,13 +12548,14 @@
                     "isPastHSC": true,
                     "hscYear": 2020,
                     "hscQuestionNumber": "8",
-                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes."
+                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes.",
+                    "bandCeiling": 5
                   },
                   {
                     "id": "prompt-en-227",
                     "question": "Craft an imaginative or discursive piece of writing that explores the power of the senses. In your composition, you should emphasise ONE of the five senses (sight, smell, sound, taste OR touch).",
                     "totalMarks": 15,
-                    "verb": "CONSTRUCT",
+                    "verb": "COMPOSE",
                     "linkedOutcomes": [
                       "EST-12-04",
                       "EST-12-05"
@@ -12563,7 +12590,7 @@
                         "mark": 15,
                         "answer": "The doctor said the smell would return in a month, perhaps two, so I stopped trying to smell things and started trying to remember them instead.\n\nI began with the easy ones. Toast burnt at the edges. The orange peel my father left drying on the windowsill. Wet wool on a winter morning, and the warm dust on the bookshelves in the hall. I said each one aloud in the kitchen, the way you check a list of names before a roll call, and each one came back to me as a sentence rather than a place. I could describe them. I could not stand inside them.\n\nThat was what the illness had taken. Not the pleasure of a smell, which I had always assumed was a small bonus, but its power to pull me somewhere without asking. Smell had never waited for me. It crept under the door of every room I entered and clung to every coat I hung on a hook. Now everything had to be fetched, and I fetched it badly.\n\nEach morning I stood at the back door before school and breathed in slowly, the way I had as a child, when the wind came up from the creek with cut grass and woodsmoke in it. Nothing came. The air was only air, cool and flat, like water left overnight in a glass. My mother said the brain was patient. She said it in the voice she used for splinters. But I had waited at that door all my life without knowing I was waiting, and now I waited at it like someone expecting a letter that might never arrive.\n\nI tried other things. Chlorine at the pool. The wax on the school floors. Petrol on the forecourt. Each one returned as a word and nothing more, a label stuck to an empty jar.\n\nBy the fifth day I had stopped trusting memory. The smells I recalled were like photographs printed in grey. The outlines were there, the lemon tree and the washing line and the shed door, but whatever made them live had drained away. When I tried to summon sawdust, I got the word sawdust.\n\nOn the eighth day it rained. I was at the back door when the first drops struck the path and made dark coins in the dust, and I thought, with a bitterness I am not proud of, that the rain was only putting on a show. I watched the path darken instead, the dust gathering itself into small craters, and I stopped waiting for anything.\n\nThen the smell came, and not the way I expected. It did not rush. It arrived slowly, as if the ground were lifting its breath for me: the cold iron of the downpipe, the wet earth opening, hot tar cooling in the gutter, and under everything something green and sour that I had forgotten was the smell of my own childhood. The scientists have a name for it, petrichor. The name is a label too. The smell was never the label.\n\nI went inside. The kettle had been left on, and when I stepped into the hallway the whole house arrived at once: toast and peel, wet wool, the dust warm on the shelves, my father’s coat with its faint trace of machine oil. I did not have to fetch any of it. It came to me the way a room lights up when someone opens the door, and I stood in the hallway with my eyes shut and let the house fill me.",
                         "feedback": "This answer meets the 13-15 row: smell is sustained from the first paragraph to the last, the absence of smell is used to test its power, and the closing image of the house arriving at once shows the power of the sense rather than stating it. To lift it further, the middle section could cut one of the remembered smells so that the others do more work.",
-                        "band": 4
+                        "band": 5
                       },
                       {
                         "id": "sa-en-227-2",
@@ -12586,7 +12613,8 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "3(b)",
-                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks in all; this part is worth 15). Allow about 40 minutes for the whole question."
+                    "hscSection": "Paper 2, Section III — Module C: The Craft of Writing (20 marks in all; this part is worth 15). Allow about 40 minutes for the whole question.",
+                    "bandCeiling": 5
                   }
                 ]
               },

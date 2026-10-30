@@ -14,6 +14,7 @@ import {
 import { yearOfOutcome, yearOfTopic } from './syllabusYear';
 import {
   commandTerms,
+  courseBandCeiling,
   getCommandTermsForMarks,
   getCommandTermInfo,
   extractCommandVerb,
@@ -1126,8 +1127,9 @@ export const wholeSampleMark = (mark: unknown, totalMarks: unknown): number => {
 };
 
 /**
- * Every sample answer's mark made whole (`wholeSampleMark`) and its band
- * re-derived from that mark through the question's command verb.
+ * Every question's `bandCeiling` set from its course (`courseBandCeiling`), and
+ * every sample answer's mark made whole (`wholeSampleMark`) and its band
+ * re-derived from that mark through the question's command verb and ceiling.
  */
 export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
   return courses.map((course) => ({
@@ -1138,7 +1140,10 @@ export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
         ...subTopic,
         dotPoints: subTopic.dotPoints.map((dotPoint) => ({
           ...dotPoint,
-          prompts: dotPoint.prompts.map((prompt) => {
+          prompts: dotPoint.prompts.map((original) => {
+            const { bandCeiling: _stale, ...rest } = original;
+            const ceiling = courseBandCeiling(course.name, original.verb);
+            const prompt: Prompt = ceiling ? { ...rest, bandCeiling: ceiling } : rest;
             return {
               ...prompt,
               sampleAnswers:

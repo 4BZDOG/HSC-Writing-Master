@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Prompt, UserRole } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { AlertCircle, Sparkles, RefreshCw, Plus, X, Check, BookMarked } from 'lucide-react';
-import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand, getPromptTermInfo } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 import {
   classifySyllabusTerms,
@@ -94,7 +94,7 @@ const KeywordEditor: React.FC<KeywordEditorProps> = ({
 
   // Colour the groups in the question's TARGET band, the same band the guide and
   // the exemplars are drawn in, so the panel's header, its rows and the guide agree.
-  const verbInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const verbInfo = useMemo(() => getPromptTermInfo(prompt), [prompt.verb, prompt.bandCeiling]);
   const targetBand = useMemo(
     () => getTargetBand(prompt.totalMarks, verbInfo.tier),
     [prompt.totalMarks, verbInfo.tier]

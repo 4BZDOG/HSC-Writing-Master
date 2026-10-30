@@ -4,7 +4,7 @@ import AlternativesList from './AlternativesList';
 import { criterionParts } from '../utils/criterionParts';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
 import { promptBandForMark } from '../utils/guideBands';
 import { AlertCircle, BookOpen, Edit3, Save, X, Sparkles, Loader2, ListChecks } from 'lucide-react';
 import { generateRubricForPrompt } from '../services/geminiService';
@@ -116,7 +116,10 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   // screen.
   const canGenerate = canUseAiGeneration(userRole);
   const studioLocked = isFeatureLocked('aiContentStudio');
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const commandTermInfo = useMemo(
+    () => getPromptTermInfo(prompt),
+    [prompt.verb, prompt.bandCeiling]
+  );
 
   const maxPossibleBand = useMemo(() => {
     return getBandForMark(prompt.totalMarks, prompt.totalMarks, commandTermInfo.tier);

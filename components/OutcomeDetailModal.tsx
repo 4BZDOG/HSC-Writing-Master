@@ -135,7 +135,7 @@ const OutcomeDetailModal: React.FC<OutcomeDetailModalProps> = ({
   // The band this question reaches at full marks. It colours the whole brief, so
   // the head, the verb chip and the ladder notes agree with the question's card.
   const targetBand = useMemo(
-    () => (totalMarks && verbInfo ? getTargetBand(totalMarks, verbInfo.tier) : tier),
+    () => (totalMarks && verbInfo ? getTargetBand(totalMarks, tier ?? verbInfo.tier) : tier),
     [totalMarks, verbInfo, tier]
   );
   const bandConfig = useMemo(() => getBandConfig(targetBand), [targetBand]);

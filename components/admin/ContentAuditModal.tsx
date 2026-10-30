@@ -65,6 +65,7 @@ import {
   getCommandTermsForMarks,
   extractCommandVerb,
   getCommandTermInfo,
+  getPromptTermInfo,
 } from '../../data/commandTerms';
 import { promptBandForMark } from '../../utils/guideBands';
 import { isCurriculumRemote } from '../../services/curriculumService';
@@ -1197,7 +1198,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         .map((code) => course.outcomes.find((o) => o.code === code))
         .filter((o): o is CourseOutcome => !!o)
         .map((o) => `${o.code}: ${o.description}`);
-      const generated = await generateKeywordsForPrompt(prompt, getCommandTermInfo(prompt.verb), {
+      const generated = await generateKeywordsForPrompt(prompt, getPromptTermInfo(prompt), {
         topicName: topic?.name,
         subTopicName: subTopic?.name,
         dotPoint: dotPoint?.description,
@@ -1253,7 +1254,7 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
   const makeRecalibrationTasks = (node: TreeNode): BatchTask<void>[] => {
     const prompt = node.dataRef as Prompt;
     // Calculate strict constraints based on the Prompt's Verb
-    const verbInfo = getCommandTermInfo(prompt.verb);
+    const verbInfo = getPromptTermInfo(prompt);
     const verbTier = verbInfo.tier;
     if (!prompt.sampleAnswers || prompt.sampleAnswers.length === 0) return [];
 

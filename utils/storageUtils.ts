@@ -101,7 +101,10 @@ import {
 // 2.34.0: 36 text-specific English Advanced past questions on texts not in the public domain (Ishiguro,
 // Malouf, Ibsen, Dylan Thomas, de Waal, Nabokov, Good Night, and Good Luck, Unfolding Florence, Camus and
 // Daoud, Plath and Hughes).
-export const DATA_VERSION = '2.34.0';
+// 2.35.0: English compositions move from CONSTRUCT (Tier 4) to a new COMPOSE verb (Tier 6). In English
+// Standard, Studies and EAL/D a composition tops out at Band 5 (`Prompt.bandCeiling`); 31 app-written stems
+// read "Compose", and 17 of their marking guides gain the rows the new tier needs.
+export const DATA_VERSION = '2.35.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

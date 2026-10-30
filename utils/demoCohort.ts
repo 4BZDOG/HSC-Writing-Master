@@ -28,7 +28,7 @@
  */
 import type { EvaluationCriterion, EvaluationResult, PromptVerb, UserStats } from '../types';
 import { levelForXp, xpForEvaluation } from './progression';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
 import { AI_MODELS } from '../services/aiModels';
 import {
   DEMO_CORPORA,
@@ -498,8 +498,7 @@ export interface GenerateCohortOptions {
 // ----------------------------------------------------------------------------
 
 /** The cognitive tier of a question, via the canonical verb registry. */
-export const tierOfPrompt = (prompt: DemoPromptRef): number =>
-  getCommandTermInfo(prompt.verb as PromptVerb | undefined).tier;
+export const tierOfPrompt = (prompt: DemoPromptRef): number => getPromptTermInfo(prompt).tier;
 
 const countWords = (text: string): number => text.trim().split(/\s+/).filter(Boolean).length;
 

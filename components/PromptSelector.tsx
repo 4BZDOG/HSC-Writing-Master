@@ -67,6 +67,7 @@ import {
   getTierTargetBand,
   tierShortLabel,
   TIER_GROUPS,
+  getPromptTermInfo,
 } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import { getFocusAreas, splitDotPointDescription } from '../utils/dataManagerUtils';
@@ -1175,7 +1176,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     () =>
       (selectedDotPoint?.prompts ?? []).map((p) => ({
         id: p.id,
-        tier: Math.max(1, Math.min(6, Math.floor(getCommandTermInfo(p.verb).tier || 4))),
+        tier: Math.max(1, Math.min(6, Math.floor(getPromptTermInfo(p).tier || 4))),
         marks: p.totalMarks,
       })),
     [selectedDotPoint]
@@ -1197,7 +1198,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           // question can never be one colour in the picker and another on the
           // card. The target band stays informative as TEXT (the "Band N"
           // chip) instead of silently recolouring the row.
-          const verbInfo = getCommandTermInfo(p.verb);
+          const verbInfo = getPromptTermInfo(p);
           const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));
           const tierConfig = getTierScaleConfig(safeTier);
           const targetBand = getTargetBand(p.totalMarks, safeTier);

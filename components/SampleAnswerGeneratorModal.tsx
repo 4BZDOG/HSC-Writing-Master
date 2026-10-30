@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
 import { generateSampleAnswer, type SyllabusKeywordContext } from '../services/geminiService';
-import { getCommandTermInfo, bandsForQuestion } from '../data/commandTerms';
+import { getCommandTermInfo, bandsForQuestion, getPromptTermInfo } from '../data/commandTerms';
 import { promptBandForMark } from '../utils/guideBands';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
@@ -89,7 +89,10 @@ const SampleAnswerGeneratorModal: React.FC<SampleAnswerGeneratorModalProps> = ({
   );
   const [error, setError] = useState<string | null>(null);
 
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const commandTermInfo = useMemo(
+    () => getPromptTermInfo(prompt),
+    [prompt.verb, prompt.bandCeiling]
+  );
 
   const existingCounts = useMemo(() => {
     const counts = new Map<number, number>();

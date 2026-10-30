@@ -16,6 +16,7 @@ export type PromptVerb =
   | 'APPLY'
   | 'DEMONSTRATE'
   | 'CONSTRUCT'
+  | 'COMPOSE'
   | 'COMPARE'
   | 'CONTRAST'
   | 'DISTINGUISH'
@@ -175,6 +176,14 @@ export interface Prompt {
    * the question is answered on whichever text the student studied.
    */
   hscText?: string;
+  /**
+   * The highest band the question awards, when that is below its verb's tier.
+   * Derived from the course, never written by hand: a composition (COMPOSE) in
+   * English Standard, Studies or EAL/D tops out at Band 5, where the same task
+   * in English Advanced reaches Band 6 (see `courseBandCeiling`). Read through
+   * `getPromptTermInfo`, which lowers the tier to it.
+   */
+  bandCeiling?: number;
   userDraft?: string;
   /**
    * Seconds already spent writing this question's draft.

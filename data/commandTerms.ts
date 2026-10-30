@@ -755,6 +755,27 @@ export const commandTermsList: CommandTermInfo[] = [
     exampleQuestion: 'Propose a strategy to reduce plastic waste in the school canteen.',
   },
   {
+    term: 'COMPOSE',
+    definition:
+      'Create an original piece of writing (imaginative, discursive or persuasive) for a given audience, purpose and form.',
+    tip: 'Plan the piece before you write it: one controlling idea, image or voice.\nEvery stylistic choice should serve that idea, and the ending should land it.',
+    tier: 6,
+    markRange: [5, 20],
+    charRange: [1000, 4200],
+    pageEstimate: '1-3',
+    timeRange: [9, 36],
+    syllabusTerms: [8, 15],
+    bandDiscrimination:
+      'Control and crafting, not length or plot. The top rows reward a piece whose language, structure and voice are deliberately shaped to its purpose; a competent story told in sequence sits in the middle.',
+    genericMarkingGuide: [
+      '3+ marks: Composes a skilfully crafted piece with sustained control of language and form',
+      '1-2 marks: Composes a piece with some appropriate features',
+    ],
+    structuralKeywords: ['craft', 'voice', 'image', 'form', 'audience'],
+    exampleQuestion:
+      'Compose a piece of imaginative writing that uses an image of a threshold to explore change.',
+  },
+  {
     term: 'INVESTIGATE',
     definition:
       'Plan, inquire into, and draw conclusions about a topic through systematic research.',
@@ -847,6 +868,46 @@ export const getCommandTermInfo = (verb?: PromptVerb): CommandTermInfo => {
 };
 
 /**
+ * Where a course awards a lower top band than the verb's tier: in English
+ * Standard, Studies and EAL/D a composition (COMPOSE) reaches Band 5. NESA marks
+ * the same Module C piece in Advanced against "highly engaging … skilfully
+ * crafted" top rows, which is Band 6 work; in the Standard courses the top band
+ * on a composition is rarely awarded, so the app's ladder stops at 5 and one
+ * NESA row (17-20, 13-16 …) falls to each band, as it does on an essay.
+ */
+const COURSE_BAND_CEILINGS: { course: RegExp; verbs: ReadonlySet<string>; ceiling: number }[] = [
+  {
+    course: /\benglish\s+(standard|studies|eal\s*\/?\s*d)\b/i,
+    verbs: new Set(['COMPOSE']),
+    ceiling: 5,
+  },
+];
+
+/** The band ceiling a question takes from its course, or undefined when its verb's tier stands. */
+export const courseBandCeiling = (
+  courseName: string | undefined,
+  verb: PromptVerb | string | undefined
+): number | undefined => {
+  if (!courseName || !verb) return undefined;
+  const v = String(verb).toUpperCase();
+  return COURSE_BAND_CEILINGS.find((r) => r.verbs.has(v) && r.course.test(courseName))?.ceiling;
+};
+
+/**
+ * The command term as this question applies it: the verb's own entry, with the
+ * tier lowered to the question's `bandCeiling` when it has one. Every surface
+ * that has the question in hand reads its tier from here, so the band ceiling,
+ * the colour and the ladder agree.
+ */
+export const getPromptTermInfo = (
+  prompt: { verb?: PromptVerb; bandCeiling?: number } | null | undefined
+): CommandTermInfo => {
+  const info = getCommandTermInfo(prompt?.verb);
+  const cap = prompt?.bandCeiling;
+  return cap && cap >= 1 && cap < info.tier ? { ...info, tier: cap } : info;
+};
+
+/**
  * Robustly extracts the most significant command verb from a string.
  * Finds all known verbs in the text and returns the one with the highest cognitive Tier.
  * If tiers are equal, prefers the longer/more specific verb.
@@ -900,21 +961,9 @@ export const minimumTierForMarks = (totalMarks: number): number => {
   return 1;
 };
 
-/**
- * Composition verbs keep Tier 4 at any length. A 20-mark "Craft an imaginative
- * piece" is marked on control of language and structure, not on argument, so
- * lifting it to Discuss would change the task the student is set.
- */
-const LENGTH_EXEMPT_VERBS: ReadonlySet<string> = new Set(['CONSTRUCT']);
-
 /** True when the verb is allowed to carry a question worth this many marks. */
-export const verbFitsLength = (verb: PromptVerb | string, totalMarks: number): boolean => {
-  const required = minimumTierForMarks(totalMarks);
-  const floor = LENGTH_EXEMPT_VERBS.has(String(verb).toUpperCase())
-    ? Math.min(required, 4)
-    : required;
-  return getCommandTermInfo(verb as PromptVerb).tier >= floor;
-};
+export const verbFitsLength = (verb: PromptVerb | string, totalMarks: number): boolean =>
+  getCommandTermInfo(verb as PromptVerb).tier >= minimumTierForMarks(totalMarks);
 
 /** The verb a too-low-tier verb is raised to, by the tier the length needs. */
 const LENGTH_DEFAULT_VERB: Record<number, PromptVerb> = {

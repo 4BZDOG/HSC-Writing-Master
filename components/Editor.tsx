@@ -13,7 +13,7 @@ import {
   getBandHex,
   getBandName,
 } from '../utils/renderUtils';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getPromptTermInfo } from '../data/commandTerms';
 import {
   Maximize,
   Lock,
@@ -83,6 +83,8 @@ interface EditorProps {
   syncedFontSize?: number;
   onFontSizeChange?: (size: number) => void;
   maxBand?: number; // Cap for color progression (1-6)
+  /** The question's course band ceiling (see `Prompt.bandCeiling`). */
+  bandCeiling?: number;
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   minTotalHeight?: number;
@@ -315,6 +317,7 @@ const Editor = forwardRef<
       syncedFontSize,
       onFontSizeChange,
       maxBand = 6,
+      bandCeiling,
       onHeaderResize,
       minHeaderHeight,
       minTotalHeight,
@@ -373,7 +376,7 @@ const Editor = forwardRef<
     // dead and the two cards drifted apart.
     const internalFontSize = syncedFontSize || READING_SIZE_DEFAULT;
 
-    const verbInfo = useMemo(() => getCommandTermInfo(verb), [verb]);
+    const verbInfo = useMemo(() => getPromptTermInfo({ verb, bandCeiling }), [verb, bandCeiling]);
     const verbTier = verbInfo.tier;
 
     // Exam Mode has no strategy at all, so it must not be reported as a support
@@ -1016,6 +1019,7 @@ const Editor = forwardRef<
             {!isExamMode && verb && (
               <HowToAnswer
                 verb={verb}
+                bandCeiling={bandCeiling}
                 open={showStrategy}
                 onToggle={() => setShowStrategy((s) => !s)}
                 read={strategyOpened}

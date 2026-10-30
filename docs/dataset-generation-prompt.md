@@ -113,7 +113,7 @@ EXAM STANDARD
   Exemplars at 20, 12 and 5 marks.
 - Match the verb tier to the length: 7-9 marks need Tier 3 or above, 10-14 marks
   Tier 4 or above, 15 or more marks Tier 5 or above (DISCUSS, ASSESS, JUSTIFY,
-  RECOMMEND; CONSTRUCT is allowed for a piece of writing). A lower-tier verb cannot
+  RECOMMEND; a piece of writing is COMPOSE, Tier 6). A lower-tier verb cannot
   show that many marks as bands, so the app raises it on import; to ask for a
   lower-order task at that length, split it into parts.
 - NESA's own sample answers are short: a median of about 20 words for 1 mark, 33
@@ -148,7 +148,7 @@ VERB LIST (verb — typical marks; printed from the app's own table in data/comm
 - Tier 3 (explain): EXPLAIN 3-6, COMPARE 3-6, CONTRAST 3-5, DEMONSTRATE 3-6, PREDICT 2-4, ACCOUNT 3-6
 - Tier 4 (analyse): ANALYSE 4-8, APPLY 4-8, EXAMINE 4-8, DISTINGUISH 4-8, INTERPRET 3-6, EXTRAPOLATE 3-6, CONSTRUCT 4-8, DIFFERENTIATE 4-8
 - Tier 5 (discuss): DISCUSS 5-10, ASSESS 6-10, JUSTIFY 6-10, DEDUCE 4-8, RECOMMEND 5-10, APPRECIATE 4-8
-- Tier 6 (evaluate): EVALUATE 8-15, CRITICALLY ANALYSE 8-15, CRITICALLY EVALUATE 8-15, SYNTHESISE 8-15, PROPOSE 8-15, INVESTIGATE 8-15
+- Tier 6 (evaluate): EVALUATE 8-15, CRITICALLY ANALYSE 8-15, CRITICALLY EVALUATE 8-15, SYNTHESISE 8-15, PROPOSE 8-15, COMPOSE 5-20, INVESTIGATE 8-15
 
 MARKING CRITERIA RULES
 - One string, lines separated by \n. Every line starts with a mark value or

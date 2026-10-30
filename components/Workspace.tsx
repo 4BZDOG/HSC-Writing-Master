@@ -17,7 +17,7 @@ import ReferenceMaterials, { MarkingGuidePanel, SyllabusTermsPanel } from './Ref
 import { Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
-import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand, getPromptTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
 import {
   MIN_CARD_HEIGHT,
@@ -575,10 +575,10 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // a question: a teacher's assignment link sets the path directly, and so
   // does a restored session from when the student still held Plus. The gate
   // belongs on the workspace itself, where every route ends up.
-  if (isQuestionTierLocked(getCommandTermInfo(currentPrompt.verb).tier)) {
+  if (isQuestionTierLocked(getPromptTermInfo(currentPrompt).tier)) {
     return (
       <LockedQuestionNotice
-        verb={getCommandTermInfo(currentPrompt.verb).term}
+        verb={getPromptTermInfo(currentPrompt).term}
         marks={currentPrompt.totalMarks}
         question={currentPrompt.question}
       />
@@ -875,12 +875,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
         <CommandTermGuideModal
           isOpen={isGuideOpen}
           onClose={() => setIsGuideOpen(false)}
-          termInfo={getCommandTermInfo(currentPrompt.verb)}
+          termInfo={getPromptTermInfo(currentPrompt)}
           marks={currentPrompt.totalMarks}
-          band={getTargetBand(
-            currentPrompt.totalMarks,
-            getCommandTermInfo(currentPrompt.verb).tier
-          )}
+          band={getTargetBand(currentPrompt.totalMarks, getPromptTermInfo(currentPrompt).tier)}
         />
       </div>
     </div>

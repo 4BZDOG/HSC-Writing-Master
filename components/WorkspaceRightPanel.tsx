@@ -8,7 +8,7 @@ import EvaluationResultModal from './EvaluationResultModal';
 import ImprovementReviewModal from './ImprovementReviewModal';
 import EvaluationProgressBar from './EvaluationProgressBar';
 import { Loader2, AlertTriangle, Sparkles } from 'lucide-react';
-import { getCommandTermInfo, getTargetBand } from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand, getPromptTermInfo } from '../data/commandTerms';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import { getReadinessChroma } from '../utils/draftReadiness';
@@ -134,10 +134,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     insertText: (text: string) => void;
   }>(null);
 
-  const commandTermInfo = useMemo(
-    () => getCommandTermInfo(currentPrompt.verb),
-    [currentPrompt.verb]
-  );
+  const commandTermInfo = useMemo(() => getPromptTermInfo(currentPrompt), [currentPrompt.verb]);
 
   // The band this prompt actually works toward — the verb's tier is the sole
   // ceiling (NESA-aligned), so a 3-mark Evaluate still targets Band 6.
@@ -490,6 +487,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             className="flex-grow"
             keywords={currentPrompt.keywords}
             verb={currentPrompt.verb}
+            bandCeiling={currentPrompt.bandCeiling}
             promptId={currentPrompt.id}
             isFocusMode={isFocusMode}
             onToggleFocusMode={onToggleFocusMode}

@@ -6,6 +6,7 @@ import {
   getBandForMark,
   getExpectedTerms,
   getExpectedCharRange,
+  getPromptTermInfo,
 } from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword, BandConfig } from '../utils/renderUtils';
 import {
@@ -86,7 +87,10 @@ export const useWritingMetrics = (
    *  which is what a caller with no syllabus to hand honestly knows. */
   syllabus?: SyllabusPlacement
 ): WritingMetrics => {
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const commandTermInfo = useMemo(
+    () => getPromptTermInfo(prompt),
+    [prompt.verb, prompt.bandCeiling]
+  );
 
   const wordCount = useMemo(
     () => userAnswer.trim().split(/\s+/).filter(Boolean).length,
