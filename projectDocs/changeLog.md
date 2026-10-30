@@ -1,7 +1,12 @@
 # HSC AI Evaluator - Change Log
 
-## [Unreleased] - 2026-10-30 (COMPOSE: composition as a top-tier verb)
+## [Unreleased] - 2026-10-30 (COMPOSE, and Band 6 for English Advanced extended responses)
 
+- **Changed.** In English Advanced and Extension, every extended response (15 marks or more) now reaches
+  **Band 6** at full marks, whatever its verb. Of Advanced's 95 such questions, 84 were "To what extent…" (ASSESS)
+  or "In what ways…" (DISCUSS) essays held at their verb's Band 5, so a 20/20 module essay read Band 5. NESA's
+  five 20-mark rows now read Bands 6, 5, 4, 3 and 2 there. English Standard's essays stay at Band 5, and Business
+  Studies and Geography are unchanged. The same course rule (`courseBandCeiling`) sets both ceilings.
 - **Changed.** English composition tasks ("Craft / Compose / Continue…", Module C pieces) were filed under
   CONSTRUCT, a Tier 4 verb, so a 20/20 piece showed as Band 4 and a 13/20 essay outranked it. They now use a new
   verb, **COMPOSE** (Tier 6): Band 6 at full marks in English Advanced. In English Standard, Studies and EAL/D a

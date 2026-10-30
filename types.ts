@@ -177,11 +177,11 @@ export interface Prompt {
    */
   hscText?: string;
   /**
-   * The highest band the question awards, when that is below its verb's tier.
-   * Derived from the course, never written by hand: a composition (COMPOSE) in
-   * English Standard, Studies or EAL/D tops out at Band 5, where the same task
-   * in English Advanced reaches Band 6 (see `courseBandCeiling`). Read through
-   * `getPromptTermInfo`, which lowers the tier to it.
+   * The highest band the question awards, when its course sets it rather than its
+   * verb's tier. Derived from the course, never written by hand: a composition
+   * (COMPOSE) in English Standard, Studies or EAL/D tops out at Band 5, and an
+   * extended response (15+ marks) in English Advanced or Extension reaches Band 6
+   * whatever its verb (see `courseBandCeiling`). Read through `getPromptTermInfo`.
    */
   bandCeiling?: number;
   userDraft?: string;

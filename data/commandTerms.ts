@@ -868,43 +868,67 @@ export const getCommandTermInfo = (verb?: PromptVerb): CommandTermInfo => {
 };
 
 /**
- * Where a course awards a lower top band than the verb's tier: in English
- * Standard, Studies and EAL/D a composition (COMPOSE) reaches Band 5. NESA marks
- * the same Module C piece in Advanced against "highly engaging … skilfully
- * crafted" top rows, which is Band 6 work; in the Standard courses the top band
- * on a composition is rarely awarded, so the app's ladder stops at 5 and one
- * NESA row (17-20, 13-16 …) falls to each band, as it does on an essay.
+ * Where a course sets a question's top band rather than its verb's tier.
+ *
+ * - English Standard, Studies and EAL/D: a composition (COMPOSE) reaches Band 5.
+ *   NESA marks the same Module C piece in Advanced against "highly engaging …
+ *   skilfully crafted" top rows, which is Band 6 work; in the Standard courses the
+ *   top band on a composition is rarely awarded, so the ladder stops at 5 and one
+ *   NESA row (17-20, 13-16 …) falls to each band, as it does on an essay.
+ * - English Advanced and Extension: an extended response (15 marks or more,
+ *   `EXTENDED_RESPONSE_MARKS`) reaches Band 6 whatever its verb. A 20/20 module
+ *   essay set as "To what extent…" (ASSESS) or "In what ways…" (DISCUSS) is the
+ *   top-row work NESA's Band 6 describes, so it is not held at its verb's Band 5.
+ *
+ * Rules are tried in order; the first that matches wins.
  */
-const COURSE_BAND_CEILINGS: { course: RegExp; verbs: ReadonlySet<string>; ceiling: number }[] = [
+const COURSE_BAND_CEILINGS: {
+  course: RegExp;
+  verbs?: ReadonlySet<string>;
+  minMarks?: number;
+  ceiling: number;
+}[] = [
   {
     course: /\benglish\s+(standard|studies|eal\s*\/?\s*d)\b/i,
     verbs: new Set(['COMPOSE']),
     ceiling: 5,
   },
+  { course: /\benglish\s+(advanced|extension)\b/i, minMarks: 15, ceiling: 6 },
 ];
 
 /** The band ceiling a question takes from its course, or undefined when its verb's tier stands. */
 export const courseBandCeiling = (
   courseName: string | undefined,
-  verb: PromptVerb | string | undefined
+  verb: PromptVerb | string | undefined,
+  totalMarks = 0
 ): number | undefined => {
   if (!courseName || !verb) return undefined;
   const v = String(verb).toUpperCase();
-  return COURSE_BAND_CEILINGS.find((r) => r.verbs.has(v) && r.course.test(courseName))?.ceiling;
+  const tier = getCommandTermInfo(v as PromptVerb).tier;
+  const rule = COURSE_BAND_CEILINGS.find(
+    (r) =>
+      r.course.test(courseName) &&
+      (!r.verbs || r.verbs.has(v)) &&
+      (r.minMarks === undefined || totalMarks >= r.minMarks)
+  );
+  // A rule that only restates the verb's own tier is not recorded.
+  return rule && rule.ceiling !== tier ? rule.ceiling : undefined;
 };
 
 /**
  * The command term as this question applies it: the verb's own entry, with the
- * tier lowered to the question's `bandCeiling` when it has one. Every surface
- * that has the question in hand reads its tier from here, so the band ceiling,
- * the colour and the ladder agree.
+ * tier set to the question's `bandCeiling` when its course gives it one. Every
+ * surface that has the question in hand reads its tier from here, so the band
+ * ceiling, the colour and the ladder agree.
  */
 export const getPromptTermInfo = (
   prompt: { verb?: PromptVerb; bandCeiling?: number } | null | undefined
 ): CommandTermInfo => {
   const info = getCommandTermInfo(prompt?.verb);
-  const cap = prompt?.bandCeiling;
-  return cap && cap >= 1 && cap < info.tier ? { ...info, tier: cap } : info;
+  const ceiling = prompt?.bandCeiling;
+  return ceiling && ceiling >= 1 && ceiling <= 6 && ceiling !== info.tier
+    ? { ...info, tier: ceiling }
+    : info;
 };
 
 /**
@@ -1102,7 +1126,9 @@ export const getCommandTermsForMarks = (
  * The fewest marks that make a question an extended response: a sustained, judged
  * argument, which a low verb does not ask for (see `lengthMismatchNote`).
  *
- * It does NOT lift the band ceiling. For two days in October 2026 it did (Band 6
+ * On its own it does NOT lift the band ceiling; only a course rule does
+ * (`courseBandCeiling`: English Advanced and Extension). Keep the 15 written in
+ * that rule in step with this. For two days in October 2026 it did (Band 6
  * whatever the verb), and the result was a question in two colours: the Writing
  * Prompt drew a 20-mark DISCUSS in its tier's blue while the terms, guide and
  * exemplars beside it were purple, and NESA's five rows (17-20 … 1-4) no longer

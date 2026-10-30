@@ -13,6 +13,8 @@ import type { Course, Prompt, PromptVerb } from '../../types';
  * A composition is COMPOSE, a top-tier verb: a 20/20 Module C piece in English
  * Advanced is Band 6 work. In English Standard, Studies and EAL/D the same task
  * tops out at Band 5. CONSTRUCT stays Tier 4 for a built table, graph or plan.
+ * In English Advanced and Extension every extended response (15+ marks) reaches
+ * Band 6, whatever its verb.
  */
 describe('composition band ceiling', () => {
   it('puts COMPOSE in the top tier and leaves CONSTRUCT at Tier 4', () => {
@@ -30,11 +32,23 @@ describe('composition band ceiling', () => {
     expect(courseBandCeiling('HSC Geography', 'COMPOSE')).toBeUndefined();
   });
 
+  it('lifts an Advanced or Extension extended response to Band 6, and no other', () => {
+    for (const name of ['HSC English Advanced', 'HSC English Extension 1']) {
+      expect(courseBandCeiling(name, 'DISCUSS', 20), name).toBe(6);
+      expect(courseBandCeiling(name, 'ASSESS', 15), name).toBe(6);
+      // Already Tier 6, so nothing to record.
+      expect(courseBandCeiling(name, 'EVALUATE', 20), name).toBeUndefined();
+      // Shorter than an extended response: the verb's tier stands.
+      expect(courseBandCeiling(name, 'DISCUSS', 12), name).toBeUndefined();
+    }
+    expect(courseBandCeiling('HSC English Standard', 'DISCUSS', 20)).toBeUndefined();
+    expect(courseBandCeiling('HSC Business Studies', 'DISCUSS', 20)).toBeUndefined();
+  });
+
   it('reads a question’s tier through its ceiling', () => {
     expect(getPromptTermInfo({ verb: 'COMPOSE' as PromptVerb, bandCeiling: 5 }).tier).toBe(5);
     expect(getPromptTermInfo({ verb: 'COMPOSE' as PromptVerb }).tier).toBe(6);
-    // A ceiling never raises a verb.
-    expect(getPromptTermInfo({ verb: 'EXPLAIN' as PromptVerb, bandCeiling: 5 }).tier).toBe(3);
+    expect(getPromptTermInfo({ verb: 'DISCUSS' as PromptVerb, bandCeiling: 6 }).tier).toBe(6);
   });
 
   it('sets the ceiling from the course when bands are recalculated', () => {
@@ -79,13 +93,13 @@ describe('composition band ceiling', () => {
     expect(first(adv).sampleAnswers![0].band).toBe(6);
   });
 
-  it('ships every Standard composition at Band 5 and no other question with a ceiling', () => {
+  it('ships every question with exactly the ceiling its course gives it', () => {
     const off: string[] = [];
     for (const { courseName, prompt } of allQuestions()) {
-      const expected = courseBandCeiling(courseName, prompt.verb);
+      const expected = courseBandCeiling(courseName, prompt.verb, prompt.totalMarks);
       if (prompt.bandCeiling !== expected) off.push(`${prompt.id}: ${prompt.bandCeiling}`);
       for (const sa of prompt.sampleAnswers ?? []) {
-        if (prompt.verb === 'COMPOSE' && sa.mark === prompt.totalMarks) {
+        if (prompt.bandCeiling && sa.mark === prompt.totalMarks) {
           const ceiling = getPromptTermInfo(prompt).tier;
           if (getBandForMark(sa.mark, prompt.totalMarks, ceiling) !== ceiling) off.push(sa.id);
         }

@@ -1142,7 +1142,7 @@ export const recalculateSampleAnswerBands = (courses: Course[]): Course[] => {
           ...dotPoint,
           prompts: dotPoint.prompts.map((original) => {
             const { bandCeiling: _stale, ...rest } = original;
-            const ceiling = courseBandCeiling(course.name, original.verb);
+            const ceiling = courseBandCeiling(course.name, original.verb, original.totalMarks);
             const prompt: Prompt = ceiling ? { ...rest, bandCeiling: ceiling } : rest;
             return {
               ...prompt,
