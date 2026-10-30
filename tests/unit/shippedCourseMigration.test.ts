@@ -483,7 +483,7 @@ describe('an edited copy with a newer version waiting', () => {
 
     expect(result.courses.find((c) => c.id === BUSINESS)?.name).toBe('My Business Studies');
     expect(result.heldBack).toEqual([
-      { id: BUSINESS, name: 'My Business Studies', newQuestions: 90 },
+      { id: BUSINESS, name: 'My Business Studies', newQuestions: 93 },
     ]);
   });
 

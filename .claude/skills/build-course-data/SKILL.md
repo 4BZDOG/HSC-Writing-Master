@@ -155,6 +155,10 @@ English; NESA's command-term wording (`data/commandTerms.ts` matches NESA's glos
 
 ## Pitfalls seen
 
+- Past questions: run `tools/check_past_questions.py <nesa_dir> <CourseFile>.json <subject-slug>` after any
+  change. It compares every ladder row with NESA's criteria table and every stem with the paper. See
+  `docs/seed-data-playbook.md` section 5 for what it has caught.
+
 - Summarised fetches: wrong or missing "including" sub-points and "[Loading]" gaps. Use the page data.
 - Marking guides written lowest-first or as additive bullet lists. They must be descending ladders; the
   tools and `normaliseGuideRows` enforce this, and the docs/brief print the tier table from code.
