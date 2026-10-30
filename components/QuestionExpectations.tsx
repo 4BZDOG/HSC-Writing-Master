@@ -107,7 +107,9 @@ const QuestionExpectations: React.FC<QuestionExpectationsProps> = ({
       {standalone && (
         <p className="mt-2 t-label text-[rgb(var(--color-text-dim))]">
           {tierTitle
-            ? `${info.term} is a “${tierTitle}” verb: it sets the highest band a response can reach, here Band ${band}. `
+            ? band !== info.tier
+              ? `${info.term} is a “${tierTitle}” verb; in this course a full-mark response reaches Band ${band}. `
+              : `${info.term} is a “${tierTitle}” verb: it sets the highest band a response can reach, here Band ${band}. `
             : ''}
           A general guide. Your paper&rsquo;s own marking guidelines win.
         </p>

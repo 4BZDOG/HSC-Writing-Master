@@ -96,11 +96,15 @@ syllabus's first HSC year on NESA's syllabus page rather than trusting this tabl
 - **Verb:** the Verb Gate needs a command term, so exam-form stems (How…, Why…, To what
   extent…, Craft…) store the nearest one: EXPLAIN for How/Why, OUTLINE for "What is the
   purpose of…", INTERPRET for "What does … indicate", DISCUSS or ASSESS for "To what
-  extent" and for long "Explain/Analyse/Evaluate" stems, CONSTRUCT for writing tasks.
+  extent" and for long "Explain/Analyse/Evaluate" stems, COMPOSE for an English piece of
+  writing (Tier 6; Band 5 in English Standard, Studies and EAL/D through `courseBandCeiling`),
+  CONSTRUCT for building a table, graph, plan or program (Tier 4).
 - **20 marks is Tier 5.** Tier 5 at 20 marks derives NESA's five bands exactly
   (17–20 / 13–16 / 9–12 / 5–8 / 1–4); at 25 marks it gives 21–25 / 16–20 / 11–15 / 6–10 / 1–5.
+  In every course but English Standard, Studies and EAL/D a 15+ mark question reaches Band 6
+  whatever its verb (`courseBandCeiling`), so there the same five rows read Bands 6 to 2.
 - **Verb floor by length** (`minimumTierForMarks`, PR #362): 7–9 marks need Tier 3, 10–14
-  need Tier 4, 15+ need Tier 5; CONSTRUCT is exempt at any length. The generators,
+  need Tier 4, 15+ need Tier 5. The generators,
   import and storage load enforce it, and `tests/unit/verbLength.test.ts` holds the seed to
   it. The reason: past about 10 marks a low-tier verb has too few bands for the marks
   (Explain on 20 marks is three bands seven marks apart).

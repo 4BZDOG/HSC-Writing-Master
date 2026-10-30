@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pencil, Award, Link2 } from 'lucide-react';
 import { Prompt } from '../types';
-import { getTargetBand, getCommandTermInfo } from '../data/commandTerms';
+import { getTargetBand, getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
 import { getTierScaleConfig } from '../utils/renderUtils';
 import Breadcrumb from './Breadcrumb';
 import type { SyllabusCrumb } from '../types';
@@ -43,7 +43,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
   onShareAssignment,
   expandButtonRef,
 }) => {
-  const verbInfo = getCommandTermInfo(prompt.verb);
+  const verbInfo = getPromptTermInfo(prompt);
   // Clamped exactly as `PromptSelector` clamps it, so the two surfaces cannot
   // disagree about a question's tier by construction rather than by luck.
   const safeTier = Math.max(1, Math.min(6, Math.floor(verbInfo.tier || 4)));

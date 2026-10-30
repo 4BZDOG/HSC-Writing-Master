@@ -8,6 +8,7 @@ import {
   getNextLevelTarget,
   getTargetBand,
   TIER_GROUPS,
+  getPromptTermInfo,
 } from '../data/commandTerms';
 import LoadingIndicator from './LoadingIndicator';
 import AiBusyOverlay from './AiBusyOverlay';
@@ -40,7 +41,10 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
   existingMarks,
   onRevisionComplete,
 }) => {
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const commandTermInfo = useMemo(
+    () => getPromptTermInfo(prompt),
+    [prompt.verb, prompt.bandCeiling]
+  );
 
   // The marks already on this question, as a string. The accordion hands in a
   // fresh array on every render, so the array's identity says nothing about

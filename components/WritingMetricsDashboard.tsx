@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useId, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
-import { getCommandTermInfo, getRecommendedTime, getExpectedTerms } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getRecommendedTime,
+  getExpectedTerms,
+  getPromptTermInfo,
+} from '../data/commandTerms';
 import { BandConfig } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
@@ -198,7 +203,10 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     const [isTimerActive, setIsTimerActive] = useState(false);
     const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-    const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+    const commandTermInfo = useMemo(
+      () => getPromptTermInfo(prompt),
+      [prompt.verb, prompt.bandCeiling]
+    );
     const { wordCount, analysis, keywordStats, progressInfo } = useWritingMetrics(
       userAnswer,
       prompt,

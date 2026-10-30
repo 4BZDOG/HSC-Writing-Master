@@ -42,9 +42,10 @@ describe('minimum verb tier by length', () => {
     expect(verbFitsLength('EXPLAIN' as PromptVerb, 6)).toBe(true);
   });
 
-  it('keeps composition tasks at Tier 4 at any length', () => {
-    expect(verbFitsLength('CONSTRUCT' as PromptVerb, 20)).toBe(true);
-    expect(verbFitsLength('CONSTRUCT' as PromptVerb, 15)).toBe(true);
+  it('gives a long composition the top tier, and holds a built table or graph to Tier 4', () => {
+    expect(verbFitsLength('COMPOSE' as PromptVerb, 20)).toBe(true);
+    expect(verbFitsLength('CONSTRUCT' as PromptVerb, 8)).toBe(true);
+    expect(verbFitsLength('CONSTRUCT' as PromptVerb, 15)).toBe(false);
   });
 
   it('raises a verb that does not fit to the default for the length, and leaves the rest alone', () => {

@@ -1,6 +1,11 @@
 import { useMemo } from 'react';
 import { EvaluationResult, HierarchyContext, Prompt } from '../types';
-import { getCommandTermInfo, getBandForMark, getNextLevelTarget } from '../data/commandTerms';
+import {
+  getCommandTermInfo,
+  getBandForMark,
+  getNextLevelTarget,
+  getPromptTermInfo,
+} from '../data/commandTerms';
 import { getBandConfig, textContainsKeyword } from '../utils/renderUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isFeatureLocked } from '../services/entitlements';
@@ -20,7 +25,7 @@ interface UseFeedbackViewArgs {
  * cannot disagree about any of them.
  */
 export function useFeedbackView({ result, prompt, userAnswer, hierarchy }: UseFeedbackViewArgs) {
-  const termInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const termInfo = useMemo(() => getPromptTermInfo(prompt), [prompt.verb, prompt.bandCeiling]);
   const upgradesLocked = isFeatureLocked('answerUpgrades');
 
   // The rewrite as this client may present it (see `presentableRewrite`): the

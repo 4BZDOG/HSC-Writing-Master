@@ -2,7 +2,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Prompt, SampleAnswer, UserRole } from '../types';
 import { canCurateContent, canUseAiGeneration } from '../utils/permissions';
 import { renderFormattedText, getBandConfig, cleanMarkdown } from '../utils/renderUtils';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
 import { promptBandForMark } from '../utils/guideBands';
 import {
   onText,
@@ -1019,13 +1019,16 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   // curation so the role sets can diverge — see utils/permissions.ts.
   const canGenerate = canUseAiGeneration(userRole);
   const studioLocked = isFeatureLocked('aiContentStudio');
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const commandTermInfo = useMemo(
+    () => getPromptTermInfo(prompt),
+    [prompt.verb, prompt.bandCeiling]
+  );
   const tier = commandTermInfo.tier;
 
   // The question's own ceiling, as the Marking Guide and Syllabus Terms have it:
   // the header is drawn in this band, so the three reference headers agree.
   const ceilingBand = useMemo(
-    () => questionCeilingBand(prompt.totalMarks, prompt.verb),
+    () => questionCeilingBand(prompt.totalMarks, prompt.verb, prompt.bandCeiling),
     [prompt.totalMarks, prompt.verb]
   );
 

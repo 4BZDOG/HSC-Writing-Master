@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { Prompt, SampleAnswer } from '../types';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
 import { promptBandForMark } from '../utils/guideBands';
 import { X, Save, AlertCircle, Award, FileText } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
@@ -47,7 +47,10 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
   const [band, setBand] = useState(1);
   const [error, setError] = useState<string | null>(null);
 
-  const commandTermInfo = useMemo(() => getCommandTermInfo(prompt.verb), [prompt.verb]);
+  const commandTermInfo = useMemo(
+    () => getPromptTermInfo(prompt),
+    [prompt.verb, prompt.bandCeiling]
+  );
 
   // The verb's cognitive tier caps the achievable band (same rule the
   // generator and the audit studio's recalibration enforce): full marks on a

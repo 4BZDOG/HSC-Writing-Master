@@ -1,5 +1,5 @@
 import { formatMarkingCriteria } from './dataManagerUtils';
-import { getBandForMark, getCommandTermInfo, markForBand } from '../data/commandTerms';
+import { getBandForMark, getPromptTermInfo, markForBand } from '../data/commandTerms';
 import type { PromptVerb } from '../types';
 
 /**
@@ -154,8 +154,11 @@ export const parseMarkingCriteria = (
  * `getBandForMark`, never worked out inline, which is what keeps the Verb Gate's
  * ceiling the only ceiling there is.
  */
-export const questionCeilingBand = (totalMarks: number, verb: PromptVerb | undefined): number =>
-  getBandForMark(totalMarks, totalMarks, getCommandTermInfo(verb).tier);
+export const questionCeilingBand = (
+  totalMarks: number,
+  verb: PromptVerb | undefined,
+  bandCeiling?: number
+): number => getBandForMark(totalMarks, totalMarks, getPromptTermInfo({ verb, bandCeiling }).tier);
 
 /**
  * A row written against a band rather than a mark. Its `markRange` is the single

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getFullMarkWordRange, commandTermsList } from '../../data/commandTerms';
+import { getFullMarkWordRange, commandTermsList, getPromptTermInfo } from '../../data/commandTerms';
 import { guideLadderProblem, guideStructureProblem } from '../../utils/markingGuideLadder';
 import { shippedCourses, questionsOf } from './support/shippedCourseData';
 
@@ -80,7 +80,7 @@ describe('shipped questions', () => {
   it('gives every marking guide the exact rows the app expects', () => {
     const bad: string[] = [];
     for (const q of questions) {
-      const tier = tierOf.get(q.prompt.verb) ?? 4;
+      const tier = getPromptTermInfo(q.prompt).tier;
       const guide = String(q.prompt.markingCriteria ?? '');
       // A past paper's guide is NESA's own ladder; it is held to being a sound
       // ladder, not to the app's rows (see `guideStructureProblem`).

@@ -210,7 +210,7 @@ export const MarkingGuidePanel: React.FC<MarkingGuidePanelProps> = ({
   // The question's own ceiling, not a fixed band: the hero's tile takes this
   // question's tier hue, and the Sample Answers and Syllabus Terms panels read the
   // same figure, so the three headers of a question agree.
-  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb);
+  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb, prompt.bandCeiling);
   const written = Boolean(prompt.markingCriteria?.trim());
   // Bumped to open the panel from outside it: an exemplar's "View marking criterion".
   // The guide's rows listen for the same request to scroll to the matching row.
@@ -299,7 +299,7 @@ export const SyllabusTermsPanel: React.FC<
   // The Syllabus Terms panel was drawn in a fixed band 4 (green), beside a Marking
   // Guide in the question's own band: a visible mismatch in one column. It is the
   // question's ceiling now, like the guide and the exemplars.
-  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb);
+  const ceilingBand = questionCeilingBand(prompt.totalMarks, prompt.verb, prompt.bandCeiling);
   const termsSubtitle = useMemo(
     () =>
       termCountLabel(prompt.keywords ?? [], {

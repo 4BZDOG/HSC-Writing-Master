@@ -32,7 +32,7 @@ import { authService } from '../services/authService';
 import { applyEvaluation } from '../utils/progression';
 import { findAndUpdateItem, findSelectionContext } from '../utils/stateUtils';
 import { getFocusAreas } from '../utils/dataManagerUtils';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
 import { rewriteSampleNote, rewriteTarget } from '../components/feedback/rewriteText';
 import { generateId } from '../utils/idUtils';
 import {
@@ -313,7 +313,7 @@ export const useGemini = ({
                 result.revisedAnswer,
                 result.overallMark,
                 prompt.totalMarks,
-                getCommandTermInfo(prompt.verb).tier,
+                getPromptTermInfo(prompt).tier,
                 prompt.markingCriteria
               );
               const aiSample: SampleAnswer = {
@@ -719,7 +719,7 @@ export const useGemini = ({
       // The question's OWN verb, not the typical verb for its mark value —
       // an off-scheme pairing (e.g. an 8-mark DESCRIBE) must get keywords
       // pitched at its actual cognitive demand.
-      const commandTermInfo = getCommandTermInfo(currentPrompt.verb);
+      const commandTermInfo = getPromptTermInfo(currentPrompt);
       const keywords = await gemini.generateKeywordsForPrompt(
         currentPrompt,
         commandTermInfo,
@@ -747,7 +747,7 @@ export const useGemini = ({
     setSuggestKeywordsError(null);
     try {
       // Same rule as handleRegenerateKeywords: key off the question's own verb.
-      const commandTermInfo = getCommandTermInfo(currentPrompt.verb);
+      const commandTermInfo = getPromptTermInfo(currentPrompt);
       const generated = await gemini.generateKeywordsForPrompt(
         currentPrompt,
         commandTermInfo,

@@ -174,13 +174,13 @@ describe('the ribbon wears the shared vocabulary', () => {
     expect(drawer.contains(hero)).toBe(false);
   });
 
-  it('dresses every one of the thirty-eight verb chips', () => {
+  it('dresses every one of the thirty-nine verb chips', () => {
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
 
     const chips = Array.from(container.querySelectorAll('button')).filter((button) =>
       button.className.includes(RIBBON_VERB_CHIP)
     );
-    expect(chips).toHaveLength(38);
+    expect(chips).toHaveLength(39);
     expect(chips.map((chip) => chip.textContent)).toContain('IDENTIFY');
   });
 });
@@ -519,7 +519,7 @@ describe('the header carries the tier while the ribbon is shut', () => {
 
 /**
  * The verb is the hero element: Inter 900 italic caps at up to 96px. That only
- * holds if every one of the thirty-eight fits where it is put, and the longest of
+ * holds if every one of the thirty-nine fits where it is put, and the longest of
  * them — DIFFERENTIATE, and the two-word CRITICALLY ANALYSE and CRITICALLY
  * EVALUATE — do not fit where IDENTIFY does. `tests/e2e` cannot run this at six
  * widths in a unit suite, so the rule that chooses the size is pinned here and
@@ -601,7 +601,7 @@ describe('the verb is set at poster scale, sized to the word', () => {
     }
   });
 
-  it('sizes every one of the thirty-eight to one of exactly three steps', () => {
+  it('sizes every one of the thirty-nine to one of exactly three steps', () => {
     const sizes = new Set(
       Array.from(commandTerms.keys()).map((term) => ribbonVerbSize(String(term)))
     );
@@ -1288,7 +1288,7 @@ describe('the tier strip is legible and reachable', () => {
     expect(RIBBON_TIER_CARD).toContain('overflow-hidden');
   });
 
-  // Those five cards hold 32 of the 38 verb buttons, and this assertion has
+  // Those five cards hold 32 of the 39 verb buttons, and this assertion has
   // now been through three shapes. It pinned `opacity-90` because the two
   // values before it — `opacity-50 light:opacity-70` — measured the subtitles
   // at 2.72:1 against a 4.5 floor, and 90 was the value that got them back to

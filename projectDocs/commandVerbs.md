@@ -85,7 +85,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CALCULATE**
 > Band 1
-> Determine a numerical answer using given data, formulas, or mathematical processes.
+> Ascertain/determine from given facts, figures or information.
 >
 > Write the formula, substitute, solve — in that order.
 > No working shown = no marks, even if the answer is right.
@@ -95,7 +95,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **CALCULATE Strategy**
-> Determine a numerical answer using given data, formulas, or mathematical processes.
+> Ascertain/determine from given facts, figures or information.
 > Write the formula, substitute, solve — in that order.
 > No working shown = no marks, even if the answer is right.
 
@@ -201,7 +201,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DESCRIBE**
 > Band 2
-> Provide the characteristics and features of something in detail.
+> Provide characteristics and features.
 >
 > Use adjectives and specifics to paint a picture.
 > Ask yourself: "What does this look like? What are its parts? How does it work?"
@@ -211,7 +211,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **DESCRIBE Strategy**
-> Provide the characteristics and features of something in detail.
+> Provide characteristics and features.
 > Use adjectives and specifics to paint a picture.
 > Ask yourself: "What does this look like? What are its parts? How does it work?"
 
@@ -223,7 +223,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **SUMMARISE**
 > Band 2
-> Express the most important ideas or facts in a brief, concise form.
+> Express, concisely, the relevant details.
 >
 > Cut ruthlessly — no examples, no elaboration, no fluff.
 > If you can say it in fewer words, do.
@@ -233,7 +233,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **SUMMARISE Strategy**
-> Express the most important ideas or facts in a brief, concise form.
+> Express, concisely, the relevant details.
 > Cut ruthlessly — no examples, no elaboration, no fluff.
 > If you can say it in fewer words, do.
 
@@ -295,7 +295,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EXPLAIN**
 > Band 3
-> Relate cause and effect; make the relationship between things clear.
+> Relate cause and effect; make the relationships between things evident; provide why and/or how.
 >
 > Chain every sentence with linking words:
 > because, leads to, results in, therefore.
@@ -306,7 +306,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **EXPLAIN Strategy**
-> Relate cause and effect; make the relationship between things clear.
+> Relate cause and effect; make the relationships between things evident; provide why and/or how.
 > Chain every sentence with linking words:
 > because, leads to, results in, therefore.
 > Facts alone don't explain — connections do.
@@ -319,7 +319,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **COMPARE**
 > Band 3
-> Show how things are similar and how they are different.
+> Show how things are similar or different.
 >
 > Use a balanced structure:
 > "Both X and Y... However, X... whereas Y..."
@@ -330,7 +330,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **COMPARE Strategy**
-> Show how things are similar and how they are different.
+> Show how things are similar or different.
 > Use a balanced structure:
 > "Both X and Y... However, X... whereas Y..."
 > Discuss the significance of each point, don't just list.
@@ -343,7 +343,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CONTRAST**
 > Band 3
-> Show only the differences between two or more things.
+> Show how things are different or opposite.
 >
 > Ignore similarities entirely.
 > Use unlike, whereas, in contrast, on the other hand — and make each difference sharp and specific.
@@ -353,7 +353,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **CONTRAST Strategy**
-> Show only the differences between two or more things.
+> Show how things are different or opposite.
 > Ignore similarities entirely.
 > Use unlike, whereas, in contrast, on the other hand — and make each difference sharp and specific.
 
@@ -365,7 +365,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **DEMONSTRATE**
 > Band 3
-> Show how something works or prove a point through examples or practical application.
+> Show by example.
 >
 > State the concept first, then show it in action with a concrete case.
 > Real-world or syllabus examples score highest.
@@ -375,7 +375,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **DEMONSTRATE Strategy**
-> Show how something works or prove a point through examples or practical application.
+> Show by example.
 > State the concept first, then show it in action with a concrete case.
 > Real-world or syllabus examples score highest.
 
@@ -461,7 +461,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **APPLY**
 > Band 4
-> Use knowledge and understanding of a concept in a new or different context.
+> Use in a different, new or unfamiliar situation.
 >
 > Start with the concept, then say "In this case..."
 > The marker wants to see transfer — prove you can use the idea outside the textbook.
@@ -471,7 +471,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **APPLY Strategy**
-> Use knowledge and understanding of a concept in a new or different context.
+> Use in a different, new or unfamiliar situation.
 > Start with the concept, then say "In this case..."
 > The marker wants to see transfer — prove you can use the idea outside the textbook.
 
@@ -483,7 +483,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EXAMINE**
 > Band 4
-> Inquire into in detail; investigate thoroughly.
+> Inquire into.
 >
 > Pick 2-3 key aspects and go deep on each with evidence.
 > Quality of depth beats quantity of points — don't skim the surface.
@@ -493,7 +493,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **EXAMINE Strategy**
-> Inquire into in detail; investigate thoroughly.
+> Inquire into.
 > Pick 2-3 key aspects and go deep on each with evidence.
 > Quality of depth beats quantity of points — don't skim the surface.
 
@@ -553,7 +553,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **EXTRAPOLATE**
 > Band 4
-> Infer from what is known to project into the unknown; extend a trend beyond the given data.
+> Infer from what is known.
 >
 > Look at the pattern and project forward.
 > Use "If this trend continues..." or "This suggests that..."
@@ -564,7 +564,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **EXTRAPOLATE Strategy**
-> Infer from what is known to project into the unknown; extend a trend beyond the given data.
+> Infer from what is known.
 > Look at the pattern and project forward.
 > Use "If this trend continues..." or "This suggests that..."
 > Always anchor your inference in the data.
@@ -745,7 +745,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **APPRECIATE**
 > Band 5
-> Make a judgement about the value of something, recognising its positive qualities and significance.
+> Make a judgement about the value of.
 >
 > Don't just say it's good.
 > Say who it helps, what makes it significant, and why it matters in the bigger picture.
@@ -755,7 +755,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **APPRECIATE Strategy**
-> Make a judgement about the value of something, recognising its positive qualities and significance.
+> Make a judgement about the value of.
 > Don't just say it's good.
 > Say who it helps, what makes it significant, and why it matters in the bigger picture.
 
@@ -795,7 +795,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CRITICALLY ANALYSE**
 > Band 6
-> Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.
+> Use interpretation and reasoning to assess a range of evidence and make judgements based on detailed analysis.
 >
 > This is Band 6 territory — think about the thinking.
 > Spot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.
@@ -805,7 +805,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **CRITICALLY ANALYSE Strategy**
-> Analyse with additional depth: question assumptions, consider limitations, and examine underlying reasoning.
+> Use interpretation and reasoning to assess a range of evidence and make judgements based on detailed analysis.
 > This is Band 6 territory — think about the thinking.
 > Spot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.
 
@@ -817,7 +817,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **CRITICALLY EVALUATE**
 > Band 6
-> Evaluate with additional depth, logic, and reflection, thoroughly weighing strengths and weaknesses.
+> Add a degree or level of accuracy, knowledge and understanding, logic, questioning, reflection and quality to evaluate.
 >
 > Apply every criterion rigorously, then interrogate your own judgement.
 > What are the limitations of your evaluation? Where might your criteria be biased?
@@ -827,7 +827,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **CRITICALLY EVALUATE Strategy**
-> Evaluate with additional depth, logic, and reflection, thoroughly weighing strengths and weaknesses.
+> Add a degree or level of accuracy, knowledge and understanding, logic, questioning, reflection and quality to evaluate.
 > Apply every criterion rigorously, then interrogate your own judgement.
 > What are the limitations of your evaluation? Where might your criteria be biased?
 
@@ -839,7 +839,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 
 > **SYNTHESISE**
 > Band 6
-> Combine different ideas, components, or sources to create a new, integrated whole.
+> Put together various elements to make a whole.
 >
 > Don't just summarise each source — show how they combine into something bigger.
 > Use "Together, these suggest..." to signal the new insight.
@@ -849,7 +849,7 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 **Strategy Tip**
 
 > **SYNTHESISE Strategy**
-> Combine different ideas, components, or sources to create a new, integrated whole.
+> Put together various elements to make a whole.
 > Don't just summarise each source — show how they combine into something bigger.
 > Use "Together, these suggest..." to signal the new insight.
 
@@ -876,6 +876,28 @@ All NESA command verbs used in the HSC Writing Coach, ordered by band. Each verb
 > Be bold but backed by evidence.
 > Cover what should happen, why, and the expected outcome.
 > End with a clear call to action.
+
+---
+
+### COMPOSE
+
+**Ribbon**
+
+> **COMPOSE**
+> Band 6
+> Create an original piece of writing (imaginative, discursive or persuasive) for a given audience, purpose and form.
+>
+> Plan the piece before you write it: one controlling idea, image or voice.
+> Every stylistic choice should serve that idea, and the ending should land it.
+>
+> Marks: 5–20 | Band Cap: 6 | Time: 9–36m | Terms: 8–15
+
+**Strategy Tip**
+
+> **COMPOSE Strategy**
+> Create an original piece of writing (imaginative, discursive or persuasive) for a given audience, purpose and form.
+> Plan the piece before you write it: one controlling idea, image or voice.
+> Every stylistic choice should serve that idea, and the ending should land it.
 
 ---
 

@@ -1,4 +1,4 @@
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import { getBandForMark, getPromptTermInfo } from '../data/commandTerms';
 import type { PromptVerb } from '../types';
 
 /**
@@ -83,6 +83,7 @@ export interface BandedPrompt {
   totalMarks: number;
   verb?: PromptVerb | string;
   markingCriteria?: string;
+  bandCeiling?: number;
 }
 
 const rowsCache = new Map<string, GuideRow[] | null>();
@@ -104,7 +105,7 @@ export const promptBandForMark = (prompt: BandedPrompt, mark: number): number =>
   bandOnGuide(
     mark,
     prompt.totalMarks,
-    getCommandTermInfo(prompt.verb as PromptVerb).tier,
+    getPromptTermInfo({ verb: prompt.verb as PromptVerb, bandCeiling: prompt.bandCeiling }).tier,
     prompt.markingCriteria
   );
 

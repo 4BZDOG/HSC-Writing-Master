@@ -1,5 +1,27 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-30 (COMPOSE, and Band 6 for extended responses outside Standard English)
+
+- **Changed.** In every course except English Standard, Studies and EAL/D, an extended response (15 marks or
+  more) now reaches **Band 6** at full marks, whatever its verb. 106 questions were Discuss, Assess or Recommend
+  responses held at their verb's Band 5, so a 20/20 answer read Band 5: English Advanced 84 ("To what extent…" and
+  "In what ways…" essays), Business Studies 18 and Geography 4. NESA's five 20-mark rows now read Bands 6, 5, 4, 3
+  and 2 there. English Standard's essays stay at Band 5. The same course rule (`courseBandCeiling`) sets both
+  ceilings.
+- **Changed.** English composition tasks ("Craft / Compose / Continue…", Module C pieces) were filed under
+  CONSTRUCT, a Tier 4 verb, so a 20/20 piece showed as Band 4 and a 13/20 essay outranked it. They now use a new
+  verb, **COMPOSE** (Tier 6): Band 6 at full marks in English Advanced. In English Standard, Studies and EAL/D a
+  composition tops out at **Band 5**, so NESA's five 20-mark rows fall one to a band there, as on an essay. The cap
+  is derived from the course (`courseBandCeiling`) and stored on the question as `bandCeiling`; every screen
+  reads a question's tier through `getPromptTermInfo`. Other English Standard questions keep their verbs' bands.
+- CONSTRUCT stays Tier 4 for building a table, graph, plan or program in the other subjects, and loses its
+  exemption from the length rules (no shipped CONSTRUCT question is long enough to need it).
+- 44 questions moved (Standard 28, Advanced 16). The 31 app-written stems now open "Compose" rather than
+  "Construct"; NESA's own stems are unchanged. 17 app-written marking guides gained the rows the new tier needs
+  (Standard 7- and 8-mark: five rows; Advanced 8-mark: six).
+- Free accounts stop at Tier 3, so compositions were and remain a Plus question; nothing changes there.
+- Shipped-course change: `DATA_VERSION` 2.35.0.
+
 ## [Unreleased] - 2026-10-30 (English Advanced text-specific past questions, remaining texts)
 
 - **Added.** The 36 English Advanced past questions NESA set for one prescribed text or pair that is not in the

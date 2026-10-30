@@ -755,6 +755,27 @@ export const commandTermsList: CommandTermInfo[] = [
     exampleQuestion: 'Propose a strategy to reduce plastic waste in the school canteen.',
   },
   {
+    term: 'COMPOSE',
+    definition:
+      'Create an original piece of writing (imaginative, discursive or persuasive) for a given audience, purpose and form.',
+    tip: 'Plan the piece before you write it: one controlling idea, image or voice.\nEvery stylistic choice should serve that idea, and the ending should land it.',
+    tier: 6,
+    markRange: [5, 20],
+    charRange: [1000, 4200],
+    pageEstimate: '1-3',
+    timeRange: [9, 36],
+    syllabusTerms: [8, 15],
+    bandDiscrimination:
+      'Control and crafting, not length or plot. The top rows reward a piece whose language, structure and voice are deliberately shaped to its purpose; a competent story told in sequence sits in the middle.',
+    genericMarkingGuide: [
+      '3+ marks: Composes a skilfully crafted piece with sustained control of language and form',
+      '1-2 marks: Composes a piece with some appropriate features',
+    ],
+    structuralKeywords: ['craft', 'voice', 'image', 'form', 'audience'],
+    exampleQuestion:
+      'Compose a piece of imaginative writing that uses an image of a threshold to explore change.',
+  },
+  {
     term: 'INVESTIGATE',
     definition:
       'Plan, inquire into, and draw conclusions about a topic through systematic research.',
@@ -847,6 +868,69 @@ export const getCommandTermInfo = (verb?: PromptVerb): CommandTermInfo => {
 };
 
 /**
+ * Where a course sets a question's top band rather than its verb's tier.
+ *
+ * - English Standard, Studies and EAL/D: a composition (COMPOSE) reaches Band 5,
+ *   and every other question keeps its verb's tier, so a 20-mark DISCUSS or
+ *   "To what extent…" essay stays at Band 5. In these courses the top band is
+ *   rarely awarded, and at Band 5 one NESA row (17-20, 13-16 …) falls to each band.
+ * - Every other course: an extended response (15 marks or more,
+ *   `EXTENDED_RESPONSE_MARKS`) reaches Band 6 whatever its verb. A 20/20 module
+ *   essay in Advanced, or a 20/20 Business Studies or Geography response set as
+ *   Discuss or Assess, is the top-row work NESA's Band 6 describes, so it is not
+ *   held at its verb's Band 5.
+ *
+ * Rules are tried in order and the first that matches wins; a `ceiling` of null
+ * means the verb's tier stands.
+ */
+const STANDARD_ENGLISH = /\benglish\s+(standard|studies|eal\s*\/?\s*d)\b/i;
+const COURSE_BAND_CEILINGS: {
+  course: RegExp;
+  verbs?: ReadonlySet<string>;
+  minMarks?: number;
+  ceiling: number | null;
+}[] = [
+  { course: STANDARD_ENGLISH, verbs: new Set(['COMPOSE']), ceiling: 5 },
+  { course: STANDARD_ENGLISH, ceiling: null },
+  { course: /./, minMarks: 15, ceiling: 6 },
+];
+
+/** The band ceiling a question takes from its course, or undefined when its verb's tier stands. */
+export const courseBandCeiling = (
+  courseName: string | undefined,
+  verb: PromptVerb | string | undefined,
+  totalMarks = 0
+): number | undefined => {
+  if (!courseName || !verb) return undefined;
+  const v = String(verb).toUpperCase();
+  const tier = getCommandTermInfo(v as PromptVerb).tier;
+  const rule = COURSE_BAND_CEILINGS.find(
+    (r) =>
+      r.course.test(courseName) &&
+      (!r.verbs || r.verbs.has(v)) &&
+      (r.minMarks === undefined || totalMarks >= r.minMarks)
+  );
+  // A rule that only restates the verb's own tier is not recorded.
+  return rule?.ceiling != null && rule.ceiling !== tier ? rule.ceiling : undefined;
+};
+
+/**
+ * The command term as this question applies it: the verb's own entry, with the
+ * tier set to the question's `bandCeiling` when its course gives it one. Every
+ * surface that has the question in hand reads its tier from here, so the band
+ * ceiling, the colour and the ladder agree.
+ */
+export const getPromptTermInfo = (
+  prompt: { verb?: PromptVerb; bandCeiling?: number } | null | undefined
+): CommandTermInfo => {
+  const info = getCommandTermInfo(prompt?.verb);
+  const ceiling = prompt?.bandCeiling;
+  return ceiling && ceiling >= 1 && ceiling <= 6 && ceiling !== info.tier
+    ? { ...info, tier: ceiling }
+    : info;
+};
+
+/**
  * Robustly extracts the most significant command verb from a string.
  * Finds all known verbs in the text and returns the one with the highest cognitive Tier.
  * If tiers are equal, prefers the longer/more specific verb.
@@ -900,21 +984,9 @@ export const minimumTierForMarks = (totalMarks: number): number => {
   return 1;
 };
 
-/**
- * Composition verbs keep Tier 4 at any length. A 20-mark "Craft an imaginative
- * piece" is marked on control of language and structure, not on argument, so
- * lifting it to Discuss would change the task the student is set.
- */
-const LENGTH_EXEMPT_VERBS: ReadonlySet<string> = new Set(['CONSTRUCT']);
-
 /** True when the verb is allowed to carry a question worth this many marks. */
-export const verbFitsLength = (verb: PromptVerb | string, totalMarks: number): boolean => {
-  const required = minimumTierForMarks(totalMarks);
-  const floor = LENGTH_EXEMPT_VERBS.has(String(verb).toUpperCase())
-    ? Math.min(required, 4)
-    : required;
-  return getCommandTermInfo(verb as PromptVerb).tier >= floor;
-};
+export const verbFitsLength = (verb: PromptVerb | string, totalMarks: number): boolean =>
+  getCommandTermInfo(verb as PromptVerb).tier >= minimumTierForMarks(totalMarks);
 
 /** The verb a too-low-tier verb is raised to, by the tier the length needs. */
 const LENGTH_DEFAULT_VERB: Record<number, PromptVerb> = {
@@ -1053,7 +1125,9 @@ export const getCommandTermsForMarks = (
  * The fewest marks that make a question an extended response: a sustained, judged
  * argument, which a low verb does not ask for (see `lengthMismatchNote`).
  *
- * It does NOT lift the band ceiling. For two days in October 2026 it did (Band 6
+ * On its own it does NOT lift the band ceiling; only a course rule does
+ * (`courseBandCeiling`: every course but English Standard, Studies and EAL/D).
+ * Keep the 15 written in that rule in step with this. For two days in October 2026 it did (Band 6
  * whatever the verb), and the result was a question in two colours: the Writing
  * Prompt drew a 20-mark DISCUSS in its tier's blue while the terms, guide and
  * exemplars beside it were purple, and NESA's five rows (17-20 … 1-4) no longer

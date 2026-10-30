@@ -1,6 +1,6 @@
 import React, { useId, useMemo } from 'react';
 import { ChevronDown, ListOrdered } from 'lucide-react';
-import { getCommandTermInfo } from '../data/commandTerms';
+import { getPromptTermInfo } from '../data/commandTerms';
 import { getBandRgb, getTierScaleConfig } from '../utils/renderUtils';
 import { tierIcon } from '../utils/verbTierIcon';
 import {
@@ -17,6 +17,8 @@ import StrategyMoves from './StrategyMoves';
 
 interface HowToAnswerProps {
   verb: PromptVerb;
+  /** The question's course band ceiling (see `Prompt.bandCeiling`). */
+  bandCeiling?: number;
   /** Whether the method card is showing. The caller holds it, because the
    *  editor also reports opening it to the marking report. */
   open: boolean;
@@ -42,9 +44,9 @@ interface HowToAnswerProps {
  * The card is always mounted and only folds, so opening it does not shift the
  * writing area; while shut it is `inert`, so its controls are not reachable.
  */
-const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, open, onToggle, read }) => {
+const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, bandCeiling, open, onToggle, read }) => {
   const panelId = useId();
-  const info = useMemo(() => getCommandTermInfo(verb), [verb]);
+  const info = useMemo(() => getPromptTermInfo({ verb, bandCeiling }), [verb, bandCeiling]);
   const moves = useMemo(() => groupStrategyMoves(parseStrategyTip(info.tip)), [info.tip]);
   const { method, watch } = useMemo(() => splitMethodMoves(moves), [moves]);
   const { terms, examples } = useMemo(() => collectStrategyDetail(moves), [moves]);
