@@ -1122,10 +1122,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-23a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "The strategic role of operations management is to align the store's processes with its goal of winning back sales. Operations can redesign the store layout and fixtures so that the denim range is displayed more attractively, which addresses the outdated store presentation. Adopting tap-and-go terminals and online payment options as part of modern in-store payment methods removes a barrier for shoppers and speeds up checkout, which improves productivity. To counter foreign competition, the store can use operations strategy to differentiate its range through local tailoring and repairs, a competitive advantage that overseas chains cannot easily copy.",
-                        "feedback": "Meets the top criterion: detailed ways operations management could assist this business, each tied to a cause of declining sales. To lift it further, explain the effect on sales or profit of each change.",
+                        "answer": "The strategic role of operations management ensures the operations function effectively contributes to the achievement of goals and the strategic direction of the business. The business could examine goods/service differentiation as currently the business’ product range is limited to denim products. They could differentiate their products and add non-denim items and clothing accessories. This would potentially increase the customer base, attracting customers who are interested in non-denim items which may increase sales and profits.",
+                        "feedback": "Meets the 4-mark row by providing detailed ways in which the strategic role of operations management could assist this business. The answer examines 'goods/service differentiation' and shows that adding 'non-denim items and clothing accessories' could attract customers interested in them, which 'may increase sales and profits'.",
                         "band": 3
                       },
                       {
@@ -1297,10 +1297,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-21b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Goods and services differ here. Goods: the quality food is tangible and perishable, so it must be stored carefully. Services: the friendly, personalised service is intangible and is produced and consumed at the same time.",
-                        "feedback": "Meets the top row: it outlines the difference between the cafe's goods and services, using a contrasting feature for each. The answer is complete at this length.",
+                        "answer": "The cafe produces meals (goods) that are perishable. Services can be customised or standardised. This cafe is known for its friendly service.",
+                        "feedback": "Meets the 2-mark row by outlining the difference between goods and services in this business. The answer contrasts 'meals (goods) that are perishable' with services that 'can be customised or standardised', then applies this to the cafe's 'friendly service'.",
                         "band": 2
                       },
                       {
@@ -1464,10 +1464,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-21a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "The operations manager's decision to increase working hours for all employees shows the interdependence between operations and human resources. Operations depends on human resources to supply the staff hours needed to make the extra flags before the sporting event, so the flag manufacturer's production schedule is only as strong as its workforce. In return, human resources must manage the overtime and its labour costs, so a decision made in operations directly changes HR policy.",
-                        "feedback": "Meets the top descriptor: the interdependence is explained in both directions and grounded in the flag manufacturer's decision about working hours. Nothing further is needed for this question.",
+                        "answer": "The operations department is dependent on the finance department who would need to provide a source of funds to pay for employee overtime and an increase in electricity, fabric etc. Finance is guided by the operations department’s product specifications as this is what will determine the cost/finance required.",
+                        "feedback": "Meets the 3-mark row by providing an explanation of the interdependence between operations and ONE other business function for this business. The answer names finance, which must provide 'a source of funds to pay for employee overtime', and says finance is 'guided by the operations department's product specifications'.",
                         "band": 3
                       },
                       {
@@ -1706,10 +1706,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-21c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "The legal regulation of food safety influences this cafe's operations management, because the business must handle, store and serve its quality food to meet legal standards. Staff training in hygiene and temperature control is needed, and production schedules must allow food to be cooked and held safely. The cafe must also ensure the left-over food it donates to charity has been stored safely, so checks on holding times and temperatures become part of its daily operations.",
-                        "feedback": "Meets the top row: it explains how one legal regulation shapes specific operational processes, including training, production scheduling and the handling of donated food. The explanation is clear and tied to this cafe throughout.",
+                        "answer": "Legal regulations such as food handling and storage could influence this business because they must ensure that they meet the standards required. This may require specific training of employees on how to handle and store food correctly to ensure the quality of the food.",
+                        "feedback": "Meets the 3-mark row by providing an explanation of the influence of ONE legal regulation on the operations management of this business. The answer uses food handling and storage rules, which 'may require specific training of employees' to ensure 'the quality of the food'.",
                         "band": 3
                       },
                       {
@@ -1942,10 +1942,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-21a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "The cafe demonstrates corporate social responsibility by donating its left-over food to a local charity each day. This supports the community and reduces food waste, showing concern for people beyond its own customers.",
-                        "feedback": "Meets the top row: it outlines the specific social action in the scenario and explains who benefits, in two concise sentences.",
+                        "answer": "The cafe can demonstrate corporate social responsibility by donating food to a local charity that supports the community.",
+                        "feedback": "Meets the 2-mark row by outlining the corporate social responsibility demonstrated by this business. The answer says the cafe 'can demonstrate corporate social responsibility by donating food to a local charity that supports the community'.",
                         "band": 2
                       },
                       {
@@ -2453,10 +2453,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-21a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "The customer is an input because their specifications for layout, fixtures and finishes are a transformed resource in the construction of the new home. They set the transformation process that must finish within six months and budget.",
-                        "feedback": "Meets the top row: sketches how the customer's specifications are a transformed resource in construction, applied to the new home and the six-month, budget contract. This is a complete outline for the marks available.",
+                        "answer": "Customers are a transformed resource in the operations process. If the customer provides information to the builder about, for example, the materials, paint colours, or size of the house, they are acting as an input in the construction of the new home.",
+                        "feedback": "Meets the 2-mark row by sketching in general terms how this customer is an input in the construction of the new home. The answer labels customers 'a transformed resource' and gives the example of a customer supplying information on 'the materials, paint colours, or size of the house'.",
                         "band": 2
                       },
                       {
@@ -2851,10 +2851,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-21c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Visibility, or customer contact, is high for this ice-cream business because customers watch their order being made and choose the flavours and toppings themselves. The benefit is that customers feel involved, and their own combinations are a form of customisation that a set menu cannot offer, so they are more likely to make repeat purchases. However, the business must manage its transformation process more carefully. Each order may involve a different variety of flavours and toppings, so staff must hold more ingredients and spend longer on each serve. Visibility therefore increases both the appeal of the product and the pressure on staff and inventory, which the owners must weigh before changing the menu.",
-                        "feedback": "Meets the top descriptor: the discussion weighs both the customer benefit and the operational cost of visibility, and applies each to the decision to offer customer choice. Nothing further is needed for this question.",
+                        "answer": "If customers are able to choose their own toppings and flavours they are more likely to provide feedback on their favourite flavour and topping combinations. They may return to the store for repeat purchases which will lead to an increase in sales. However, this will come at a cost to the business as this will require a variety of ingredients and an increase in time required to make each item.",
+                        "feedback": "Meets the 4-mark row by providing a discussion of the implications of visibility (customer contact) for this business. The answer weighs a benefit, 'repeat purchases which will lead to an increase in sales', against a cost, 'a variety of ingredients' and 'an increase in time required to make each item'.",
                         "band": 5
                       },
                       {
@@ -3026,10 +3026,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-21b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "A Gantt chart helps the building company meet the terms of the contract by sequencing the work so the home is built in the right order. It lays out each stage, such as foundations, framing, wiring and painting, against a timeline, so managers can see whether the six months required by the contract is on track. For example, the chart shows that electricians must finish wiring before walls are plasterboarded and painted, which prevents costly delays. Because scheduling reduces idle time for tradespeople, it also helps the company keep within budget.",
-                        "feedback": "Meets the top row: makes evident how sequencing and scheduling secure the six-month timeline and, through reduced idle time, the budget, with a worked example from the build. To go further, note the risk the chart exposes when one stage slips.",
+                        "answer": "A sequencing and scheduling tool such as a Gantt chart could help the building company meet the terms of the contract as this tool identifies the sequence or order in which components of the home need to be built and it allocates a timeframe for each component. This allows the builder to stay within the agreed timeframe in the contract and it should improve efficiency, hence allowing them to keep to the agreed budget in the contract. For example, the Gantt chart could ensure that different tradespeople come in correct order (for example, painters don’t arrive before electricians) to ensure an efficient transformation process.",
+                        "feedback": "Meets the 4-mark row by making evident how a Gantt chart helps the builder meet the contract terms. The chart 'allocates a timeframe for each component', so the builder can 'stay within the agreed timeframe', and the sequencing could ensure tradespeople such as painters and electricians come in the correct order.",
                         "band": 3
                       },
                       {
@@ -3054,6 +3054,76 @@
                     "hscYear": 2021,
                     "hscQuestionNumber": "21(b)",
                     "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-bs-hsc-2025-25",
+                    "question": "You have been hired as a consultant by the owner to write a business report.\n\nIn your report:\n• outline ONE relevant human resource management process that the business could use\n• describe the purpose of the above chart and any issues found in the chart\n• recommend appropriate global factors the business can use to achieve cost leadership.",
+                    "totalMarks": 20,
+                    "verb": "RECOMMEND",
+                    "linkedOutcomes": [
+                      "H4",
+                      "H8"
+                    ],
+                    "markerNotes": [
+                      "The HR process should be one the relocation actually needs. Acquisition is the most direct choice, because the chart places the staffing decision late, and a strong answer shows what that timing does to recruiting and selecting the new workforce.",
+                      "Read the chart as a sequence. Strong answers point out the dependencies: equipment is made in November before the factory is built in December, the warehouse is leased in February after the equipment is made, and the business name is registered last, in March.",
+                      "Judge each global factor by cost leadership. Global sourcing and economies of scale connect directly to lower unit costs. Research and development is costly and its savings come later, so a recommendation of it needs a clear reason for a business seeking cost leadership now.",
+                      "Write it as a business report for the owner: a heading, a statement of purpose, sections in the order of the question and a recommendation at the end. Terms such as transformation process, sequencing and scheduling and economies of scale should be used where they fit, not listed."
+                    ],
+                    "commonStudentErrors": [
+                      "Outlining an HR process as a general textbook list, such as the steps of recruitment, without linking it to the staffing timing or the Asian workforce in this scenario.",
+                      "Restating the bars of the chart in order without saying what the sequence shows about the plan, or listing problems the chart does not show, such as the cost of the new factory.",
+                      "Recommending global sourcing or economies of scale without explaining how either lowers the cost of each unit, so cost leadership is named but not connected to a factor.",
+                      "Writing the response as an essay with no report features, such as a heading, a purpose statement or an addressee, so it does not read as a business report."
+                    ],
+                    "keywords": [
+                      "human resource management",
+                      "acquisition",
+                      "Gantt chart",
+                      "sequencing and scheduling",
+                      "global factors",
+                      "global sourcing",
+                      "economies of scale",
+                      "cost leadership"
+                    ],
+                    "markingCriteria": "17-20 marks: Provides an outline of ONE relevant human resource management process that the business could use; Comprehensively describes the purpose of the chart and issues found; Comprehensively recommends appropriate global factors that the business can use to achieve cost leadership; Presents a sustained, logical and cohesive business report integrating relevant business terminology and concepts\n13-16 marks: Provides an outline of ONE relevant human resource management process that the business could use; Thoroughly describes the purpose of the chart and issues found; Recommends appropriate global factors that the business can use to achieve cost leadership; Presents a logical and cohesive business report using relevant business terminology and concepts\n9-12 marks: Provides an outline of ONE relevant human resource management process that the business could use; Describes the purpose of the chart and issues found; Recommends global factor/s that the business can use to achieve cost leadership; Includes features of a business report and uses some business terminology and concepts\n5-8 marks: Identifies ONE relevant human resource management process; Outlines the chart and/or issues found; Makes statements about global factors and/or cost leadership; May include some features of a business report and uses some basic business terminology and/or concepts\n1-4 marks: Makes some reference to human resources and/or operations; Uses basic business terminology",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-hsc-2025-25-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Business report: relocating manufacturing for XYZ Equipment Pty Ltd\n\nTo: The Owner, XYZ Equipment Pty Ltd\nFrom: Business Consultant\n\nIntroduction\nThis report advises on the planned move of manufacturing overseas. It outlines one human resource management process, describes the purpose of the relocation chart and the issues it shows, and recommends global factors the business can use to achieve cost leadership.\n\nHuman resource management process: acquisition\nAcquisition is the process of identifying staffing needs, recruiting suitable people, selecting the best candidates and inducting them into the business. For the new Asian factory, XYZ must first decide how many production workers, quality inspectors and supervisors it needs and what skills they require. It must then recruit people who can meet the quality standards that the current product lacks, select them against those standards and confirm that the terms of employment comply with the law in the host country. Acquisition turns the relocation plan into a working factory, so it should begin before the equipment is made.\n\nPurpose and issues of the chart\nThe chart is a Gantt chart. It shows the timing and sequencing of each task in the relocation, from October 2025 to March 2026, so that the owner can see when each task starts and ends and which tasks depend on others. It reveals the following issues:\n• The Australian factory closes in October, before the new factory exists. Production in Australia would stop for months, and the new factory would not yet be producing to replace it.\n• Equipment is manufactured in November, before the factory is built in December. The build bar is very short, which suggests the build time has been underestimated, and there is nowhere to install the equipment until the factory is finished.\n• Staffing needs are determined from January to March, after the equipment has been made and the factory has been built. The factory could be ready before anyone has been hired to run it.\n• The warehouse is leased in February, after the equipment is made in November. The equipment has no storage between its manufacture and that lease.\n• The business name is registered last, in March. XYZ could be trading overseas before its name is legally registered.\n• The aim is to relocate by the beginning of 2026, but staffing and the warehouse are not settled until March 2026, so the timeline does not meet the goal.\n\nRecommended global factors for cost leadership\nCost leadership means that the business has lower costs than its competitors, so it can charge lower prices or earn more on each unit. Three global factors suit XYZ:\n• Global sourcing: buying components and materials from Asian suppliers at lower prices than Australian suppliers reduces the cost of each unit. XYZ should select a small number of suppliers and agree on quality standards and inspections, so that cheaper inputs do not add to the poor quality problem.\n• Economies of scale: producing in larger volumes for the Australian market and the potential growth market in Asia spreads the fixed costs of the new factory and equipment over more units, so the cost per unit falls.\n• Scanning and learning: monitoring the costs and practices of competitors and suppliers in Asia allows XYZ to find savings and adopt efficient methods early.\nResearch and development is less suitable at present. It is expensive and its savings come later, while cash is needed for the move. XYZ should consider it once the new factory is producing profitably.\n\nConclusion\nThe relocation can reduce costs and address quality, but the plan as it stands makes the equipment and the factory come before the staff and premises needed to run them. I recommend that the owner keeps the Australian factory open until the new factory is producing, determines staffing needs and begins acquisition before manufacturing starts, leases the warehouse before the equipment is made, and registers the business name before any trading begins. With these changes and the global factors above, XYZ Equipment is well placed to achieve cost leadership in its new markets.",
+                        "feedback": "Meets the 17-20 mark row: it outlines acquisition as one HR process, comprehensively describes the chart's purpose and its six issues, and recommends three global factors with reasons linked to cost leadership. It is a sustained, logical business report that uses terms such as acquisition, Gantt chart, economies of scale and cost leadership.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-bs-hsc-2025-25-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Business report: relocating manufacturing for XYZ Equipment Pty Ltd\n\nTo: The Owner, XYZ Equipment Pty Ltd\nFrom: Business Consultant\n\nIntroduction\nThis report outlines one human resource management process for the move, describes the purpose of the relocation chart and its issues, and recommends global factors for cost leadership.\n\nHuman resource process: acquisition\nAcquisition involves identifying staffing needs, recruiting and selecting employees and inducting them into the business. XYZ will need production workers, quality checkers and supervisors for its new factory in Asia. It should decide how many people it needs and what skills they require, then recruit and select staff who can make equipment of good quality, so that the factory can run as soon as it opens.\n\nPurpose and issues of the chart\nThe Gantt chart shows the timing of each task in the relocation, from October to March, so the owner can see when each task happens. The chart shows several issues. The Australian factory closes in October, before the new factory exists, so production stops. The equipment is manufactured in November, before the factory is built in December, and the build bar is very short, which suggests the build time has been underestimated. Staffing needs are not determined until January to March, after the equipment has been made, so the workforce may not be ready in time. The warehouse is leased in February, after the equipment is made, and the business name is registered last, in March.\n\nRecommended global factors for cost leadership\nCost leadership means having lower costs than competitors. Global sourcing will help XYZ because Asian suppliers may offer lower prices for components than Australian suppliers, reducing the cost of each unit. Economies of scale will also help, because making more units spreads the cost of the new factory over a greater number of products. XYZ should therefore source from reliable Asian suppliers and produce for both the Australian and Asian markets.\n\nConclusion\nThe owner should change the timing of the plan so that staffing and the warehouse are settled before manufacturing starts, and keep the Australian factory open until the new factory is producing. With these changes, the relocation can help XYZ achieve cost leadership.",
+                        "feedback": "Meets the 9-12 mark row: it outlines acquisition for the new factory, describes the chart and several of its issues, and recommends global sourcing and economies of scale for cost leadership in a report format. To reach 13, explain why each issue matters for the relocation and develop the recommendations with reasons, using terms such as sequencing and scheduling.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-hsc-2025-25-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "To: The Owner, XYZ Equipment Pty Ltd\n\nThe business should use the acquisition process to hire staff for its new factory overseas. This means finding workers with the right skills to make the equipment.\n\nThe chart shows the relocation plan from October to March. The plan has some timing problems, such as the factory being built after the equipment is made.\n\nGlobal factors such as global sourcing can help the business achieve cost leadership, because cheaper suppliers in Asia can lower costs. The business should also think about other ways to reduce costs.",
+                        "feedback": "Meets the 5-8 mark row: it identifies acquisition as the HR process and makes general statements about the chart and about global sourcing and cost leadership. To reach 9, outline the steps of acquisition for this factory, describe the chart's purpose and at least one issue, and recommend a global factor with a reason that it lowers cost.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "XYZ Equipment Pty Ltd is an Australian business which manufactures equipment for Australian schools.\n\nThe business would like to relocate and manufacture overseas by the beginning of 2026 for the following reasons:\n• labour and production costs in Australia are too high\n• product is of poor quality\n• Australia has strict environmental laws\n• there is a potential growth market in Asia.\n\nThe business has provided a chart that shows their initial plan for the relocation.\n\nStimulus: Relocation plan for XYZ Equipment Pty Ltd 2025–2026, a Gantt chart from October to March. Close Australian factory: October. Source new Asian suppliers: October. Manufacture equipment: November. Build new factory: a very short bar at the start of December. Determine staffing needs: January to March. Lease warehouse for storage: February. Register business name: March.\n\nYour answer will be assessed on how well you: demonstrate knowledge and understanding relevant to the question; apply the hypothetical business situation; communicate using relevant business terminology and concepts; present a sustained, logical and cohesive response in the form of a business report.",
+                    "scenarioImage": {
+                      "id": "prompt-bs-hsc-2025-25",
+                      "alt": "Gantt chart, Relocation plan for XYZ Equipment Pty Ltd 2025–2026, October to March, with seven activities from closing the Australian factory to registering the business name",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bs-2025-25.png"
+                    },
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section III (20 marks). Allow about 35 minutes for this section."
                   }
                 ]
               },
@@ -3169,6 +3239,76 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-bs-hsc-2022-21c",
+                    "question": "Compare each layout in terms of efficiency and profitability.",
+                    "totalMarks": 4,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "H4",
+                      "H5"
+                    ],
+                    "markerNotes": [
+                      "Top answers compare the two floor plans on both criteria: option 2's stations in sequence against option 1's back-and-forth route, and ten tables against four. Each point names a similarity or a difference and says which layout does better.",
+                      "A count of tables or stations earns credit only when the answer explains what it does to efficiency or profitability. More tables mean more seats for dine-in customers, and a longer path between stations means more time lost and more risk of accidents.",
+                      "COMPARE asks for a likeness or a contrast on each criterion. Answers that describe option 1 in one paragraph and option 2 in another, with no comparison between them, do not reach the 4-mark row.",
+                      "Claims must rest on the floor plans. The stimulus gives the number of tables and how the stations are arranged, but no kitchen sizes, sales figures or prices, so an answer that relies on them is inventing evidence."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing each layout in turn without comparing them, so the answer never states a similarity or a difference between the two.",
+                      "Saying option 1 is more profitable only because it looks busier, without linking its extra tables to more dine-in customers and more sales.",
+                      "Writing about process layout in general, such as its advantages in a textbook, rather than what these two floor plans show.",
+                      "Inventing kitchen sizes, sales figures or customer numbers that the stimulus does not give."
+                    ],
+                    "keywords": [
+                      "process layout",
+                      "efficiency",
+                      "profitability",
+                      "operations management",
+                      "workflow",
+                      "seating capacity",
+                      "transformation process",
+                      "floor plan"
+                    ],
+                    "markingCriteria": "4 marks: Provides detailed similarities and/or differences about the efficiency and profitability of each layout\n3 marks: Provides some similarities and/or differences about efficiency and profitability of each layout\n2 marks: Provides similarities and/or differences about efficiency and/or profitability of the layouts\n1 mark: Provides relevant information about process layout",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-hsc-2022-21c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The layout of option 2 allows employees to make a finished burger efficiently as the process to make burgers is sequential. In comparison, option 1’s narrow kitchen layout requires employees to go back and forth between work stations to make the burger which could lead to accidents and time lost, causing it to be more inefficient. Option 1 has more tables which could seat more customers and therefore increase profitability compared to option 2 which has fewer tables for dine-in customers, therefore it is unable to maximise profitability.",
+                        "feedback": "Meets the 4-mark row: it makes detailed differences on both criteria. On efficiency, option 2's sequential layout lets a burger be made in order, while option 1's narrow kitchen makes employees move back and forth between stations, which risks accidents and lost time. On profitability, option 1's ten tables seat more customers than option 2's four, so it can earn more from dine-in sales.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-hsc-2022-21c-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Option 2 is more efficient than option 1. Its stove, assembly station and finished burgers sit side by side in the order the burger is made, so the work moves in one direction.",
+                        "feedback": "Meets the 2-mark row: it states a difference in efficiency between the two layouts and gives a reason from the floor plan. To reach 3, it also needs a difference in profitability, such as the number of tables for dine-in customers, so that both criteria are covered.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-hsc-2022-21c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Option 1 has its kitchen stations spread around the top and left walls, and option 2 has its stations along the top wall.",
+                        "feedback": "Meets the 1-mark row: it gives relevant information about the process layout of the two plans, but does not compare efficiency or profitability. To reach 2, state whether one layout is more efficient or more profitable than the other, and why.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Michael would like to open a new burger restaurant.\n\nMichael is considering which process layout would be the most efficient for this restaurant.\n\nStimulus: Two floor plans. Process layout option 1: the kitchen runs in a narrow strip around the top and left walls. Along the top wall are the stove, then the raw meat refrigerator, then the finished burgers; the burger assembly station is on the left wall, below the stove. The seating area in the middle has six tables, with four more tables along the right wall. The cash registers are between the seating area and the finished burgers. The entrance is at the bottom. Process layout option 2: the stove, the burger assembly station and the finished burgers sit side by side along the top wall, in that order, with the raw meat refrigerator on the left wall beside the stove. The seating area has two tables, with two more tables along the right wall. The cash registers are below the finished burgers. The entrance is at the bottom.",
+                    "scenarioImage": {
+                      "id": "prompt-bs-hsc-2022-21c",
+                      "alt": "Two restaurant floor plans. Option 1: kitchen stations spread around the top and left walls, ten tables. Option 2: stove, burger assembly station and finished burgers side by side along the top wall, four tables.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bs-2022-21c.png"
+                    },
+                    "isPastHSC": true,
+                    "hscYear": 2022,
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
                 ]
               },
@@ -3774,10 +3914,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-21a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Dependability is a key performance objective for Michael's burger restaurant, because customers expect each burger to arrive in the same time and taste the same every visit.",
-                        "feedback": "Meets the top criterion by outlining a performance objective and applying it to Michael's restaurant. It is appropriately brief for a two-mark outline.",
+                        "answer": "• Dependability would be a key performance objective for this business as customers expect consistency. They want their burgers to be served in the same timeframe, be the same size, temperature and taste each time they purchase one.",
+                        "feedback": "Meets the 2-mark row by sketching in general terms a performance objective relevant to the business. Dependability is named, and 'customers expect consistency' is shown through burgers served 'in the same timeframe' and of the same size, temperature and taste.",
                         "band": 2
                       },
                       {
@@ -3887,10 +4027,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-21a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Cheaper rubber sourced from the global market may lower operating costs, but inconsistent rubber quality could reduce the quality of outputs, leading to tyre failures and lost sales that undermine economies of scale.",
-                        "feedback": "Outlines one issue that links operating costs and quality of outputs to sourcing rubber globally, meeting the top criterion. Explaining the effect on the business's reputation in more detail would strengthen it.",
+                        "answer": "The business can reduce the costs of inputs when they source globally, cheaper inputs such as rubber, may result in lower quality tyres.",
+                        "feedback": "Meets the 2-mark row by outlining a potential issue this business could face in relation to both cost and quality of outputs: sourcing globally can 'reduce the costs of inputs', but cheaper rubber 'may result in lower quality tyres'.",
                         "band": 2
                       },
                       {
@@ -4284,10 +4424,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-21d-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Outsourcing the new desserts would affect the operation of this cafe in several ways. Because the cafe would no longer bake, its kitchen could concentrate on its core activity of producing quality meals, and staff would not need baking skills to expand the dessert range. The local bakery may offer specialist expertise and a consistent product. However, the cafe would depend on the bakery for deliveries, so it would need to manage ordering, storage and freshness. Quality control becomes harder when the product is made off-site, and a late or poor delivery could damage the reputation for quality food and personalised service. If deliveries exceed demand, more unsold cakes may end up in the daily donation of left-over food.",
-                        "feedback": "Meets the top row: it gives a detailed discussion of both the benefits and the risks of outsourcing, and applies each to the cafe's kitchen, deliveries, quality control and donations. To lift it further, the discussion could weigh which implication matters most for this cafe's reputation.",
+                        "answer": "Outsourcing cakes will mean the cafe is no longer required to bake cakes. The business can focus on the core activity of making excellent meals, resulting in greater customer satisfaction. They can also have access to expert bakers to make the cakes. However, there may be loss of quality and supply control of the cakes.",
+                        "feedback": "Meets the 4-mark row by providing a detailed discussion of the implications of outsourcing the new desserts for the operation of this business. The answer weighs the cafe being 'no longer required to bake cakes' and able to 'focus on the core activity' against 'loss of quality and supply control of the cakes'.",
                         "band": 5
                       },
                       {
@@ -4461,10 +4601,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-23b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 6,
-                        "answer": "The store faces two operations influences. The first is technology, shown by its reluctance to adopt modern in-store payment methods. The second is foreign competition, which is driving down its sales. Operations strategies can address the first by upgrading technology. Tap-and-go terminals would shorten queues and let staff take payment on the shop floor, which matters because younger shoppers rarely carry cash. The implication is faster checkout and fewer lost sales, which should lift sales and improve the customer experience.\n\nOperations strategies can also address foreign competition through supply chain management and differentiation. Working with a smaller number of local suppliers on shorter, more flexible delivery cycles would let the store respond to fashion trends faster than overseas chains that rely on long shipments. Differentiating the range through local tailoring and repairs targets the performance objectives of quality and flexibility rather than price. The implication is a smaller but more loyal customer base, though the store must accept a higher cost per item and price its services with care.",
-                        "feedback": "Meets the top criterion: draws out the implications of an operations strategy for each of two influences, including the effect on sales and the trade-off. To lift it further, weigh the cost of each strategy against its benefit more precisely.",
+                        "answer": "The business should address the influence of technology. To manage this influence, the store could adopt more leading-edge payment methods such as smartphones and smart watches or established technologies such as EFTPOS. By purchasing this new equipment, customers might be more inclined to shop at the business which may increase sales and enhance speed of service.\n\nTo address the influence of cost-based competition, which has resulted in declining sales, the business could utilise the strategies of supply chain management, global sourcing or the performance objective of cost. By improving logistics in the supply chain and focusing on cost as a performance objective the business could improve efficiency and better compete with foreign businesses. Moreover, global sourcing typically enables lower input costs as the business takes advantage of low cost clothing producers.",
+                        "feedback": "Meets the 6-mark row by drawing out and relating the implications of using operations strategies to address TWO operations influences. The first paragraph links technology to new payment methods, with 'customers might be more inclined to shop', and the second links cost-based competition to 'global sourcing', which 'typically enables lower input costs'.",
                         "band": 4
                       },
                       {
@@ -4637,10 +4777,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-21b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Michael should use a just-in-time inventory management strategy for his burger restaurant. Buns, beef patties and salad are perishable, so ordering only what is needed for each day's expected sales reduces wastage and avoids paying to store stock that would spoil. It also frees cash that would otherwise be tied up in large stocks, which matters for a new business with limited capital.",
-                        "feedback": "This recommends a strategy and gives two reasons in favour, both tied to the restaurant's perishable ingredients. Each reason is specific to Michael's business, which meets the top criteria row.",
+                        "answer": "Just-in-time would be an effective inventory method as it would allow the business to take advantage of fresh produce as it arrives. This would also save them storage space and the costs associated with this.",
+                        "feedback": "Meets the 3-mark row by providing reasons in favour of an appropriate inventory management strategy for the business. Just-in-time is named as effective because it lets the business 'take advantage of fresh produce as it arrives', and it would 'save them storage space and the costs associated with this'.",
                         "band": 5
                       },
                       {
@@ -4663,6 +4803,76 @@
                     "scenario": "Michael would like to open a new burger restaurant.",
                     "isPastHSC": true,
                     "hscYear": 2022,
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-bs-hsc-2024-21b",
+                    "question": "How can each of these TWO products affect inventory management?",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H4",
+                      "H5"
+                    ],
+                    "markerNotes": [
+                      "Each product needs its own explanation. The strongest answers take the air conditioner and the baby formula in turn and say what each does to the stock the store holds, such as the warehouse space a bulky unit takes up or the short life of a perishable tin.",
+                      "The explanation must be about inventory management. Remarks that the formula is important for babies, or that air conditioners sell well, say nothing about how much to order or where to store it.",
+                      "Naming a system earns credit only with a reason tied to the product. 'First in first out' needs to say that the formula is perishable, so older tins must be sold before newer ones. A system name on its own is a label, not an explanation.",
+                      "Accept either first in first out or just-in-time for the formula, as long as the answer ties the choice to perishability. For the air conditioner, look for the effect on warehouse space and storage costs rather than on expiry."
+                    ],
+                    "commonStudentErrors": [
+                      "Explaining one product in detail and giving the other a single vague sentence, such as 'the formula also needs managing', so only one product is explained.",
+                      "Writing about the products' appeal or uses, such as that babies need formula or that customers want air conditioners, rather than how each affects inventory management.",
+                      "Recommending large stock levels of both products to avoid running out, without noting that the formula would spoil and the air conditioners would take up costly warehouse space.",
+                      "Naming first in first out or just-in-time without saying why it fits a perishable product, so the answer names a system but does not explain its effect."
+                    ],
+                    "keywords": [
+                      "inventory management",
+                      "perishable stock",
+                      "first in first out",
+                      "just-in-time",
+                      "warehouse space",
+                      "storage costs",
+                      "order quantity",
+                      "baby formula"
+                    ],
+                    "markingCriteria": "3 marks: Provides an explanation of how each product will affect inventory management\n2 marks: Demonstrates some understanding of how product/s will affect inventory management\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bs-hsc-2024-21b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Air conditioners are a bulky item and take considerable warehouse space to store at greater expense. Baby formula needs a FIFO or JIT inventory system, as it is a perishable item.",
+                        "feedback": "Meets the 3-mark row: it explains how each product affects inventory management. The air conditioner's bulk takes considerable warehouse space at greater cost, and the perishable baby formula needs a first in first out or just-in-time system, so each product's effect on stock is explained.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bs-hsc-2024-21b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The air conditioner is bulky, so it takes up considerable warehouse space and costs more to store. Baby formula also needs careful handling in the warehouse.",
+                        "feedback": "Meets the 2-mark row: it shows some understanding of how the air conditioner affects warehouse space and storage costs. The baby formula is only mentioned, so its effect is not explained. To reach 3, explain that the formula is perishable and so needs a system such as first in first out, which sells the oldest tins first.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bs-hsc-2024-21b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Inventory management matters for a department store that stocks baby formula and air conditioners.",
+                        "feedback": "Meets the 1-mark row: it gives relevant information about the store and its two products, but does not explain how either one affects inventory management. To reach 2, say what one product does to the store's stock, such as the warehouse space an air conditioner takes up.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "A department store is considering the quantity of products they will need to order and store for the following year.\n\nStimulus: Product A: a 900 g tin of baby milk formula. Product B: an air conditioner (a wall-mounted split-system unit).",
+                    "scenarioImage": {
+                      "id": "prompt-bs-hsc-2024-21b",
+                      "alt": "Product A, a 900 gram tin of baby milk formula, and Product B, a wall-mounted air conditioner",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bs-2024-21b.png"
+                    },
+                    "isPastHSC": true,
+                    "hscYear": 2024,
                     "hscQuestionNumber": "21(b)",
                     "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
                   }
@@ -4812,10 +5022,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-21c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Outsourcing does not transfer responsibility for quality, so two quality management strategies suit the outsourced work. The operations manager can use quality assurance to ensure the work meets standards before it starts. Choosing a contractor with recognised certification and writing the required standards into the contract defines the quality of the work in advance, which reduces the risk of rework that could delay the six-month contract. The operations manager can also use quality control, which means inspecting the outsourced work as it is completed. Checking electrical and plumbing work at each stage finds defects while they are cheap to fix, so the finished home meets the standard and the budget is protected.",
-                        "feedback": "Meets the top row: explains two quality management strategies and shows how each affects the quality of the outsourced work, applied to the six-month build. To go further, explain how the two strategies work together.",
+                        "answer": "Outsourcing involves using other businesses to complete some activities in the construction of the house. To ensure the quality of this work, the operations manager could use a quality assurance strategy. This might involve checking that the provider has certified international standards and understands pre-determined standards which should ensure the quality of the work done by this contractor. They could also use quality control measures such as ongoing inspections of the outsourced work to ensure standards are met.",
+                        "feedback": "Meets the 4-mark row by making evident the relationship between each of two quality management strategies and the quality of the outsourced work. Quality assurance is linked to checking the provider has 'certified international standards', and quality control to 'ongoing inspections of the outsourced work' that ensure standards are met.",
                         "band": 3
                       },
                       {
@@ -5387,10 +5597,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-21c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 5,
-                        "answer": "Staff may resist the leading-edge technology because it threatens their job security. Once machines take over tasks in production, workers in roles such as moulding and inspection may become redundant, so they have a personal reason to oppose the change. Staff also face retraining to operate unfamiliar equipment, and some may lack confidence in mastering it.\n\nManagement may resist for financial reasons. The technology is expensive to buy, and its benefit depends on achieving the economies of scale needed to lower operating costs. If sales from the expanded business are slow, the investment could raise costs rather than reduce them. Managers may also see change management as a drain on the time needed to maintain quality outputs.",
-                        "feedback": "Explains resistance from both staff and management, with each reason tied to this business's technology and cost goals. The answer is thorough because the job-security and cost effects are explained, not just named.",
+                        "answer": "The leading-edge technology purchased would be costly for management. The new technology may also require staff and management to be retrained. This can be expensive for management and staff may be resistant to learning new techniques due to fear or inertia. Fear of job loss may cause resistance to change as staff may feel that processes may become automated and their jobs may become redundant. This also imposes extra costs to the business.",
+                        "feedback": "Meets the 5-mark row by providing a thorough explanation of why staff and management in this business might be resistant to this change. Management is covered through the cost of 'the leading-edge technology' and retraining, and staff through 'fear or inertia' and 'Fear of job loss' from automation.",
                         "band": 3
                       },
                       {
@@ -5562,10 +5772,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-21b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Economies of scale allow the business to reduce operating costs per tyre as output rises, because fixed costs such as factory overheads are spread over more tyres. Bulk buying of rubber from the global market can also lower input costs. For the business, lower unit costs raise profit margins and help it compete on price. Consumers benefit from cheaper tyres, and the business can maintain quality outputs while passing some savings on to them.",
-                        "feedback": "Explains how economies of scale lower costs and then states the benefits for both the business and consumers, meeting the top criterion. Using the specific rubber purchasing in the scenario more fully would make it sharper.",
+                        "answer": "Economies of scale will provide this business with cost advantages by increasing the volume of its production, allowing the business to lower the price of the finished product. Consumers will benefit from the reduced price and the business will then increase sales and profits in the long term.",
+                        "feedback": "Meets the 3-mark row by explaining the benefits of achieving economies of scale for both the business and consumers: higher production volume lets the business 'lower the price of the finished product', and 'Consumers will benefit from the reduced price'.",
                         "band": 3
                       },
                       {
@@ -6572,10 +6782,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-23a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Effective marketing of the guarantee of highly qualified and experienced teachers relies on the human resources department, which must handle recruitment so that each new state has enough staff to deliver the brand image being advertised.",
-                        "feedback": "Meets the top criteria row: it outlines how the marketing promise depends on human resources recruiting teachers across all states. Nothing further is needed; the answer is complete at this length.",
+                        "answer": "For this piano-teaching business to advertise and market itself as having highly skilled staff it will need to rely on the human resources department to hire teachers quickly, who are knowledgeable with the required skills.",
+                        "feedback": "Meets the 2-mark row by outlining how marketing of this business relies on a human resources department. The answer says the business must 'advertise and market itself as having highly skilled staff', which depends on the department to 'hire teachers quickly'.",
                         "band": 2
                       },
                       {
@@ -6738,10 +6948,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-24c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "A marketing approach starts with customer needs and wants, while a selling approach starts with the products the business already makes and tries to persuade customers to buy them. Introducing new products into a market where customers have choices makes market research essential before launch. Research shows which features, prices and packaging customers value, so the products are designed to meet real demand and the risk of failure falls. Customer satisfaction also encourages repeat purchases and recommendations, which builds lasting sales and profit rather than a single burst of sales.",
-                        "feedback": "Gives several reasons why the marketing approach suits the introduction of new products, using market research and customer needs. This meets the top criterion; linking the reasons more directly to the specific new range would strengthen it.",
+                        "answer": "The business should adopt the marketing approach instead of the selling approach as the selling approach is focused mostly on selling due to increased competition and it often neglects the needs of the customer.\n\nBy using the marketing approach the business can find out what the customer wants and can satisfy their needs. This is usually achieved through market research and finding out customer needs and wants prior to introducing new products into a market.",
+                        "feedback": "Meets the 4-mark row by providing reasons why the business should adopt the marketing approach instead of the selling approach. The first paragraph says selling 'often neglects the needs of the customer', and the second says marketing lets the business 'find out what the customer wants'.",
                         "band": 3
                       },
                       {
@@ -7026,10 +7236,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-24b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "The advertisement appeals to social status with the line 'Be the envy of your neighbours', suggesting that owning this fridge will raise the buyer's standing among others, which may strongly influence customer choice. The 'Zero carbon emissions' claim draws on environmental concern in the community, so it appeals to customers who want their purchases to reflect their values. Both appeals are sociocultural factors that work through reference groups, because buyers measure their standing against neighbours and community values.",
-                        "feedback": "Demonstrates clearly how two aspects of the advertisement draw on sociocultural factors to influence customer choice, and points to the actual wording. To lift it further, explain how the footnote weakens the environmental appeal.",
+                        "answer": "This advertisement uses several sociocultural factors to encourage customers to buy the fridge. It states that if I buy this fridge I will be ‘the envy of my neighbours’. This is because this fridge is the ‘best quality fridge in the market’, it is expensive, but I can get it at a cheaper price! These factors appeal to a customer’s sense of self and where they fit in their society.",
+                        "feedback": "Meets the 3-mark row by demonstrating clearly how aspects of the advertisement use sociocultural factors to influence customer choice. The phrase 'the envy of my neighbours' is linked to the claim 'best quality fridge in the market' and appeals to 'a customer’s sense of self and where they fit in their society'.",
                         "band": 3
                       },
                       {
@@ -7148,10 +7358,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-23b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Economic factors affect the customers who choose this business because piano lessons are a discretionary expense that families pay for from disposable income. When interest rates rise, mortgage repayments increase and families have less to spend, so they may delay lessons or choose cheaper alternatives. Rising unemployment makes households cautious about ongoing commitments such as weekly lessons, while inflation raises the cost of living and reduces the money left for extras. In a strong economy, consumer confidence and rising incomes may lead parents to pay for highly qualified teachers, which supports the business's premium guarantee. A downturn, however, makes that guarantee harder to sell to families across all states.",
-                        "feedback": "Meets the top criteria row: explains how several economic factors change families' ability and willingness to pay, and applies them to the price of premium lessons. Nothing further is needed; keep each factor tied to the family's decision.",
+                        "answer": "Economic forces will influence a customer’s willingness and ability to spend. An economic downturn will reduce disposable income and customers may not choose piano lessons or elect a cheaper alternative. In a downturn, consumers will forego spending on non-essential goods/services and spend their income on essential items such as food and housing. A booming economy may see consumer optimism, more job security and/or rising incomes allowing them to seek quality options.",
+                        "feedback": "Meets the 4-mark row by demonstrating a thorough understanding of how economic factors influence customers choosing this business. The answer covers a downturn, where 'customers may not choose piano lessons or elect a cheaper alternative', and a boom, where 'rising incomes' allow customers 'to seek quality options'.",
                         "band": 3
                       },
                       {
@@ -7323,10 +7533,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-24c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "The advertisement may breach Australian consumer laws in several ways. The 'massive 6-month warranty' is limited by the small print, which says no repairs or returns will be considered after six months. A warranty cannot remove consumer guarantees, such as the guarantee that goods are of acceptable quality and durable for a reasonable time, so this limit may be a breach. The headline '30% off' is also likely to be misleading or deceptive conduct, because the footnote states that the discount does not apply to this product. Finally, the claim that this is 'the best quality fridge in the market' may be a false or misleading representation if it cannot be substantiated.",
-                        "feedback": "Demonstrates a thorough understanding of several aspects of the advertisement that could breach the law, naming the relevant consumer law concept for each claim. It links the warranty limit to the consumer guarantee it conflicts with.",
+                        "answer": "This advertisement breaches Australian consumer laws by saying that it comes with a ‘massive 6-month warranty’. The advertisement most likely breaches the implied conditions associated with Australian consumer laws as the length of the warranty (6 months) is not appropriately long enough relative to the expected quality represented by the best quality fridge on the market. This is most likely a breach of the acceptable quality consumer guarantee in the ACL, based on not being reasonably durable. Also, in the small print, the advertisement states that no repairs or returns will be considered after 6 months.\n\nThe body of the advertisement states that there is 30% off, but the fine print says that this discount is not available on this product. This is clearly deceptive advertising, advertising which misleads or is likely to mislead consumers, and thus is a breach of Australian consumer law as the fine print is in direct contradiction with the advertised statement.",
+                        "feedback": "Meets the 4-mark row by demonstrating a thorough understanding of how aspects of the advertisement might breach Australian consumer laws. The six-month warranty is linked to the 'acceptable quality' guarantee, 'based on not being reasonably durable', and the 30% discount is called 'deceptive advertising' because the fine print contradicts it.",
                         "band": 3
                       },
                       {
@@ -8071,10 +8281,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-22a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "This SWOT analysis is designed to test whether the manufacturer's standardised marketing strategy suits the US market. It identifies the business's strengths and weaknesses internally, and the opportunities and threats in the US market. The situational analysis therefore shows whether the business is ready to enter the market and what it must change first.",
-                        "feedback": "Clearly determines the purpose of the SWOT analysis for this manufacturer, linking it to the standardised strategy and the decision to enter the US. This meets the top descriptor.",
+                        "answer": "The purpose of the SWOT analysis for this business is to enable them to understand the current position of the business by identifying internal strengths and weaknesses. Additionally, it provides this business with information on potential opportunities and threats when entering the US market.\n\nAs part of the situational analysis, the SWOT informs the rest of the marketing process as marketing objectives and strategies can only be determined upon completion of the SWOT.",
+                        "feedback": "Meets the 3-mark row by clearly determining the purpose of a SWOT analysis for this business. The answer says it lets the business 'understand the current position' through internal strengths and weaknesses, and identifies 'opportunities and threats when entering the US market'.",
                         "band": 2
                       },
                       {
@@ -8190,10 +8400,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-23a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "The cereal is in the decline stage of the product life cycle, shown by the drop in sales. The packaging change is an attempt to reverse this decline and renew consumer interest in the product.",
-                        "feedback": "Names the decline stage and grounds it in the drop in sales from the scenario, which meets the top criterion for an outline. The link to the packaging response shows how the stage affects the business.",
+                        "answer": "The cereal manufacturer is in the decline stage of the product life cycle. This is the result of dropping sales and the manufacturer is hoping to renew consumer interest by changing the packaging of its product.",
+                        "feedback": "Meets the 2-mark row by outlining the current product life cycle stage of this cereal. The answer names the 'decline stage of the product life cycle' and links it to 'dropping sales'.",
                         "band": 2
                       },
                       {
@@ -8242,10 +8452,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-22a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Weakness: the stainless steel water bottles leak, leading to customer complaints that damage the business's reputation. Potential threat: changing environmental expectations, because customers may choose competitors that offer biodegradable packaging.",
-                        "feedback": "Meets the top row: it identifies one internal weakness and one external threat, each linked briefly to the scenario. The answer is complete at this length.",
+                        "answer": "Weakness                           Potential threats Leaking bottles                     Changing attitudes towards environmental expectations",
+                        "feedback": "Meets the 2-mark row by identifying ONE weakness and ONE threat for this business. The answer lists 'Leaking bottles' as the weakness and 'Changing attitudes towards environmental expectations' as the potential threat.",
                         "band": 1
                       },
                       {
@@ -8865,10 +9075,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-24b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "The business will know its marketing plan has worked if the new product range meets the targets set in it. The financial forecast sets sales targets and an expected market share, and the business should monitor and control actual sales against these each month. If actual sales and market share fall short, the business can adjust its promotion or pricing. Customer feedback can also show whether the range is meeting customer needs.",
-                        "feedback": "Demonstrates a clear understanding of how success is measured, comparing forecast sales targets and market share with actual results. Setting a fixed review schedule and acting on the results would make the response stronger.",
+                        "answer": "In the marketing plan, the business would have developed a financial forecast that included the cost and potential sales of the new product range. The business could monitor and control the marketing plan, comparing actual with planned results in terms of sales and market share to determine the success of their new product range.",
+                        "feedback": "Meets the 3-mark row by demonstrating a clear understanding of how the business will know its marketing plan has been successful. The answer compares 'actual with planned results' for 'sales and market share' to judge 'the success of their new product range'.",
                         "band": 3
                       },
                       {
@@ -8925,10 +9135,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-22c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Monitoring and controlling marketing strategies is important because it shows whether the strategies are working. The business has received customer complaints about leaking bottles and packaging, so it must track complaints and sales against its marketing objectives to see if it is gaining a competitive advantage. Where results fall short, control allows corrective action, such as redesigning the bottle seal or moving to biodegradable packaging, before the business loses customers to rivals.",
-                        "feedback": "Meets the top row: it explains how monitoring complaints and control enable corrective action that protects this business's competitive advantage. The answer is focused and complete at this length.",
+                        "answer": "Monitoring and controlling the marketing strategy is essential to keep this business informed regarding customer complaints about the bottles leaking. Managers need to look at whether or not the objective of gaining a competitive advantage is being met and what actions can be taken. By comparing actual and planned results the business can plan effectively for the future and ensure the marketing strategies are being met.",
+                        "feedback": "Meets the 3-mark row by providing an explanation of the importance of monitoring and controlling the marketing strategies for this business. The answer links monitoring to 'customer complaints about the bottles leaking', and control to checking whether 'the objective of gaining a competitive advantage is being met'.",
                         "band": 3
                       },
                       {
@@ -9105,10 +9315,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-23b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "A niche market approach would target health-conscious consumers in Australia with a specialised range, such as low-sugar or sugar-free cereals, rather than competing for the broad mainstream market. By specialising, the manufacturer gains product differentiation from competitors and attracts customers who would otherwise buy other cereals. Customers who find a product that meets their needs tend to make repeat purchases and develop customer loyalty, so the approach could increase sales within its target market.",
-                        "feedback": "Explains how the niche approach would increase sales through differentiation and repeat purchase, and applies it to health-conscious consumers in Australia. Each claim is tied to a sales result, so the explanation holds together.",
+                        "answer": "A niche market approach would allow the manufacturer to meet the needs of health-conscious customers by offering them a healthy range of cereals such as low sugar or sugar-free cereals. This targeted approach would allow the manufacturer to increase their sales by differentiating their product against competitors, achieve repeat sales and create customer loyalty.",
+                        "feedback": "Meets the 3-mark row by demonstrating a clear understanding of how the niche market approach could increase sales for this manufacturer. The answer names the niche as health-conscious customers offered 'low sugar or sugar-free cereals', and links it to sales through 'differentiating their product against competitors' and 'repeat sales'.",
                         "band": 3
                       },
                       {
@@ -9168,10 +9378,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-23c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Market segmentation can help this business keep growing across all states by targeting groups of families more precisely. First, geographic segmentation divides the market by location, so the business can open lessons in capital cities and regional centres, using its guaranteed teacher standard as the selling point in each state. Second, demographic segmentation divides customers by age and income, so the business can offer premium lessons to higher-income adults returning to the piano and lower-priced group programmes to parents of younger children. Each target market can then be served with pricing and advertising suited to it, which supports the business's growth.",
-                        "feedback": "Meets the top criteria row: proposes two distinct segmentation methods, each with a specific use for this business and a link to growth. Nothing further is needed; keep to two ways, as the question asks.",
+                        "answer": "This business could divide the total market into smaller segments so it can target its service to them more effectively and increase sales. For example, it could divide by demographics and advertise and tailor the service and price to a particular income level and social class. It could also segment by psychographic characteristics and appeal to aspirational pianists who may want to increase their skills and satisfy their personal interest.",
+                        "feedback": "Meets the 4-mark row by proposing TWO relevant ways segmentation can be used by this business to continue its growth. The answer proposes demographic segments, to 'tailor the service and price to a particular income level', and psychographic segments, to 'appeal to aspirational pianists'.",
                         "band": 6
                       },
                       {
@@ -9334,10 +9544,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-22b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Two product strategies could give this business a competitive advantage. The first is product development: the business should redesign the cap and seal so the bottles no longer leak. This directly answers the customer complaints, encourages repeat purchases and word-of-mouth recommendations, and allows the business to compete on product quality against rival bottles. The second is sustainable packaging: switching to biodegradable packaging meets growing environmental expectations and appeals to environmentally conscious buyers who might otherwise choose a competitor. Together, a reliable product in eco-friendly packaging gives the business a clear point of difference in the water bottle market.",
-                        "feedback": "Meets the top row: it justifies both product strategies, with a reason each would give the business an advantage over competitors, grounded in the scenario. To lift it further, the answer could assess which of the two strategies is more urgent given the complaints.",
+                        "answer": "The business could implement a new packaging strategy where the bottle packaging box is made from recyclable materials. This would persuade customers to purchase the product over competitor products by enhancing the ecofriendly features of the packaging.\n\nA branding strategy allows the product to be well known by the consumers. The business could include a modern logo and colour their bottles a distinct green which is synonymous with the environment.\n\nImplementing both strategies will allow the business to gain a competitive advantage through increased product awareness.",
+                        "feedback": "Meets the 4-mark row by justifying TWO product strategies that could be implemented by the business to gain a competitive advantage. Recyclable packaging is justified as a way to 'persuade customers to purchase the product over competitor products', and branding as allowing the product 'to be well known by the consumers'.",
                         "band": 5
                       },
                       {
@@ -9728,10 +9938,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-22b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "I recommend penetration pricing as the pricing method for the US market. The manufacturer would set a low introductory price in US dollars, which attracts buyers quickly and builds market share against established competitors. Because US buyers may show price sensitivity, a low entry price gives them a reason to try the brand. The same price logic can be applied nationally, which suits a standardised marketing strategy, and the price can rise once brand awareness is established.",
-                        "feedback": "Clearly provides reasons for penetration pricing, tied to entering the US market and to the standardised approach. This meets the top descriptor.",
+                        "answer": "Competition based pricing could be an effective pricing method for this business in the US market. This pricing method covers materials and operations costs and is comparable with the competitor’s price based on the following pricing options: • Below that of competitors to undercut the competition to establish themselves in the market. • Equal to competitor’s price which saves money on researching how much consumers would pay for guitars. • Above that of competitors to create a perception of superiority.",
+                        "feedback": "Meets the 3-mark row by clearly providing reasons for adopting a particular pricing method. Competition based pricing is named as effective because it 'covers materials and operations costs', and matching the competitor's price 'saves money on researching how much consumers would pay'.",
                         "band": 5
                       },
                       {
@@ -10122,10 +10332,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-24a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "One promotion strategy the business could use is a sales promotion: free samples and an introductory discount on the new product range. This gives customers a direct reason to try the products and helps launch the range.",
-                        "feedback": "Outlines one promotion strategy and links it to the launch of the new product range, meeting the top criterion. Describing how it would reach customers and in which outlets would add detail.",
+                        "answer": "The business could use advertising via television or social media to launch their new product range. This would alert potential customers to their new products using different media.",
+                        "feedback": "Meets the 2-mark row by sketching in general terms one promotion strategy to launch the new product range. The strategy is advertising 'via television or social media', which would 'alert potential customers to their new products'.",
                         "band": 2
                       },
                       {
@@ -11380,10 +11590,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-23c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 5,
-                        "answer": "Customisation is the most suitable global marketing strategy for this cereal manufacturer because it adapts the marketing mix to each foreign market rather than using one approach everywhere. The business is already changing its packaging, so it can tailor that packaging for each market by translating product information, presenting its health benefits in terms local consumers recognise, and adjusting sizes and prices to local incomes. This matters for its target market of health-conscious consumers, whose expectations about sugar, ingredients and labelling differ between countries. Customisation reflects local consumer preferences and reduces the risk of packaging that confuses or fails to appeal abroad, so it supports the expansion into the global market and is more likely to increase sales in each market.",
-                        "feedback": "Justifies customisation for this manufacturer, linking it to the packaging change, its health-focused target market and differences in consumer preferences abroad. Each reason is tied to the case for the global market, and the answer keeps to the one strategy asked for.",
+                        "answer": "Customisation is a global marketing strategy whereby a business tailors the marketing mix for a product sold around the world to individual markets. Customisation of packaging by changing the language used on the cereal box also allows a wider range of consumers globally to understand the features of the cereal that they are eating. Customisation is therefore recommended for this cereal manufacturer for its global expansion to allow it to be more profitable in the long term by meeting the wants and needs of customers in unique global markets.\n\nAnswer could include:\n\n•    Standardisation •    Global branding •    Competitive positioning •    Global pricing.",
+                        "feedback": "Meets the 5-mark row by providing comprehensive support for the use of ONE global marketing strategy to expand into this global market. The answer supports customisation only, applying it to the packaging through 'changing the language used on the cereal box', and says it will 'allow it to be more profitable in the long term'.",
                         "band": 5
                       },
                       {
@@ -11671,10 +11881,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-22c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "A standardised marketing strategy is justified for this guitar manufacturer because the US market shares the English language, so one advertising message, price position and brand image can be used in both countries without costly adaptation. One campaign spreads its fixed promotion costs across every guitar sold in the US, creating economies of scale and a lower marketing cost per unit. A consistent brand image means a player who knows the brand in Australia will recognise it in America, and spare parts and after-sales service can be delivered to one standard. Customisation would add cost without a clear gain for a product as widely understood as a guitar, so standardisation is the stronger choice.",
-                        "feedback": "Meets the top criterion: a clear, supported argument for standardisation drawn from this business, its product and the US market. To lift it further, weigh the cost of adapting the product for the US as a limit on the argument.",
+                        "answer": "Using a standardised marketing strategy this business can increase its success when entering the global market. It can achieve economies of scale which achieve lower per unit input costs. This strategy paired with standardised marketing can save the business money when taking spare parts, repairs and after-sales service into account. Customers also benefit from this strategy as they can expect consistency throughout the world and product features remain the same regardless of where the product is purchased. Finally, the business will achieve cost savings as the one marketing approach will be adopted worldwide and does not need to be customised for the needs of individual markets.",
+                        "feedback": "Meets the 4-mark row by providing a clear and supported argument for this business to use a standardised marketing strategy. The argument rests on 'economies of scale which achieve lower per unit input costs' and on one marketing approach that 'does not need to be customised' for individual markets.",
                         "band": 5
                       },
                       {
@@ -11845,10 +12055,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-24a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Customisation as a global marketing strategy involves adapting the marketing mix to suit each foreign market, and this has clear benefits. Because products match local tastes, customers are more satisfied, which encourages repeat purchases and brand loyalty. Customisation also helps the business reach its target market in each country, which can increase sales revenue and market share. The benefits therefore come from a closer fit between the product and what each market wants.",
-                        "feedback": "Meets the top criterion: the answer explains a relationship between customisation and specific benefits and stays within the question. Nothing further is needed at this length.",
+                        "answer": "A customised global marketing strategy requires a marketing manager to alter their marketing mix to meet the customers’ tastes and preferences in different countries. Marketing managers might do this in order to successfully appeal to the different target market audience to grow sales revenue and market share in each country by altering the product price, promotion or place strategies.",
+                        "feedback": "Meets the 3-mark row by providing a relationship between customisation as a global marketing strategy and its benefits. Altering the marketing mix to meet 'tastes and preferences in different countries' is linked to the benefit of growing 'sales revenue and market share in each country'.",
                         "band": 3
                       },
                       {
@@ -12261,10 +12471,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-24b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "A conflict can arise when a business pursues a short-term financial objective of profitability while also pursuing a long-term financial objective of growth. To maximise profit this year, the business may keep costs low by delaying capital investment in new equipment and staff training. However, growth requires this capital investment, so the business may meet its current profit target while losing the capacity to expand in later years.",
-                        "feedback": "Meets the top descriptor: the conflict is explained through a chain of cause and effect, showing how a short-term decision undermines the long-term objective. Nothing further needs to be added.",
+                        "answer": "There may be a conflict between the short-term financial objective of profitability and the long-term objective of growth. A business entering new markets will require new equipment and more staff. Consequently, this business could initially suffer a short-term financial loss but it may succeed in being more profitable in the long term.",
+                        "feedback": "Meets the 3-mark row by explaining a conflict between one short-term and one long-term financial objective. The answer sets 'profitability' against 'growth', and says the 'new equipment and more staff' needed for new markets could cause 'a short-term financial loss' before the business becomes 'more profitable in the long term'.",
                         "band": 3
                       },
                       {
@@ -12662,10 +12872,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-22b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "A financial risk of borrowing funds from the USA is exchange rate risk. The US$30 million loan must be repaid in US dollars, so a depreciation of the Australian dollar would mean the business must convert more Australian dollars to meet each repayment. Higher loan repayments reduce cash flow and therefore reduce the handbag business's profitability.",
-                        "feedback": "This meets the top criteria row: it names a specific financial risk and gives a full cause and effect chain, from exchange rate movement to repayments to profit, applied to the US$30 million loan. Nothing further is needed beyond one fully developed risk.",
+                        "answer": "Exchange rate fluctuations are a financial risk the Australian handbag business needs to consider when borrowing from the US Bank. If the Australian Dollar were to depreciate against the American Dollar, the business would be required to pay back significantly more than the $30 million they borrowed. This would result in an increase in loan repayments and therefore a loss in profitability.",
+                        "feedback": "Meets the 3-mark row by providing a cause and effect relationship between borrowing from the USA and financial risk for the business. If 'the Australian Dollar were to depreciate against the American Dollar', the business would have to pay back 'significantly more than the $30 million', which 'would result in an increase in loan repayments'.",
                         "band": 3
                       },
                       {
@@ -14452,10 +14662,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-24aii-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "A bank is the most direct financial institution influencing this business, because it has provided the overdraft of $9000 and the long-term loan of $90000. With borrowings of $99000 against equity of $70000, gearing is high, so the bank may be unwilling to lend more or may require extra security and stricter conditions. This restricts the business's capacity to fund growth. If the bank raises interest rates, repayments increase and leave less cash, reducing liquidity and the business's ability to repay existing debt. The bank's lending decisions therefore shape the financial management of this business, including its borrowing, cash flow and expansion.",
-                        "feedback": "Meets the top criteria row: explains how the bank's lending decisions and interest rates affect borrowing capacity, gearing and liquidity for this business. Nothing further is needed; keep the answer focused on ONE institution.",
+                        "answer": "This business is highly geared and a financial institution, such as a bank, may not be willing to lend additional finance because they pose a risk, which restricts the business’s ability to achieve growth. Banks may increase interest rates, which will increase the business’s financial commitments and affect its liquidity and capacity to repay existing debt.",
+                        "feedback": "Meets the 4-mark row by providing a thorough explanation of the influence of ONE financial institution on the financial management of this business. The answer uses a bank that may not 'lend additional finance', which restricts growth, and may 'increase interest rates', affecting the business's 'liquidity and capacity to repay existing debt'.",
                         "band": 3
                       },
                       {
@@ -14741,10 +14951,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-23c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Two global market influences could affect the agency's solvency. The first is the state of the global economy. If economies in the countries where it sells weaken, customers cut back on overseas travel, so sales fall while loan repayments stay fixed. The agency already has a debt to equity ratio of 1:1, compared with the industry's 0.6 : 1, so lower sales would leave less cash to service its debt. The second is interest rates. If global interest rates rise, the cost of variable-rate borrowing increases, which adds to interest expense and reduces the cash flow available for repayments. Together, falling revenue and higher borrowing costs could weaken the agency's solvency.",
-                        "feedback": "This response meets the top descriptor: two distinct global influences are each explained through a chain to solvency, and both are applied to the agency's 1:1 debt to equity ratio. Tracing the link between cash flow and the ability to repay debts is what makes the explanation sound.",
+                        "answer": "This travel agency will be impacted by the global economic outlook. If the international economy is strong, the business may need more funds to grow as their travel service expands. If these funds are borrowed, it will further increase the debt and negatively impact solvency.\n\nIf interest rates are decreasing, the amount borrowed overseas will have less interest expense and reduce the risks undertaken by the business, lowering the overall gearing of this business.",
+                        "feedback": "Meets the 4-mark row by explaining how TWO global market influences could affect the solvency of this business. The answer covers the 'global economic outlook', where borrowing for growth 'will further increase the debt and negatively impact solvency', and falling interest rates, which bring 'less interest expense'.",
                         "band": 3
                       },
                       {
@@ -15035,10 +15245,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-23d-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Debt finance is the better choice because the bank has approved $3 000 000 at a relatively low interest rate of 4 per cent, which costs about $120 000 in interest each year. The current net profit of $500 000 would cover that interest about four times, so the business can meet its loan repayments while the new stores are being established. As a family-owned business, debt also means the family keeps full ownership, which equity finance would dilute. The new stores are intended to add revenue, so the borrowed money can be repaid from the extra income they generate.",
-                        "feedback": "Gives clear reasons for debt finance using the interest rate, the net profit and the family's retained ownership, and shows that the business can meet repayments. This meets the top criterion.",
+                        "answer": "The gifts and homewares business should use debt finance to purchase their new stores because of the relatively low interest rate of 4% they can access. Currently with a $500 000 net profit and potential for this to increase due to the new stores they will be able to meet their increased debt obligations. Debt finance also allows the business to access the money relatively quickly and as the borrowed money is forecast to create increased profits, it seems like an appropriate decision. Additionally, there is no loss of ownership in the family-owned business.",
+                        "feedback": "Meets the 4-mark row by clearly giving reasons, using financial information, for debt finance. The answer cites the 'relatively low interest rate of 4%' and the '$500 000 net profit', shows the business 'will be able to meet their increased debt obligations', and notes there is 'no loss of ownership'.",
                         "band": 3
                       },
                       {
@@ -15375,10 +15585,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-22a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "The US$30 million loan would be recorded as a non-current liability on the handbag business's balance sheet, and the new retail properties across Australia would be recorded as non-current assets.",
-                        "feedback": "This meets the top criteria row: it states where both the loan and the properties are recorded and gives the correct balance sheet classification for each. A longer answer would add nothing the question asks for.",
+                        "answer": "The new $30m loan would be recorded as a non-current liability on this company’s balance sheet and the properties would be recorded as a non-current asset.",
+                        "feedback": "Meets the 2-mark row by stating where the business would record the loan and the properties on its balance sheet. The loan is recorded as 'a non-current liability' and the properties as 'a non-current asset'.",
                         "band": 1
                       },
                       {
@@ -15427,10 +15637,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-24a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "The purpose of a cash flow statement is to show the cash inflows and cash outflows over a period, so that owners and lenders can see how cash is generated and spent and judge the business's liquidity and solvency.",
-                        "feedback": "Meets the top descriptor: the purpose is stated precisely in terms of cash inflows and outflows over a period, with its use for owners and lenders. Nothing further is needed for this question.",
+                        "answer": "The purpose of a cash flow statement is to identify the inflows and outflows of cash over a period of time.",
+                        "feedback": "Meets the 2-mark row by providing the purpose of a cash flow statement: the answer says it is 'to identify the inflows and outflows of cash over a period of time'.",
                         "band": 2
                       },
                       {
@@ -15594,10 +15804,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-22c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 5,
-                        "answer": "Profitability and gearing both change with the expansion. Gross profit margin is forecast to rise from 65% currently to 70%. Higher sales volume should give the handbag business greater purchasing power and economies of scale, lowering the cost of each handbag, so each sales dollar earns more gross profit. Net profit margin, however, is forecast to fall from 21% to 18%, because the interest expense on the US$30 million loan is deducted after gross profit and absorbs part of that gain. Gearing also rises sharply, with the debt to equity ratio moving from 0.85:1 (85%) currently to 1.5:1 (150%). No new equity is issued, so the whole US$30 million is added to debt while the equity base is unchanged, leaving the business more dependent on lenders.",
-                        "feedback": "This gives detailed reasons for the movement in gross profit margin, net profit margin and gearing, each tied to the expansion and the US$30 million loan, which meets the top criteria row. Keeping every reason linked to a figure from the table is what makes it complete.",
+                        "answer": "The change in the forecast gearing is measured via the change to the debt to equity ratio and is likely to be a direct result of taking on the additional $30m in debt funding with no increase in equity. This new debt is likely to be responsible for the increase in the debt to equity ratio from 85% to 150%. The changes to forecast profitability are witnessed via the increased GRP and the fall in NPR. It is likely that the anticipated additional volume of sales that will be generated by the expansion will lead to increased economies of scale and purchasing power. Although their COGS would increase, the economies of scale enjoyed would increase their gross profit margin, which would lead to the higher GPR (moving from 65% to 70%). The worsening of the NPR (from 21% to 18%) may be explained by the additional interest expense payable on the loan.",
+                        "feedback": "Meets the 5-mark row by giving detailed reasons for the changes in both profitability and gearing. Gearing rises because of 'the additional $30m in debt funding with no increase in equity', gross profit margin rises through 'economies of scale', and the net profit fall 'may be explained by the additional interest expense'.",
                         "band": 3
                       },
                       {
@@ -15768,10 +15978,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-24ai-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Current assets: cash $5000 + accounts receivable $20000 + inventory $5000 = $30000.\nCurrent liabilities: overdraft $9000 + accounts payable $11000 = $20000.\nCurrent ratio = $30000 ÷ $20000 = 1.5 : 1, showing adequate liquidity.",
-                        "feedback": "Meets the top criteria row: the current ratio is calculated correctly from the stimulus figures, with the totals for current assets and current liabilities shown. Nothing further is needed; keep the working in this order so it can be followed.",
+                        "answer": "Current assets = (Cash at bank + accounts receivable + inventory) ÷ (Overdraft + Accounts payable)\n= ($5000 + $20000 + $5000) ÷ ($9000 + $11000)\n= $30000 ÷ $20000\n= 1.5\n= 1.5 : 1",
+                        "feedback": "Meets the 2-mark row by calculating the correct current ratio and showing working. The answer names the formula as current assets ÷ current liabilities, sums cash at bank, accounts receivable and inventory to $30000 and the overdraft and accounts payable to $20000, and gives the result as 1.5 : 1.",
                         "band": 1
                       },
                       {
@@ -15935,10 +16145,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-23c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Gearing shows how much of the business is financed by debt. Total liabilities of $2 000 000 against owner’s equity of $1 800 000 gives a gearing ratio of about 111 per cent, so the business owes more than the owners have invested. Before lending a further $3 000 000, the lender needs to judge the risk of default, because a high level of gearing makes it harder to meet loan repayments.",
-                        "feedback": "Gives a clear reason the lender needs to consider gearing and supports it with the stimulus figures. This meets the top criterion; it could go further by spelling out what the lender would decide about the new loan.",
+                        "answer": "Gearing refers to the ability of a business to meet its financial obligations in the longer term. It can help the lender to this business understand their risk and determine the ability of the business to meet its loan repayments, helping them decide whether to lend the business money, or not. In this case the business gearing would indicate they can repay their debt.",
+                        "feedback": "Meets the 3-mark row by providing a reason gearing is an important consideration for the lender to this business. Gearing reflects the business's ability to 'meet its financial obligations in the longer term', which helps the lender 'understand their risk' and decide whether to lend.",
                         "band": 3
                       },
                       {
@@ -16221,10 +16431,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-24a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 1,
-                        "answer": "Accounts receivable turnover ratio: 7.5 (225 000 ÷ 30 000)",
-                        "feedback": "Meets the criterion: the ratio is correct, the working is shown, and the figures come from the question. Stating the unit as times per year would make the answer complete.",
+                        "answer": "(Sales ÷ accounts receivable) = 225 000 ÷ 30 000 = 7.5 (times per year)\nOR\n365 ÷ 7.5 = 49 (days)",
+                        "feedback": "Meets the 1-mark row by correctly calculating the accounts receivable turnover ratio for this business. The formula sales ÷ accounts receivable gives 225 000 ÷ 30 000 = 7.5 times per year, which the answer converts to 49 days (365 ÷ 7.5).",
                         "band": 1
                       }
                     ],
@@ -16263,10 +16473,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-24b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Total expenses 8 500 + 6 000 + 4 000 = 18 500. 18 500 ÷ 225 000 = 8.2%. Every dollar of sales carries 8.2 cents of expenses, below the 10% industry expense ratio: good cost control.",
-                        "feedback": "Meets the top criterion: the expense ratio is calculated from the right expenses and interpreted against the industry ratio. To lift it further, say what the business should do to keep the ratio below the industry figure.",
+                        "answer": "(Total expenses ÷ sales) = 18 500 ÷ 225 000 = 8.2%\n\nFor every $1 the business makes in sales the business is spending 8 cents on expenses.\n\nThe ratio compares total expenses with total sales and indicates that for every $1 of sales, 8.2% (or 8.2 cents) is absorbed by expenses. This business is below the industry standard of 10%.",
+                        "feedback": "Meets the 2-mark row by correctly calculating and interpreting the expense ratio for this business. The answer calculates total expenses ÷ sales = 18 500 ÷ 225 000 = 8.2%, then reads this as 'spending 8 cents on expenses' per dollar of sales and as 'below the industry standard of 10%'.",
                         "band": 4
                       },
                       {
@@ -16313,10 +16523,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-23a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 1,
-                        "answer": "Efficiency = $600 000 ÷ $1 500 000\n= 40%",
-                        "feedback": "This shows the correct division of total expenses by total sales and the correct result, which meets the criteria. Show the working line by line so the marker can follow each step.",
+                        "answer": "Total expenses ÷ total sales = $600 000 ÷ 1 500 000 = 40% (or 0.4 : 1)",
+                        "feedback": "Meets the 1-mark row by correctly calculating the efficiency of the business. The formula total expenses ÷ total sales gives $600 000 ÷ 1 500 000 = 40%, which the answer also states as 0.4 : 1.",
                         "band": 1
                       }
                     ],
@@ -16357,10 +16567,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-23b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "The expense ratio helps the gifts and homewares business judge its efficiency. Its ratio is 0.40, meaning it spends 40 cents on total expenses for every $1 of total sales. A lower ratio indicates greater efficiency, so if the business could cut indirect costs, such as rent or utilities, while keeping sales at $1 500 000, it would keep more of each dollar and improve profitability.",
-                        "feedback": "This applies the ratio to the business's own figures and explains that a lower ratio means greater efficiency, which is the relationship the top criteria row asks for. It would go further by explaining how cost cuts could lift efficiency without hurting sales.",
+                        "answer": "Efficiency is a measure of the ability of a business to use its resources effectively. The gifts and homewares business are currently spending $0.40 in expenses for every $1 of sales. The lower this expense ratio is, the more efficient the business is. If this business can reduce their indirect costs and maintain or increase sales, they demonstrate that they are able to use resources effectively and improve their profitability.",
+                        "feedback": "Meets the 3-mark row by clearly showing the relationship between the expense ratio and efficiency. It links 'the lower this expense ratio is, the more efficient the business is' to the business's '$0.40 in expenses for every $1 of sales', and to reducing indirect costs while maintaining or increasing sales.",
                         "band": 3
                       },
                       {
@@ -16416,10 +16626,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-23a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "The 2024 expense ratio is 30% (total expenses 210 000 ÷ sales 700 000 × 100). Expenses absorb 30 cents of each sales dollar, up from 23.3% in 2023 and above the industry averages (20%), signalling weaker cost control.",
-                        "feedback": "This response meets the top descriptor: the working is shown and the ratio is interpreted against both the previous year and the industry averages, with a clear point about cost control.",
+                        "answer": "The expense ratio is 210 000 ÷ 700 000 ´ 100 = 30%.\n\nThe efficiency of the business is a concern as the expense ratio is higher than 2023 and the industry average.",
+                        "feedback": "Meets the 2-mark row by showing an understanding of what the expense ratio for 2024 indicates for this business. The answer applies the formula to get 210 000 ÷ 700 000 × 100 = 30%, and calls it a concern as the ratio is 'higher than 2023 and the industry average'.",
                         "band": 4
                       },
                       {
@@ -16583,10 +16793,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-24d-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Comparative ratio analysis can assess the financial position of the robotics company in two ways. The first is comparing ratios across different time periods. By calculating liquidity, gearing and profitability ratios for several years, managers can see whether the financial position is improving or weakening. For example, a rising number of days taken to collect its $30 000 in accounts receivable, compared with the 30-day credit policy, would show that collection is slipping. The second way is benchmarking against similar businesses or the industry. The industry expense ratio of 10% gives a standard against which the company's expenses can be judged, so if they are higher, management can investigate suppliers or spending and adjust.",
-                        "feedback": "Meets the top row: explains two different comparisons, over time and against the industry benchmark, and links each to the company's financial position. To go further, say which ratio the benchmark would be most useful for.",
+                        "answer": "First method is over different time periods. This business could be comparing financial data within different years or financial periods to analyse liquidity, gearing, profitability and efficiency and to understand how these have changed and put strategies in place to address any issues.\n\nThe second way is against similar businesses. This business could see the financial position of the competition to understand if their expenses are too high compared to competitors. If this is the case, then the business could change their supplier to a cheaper one. Also, if the competitor has consistently made sales, even during slow periods, the business can analyse this to understand what they are doing wrong and hence make adjustments.",
+                        "feedback": "Meets the 4-mark row by explaining how TWO ways of comparative ratio analysis assess the financial position. The first compares 'different time periods' to see how liquidity, gearing, profitability and efficiency have changed, and the second compares 'similar businesses' to test whether expenses are 'too high compared to competitors'.",
                         "band": 3
                       },
                       {
@@ -16644,10 +16854,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-23b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Comparative ratio analysis allows the travel agency to measure its financial outcome against its own past results and against the industry averages. The expense ratio rose from 23.3% in 2023 to 30% in 2024, above the 20% industry average, which signals that costs are growing faster than sales and that cost control needs attention. The debt to equity ratio of 1:1 is well above the industry's 0.6 : 1, showing higher gearing than competitors, so the agency may choose to fund expansion through equity rather than further borrowing. Its return on equity ratio of 8.5% also trails the 12% industry average. Comparing these ratios shows the agency where to act, which can lift profitability over time.",
-                        "feedback": "This response meets the top descriptor: it shows how comparing trends and industry benchmarks reveals specific problems in cost control, gearing and returns, and links each to a decision that would improve the financial outcome. The argument is applied throughout to the agency's own figures.",
+                        "answer": "Ratios can be compared across different years, against industry standards or benchmarks.\n\nIn this business, the expense ratio has declined; the business is not efficiently spending funds and can begin to control expenses which may improve profitability.\n\nAnalysis of the gearing ratio and return on equity against industry averages shows the business is performing poorly. They may decide to use equity and not borrow more as they are already highly geared and taking more risks than others, which affects their long-term viability.",
+                        "feedback": "Meets the 4-mark row by demonstrating a comprehensive understanding of how comparative ratio analysis can be used to improve the financial outcomes of the business. The answer applies comparisons 'across different years' and 'against industry standards' to gearing and return on equity, and names the decision to 'use equity and not borrow more'.",
                         "band": 3
                       },
                       {
@@ -16819,10 +17029,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-24c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 5,
-                        "answer": "Financial reports, such as the income statement and balance sheet, are prepared to inform owners, lenders and investors, but they have two important limitations. The first limitation is valuing assets. Assets are often recorded at historical cost, meaning their original purchase price, so the balance sheet can understate their current worth. Hypothetical: Crestwood Engineering, a small metal fabricator, bought its factory land twenty years ago and still carries it at that price. If the land has risen in value, reported net worth is lower than the business could realise by selling it, and a lender may underestimate its capacity to borrow. The second limitation is capitalising expenses, where a cost that should be recorded as an expense in the income statement is recorded as an asset instead. This raises reported profit in the current period, so the financial reports may mislead investors about the business's true earnings.",
-                        "feedback": "Meets the top descriptor: two different limitations are explained in detail, each with a cause and a consequence for users, and the example makes the effect concrete. The response only needs to keep this focus.",
+                        "answer": "Valuing assets is the process of estimating how much assets are worth. It is problematic to value assets in a financial report as their value changes over time and the process is subjective. For example, land values tend to increase in value therefore, the balance sheet understates the net value of the business. Capitalising expenses involves the business recording an expense as an asset on the balance sheet rather than an expense in the income statement. This would appear as a higher net income for the business, misleading potential investors.",
+                        "feedback": "Meets the 5-mark row by providing a detailed explanation of TWO limitations of financial reports. The answer covers valuing assets, where land values 'tend to increase in value', and capitalising expenses, which 'would appear as a higher net income' and mislead investors.",
                         "band": 3
                       },
                       {
@@ -17348,10 +17558,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-24c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "The robotics company should adopt an early payment discount as its financial strategy, offering it to customers who settle their accounts well before the 30-day credit policy expires. Its $30 000 in accounts receivable is cash already earned but not yet received, so faster debt collection improves cash flow and efficiency. The discount reduces revenue slightly, but this cost is likely to be less than the cash tied up in unpaid invoices and the risk of bad debts.",
-                        "feedback": "Meets the top row: recommends one strategy and gives reasons in favour tied to the company's receivables, its 30-day policy and cash flow. A stronger answer would weigh the cost of the discount against its benefit in more detail.",
+                        "answer": "Discounts for early payments. This is where the business provides a discount to customers if they pay early to encourage faster debt collection. This could be in line with penalties for late payments to encourage this efficiency.",
+                        "feedback": "Meets the 3-mark row by providing reasons in favour of ONE financial strategy to improve efficiency in the collection of accounts receivable: discounts for early payments. The discount is there to encourage 'faster debt collection', and it 'could be in line with penalties for late payments' to encourage this efficiency.",
                         "band": 5
                       },
                       {
@@ -17409,10 +17619,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-24b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Offering discounts for early payment may improve cash flow by encouraging customers to pay their accounts receivable sooner, rather than under standard credit terms, so cash arrives weeks earlier. Faster cash inflows reduce the time between a sale and receiving payment, so the business has funds for wages, stock and other daily operating costs without relying on an overdraft. Because less money is tied up in accounts receivable, the business needs less working capital to fund its operations, and its liquidity improves. The trade-off is that the discount reduces the revenue received from each sale, so the business should weigh the discount against the benefit of cash arriving earlier.",
-                        "feedback": "Meets the top criteria row: explains how earlier receipts from accounts receivable improve cash flow and reduce the working capital needed, and weighs the revenue trade-off. Nothing further is needed; keep the chain of effects in order.",
+                        "answer": "Discounts for early payments is a strategy that allows businesses to increase their cash flow in the short term. This leads to the business accessing funds faster than if it were to wait for a full payment by the original due date. This strategy will not improve the current ratio because the current assets will decrease by the discount offered. The discount offered will reduce the revenue collected and will reduce the current cash available for working capital.",
+                        "feedback": "Meets the 4-mark row by providing an explanation of how offering discounts for early payments can improve cash flow and reduce working capital. The answer says early payment lets the business access 'funds faster' than waiting for 'a full payment by the original due date', and that the discount will 'reduce the current cash available for working capital'.",
                         "band": 3
                       },
                       {
@@ -20572,10 +20782,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-23b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "A business may use a contractor to recruit staff to access specialist skills and networks it does not have in-house. Outsourcing recruitment also lets managers focus on core operations while the contractor finds suitable applicants.",
-                        "feedback": "This gives a specific reason, access to specialist skills, and links it to the business focusing on core operations, which meets the top criteria row. The question needs no more detail, so a response at this level should stay concise.",
+                        "answer": "Recruitment involves identifying and attracting appropriate employees for a role. A contractor could provide specialist recruitment skills that may not be present in a business which would allow the business to focus on other core functions.",
+                        "feedback": "Meets the 2-mark row by providing a relevant reason for a business to use a contractor to recruit staff. The reason given is that a contractor 'could provide specialist recruitment skills' that may not be present in the business, which 'would allow the business to focus on other core functions'.",
                         "band": 3
                       },
                       {
@@ -20736,10 +20946,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-21a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "A trade union is an external stakeholder that protects the interests of employees in workplace disputes. It uses collective bargaining to negotiate pay and conditions with employers, and can back industrial action if talks fail.",
-                        "feedback": "Names one external stakeholder and sketches its role for employees in a dispute, which meets the top descriptor for this short question. A single clear role is all that is asked.",
+                        "answer": "In a workplace dispute, employee interests are represented by trade unions. Trade unions operate for the benefit of their members and one of the services which they provide is to bargain on behalf of members in negotiations with employers.",
+                        "feedback": "Meets the 2-mark row by sketching in general terms the role of ONE stakeholder who represents the interests of employees in workplace disputes. Trade unions are named, and their role is shown as 'to bargain on behalf of members in negotiations with employers'.",
                         "band": 2
                       },
                       {
@@ -20788,10 +20998,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-22a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Employees are a stakeholder whose relationship with human resources is two-way: HR provides the flexible working conditions and job security these highly skilled employees value, while the business relies on their input, gathered through consultation, in setting objectives.",
-                        "feedback": "Meets the top descriptor: the answer outlines a two-way relationship between employees and the human resources function, grounded in the business's flexible working conditions and consultation. Nothing further is needed for this question.",
+                        "answer": "The employee is a stakeholder who has an interest in the business, as they receive a wage or salary for the work that they complete. They rely on job security and being treated fairly whilst at work.",
+                        "feedback": "Meets the 2-mark row by outlining the relationship between ONE stakeholder and the human resources function of this business. The answer names employees, who 'receive a wage or salary for the work that they complete' and 'rely on job security and being treated fairly'.",
                         "band": 2
                       },
                       {
@@ -20840,10 +21050,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-24b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "First, a union would press for higher wages and better conditions, such as paid leave and safer work practices, which would raise the factory's wage costs and cut into profit. Second, a union gives employees collective bargaining power, so employers would lose some control over rosters, productivity and workplace decisions, and a dispute could lead to industrial action that halts production.",
-                        "feedback": "This response meets the top descriptor: two distinct reasons are explained, each with a consequence for the factory's costs or managerial control. The reasoning is clear and tied to the scenario.",
+                        "answer": "Unions will advocate for higher pay and better conditions like leave and work health and safety processes. These changes are costly and will reduce the profits of the business. Employers may also discourage unionisation as it brings their processes under further scrutiny which could lead to fines, staff turnover and industrial action which is also costly.",
+                        "feedback": "Meets the 3-mark row by explaining TWO possible reasons for employers discouraging employees from joining a union. The first is that unions push for changes that are 'costly and will reduce the profits of the business'. The second is that unionisation 'brings their processes under further scrutiny', which could lead to 'fines, staff turnover and industrial action'.",
                         "band": 3
                       },
                       {
@@ -21018,10 +21228,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-24c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Paying migrant workers less than the minimum wage or the rate set by the relevant modern award breaches the Fair Work Act 2009 (Cth). If lower pay is based on national origin rather than the work performed, it may also be unlawful discrimination under the Racial Discrimination Act 1975 (Cth). Bullying staff members can breach the Fair Work Act, which allows the Fair Work Commission to make stop bullying orders, and it can breach work health and safety laws that require employers to manage psychosocial risks. These illegal practices expose the business to penalties, orders to repay back wages and legal action from the staff members affected.",
-                        "feedback": "This response meets the top descriptor: each practice is explained with the specific law it may breach, and the consequences for the business are linked to each. The two practices are treated separately and applied to the scenario.",
+                        "answer": "Under Australian government laws it is illegal to discriminate and pay migrant workers less, as they may not be meeting minimum wage rates or in breach of awards and enterprise agreements. Bullying staff is illegal and could be in breach of antidiscrimination laws or work, health and safety. Businesses who undertake these actions can be taken to court and fined.",
+                        "feedback": "Meets the 4-mark row by providing a thorough explanation of how this business is engaging in illegal practices. Paying migrant workers less is tied to 'minimum wage rates' and 'awards and enterprise agreements', and bullying to 'antidiscrimination laws or work, health and safety', with the penalty of being 'taken to court and fined'.",
                         "band": 3
                       },
                       {
@@ -21194,10 +21404,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-22a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "An increase in the minimum wage rate raises labour costs for business, including on-costs such as superannuation. Businesses may pass these costs on through price increases or absorb them, which reduces profitability.",
-                        "feedback": "This sketches the effect on labour costs and then the likely business responses in general terms, which meets the top criteria row for an outline. A longer list of effects would add length, not credit.",
+                        "answer": "An increase in the minimum wage is likely to increase on-costs for businesses. This may lead to businesses passing these costs on to consumers or it may reduce profitability as business expenses rise.",
+                        "feedback": "Meets the 2-mark row by sketching in general terms the effect an increase in the minimum wage has on business. The answer says it 'is likely to increase on-costs', which may be passed on to consumers or 'reduce profitability as business expenses rise'.",
                         "band": 2
                       },
                       {
@@ -21247,10 +21457,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-22b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "The minimum employment standards, set out in the National Employment Standards under the Fair Work Act, protect employees by guaranteeing basic conditions that a contract cannot take away. For example, full-time workers receive four weeks of paid annual leave each year and a paid day off on public holidays. Under the maximum weekly hours standard, ordinary hours are limited to 38 a week for full-time employees, plus reasonable additional hours, which protects employees from excessive work.",
-                        "feedback": "This sketches how the standards protect employees and supports it with concrete examples of leave and working hours, which meets the top criteria row. Linking each example to what it guards against would make the protection clearer still.",
+                        "answer": "Minimum employment standards include eleven legally mandated standards that provide basic protections for all employees. The minimum standards outline basic employee rights in the workplace, regardless of the type of employment contract. For example, all full-time workers are provided with the right to four weeks annual leave and a paid day off on public holidays.",
+                        "feedback": "Meets the 3-mark row by sketching in general terms how minimum employment standards protect employees, using an example. The answer names 'eleven legally mandated standards' that provide basic protections, and gives the example of 'the right to four weeks annual leave' for full-time workers.",
                         "band": 2
                       },
                       {
@@ -21307,10 +21517,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-22b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Two human resource issues are the omission of superannuation and the ban on union membership. Employers must pay superannuation under the Superannuation Guarantee, so the $65 000 remuneration package is incomplete and likely unlawful for Teddy Bear Store. The ban conflicts with the Fair Work Act 2009, which protects an employee's right to join a union, exposing the store to industrial relations risk when managing its eight staff.",
-                        "feedback": "Outlines two distinct human resource issues, each tied to a specific condition in the advertisement and to the law it conflicts with. The answer stays focused, as an outline should.",
+                        "answer": "Superannuation is a legal requirement that all employees are entitled to under Minimum Standards. Under the Fair Work Act (2009) it is illegal to prohibit union membership in Australia. This business has breached these two requirements in their advertisement.",
+                        "feedback": "Meets the 3-mark row by outlining TWO human resource issues found in the advertisement. The first is the omitted superannuation, a 'legal requirement' under 'Minimum Standards', and the second is the union membership ban, which the 'Fair Work Act (2009)' makes 'illegal'.",
                         "band": 2
                       },
                       {
@@ -21592,10 +21802,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-22a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Equal Employment Opportunity (EEO) legislation aims to ensure equal opportunity in recruitment, promotion and treatment at work. It prevents discrimination by employers, such as rejecting people because of gender, race, age or disability.",
-                        "feedback": "States the purpose directly, covering fair recruitment and promotion and the characteristics the legislation protects. This is the complete outline the question asks for, and it stays focused on purpose.",
+                        "answer": "It ensures that the best qualified person for the job gets the position and that employers don’t hire or reject candidates based on factors such as culture, ethnicity, gender, age etc.",
+                        "feedback": "Meets the 2-mark row by providing the purpose of Equal Employment Opportunity (EEO) legislation. The answer says it 'ensures that the best qualified person for the job gets the position', and that employers do not hire or reject candidates on factors such as 'culture, ethnicity, gender, age'.",
                         "band": 2
                       },
                       {
@@ -21876,10 +22086,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-21c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Technological influences can lead to reducing staff numbers when automation takes over tasks that people once did. Hypothetical: Harbour Cabinets, a Newcastle furniture maker, installed computer-controlled cutting machines, so the work of several cutters on each shift was no longer needed and those roles were made redundant. Globalisation can lead to reducing staff numbers in a similar way through offshoring. As trade barriers fall, firms can move production or use outsourcing to suppliers in countries where labour costs are lower. A clothing company that moves its sewing overseas may close its local factory, and the Australian workers it employed are no longer needed. In both cases, the business cuts costs to stay competitive.",
-                        "feedback": "Explains how both technological influences and globalisation lead to staff reductions, with a specific example for each. The examples show the mechanism rather than only naming a business.",
+                        "answer": "Changes in technology can influence a business’s ability to create and sell its product/service. A change in technology usually allows for an increase in speed and production which generally means a reduction in time spent making the product eg Samsung uses CAD and robotics to manufacture their products which has caused their assembly based labour force to be retrenched. Globalisation, which involves increased economic integration, can also increase production and create cost saving measures. Globalisation allows businesses to benefit from lower production and labour costs found overseas which may lead to the outsourcing of jobs overseas. For example, Bonds moved their manufacturing operations offshore to take advantage of cheaper labour costs leading to Australian staff retrenchment.",
+                        "feedback": "Meets the 4-mark row by providing why and/or how technological influences and globalisation can lead to a company reducing staff numbers, with relevant examples. Technology is linked to 'an increase in speed and production' with Samsung's 'CAD and robotics', and globalisation to Bonds moving offshore 'to take advantage of cheaper labour costs'.",
                         "band": 3
                       },
                       {
@@ -21936,10 +22146,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2025-24a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Technology has changed the human resources function by moving recruitment online, with job boards, video interviews and applicant tracking software widening the pool of candidates. Training is now delivered through online modules, and cloud storage and video conferencing let HR staff manage records and support employees who work remotely. These tools speed up HR processes, but they also require HR to protect data security and privacy.",
-                        "feedback": "This response meets the top descriptor: the influence is described across recruitment, training and staff management, and the consequence for HR is noted as well. The description is clear and specific to the function.",
+                        "answer": "Technology such as video conferencing, apps and websites, and online storage allow both employers and employees to access their work remotely and work collaboratively offsite.\n\nThese technologies have allowed staff to work remotely at the same pace as staff working in the office.",
+                        "feedback": "Meets the 3-mark row by describing the influence of technology on the human resources function. The answer names 'video conferencing, apps and websites, and online storage', which let employers and employees 'work collaboratively offsite', with staff able to 'work remotely at the same pace' as office staff.",
                         "band": 2
                       },
                       {
@@ -22112,10 +22322,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-23c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 6,
-                        "answer": "Hypothetical: Brightwater Architects, a Newcastle design practice, shows how human resource management is affected by lockdowns and social distancing. The most significant change is the move to flexible work arrangements, as drafting and client meetings were shifted online. This allowed the practice to keep its staff employed and to recruit a drafter in another city, which is an advantage for recruitment. However, there are disadvantages. Managers cannot observe work directly, so performance management and training must be redesigned, and junior staff lose the informal coaching they received in the studio. Work health and safety obligations also extend to home offices, so the practice must check workstations and manage the cost of equipment. Social distancing has further reduced team collaboration, which can weaken communication and retention. On balance, the practice gains flexibility and wider recruitment, but it must invest more in training, work health and safety and communication to offset these risks.",
-                        "feedback": "Meets the top criterion: a specific implication is identified for several areas of human resource management, with advantages and disadvantages weighed for the scenario business. The closing judgement on investment ties the response together.",
+                        "answer": "By reducing movement of people and social distancing many businesses have had fewer customers and suffered a loss of sales. This may cause human resources management to reduce acquisition of staff and, in some cases, increase separations or reduce hours for their employees. As a result of these restrictions, businesses have used technology to allow their employees to work from home.\n\nThis presents challenges for businesses in terms of ensuring that their employees understand WHS laws in their home setting and communicate ethically and in a socially responsible manner online. This has also presented opportunities to acquire workers in remote or overseas locations who can work from home, at a potentially lower cost. WHS laws have increased training and requirements of human resources management. Businesses may reduce other training or travel expenditure on courses that may be interstate or overseas.",
+                        "feedback": "Meets the 6-mark row by giving detailed advantages and disadvantages of these influences on human resource management. Working from home brings 'challenges' in ensuring staff understand 'WHS laws in their home setting', while it also creates opportunities to 'acquire workers in remote or overseas locations' at 'a potentially lower cost'.",
                         "band": 5
                       },
                       {
@@ -22172,10 +22382,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2023-22c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 5,
-                        "answer": "As the table shows, the labour force participation rates for women rose from 44 per cent in 1981 to 62 per cent in 2021, while those for men fell from 78 per cent to 71 per cent. Several social influences explain this. Changing gender roles, with society increasingly accepting women in paid work and men in child-rearing, has encouraged women to enter and remain in the workforce. Higher education has also become normal for women, opening careers with better pay and status. Childcare availability and workplace flexibility, such as part-time and remote work, let women combine employment with family responsibilities. Male participation fell over the same period, partly because longer study delays entry into work, although the table alone does not show how far each factor contributed.",
-                        "feedback": "Explains several social influences and applies the table's figures for both women and men across the period. Each influence is linked to a shift in the data and developed, which makes the explanation thorough.",
+                        "answer": "As shown in the table, the labour participation rate for females has significantly increased from 44% in 1981 to 62% in 2021 compared to the participation rate for males which has decreased from 78% in 1981 to 71% in 2021. This is due to a number of reasons such as changing gender roles, eg changes in society which supports the increasing participation of women in the workforce and an increase in the acceptance/participation of males in child-rearing duties. This change in social norms has also normalised the completion of higher education for females which has subsequently led to increased employment opportunities.",
+                        "feedback": "Meets the 5-mark row by explaining the social influences behind the changing labour force participation rates over the 40 years. It cites the 1981 and 2021 rates for males and females from the table, then names 'changing gender roles' and male involvement in 'child-rearing duties' as influences.",
                         "band": 3
                       },
                       {
@@ -22349,10 +22559,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-22b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "This business exhibits corporate social responsibility in its management of employees by showing ethical behaviour towards them. Its consultation of employees when setting objectives gives them an influence on the strategies it adopts, which goes beyond what the law requires. Offering flexible working conditions to highly skilled employees shows concern for their wellbeing and family commitments. The business and its stakeholders benefit too, because consulted and supported staff bring higher employee morale and more ideas to the business.",
-                        "feedback": "Meets the top descriptor: specific management practices, consultation and flexible working conditions, are explained as corporate social responsibility, and the benefit to the business is drawn out. Nothing further is needed for this question.",
+                        "answer": "This business is ethical because it values its employees and includes them in the decision-making process, offering flexible working conditions. The effect of this is a boost in employee morale as they feel valued.",
+                        "feedback": "Meets the 3-mark row by providing an explanation of how this business exhibits corporate social responsibility in the management of employees. The answer names including employees 'in the decision-making process' and 'offering flexible working conditions', and gives the effect as 'a boost in employee morale'.",
                         "band": 3
                       },
                       {
@@ -22532,10 +22742,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-22d-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "An induction program is important because it gets new employees working effectively from their first day. It introduces workplace culture, policies and procedures, and workplace health and safety, so new employees know what is expected and how the business operates. This reduces early errors and accidents and builds the competence and confidence that support retention.",
-                        "feedback": "This explains why induction matters, linking it to culture, safety and early productivity, which meets the top criteria row. One example of how the program is delivered, such as a mentor or checklist, would add the how.",
+                        "answer": "The induction process introduces new employees to the workplace. Induction can enhance employee understanding of workplace culture, policies and procedures, allowing them to make a significant contribution to the business from the outset of their employment enhancing employee competence, providing a positive attitude to the job and the business.",
+                        "feedback": "Meets the 3-mark row by providing why and/or how an induction program for new employees is important. Induction builds 'understanding of workplace culture, policies and procedures', so new staff can 'make a significant contribution to the business from the outset'.",
                         "band": 3
                       },
                       {
@@ -22825,10 +23035,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2024-22c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 5,
-                        "answer": "Maintenance matters in human resource management for this business because its highly skilled employees shape decisions and are central to its success. Since staff are consulted in setting objectives and influence strategies, retaining them keeps that knowledge and input within the business. Flexible working conditions are a key maintenance strategy that rewards these employees, builds motivation and encourages loyalty, which matters because a business that depends on consulted staff cannot afford to lose their input. Effective maintenance improves employee retention, reducing staff turnover and the cost of recruiting and training replacements for specialised roles. It also supports a positive workplace culture in which skilled employees continue contributing, so the business protects the capabilities its strategy depends on.",
-                        "feedback": "Meets the top criteria row: the justification links maintenance to this business's consulted, highly skilled workforce and its flexible conditions, and explains the effect on turnover and costs. Nothing further is needed; keep each reason tied to the scenario.",
+                        "answer": "Maintenance in HRM through effective rewards systems, including flexible working conditions, attract and retain highly skilled and talented employees, fostering motivation and loyalty. This should maintain a positive work culture, enhancing productivity, reducing turnover, and ultimately, reducing the costs associated with training new staff.",
+                        "feedback": "Meets the 5-mark row by providing a thorough justification of the importance of maintenance in human resource management for this business. The answer links 'flexible working conditions' to retaining 'highly skilled and talented employees', and justifies this through 'enhancing productivity, reducing turnover' and 'reducing the costs associated with training new staff'.",
                         "band": 5
                       },
                       {
@@ -22998,10 +23208,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2020-21b-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 4,
-                        "answer": "Voluntary separation occurs when an employee chooses to leave the business, for example through resignation or retirement. The employee controls the decision and its timing, so the choice rests entirely with them. Involuntary separation occurs when the employer ends the employment, for example through redundancy, where the position no longer exists, or dismissal, where the employee has breached the conditions of employment. The key distinction is who initiates the separation: the employee in the voluntary case, and the employer or circumstances in the involuntary case.",
-                        "feedback": "Shows a clear understanding of the difference, with each type defined and linked to examples. Setting out who initiates each separation is what makes this a distinction rather than two separate definitions.",
+                        "answer": "Voluntary separation is when an employee has chosen to leave their employment of their own accord. This could be in the form of a resignation, retirement or relocation. Involuntary separation occurs when an employee is forced to leave their place of employment because they may have breached their employment conditions, finished their contract or been made redundant.",
+                        "feedback": "Meets the 4-mark row by demonstrating a clear understanding of the difference between voluntary and involuntary separation. The answer contrasts an employee who 'has chosen to leave' (resignation, retirement or relocation) with one who 'is forced to leave' (breach, end of contract or redundancy).",
                         "band": 4
                       },
                       {
@@ -23761,10 +23971,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2022-22c-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 3,
-                        "answer": "Performance appraisals benefit employers in two main ways. Developmental appraisals give employers feedback on each employee's strengths and gaps, so training and development can be targeted to where it is needed. Administrative appraisals link performance to rewards such as bonuses or pay increases, which encourages employees to meet targets and helps employers retain high performers.",
-                        "feedback": "This gives two distinct benefits, one developmental and one administrative, and explains how each helps the employer. A clearer account of how the employer acts on the feedback would strengthen it further.",
+                        "answer": "Performance appraisals can be developmental or administrative. They allow employers to provide feedback to employees about their performance and can be used to identify their training and development needs. They can also be used to reward and incentivise employees for high performance.",
+                        "feedback": "Meets the 3-mark row by providing the ways performance appraisals are beneficial to employers. The answer gives three: feedback on performance, identifying 'training and development needs', and rewarding and incentivising employees 'for high performance'.",
                         "band": 3
                       },
                       {
@@ -24641,10 +24851,10 @@
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-hsc-2021-23a-1",
-                        "source": "AI",
+                        "source": "HSC_EXEMPLAR",
                         "mark": 2,
-                        "answer": "Corporate culture is the shared values and beliefs of a business. A positive culture, where staff feel valued, boosts staff morale and improves employee retention, so it reduces staff turnover. A poor culture can increase turnover as staff leave.",
-                        "feedback": "This meets the top criteria row: it sketches in general terms how corporate culture affects staff turnover in both directions. The question needs nothing more, so the response should stay short.",
+                        "answer": "Corporate culture reflects the beliefs and values that are shared amongst employees in a business. A good corporate culture should reduce staff turnover, as employees will want to work for such a business, as typically, they will feel valued and respected.",
+                        "feedback": "Meets the 2-mark row by sketching in general terms how corporate culture can affect staff turnover. The answer says that culture 'should reduce staff turnover' because employees 'will feel valued and respected' and so 'will want to work for such a business'.",
                         "band": 2
                       },
                       {

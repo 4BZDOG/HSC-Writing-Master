@@ -108,18 +108,18 @@ test.describe('past HSC navigator filter', () => {
       'true'
     );
 
-    // Topic: Operations holds three 2024 papers in the bundled data.
+    // Topic: Operations holds four 2024 papers in the bundled data.
     const topicsIn2024 = await openPicker(page, pickerWithPlaceholder(page, 'Select topic'));
-    await expect(topicsIn2024.filter({ hasText: /Operations/ })).toContainText('3 past HSC');
+    await expect(topicsIn2024.filter({ hasText: /Operations/ })).toContainText('4 past HSC');
     await topicsIn2024
       .filter({ hasText: /^Operations/ })
       .first()
       .click({ timeout: 30_000 });
 
-    // Sub-topic: the list shrinks from six to the three that hold a 2024 paper.
+    // Sub-topic: the list shrinks from six to the four that hold a 2024 paper.
     const subTopics = await openPicker(page, pickerWithPlaceholder(page, 'Select sub-topic'));
-    await expect(subTopics).toHaveCount(3);
-    await expect(page.getByRole('option', { name: /past HSC/ })).toHaveCount(3);
+    await expect(subTopics).toHaveCount(4);
+    await expect(page.getByRole('option', { name: /past HSC/ })).toHaveCount(4);
     // Once chosen, the trigger shows the sub-topic's name; keep a prefix of it
     // to find the trigger again when the filter is switched off.
     const subTopicPrefix = (await subTopics.first().innerText()).trim().slice(0, 20);

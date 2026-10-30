@@ -1,5 +1,50 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-30 (English Advanced past questions reviewed and filled in)
+
+- **Fixed.** The three English Advanced essays set on "your prescribed text" or "your prescribed texts" (2024 Module A
+  and B, 2025 Common Module) had keywords, marker notes and errors written about one text (Winston Smith, King
+  Richard III, Great Expectations). They are written for any text now, and each exemplar is labelled with its text.
+  Every ladder and stem matched NESA's. One new row is changed by a letter: NESA prints 2022 3(a)'s 1-mark row as
+  "Provide some relevant information", and the app needs a row to open with a third-person verb.
+- **Added.** The Common Module essay (Paper 1 Section II) is one paper for English Standard and English Advanced, with
+  the same marking guidelines, so the 19 reviewed Standard questions for 2019–2024 are now in English Advanced too
+  (2019's 14 text-specific parts, and one question for each of 2020–2024).
+- **Added.** 16 English Advanced questions set once for every text: Module A 2019, 2020 and 2023; Module B 2021 and
+  2023; and Module C 2019 9(a)–(b), 2020 9, 2021 3(a)–(b), 2022 3(a)–(b), 2023 3(a)–(b) and 2025 3(a)–(b), with the
+  2021 and 2025 images. Each has NESA's ladder and three exemplars. The essays are on Keats and Bright Star, Mrs
+  Dalloway and The Hours, Donne and W;t, Emma and King Henry IV, Part 1; every quotation was checked against the
+  texts, and the films and W;t are described rather than quoted. A part (b) reflection's exemplars respond to a model
+  part (a) piece that its scenario describes.
+- **Not added yet.** The questions NESA sets text by text with a different statement or extract for each (Module A
+  2021, 2022 and 2025; Module B 2019, 2020, 2022 and 2025): about 70 parts.
+- Shipped-course change: `DATA_VERSION` 2.32.0.
+
+## [Unreleased] - 2026-10-30 (Business Studies and English Standard past questions reviewed against NESA)
+
+- **Changed.** Every Business Studies and English Standard past question was checked against NESA's papers and
+  marking guidelines, row by row against the criteria tables
+  (`.claude/skills/build-course-data/tools/check_past_questions.py`). The 2024 English Standard Paper 2 ladders
+  (Q1, Q2, Q3(a), Q3(b)) had been paraphrased, NESA's three bullets merged into one reworded sentence; they are
+  NESA's rows again. Every Business Studies ladder already matched (2022 23(d)'s top row keeps its one deliberate
+  change: NESA opens it "Using financial information, clearly provides…", and the app needs a row to open with its
+  verb).
+- **Changed.** 73 Business Studies Section II parts now have NESA's marking-guideline sample answer as the
+  full-mark exemplar (Official), in place of the AI one, with feedback naming the row it meets. NESA's answers
+  are usually much shorter (2025 21(d): 55 words, the AI answer 119); the lower AI exemplars stay.
+- **Fixed.** 17 English Standard essays set on "your prescribed text" had keywords, marker notes and common errors
+  written about the one text their exemplars discuss, so a student writing on another text was shown, and marked
+  against, terms such as "One Night the Moon" and "tracker". They are written for any text now, and each exemplar
+  is labelled with its text.
+- **Added.** Four past questions: Business Studies 2022 21(c) (two restaurant floor plans), 2024 21(b) (two
+  products) and the 2025 Section III business report on a relocation Gantt chart, each with its stimulus as an
+  image; and English Standard 2024 Paper 1 Question 6, the Common Module essay, now that NESA has published the
+  paper. Its exemplars are on The Merchant of Venice; every quotation was checked against the play's text.
+- **Changed.** Three English stimuli shown only as a description are now the images from the paper: 2019 Q8(a)
+  (a laneway photograph), 2022 Q2(i) (two Frank Hurley stills with their voice-over) and 2024 Q3 (Sergio Dulce's
+  illustration). The 2024 description no longer suggests ideas the image may carry.
+- Shipped-course change: `DATA_VERSION` 2.31.0.
+
 ## [Unreleased] - 2026-10-29 (Past paper display, and writing-only past questions)
 
 - **Removed.** Six 2025 past parts that are not answered in writing: Software Engineering 13, 15(a) and 23(c) and
