@@ -93,7 +93,10 @@ import {
 // marking guidelines: NESA's sample answers as the Business Studies full-mark exemplars, the 2024
 // English ladders restored verbatim, generic English essays made text-agnostic, stimulus images, and
 // four questions added (BS 2022 21(c), 2024 21(b), 2025 25; English Standard 2024 Paper 1 Q6).
-export const DATA_VERSION = '2.31.0';
+// 2.32.0: English Advanced past questions: the Common Module essays shared with English Standard
+// (2019–2024), the Module A, B and C questions set once for all texts (2019–2025), and the existing
+// essays made text-agnostic.
+export const DATA_VERSION = '2.32.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

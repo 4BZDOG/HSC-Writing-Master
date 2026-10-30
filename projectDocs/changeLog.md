@@ -1,5 +1,25 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-30 (English Advanced past questions reviewed and filled in)
+
+- **Fixed.** The three English Advanced essays set on "your prescribed text" or "your prescribed texts" (2024 Module A
+  and B, 2025 Common Module) had keywords, marker notes and errors written about one text (Winston Smith, King
+  Richard III, Great Expectations). They are written for any text now, and each exemplar is labelled with its text.
+  Every ladder and stem matched NESA's. One new row is changed by a letter: NESA prints 2022 3(a)'s 1-mark row as
+  "Provide some relevant information", and the app needs a row to open with a third-person verb.
+- **Added.** The Common Module essay (Paper 1 Section II) is one paper for English Standard and English Advanced, with
+  the same marking guidelines, so the 19 reviewed Standard questions for 2019–2024 are now in English Advanced too
+  (2019's 14 text-specific parts, and one question for each of 2020–2024).
+- **Added.** 16 English Advanced questions set once for every text: Module A 2019, 2020 and 2023; Module B 2021 and
+  2023; and Module C 2019 9(a)–(b), 2020 9, 2021 3(a)–(b), 2022 3(a)–(b), 2023 3(a)–(b) and 2025 3(a)–(b), with the
+  2021 and 2025 images. Each has NESA's ladder and three exemplars. The essays are on Keats and Bright Star, Mrs
+  Dalloway and The Hours, Donne and W;t, Emma and King Henry IV, Part 1; every quotation was checked against the
+  texts, and the films and W;t are described rather than quoted. A part (b) reflection's exemplars respond to a model
+  part (a) piece that its scenario describes.
+- **Not added yet.** The questions NESA sets text by text with a different statement or extract for each (Module A
+  2021, 2022 and 2025; Module B 2019, 2020, 2022 and 2025): about 70 parts.
+- Shipped-course change: `DATA_VERSION` 2.32.0.
+
 ## [Unreleased] - 2026-10-30 (Business Studies and English Standard past questions reviewed against NESA)
 
 - **Changed.** Every Business Studies and English Standard past question was checked against NESA's papers and
