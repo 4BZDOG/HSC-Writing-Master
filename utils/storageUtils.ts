@@ -98,7 +98,10 @@ import {
 // essays made text-agnostic.
 // 2.33.0: 29 text-specific English Advanced past questions (Module A 2021, 2022 and 2025; Module B
 // 2019, 2020, 2022 and 2025) on the public-domain texts and pairs anchored on them.
-export const DATA_VERSION = '2.33.0';
+// 2.34.0: 36 text-specific English Advanced past questions on texts not in the public domain (Ishiguro,
+// Malouf, Ibsen, Dylan Thomas, de Waal, Nabokov, Good Night, and Good Luck, Unfolding Florence, Camus and
+// Daoud, Plath and Hughes).
+export const DATA_VERSION = '2.34.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
