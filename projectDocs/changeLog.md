@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-30 (English Advanced text-specific past questions, public-domain texts)
+
+- **Added.** 29 English Advanced past questions that NESA set for one prescribed text or pair, each with its own
+  statement, extract or idea: Module B on Emma, Great Expectations, King Henry IV, Part 1 and Eliot's poetry for
+  2019, 2020, 2022 and 2025, and Module A on King Richard III and Looking for Richard, Mrs Dalloway and The Hours,
+  Donne and W;t, Keats and Bright Star, and The Tempest and Hag-Seed for 2021, 2022 and 2025 (the three parts whose
+  extracts NESA withheld for copyright are left out). Each carries NESA's stem, extract and ladder, its text in
+  `hscText`, and three exemplars on that text; the 2021 and 2022 film stills are images. Every quotation in the
+  exemplars (409) was checked against the full public-domain texts or the question's own extract; the films, W;t
+  and Hag-Seed are described, not quoted.
+- **Next.** The 37 parts on texts that are not in the public domain (Ishiguro, Malouf, Ibsen in translation, Dylan
+  Thomas, de Waal, Nabokov, the two films, Camus and Daoud, Plath and Hughes).
+- Shipped-course change: `DATA_VERSION` 2.33.0.
+
 ## [Unreleased] - 2026-10-30 (English Advanced past questions reviewed and filled in)
 
 - **Fixed.** The three English Advanced essays set on "your prescribed text" or "your prescribed texts" (2024 Module A
