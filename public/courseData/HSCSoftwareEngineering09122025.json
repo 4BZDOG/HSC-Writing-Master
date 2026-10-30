@@ -16512,7 +16512,7 @@
                       "The full-mark program creates 15 unique random numbers, for example with random.sample or a checked loop, then uses a loop with a selection to print each of the 25 cells, with a row break after every fifth cell.",
                       "The 3-mark answer addresses some of the requirements, such as generating numbers and printing the grid, but allows duplicate positions or prints every row on one line.",
                       "Full marks need every requirement at once, so the output must match the 5 by 5 layout exactly rather than just placing the X marks in the right cells.",
-                      "NESA's sample answer draws numbers from 1 to 25 but tests grid positions 0 to 24, so position 0 is never a diamond. Credit any consistent numbering of the 25 cells."
+                      "NESA's sample answer draws numbers from 1 to 25 but prints cells 0 to 24, so the first cell is never a diamond and a 25, when drawn, is never shown. It still earned full marks, so credit any program that numbers the 25 cells consistently."
                     ],
                     "commonStudentErrors": [
                       "Using random.randint in a loop with no check for repeats, so the same cell can be picked twice and fewer than 15 diamonds appear.",
@@ -16818,8 +16818,7 @@
                     "markerNotes": [
                       "The full-mark answer uses a REPEAT loop that totals all ten elements of Risks through an index, then a selection that gives High above 35, Low below 20 and Medium for every other total.",
                       "The 2-mark answer may get the loop right but miss the Medium band, so totals from 20 to 35 are rated Low, which fails the scenario’s rule.",
-                      "CASEWHERE or IF … ELSEIF … ELSE are also accepted, so the mark depends on the rating logic being complete rather than on the structure used.",
-                      "NESA notes that answers could include: NESA's guidelines also accept a CASEWHERE selection (> 35: High; < 20: Low; OTHERWISE: Medium) or an IF … ELSEIF … ELSE … ENDIF in place of the nested IF."
+                      "CASEWHERE or IF … ELSEIF … ELSE are also accepted, so the mark depends on the rating logic being complete rather than on the structure used."
                     ],
                     "commonStudentErrors": [
                       "Using Total >= 35 for High, which rates a total of exactly 35 as High instead of Medium.",

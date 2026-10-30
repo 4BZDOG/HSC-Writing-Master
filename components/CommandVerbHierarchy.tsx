@@ -104,6 +104,16 @@ interface CommandVerbHierarchyProps {
    * `true` by default, which is the browsing behaviour, unchanged.
    */
   defaultOpen?: boolean;
+  /**
+   * The current question's own band ceiling (`Prompt.bandCeiling`), when its
+   * course sets one: a Standard English composition is Band 5 although COMPOSE
+   * is a Tier 6 verb, and an Advanced 20-mark DISCUSS is Band 6. While the
+   * ribbon shows that question's verb, its light, staircase and Band Cap follow
+   * the question, so the ribbon, the Writing Prompt and the writing area are one
+   * colour. The verb stays in its own tier's card, and a sentence says why the
+   * cap differs. Choosing any other verb shows that verb's own cap.
+   */
+  currentBandCeiling?: number;
 }
 
 /**
@@ -227,6 +237,7 @@ const columnFraction = (tier: number): number =>
 const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   currentVerb,
   defaultOpen = true,
+  currentBandCeiling,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [activeVerb, setActiveVerb] = useState<PromptVerb | undefined>(currentVerb);
@@ -388,11 +399,23 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
     }
   }, [activeTermInfo, isOpen]);
 
+  // The tier the stage is lit to: the verb's own, or the question's ceiling
+  // while the verb on show is the question's (see `currentBandCeiling`). The
+  // verb's card and its Tier chip keep `activeTermInfo.tier`; everything that
+  // states a band or carries the question's colour reads this.
+  const showsQuestionVerb =
+    !!activeTermInfo && !!currentVerb && activeTermInfo.term === currentVerb.toUpperCase();
+  const courseCeiling =
+    showsQuestionVerb && currentBandCeiling && currentBandCeiling !== activeTermInfo?.tier
+      ? currentBandCeiling
+      : undefined;
+  const capTier = courseCeiling ?? activeTermInfo?.tier;
+
   // Colour the ribbon on the distinct tier-identity scale (Tier 1 red …
   // Tier 6 purple) so every level of the ladder reads as its own step — the
   // band-target mapping collapsed Tiers 5 and 6 into the same purple.
-  const activeConfig = activeTermInfo ? getTierScaleConfig(activeTermInfo.tier) : null;
-  const activeTier = activeTermInfo?.tier;
+  const activeConfig = capTier ? getTierScaleConfig(capTier) : null;
+  const activeTier = capTier;
 
   // The stage's one hue, handed to CSS once as a custom property: the aura, the
   // verb's glow and rule, the chip and the numbers all draw from it at the alpha
@@ -567,10 +590,10 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       // The lit bars are the tier's own colour in both themes;
                       // the unlit ones are a class, because white alpha reads
                       // on the dark bar and is invisible on the white one.
-                      className={`w-1 rounded-full ${step <= activeTermInfo.tier ? '' : RIBBON_MINI_BAR_UNLIT}`}
+                      className={`w-1 rounded-full ${step <= (capTier ?? 0) ? '' : RIBBON_MINI_BAR_UNLIT}`}
                       style={{
                         height: `${5 + (step - 1) * 2.2}px`,
-                        ...(step <= activeTermInfo.tier
+                        ...(step <= (capTier ?? 0)
                           ? { backgroundColor: `rgb(${getBandRgb(step)})` }
                           : {}),
                       }}
@@ -680,8 +703,9 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   // vowel, and "A EXPLAIN question" is what that sentence renders
                   // for every one of them.
                   <p className={`${RIBBON_INK_CAPTION} ${PROSE_FLOW}`}>
-                    {activeTermInfo.term} questions cap a response at Band{' '}
-                    {getTierTargetBand(activeTermInfo.tier)}.
+                    {courseCeiling
+                      ? `In this course, this ${activeTermInfo.term} question caps a response at Band ${getTierTargetBand(courseCeiling)}.`
+                      : `${activeTermInfo.term} questions cap a response at Band ${getTierTargetBand(activeTermInfo.tier)}.`}
                   </p>
                 )}
 
@@ -707,7 +731,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                   <p className="sr-only" role="status">
                     {activeTermInfo && activeConfig
                       ? `Tier ${activeTermInfo.tier} · ${activeGroup?.title} · ${getBandName(
-                          getTierTargetBand(activeTermInfo.tier)
+                          getTierTargetBand(capTier ?? activeTermInfo.tier)
                         )}`
                       : 'Choose a command verb to see what it caps.'}
                   </p>
@@ -886,7 +910,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                     <div className={RIBBON_INK_STAT_CELL}>
                       <span className={RIBBON_INK_STAT_LABEL}>Band Cap</span>
                       <span className={RIBBON_INK_STAT_VALUE}>
-                        {getTierTargetBand(activeTermInfo.tier)}
+                        {getTierTargetBand(capTier ?? activeTermInfo.tier)}
                       </span>
                     </div>
                     <div className={RIBBON_INK_STAT_CELL} title="Recommended writing time">

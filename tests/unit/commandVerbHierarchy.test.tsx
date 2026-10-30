@@ -4,6 +4,7 @@ import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
 import { TIER_GROUPS } from '../../data/commandTerms';
+import { getBandRgb } from '../../utils/renderUtils';
 import { PANEL_ROW_MIN_H } from '../../utils/panelStyles';
 import {
   RIBBON_INK_SCALE_RAIL,
@@ -81,6 +82,34 @@ describe('CommandVerbHierarchy', () => {
     expect(screen.getAllByText('EVALUATE').length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText('Band Cap')).toBeTruthy();
     expect(screen.getByText('Marks')).toBeTruthy();
+  });
+
+  /**
+   * One colour per question, the ribbon included. A Standard English
+   * composition is Band 5 although COMPOSE is a Tier 6 verb: the Writing Prompt
+   * and the writing area were blue while the ribbon over them was purple. While
+   * the ribbon shows the question's own verb it is lit to the question's
+   * ceiling; the verb keeps its Tier chip, and choosing another verb shows that
+   * verb's own cap.
+   */
+  it('lights the question’s own verb to the question’s band ceiling', () => {
+    const { container } = render(
+      <CommandVerbHierarchy currentVerb={'COMPOSE' as PromptVerb} currentBandCeiling={5} />
+    );
+    expect(
+      screen.getByText('In this course, this COMPOSE question caps a response at Band 5.')
+    ).toBeTruthy();
+    expect(screen.getAllByText(/Tier 6 ·/).length).toBeGreaterThan(0);
+    const stage = container.querySelector('[style*="--band-rgb"]') as HTMLElement;
+    expect(stage.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(5));
+
+    fireEvent.click(screen.getByRole('button', { name: 'EVALUATE' }));
+    expect(screen.getByText('EVALUATE questions cap a response at Band 6.')).toBeTruthy();
+  });
+
+  it('keeps the verb’s own cap when the question has no ceiling', () => {
+    render(<CommandVerbHierarchy currentVerb={'COMPOSE' as PromptVerb} />);
+    expect(screen.getByText('COMPOSE questions cap a response at Band 6.')).toBeTruthy();
   });
 
   it('collapses and re-expands via the header toggle with aria-expanded in sync', () => {

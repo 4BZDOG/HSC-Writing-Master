@@ -1,5 +1,22 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-30 (Verb ribbon in the question's colour; Software Engineering past questions reviewed)
+
+- **Fixed.** The command verb ribbon was drawn in the verb's own tier, so on a question whose course sets its
+  band (a Standard English composition at Band 5, an Advanced 20-mark Discuss at Band 6) it was purple over a
+  blue Writing Prompt and writing area, or the reverse. While it shows the question's own verb it is now lit to
+  the question's ceiling: the stage, staircase, mini-stair and Band Cap follow the question, and the caption says
+  "In this course, this COMPOSE question caps a response at Band 5." The verb keeps its Tier chip and its place
+  in its tier's card, and choosing any other verb shows that verb's own cap.
+- **Reviewed.** The 14 Software Engineering 2025 past questions against NESA's online paper, marking guidelines
+  and full-mark samples. Every stem, ladder and NESA exemplar matches (including NESA's own typos, which the
+  feedback flags); every AI exemplar sits in the row its feedback names. Fixed: a duplicated, garbled marker note
+  on Q17 ("NESA notes that answers could include: NESA's guidelines also accept…"), and the Q26 note on NESA's
+  sample, which draws 1–25 but prints cells 0–24, so the first cell is never a diamond and a drawn 25 never
+  shows. The same duplicated note was removed from Enterprise Computing 2025 Q14. The questions carry no paper
+  section because the online exam has none.
+- Shipped-course change: `DATA_VERSION` 2.36.0.
+
 ## [Unreleased] - 2026-10-30 (COMPOSE, and Band 6 for extended responses outside Standard English)
 
 - **Changed.** In every course except English Standard, Studies and EAL/D, an extended response (15 marks or
