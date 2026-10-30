@@ -96,7 +96,9 @@ import {
 // 2.32.0: English Advanced past questions: the Common Module essays shared with English Standard
 // (2019–2024), the Module A, B and C questions set once for all texts (2019–2025), and the existing
 // essays made text-agnostic.
-export const DATA_VERSION = '2.32.0';
+// 2.33.0: 29 text-specific English Advanced past questions (Module A 2021, 2022 and 2025; Module B
+// 2019, 2020, 2022 and 2025) on the public-domain texts and pairs anchored on them.
+export const DATA_VERSION = '2.33.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
