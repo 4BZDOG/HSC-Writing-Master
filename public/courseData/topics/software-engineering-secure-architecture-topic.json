@@ -53,20 +53,20 @@
                   "band": 2
                 },
                 {
-                  "id": "sa-a497063d-ba0e-44fb-aecf-6a7db3ddb86a",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Secure software is good because it stops hackers. If the software is not secure, people can get viruses and the program will crash. It helps keep your information safe from being taken.",
-                  "feedback": "Identifies one benefit, stopping hackers, which meets the 1-mark row. To reach 2 marks, describe a second benefit, such as protecting customer data.",
-                  "band": 1
-                },
-                {
                   "id": "prompt-1762991508614-xhoj2t7-s3",
                   "source": "AI",
                   "mark": 2,
                   "answer": "Secure software protects sensitive user data, such as account details and transaction records, from unauthorised access. It also reduces the number of cyber attacks and software vulnerabilities that could disrupt the banking platform.",
                   "feedback": "Outlines two distinct benefits, each briefly described, which meets the 2-mark row. To reach 3 marks, add a third distinct benefit with a supporting feature.",
                   "band": 2
+                },
+                {
+                  "id": "sa-a497063d-ba0e-44fb-aecf-6a7db3ddb86a",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Secure software is good because it stops hackers. If the software is not secure, people can get viruses and the program will crash. It helps keep your information safe from being taken.",
+                  "feedback": "Identifies one benefit, stopping hackers, which meets the 1-mark row. To reach 2 marks, describe a second benefit, such as protecting customer data.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -116,20 +116,20 @@
                   "feedback": "Sustains a logical justification that weighs speed to market against the long-term cost of neglect, with specific evidence on remediation cost and customer trust, which meets the 5-mark row."
                 },
                 {
-                  "id": "sa-8eaf5cde-8b77-4c20-a0b8-74d4b824324a",
-                  "source": "AI",
-                  "band": 1,
-                  "answer": "A startup needs security so it doesn't get hacked. If it gets hacked it will lose all its money. So you have to spend money on security to make it safe.",
-                  "mark": 1,
-                  "feedback": "Makes one basic claim that a startup needs security, which meets the 1-mark row. To reach 2 marks, make a brief point about the cost of a breach."
-                },
-                {
                   "id": "sa-b028e51b-3b33-4cab-b905-fad04f5fb502",
                   "source": "AI",
                   "band": 3,
                   "answer": "A startup should invest in secure software practices. This is justified because fixing a security problem after the software is released costs a lot more money and time than building it securely from the start. Also, if a new company has a data breach, customers will not trust it and the company could fail. So, it's better to spend the money early to protect the business's reputation and avoid bigger problems later.",
                   "mark": 3,
                   "feedback": "Gives two reasons, the higher cost of fixing problems after release and loss of customer trust, which meets the 3-mark row. To reach 5 marks, develop each reason with specific evidence and the long-term consequences."
+                },
+                {
+                  "id": "sa-8eaf5cde-8b77-4c20-a0b8-74d4b824324a",
+                  "source": "AI",
+                  "band": 1,
+                  "answer": "A startup needs security so it doesn't get hacked. If it gets hacked it will lose all its money. So you have to spend money on security to make it safe.",
+                  "mark": 1,
+                  "feedback": "Makes one basic claim that a startup needs security, which meets the 1-mark row. To reach 2 marks, make a brief point about the cost of a breach."
                 }
               ],
               "isPastHSC": false
@@ -323,14 +323,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-b9821ea6-4a27-427a-8bbf-bfd10a970b42",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Good design makes software secure. Testing is when you check for bugs, so you click all the buttons to see if they work. That makes the code more secure.",
-                  "feedback": "Makes a basic statement about design and testing, which meets the 1-mark row. To reach 2 marks, name one security activity in each phase.",
-                  "band": 1
-                },
-                {
                   "id": "sa-8e363d3c-0154-4e33-9269-0fefc50a9a91",
                   "source": "AI",
                   "mark": 4,
@@ -345,6 +337,14 @@
                   "answer": "In the design phase, you plan security by deciding who can use which parts of the program, so different users have different access. This stops people doing things they should not. In the testing phase, you check that the security worked by running the software and seeing if someone can get past the login screen. If you do not test, the code might have security issues.",
                   "feedback": "Identifies access control in design and a login check in testing, which meets the 2-mark row. To reach 3 marks, describe the security practice in each phase and how it protects the application.",
                   "band": 2
+                },
+                {
+                  "id": "sa-b9821ea6-4a27-427a-8bbf-bfd10a970b42",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Good design makes software secure. Testing is when you check for bugs, so you click all the buttons to see if they work. That makes the code more secure.",
+                  "feedback": "Makes a basic statement about design and testing, which meets the 1-mark row. To reach 2 marks, name one security activity in each phase.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -393,20 +393,20 @@
                   "feedback": "Analyses how patching and continuous monitoring preserve security as threats change, with a specific example of a library flaw, which meets the 4-mark row."
                 },
                 {
-                  "id": "sa-8ff45eba-09d6-4426-b9e5-4d6928bc6828",
-                  "source": "AI",
-                  "band": 1,
-                  "answer": "Maintenance is when you fix bugs after the program is done. If there is a security bug you have to fix it. This keeps the program working and secure.",
-                  "mark": 1,
-                  "feedback": "Makes a basic claim that maintenance fixes bugs, which meets the 1-mark row. To reach 2 marks, name one maintenance activity and explain how it protects the application."
-                },
-                {
                   "id": "sa-c7127799-841b-41bd-ac2e-4f53287e4a8a",
                   "source": "AI",
                   "band": 2,
                   "answer": "The maintenance phase is important for security because new problems can appear over time. A developer needs to update the software to fix these problems. For example, a library used by the application might have a new security flaw discovered. During maintenance, the developer would apply a patch to update the library and close the security hole. This keeps the application safe from new types of attacks.",
                   "mark": 2,
                   "feedback": "Identifies the purpose of maintenance for security with a relevant patch example, which meets the 2-mark row. To reach 3 marks, explain why proactive maintenance matters, such as continuous monitoring."
+                },
+                {
+                  "id": "sa-8ff45eba-09d6-4426-b9e5-4d6928bc6828",
+                  "source": "AI",
+                  "band": 1,
+                  "answer": "Maintenance is when you fix bugs after the program is done. If there is a security bug you have to fix it. This keeps the program working and secure.",
+                  "mark": 1,
+                  "feedback": "Makes a basic claim that maintenance fixes bugs, which meets the 1-mark row. To reach 2 marks, name one maintenance activity and explain how it protects the application."
                 }
               ],
               "isPastHSC": false
@@ -522,20 +522,20 @@
                   "band": 2
                 },
                 {
-                  "id": "sa-d3ac64f8-e578-446b-b34e-d907fe72c0ef",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "End users need software that works properly. Experienced users can use more features, and security is about stopping hackers, so you can add more of it if the user has a fast computer.",
-                  "feedback": "Identifies a basic influence of end users, which meets the 1-mark row. To reach 2 marks, describe one design feature that responds to user experience.",
-                  "band": 1
-                },
-                {
                   "id": "sa-b9c4f8c6-0dd4-449f-aad9-dab986ad5907",
                   "source": "AI",
                   "mark": 2,
                   "answer": "End users influence secure design because their capabilities vary. For example, inexperienced users need security settings that are easy to understand, such as a simple password reset. The design must therefore assume that users will make mistakes.",
                   "feedback": "Describes one way user capability affects design, through simpler security settings for inexperienced users, which meets the 2-mark row. To reach 3 marks, name the feature and explain how it reduces risk.",
                   "band": 2
+                },
+                {
+                  "id": "sa-d3ac64f8-e578-446b-b34e-d907fe72c0ef",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "End users need software that works properly. Experienced users can use more features, and security is about stopping hackers, so you can add more of it if the user has a fast computer.",
+                  "feedback": "Identifies a basic influence of end users, which meets the 1-mark row. To reach 2 marks, describe one design feature that responds to user experience.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -582,20 +582,20 @@
                   "feedback": "Proposes two secure design features, push-notification authentication and plain-language warnings, and justifies each by the needs of senior users and the risks they face, which meets the 4-mark row."
                 },
                 {
-                  "id": "sa-102dd318-fda8-4588-9a10-473a5562e903",
-                  "source": "AI",
-                  "band": 3,
-                  "answer": "It should have big buttons so they can see them. And it should have a password to be secure.",
-                  "mark": 1,
-                  "feedback": "Suggests large buttons, a usability feature, which meets the 1-mark row. To reach 2 marks, propose one secure design feature and justify it."
-                },
-                {
                   "id": "sa-590350ec-724a-477a-8217-4346a0e62d4e",
                   "source": "AI",
                   "band": 4,
                   "answer": "One feature would be to use fingerprints to log in instead of passwords, because they might forget their password. Another feature is to make the error messages very simple and not scary, so they don't get confused if something goes wrong. This makes it easier for them to use it safely.",
                   "mark": 2,
                   "feedback": "Proposes two relevant features, fingerprint login and simple error messages, with general justifications, which meets the 2-mark row. To reach 3 marks, explain how one feature protects senior users from a specific risk such as phishing."
+                },
+                {
+                  "id": "sa-102dd318-fda8-4588-9a10-473a5562e903",
+                  "source": "AI",
+                  "band": 3,
+                  "answer": "It should have big buttons so they can see them. And it should have a password to be secure.",
+                  "mark": 1,
+                  "feedback": "Suggests large buttons, a usability feature, which meets the 1-mark row. To reach 2 marks, propose one secure design feature and justify it."
                 }
               ],
               "isPastHSC": false
@@ -715,14 +715,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-40dc044a-1e0e-4c15-8d63-e48850511b02",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Authentication and authorisation are about keeping a program safe. You need a password to get into the computer, so nobody can hack you. Authorisation is when you have the authority to use the computer.",
-                  "feedback": "Makes a general statement about security, which meets the 1-mark row. To reach 2 marks, define each concept accurately and state one clear difference.",
-                  "band": 1
-                },
-                {
                   "id": "sa-762d03e3-bd38-4bf5-b165-2344f6cb0100",
                   "source": "AI",
                   "mark": 4,
@@ -745,6 +737,14 @@
                   "answer": "Authentication is logging in with a username and password so the system knows it is really you. Authorisation is about what parts of the system you can use after you have logged in. For example, some users can only view things, while others can change them.",
                   "feedback": "Describes both concepts with some accuracy, which meets the 2-mark row. To reach 3 marks, define each concept precisely and then compare them directly.",
                   "band": 2
+                },
+                {
+                  "id": "sa-40dc044a-1e0e-4c15-8d63-e48850511b02",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Authentication and authorisation are about keeping a program safe. You need a password to get into the computer, so nobody can hack you. Authorisation is when you have the authority to use the computer.",
+                  "feedback": "Makes a general statement about security, which meets the 1-mark row. To reach 2 marks, define each concept accurately and state one clear difference.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -793,20 +793,20 @@
                   "feedback": "Explains how each CIA principle is applied, using specific mechanisms such as TLS, hashing and redundancy, and links each to a free and fair election, which meets the 6-mark row."
                 },
                 {
-                  "id": "sa-672f2c02-ce50-4f2f-98b9-fa74e41ee33d",
-                  "source": "AI",
-                  "band": 1,
-                  "answer": "Confidentiality means keeping votes secret with a password. Integrity means the votes are good. Availability means the website is working so people can vote.",
-                  "mark": 1,
-                  "feedback": "Gives a simple definition for each principle, which meets the 1-mark row. To reach 2 marks, describe one specific mechanism for a principle, such as encryption for confidentiality."
-                },
-                {
                   "id": "sa-c1f2f1db-d308-4536-b8ca-1ac4ce1113f0",
                   "source": "AI",
                   "band": 2,
                   "answer": "For an online voting system, Confidentiality is about keeping the vote private, which is done using encryption. Integrity means making sure nobody can change the votes. This can be done using hashing to see if the data is the same. Availability means the system must be online during the election so everyone can vote. This requires backup servers so it doesn't crash. All three are needed to make the system secure and fair.",
                   "mark": 4,
                   "feedback": "Explains each principle with a relevant mechanism, which meets the 4-mark row. To reach 5 marks, explain how each design choice protects the election and add a specific example for availability."
+                },
+                {
+                  "id": "sa-672f2c02-ce50-4f2f-98b9-fa74e41ee33d",
+                  "source": "AI",
+                  "band": 1,
+                  "answer": "Confidentiality means keeping votes secret with a password. Integrity means the votes are good. Availability means the website is working so people can vote.",
+                  "mark": 1,
+                  "feedback": "Gives a simple definition for each principle, which meets the 1-mark row. To reach 2 marks, describe one specific mechanism for a principle, such as encryption for confidentiality."
                 }
               ],
               "isPastHSC": false
@@ -1038,14 +1038,6 @@
                   "band": 6
                 },
                 {
-                  "id": "sa-64d4f7b4-0bb0-46b8-ad56-31ac0c508f55",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Security is important for the app to stop hackers. A firewall is a wall that stops bad things getting in, which is the perimeter. Zero Trust means you do not trust anyone, so you use passwords for everything. This protects the data and keeps it private.",
-                  "feedback": "Makes one general point about firewalls and Zero Trust, which meets the 1-mark row. To reach 2 marks, make brief statements about one approach with some evaluation.",
-                  "band": 1
-                },
-                {
                   "id": "sa-bc34e860-20ab-46bf-8a44-fcba59d78527",
                   "source": "AI",
                   "mark": 7,
@@ -1076,6 +1068,14 @@
                   "answer": "Zero Trust Architecture is good for the FinTech app because it means you don't trust anyone, even inside the network. This is better than old security which only cares about people outside. For sensitive data like bank details, not trusting anyone helps keep information safe and private. It also helps follow rules. Traditional security just puts a wall around everything, but if someone gets inside, it's not very secure.",
                   "feedback": "Makes brief statements about Zero Trust with minimal evaluation, which meets the 2-mark row. To reach 3 marks, describe both models with reference to the app's bank details.",
                   "band": 2
+                },
+                {
+                  "id": "sa-64d4f7b4-0bb0-46b8-ad56-31ac0c508f55",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Security is important for the app to stop hackers. A firewall is a wall that stops bad things getting in, which is the perimeter. Zero Trust means you do not trust anyone, so you use passwords for everything. This protects the data and keeps it private.",
+                  "feedback": "Makes one general point about firewalls and Zero Trust, which meets the 1-mark row. To reach 2 marks, make brief statements about one approach with some evaluation.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -1191,14 +1191,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-2d0a1e6a-596d-475f-bd2b-560bace39a79",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Security is important for programs. You use cryptography to make secret codes so hackers can't read stuff. Sandboxing is for playing games safely. You put them in the program when you design it so it is a good design and it will be secure.",
-                  "feedback": "Makes simplistic statements about cryptography and sandboxing, which meets the 1-mark row. To reach 2 marks, define one technique and give a brief example.",
-                  "band": 1
-                },
-                {
                   "id": "sa-6225fe57-25e1-4128-b839-a4d62671734c",
                   "source": "AI",
                   "mark": 4,
@@ -1213,6 +1205,14 @@
                   "answer": "Cryptography helps make software secure by protecting information, like locking up important data so only the right people can see it. For example, a website encrypts information so it cannot be stolen. Sandboxing is another way to make software safe because it creates a separate area for an application to run in. If something goes wrong there, it cannot spread to other parts of the computer.",
                   "feedback": "Explains cryptography and sandboxing in general terms with one example, which meets the 2-mark row. To reach 3 marks, name the design decision for each technique.",
                   "band": 2
+                },
+                {
+                  "id": "sa-2d0a1e6a-596d-475f-bd2b-560bace39a79",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Security is important for programs. You use cryptography to make secret codes so hackers can't read stuff. Sandboxing is for playing games safely. You put them in the program when you design it so it is a good design and it will be secure.",
+                  "feedback": "Makes simplistic statements about cryptography and sandboxing, which meets the 1-mark row. To reach 2 marks, define one technique and give a brief example.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -1327,14 +1327,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-8b28f4ba-557a-4587-9075-0c11eb0d50e7",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Privacy by design is making sure a program is private. You need to put in a good firewall and make sure people use strong passwords. This stops hackers from getting in and stealing the data. It's important for keeping things safe.",
-                  "feedback": "Equates privacy with a firewall and passwords, which meets the 1-mark row. To reach 2 marks, explain that privacy is built in from the start and give one user-centred example.",
-                  "band": 1
-                },
-                {
                   "id": "sa-18f98323-f75a-4c05-b555-bfe68e507c3a",
                   "source": "AI",
                   "mark": 4,
@@ -1349,6 +1341,14 @@
                   "answer": "Privacy by design means that when you are making software, you put privacy first right from the start. It is proactive because it is about thinking ahead and including privacy at the beginning. This helps with user privacy because privacy settings are included early, so users can trust the system. For example, an online store would make sure its website is secure when it is first built.",
                   "feedback": "Explains that privacy should be considered from the start, with a brief explanation, which meets the 2-mark row. To reach 3 marks, name one design feature and explain how it protects user privacy.",
                   "band": 2
+                },
+                {
+                  "id": "sa-8b28f4ba-557a-4587-9075-0c11eb0d50e7",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Privacy by design is making sure a program is private. You need to put in a good firewall and make sure people use strong passwords. This stops hackers from getting in and stealing the data. It's important for keeping things safe.",
+                  "feedback": "Equates privacy with a firewall and passwords, which meets the 1-mark row. To reach 2 marks, explain that privacy is built in from the start and give one user-centred example.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -1529,14 +1529,6 @@
                   "band": 6
                 },
                 {
-                  "id": "sa-215add0d-1381-40d3-a8f3-4f5910e7adbe",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "The bank needs a backup plan. A hot site is better because it is ready to go if something breaks. A cold site is not good because it takes a long time to turn on. If the website is down, people will be angry.",
-                  "feedback": "Makes one general point that the bank needs a backup plan, which meets the 1-mark row. To reach 2 marks, make brief statements about one site type.",
-                  "band": 1
-                },
-                {
                   "id": "sa-99696f7d-7d03-4449-99d2-652a36eda1a1",
                   "source": "AI",
                   "mark": 6,
@@ -1559,6 +1551,14 @@
                   "answer": "A hot site means everything is ready if there is a problem, so the banking platform can keep working quickly. A cold site is just an empty building, so it would take a long time to restart. For online banking, a hot site is better because people need their money all the time.",
                   "feedback": "Makes brief statements about hot and cold sites with little reference to the scenario, which meets the 2-mark row. To reach 3 marks, describe how each site recovers the platform.",
                   "band": 2
+                },
+                {
+                  "id": "sa-215add0d-1381-40d3-a8f3-4f5910e7adbe",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "The bank needs a backup plan. A hot site is better because it is ready to go if something breaks. A cold site is not good because it takes a long time to turn on. If the website is down, people will be angry.",
+                  "feedback": "Makes one general point that the bank needs a backup plan, which meets the 1-mark row. To reach 2 marks, make brief statements about one site type.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -1734,14 +1734,6 @@
                   "band": 6
                 },
                 {
-                  "id": "sa-2baad65e-41ab-4b8f-b773-f5e9cfea5d4b",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "To make a website secure you need to test it. SAST is a test that checks the code. DAST tests the website while it is running. Pen testing is when hackers try to get in. You should do all of them because security is important for a company.",
-                  "feedback": "Provides some relevant information about SAST, DAST and penetration testing, which meets the 1-mark row. To reach 2 marks, outline each method.",
-                  "band": 1
-                },
-                {
                   "id": "sa-62fa8b08-4013-4f75-b497-9c7542976c29",
                   "source": "AI",
                   "mark": 6,
@@ -1764,6 +1756,14 @@
                   "answer": "SAST, DAST, and penetration testing are important for security. SAST checks the code for problems. DAST checks the program while it is running. Penetration testing is when someone tries to find weaknesses. Using all three helps to find issues in the system. I think penetration testing is the most important because it's like a real hacker trying to break in, so it finds the really bad stuff.",
                   "feedback": "Outlines the three testing methods briefly, which meets the 2-mark row. To reach 3 marks, describe each method with reference to the e-commerce platform.",
                   "band": 2
+                },
+                {
+                  "id": "sa-2baad65e-41ab-4b8f-b773-f5e9cfea5d4b",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "To make a website secure you need to test it. SAST is a test that checks the code. DAST tests the website while it is running. Pen testing is when hackers try to get in. You should do all of them because security is important for a company.",
+                  "feedback": "Provides some relevant information about SAST, DAST and penetration testing, which meets the 1-mark row. To reach 2 marks, outline each method.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -1881,14 +1881,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-adfa4a2c-bf5a-4c19-8c95-48c73c505e88",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Validation is when you check the data. You have to make sure it's good for the computer. Sanitisation is cleaning the data so the program doesn't break. You need to do both to stop errors.",
-                  "feedback": "Provides some relevant information about validation and sanitisation, which meets the 1-mark row. To reach 2 marks, describe one practice with an example.",
-                  "band": 1
-                },
-                {
                   "id": "sa-a651782b-7819-458b-a80b-9f28a3ea3067",
                   "source": "AI",
                   "mark": 3,
@@ -1903,6 +1895,14 @@
                   "answer": "Input validation is when a program checks if the data a user types in meets certain rules before it is processed. For example, if a website asks for an email address, validation makes sure it has an '@' symbol. If it does not fit the expected format, the system will not accept it.",
                   "feedback": "Describes input validation with an example, which meets the 2-mark row. To reach 3 marks, explain sanitisation and give an example of it.",
                   "band": 2
+                },
+                {
+                  "id": "sa-adfa4a2c-bf5a-4c19-8c95-48c73c505e88",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Validation is when you check the data. You have to make sure it's good for the computer. Sanitisation is cleaning the data so the program doesn't break. You need to do both to stop errors.",
+                  "feedback": "Provides some relevant information about validation and sanitisation, which meets the 1-mark row. To reach 2 marks, describe one practice with an example.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -2085,14 +2085,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-71cdfa70-99bc-4e6a-b148-aec00bf94a68",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "To make a safe API you need to check things. Rate limiting is when you limit the speed. This stops hackers from trying passwords too fast.",
-                  "feedback": "Provides some relevant information about checking input and limiting rate, which meets the 1-mark row. To reach 2 marks, describe how one mechanism works.",
-                  "band": 1
-                },
-                {
                   "id": "sa-eb60ac7a-8d34-4005-a3b1-bc2ad977002e",
                   "source": "AI",
                   "mark": 3,
@@ -2107,6 +2099,14 @@
                   "answer": "Input validation helps keep an API safe because it checks the data that comes into the system, stopping bad data from causing issues. Rate limiting stops too many requests from happening at once, which protects the API from being overwhelmed. Together, these make the API more secure.",
                   "feedback": "Describes input validation and rate limiting in general terms, which meets the 2-mark row. To reach 3 marks, explain each mechanism with an example.",
                   "band": 2
+                },
+                {
+                  "id": "sa-71cdfa70-99bc-4e6a-b148-aec00bf94a68",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "To make a safe API you need to check things. Rate limiting is when you limit the speed. This stops hackers from trying passwords too fast.",
+                  "feedback": "Provides some relevant information about checking input and limiting rate, which meets the 1-mark row. To reach 2 marks, describe how one mechanism works.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -2220,14 +2220,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-6e4d841e-6a3d-4286-aae1-8e79af296040",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Session management is when you log into a website. Exception management is when an error message pops up. They are both about the computer talking to the user. It is efficient because it helps the computer work.",
-                  "feedback": "Provides some relevant information about both processes, which meets the 1-mark row. To reach 2 marks, describe the role of each process.",
-                  "band": 1
-                },
-                {
                   "id": "sa-094aeed2-cff3-4255-9726-e52a292efbe4",
                   "source": "AI",
                   "mark": 3,
@@ -2242,6 +2234,14 @@
                   "answer": "Session management helps keep track of what a user is doing, like whether they are logged in. It remembers their state so they do not have to log in over and over. Exception management is when the software meets an error. It tries to catch the problem so the program does not just crash.",
                   "feedback": "Describes the roles of both processes, which meets the 2-mark row. To reach 3 marks, give a relevant example for each process.",
                   "band": 2
+                },
+                {
+                  "id": "sa-6e4d841e-6a3d-4286-aae1-8e79af296040",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Session management is when you log into a website. Exception management is when an error message pops up. They are both about the computer talking to the user. It is efficient because it helps the computer work.",
+                  "feedback": "Provides some relevant information about both processes, which meets the 1-mark row. To reach 2 marks, describe the role of each process.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -2486,14 +2486,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-bf512b30-3f12-42c6-bb85-f689251c7b14",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "XSS and CSRF are when hackers steal your information. To stop this, you need good security like a firewall. Making users have strong passwords also helps keep the website safe.",
-                  "feedback": "Provides some relevant information about how these attacks steal information, which meets the 1-mark row. To reach 2 marks, explain how one attack compromises the application.",
-                  "band": 1
-                },
-                {
                   "id": "sa-ddcaefb5-b7d8-4551-a69e-ba3dfab45471",
                   "source": "AI",
                   "mark": 3,
@@ -2508,6 +2500,14 @@
                   "answer": "XSS can compromise a web application by letting attackers inject harmful scripts into pages, which can steal cookies. To stop XSS, check and filter user input. CSRF is when an attacker tricks a logged-in user into performing an unwanted action, such as a transfer.",
                   "feedback": "Explains how XSS and CSRF compromise the application, which meets the 2-mark row. To reach 3 marks, give a coding strategy for each, such as output encoding for XSS.",
                   "band": 2
+                },
+                {
+                  "id": "sa-bf512b30-3f12-42c6-bb85-f689251c7b14",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "XSS and CSRF are when hackers steal your information. To stop this, you need good security like a firewall. Making users have strong passwords also helps keep the website safe.",
+                  "feedback": "Provides some relevant information about how these attacks steal information, which meets the 1-mark row. To reach 2 marks, explain how one attack compromises the application.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -2732,14 +2732,6 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-ca8533b4-0b2b-4f59-89b9-782e4c1fa7d4",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "To stop hackers, you need to write secure code. For files, you can use a password so only the right user can open it. For side-channel attacks, you should make sure the software has good antivirus protection and a firewall. This will block the attacks from getting in.",
-                  "feedback": "Provides some relevant information about secure coding, which meets the 1-mark row. To reach 2 marks, describe one practice for file attacks or side-channel attacks, with an example.",
-                  "band": 1
-                },
-                {
                   "id": "sa-610a4b09-5108-4602-a647-7b937b34f2d3",
                   "source": "AI",
                   "mark": 3,
@@ -2754,6 +2746,14 @@
                   "answer": "For file attacks, secure coding means checking what users type in, such as stopping a user from entering '../../config.txt' to reach a file they should not see. For side-channel attacks, the code should not reveal clues, such as a password check that takes longer when a few letters are right.",
                   "feedback": "Describes checking user input for file attacks with a relevant example, which meets the 2-mark row. To reach 3 marks, explain a practice for side-channel attacks, such as constant-time comparison.",
                   "band": 2
+                },
+                {
+                  "id": "sa-ca8533b4-0b2b-4f59-89b9-782e4c1fa7d4",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "To stop hackers, you need to write secure code. For files, you can use a password so only the right user can open it. For side-channel attacks, you should make sure the software has good antivirus protection and a firewall. This will block the attacks from getting in.",
+                  "feedback": "Provides some relevant information about secure coding, which meets the 1-mark row. To reach 2 marks, describe one practice for file attacks or side-channel attacks, with an example.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -2873,20 +2873,20 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-7988386a-423d-4a9c-a42b-27893dcfa615",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Collaboration is when a team works together. It helps make software better because more people can write the code faster. If they delegate tasks, the project gets finished on time. This makes the software good quality.",
-                  "feedback": "Provides some relevant information about teamwork and speed, which meets the 1-mark row. To reach 2 marks, describe one way the team improves security.",
-                  "band": 1
-                },
-                {
                   "id": "sa-eaefb3fe-98f9-4a61-96dd-054e8bf584b8",
                   "source": "AI",
                   "mark": 2,
                   "answer": "Collaboration helps make software secure because team members can review each other's code. This is called a code review. This process helps find security mistakes or bugs that a single programmer might have missed. Also, when you delegate tasks, a person with security expertise can focus on the security parts of the program, making the final solution better.",
                   "feedback": "Describes peer code review as a way collaboration improves security, which meets the 2-mark row. To reach 3 marks, explain how delegating by expertise improves the solution.",
                   "band": 2
+                },
+                {
+                  "id": "sa-7988386a-423d-4a9c-a42b-27893dcfa615",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Collaboration is when a team works together. It helps make software better because more people can write the code faster. If they delegate tasks, the project gets finished on time. This makes the software good quality.",
+                  "feedback": "Provides some relevant information about teamwork and speed, which meets the 1-mark row. To reach 2 marks, describe one way the team improves security.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -2999,20 +2999,20 @@
                   "band": 3
                 },
                 {
-                  "id": "sa-9bb3fbfd-65fe-4065-9ea2-e2d98ef11b17",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Secure software is good for a business because it stops hackers. If you have good passwords and a firewall, hackers cannot get in. This helps the business because its website does not go down.",
-                  "feedback": "Provides some relevant information that secure software stops hackers, which meets the 1-mark row. To reach 2 marks, identify a benefit and explain briefly how it helps the enterprise.",
-                  "band": 1
-                },
-                {
                   "id": "prompt-1762992608398-y9ca39d-s3",
                   "source": "AI",
                   "mark": 3,
                   "answer": "Secure development practices improve an enterprise's products because fewer vulnerabilities reach customers, so the software is more reliable. They also boost productivity, since fixing security flaws early costs less than repairing breaches later. For example, InnovateTech can reuse vetted secure code libraries, which reduces rework for developers.",
                   "feedback": "Explains two benefits, product reliability and productivity, with a reason for each, which meets the 3-mark row. To reach 4 marks, give specific reasoning for each, linked to InnovateTech's outcomes.",
                   "band": 2
+                },
+                {
+                  "id": "sa-9bb3fbfd-65fe-4065-9ea2-e2d98ef11b17",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Secure software is good for a business because it stops hackers. If you have good passwords and a firewall, hackers cannot get in. This helps the business because its website does not go down.",
+                  "feedback": "Provides some relevant information that secure software stops hackers, which meets the 1-mark row. To reach 2 marks, identify a benefit and explain briefly how it helps the enterprise.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -3126,20 +3126,20 @@
                   "band": 6
                 },
                 {
-                  "id": "sa-489dc7e3-916a-4b2f-a095-70658fb12889",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Computers are important for jobs. People use software at work. Hackers are bad and they steal things so software needs to be secure. If the software is not good, the business will lose money. This is an ethical issue because it's not fair.",
-                  "feedback": "Provides some relevant information about jobs, hackers and fairness, which meets the 1-mark row. To reach 2 marks, outline one social or ethical issue of digital disruption.",
-                  "band": 1
-                },
-                {
                   "id": "prompt-1762992648042-7iqw6vn-s3",
                   "source": "AI",
                   "mark": 5,
                   "answer": "Secure software creates job changes for staff at SecureTrust Bank, as automated fraud detection reduces some manual review roles while creating demand for specialists. It also raises data security concerns for customers, because blockchain records and AI models both hold sensitive information. The ethical trade-off is between efficiency and customers' control over their data. The extent of disruption is significant, but the answer weighs these effects only briefly.",
                   "feedback": "Discusses ramifications for people and enterprises and refers to employment and data security, which meets the 5-mark row. To reach 6 marks, evaluate these ramifications rather than only discussing them.",
                   "band": 4
+                },
+                {
+                  "id": "sa-489dc7e3-916a-4b2f-a095-70658fb12889",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Computers are important for jobs. People use software at work. Hackers are bad and they steal things so software needs to be secure. If the software is not good, the business will lose money. This is an ethical issue because it's not fair.",
+                  "feedback": "Provides some relevant information about jobs, hackers and fairness, which meets the 1-mark row. To reach 2 marks, outline one social or ethical issue of digital disruption.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false
@@ -3183,20 +3183,20 @@
                   "band": 2
                 },
                 {
-                  "id": "sa-c62ed6d9-e342-4813-9471-669969ca8d4a",
-                  "source": "AI",
-                  "mark": 1,
-                  "answer": "Socially, people use software a lot. Ethically, the company should not let hackers steal the data. They need to secure the software so that private information is safe from bad people.",
-                  "feedback": "Identifies social and ethical concerns in general terms, which meets the 1-mark row. To reach 2 marks, outline one issue and link it to data privacy.",
-                  "band": 1
-                },
-                {
                   "id": "prompt-df81589c-dd45-472f-8890-e588258f8cf8-s3",
                   "source": "AI",
                   "mark": 2,
                   "answer": "A social issue is that users may lose trust in the platform if their personal data is leaked, which can damage the company's reputation. The company must also consider ethics, such as privacy.",
                   "feedback": "Outlines ONE social issue of data privacy, which meets the 2-mark row. To reach 3 marks, outline an ethical issue as well, such as consent, and link it to data collection.",
                   "band": 2
+                },
+                {
+                  "id": "sa-c62ed6d9-e342-4813-9471-669969ca8d4a",
+                  "source": "AI",
+                  "mark": 1,
+                  "answer": "Socially, people use software a lot. Ethically, the company should not let hackers steal the data. They need to secure the software so that private information is safe from bad people.",
+                  "feedback": "Identifies social and ethical concerns in general terms, which meets the 1-mark row. To reach 2 marks, outline one issue and link it to data privacy.",
+                  "band": 1
                 }
               ],
               "isPastHSC": false

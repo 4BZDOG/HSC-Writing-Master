@@ -17,6 +17,12 @@
 - **Reviewed.** The 13 Enterprise Computing 2025 past questions the same way: every stem, ladder and NESA exemplar
   matches. Fixed: the duplicated marker note on Q14, and five questions (15(b), 20, 22(a), 23(b), 25) whose marker
   notes were one run-on paragraph, now split into separate notes like every other past question.
+- **Reviewed.** The app-written Software Engineering (319) and Enterprise Computing (282) questions against what
+  the past-paper work established. Ladders, verb-to-mark fit, marker notes and feedback already meet the house
+  rules, and full-mark exemplar lengths match NESA's own samples (SE 3 marks: 68 words against NESA's 62; 5
+  marks: 134 against 140). Fixed: 29 questions (SE 28, Economics 1) listed their exemplars out of mark order,
+  now highest first, with a test that holds every course to it; and 25 SE full-mark feedbacks ended "No further
+  marks are available.", a tail no other course uses.
 - Shipped-course change: `DATA_VERSION` 2.36.0.
 
 ## [Unreleased] - 2026-10-30 (COMPOSE, and Band 6 for extended responses outside Standard English)

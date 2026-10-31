@@ -77,6 +77,19 @@ describe('shipped questions', () => {
     expect(bad.slice(0, 10)).toEqual([]);
   });
 
+  // Highest mark first, as the marking guide is written. Exemplars on a named
+  // prescribed text hold one ladder per text and are grouped by it instead.
+  it('lists each question’s exemplars highest mark first', () => {
+    const bad = questions
+      .filter((q) => !(q.prompt.sampleAnswers ?? []).some((a) => a.prescribedText))
+      .filter((q) => {
+        const marks = (q.prompt.sampleAnswers ?? []).map((a) => a.mark);
+        return marks.some((m, i) => i > 0 && m > marks[i - 1]);
+      })
+      .map((q) => q.prompt.id);
+    expect(bad).toEqual([]);
+  });
+
   it('gives every marking guide the exact rows the app expects', () => {
     const bad: string[] = [];
     for (const q of questions) {
