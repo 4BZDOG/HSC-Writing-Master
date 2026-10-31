@@ -1,5 +1,24 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-31 (HSC Biology past questions, 2023–2025)
+
+The first science past questions, and Biology's first questions of any kind: 61 written-response parts from
+Section II of the 2023, 2024 and 2025 HSC Biology papers.
+
+- **Added.** Each part sits under the 2025-syllabus dot point that covers what it assesses. The papers were set
+  on the 2017 syllabus, so a part ships only where the 2025 syllabus still teaches its content, as English
+  Standard's 2017-syllabus papers were mapped by module. Content the 2025 syllabus moved to Year 11
+  (homeostasis, adaptations, DNA structure, cell division) sits under its Year 11 dot point.
+- **Added.** Stems, stimulus text, NESA's marking ladders and NESA's sample answers are word for word; NESA's
+  sample is the full-mark exemplar, and AI wrote only the lower marks (and the full mark for 2023 Q27 and Q32,
+  where NESA printed none). The marker notes and common errors draw on NESA's marking feedback for each year.
+- **Added.** 37 stimulus figures (graphs, tables, pedigrees, a gel, flow charts, codon charts) as cropped
+  images, each with a text version after "Stimulus:" in the scenario for the marker and screen readers. Genus
+  and species names are italicised.
+- **Left out.** Eye and ear disorders and their technologies (2023 24(a)–(b), 2024 35, 2025 26), which the
+  2025 syllabus drops, and nine parts answered by drawing (completing a table, flow chart or Punnett square,
+  plotting a graph, drawing gametes). 2024 Q35's graph is withheld for copyright in NESA's copy anyway.
+
 ## [Unreleased] - 2026-10-31 (The marker reads the question's stimulus)
 
 - **Fixed.** A question's stimulus or case study (a data table, a text description of a graph, a case) was shown to the student above the question but never given to the AI marker, so an answer that used the data was marked without it. The marking prompt now carries the stimulus under "Stimulus / scenario (what the student read before answering)", directly after the question, and asks the marker to check the answer against it wherever the question refers to it. A question with no stimulus gets no such heading.

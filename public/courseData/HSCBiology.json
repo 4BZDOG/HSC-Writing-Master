@@ -501,7 +501,64 @@
               {
                 "id": "dp-bio-11-cells-as-the-basis-of-life-4-5",
                 "description": "Compare the structures and roles of somatic and gametic cells",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-33b",
+                    "question": "Explain the relationship between Individuals 1 and 2.",
+                    "totalMarks": 2,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BI-11-01"
+                    ],
+                    "markerNotes": [
+                      "The top row explains that Individual 1 is the parent of Individual 2 because a gamete from Individual 1 produces Individual 2, reading the arrow across from Individual 1's gamete accurately. The 1-mark row gives relevant information, such as that both individuals appear in the diagram, without explaining the relationship.",
+                      "NESA's sample gives the relationship in one sentence: Individual 1 is the parent because it provides a gamete to produce the offspring, which is Individual 2. Accept an equivalent statement that Individual 2 is the offspring of Individual 1."
+                    ],
+                    "commonStudentErrors": [
+                      "Calls Individual 2 a sibling or a clone of Individual 1 without using the gamete arrow between them.",
+                      "Says Individual 1 is the parent without explaining that it provides a gamete.",
+                      "Does not use the key, or the arrow from Individual 1's gamete, when explaining the link."
+                    ],
+                    "keywords": [
+                      "parent",
+                      "offspring",
+                      "gamete",
+                      "fertilisation",
+                      "zygote",
+                      "germ-line"
+                    ],
+                    "markingCriteria": "2 marks: Correctly explains the relationship between the two individuals\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-33b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "Individual 1 is the parent of Individual 2 because they provide a gamete to produce the offspring which is Individual 2.",
+                        "feedback": "Meets the 2-mark row by correctly explaining the relationship between the two individuals. It states that Individual 1 is the parent 'because they provide a gamete to produce the offspring which is Individual 2'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-33b-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Individual 1 and Individual 2 are related because they both appear in the diagram.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'both appear in the diagram' repeats the stimulus without stating a relationship. Explaining that Individual 1 provides a gamete that produces Individual 2 would lift it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "The following diagram shows the cell division processes occurring in two related individuals.\n\nStimulus: Diagram of cell division in two related individuals, in two dashed panels: 'Individual 1' (left) and 'Individual 2' (right). Each has germ-line cells in a top row and somatic cells below, joined by arrows that show division.\nKey: gamete = half-circle (sperm or egg); zygote = stippled circle; germ-line cell = dark grey circle; somatic cell = white circle.\nIndividual 1: a sperm and an egg (gametes) feed into zygote Q at top left. An arrow labelled 'A' leads from Q to an unlabelled germ-line cell, then to germ-line cell S, then to a gamete at the right end of the top row, which points across to Individual 2. From Q an arrow goes down to somatic cell R, which branches into two somatic cells. One branch passes through somatic cell T to the bottom row, which includes somatic cell U.\nIndividual 2: a sperm feeds in from above into an unlabelled stippled zygote at top left. Two dark germ-line cells follow, then a gamete labelled X at the right end. From the zygote an arrow goes down to a somatic cell that branches; an arrow labelled 'B' runs from that somatic cell to the somatic cell at its lower right. The bottom row includes somatic cells V and W.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "33(b)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-33b",
+                      "alt": "Diagram of cell divisions in two related individuals, with cells labelled R, S, U, V, W and X.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-33.png"
+                    }
+                  }
+                ]
               },
               {
                 "id": "dp-bio-11-cells-as-the-basis-of-life-4-6",
@@ -526,7 +583,72 @@
               {
                 "id": "dp-bio-11-cells-as-the-basis-of-life-4-10",
                 "description": "Evaluate the importance of DNA replication, mitosis, meiosis and cytokinesis in cell division",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-33a",
+                    "question": "Compare the cell division processes carried out by cells R and S in Individual 1.",
+                    "totalMarks": 3,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "BI-11-01"
+                    ],
+                    "markerNotes": [
+                      "The top row compares the processes in cells R and S, stating a similarity or difference between mitosis and meiosis, such as DNA replication, number of divisions, chromosome number or the genetic identity of the products. The 2-mark row describes one division process without comparing it with the other.",
+                      "NESA's sample identifies R as mitosis and S as meiosis, and notes that both require DNA replication. NESA's feedback names comparing the characteristics of each process, rather than only its outcomes, as an area for students to improve."
+                    ],
+                    "commonStudentErrors": [
+                      "Compares only the outcomes, such as genetically identical daughter cells, rather than the characteristics of each division.",
+                      "Describes mitosis and meiosis separately, with no comparison between them.",
+                      "Does not use the key to identify R as a somatic cell and S as a germ-line cell, so the comparison is not tied to the diagram."
+                    ],
+                    "keywords": [
+                      "cell division",
+                      "mitosis",
+                      "meiosis",
+                      "DNA replication",
+                      "chromosome number",
+                      "daughter cells"
+                    ],
+                    "markingCriteria": "3 marks: Compares the cell division processes in cell R and cell S\n2 marks: Describes a cell division process\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-33a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Cell R undergoes mitosis which results in two genetically identical daughter cells. Cell S undergoes meiosis with half the chromosome number producing gametes. Both mitosis and meiosis will require DNA replication where the genetic content doubles.",
+                        "feedback": "Meets the 3-mark row by comparing the cell division processes in cell R and cell S. It contrasts 'Cell R undergoes mitosis which results in two genetically identical daughter cells' with 'Cell S undergoes meiosis with half the chromosome number producing gametes'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-33a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Cell R undergoes mitosis, where the chromosomes are copied and the cell divides once to make two identical cells. Cell S is a germ-line cell that goes through a different division.",
+                        "feedback": "Meets the 2-mark row by describing a cell division process, 'Cell R undergoes mitosis, where the chromosomes are copied and the cell divides once'. Cell S is only called 'a different division', so naming meiosis for S and comparing one characteristic of each process would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-33a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Both cells in the diagram divide to make new cells.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'Both cells in the diagram divide' is true but names no process. Naming the process each cell undergoes, and one characteristic they share or differ in, would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "The following diagram shows the cell division processes occurring in two related individuals.\n\nStimulus: Diagram of cell division in two related individuals, in two dashed panels: 'Individual 1' (left) and 'Individual 2' (right). Each has germ-line cells in a top row and somatic cells below, joined by arrows that show division.\nKey: gamete = half-circle (sperm or egg); zygote = stippled circle; germ-line cell = dark grey circle; somatic cell = white circle.\nIndividual 1: a sperm and an egg (gametes) feed into zygote Q at top left. An arrow labelled 'A' leads from Q to an unlabelled germ-line cell, then to germ-line cell S, then to a gamete at the right end of the top row, which points across to Individual 2. From Q an arrow goes down to somatic cell R, which branches into two somatic cells. One branch passes through somatic cell T to the bottom row, which includes somatic cell U.\nIndividual 2: a sperm feeds in from above into an unlabelled stippled zygote at top left. Two dark germ-line cells follow, then a gamete labelled X at the right end. From the zygote an arrow goes down to a somatic cell that branches; an arrow labelled 'B' runs from that somatic cell to the somatic cell at its lower right. The bottom row includes somatic cells V and W.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "33(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-33a",
+                      "alt": "Diagram of cell divisions in two related individuals, with cells labelled R, S, U, V, W and X.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-33.png"
+                    }
+                  }
+                ]
               }
             ]
           }
@@ -677,7 +799,64 @@
               {
                 "id": "dp-bio-11-cells-to-systems-4-2",
                 "description": "Construct and interpret diagrams of negative feedback loops to demonstrate maintenance of homeostasis",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-24b",
+                    "question": "Outline how mechanism B maintains homeostasis.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "BI-11-02"
+                    ],
+                    "markerNotes": [
+                      "The top row names a mechanism that generates heat and explains the chain from a drop in temperature to heat production and a return to the normal range. The flow chart's 'Increases' arrow from mechanism B means B must raise body temperature, so the answer needs a heat-producing mechanism.",
+                      "NESA's sample explains shivering in three sentences: temperature drops, skeletal muscles shiver, the activity generates heat and raises the temperature. No alternatives are listed, but a different heat-producing response that the answer explains correctly meets the same row."
+                    ],
+                    "commonStudentErrors": [
+                      "Names shivering but does not explain that it generates heat to raise body temperature.",
+                      "Misreads the flow chart and describes a cooling response for mechanism B.",
+                      "Describes the stimulus, such as 'the body is in the normal temperature range', without saying what mechanism B does."
+                    ],
+                    "keywords": [
+                      "mechanism B",
+                      "shivering",
+                      "skeletal muscles",
+                      "body heat",
+                      "homeostasis",
+                      "normal temperature range"
+                    ],
+                    "markingCriteria": "2 marks: Outlines how mechanism B maintains homeostasis\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-24b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "When the body temperature drops, skeletal muscles start shivering. This generates body heat and raises the temperature. This helps maintain homeostasis.",
+                        "feedback": "Meets the 2-mark row by outlining how mechanism B maintains homeostasis. It links the temperature drop to 'skeletal muscles start shivering', which 'generates body heat and raises the temperature'.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-24b-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The body shivers when it is cold, which is a way of keeping warm.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'shivers when it is cold' names the response but not how it changes body temperature. Explaining how the muscle activity generates heat and raises body temperature would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "The following flow chart represents the control of body temperature in humans.\n\nStimulus: Flow chart of temperature control, drawn as a cycle of boxes and arrows, read from the top left.\n- 'Control centre' (top left) → blank dotted box, with 'Example of mechanism A' printed above it.\n- Mechanism A box → large arrow labelled 'Decreases' → 'Normal temperature range' (middle right).\n- 'Control centre' (bottom left) → blank dotted box, with 'Example of mechanism B' printed below it.\n- Mechanism B box → arrow labelled 'Increases' → 'Normal temperature range' (middle right).\n- 'Normal temperature range' (middle left) → arrow labelled 'Increases' → top 'Control centre'.\n- 'Normal temperature range' (middle left) → arrow labelled 'Decreases' → bottom 'Control centre'.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-24b",
+                      "alt": "Flow chart of body temperature control with two blank mechanism boxes, A and B.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-24.png"
+                    }
+                  }
+                ]
               },
               {
                 "id": "dp-bio-11-cells-to-systems-4-3",
@@ -2200,6 +2379,70 @@
                       "updatedAt": 0,
                       "src": "courseData/images/bio-2023-25d.png"
                     }
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-31a",
+                    "question": "What type of inheritance is shown in the pedigree above? Justify your answer.",
+                    "totalMarks": 3,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "BI-12-01"
+                    ],
+                    "markerNotes": [
+                      "The top row identifies autosomal recessive inheritance and justifies it by naming individuals from the pedigree and their alleles. The 2-mark row shows some understanding of the inheritance type but without specific individuals or a correct genetic cross.",
+                      "NESA's sample uses a Punnett square and genotypes for individuals 3, 4, 9 and 10, and NESA's answers-could-include list uses the unaffected parents 8 and 9 with the affected child 17 to show the trait is recessive and autosomal. Accept either justification, provided the genotypes or individuals given are consistent with the pedigree."
+                    ],
+                    "commonStudentErrors": [
+                      "Writes 'recessive' without 'autosomal', so the type of inheritance is incomplete.",
+                      "Gives individual 4 (affected) a dominant or heterozygous genotype, so the justification is built on wrong alleles.",
+                      "Uses letters that are hard to tell apart, such as Ss, for the dominant and recessive alleles."
+                    ],
+                    "keywords": [
+                      "autosomal recessive",
+                      "pedigree",
+                      "heterozygous",
+                      "homozygous recessive",
+                      "Punnett square",
+                      "allele"
+                    ],
+                    "markingCriteria": "3 marks: Identifies the type of inheritance from the pedigree; Provides an appropriate justification\n2 marks: Demonstrates some understanding of the type of inheritance from the pedigree\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-31a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Type of inheritance: autosomal recessive\n\n| | b | b |\n| B | Bb | Bb |\n| b | bb | bb |\n\nBB – unaffected\nbb – affected\nBb – unaffected\n\nIndividuals 3 and 4 have affected and unaffected children. Since 9 is an unaffected male, 3 would have to be heterozygous with genotype Bb and 4 would be homozygous recessive. For 10 to be affected, they would have inherited the recessive allele from the father and the mother.",
+                        "feedback": "Meets the 3-mark row by identifying the type of inheritance from the pedigree and providing an appropriate justification. It names 'Type of inheritance: autosomal recessive' and reasons from 'Since 9 is an unaffected male, 3 would have to be heterozygous with genotype Bb'.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-31a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The trait is recessive because the parents are unaffected but a child is affected. Recessive traits need two copies of the allele.",
+                        "feedback": "Meets the 2-mark row by demonstrating some understanding of the type of inheritance, with 'The trait is recessive'. It does not say autosomal or name the individuals (8, 9 and 17) that show the pattern, so adding both would lift it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-31a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Pedigrees show how a trait is passed through a family across generations.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'how a trait is passed through a family' describes pedigrees in general, not the inheritance type. Identifying the type from the figure, with named individuals, would lift it.",
+                        "band": 3
+                      }
+                    ],
+                    "scenario": "Congenital amegakaryocytic thrombocytopenia (CAMT) is a rare, inherited disorder where bone marrow no longer makes platelets that are important for clotting and preventing bleeding. The pedigree below shows the inheritance of CAMT in a family.\n\nStimulus: Pedigree of 19 individuals across three generations (I to III), with a key: affected male = shaded square; affected female = shaded circle; unaffected male = open square; unaffected female = open circle. Couples are joined by horizontal lines, and their children hang below.\nGeneration I: 1 (affected male) with 2 (unaffected female); 3 (unaffected male) with 4 (affected female).\nGeneration II: children of 1 and 2 are 6 (unaffected male), 7 (unaffected female) and 8 (unaffected female). Children of 3 and 4 are 9 (unaffected male), 10 (affected male), 11 (affected female) and 12 (unaffected female). 5 (affected female) is married to 6 (unaffected male).\nGeneration III: children of 5 and 6 are 13 (affected male) and 14 (unaffected female). Children of 8 (unaffected female) and 9 (unaffected male) are 15 (unaffected male), 16 (unaffected female) and 17 (affected female). Children of 10 (affected male) and 11 (affected female) are 18 (affected female) and 19 (affected male).",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-31a",
+                      "alt": "Pedigree of 19 individuals over three generations showing the inheritance of CAMT.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-31a.png"
+                    }
                   }
                 ]
               }
@@ -2454,6 +2697,70 @@
                       "updatedAt": 0,
                       "src": "courseData/images/bio-2023-35.png"
                     }
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-31b",
+                    "question": "Use the codon chart shown to explain the type of mutation which causes CAMT.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BI-12-01"
+                    ],
+                    "markerNotes": [
+                      "The top row explains that the mutation is a substitution (a point mutation) by comparing the unaffected and affected codons from the data, so it shows the single nucleotide change in the codon. The 2-mark row outlines the mutation with reference to the data but does not name its type or show which codon changed.",
+                      "NESA's sample states that the codon GUC, coding for valine, is replaced by AUC, producing isoleucine, and that a single nucleotide change makes it a point mutation. NESA lists missense and substitution as acceptable answers."
+                    ],
+                    "commonStudentErrors": [
+                      "Does not convert the template strand into mRNA codons before using the chart, so the amino acid read from it is wrong.",
+                      "Describes the changed amino acid without identifying which codon changed from the unaffected sequence.",
+                      "States 'point mutation' without showing the single nucleotide change in the data."
+                    ],
+                    "keywords": [
+                      "codon chart",
+                      "point mutation",
+                      "substitution",
+                      "missense",
+                      "template strand",
+                      "mRNA"
+                    ],
+                    "markingCriteria": "3 marks: Explains the type of mutation; Makes reference to the data provided\n2 marks: Outlines the mutation with reference to the data provided\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-31b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The amino acid sequence in the unaffected individual is Glutamine-Tyrosine-Valine-Aspartic acid. The codon GUC coding for Valine is replaced with AUC, producing Isoleucine. As a single nucleotide is changed, CAMT is a point mutation.",
+                        "feedback": "Meets the 3-mark row by explaining the type of mutation and making reference to the data provided. It states that 'The codon GUC coding for Valine is replaced with AUC, producing Isoleucine', and that 'As a single nucleotide is changed, CAMT is a point mutation'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-31b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The affected sequence has isoleucine where the unaffected sequence has valine. This is caused by a change in the DNA, so it is a mutation.",
+                        "feedback": "Meets the 2-mark row by outlining the mutation with reference to the data, 'isoleucine where the unaffected sequence has valine'. It does not name the type of mutation or show which codon changed, so naming a point substitution and tracing the change from GUC to AUC would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-31b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Mutations are changes in the DNA sequence that can alter a protein.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'changes in the DNA sequence that can alter a protein' is a general definition with no reference to the data. Using the codon chart on the unaffected template strand to find the amino acid that changes would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Congenital amegakaryocytic thrombocytopenia (CAMT) is a rare, inherited disorder where bone marrow no longer makes platelets that are important for clotting and preventing bleeding. The pedigree below shows the inheritance of CAMT in a family.\n\nA CAMT mutation was found to produce the following amino acid sequence.\nGlutamine – Tyrosine – Isoleucine – Aspartic acid\nThe same DNA fragment has been sequenced from an unaffected individual.\nTemplate strand GTC ATA CAG CTG\nThe following codon chart displays all the codons and corresponding amino acids. The chart translates mRNA sequences into amino acids.\n\nStimulus: Standard mRNA codon chart (the genetic code).",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(b)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-31b",
+                      "alt": "Standard mRNA codon chart used to read amino acids from codons.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-31b.png"
+                    }
                   }
                 ]
               },
@@ -2529,6 +2836,70 @@
                     "hscYear": 2024,
                     "hscQuestionNumber": "25(a)",
                     "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-33c",
+                    "question": "Analyse how mutations A and B affect the genetic information present in cells U, V, W and X.",
+                    "totalMarks": 4,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "BI-12-01"
+                    ],
+                    "markerNotes": [
+                      "The top row classifies each mutation as germline or somatic, then traces where each one appears among U, V, W and X. The 2-mark row gives a sound analysis of one mutation only, or describes both without tying them to the cells.",
+                      "NESA's sample states that A is a germline mutation that can be passed to offspring and B is a somatic mutation present only in some cells of Individual 2, then concludes cell by cell for U, V, W and X. Accept conclusions that follow from the germline or somatic status shown in the diagram."
+                    ],
+                    "commonStudentErrors": [
+                      "Treats mutation A as somatic or mutation B as germline, so the cells traced for each are wrong.",
+                      "Assumes U carries mutation A or B because it is in the same individual, without tracing where each mutation arose.",
+                      "Gives an answer for only some of U, V, W and X."
+                    ],
+                    "keywords": [
+                      "somatic mutation",
+                      "germline mutation",
+                      "somatic cell",
+                      "gamete",
+                      "offspring",
+                      "genetic information"
+                    ],
+                    "markingCriteria": "4 marks: Provides a thorough analysis of how the separate mutations account for genetic differences in the cells\n3 marks: Provides a sound analysis of how the separate mutations account for genetic differences in the cells\n2 marks: Demonstrates some understanding of how the separate mutations account for genetic differences in the cells OR Provides a sound analysis of a mutation\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-33c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Mutation A is a germline mutation and will not be present in Individual 1, but could be present in its offspring, including individual 2. Mutation B is a somatic cell mutation and will only be present in some cells of Individual 2 but not their offspring. As a result, cell U will not have mutations A or B. Cell V could have mutation A but not B and cell W could have both mutations. Cell X could carry mutation A.",
+                        "feedback": "Meets the 4-mark row by providing a thorough analysis of how the separate mutations account for genetic differences in the cells. It separates the two cases: 'Mutation A is a germline mutation and will not be present in Individual 1' and 'Mutation B is a somatic cell mutation'.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-33c-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Mutation A is a germline mutation, so it can be passed on to offspring. Mutation B is a somatic mutation, so it is not passed on to offspring.",
+                        "feedback": "Meets the 2-mark row by providing a sound analysis of a mutation, with 'Mutation A is a germline mutation, so it can be passed on to offspring'. It does not say which of U, V, W and X carry A or B, so tracing each mutation to those cells would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-33c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Mutations change the DNA of a cell, which can affect how the cell works.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'Mutations change the DNA of a cell' is a general statement with no reference to A, B or the cells in the diagram. Stating whether A or B is germline or somatic, and what that means for U, V, W and X, would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "The following diagram shows the cell division processes occurring in two related individuals.\n\nA and B are two separate mutations.\n\nStimulus: Diagram of cell division in two related individuals, in two dashed panels: 'Individual 1' (left) and 'Individual 2' (right). Each has germ-line cells in a top row and somatic cells below, joined by arrows that show division.\nKey: gamete = half-circle (sperm or egg); zygote = stippled circle; germ-line cell = dark grey circle; somatic cell = white circle.\nIndividual 1: a sperm and an egg (gametes) feed into zygote Q at top left. An arrow labelled 'A' leads from Q to an unlabelled germ-line cell, then to germ-line cell S, then to a gamete at the right end of the top row, which points across to Individual 2. From Q an arrow goes down to somatic cell R, which branches into two somatic cells. One branch passes through somatic cell T to the bottom row, which includes somatic cell U.\nIndividual 2: a sperm feeds in from above into an unlabelled stippled zygote at top left. Two dark germ-line cells follow, then a gamete labelled X at the right end. From the zygote an arrow goes down to a somatic cell that branches; an arrow labelled 'B' runs from that somatic cell to the somatic cell at its lower right. The bottom row includes somatic cells V and W.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "33(c)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-33c",
+                      "alt": "Diagram of cell divisions in two related individuals, with cells labelled R, S, U, V, W and X.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-33.png"
+                    }
                   }
                 ]
               },
@@ -2682,6 +3053,71 @@
                     "hscYear": 2024,
                     "hscQuestionNumber": "24(b)",
                     "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-25",
+                    "question": "Using the graph, evaluate the information provided on the sunscreen product with regard to the Cancer Council suggestion.",
+                    "totalMarks": 3,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "BI-12-02",
+                      "BI-12WS-05"
+                    ],
+                    "markerNotes": [
+                      "The top row gives a definite judgement on the product statement, supported by reading the graph against the Cancer Council's level of 3 or above. The 2-mark row shows some understanding of the statement and the data but gives no clear judgement or supporting values.",
+                      "NESA's sample judges the statement incorrect, because UV is at or above 3 from about 8 am to 6 pm, which leaves about 2 hours either side of the 10 am to 4 pm window unprotected. Accept any definite judgement that reads approximate times from the graph and compares them with the recommended window."
+                    ],
+                    "commonStudentErrors": [
+                      "States the product is wrong without relating the 10 am to 4 pm window to the UV readings on the graph.",
+                      "Describes the trend in the graph but does not make a definite judgement, for example saying the product is 'sort of right'.",
+                      "Identifies the peak at about 2 pm but does not use the Cancer Council's level of 3 to decide when protection is needed."
+                    ],
+                    "keywords": [
+                      "UV level",
+                      "sun protection",
+                      "sunscreen",
+                      "Cancer Council",
+                      "skin cancer",
+                      "UV radiation"
+                    ],
+                    "markingCriteria": "3 marks: Provides an accurate evaluation of the product statement; Demonstrates a sound understanding of the data provided\n2 marks: Demonstrates some understanding of the product statement and the data provided\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-25-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The product statement is incorrect because a person is not fully protected from UV. UV levels greater than 3 occur between approximately 8 am and 6 pm and so for the given day there is about 2 hours before and after recommended times, a person would have no protection from UV.",
+                        "feedback": "Meets the 3-mark row by providing an accurate evaluation of the product statement and demonstrating a sound understanding of the data. It states that 'The product statement is incorrect' and supports this with 'about 2 hours before and after recommended times'.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-25-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The sunscreen should be used between 10 am and 4 pm, but the graph shows UV is high at other times too. So the product is not completely accurate.",
+                        "feedback": "Meets the 2-mark row by demonstrating some understanding of the product statement and the data, with 'UV is high at other times too'. The judgement 'not completely accurate' is hedged and does not give the hours above the threshold, so stating a definite judgement with the approximate times, such as about 8 am to 6 pm, would lift it.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-25-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The graph shows UV levels going up in the morning and down at night.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'UV levels going up in the morning' describes the trend without relating it to the product statement. Judging the product statement against the Cancer Council's level of 3 would lift it.",
+                        "band": 4
+                      }
+                    ],
+                    "scenario": "The graph shows the changes in UV level in a single day.\n\nThe Cancer Council suggests that sun protection is needed whenever the UV level is 3 or above. The information provided on a sunscreen product suggests that sunscreen should be used between 10 am and 4 pm.\n\nStimulus: Line graph of UV level against time of day for a single day.\nY-axis: 'UV level', from 0 to 14 in steps of 2 (no units).\nX-axis: 'Time of day', from 12 am to 12 am in 2-hour steps, with '(noon)' printed under 12 pm.\nOne smooth curve, with no legend. Approximate readings from the curve:\n- about 0 from 12 am to about 5 am\n- about 1 at 6 am\n- about 3 at 8 am\n- about 6 to 7 at 10 am\n- about 10 at 12 pm\n- a peak of about 12 at about 2 pm\n- about 10 at 4 pm\n- about 5 at 6 pm\n- about 1 to 2 at 8 pm\n- about 0 after about 10 pm",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-25",
+                      "alt": "Line graph of UV level across one day, peaking at about 2 pm.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-25.png"
+                    }
                   }
                 ]
               }
@@ -2694,7 +3130,58 @@
               {
                 "id": "dp-bio-12-diseases-2-1",
                 "description": "Use examples of infectious diseases to classify infectious agents as macroorganisms, microorganisms or non-cellular pathogens",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-29a",
+                    "question": "Why is *Varroa* mite infection considered to be an infectious disease?",
+                    "totalMarks": 2,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BI-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top row justifies why Varroa mite infection counts as an infectious disease, by identifying the mite as a pathogen that can pass between organisms. The 1-mark row gives a correct fact about the mite, such as that it is a parasite, without tying it to infection.",
+                      "NESA's sample calls the mite a parasitic pathogen that is spread between bees and hives that come into direct contact. Accept an equivalent justification drawn from the stimulus, such as the mite being an external parasite that moves between colonies."
+                    ],
+                    "commonStudentErrors": [
+                      "States that Varroa mite is a pest, without saying it is a pathogen that can be transmitted.",
+                      "Restates the stimulus that the mite is the most serious pest of honey bees, which does not justify the infectious disease classification.",
+                      "Gives a reason that is not about infection, such as the mite's size or appearance."
+                    ],
+                    "keywords": [
+                      "infectious disease",
+                      "pathogen",
+                      "macroorganism",
+                      "parasite",
+                      "transmission",
+                      "spread between hosts"
+                    ],
+                    "markingCriteria": "2 marks: Provides justification for Varroa mite infection being an infectious disease\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-29a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "*Varroa* mite is an infectious disease because the mite is a parasitic pathogen that is spread between bees and hives that come into direct contact with the pest.",
+                        "feedback": "Meets the 2-mark row by providing justification for Varroa mite infection being an infectious disease. It describes the mite as 'a parasitic pathogen' that is 'spread between bees and hives'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-29a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "*Varroa* mite is a parasite that lives on honey bees.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'a parasite that lives on honey bees' is accurate but does not say why the infection is infectious. Explaining that the mite is a pathogen that spreads between bees would lift it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "The *Varroa* mite is an external parasite of European honey bees and is considered to be the most serious pest of honey bees worldwide.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "29(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  }
+                ]
               },
               {
                 "id": "dp-bio-12-diseases-2-2",
@@ -2748,6 +3235,56 @@
                     "isPastHSC": true,
                     "hscYear": 2023,
                     "hscQuestionNumber": "28(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-22b",
+                    "question": "Outline an adaptation in a pathogen that facilitates transmission between hosts.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "BI-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top row needs an adaptation that moves the pathogen from one host to another, linked explicitly to that transfer. The 1-mark row names a feature that helps the pathogen inside the host without any link to transmission.",
+                      "NESA's sample uses spores released after the fungus colonises a host, which then infect a new host. NESA's feedback also gives cholera's toxin-driven diarrhoea, which releases bacteria into water, as an example of a correct answer, so an equivalent specific adaptation should be accepted."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes an adaptation that helps the pathogen survive or multiply inside the host, rather than one that moves it to a new host.",
+                      "Gives a general feature of pathogens, such as 'fungi can reproduce', instead of one specific adaptation.",
+                      "Names an adaptation but does not say how it leads to the pathogen reaching a new host."
+                    ],
+                    "keywords": [
+                      "adaptation",
+                      "transmission between hosts",
+                      "spores",
+                      "colonise",
+                      "new host",
+                      "pathogen"
+                    ],
+                    "markingCriteria": "2 marks: Outlines how a pathogen adaptation facilitates transmission between hosts\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-22b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "After colonising a host, fungi can produce spores which can be released to infect a new host.",
+                        "feedback": "Meets the 2-mark row by outlining how a pathogen adaptation facilitates transmission between hosts. It links spore release to infection of a new host, through 'spores which can be released to infect a new host'.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-22b-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Fungi grow as thin threads called hyphae that spread through tissue inside the host.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'spread through tissue inside the host' describes growth inside the host, which is the internal benefit the question does not ask for. Explaining how a feature moves the pathogen to a new host, such as spores carried away in water, would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(b)",
                     "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
                   }
                 ]
@@ -3022,13 +3559,199 @@
                     "hscYear": 2023,
                     "hscQuestionNumber": "22(b)",
                     "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-28a",
+                    "question": "Describe the role of X, Y and Z in the process of antibody production.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BI-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top row correctly describes antibody production and correctly identifies X, Y and Z by cell type and role, such as helper T cells activating B cells that become plasma cells. The 3-mark row outlines the process but refers to the flow chart only loosely.",
+                      "NESA's sample names X as helper T cells, Y as B lymphocytes and Z as plasma cells, and describes macrophages working with helper T cells to activate the B cells. Check each of X, Y and Z against those roles rather than against the exact wording."
+                    ],
+                    "commonStudentErrors": [
+                      "Rewrites the flow chart's arrows, such as 'X leads to Y', without naming what X, Y and Z are.",
+                      "Names the wrong cell for one of X, Y or Z, or leaves out the helper T cells' activation of the B cells.",
+                      "Starts at the antibody and skips antigen presentation and cell activation, so the sequence is incomplete."
+                    ],
+                    "keywords": [
+                      "antibody production",
+                      "helper T cells",
+                      "B lymphocytes",
+                      "plasma cells",
+                      "antigen",
+                      "memory cells"
+                    ],
+                    "markingCriteria": "4 marks: Correctly describes the process of antibody production with correct reference to the role of X, Y and Z\n3 marks: Outlines the process of antibody production with some reference to the flow chart\n2 marks: Outlines a process of antibody production\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-28a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The tick bite transfers antigenic alpha-gal sugar molecules into the skin. Macrophages, together with Helper T cells (X), activate B-lymphocytes (Y). These cells grow and differentiate into either memory cells, when exposure occurs, or plasma cells (Z) which produce antibodies against the antigen.",
+                        "feedback": "Meets the 4-mark row by correctly describing antibody production with correct reference to the roles of X, Y and Z. It identifies 'Helper T cells (X)' and 'B-lymphocytes (Y)', then 'plasma cells (Z) which produce antibodies'.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-28a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Once alpha-gal enters the body, the immune system responds by making antibodies. These antibodies then bind to the alpha-gal molecules.",
+                        "feedback": "Meets the 2-mark row by outlining a process of antibody production, with 'the immune system responds by making antibodies'. It names none of the cells in X, Y or Z, so naming them and their roles, such as helper T cells activating B lymphocytes, would lift it.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-28a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Alpha-gal is a sugar molecule that the body can react to.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'a sugar molecule that the body can react to' repeats the stimulus without describing antibody production. Describing what happens to the alpha-gal in the immune response would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Alpha-gal syndrome (AGS) is a tick-borne allergy to red meat caused by tick bites. Alpha-gal is a sugar molecule found in most mammals but not humans, and can also be found in the saliva of ticks. The diagram shows how a tick bite might cause a person to develop an allergic reaction to red meat.\n\nThe flow chart shows the process of antibody production following exposure to alpha-gal.\n\nStimulus: Flow chart of antibody production after exposure to alpha-gal, with blank boxes X, Y and Z.\n- 'Alpha-gal' box and 'Macrophage' box, with arrows joining and pointing down into box X.\n- X → box Y.\n- Y → arrow to the left → 'Memory cells'.\n- Y → arrow to the right → box Z.\n- Z → arrow down → 'Antibodies'.\nX, Y and Z are blank boxes, labelled only by those letters.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "28(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-28a",
+                      "alt": "Flow chart of antibody production with blank boxes X, Y and Z.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-28a.png"
+                    }
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-28c",
+                    "question": "Explain the role of memory cells in the immune response.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BI-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top row explains how memory cells are created during the first exposure and how they act on re-exposure, linking the two. The 2-mark row outlines a role, such as remembering the pathogen, without explaining how the cells form or why they respond faster.",
+                      "NESA's sample states that B cells create memory cells in response to a specific antigen, and that on re-exposure they quickly differentiate into plasma cells or cytotoxic T cells. Accept either product of memory cells on re-exposure, since NESA's sample names both."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes what memory cells do on re-exposure but never says how they were created during the first exposure.",
+                      "States that memory cells 'remember' the pathogen but does not link this to a faster or stronger response on re-exposure.",
+                      "Says memory cells make antibodies on the first exposure, which mixes up their role with that of plasma cells."
+                    ],
+                    "keywords": [
+                      "memory cells",
+                      "B lymphocytes",
+                      "primary exposure",
+                      "re-exposure",
+                      "plasma cells",
+                      "antigen"
+                    ],
+                    "markingCriteria": "3 marks: Explains the role of memory cells in the immune response\n2 marks: Outlines the role of memory cells\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-28c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Memory cells are created by B-cells in response to a specific antigen. Memory cells remain in the lymph nodes after the infection. On re-exposure to the antigen, these memory cells quickly differentiate into plasma cells or cytotoxic T-cells, which neutralise the pathogen more rapidly to prevent disease.",
+                        "feedback": "Meets the 3-mark row by explaining the role of memory cells in the immune response. It explains creation, 'Memory cells are created by B-cells in response to a specific antigen', and their action on re-exposure, 'these memory cells quickly differentiate into plasma cells or cytotoxic T-cells'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-28c-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Memory cells are made after an infection and stay in the body. They help the body respond to the same pathogen again.",
+                        "feedback": "Meets the 2-mark row by outlining the role of memory cells, with 'They help the body respond to the same pathogen again'. It does not say how the cells are created or why the response is faster, so explaining how B cells form them during the first exposure and how they quickly differentiate on re-exposure would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-28c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Memory cells are a type of white blood cell in the immune system.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'a type of white blood cell' defines the cells but gives no role in the immune response. Explaining what the memory cells do on re-exposure would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Alpha-gal syndrome (AGS) is a tick-borne allergy to red meat caused by tick bites. Alpha-gal is a sugar molecule found in most mammals but not humans, and can also be found in the saliva of ticks. The diagram shows how a tick bite might cause a person to develop an allergic reaction to red meat.\n\nStimulus: Four-stage diagram with a body outline and a tick-and-skin inset.\n1. 'Tick bite': an enlarged tick with alpha-gal dots in its saliva, entering the skin of the arm. Label: 'When a tick bites a human, it transfers alpha-gal through its saliva into the skin tissue.'\n2. 'Immune response': Y-shaped antibodies bound to alpha-gal dots in the body. Label: 'The body makes antibodies against the invading alpha-gal molecule. These antibodies stay in the body, ready to attack at the next alpha-gal exposure.'\n3. 'Meat trigger': a cut of meat with alpha-gal dots, and an antibody in an inset with an arrow pointing to the head. Label: 'When a person eats the meat of a mammal, the alpha-gal present triggers an immune response.'\n4. 'Symptoms appear in 4–5 hours': labels on a body outline reading dizziness (brain), swelling of the lips, difficulty breathing (lungs), itchy rash, and vomiting (stomach/intestines).",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "28(c)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-28c",
+                      "alt": "Four-stage diagram of a tick bite, antibody response, meat trigger and symptoms.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-28c.png"
+                    }
                   }
                 ]
               },
               {
                 "id": "dp-bio-12-diseases-2-11",
                 "description": "Interpret and construct diagrams of the adaptive immune system to demonstrate how the cell-mediated and humoral components of the immune system respond after primary and secondary exposure to a pathogen",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-28b",
+                    "question": "Describe the features of antibody production shown in the graph.",
+                    "totalMarks": 2,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BI-12-02",
+                      "BI-12WS-05"
+                    ],
+                    "markerNotes": [
+                      "The top row describes at least two specific, distinct features that the graph shows for both exposures, such as the time each response takes to start and the height of each peak. The 1-mark row gives a general statement, such as that the body responds faster the second time, without a feature read from the curve.",
+                      "NESA's sample compares the first and second exposures on timing and concentration: antibody production takes longer and produces a lower concentration on first exposure, and is quicker and higher on re-exposure. Accept any feature that is read directly from the curve for both exposures."
+                    ],
+                    "commonStudentErrors": [
+                      "Gives a broad generalisation, such as 'the immune system gets stronger', rather than a feature the graph shows.",
+                      "Describes features of only one exposure, usually the second, and leaves out the first.",
+                      "Repeats the labels 'Tick bite' and 'Meat eaten' instead of describing what the curve does after each."
+                    ],
+                    "keywords": [
+                      "antibody production",
+                      "primary exposure",
+                      "secondary exposure",
+                      "antibody concentration",
+                      "primary response",
+                      "secondary response"
+                    ],
+                    "markingCriteria": "2 marks: Describes features of antibody production shown in the graph\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-28b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "On first exposure to the alpha-gal sugar by the tick bite, antibody production takes longer and only a lower concentration of antibodies is produced. On re-exposure, antibodies are produced more quickly and a higher concentration is produced.",
+                        "feedback": "Meets the 2-mark row by describing features of antibody production shown in the graph. It contrasts the two exposures, with 'antibody production takes longer' on first exposure and 'antibodies are produced more quickly' on re-exposure.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-28b-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The graph shows that the body makes antibodies after the tick bite and again after eating meat.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'the body makes antibodies after the tick bite and again after eating meat' repeats the labels without describing how the curve changes. Describing the time taken and the size of each peak, such as the second peak being higher, would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Alpha-gal syndrome (AGS) is a tick-borne allergy to red meat caused by tick bites. Alpha-gal is a sugar molecule found in most mammals but not humans, and can also be found in the saliva of ticks. The diagram shows how a tick bite might cause a person to develop an allergic reaction to red meat.\n\nAn allergic reaction to alpha-gal sugar is similar to a secondary immune response.\n\nStimulus: Graph with no numerical scales, showing antibody concentration against time.\n- Y-axis: 'Concentration of antibodies'.\n- X-axis: 'Time' (arrow). Two arrows on the time axis: 'Tick bite' (early) and 'Meat eaten' (later).\n- The curve is flat at zero from the axis until just after the tick bite. It rises to a small hump, about a quarter of the height of the later peak, then falls to a low trough at the 'Meat eaten' arrow, close to the baseline.\n- It then rises steeply to the highest point on the graph, and falls to a plateau that stays well above the level of the first hump until the end of the line.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "28(b)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-28b",
+                      "alt": "Graph of antibody concentration over time, with a tick bite followed later by meat eaten.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-28b.png"
+                    }
+                  }
+                ]
               },
               {
                 "id": "dp-bio-12-diseases-2-12",
@@ -3142,7 +3865,73 @@
               {
                 "id": "dp-bio-12-diseases-3-3",
                 "description": "Discuss the features of randomised clinical trials, cross-sectional studies, case studies and cohort studies",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-32",
+                    "question": "Design an epidemiological study that could be used to produce the results shown in the graph. Justify the features of your design.",
+                    "totalMarks": 7,
+                    "verb": "PROPOSE",
+                    "linkedOutcomes": [
+                      "BI-12-02",
+                      "BI-12WS-02"
+                    ],
+                    "markerNotes": [
+                      "The top row designs a study that could produce most of the graph's features, such as three exposure ages, about 55 years of follow-up and a comparison area, and justifies each feature by reliability or validity. The 5-6 mark row designs a study that could produce only some features, or justifies only some steps.",
+                      "NESA's sample uses the age groups 10, 20 and 30 in areas A, B and C over 55 years, with the isolated area C as a control group, and justifies equal numbers of males and females and the collection of other factors by validity. The criteria reward the fit of the design to the graph and its justification, not a named study type."
+                    ],
+                    "commonStudentErrors": [
+                      "Chooses design features that ignore the stimulus, such as the three regions or the road bridge.",
+                      "Lists design features without explaining how each one protects reliability or validity.",
+                      "Confuses reliability with validity, or uses the terms without showing how a feature affects the quality of the study."
+                    ],
+                    "keywords": [
+                      "epidemiological study",
+                      "cohort study",
+                      "control group",
+                      "reliability",
+                      "validity",
+                      "confounding variables"
+                    ],
+                    "markingCriteria": "7 marks: Designs an appropriate epidemiological study that could produce most features of the graphed results; Justifies the features/steps with reference to the information provided\n5-6 marks: Designs an appropriate epidemiological study that could produce some features of the graphed results; Justifies feature(s)/step(s) with reference to the information provided\n3-4 marks: Provides some features of an epidemiological study; Makes some reference to the information provided\n2 marks: Demonstrates some understanding of epidemiological studies\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-32-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 7,
+                        "answer": "Individuals from age groups 10, 20 and 30 in areas A, B and C should be surveyed over 55 years as shown in the graph. Areas A and B are connected via a road bridge so the communities can easily mix but area C is isolated so would serve as a control group.\n\nThe study should include equal numbers of males and females to ensure validity. To determine the risk of developing the disease due to age at exposure, data must be collected on other relevant features including diet, exercise, exposure to disease causing agents, general lifestyle and daily activities, and health of individuals.\n\nCorrelating the data to find common features or activities would help determine the risk of disease due to age at exposure. Surveying large numbers of individuals would improve the validity of the study.",
+                        "feedback": "Meets the 7-mark row by designing an appropriate study that could produce most features of the graphed results and justifying its features with reference to the stimulus. It uses 'age groups 10, 20 and 30 in areas A, B and C', and 'area C is isolated so would serve as a control group' to tie the design to the map.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-32-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Researchers should survey people of different ages in areas A, B and C over a long period, such as 55 years. They should use equal numbers of males and females so the results are fair. The study should record things like diet and exercise, which may affect disease risk.",
+                        "feedback": "Meets the 4-mark row by providing some features of an epidemiological study, with 'equal numbers of males and females' and some reference to the graph in 'over a long period'. The features are not justified in terms of reliability or validity, so explaining how each feature improves validity, using the three age groups, would lift it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-32-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "An epidemiological study looks at how often a disease occurs in different groups of people. The researchers should ask people questions about their health and then compare the results.",
+                        "feedback": "Meets the 2-mark row by demonstrating some understanding of epidemiological studies, with 'looks at how often a disease occurs in different groups of people'. It gives no design features from the graph and no justification, so naming the age groups, time frame and comparison area from the figure, and justifying each, would lift it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "A population lives across three regions, A, B and C as shown.\n\nPeople in community B developed an environmental disease. An epidemiological study was carried out to determine the risk of developing the disease due to age at exposure. The results of this study are shown in the graph.\n\nStimulus: Two figures. First, a map of three regions, A, B and C, in a rectangle with wave symbols over the rest of the area. Region A (large, top left) and region B (oval, bottom centre) are joined by a road bridge labelled 'Road bridge'. Region C is a separate oval at the upper right, with no bridge shown.\nSecond, a line graph titled 'Risk of developing environmental disease %'. Y-axis: 'Risk %', from 0 to 80. X-axis: 'Years after exposure', from 0 to 60. Legend 'Age at exposure': solid line for 10 years, dashed line for 20 years, dotted line for 30 years. Approximate readings:\n- 10 years: about 65% at about 5 years, peaking at about 70% at about 7 to 8 years, falling to near 0 by about 25 years, with a small bump to about 2% around 45 years.\n- 20 years: about 12% at about 5 years, peaking at about 12 to 13% at about 8 to 10 years, falling to about 2% by about 25 years.\n- 30 years: flat at about 2% from about 5 to 55 years.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "32",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-32",
+                      "alt": "Map of three regions joined by a road bridge, and a graph of disease risk over years after exposure at three ages.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-32.png"
+                    }
+                  }
+                ]
               },
               {
                 "id": "dp-bio-12-diseases-3-4",
@@ -3455,7 +4244,73 @@
               {
                 "id": "dp-bio-12-biodiversity-2-4",
                 "description": "Use examples to compare external and internal fertilisation methods for creating variation in a species",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-27",
+                    "question": "Compare the types of fertilisation that occur in group A and group B animals with reference to the data provided.",
+                    "totalMarks": 6,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "BI-12-03",
+                      "BI-12WS-05"
+                    ],
+                    "markerNotes": [
+                      "The top row correctly identifies internal fertilisation in group A and external fertilisation in group B, compares the two methods extensively, and uses the table's figures in its points. The 4-mark row identifies both types correctly and shows sound understanding, but refers to the data only in passing.",
+                      "NESA's sample links the low egg numbers in group A, such as 1 to 100 in snakes, to the higher probability of fertilisation inside the body, and the high numbers in group B, such as 100 000 to 2 million in sea urchins, to the low probability in open water. Accept any correct comparison of the two methods that is supported by the table's figures."
+                    ],
+                    "commonStudentErrors": [
+                      "Confuses external fertilisation with asexual reproduction, or fertilisation with parental care.",
+                      "Lists the egg numbers from the table without linking them to the type of fertilisation.",
+                      "Describes each group in turn with no similarities or differences between internal and external fertilisation."
+                    ],
+                    "keywords": [
+                      "internal fertilisation",
+                      "external fertilisation",
+                      "gametes",
+                      "number of eggs",
+                      "aquatic",
+                      "terrestrial"
+                    ],
+                    "markingCriteria": "6 marks: Correctly identifies the type of fertilisation in each group; Provides an extensive comparison of internal and external fertilisation; Incorporates references to the data provided\n5 marks: Correctly identifies the type of fertilisation in each group; Provides a thorough comparison of internal and external fertilisation; Makes some reference to the data provided\n4 marks: Correctly identifies the type of fertilisation in each group; Demonstrates a sound understanding of internal and external fertilisation; Makes limited reference to the data provided\n2-3 marks: Outlines feature(s) of fertilisation\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-27-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 6,
+                        "answer": "The animals in Group A are all terrestrial animals with internal fertilisation. The animals in Group B are all aquatic animals with external fertilisation.\n\nIn both groups, fertilisation involves fusion of male and female gametes.\n\nIn Group A this occurs inside the female body. Fewer gametes are needed as there is a higher probability of fertilisation in the internal space. Thus the animals in Group A produce far fewer eggs (eg 1 to 100 in snakes) than in Group B (100 000 to 2 million in sea urchins) and they are able to reproduce in terrestrial environments as internal fertilisation protects the gametes.\n\nIn Group B, fertilisation must occur in an aquatic environment so that the gametes do not dry out. Fertilisation in Group B has a much lower probability of success as the gametes are spread over a larger volume. Internal fertilisation ensure higher rates of survival of the fewer offspring produced.",
+                        "feedback": "Meets the 6-mark row by identifying the type of fertilisation in each group and comparing internal and external fertilisation extensively. It uses the data directly, citing 'eg 1 to 100 in snakes' and '100 000 to 2 million in sea urchins'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-27-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Group A animals have internal fertilisation, where the sperm and egg join inside the female reproductive tract, so the gametes are protected. Group B animals have external fertilisation, where the eggs and sperm are released into water and join there. Snakes produce fewer eggs than sea urchins, which fits internal fertilisation.",
+                        "feedback": "Meets the 4-mark row by identifying the type of fertilisation in each group and showing sound understanding, with 'where the sperm and egg join inside the female reproductive tract'. Its only reference to the data is 'Snakes produce fewer eggs than sea urchins', so explaining why internal fertilisation needs fewer gametes, using the actual figures, would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-27-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Fertilisation in group A is internal. Fertilisation in group B is external and happens in water.",
+                        "feedback": "Meets the 2-mark row by outlining features of fertilisation, 'Fertilisation in group A is internal'. It gives no comparison and no use of the table, so comparing the two methods and linking them to the egg numbers would lift it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "The table shows the number of eggs produced by females in TWO different groups of animals.\n\nStimulus: Table of the number of eggs produced by females in two groups of animals, Group A and Group B.\n\n| Group A: Animal | Group A: Number of eggs | Group B: Animal | Group B: Number of eggs |\n| --- | --- | --- | --- |\n| Monotremes | 1–3 | Crabs | 1000–2000 |\n| Snakes | 1–100 | Sea urchins | 100 000 to 2 million |\n| Birds | 1–17 | Squid | 2000–3000 |",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-27",
+                      "alt": "Table comparing the number of eggs produced by animals in two groups.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-27.png"
+                    }
+                  }
+                ]
               },
               {
                 "id": "dp-bio-12-biodiversity-2-5",
@@ -3527,6 +4382,56 @@
                       "updatedAt": 0,
                       "src": "courseData/images/bio-2023-33.png"
                     }
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-22a",
+                    "question": "Outline a process used by fungi for reproduction.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "BI-12-03"
+                    ],
+                    "markerNotes": [
+                      "The 2-mark row needs one process used by fungi, outlined in enough steps to show how it produces a new organism. The 1-mark row gives relevant information, such as naming a reproductive structure, without the process that follows.",
+                      "NESA's sample names asexual reproduction by spores and follows them through release, carriage to a favourable environment, germination and growth into a new fungal organism. Budding is listed by NESA as an acceptable answer, and any other correct fungal reproductive process outlined in order should also be accepted."
+                    ],
+                    "commonStudentErrors": [
+                      "Names a reproductive method, such as 'fungi reproduce by spores', without outlining what happens next.",
+                      "Describes the outcome of budding, a genetically identical organism, without outlining how the bud forms and breaks off the parent.",
+                      "Gives a general feature of fungi, such as their cell walls, which is not a reproductive process."
+                    ],
+                    "keywords": [
+                      "fungi",
+                      "reproduction",
+                      "asexual reproduction",
+                      "spores",
+                      "germinate",
+                      "budding"
+                    ],
+                    "markingCriteria": "2 marks: Outlines a process used by fungi for reproduction\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-22a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "Fungi can reproduce asexually by producing spores which are released and when carried into a favourable environment they germinate and grow into a new fungal organism.",
+                        "feedback": "Meets the 2-mark row by outlining a process used by fungi for reproduction. It names asexual reproduction 'by producing spores' and follows them until they 'germinate and grow into a new fungal organism'.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-22a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Fungi reproduce by making spores that can be carried away from the parent.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'Fungi reproduce by making spores' names a method without a process. Explaining what the spores do after release, such as germinating into a new fungus, would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
                   }
                 ]
               },
@@ -3604,6 +4509,63 @@
                       "updatedAt": 0,
                       "src": "courseData/images/bio-2023-32.png"
                     }
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-34a",
+                    "question": "Explain why the fluctuations of the allele frequencies are more pronounced in the small population, compared to the larger population.",
+                    "totalMarks": 2,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BI-12-03",
+                      "BI-12WS-05"
+                    ],
+                    "markerNotes": [
+                      "The top row explains the cause: a smaller population has a smaller gene pool and less genetic diversity, so each change in allele frequency has a larger effect on the gene pool. The 1-mark row only compares the two populations, for example that the small population's lines change more, without giving a reason.",
+                      "NESA's sample gives exactly this reason, that small gene pools have decreased genetic diversity. Accept genetic drift as the mechanism if the answer explains why chance changes matter more in a small population."
+                    ],
+                    "commonStudentErrors": [
+                      "States that the small population's frequencies fluctuate more, without giving a reason such as a smaller gene pool.",
+                      "Says the populations started with different introduced alleles, when the initial gene flow of four alleles was the same in both.",
+                      "Explains the fluctuations only by natural selection, without linking them to the size of the gene pool."
+                    ],
+                    "keywords": [
+                      "allele frequency",
+                      "gene pool",
+                      "genetic diversity",
+                      "genetic drift",
+                      "population size",
+                      "gene flow"
+                    ],
+                    "markingCriteria": "2 marks: Explains why the small population allele frequency fluctuations are more pronounced compared to that of a larger population\n1 mark: Makes a comparison between the two groups",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-34a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "The smaller the population size, the smaller the gene pool. Small gene pools have a decreased genetic diversity, so any fluctuations in allele frequency will have a greater effect on the gene pool.",
+                        "feedback": "Meets the 2-mark row by explaining why the fluctuations in allele frequency are more pronounced in the smaller population. It states that 'Small gene pools have a decreased genetic diversity', so 'any fluctuations in allele frequency will have a greater effect on the gene pool'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-34a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The small population's allele frequencies change much more than the large population's.",
+                        "feedback": "Meets the 1-mark row by making a comparison between the two groups, with 'change much more than'. It gives no reason, so explaining how a smaller gene pool with less genetic diversity makes each change count for more would lift it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "The following graphs show the changes in allele frequencies in two separate populations of the same species. Each line represents an introduced allele.\n\nStimulus: Two line graphs of allele frequency (y-axis, 0 to 1) against generation (x-axis, 0 to 50). Each line is one introduced allele, shown by line style.\nLeft graph, 'Population = 20':\n- a solid line falls from about 0.55 at generation 0 to 0 by about generation 10\n- a dotted line rises to 1.0 by about generation 15 and stays there\n- a dashed line climbs to 1.0 by about generation 35\n- a long-dash line falls to about 0 by about generation 33\n- the remaining lines fluctuate between about 0.2 and 0.7\nRight graph, 'Population = 2000':\n- all lines stay between about 0.3 and 0.65 across generations 0 to 50\n- one dashed line dips to about 0.3 near generation 18 and recovers to about 0.6 by generation 50\n- the other lines stay near 0.4 to 0.5",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "34(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-34a",
+                      "alt": "Two line graphs of allele frequency over 50 generations, for populations of 20 and 2000.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-34.png"
+                    }
                   }
                 ]
               },
@@ -3620,7 +4582,73 @@
               {
                 "id": "dp-bio-12-biodiversity-2-10",
                 "description": "Evaluate the effect of mutation, natural selection, non-random mating, gene flow and genetic drift on allele frequencies in populations",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-34b",
+                    "question": "Evaluate the effects of gene flow on the gene pools of the two populations.",
+                    "totalMarks": 4,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "BI-12-03",
+                      "BI-12WS-05"
+                    ],
+                    "markerNotes": [
+                      "The top row evaluates gene flow for both populations and judges its overall impact: in the small population it adds variation that can spread or be removed by selection, while in the large population its impact is smaller because variation is already high. The 3-mark row describes effects for both populations without a judgement, and the 2-mark row describes an effect for one population only.",
+                      "NESA's sample judges that the impact of gene flow can be positive or negative depending on population size and environmental conditions, and that it generally has a positive effect by increasing diversity. Accept a different judgement if the graphs support it."
+                    ],
+                    "commonStudentErrors": [
+                      "Reverses the relationship, treating the gene pool as changing gene flow rather than gene flow changing the gene pool.",
+                      "Compares the populations only by how much the lines move, without a judgement on whether gene flow helped or harmed either one.",
+                      "Does not explain how population size changes the rate and impact of gene flow on allele frequency changes."
+                    ],
+                    "keywords": [
+                      "gene flow",
+                      "gene pool",
+                      "allele frequency",
+                      "genetic variation",
+                      "natural selection",
+                      "population size"
+                    ],
+                    "markingCriteria": "4 marks: Evaluates the effects of gene flow on a gene pool for both small and large populations\n3 marks: Describes the effects of gene flow on a gene pool for both small and large populations\n2 marks: Describes an effect of gene flow on a gene pool for either small or large populations\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-34b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Small populations have limited genetic diversity. Gene flow can benefit the gene pool by introducing genetic variation into a population. If the environmental conditions are favourable, the gene can easily spread to increase the population’s ability to adapt to a changing environment. Where the environmental conditions are unfavourable, the gene will quickly be removed due to natural selection, as shown in the graph of the small population where the frequency of the introduced allele is shown to dramatically change in frequency.\n\nThe impact of the introduced gene is less pronounced in larger populations, due to the higher level of genetic variation already present. Gene flow generally has a positive effect by further increasing genetic diversity. The graph shows that the allele frequencies of a larger population fluctuate little over time as the introduced allele is of a lower proportion in the gene pool.\n\nThe impact of gene flow can be positive or negative depending on population size and environmental conditions.",
+                        "feedback": "Meets the 4-mark row by evaluating the effects of gene flow on a gene pool for both small and large populations. It contrasts 'the gene can easily spread' in favourable conditions with 'The impact of the introduced gene is less pronounced in larger populations'.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-34b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "In the small population, gene flow brings in a new allele, which can change the allele frequency quickly. The graph shows this in the small population.",
+                        "feedback": "Meets the 2-mark row by describing an effect of gene flow on the gene pool of the small population, 'gene flow brings in a new allele, which can change the allele frequency quickly'. It says nothing about the large population and makes no judgement, so comparing the effect on both populations and judging its impact would lift it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-34b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Gene flow is the movement of alleles between populations.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'the movement of alleles between populations' is a correct definition but has no effect on either gene pool. Describing what that movement does to allele frequencies in the two graphs would lift it.",
+                        "band": 3
+                      }
+                    ],
+                    "scenario": "The following graphs show the changes in allele frequencies in two separate populations of the same species. Each line represents an introduced allele.\n\nStimulus: Two line graphs of allele frequency (y-axis, 0 to 1) against generation (x-axis, 0 to 50). Each line is one introduced allele, shown by line style.\nLeft graph, 'Population = 20':\n- a solid line falls from about 0.55 at generation 0 to 0 by about generation 10\n- a dotted line rises to 1.0 by about generation 15 and stays there\n- a dashed line climbs to 1.0 by about generation 35\n- a long-dash line falls to about 0 by about generation 33\n- the remaining lines fluctuate between about 0.2 and 0.7\nRight graph, 'Population = 2000':\n- all lines stay between about 0.3 and 0.65 across generations 0 to 50\n- one dashed line dips to about 0.3 near generation 18 and recovers to about 0.6 by generation 50\n- the other lines stay near 0.4 to 0.5",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "34(b)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2025-34b",
+                      "alt": "Two line graphs of allele frequency over 50 generations, for populations of 20 and 2000.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2025-34.png"
+                    }
+                  }
+                ]
               },
               {
                 "id": "dp-bio-12-biodiversity-2-11",
@@ -3730,7 +4758,66 @@
               {
                 "id": "dp-bio-12-biodiversity-3-3",
                 "description": "Explain procedures employed in Australia to limit transmission of infectious diseases in animals and plants",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-29b",
+                    "question": "Explain TWO procedures that could have been employed to prevent the spread of the *Varroa* mite in honey bees.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "BI-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top row explains two distinct procedures and links each one to how it stops the spread to the rest of the population. The 3-mark row explains only one procedure, and the 2-mark row names or outlines procedures without explaining how they limit spread.",
+                      "NESA's sample gives early identification with isolation of infected colonies, and destroying infected hives, each with its effect on healthy hives. NESA's feedback asks for procedures that apply to the stimulus rather than generic advice, and its answers-could-include list accepts regular monitoring and minimising exposure by washing equipment and disinfection."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists two procedures but gives no link to how each one stops the mite reaching the rest of the population.",
+                      "Gives generic advice, such as 'keep things clean', rather than a procedure that applies to the situation in the stimulus.",
+                      "Adds background about the mite that is not needed, instead of explaining the procedures."
+                    ],
+                    "keywords": [
+                      "Varroa mite",
+                      "isolation",
+                      "infected hives",
+                      "early identification",
+                      "monitoring",
+                      "disinfection"
+                    ],
+                    "markingCriteria": "4 marks: Explains TWO procedures used to prevent the spread of Varroa mite\n3 marks: Explains ONE procedure OR Describes procedures used to prevent the spread of Varroa mite\n2 marks: Describes ONE procedure OR Outlines TWO procedures\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-29b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Measures used to prevent the spread of *Varroa* mite include:\n• Early identification of *Varroa* mite infestation ensures early detection and isolation of infected bee populations. This will stop them from spreading to healthy bees\n• Destroy infected hives. This will kill the mites and infected bees, preventing the spread of the mite to healthy hives.",
+                        "feedback": "Meets the 4-mark row by explaining two procedures used to prevent the spread of Varroa mite. It explains early identification, which 'ensures early detection and isolation of infected bee populations', and destroying hives, where 'This will kill the mites and infected bees'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-29b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Regular monitoring of bee colonies can help find mites early. Beekeepers should also wash their equipment to limit exposure.",
+                        "feedback": "Meets the 2-mark row by outlining two procedures, 'Regular monitoring of bee colonies' and 'wash their equipment'. Neither is explained in terms of how it stops the mite reaching healthy colonies, so explaining how monitoring would stop the spread to the rest of the population would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-29b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "*Varroa* mites are a serious pest of honey bees, so beekeepers need to act quickly.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'beekeepers need to act quickly' is true but names no procedure. Naming a specific procedure, such as destroying infected hives, and explaining how it limits spread would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "The *Varroa* mite is an external parasite of European honey bees and is considered to be the most serious pest of honey bees worldwide.\n\nIn June 2022, the *Varroa* mite was detected for the first time in Australia at the Port of Newcastle. It then spread to surrounding areas.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "29(b)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  }
+                ]
               },
               {
                 "id": "dp-bio-12-biodiversity-3-4",
@@ -4015,6 +5102,64 @@
                     "hscYear": 2023,
                     "hscQuestionNumber": "31",
                     "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  },
+                  {
+                    "id": "prompt-bio-hsc-2025-30a",
+                    "question": "Describe a process that could be used to produce mosquitoes which express PAI-1.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "BI-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top row describes the full sequence in order: cutting out SERPINE 1 with restriction enzymes, inserting it into a plasmid vector with DNA ligase, multiplying it in bacteria, and transferring it into mosquito germline cells so the trait is inherited. The 3-mark row outlines these steps but misses one, or uses vague terms for the transfer.",
+                      "NESA's sample follows that sequence and names micro-injection into mosquito egg cells as the transfer method. NESA's feedback also accepts viral vectors for delivery, and an answer that describes breeding or cloning instead of gene insertion does not meet the row."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes breeding or cloning the mosquitoes instead of inserting the SERPINE 1 gene into them.",
+                      "Uses vague wording, such as 'place the gene into the mosquito', rather than micro-injection into germline cells.",
+                      "Leaves out a step, such as the plasmid vector or the bacterial multiplication, so the sequence is incomplete."
+                    ],
+                    "keywords": [
+                      "recombinant DNA technology",
+                      "restriction enzymes",
+                      "plasmid",
+                      "DNA ligase",
+                      "micro-injection",
+                      "germline cells"
+                    ],
+                    "markingCriteria": "4 marks: Describes an appropriate process used to produce genetically modified mosquitoes\n3 marks: Outlines an appropriate process used to produce genetically modified mosquitoes\n2 marks: Shows some understanding of how genetically modified mosquitoes are produced\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-30a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "To produce the genetically modified (GM) mosquitoes, it is necessary to transfer the SERPINE 1 gene from a human to the mosquito using recombinant DNA technology. Restriction enzymes are used to cut the SERPINE 1 gene from a human cell chromosome. A bacterial plasmid (circular DNA) is opened using the same restriction enzymes and the SERPINE 1 gene is inserted and attached using DNA ligase. The bacteria then reproduce, producing multiple copies of the SERPINE 1 gene. The gene can then be delivered into the mosquitos. This can be done by micro-injection into mosquito egg cells, so that the mosquito which develop from the egg will contain the SERPINE 1 gene, which will allow the mosquito to express PAI-1.",
+                        "feedback": "Meets the 4-mark row by describing an appropriate process used to produce genetically modified mosquitoes. It gives the steps in order, from 'Restriction enzymes are used to cut the SERPINE 1 gene' to 'micro-injection into mosquito egg cells'.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-30a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Scientists could put a human gene into mosquitoes so they make the PAI-1 protein. They would use a special enzyme to cut the gene and then place it into the mosquito.",
+                        "feedback": "Meets the 2-mark row by showing some understanding of how genetically modified mosquitoes are produced, with 'use a special enzyme to cut the gene'. Its 'place it into the mosquito' is non-scientific wording and the plasmid vector is missing, so naming restriction enzymes, a plasmid vector and micro-injection, and setting out the steps in order would lift it.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-30a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Mosquitoes can be genetically modified in a lab so that they stop spreading malaria.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'genetically modified in a lab' names the field but describes no process. Outlining how the gene is inserted and passed to the next generation would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "PAI-1 protein is encoded by the SERPINE 1 gene in humans. *Anopheles* mosquitoes have been genetically modified to express PAI-1, which blocks the entry of the malarial *Plasmodium* into the mosquito gut. This disrupts the *Plasmodium* life cycle, resulting in reduced transmission of malaria.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "30(a)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
                   }
                 ]
               },
@@ -4046,7 +5191,66 @@
               {
                 "id": "dp-bio-12-biotechnology-2-11",
                 "description": "Evaluate the potential societal benefits of using genetic technologies to manage infectious diseases",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-30b",
+                    "question": "Evaluate this statement.",
+                    "totalMarks": 7,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "BI-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top row names specific technologies, such as recombinant DNA for insulin and CRISPR for pest control, covers impacts on health, environment, economy and ethics, and reaches a consistent, explicit judgement on the statement. The 3-4 mark row shows a sound understanding of impacts but with a less developed or less consistent judgement.",
+                      "NESA's sample gives insulin production and mosquito control as examples, then a clear judgement that these technologies have largely been beneficial. NESA also lists artificial insemination, artificial pollination and cloning as technologies, and arguments against genetic technologies (unintended health effects, environmental risks and ethical concerns), so a judged answer that argues the other way can also meet the top row."
+                    ],
+                    "commonStudentErrors": [
+                      "Discusses biotechnology in general without naming a specific genetic technology.",
+                      "Gives a judgement early and then drops or changes it, so the response is inconsistent.",
+                      "Limits the impacts to one person, such as one patient's insulin, without addressing environmental, ethical, healthcare or economic impacts on society."
+                    ],
+                    "keywords": [
+                      "genetic technologies",
+                      "recombinant DNA",
+                      "CRISPR",
+                      "insulin",
+                      "vector-borne disease",
+                      "ethical concerns"
+                    ],
+                    "markingCriteria": "7 marks: Demonstrates an extensive understanding of the impacts of genetic technologies for society; Provides a relevant judgement\n5-6 marks: Demonstrates a thorough understanding of the impacts of genetic technologies for society; Provides a judgement\n3-4 marks: Demonstrates a sound understanding of the impacts of genetic technologie/s for society\n2 marks: Demonstrates some understanding of the impact of a genetic technology\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-30b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 7,
+                        "answer": "In recombinant DNA technology, selected genes can be cut and pasted from one organism into another using, for example, ligase enzymes. The human insulin producing gene has been transferred into bacteria, allowing for increased production of insulin, benefitting sufferers of diabetes, who can access insulin more readily and cheaply. This means that diabetes patients have a greater life span.\n\nGenetic technologies such as CRISPR can be used for controlling pest populations including insects that cause diseases in both humans and other animals. By controlling the number of disease causing insects eg mosquitoes that cause dengue fever, we can significantly reduce the incidence of the vector-borne diseases. This would result in healthier populations and reduced stress on the health care system.\n\nThese technologies have largely been beneficial to society, improving access to drugs, the life expectancy and quality of life for many people.",
+                        "feedback": "Meets the 7-mark row by demonstrating an extensive understanding of the impacts of genetic technologies for society and providing a relevant judgement. It cites 'benefitting sufferers of diabetes' and 'healthier populations' before reaching the judgement, 'These technologies have largely been beneficial to society'.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-30b-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Recombinant DNA technology has been used to produce human insulin in bacteria, which makes insulin more available for people with diabetes. Genetic technologies such as CRISPR can also be used to control pest insects, which reduces some diseases carried by mosquitoes. These technologies therefore have an effect on the health of society.",
+                        "feedback": "Meets the 4-mark row by demonstrating a sound understanding of the impacts of genetic technologies for society, with 'Recombinant DNA technology has been used to produce human insulin'. It gives no clear judgement and covers only health impacts, so stating a judgement and supporting it with environmental, ethical or economic impacts would lift it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-30b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Genetic technologies are used to make insulin for diabetes. This is good for society because people can get it.",
+                        "feedback": "Meets the 2-mark row by demonstrating some understanding of the impact of a genetic technology, shown by 'used to make insulin for diabetes'. It names one technology and one impact with no judgement, so naming a second technology and explaining how its impacts compare would lift it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "PAI-1 protein is encoded by the SERPINE 1 gene in humans. *Anopheles* mosquitoes have been genetically modified to express PAI-1, which blocks the entry of the malarial *Plasmodium* into the mosquito gut. This disrupts the *Plasmodium* life cycle, resulting in reduced transmission of malaria.\n\n‘Genetic technologies are beneficial for society.’",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "30(b)",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  }
+                ]
               }
             ]
           },
@@ -4062,7 +5266,66 @@
               {
                 "id": "dp-bio-12-biotechnology-3-2",
                 "description": "Account for the use of artificial pollination in Australian agriculture, including its methods and outcomes",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-hsc-2025-23",
+                    "question": "Compare the processes of artificial insemination and artificial pollination.",
+                    "totalMarks": 3,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "BI-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top row compares the two processes, stating at least one similarity and one difference, signposted explicitly or under table headings. The 2-mark row gives an incomplete comparison, usually by describing each process separately or giving only one point of comparison.",
+                      "NESA's sample signposts 'A similarity is that both processes involve gametes' and then 'A difference is that' the processes apply to animals or to flowering plants. Accept any correct similarity or difference of this kind; a description of IVF in place of artificial insemination is not the process asked for."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes how each process is carried out one after the other, without making a comparison.",
+                      "Describes IVF when the question asks about artificial insemination.",
+                      "Builds a table with no headings for similarities and differences, just listing facts about each process."
+                    ],
+                    "keywords": [
+                      "artificial insemination",
+                      "artificial pollination",
+                      "gametes",
+                      "sperm",
+                      "pollen",
+                      "flowering plants"
+                    ],
+                    "markingCriteria": "3 marks: Compares artificial insemination and artificial pollination\n2 marks: Provides an incomplete comparison of artificial insemination and artificial pollination\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-bio-hsc-2025-23-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "A similarity is that both processes involve gametes of an organism. A difference is that artificial insemination occurs only in animals while artificial pollination occurs only in (flowering) plants.",
+                        "feedback": "Meets the 3-mark row by comparing artificial insemination and artificial pollination. It signposts the comparison: 'A similarity is that both processes involve gametes of an organism' and 'A difference is that artificial insemination occurs only in animals'.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-23-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Artificial insemination involves collecting sperm and placing it into the female animal's reproductive tract. Artificial pollination involves transferring pollen to the stigma of a flower. Both involve gametes.",
+                        "feedback": "Meets the 2-mark row by providing an incomplete comparison: each process is described in turn, and 'Both involve gametes' is the only similarity given. Stating a difference, such as animals versus flowering plants, and signposting it as a difference would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-bio-hsc-2025-23-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Artificial insemination and artificial pollination are both methods that people use in breeding.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: 'both methods that people use in breeding' is true but does not compare the processes. Naming one similarity and one difference, signposted clearly, would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23",
+                    "hscSection": "Section II (80 marks). Allow about 2 hours and 25 minutes for this section."
+                  }
+                ]
               },
               {
                 "id": "dp-bio-12-biotechnology-3-3",
