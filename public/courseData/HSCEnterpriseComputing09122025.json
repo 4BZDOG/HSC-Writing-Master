@@ -6592,7 +6592,7 @@
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-02-n0-n1-s1",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "Of the project management tools available, I recommend a Gantt chart for this installation.A Gantt chart places each task on a timeline, so the coordinator can see that access points cannot be mounted until the cabling in each room is finished. This shows the task dependencies clearly and lets the principal check against the project timeline whether the library will be ready for week six. A Kanban board shows work status in columns, which suits ongoing jobs, but it does not show timing or how one task depends on another. The main limitation of a Gantt chart is that it must be updated when a task runs late, so the coordinator should review it each week.",
+                        "answer": "Of the project management tools available, I recommend a Gantt chart for this installation. A Gantt chart places each task on a timeline, so the coordinator can see that access points cannot be mounted until the cabling in each room is finished. This shows the task dependencies clearly and lets the principal check against the project timeline whether the library will be ready for week six. A Kanban board shows work status in columns, which suits ongoing jobs, but it does not show timing or how one task depends on another. The main limitation of a Gantt chart is that it must be updated when a task runs late, so the coordinator should review it each week.",
                         "feedback": "Recommends a Gantt chart, with reasons tied to the dependencies and timeline, compares it with the Kanban board and names a limitation, which meets the 5-mark row.",
                         "band": 5
                       },
@@ -10341,7 +10341,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-07-n0-n1",
-                    "question": "Recommend the presentation format the agency should use for each of its three board items, with a reason for each choice: monthly service demand, office locations and links to contractors, and explain one risk the network diagram reveals.",
+                    "question": "Recommend the presentation format the agency should use for each of its three board items (monthly service demand, office locations and links to contractors), with a reason for each choice, and explain one risk the network diagram reveals.",
                     "verb": "RECOMMEND",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a state agency must brief its board on three things: monthly service demand across regions, the locations of its 12 offices, and the links between its offices and the contractors it relies on. Board members meet monthly, have limited reading time and need to interpret the results at a glance.",
@@ -10405,7 +10405,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-08-n0",
-                    "question": "Demonstrate the difference between the structured data and the unstructured data held by the pharmacy, giving one example of each from the scenario, and how each can be analysed.",
+                    "question": "Demonstrate the difference between the structured data and the unstructured data held by the pharmacy, giving one example of each from the scenario, and show how each can be analysed.",
                     "verb": "DEMONSTRATE",
                     "totalMarks": 3,
                     "scenario": "Hypothetical: an online pharmacy stores its orders in a table with one row per order, holding fields for order number, date, product code and quantity. It also keeps a folder of customer emails, chat transcripts and photos of packaging sent with complaints.",
@@ -13499,7 +13499,7 @@
                         "id": "sa-is-03-5m",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "In a vehicle mechanic expert system, the knowledge base would contain facts and rules from expert mechanics (e.g., 'IF the engine does not crank AND the lights are dim, THEN the battery is likely flat'). The inference engine uses this knowledge to reason about a problem.\n\n**Forward chaining** is a data-driven approach. The mechanic would input all the known symptoms, and the inference engine would fire all applicable rules until it reaches a conclusion about the fault.\n\n**Backward chaining** is a goal-driven approach, more suitable for diagnosis. The system would start with a hypothesis (e.g., 'The problem is the battery'). It would then work backward, checking the knowledge base to see if the rules supporting this conclusion are met by asking the mechanic questions (e.g., 'Are the lights dim?').",
+                        "answer": "In a vehicle mechanic expert system, the knowledge base would contain facts and rules from expert mechanics (e.g., 'IF the engine does not crank AND the lights are dim, THEN the battery is likely flat'). The inference engine uses this knowledge to reason about a problem.\n\nForward chaining is a data-driven approach. The mechanic would input all the known symptoms, and the inference engine would fire all applicable rules until it reaches a conclusion about the fault.\n\nBackward chaining is a goal-driven approach, more suitable for diagnosis. The system would start with a hypothesis (e.g., 'The problem is the battery'). It would then work backward, checking the knowledge base to see if the rules supporting this conclusion are met by asking the mechanic questions (e.g., 'Are the lights dim?').",
                         "feedback": "Explains both components in the mechanic's context, distinguishes chaining by direction, and justifies backward chaining for diagnosis, which meets the 5-mark row.",
                         "band": 3
                       },
@@ -15523,7 +15523,7 @@
                     "markerNotes": [
                       "A justification needs a recommendation first, then reasons that weigh the alternative, not a description of both options.",
                       "The outage requirement in the scenario decides much of the case, so link the reasoning to it.",
-                      "Mentioning the budget and the existing gateways shows the judgement is based on the scenario."
+                      "Mentioning the budget and the existing gateway shows the judgement is based on the scenario."
                     ],
                     "commonStudentErrors": [
                       "Describing edge computing and cloud services without reaching a recommendation.",
