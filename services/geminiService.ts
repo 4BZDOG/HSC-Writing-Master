@@ -308,6 +308,15 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
                        Put the rewritten answer in \`revisedAnswer.text\`. In \`revisedAnswer.keyChanges\`, list 2 to 4 short lines (each at most 20 words), one per edit that earned the extra mark(s). Each line says WHAT was changed and WHY that change earns credit against the rubric or the command verb, written to the student in plain British English — for example: "Named the mechanism (pre-attentive processing) — an EXPLAIN answer needs the how, not just the what." If the rewrite is empty, \`keyChanges\` is empty too.`
     : `                    6. **Revised Answer**: Not requested. Omit \`revisedAnswer\` from the JSON.`;
 
+  // The stimulus the student read before answering (a case study, a data table,
+  // a text description of a graph). Without it the marker cannot check an answer
+  // that uses the data. Empty when the question has no scenario, so no heading.
+  const stimulusBlock = prompt.scenario?.trim()
+    ? `                    **Stimulus / scenario (what the student read before answering):**\n` +
+      `                    ${prompt.scenario.trim()}\n` +
+      `                    Check the student's answer against this stimulus wherever the question refers to it (the data, figures or case).\n`
+    : '';
+
   const request = {
     ...aiTarget('reasoning'),
     // Tags this call as the metered product feature so the proxy can spend one
@@ -335,7 +344,7 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
 
                     ### QUESTION DATA
                     **Question:** "${prompt.question}"
-                    **Max Marks:** ${prompt.totalMarks}
+${stimulusBlock}                    **Max Marks:** ${prompt.totalMarks}
                     **Command Verb:** ${prompt.verb} (Cognitive Tier ${termInfo.tier} - ${termInfo.definition})
                     **Band Discrimination:** ${termInfo.bandDiscrimination}
                     **Maximum Achievable Band:** Band ${maxBand}. The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.
