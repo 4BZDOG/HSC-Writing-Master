@@ -15,7 +15,7 @@
               "question": "Outline three benefits of developing secure software.",
               "totalMarks": 3,
               "verb": "OUTLINE",
-              "scenario": "A financial institution is developing a new online banking platform. The project manager is presenting to stakeholders about the critical importance of integrating robust security measures from the initial design phase, anticipating questions about the return on investment for security efforts.",
+              "scenario": "Hypothetical: A financial institution is developing a new online banking platform. The project manager is presenting to stakeholders about the critical importance of integrating robust security measures from the initial design phase, anticipating questions about the return on investment for security efforts.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-08"
@@ -76,7 +76,7 @@
               "question": "Justify the investment in secure software development practices for a new startup, considering the potential long-term consequences of neglecting security.",
               "totalMarks": 5,
               "verb": "JUSTIFY",
-              "scenario": "A group of entrepreneurs is pitching their new app idea to potential investors. An investor asks them to justify their budget allocation for 'non-essential' security measures, arguing they should focus solely on getting a minimum viable product to market as quickly as possible.",
+              "scenario": "Hypothetical: A group of entrepreneurs is pitching their new app idea to potential investors. An investor asks them to justify their budget allocation for 'non-essential' security measures, arguing they should focus solely on getting a minimum viable product to market as quickly as possible.",
               "linkedOutcomes": [
                 "SE-12-01",
                 "SE-12-05"
@@ -139,7 +139,7 @@
               "question": "Evaluate the effectiveness of focusing security efforts primarily on data protection versus focusing on preventing system vulnerabilities.",
               "totalMarks": 7,
               "verb": "EVALUATE",
-              "scenario": "A cybersecurity team is debating how to allocate their limited budget for the next year. One faction argues for investing in advanced endpoint protection and vulnerability scanning tools, while another argues for investing in a comprehensive data encryption and classification project. The Chief Information Security Officer asks for an evaluation of both approaches to help make a decision.",
+              "scenario": "Hypothetical: A cybersecurity team is debating how to allocate their limited budget for the next year. One faction argues for investing in advanced endpoint protection and vulnerability scanning tools, while another argues for investing in a comprehensive data encryption and classification project. The Chief Information Security Officer asks for an evaluation of both approaches to help make a decision.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-01"
@@ -202,7 +202,7 @@
               "question": "Critically evaluate the extent to which developing secure software effectively delivers benefits in data protection, minimising cyber attacks, and reducing vulnerabilities within a dynamic, cloud-based financial technology (FinTech) environment.",
               "totalMarks": 12,
               "verb": "CRITICALLY EVALUATE",
-              "scenario": "A rapidly expanding FinTech startup, 'Quantum Finance', is developing a new mobile banking application that processes millions of customer transactions and stores highly sensitive personal and financial data. The development team is under pressure to deploy new features quickly while ensuring the highest level of security amidst increasing global cyber threats and stringent regulatory compliance requirements.",
+              "scenario": "Hypothetical: A rapidly expanding FinTech startup, 'Quantum Finance', is developing a new mobile banking application that processes millions of customer transactions and stores highly sensitive personal and financial data. The development team is under pressure to deploy new features quickly while ensuring the highest level of security amidst increasing global cyber threats and stringent regulatory compliance requirements.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-07"
@@ -283,7 +283,7 @@
               "question": "Explain how the design and testing phases of the software development life cycle are fundamental to developing secure code. Use examples to support your answer.",
               "totalMarks": 5,
               "verb": "EXPLAIN",
-              "scenario": "A development team is building a new mobile banking application. The project manager wants to ensure the application is highly secure from its inception, recognising that data breaches can severely impact user trust and company reputation. They ask the lead developer to explain how the core SDLC phases of design and testing will be critical to achieving this security goal.",
+              "scenario": "Hypothetical: A development team is building a new mobile banking application. The project manager wants to ensure the application is highly secure from its inception, recognising that data breaches can severely impact user trust and company reputation. They ask the lead developer to explain how the core SDLC phases of design and testing will be critical to achieving this security goal.",
               "linkedOutcomes": [
                 "SE-12-02",
                 "SE-12-06"
@@ -354,7 +354,7 @@
               "question": "Analyse the role of the 'maintenance' phase of the software development life cycle in preserving the security of an application over time. Use examples to support your answer.",
               "totalMarks": 4,
               "verb": "ANALYSE",
-              "scenario": "A company launched a successful web application two years ago. The management team now wants to reduce the budget for the original development team, arguing that the project is 'finished'. The lead engineer must prepare a report analysing the critical role of the ongoing maintenance phase in protecting the application from new and emerging security threats.",
+              "scenario": "Hypothetical: A company launched a successful web application two years ago. The management team now wants to reduce the budget for the original development team, arguing that the project is 'finished'. The lead engineer must prepare a report analysing the critical role of the ongoing maintenance phase in protecting the application from new and emerging security threats.",
               "linkedOutcomes": [
                 "SE-12-08",
                 "SE-12-01"
@@ -416,7 +416,7 @@
               "question": "Describe how security considerations are incorporated into the 'requirements definition' phase of the SDLC.",
               "totalMarks": 3,
               "verb": "DESCRIBE",
-              "scenario": "A project manager is creating the initial project scope and requirements document for a new hospital patient management system. They must ensure that security is not an afterthought and is captured as a core requirement from day one.",
+              "scenario": "Hypothetical: A project manager is creating the initial project scope and requirements document for a new hospital patient management system. They must ensure that security is not an afterthought and is captured as a core requirement from day one.",
               "linkedOutcomes": [
                 "SE-12-01",
                 "SE-12-09"
@@ -484,7 +484,7 @@
               "question": "Describe how the capabilities and experience of end users influence the secure design features of software.",
               "totalMarks": 3,
               "verb": "DESCRIBE",
-              "scenario": "A software development team is designing a new online banking application. They are discussing how the varying technical literacy and online security awareness of their target users (e.g., tech-savvy young adults vs. less experienced elderly users) should shape the application's secure design features and user interactions.",
+              "scenario": "Hypothetical: A software development team is designing a new online banking application. They are discussing how the varying technical literacy and online security awareness of their target users (e.g., tech-savvy young adults vs. less experienced elderly users) should shape the application's secure design features and user interactions.",
               "linkedOutcomes": [
                 "SE-12-03",
                 "SE-12-06"
@@ -545,7 +545,7 @@
               "question": "A software company is designing a secure online portal for senior citizens to manage their health records. Propose two secure design features that specifically cater to the capabilities and potential inexperience of this user group, and justify your choices.",
               "totalMarks": 4,
               "verb": "PROPOSE",
-              "scenario": "A UX designer and a security engineer are collaborating on a new health portal for senior citizens. They need to find solutions that provide robust security without making the application too difficult for the intended users, who may have limited technical skills and be more susceptible to online fraud.",
+              "scenario": "Hypothetical: A UX designer and a security engineer are collaborating on a new health portal for senior citizens. They need to find solutions that provide robust security without making the application too difficult for the intended users, who may have limited technical skills and be more susceptible to online fraud.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-05"
@@ -605,7 +605,7 @@
               "question": "Discuss the statement: 'The most secure system is one that is unusable'. In your answer, refer to the tension between security and usability for different groups of end users.",
               "totalMarks": 7,
               "verb": "DISCUSS",
-              "scenario": "A security architect proposes a new authentication system for a company's internal portal that requires a hardware security key, a biometric scan, and a 20-character password. A user experience designer argues against this, leading to a debate on how to balance maximum security with employee productivity and satisfaction.",
+              "scenario": "Hypothetical: A security architect proposes a new authentication system for a company's internal portal that requires a hardware security key, a biometric scan, and a 20-character password. A user experience designer argues against this, leading to a debate on how to balance maximum security with employee productivity and satisfaction.",
               "linkedOutcomes": [
                 "SE-12-05",
                 "SE-12-06"
@@ -677,7 +677,7 @@
               "question": "Compare and contrast authentication and authorisation as fundamental concepts in secure software design. Use examples to illustrate your answer.",
               "totalMarks": 5,
               "verb": "COMPARE",
-              "scenario": "A software development team is designing a new enterprise resource planning (ERP) system. During a security review meeting, the lead architect asks the junior developers to clarify the distinction between authentication and authorisation, and how each contributes to the system's overall security model.",
+              "scenario": "Hypothetical: A software development team is designing a new enterprise resource planning (ERP) system. During a security review meeting, the lead architect asks the junior developers to clarify the distinction between authentication and authorisation, and how each contributes to the system's overall security model.",
               "linkedOutcomes": [
                 "SE-12-05"
               ],
@@ -754,7 +754,7 @@
               "question": "Explain how the principles of Confidentiality, Integrity, and Availability (the 'CIA Triad') are applied in the design of a secure online voting system.",
               "totalMarks": 6,
               "verb": "EXPLAIN",
-              "scenario": "A government cybersecurity committee is reviewing a proposal for a new national online voting system. They have asked the software architects to provide a report explaining how their design fundamentally addresses the core security principles of confidentiality, integrity, and availability to ensure a free and fair election.",
+              "scenario": "Hypothetical: A government cybersecurity committee is reviewing a proposal for a new national online voting system. They have asked the software architects to provide a report explaining how their design fundamentally addresses the core security principles of confidentiality, integrity, and availability to ensure a free and fair election.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-04"
@@ -816,7 +816,7 @@
               "question": "Explain the importance of 'accountability' as a fundamental concept in secure software design. Use an example to illustrate your answer.",
               "totalMarks": 4,
               "verb": "EXPLAIN",
-              "scenario": "After a data breach where a rogue administrator deleted critical records, a company's board of directors wants to know what security principle failed. The lead architect must explain the concept of accountability and how improving it with better audit trails could have helped.",
+              "scenario": "Hypothetical: After a data breach where a rogue administrator deleted critical records, a company's board of directors wants to know what security principle failed. The lead architect must explain the concept of accountability and how improving it with better audit trails could have helped.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-05"
@@ -876,7 +876,7 @@
               "question": "Discuss the tensions between ensuring system 'Availability' and implementing strong security controls.",
               "totalMarks": 7,
               "verb": "DISCUSS",
-              "scenario": "A company is experiencing slow performance on its main web application. The system administrators suggest relaxing some security firewall rules to speed things up. The cybersecurity team must prepare a discussion paper for management outlining the potential risks and benefits of this course of action.",
+              "scenario": "Hypothetical: A company is experiencing slow performance on its main web application. The system administrators suggest relaxing some security firewall rules to speed things up. The cybersecurity team must prepare a discussion paper for management outlining the potential risks and benefits of this course of action.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-01"
@@ -937,7 +937,7 @@
               "question": "Define the security concepts of 'confidentiality' and 'integrity'.",
               "totalMarks": 2,
               "verb": "DEFINE",
-              "scenario": "A security policy document is being drafted, and a manager needs the precise definitions of the core principles of confidentiality and integrity.",
+              "scenario": "Hypothetical: A security policy document is being drafted, and a manager needs the precise definitions of the core principles of confidentiality and integrity.",
               "linkedOutcomes": [
                 "SE-12-04"
               ],
@@ -999,7 +999,7 @@
               "question": "A FinTech startup is developing a new mobile application for personal finance management. The application will handle sensitive user data, including bank account details, transaction history, and personal identification information. Evaluate the effectiveness of implementing a Zero Trust Architecture (ZTA) compared to a traditional perimeter-based security model in ensuring comprehensive data protection, security, privacy, and regulatory compliance for this application. In your answer, justify your reasoning with specific examples of security features.",
               "totalMarks": 8,
               "verb": "EVALUATE",
-              "scenario": "A FinTech startup is launching a new mobile application that manages sensitive financial data and requires robust security, privacy, and compliance strategies.",
+              "scenario": "Hypothetical: A FinTech startup is launching a new mobile application that manages sensitive financial data and requires robust security, privacy, and compliance strategies.",
               "linkedOutcomes": [
                 "SE-12-03",
                 "SE-12-02"
@@ -1085,7 +1085,7 @@
               "question": "Analyse the role of data encryption as a security feature for ensuring both data protection and regulatory compliance.",
               "totalMarks": 5,
               "verb": "ANALYSE",
-              "scenario": "A company is preparing for its annual privacy audit. The legal counsel asks the head of software engineering to analyse and document how the company's use of end-to-end encryption specifically helps them meet their obligations under the GDPR.",
+              "scenario": "Hypothetical: A company is preparing for its annual privacy audit. The legal counsel asks the head of software engineering to analyse and document how the company's use of end-to-end encryption specifically helps them meet their obligations under the GDPR.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-05"
@@ -1150,7 +1150,7 @@
               "question": "Explain how both cryptography and sandboxing contribute to a ‘security by design’ approach in software development. Use examples to support your answer.",
               "totalMarks": 5,
               "verb": "EXPLAIN",
-              "scenario": "A software development team is designing a new financial application that will handle sensitive customer data. They are discussing strategies to embed security features from the initial design phase, rather than adding them as an afterthought.",
+              "scenario": "Hypothetical: A software development team is designing a new financial application that will handle sensitive customer data. They are discussing strategies to embed security features from the initial design phase, rather than adding them as an afterthought.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-01"
@@ -1222,7 +1222,7 @@
               "question": "Assess the effectiveness of sandboxing as a security mitigation strategy, considering its benefits and limitations.",
               "totalMarks": 6,
               "verb": "ASSESS",
-              "scenario": "A company is developing a new PDF reader application. A manager suggests that since all PDF rendering will happen in a sandbox, they don't need to worry about vulnerabilities in the PDF parsing library. A senior security engineer must prepare a response assessing the validity of this assumption.",
+              "scenario": "Hypothetical: A company is developing a new PDF reader application. A manager suggests that since all PDF rendering will happen in a sandbox, they don't need to worry about vulnerabilities in the PDF parsing library. A senior security engineer must prepare a response assessing the validity of this assumption.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-01"
@@ -1288,7 +1288,7 @@
               "question": "Explain the 'privacy by design' approach to developing software solutions, making reference to its proactive nature and how it respects user privacy. Use a relevant example to support your answer.",
               "totalMarks": 5,
               "verb": "EXPLAIN",
-              "scenario": "A start-up company is developing a new social media application for sharing personal fitness achievements. The development team is discussing how to ensure user data is protected and private from the very beginning of the project.",
+              "scenario": "Hypothetical: A start-up company is developing a new social media application for sharing personal fitness achievements. The development team is discussing how to ensure user data is protected and private from the very beginning of the project.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-08"
@@ -1490,7 +1490,7 @@
               "question": "A large financial services company is developing a new online banking platform. Evaluate the effectiveness of implementing a hot site versus a cold site for disaster recovery in the context of ensuring business continuity. In your answer, justify your recommendation for this specific scenario.",
               "totalMarks": 8,
               "verb": "EVALUATE",
-              "scenario": "During the planning phase for a new online banking platform, the project management team is debating disaster recovery strategies. Given the critical nature of financial transactions and customer trust, ensuring continuous service and minimal data loss is paramount.",
+              "scenario": "Hypothetical: During the planning phase for a new online banking platform, the project management team is debating disaster recovery strategies. Given the critical nature of financial transactions and customer trust, ensuring continuous service and minimal data loss is paramount.",
               "linkedOutcomes": [
                 "SE-12-08",
                 "SE-12-09"
@@ -1568,7 +1568,7 @@
               "question": "Recommend a disaster recovery strategy, including a site type (hot, warm, or cold), for a small, independent online art gallery that primarily uses its website for marketing and showcasing portfolios. Justify your recommendation with reference to cost, RTO, and RPO.",
               "totalMarks": 6,
               "verb": "RECOMMEND",
-              "scenario": "The owner of a small online art gallery has been quoted an extremely high price for a 'high-availability cloud hosting solution' with instant failover. They ask a freelance IT consultant for a more realistic and affordable disaster recovery recommendation suitable for their small business needs.",
+              "scenario": "Hypothetical: The owner of a small online art gallery has been quoted an extremely high price for a 'high-availability cloud hosting solution' with instant failover. They ask a freelance IT consultant for a more realistic and affordable disaster recovery recommendation suitable for their small business needs.",
               "linkedOutcomes": [
                 "SE-12-01",
                 "SE-12-09"
@@ -1629,7 +1629,7 @@
               "question": "Propose a basic incident response plan for a small e-commerce business to follow in the immediate aftermath of a data breach.",
               "totalMarks": 6,
               "verb": "PROPOSE",
-              "scenario": "The owner of a small online store discovers that their customer database has been breached. They are in a panic and ask their IT consultant to propose an immediate, step-by-step plan of action.",
+              "scenario": "Hypothetical: The owner of a small online store discovers that their customer database has been breached. They are in a panic and ask their IT consultant to propose an immediate, step-by-step plan of action.",
               "linkedOutcomes": [
                 "SE-12-09",
                 "SE-12-04"
@@ -1661,7 +1661,7 @@
                   "id": "sa-801cc11a-da13-4a3b-bc4b-bcb46724914a",
                   "source": "AI",
                   "band": 6,
-                  "answer": "For a small e-commerce business, I would propose a four-phase incident response plan for the data breach, focused on containment, eradication, recovery and communication.\n1. Containment: The immediate priority is to stop the breach and prevent further data loss. This involves isolating affected systems, for example by shutting down the web server or blocking the attacker's IP address at the firewall.\n2. Eradication and Recovery: Once contained, the team must identify and remove the root cause of the breach (e.g., patch the vulnerability). They would then restore the system from a known-good backup and verify that it is clean.\n3. Communication (Post-Mortem): After recovery, the business must communicate transparently. This involves notifying affected customers about what data was compromised and what steps they should take. It also includes mandatory reporting to the relevant authorities, such as the Office of the Australian Information Commissioner (OAIC), as required by law.\n4. Lessons Learned: The team should conduct a post-mortem to analyse the breach and improve security controls to prevent a recurrence. This proposal is justified as it provides a structured, logical sequence of actions that prioritises limiting the damage before moving on to recovery and communication.",
+                  "answer": "For a small e-commerce business, I would propose a four-phase incident response plan for the data breach, focused on containment, eradication, recovery and communication.\n\nThe immediate priority is to stop the breach and prevent further data loss. This involves isolating affected systems, for example by shutting down the web server or blocking the attacker's IP address at the firewall.\n\nOnce contained, the team must identify and remove the root cause of the breach (e.g., patch the vulnerability). They would then restore the system from a known-good backup and verify that it is clean.\n\nAfter recovery, the business must communicate transparently. This involves notifying affected customers about what data was compromised and what steps they should take. It also includes mandatory reporting to the relevant authorities, such as the Office of the Australian Information Commissioner (OAIC), as required by law.\n\nFinally, the team should conduct a post-mortem to analyse the breach and improve security controls to prevent a recurrence. This proposal is justified as it provides a structured, logical sequence of actions that prioritises limiting the damage before moving on to recovery and communication.",
                   "mark": 6,
                   "feedback": "Proposes a sequenced plan with distinct phases, including containment and communication, each with a specific action, which meets the 6-mark row. Keep each action tied to the small online store."
                 },
@@ -1695,7 +1695,7 @@
               "question": "A software development company is building a new e-commerce platform that will handle sensitive customer data and financial transactions. Evaluate the effectiveness of employing a combination of static application security testing (SAST), dynamic application security testing (DAST), and manual penetration testing throughout the software development life cycle (SDLC) to ensure the platform's security. In your answer, make a judgement on the relative importance of each strategy.",
               "totalMarks": 8,
               "verb": "EVALUATE",
-              "scenario": "During a project planning meeting for a new online banking application, the security architect is presenting various testing strategies to ensure the highest level of data protection and transaction integrity throughout the development process.",
+              "scenario": "Hypothetical: During a project planning meeting for a new online banking application, the security architect is presenting various testing strategies to ensure the highest level of data protection and transaction integrity throughout the development process.",
               "linkedOutcomes": [
                 "SE-12-05",
                 "SE-12-06"
@@ -1773,7 +1773,7 @@
               "question": "Propose a security code review process for a small Agile development team. Justify why your proposed process is suitable for an Agile workflow.",
               "totalMarks": 6,
               "verb": "PROPOSE",
-              "scenario": "A small Agile team has been developing code quickly, but a recent security audit found several simple vulnerabilities that should have been caught earlier. The team lead decides they need to implement a lightweight security code review process that won't slow down their sprints and asks the team for proposals.",
+              "scenario": "Hypothetical: A small Agile team has been developing code quickly, but a recent security audit found several simple vulnerabilities that should have been caught earlier. The team lead decides they need to implement a lightweight security code review process that won't slow down their sprints and asks the team for proposals.",
               "linkedOutcomes": [
                 "SE-12-06",
                 "SE-12-09"
@@ -1842,7 +1842,7 @@
               "question": "Compare input validation and input sanitisation as defensive data input handling practices. In your answer, provide a relevant example for each practice.",
               "totalMarks": 4,
               "verb": "COMPARE",
-              "scenario": "A development team is building an online banking application where users can input personal details and transaction amounts. They are discussing the crucial security measures needed to protect against malicious inputs and ensure data correctness before storing information in the database or displaying it back to the user.",
+              "scenario": "Hypothetical: A development team is building an online banking application where users can input personal details and transaction amounts. They are discussing the crucial security measures needed to protect against malicious inputs and ensure data correctness before storing information in the database or displaying it back to the user.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-06"
@@ -2044,7 +2044,7 @@
               "question": "Explain how implementing both input validation and rate limiting contributes to creating a safe Application Programming Interface (API) and minimising software vulnerabilities.",
               "totalMarks": 4,
               "verb": "EXPLAIN",
-              "scenario": "A development team is building a new e-commerce API that will handle user registrations, product searches, and order placements. The project manager is concerned about potential security breaches and performance issues due to malicious or excessive requests from external applications.",
+              "scenario": "Hypothetical: A development team is building a new e-commerce API that will handle user registrations, product searches, and order placements. The project manager is concerned about potential security breaches and performance issues due to malicious or excessive requests from external applications.",
               "linkedOutcomes": [
                 "SE-12-03",
                 "SE-12-06"
@@ -2180,7 +2180,7 @@
               "question": "Compare the roles of session management and exception management in ensuring the efficient execution of software for the user.",
               "totalMarks": 4,
               "verb": "COMPARE",
-              "scenario": "A development team is reviewing their e-commerce platform's performance and user satisfaction metrics. They notice some users report lost shopping cart data during high traffic periods and occasional cryptic error messages that interrupt their checkout process, impacting sales efficiency.",
+              "scenario": "Hypothetical: A development team is reviewing their e-commerce platform's performance and user satisfaction metrics. They notice some users report lost shopping cart data during high traffic periods and occasional cryptic error messages that interrupt their checkout process, impacting sales efficiency.",
               "linkedOutcomes": [
                 "SE-12-06",
                 "SE-12-07"
@@ -2251,7 +2251,7 @@
               "question": "Analyse the trade-offs between server-side session management and client-side session management (e.g., using JWTs) in a modern web application.",
               "totalMarks": 7,
               "verb": "ANALYSE",
-              "scenario": "An architect is designing a new, large-scale web application that will be deployed on many servers across the world. They need to choose a session management strategy. They must analyse the trade-offs between the traditional server-side session model and a modern, stateless JWT-based approach to decide which is more suitable for their scalability requirements.",
+              "scenario": "Hypothetical: An architect is designing a new, large-scale web application that will be deployed on many servers across the world. They need to choose a session management strategy. They must analyse the trade-offs between the traditional server-side session model and a modern, stateless JWT-based approach to decide which is more suitable for their scalability requirements.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-03"
@@ -2310,10 +2310,10 @@
             },
             {
               "id": "prompt-1763180000002-sr-02",
-              "question": "Outline the purpose of exception management in developing robust software.",
+              "question": "Outline THREE purposes of exception management in developing robust software.",
               "totalMarks": 3,
               "verb": "OUTLINE",
-              "scenario": "A junior developer's code crashes whenever it encounters an unexpected input. A senior developer asks them to outline the purpose of adding exception management to their code.",
+              "scenario": "Hypothetical: A junior developer's code crashes whenever it encounters an unexpected input. A senior developer asks them to outline the purposes of adding exception management to their code.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-08"
@@ -2446,7 +2446,7 @@
               "question": "Explain how both Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities can compromise the security of a web application. For each vulnerability, provide a specific coding strategy to mitigate the risk.",
               "totalMarks": 4,
               "verb": "EXPLAIN",
-              "scenario": "A student developing an online banking portal for their Software Engineering project is tasked with ensuring the application is robust against common web vulnerabilities. Their teacher asks them to explain specific threats and how to code against them.",
+              "scenario": "Hypothetical: A student developing an online banking portal for their Software Engineering project is tasked with ensuring the application is robust against common web vulnerabilities. Their teacher asks them to explain specific threats and how to code against them.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-05"
@@ -2517,7 +2517,7 @@
               "question": "Explain how a 'race condition' can occur in a web application and how it could be exploited.",
               "totalMarks": 4,
               "verb": "EXPLAIN",
-              "scenario": "During a code review for a new online ticketing system, a senior developer points out a potential race condition vulnerability in the code that handles seat reservations. They ask a junior developer to explain the risk to the team.",
+              "scenario": "Hypothetical: During a code review for a new online ticketing system, a senior developer points out a potential race condition vulnerability in the code that handles seat reservations. They ask a junior developer to explain the risk to the team.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-02"
@@ -2578,7 +2578,7 @@
               "question": "Define 'broken authentication'.",
               "totalMarks": 2,
               "verb": "DEFINE",
-              "scenario": "A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
+              "scenario": "Hypothetical: A security audit report lists 'broken authentication' as a critical vulnerability in a web application. A manager asks the development team for a simple definition of what that means.",
               "linkedOutcomes": [
                 "SE-12-07"
               ],
@@ -2627,7 +2627,7 @@
               "question": "Compare the mechanisms and potential impacts of Cross-Site Scripting (XSS) and Cross-Site Request Forgery (CSRF) vulnerabilities.",
               "totalMarks": 6,
               "verb": "COMPARE",
-              "scenario": "A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
+              "scenario": "Hypothetical: A web security analyst is training a new group of developers. They present two scenarios: one where a user's session cookie was stolen, and another where a user was tricked into changing their email address without their knowledge. The analyst asks the trainees to identify which vulnerability (XSS or CSRF) was likely responsible for each and to compare how the attacks worked.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-07"
@@ -2693,7 +2693,7 @@
               "question": "Explain how secure coding practices can be implemented to mitigate both file attacks and side-channel attacks. Provide a specific example for each type of attack.",
               "totalMarks": 4,
               "verb": "EXPLAIN",
-              "scenario": "A software development team is building a new online banking application. Given the sensitive nature of financial data, they are particularly concerned with implementing robust secure coding practices to protect against various attack vectors. The project manager asks the lead developer to explain how they will mitigate common threats during development.",
+              "scenario": "Hypothetical: A software development team is building a new online banking application. Given the sensitive nature of financial data, they are particularly concerned with implementing robust secure coding practices to protect against various attack vectors. The project manager asks the lead developer to explain how they will mitigate common threats during development.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-01"
@@ -2763,7 +2763,7 @@
               "question": "Describe a 'timing attack' as a type of side-channel attack.",
               "totalMarks": 3,
               "verb": "DESCRIBE",
-              "scenario": "A security researcher is analysing the login function of a web application. They notice that the server's response time varies slightly depending on how many characters of their incorrect password guess are correct. They identify this as a potential timing attack vulnerability.",
+              "scenario": "Hypothetical: A security researcher is analysing the login function of a web application. They notice that the server's response time varies slightly depending on how many characters of their incorrect password guess are correct. They identify this as a potential timing attack vulnerability.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-07"
@@ -2835,7 +2835,7 @@
               "question": "Explain how collaboration within a software development team enhances the creation of safe and secure software. In your answer, refer to the delegation of tasks and the overall quality of the solution.",
               "totalMarks": 4,
               "verb": "EXPLAIN",
-              "scenario": "A software development company, 'InnovateTech', is tasked with developing a new financial management application for a major banking client. The application will handle sensitive customer data and transactions, requiring the highest standards of safety and security. The project involves multiple developers, testers, and project managers. The client has emphasised the importance of a robust and error-free solution due to the critical nature of banking operations. The project lead needs to explain to a new team member how the team's collaborative approach will ensure the final product meets these stringent safety and security requirements, specifically considering how tasks are delegated and how this impacts the overall quality of the solution.",
+              "scenario": "Hypothetical: A software development company, 'InnovateTech', is tasked with developing a new financial management application for a major banking client. The application will handle sensitive customer data and transactions, requiring the highest standards of safety and security. The project involves multiple developers, testers, and project managers. The client has emphasised the importance of a robust and error-free solution due to the critical nature of banking operations. The project lead needs to explain to a new team member how the team's collaborative approach will ensure the final product meets these stringent safety and security requirements, specifically considering how tasks are delegated and how this impacts the overall quality of the solution.",
               "linkedOutcomes": [
                 "SE-12-07",
                 "SE-12-09"
@@ -2961,7 +2961,7 @@
               "question": "Explain how the implementation of safe and secure development practices benefits an enterprise in terms of its products, productivity, and business interactivity.",
               "totalMarks": 5,
               "verb": "EXPLAIN",
-              "scenario": "A growing software development company, 'InnovateTech', is keen on establishing a strong reputation for reliability and trust in the market. They are analysing how adopting robust safe and secure development practices across their product lifecycle can provide tangible benefits beyond just compliance, impacting their product offerings, internal efficiency, and external business relationships.",
+              "scenario": "Hypothetical: A growing software development company, 'InnovateTech', is keen on establishing a strong reputation for reliability and trust in the market. They are analysing how adopting robust safe and secure development practices across their product lifecycle can provide tangible benefits beyond just compliance, impacting their product offerings, internal efficiency, and external business relationships.",
               "linkedOutcomes": [
                 "SE-12-04",
                 "SE-12-07"
@@ -3087,7 +3087,7 @@
               "question": "Evaluate the extent to which digital disruption, driven by the implementation of new secure software, has created significant social and ethical ramifications for both people and enterprises. In your answer, refer to issues such as employment and data security.",
               "totalMarks": 8,
               "verb": "EVALUATE",
-              "scenario": "A legacy banking institution, 'SecureTrust Bank', invests heavily in a new blockchain-based secure payment system and AI-driven fraud detection software. This digital transformation improves transaction security and efficiency but also leads to branch closures, automation of many clerical roles, and raises new concerns about algorithmic bias and the handling of immutable personal financial data.",
+              "scenario": "Hypothetical: A legacy banking institution, 'SecureTrust Bank', invests heavily in a new blockchain-based secure payment system and AI-driven fraud detection software. This digital transformation improves transaction security and efficiency but also leads to branch closures, automation of many clerical roles, and raises new concerns about algorithmic bias and the handling of immutable personal financial data.",
               "linkedOutcomes": [
                 "SE-12-05",
                 "SE-12-08"
@@ -3149,7 +3149,7 @@
               "question": "Outline ONE social and ONE ethical issue an enterprise must consider regarding data privacy when developing secure software.",
               "totalMarks": 3,
               "verb": "OUTLINE",
-              "scenario": "A large technology enterprise is developing a new social networking application that will collect and store significant amounts of user data, including personal identifiable information (PII) and user-generated content. The development team is in the initial planning phase, focusing on the architectural design and security protocols.",
+              "scenario": "Hypothetical: A large technology enterprise is developing a new social networking application that will collect and store significant amounts of user data, including personal identifiable information (PII) and user-generated content. The development team is in the initial planning phase, focusing on the architectural design and security protocols.",
               "linkedOutcomes": [
                 "SE-12-05"
               ],
@@ -3206,7 +3206,7 @@
               "question": "Discuss the ethical tensions an enterprise faces when implementing secure software that collects vast amounts of user data. In your answer, refer to the conflict between business objectives and an individual's right to privacy.",
               "totalMarks": 8,
               "verb": "DISCUSS",
-              "scenario": "A social media company is planning a new feature that will require collecting sensitive user location data to provide hyper-targeted local advertising. The engineering team confirms they can store the data securely. The company's ethics board is convened to discuss whether, despite being secure, the feature is ethical to implement.",
+              "scenario": "Hypothetical: A social media company is planning a new feature that will require collecting sensitive user location data to provide hyper-targeted local advertising. The engineering team confirms they can store the data securely. The company's ethics board is convened to discuss whether, despite being secure, the feature is ethical to implement.",
               "linkedOutcomes": [
                 "SE-12-05"
               ],
