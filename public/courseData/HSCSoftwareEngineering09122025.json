@@ -10683,7 +10683,7 @@
                         "id": "sa-093faa53-f216-4a2f-846e-4996908f5fb4",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "One change is distributed storage, such as a distributed file system, which spreads Big Data across multiple nodes in the web architecture. A second change is horizontal scaling, which adds servers to the web architecture to handle high-velocity data ingestion in real time.",
+                        "answer": "One change is distributed storage, such as a distributed file system, which spreads Big Data across multiple nodes in the web architecture. A second change is horizontal scaling, which adds servers to handle high-velocity data ingestion.",
                         "feedback": "Identifies two distinct changes, distributed storage and horizontal scaling, each with a brief purpose, which meets the 2-mark row. The answer is precise and concise, as IDENTIFY requires.",
                         "band": 1
                       },
@@ -10791,7 +10791,7 @@
                         "id": "sa-683b95e4-0b1d-484a-a8e4-44c309f88047",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "The browsing history of millions of concurrent users is Big Data with a high volume and velocity, which pushes the platform's web architecture away from single, vertically scaled servers towards distributed, horizontally scaled systems. Unstructured browsing data is often stored in NoSQL databases alongside traditional SQL systems, which suit highly structured data. Data mining is usually decoupled from the front end: analytics run on separate back-end clusters, so the shopping pages stay responsive while insights are generated from the browsing data.",
+                        "answer": "Browsing history from millions of users is Big Data with a high volume and velocity, which pushes the platform's web architecture away from single, vertically scaled servers towards distributed, horizontally scaled systems. Unstructured browsing data is often stored in NoSQL databases alongside traditional SQL systems, which suit highly structured data. Data mining is usually decoupled from the front end: analytics run on separate back-end clusters, so the shopping pages stay responsive while insights are generated from the browsing data.",
                         "feedback": "Explains how high volume and velocity move web architecture to distributed, horizontally scaled systems, with the effect on responsiveness, which meets the 3-mark row.",
                         "band": 2
                       },
@@ -10846,7 +10846,7 @@
                         "id": "sa-c4d6f888-f5dc-42d2-99c1-3e8f3c164064",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "One component is a NoSQL database, such as a distributed store, which spreads Big Data across many nodes in the web architecture. A second is horizontal scaling, which adds servers to the web architecture so real-time ad data can be processed.",
+                        "answer": "One component is a NoSQL database, such as a distributed store, which spreads Big Data across many nodes in the web architecture. A second is horizontal scaling, which adds servers so real-time data can be processed.",
                         "feedback": "Identifies two distinct components, a NoSQL store and horizontal scaling, each with a brief purpose, which meets the 2-mark row. The answer is precise and concise.",
                         "band": 1
                       },
@@ -11604,7 +11604,7 @@
                       {
                         "id": "sa-5df82efa-78cc-43b8-95e1-1446cc682f27",
                         "source": "AI",
-                        "answer": "One way is the Console in browser developer tools, which shows error messages and logs variable values to help with debugging. A second way is breakpoints, set in the Sources tab, which pause JavaScript at a chosen line so the developer can inspect its state.",
+                        "answer": "The Console in developer tools shows error messages and logs variable values, aiding debugging. Breakpoints, set in the Sources tab, pause JavaScript at a chosen line so its state can be inspected.",
                         "mark": 2,
                         "feedback": "Outlines two distinct features, the Console and breakpoints, each with a valid debugging use, which meets the 2-mark row. An outline needs only the main features.",
                         "band": 2
@@ -13366,7 +13366,7 @@
                         "id": "sa-da2e6da5-838d-4770-9cf8-09fc67c2c402",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "One way is that back-end web development manages efficient database interactions, so dynamic data such as account balances is stored and retrieved accurately. A second way is that it implements server-side security, such as authentication and encryption, to protect data in the web application and its API.",
+                        "answer": "Back-end web development manages database interactions, so dynamic data such as account balances is stored and retrieved accurately. It also implements server-side security, such as authentication and encryption, to protect the web application and its API.",
                         "feedback": "Identifies two distinct contributions, database interactions and server-side security, each with a brief description tied to the financial portal, which meets the 2-mark row.",
                         "band": 1
                       },
@@ -13484,7 +13484,7 @@
                         "id": "sa-ad66a1d8-af2f-462d-81ae-052079ec244d",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The first process is validation, in which a server-side script, such as PHP, checks and sanitises the form data before it is processed further. A second is storage, in which the server connects to a database to save the message and returns an HTTP response to the browser.",
+                        "answer": "First, validation: a server-side script, such as PHP, checks and sanitises the form data before processing. Second, storage: the server connects to a database to save the message and returns an HTTP response to the browser.",
                         "feedback": "Identifies two distinct processes, validation and database storage, each with a brief indication of what it does, which meets the 2-mark row.",
                         "band": 1
                       },
@@ -16142,11 +16142,11 @@
                 "prompts": [
                   {
                     "id": "prompt-swe-11-12-cp-sep-rap-stg12-11-n0",
-                    "question": "Identify the external entities, processes, data stores and data flows of a Level 1 data flow diagram for the library booking system in the scenario.",
-                    "verb": "IDENTIFY",
+                    "question": "Describe the external entities, processes, data stores and data flows that a Level 1 data flow diagram for the library booking system in the scenario would show.",
+                    "verb": "DESCRIBE",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: A school library is replacing its paper booking sheets with a software system. Students request study rooms, library staff approve or decline each request by checking the timetable, and approved bookings are stored in a timetable file. Students receive a confirmation message after each approval.",
-                    "markingCriteria": "4 marks: Identifies correct external entities, processes, a data store and labelled data flows that match the booking scenario\n3 marks: Identifies a mostly correct DFD with its main components named, with ONE flow or label missing or misplaced\n2 marks: Identifies some DFD components, with at least one entity or process named\n1 mark: Identifies a DFD symbol or component",
+                    "markingCriteria": "4 marks: Describes correct external entities, processes, a data store and labelled data flows that match the booking scenario\n3 marks: Describes a mostly correct DFD with its main components named, with ONE flow or label missing or misplaced\n2 marks: Describes some DFD components, with at least one entity or process named\n1 mark: Identifies a DFD symbol or component",
                     "keywords": [
                       "modelling tools",
                       "data flow diagram",
@@ -16176,7 +16176,7 @@
                         "mark": 4,
                         "answer": "Modelling tools help the team plan the booking system before any code is written. A data flow diagram is one of them. External entities: Student and Library staff. Processes: 1.0 Receive booking request, 2.0 Decide on request, 3.0 Record approved booking. Data store: D1 Timetable. Data flows: booking request (Student to 1.0); request details (1.0 to 2.0); availability (D1 Timetable to 2.0); staff decision (Library staff to 2.0); approved booking (2.0 to 3.0); booking record (3.0 to D1 Timetable); confirmation message (3.0 to Student).",
                         "feedback": "Identifies two entities, three processes, one data store and labelled flows of a Level 1 DFD that follow the scenario, which meets the 4-mark row.",
-                        "band": 1
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-rap-stg12-11-n0-s2",
@@ -18287,9 +18287,9 @@
                   },
                   {
                     "id": "prompt-identify-devops-benefit",
-                    "question": "Identify one benefit of automating software testing within a DevOps pipeline.",
+                    "question": "Outline one benefit of automating software testing within a DevOps pipeline.",
                     "totalMarks": 2,
-                    "verb": "IDENTIFY",
+                    "verb": "OUTLINE",
                     "scenario": "Hypothetical: A development team is holding a meeting to discuss ways to improve their release speed.",
                     "linkedOutcomes": [
                       "SE-12-01"
@@ -18314,7 +18314,7 @@
                       "deployment",
                       "immediate feedback"
                     ],
-                    "markingCriteria": "2 marks: Identifies ONE benefit of automated testing and explains how it is achieved in a DevOps pipeline\n1 mark: Names ONE benefit of automated testing",
+                    "markingCriteria": "2 marks: Outlines ONE benefit of automated testing and how it is achieved in a DevOps pipeline\n1 mark: Names ONE benefit of automated testing",
                     "sampleAnswers": [
                       {
                         "id": "sa-devops-ben-band3",
@@ -18322,7 +18322,7 @@
                         "mark": 2,
                         "answer": "One benefit is that it gives immediate feedback to developers about bugs, increasing release speed and efficiency by allowing issues to be fixed before deployment.",
                         "feedback": "Identifies one benefit, immediate feedback on bugs, and explains its effect on release speed, which meets the 2-mark row.",
-                        "band": 1
+                        "band": 2
                       },
                       {
                         "id": "sa-devops-ben-band2",
