@@ -1,5 +1,9 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-31 (The marker reads the question's stimulus)
+
+- **Fixed.** A question's stimulus or case study (a data table, a text description of a graph, a case) was shown to the student above the question but never given to the AI marker, so an answer that used the data was marked without it. The marking prompt now carries the stimulus under "Stimulus / scenario (what the student read before answering)", directly after the question, and asks the marker to check the answer against it wherever the question refers to it. A question with no stimulus gets no such heading.
+
 ## [Unreleased] - 2026-10-31 (Generators work to the latest HSC paper; calibration as a selling point)
 
 - **Changed.** The AI question, marking-guide and sample-answer generators work to the latest real paper:
