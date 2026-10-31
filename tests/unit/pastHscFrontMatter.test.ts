@@ -88,13 +88,13 @@ describe('English past questions in the seed', () => {
   });
 });
 
-describe('Business Studies and Geography past questions', () => {
+describe('Business Studies, Geography and Biology past questions', () => {
   // As each paper's cover prints it: the section, its marks, the choice when there is
   // one, and the time. These papers have one paper and untitled sections.
   const HEADING =
     /^Section (II|III|IV) \(\d+ marks\)\. (Attempt [^.]+\. )?Allow about [^.]+ for this section\.$/;
 
-  for (const file of ['HSCBusinessStudies.json', 'HSCGeography.json']) {
+  for (const file of ['HSCBusinessStudies.json', 'HSCGeography.json', 'HSCBiology.json']) {
     it(`${file}: every question carries its section heading`, () => {
       const questions = pastQuestions(course(file));
       expect(questions.length).toBeGreaterThan(0);
