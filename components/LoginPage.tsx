@@ -372,7 +372,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       <AuthBackdrop />
 
       <div className={AUTH_COLUMN}>
-        <AuthBrand tagline="Write a response to an HSC question, and see it marked against the NESA band descriptors." />
+        <AuthBrand tagline="Practise on real HSC papers and questions calibrated against them, and see each response marked against the NESA band descriptors." />
 
         {/* Main Login Card */}
         <div

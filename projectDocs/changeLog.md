@@ -1,5 +1,47 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-31 (Generators work to the latest HSC paper; calibration as a selling point)
+
+- **Changed.** The AI question, marking-guide and sample-answer generators work to the latest real paper:
+  - Calibration examples from the same course put the most recent paper first among questions of a similar
+    length, and the brief names that paper ("write to the 2025 paper's standard").
+  - A full-mark sample answer is written to the length of NESA's own full-mark answers from the course's newest
+    paper at that mark (falling back to the cross-course medians), and is shown one of those answers as the
+    standard to match, never its content.
+  - An extended response (15 marks or more) is given NESA's five-row guide (17–20, 13–16, 9–12, 5–8, 1–4 on 20
+    marks) whatever its tier (`guideRanges`), which is what every past paper uses; at Band 6 the rows read 6 to 2.
+  - A generated question takes its course's band ceiling as it is made, so a new Standard English composition is
+    Band 5 and a new 20-mark Business Studies Discuss Band 6 from the start, with the guide written to that tier.
+- **Copy.** The README opens with "Calibrated Against Real HSC Papers" (308 past questions, 2019–2025, six
+  courses; 125 of NESA's published full-mark answers; NESA's ladders and bands; generators that have read the
+  paper). The sign-in tagline and the Plus perks for Advanced Questions, Sample Answers and the AI Content Studio
+  say the same.
+
+## [Unreleased] - 2026-10-30 (Verb ribbon in the question's colour; Software Engineering past questions reviewed)
+
+- **Fixed.** The command verb ribbon was drawn in the verb's own tier, so on a question whose course sets its
+  band (a Standard English composition at Band 5, an Advanced 20-mark Discuss at Band 6) it was purple over a
+  blue Writing Prompt and writing area, or the reverse. While it shows the question's own verb it is now lit to
+  the question's ceiling: the stage, staircase, mini-stair and Band Cap follow the question, and the caption says
+  "In this course, this COMPOSE question caps a response at Band 5." The verb keeps its Tier chip and its place
+  in its tier's card, and choosing any other verb shows that verb's own cap.
+- **Reviewed.** The 14 Software Engineering 2025 past questions against NESA's online paper, marking guidelines
+  and full-mark samples. Every stem, ladder and NESA exemplar matches (including NESA's own typos, which the
+  feedback flags); every AI exemplar sits in the row its feedback names. Fixed: a duplicated, garbled marker note
+  on Q17 ("NESA notes that answers could include: NESA's guidelines also accept…"), and the Q26 note on NESA's
+  sample, which draws 1–25 but prints cells 0–24, so the first cell is never a diamond and a drawn 25 never
+  shows. The questions carry no paper section because the online exam has none.
+- **Reviewed.** The 13 Enterprise Computing 2025 past questions the same way: every stem, ladder and NESA exemplar
+  matches. Fixed: the duplicated marker note on Q14, and five questions (15(b), 20, 22(a), 23(b), 25) whose marker
+  notes were one run-on paragraph, now split into separate notes like every other past question.
+- **Reviewed.** The app-written Software Engineering (319) and Enterprise Computing (282) questions against what
+  the past-paper work established. Ladders, verb-to-mark fit, marker notes and feedback already meet the house
+  rules, and full-mark exemplar lengths match NESA's own samples (SE 3 marks: 68 words against NESA's 62; 5
+  marks: 134 against 140). Fixed: 29 questions (SE 28, Economics 1) listed their exemplars out of mark order,
+  now highest first, with a test that holds every course to it; and 25 SE full-mark feedbacks ended "No further
+  marks are available.", a tail no other course uses.
+- Shipped-course change: `DATA_VERSION` 2.36.0.
+
 ## [Unreleased] - 2026-10-30 (COMPOSE, and Band 6 for extended responses outside Standard English)
 
 - **Changed.** In every course except English Standard, Studies and EAL/D, an extended response (15 marks or

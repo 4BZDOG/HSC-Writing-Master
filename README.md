@@ -8,6 +8,30 @@
 
 The **HSC AI Evaluator** is not a simple chatbot. It is a structured pedagogical instrument designed to emulate the reasoning of a Senior HSC Marker. It breaks down the barrier between abstract syllabus dot points and concrete exam performance by enforcing **Cognitive Tiers** and **Explicit Marking Criteria**.
 
+## 🎯 Calibrated Against Real HSC Papers
+
+Most practice tools write questions from an AI's idea of an exam. Band 6 starts from the exam itself.
+
+- **The real papers, word for word.** 308 questions from the 2019–2025 HSC papers in Business Studies, English
+  Advanced, English Standard, Geography, Software Engineering and Enterprise Computing, with NESA's own stems,
+  stimulus (as screenshots where the paper shows an image) and marking guidelines. Every stem and ladder is
+  checked line by line against NESA's published papers and marking guidelines.
+- **NESA's own full-mark answers.** 125 of the sample answers NESA publishes sit beside the app's exemplars, so
+  students see what a full mark looked like in the actual exam, slips and all, with marker feedback on why it
+  still earned every mark.
+- **Bands read the way NESA marks.** A 20-mark response is marked on NESA's five-row ladder (17–20, 13–16, 9–12,
+  5–8, 1–4). A 20/20 extended response reaches Band 6; in English Standard a composition tops out at Band 5, as
+  it does in the HSC results. The marking guide, the exemplars, the feedback and every coloured surface agree.
+- **Generators that have read the paper.** Every AI-written question is shown the closest real questions from the
+  same course (same dot point first, the most recent paper leading) and written to their length, stimulus style
+  and demand. Every AI-written marking guide is worded in NESA's register. Every full-mark AI exemplar is written
+  to the length and density of NESA's own answers from the course's latest paper, with one of them as its
+  standard.
+
+**Why it matters:** students practise against the paper they will sit, not an approximation of it, and a Band 6
+in the app means what a Band 6 means in the exam room. Teachers can set generated questions knowing they are
+held to the same standard as the questions NESA set last year.
+
 ## ⚡ Core Capabilities
 
 ### 1. The Evaluation Engine

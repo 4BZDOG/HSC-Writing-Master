@@ -8,6 +8,7 @@ import {
   getCommandTermsForMarks,
   getCommandTermInfo,
   bandMarkRanges,
+  guideRanges,
   commandTermsList,
   EXTENDED_RESPONSE_MARKS,
   getQuestionBandCeiling,
@@ -175,5 +176,21 @@ describe('shipped questions', () => {
         if (!verbFitsLength(verb, totalMarks)) bad.push(`${id}: ${verb} at ${totalMarks} marks`);
       }
     expect(bad.slice(0, 10)).toEqual([]);
+  });
+});
+
+describe('extended-response guide rows', () => {
+  const rows = (marks: number, tier: number) =>
+    guideRanges(marks, tier).map(({ band, lo, hi }) => `B${band} ${lo}-${hi}`);
+
+  it('uses NESA’s five even rows at 15 marks and over, whatever the tier', () => {
+    expect(rows(20, 6)).toEqual(['B6 17-20', 'B5 13-16', 'B4 9-12', 'B3 5-8', 'B2 1-4']);
+    expect(rows(20, 5)).toEqual(['B5 17-20', 'B4 13-16', 'B3 9-12', 'B2 5-8', 'B1 1-4']);
+    expect(rows(15, 6)).toEqual(['B6 13-15', 'B5 10-12', 'B4 7-9', 'B3 4-6', 'B2 1-3']);
+    expect(rows(25, 6)[0]).toBe('B6 21-25');
+  });
+
+  it('keeps one row per band below 15 marks', () => {
+    expect(guideRanges(12, 6)).toEqual(bandMarkRanges(12, 6));
   });
 });

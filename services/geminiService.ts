@@ -29,6 +29,8 @@ import {
   getCommandTermsForMarks,
   getBandForMark,
   bandMarkRanges,
+  courseBandCeiling,
+  guideRanges,
   getNextLevelTarget,
   getStructureGuide,
   getExpectedCharRange,
@@ -129,7 +131,8 @@ const ROW_SEPARATION_RULE =
  *
  * Both shapes name the band each row sits at, and both take it from the same
  * ladder the exemplars and the marking guide's colours come from — per mark via
- * `getBandForMark`, per range via `bandMarkRanges`. The model then writes each
+ * `getBandForMark`, per range via `guideRanges` (NESA's five rows on an extended
+ * response). The model then writes each
  * row against the band the app will actually label it with, rather than against
  * a bare mark value.
  */
@@ -169,7 +172,7 @@ const buildMarkingCriteriaInstruction = (
   // the ≤6-mark branch above returns first, and above six marks the
   // proportional rule reaches every band — but the ladder is the thing being
   // described, so it is now the thing being read.
-  const ranges = bandMarkRanges(marks, tier);
+  const ranges = guideRanges(marks, tier);
   const maxBand = ranges.length ? ranges[0].band : getTierTargetBand(tier);
   const lowestBand = ranges.length ? ranges[ranges.length - 1].band : maxBand;
   const tiers = ranges.map(({ band, lo, hi }) => {
@@ -1468,7 +1471,14 @@ export const refineManualPrompt = async (
                     2. **Refine the Question**: Rewrite the raw input to use formal academic language and your selected verb.
                     ${scenarioInstruction}
                     ${outcomeInstruction}
-                    5. **Marking Criteria**: ${buildMarkingCriteriaInstruction(targetMarks, pinnedVerbInfo?.tier ?? (targetMarks >= 7 ? 5 : 4), pinnedVerbInfo?.term)}
+                    5. **Marking Criteria**: ${buildMarkingCriteriaInstruction(
+                      targetMarks,
+                      (pinnedVerbInfo &&
+                        courseBandCeiling(courseName, pinnedVerbInfo.term, targetMarks)) ??
+                        pinnedVerbInfo?.tier ??
+                        (targetMarks >= 7 ? 5 : 4),
+                      pinnedVerbInfo?.term
+                    )}
                     6. **Keywords**: Extract 5-10 key technical terms.
 
                     ${calibrationBrief}
@@ -1535,6 +1545,12 @@ export const refineManualPrompt = async (
     sampleAnswers: [],
     isPastHSC: false,
   };
+  // The course's band ceiling, set as the question is made rather than on the next
+  // load, so its guide is checked and its exemplars are written against the right
+  // tier from the start (a Standard English composition at Band 5, a 20-mark
+  // Business Studies Discuss at Band 6).
+  const refinedCeiling = courseBandCeiling(courseName, newPrompt.verb, targetMarks);
+  if (refinedCeiling) newPrompt.bandCeiling = refinedCeiling;
 
   return withLadderGuide(newPrompt);
 };
@@ -1577,8 +1593,11 @@ export const generateNewPrompt = async (
   // is raised before the model sees it; see minimumTierForMarks.
   const verbs = fitVerbsToLength(requestedVerbs, marks);
   const verbList = verbs.map((v) => v.term).join(', ');
-  const primaryTier = Math.max(...verbs.map((v) => v.tier));
   const primaryVerb = verbs[0]?.term;
+  // The tier the guide is written to: the course's ceiling where it sets one
+  // (`courseBandCeiling`), otherwise the highest allowed verb's.
+  const primaryTier =
+    courseBandCeiling(courseName, primaryVerb, marks) ?? Math.max(...verbs.map((v) => v.tier));
 
   // One verb means the teacher chose it deliberately (the generator modal pins
   // a specific verb); several means any of them is acceptable (batch repair
@@ -1693,11 +1712,13 @@ export const generateNewPrompt = async (
   const modelVerb = (data.verb || '').trim().toUpperCase() as PromptVerb;
   const verb = allowedVerbs.has(modelVerb) ? modelVerb : (primaryVerb ?? modelVerb);
 
+  const bandCeiling = courseBandCeiling(courseName, verb, marks);
   return withLadderGuide({
     id: generateId('prompt'),
     question: data.question,
     totalMarks: marks,
     verb,
+    ...(bandCeiling ? { bandCeiling } : {}),
     // Respect the caller's choice even if the model returns a stray scenario.
     scenario: includeScenario ? data.scenario : '',
     markingCriteria: formatMarkingCriteria(data.markingCriteria),

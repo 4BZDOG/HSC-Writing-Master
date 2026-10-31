@@ -1,4 +1,4 @@
-import { bandMarkRanges } from '../data/commandTerms';
+import { guideRanges } from '../data/commandTerms';
 
 /**
  * The rows a generated marking guide must have, and a check that it has them.
@@ -6,7 +6,7 @@ import { bandMarkRanges } from '../data/commandTerms';
  * The rubric brief (`buildMarkingCriteriaInstruction` in services/geminiService)
  * asks for an exact ladder: one row per mark, full marks down to 1, on a
  * question of six marks or fewer; above that, one row per band the question can
- * award, carrying that band's mark range from `bandMarkRanges`. What came back
+ * award, carrying that band's mark range from `guideRanges`. What came back
  * was saved without being read. A guide that started below full marks, skipped
  * a mark or ran upwards went straight into the library — and in a bulk "Write
  * Marking Guides" run from the Content Audit Studio, into dozens of questions at
@@ -25,7 +25,7 @@ export const expectedGuideRows = (totalMarks: number, tier: number): GuideRow[] 
         lo: totalMarks - i,
         hi: totalMarks - i,
       }))
-    : bandMarkRanges(totalMarks, tier).map(({ lo, hi }) => ({ lo, hi }));
+    : guideRanges(totalMarks, tier).map(({ lo, hi }) => ({ lo, hi }));
 
 /** "N marks:" or "N-M marks:" at the start of a line, after an optional bullet or bold. */
 const ROW = /^\s*(?:[-*•]\s*)?(?:\*\*)?\s*(\d+)(?:\s*[-–]\s*(\d+))?\s*marks?\b[^:\n]*:/i;

@@ -7909,19 +7909,19 @@
                         "band": 4
                       },
                       {
-                        "id": "prompt-ec-61-s3",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "The stimulus worked because government spending rose.",
-                        "feedback": "A general claim with no data earns 2 marks at most. Use the figures for unemployment, growth and inflation to judge each objective.",
-                        "band": 2
-                      },
-                      {
                         "id": "sa-ec-61-3",
                         "source": "AI",
                         "mark": 3,
                         "answer": "The government spent money, and unemployment fell, so the stimulus worked.",
                         "feedback": "A claim without data earns 3 marks at most. Use the figures for unemployment, growth and inflation, and judge whether each objective was met.",
+                        "band": 2
+                      },
+                      {
+                        "id": "prompt-ec-61-s3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The stimulus worked because government spending rose.",
+                        "feedback": "A general claim with no data earns 2 marks at most. Use the figures for unemployment, growth and inflation to judge each objective.",
                         "band": 2
                       }
                     ],

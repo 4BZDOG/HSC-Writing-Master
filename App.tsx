@@ -1129,7 +1129,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             dropdowns, where the page is a chooser rather than a writing
             surface, it is the same browsing aid it has always been. */}
         {!isFocusMode && (
-          <CommandVerbHierarchy currentVerb={currentPrompt?.verb} defaultOpen={!isNavCollapsed} />
+          <CommandVerbHierarchy
+            currentVerb={currentPrompt?.verb}
+            currentBandCeiling={currentPrompt?.bandCeiling}
+            defaultOpen={!isNavCollapsed}
+          />
         )}
 
         {currentPrompt && canContribute && !isFocusMode && (

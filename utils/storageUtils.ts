@@ -106,7 +106,11 @@ import {
 // read "Compose", and 17 of their marking guides gain the rows the new tier needs.
 // In every course but English Standard, Studies and EAL/D an extended response (15+ marks) reaches Band 6
 // whatever its verb.
-export const DATA_VERSION = '2.35.0';
+// 2.36.0: Software Engineering past-question review: a duplicated, garbled marker note on 2025 Q17 removed and
+// the note on NESA's Q26 sample corrected; the same duplicate removed from Enterprise Computing 2025 Q14, and five
+// EC 2025 questions' run-on marker notes split into separate notes; 29 exemplar lists (SE 28, Economics 1) put
+// highest mark first and 25 SE full-mark feedback tails ("No further marks are available.") removed.
+export const DATA_VERSION = '2.36.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

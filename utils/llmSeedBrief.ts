@@ -1,6 +1,6 @@
 import type { Course } from '../types';
 import {
-  bandMarkRanges,
+  guideRanges,
   commandTermsList,
   getFullMarkWordRange,
   TIER_GROUPS,
@@ -45,7 +45,7 @@ const verbsByTier = (): Record<string, string> => {
  * value — one per band the question can award, with that band's mark range.
  *
  * The same ladder `utils/markingGuideLadder.ts` holds every AI-written guide to
- * and the Content Audit Studio treats as standard, derived from `bandMarkRanges`
+ * and the Content Audit Studio treats as standard, derived from `guideRanges`
  * so the brief cannot drift from it. "Band-range lines" alone was not enough: a
  * model left to pick its own ranges wrote 8 / 6-7 / 4-5 / 2-3 / 1 for every
  * 8-mark question, which is right for no tier.
@@ -56,7 +56,7 @@ const guideRowsOver6 = (): Record<string, string> => {
     const verbs = commandTermsList.filter((v) => v.tier === group.tier);
     const maxMarks = Math.max(0, ...verbs.map((v) => v.markRange[1]));
     for (const marks of [7, 8, 9, 10, 12, 15, 20].filter((m) => m <= maxMarks)) {
-      rows[`tier ${group.tier}, ${marks} marks`] = bandMarkRanges(marks, group.tier)
+      rows[`tier ${group.tier}, ${marks} marks`] = guideRanges(marks, group.tier)
         .map(({ lo, hi }) =>
           lo === hi ? `${lo} mark${lo === 1 ? '' : 's'}:` : `${lo}-${hi} marks:`
         )

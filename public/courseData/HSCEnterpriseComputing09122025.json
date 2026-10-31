@@ -7340,7 +7340,8 @@
                       "EC-12-05"
                     ],
                     "markerNotes": [
-                      "The full-mark answer describes at least two distinct spreadsheet visual features and ties each to the biologist's data, for example charts of water temperature over time, or conditional formatting that colours areas where populations are declining. It explains how each one makes trends easier to see, which is what 'describe' asks for. Naming features without explaining them, or naming a chart and a graph as though they were two features, sits at the 2-mark row."
+                      "The full-mark answer describes at least two distinct spreadsheet visual features and ties each to the biologist's data, for example charts of water temperature over time, or conditional formatting that colours areas where populations are declining. It explains how each one makes trends easier to see, which is what 'describe' asks for.",
+                      "Naming features without explaining them, or naming a chart and a graph as though they were two features, sits at the 2-mark row."
                     ],
                     "commonStudentErrors": [
                       "Naming features that do not visualise data, such as sorting, filtering or formulas, when the question asks about visual understanding.",
@@ -8832,7 +8833,9 @@
                       "EC-12-05"
                     ],
                     "markerNotes": [
-                      "The top answer links specific visuals to what management can see, such as the productivity line graph peaking in July or the attendance heat map, and explains why this helps: the visuals are easy to read for managers with different levels of data knowledge, and the real-time updates let them respond to changes. An answer that describes one graph without saying how it affects the team's user experience or understanding of productivity sits at the 2-mark row. The top row needs the effect on the management team, not only a description of what each graph shows."
+                      "The top answer links specific visuals to what management can see, such as the productivity line graph peaking in July or the attendance heat map, and explains why this helps: the visuals are easy to read for managers with different levels of data knowledge, and the real-time updates let them respond to changes.",
+                      "An answer that describes one graph without saying how it affects the team's user experience or understanding of productivity sits at the 2-mark row.",
+                      "The top row needs the effect on the management team, not only a description of what each graph shows."
                     ],
                     "commonStudentErrors": [
                       "Describing what each graph shows, such as the bar chart of department scores, without explaining how it affects the management team's user experience.",
@@ -10640,8 +10643,7 @@
                     "markerNotes": [
                       "The top answer describes how memes can be analysed, such as counting their reach, engagement and shares, and then says what the results show about whether the campaign worked.",
                       "A 2-mark answer names or outlines a method but does not explain what it reveals about effectiveness, and a 1-mark answer only gives general facts about memes.",
-                      "NESA’s answers could include qualitative analysis of meme themes, tone and attitude, which earns credit when it is linked to the campaign rather than treated as general information.",
-                      "NESA notes that answers could include: Memes can be analysed qualitatively to understand customer perceptions by examining their themes, tone and attitude."
+                      "NESA’s answers could include qualitative analysis of meme themes, tone and attitude, which earns credit when it is linked to the campaign rather than treated as general information."
                     ],
                     "commonStudentErrors": [
                       "Says the company can count how many people like or share memes, but never says what that shows about the campaign.",
@@ -12779,7 +12781,9 @@
                       "EC-12-01"
                     ],
                     "markerNotes": [
-                      "The full-mark query joins Customers, Products and Sales with a condition for each link (CustID and ProdID), so that LastN and ProdN come from the matching rows, then applies the Electronics and date conditions and an ascending sort on SaleDate. A 2-mark answer usually shows the SELECT and WHERE structure but leaves out the join conditions, so every customer is paired with every sale. The 4-mark row needs a correct query, so a missing join or sort clause means the answer is at best 3 marks, which addresses most of the requirements."
+                      "The full-mark query joins Customers, Products and Sales with a condition for each link (CustID and ProdID), so that LastN and ProdN come from the matching rows, then applies the Electronics and date conditions and an ascending sort on SaleDate.",
+                      "A 2-mark answer usually shows the SELECT and WHERE structure but leaves out the join conditions, so every customer is paired with every sale.",
+                      "The 4-mark row needs a correct query, so a missing join or sort clause means the answer is at best 3 marks, which addresses most of the requirements."
                     ],
                     "commonStudentErrors": [
                       "Listing Customers, Products and Sales in FROM but writing no join conditions, so the query returns every combination of rows rather than the matching sales.",
@@ -13210,7 +13214,9 @@
                       "EC-12-06"
                     ],
                     "markerNotes": [
-                      "The full-mark answer explains how an intelligent system assists in each category, structured, semi-structured and unstructured, and ties each to a stimulus example such as fraud prevention, loan applications or medical diagnosis, showing where the system decides and where the person still does. The 4-5 row only shows understanding and refers to one or more examples, and the 2-3 row only identifies features, so the top answer must move through all three categories in turn. Students should explain why each example fits its category, rather than listing the example under a heading.",
+                      "The full-mark answer explains how an intelligent system assists in each category, structured, semi-structured and unstructured, and ties each to a stimulus example such as fraud prevention, loan applications or medical diagnosis, showing where the system decides and where the person still does.",
+                      "The 4-5 row only shows understanding and refers to one or more examples, and the 2-3 row only identifies features, so the top answer must move through all three categories in turn.",
+                      "Students should explain why each example fits its category, rather than listing the example under a heading.",
                       "NESA's two published answers place loan approvals and fraud detection in opposite categories (the student sample treats fraud prevention as structured and loan applications as semi-structured; the marking guidelines' sample does the reverse). Either placement earns credit when the answer explains why the example fits."
                     ],
                     "commonStudentErrors": [
@@ -16629,7 +16635,9 @@
                       "EC-12-09"
                     ],
                     "markerNotes": [
-                      "The full-mark answer names a project management tool and outlines what the team does with it, for example a Gantt chart used to organise project timing, define tasks, track progress and map staff responsibilities. A bare name such as 'Gantt chart' or 'project management software' identifies a tool and sits at the 1-mark row. Because the question asks for an outline, the answer should explain the tool's use in managing this insurance project rather than in general."
+                      "The full-mark answer names a project management tool and outlines what the team does with it, for example a Gantt chart used to organise project timing, define tasks, track progress and map staff responsibilities.",
+                      "A bare name such as 'Gantt chart' or 'project management software' identifies a tool and sits at the 1-mark row.",
+                      "Because the question asks for an outline, the answer should explain the tool's use in managing this insurance project rather than in general."
                     ],
                     "commonStudentErrors": [
                       "Naming a tool with no explanation of what it does for the project, such as 'Gantt chart' alone.",
