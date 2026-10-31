@@ -7019,7 +7019,7 @@
                         "id": "sa-bs-48-1",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The types of markets are defined by who buys the product and why. Resource markets involve buying natural resources, such as timber or minerals, as inputs. Industrial markets sell to other businesses, and Maddox Engineering's conveyor belts, bought by food factories, sit in this market. Intermediate markets buy goods for resale or further processing, such as wholesalers. Consumer markets sell to individuals for personal use, and Maddox's stainless steel trolleys, bought by home cooks, belong here. Mass markets serve a large, broad group with standard products, while niche markets serve a small, specialised segment with tailored products. The trolleys fit the niche description within the consumer market.",
+                        "answer": "The types of markets are defined by who buys the product and why. Resource markets involve buying natural resources, such as timber or minerals, as inputs. Industrial markets sell to other businesses, and Maddox Engineering's conveyor belts, bought by food factories, sit in this market. Intermediate markets buy goods for resale or further processing, such as wholesalers. Consumer markets sell to individuals for personal use, and Maddox's stainless steel trolleys, bought by home cooks, belong here. Mass markets serve a large, broad group with standard products, such as basic kitchen tools sold in discount stores, while niche markets serve a small, specialised segment with tailored products. The trolleys fit the niche description within the consumer market.",
                         "feedback": "Full marks: each relevant type of market is described with its buyers, and Maddox's two products are classified by market type with reasons.",
                         "band": 2
                       },
@@ -7188,7 +7188,7 @@
                         "id": "prompt-bs-49-n1-s1",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "For Oakwood Pianos' customers, economic factors and government factors work together to shape the choice between a new piano at $9,500 and a restored one at $4,200. The main economic factor is affordability: a buyer who must borrow compares repayments on each price, and the restored piano is far more likely to fit a limited budget. Government factors act through consumer credit rules. When lenders require larger deposits, a buyer with limited savings may be unable to finance a new piano but may still manage a restored one. The deposit requirement therefore pushes buyers near the bottom of the budget towards the restored piano. For buyers with savings or strong incomes, the government factor has less effect, and the choice depends more on quality and the wish for a new instrument. Oakwood's sales of restored pianos therefore depend as much on credit rules as on price.",
+                        "answer": "Economic factors and government factors work together to shape the choice between a new piano at $9,500 and a restored one at $4,200. The main economic factor is affordability: a buyer who must borrow compares repayments on each price, and the restored piano is more likely to fit a limited budget. Government factors act through consumer credit law, such as the responsible lending obligations in the National Consumer Credit Protection Act 2009 (Cth), which can lead lenders to ask for larger deposits. A buyer with limited savings may be unable to finance a new piano but may still manage a restored one. The deposit requirement therefore pushes buyers near the bottom of the budget towards the restored piano. For buyers with savings or strong incomes, the government factor has less effect, and the choice depends more on quality and the wish for a new instrument. Oakwood's sales of restored pianos therefore depend as much on credit rules as on price.",
                         "feedback": "Full marks: the economic and government factors are analysed for their effect on the choice between the two pianos, with the deposit requirement linked to affordability.",
                         "band": 4
                       },
@@ -12396,7 +12396,7 @@
                   },
                   {
                     "id": "prompt-bs-84-n1",
-                    "question": "Discuss the conflicts between this business's short-term and long-term financial objectives, and whether the board should cut spending on training and equipment this year.",
+                    "question": "Discuss the conflicts between this business's short-term and long-term financial objectives, including the board's plan to cut training and equipment spending this year.",
                     "verb": "DISCUSS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Marlin Pools, an Australian pool-building company, has a strong cash position after a good year. Its board wants to cut spending on staff training and maintenance equipment this year to lift profit and pay a larger dividend, but its long-term plan relies on developing a new fibreglass pool range that needs skilled installers.",
@@ -17873,7 +17873,7 @@
                         "id": "prompt-bs-120-n1-s1",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "The control of current assets for Brindabella Brewing Co starts with receivables, because $124,000 of its $310,000 of receivables, or 40 per cent, is more than 60 days old. Tighter credit terms for tavern customers, an aged debtors report each week and a call to any account that passes 60 days would release cash quickly. Inventories are the second area: the ageing stock should be sold through promotions, and reorder levels reviewed to lift stock turnover. Cash should be managed through a 13-week cash budget that shows when the $100,000 overdraft will be needed. Each control has a cost, because tighter credit may lose tavern accounts and promotions reduce margins, so the brewer should watch sales as well as cash. The brewer should also set a target for the share of receivables older than 60 days and review it each month.",
+                        "answer": "The control of current assets for Brindabella Brewing Co starts with receivables, because $124,000 of its $310,000 of receivables, or 40 per cent, is more than 60 days old. Tighter credit terms for tavern customers, an aged debtors report and a call to any account that passes 60 days would release cash quickly. Inventories are the second area: the ageing stock should be sold through promotions, and reorder levels reviewed to lift stock turnover. Cash should be managed through a 13-week cash budget that shows when the $100,000 overdraft will be needed. Each control has a cost, because tighter credit may lose tavern accounts and promotions reduce margins, so the brewer should watch sales as well as cash. Together the controls work as one system: cash collected from the $124,000 of old receivables reduces the overdraft the cash budget must cover, and clearing part of the $260,000 of stock releases further cash, so the three should be reviewed together.",
                         "feedback": "Full marks: each current asset is controlled with a named method applied to the scenario figures, and the trade-offs with sales and margin are explained.",
                         "band": 3
                       },
@@ -19482,7 +19482,7 @@
                 "prompts": [
                   {
                     "id": "prompt-bs-134",
-                    "question": "Analyse the causes of two workplace disputes and the strategies used to resolve them.",
+                    "question": "Analyse the causes of the two disputes at Redgum Meat Works and the strategies the company used to resolve them.",
                     "totalMarks": 8,
                     "verb": "ANALYSE",
                     "linkedOutcomes": [
