@@ -542,7 +542,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-imu-uim-stg11-04-n0-n1",
-                    "question": "Analyse how simulation, gamification and augmented reality could support the online training of the courier company's new drivers.",
+                    "question": "Analyse how simulation, gamification and augmented reality could support the online training of the courier company's new drivers, and weigh one limitation of the online program.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a regional courier company trains many new drivers each year. Training is currently a classroom course, and many drivers find the safe lifting and loading rules hard to remember. The company is considering an online program that includes a simulated loading dock, points and badges for completed modules, and an augmented reality overlay of safety prompts on real parcels.",
@@ -784,7 +784,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-imu-uim-stg11-06-n0-n1",
-                    "question": "Compare how social media and the digital creative commons support this filmmaker's creative process, including the conditions she must meet.",
+                    "question": "Compare how social media and the digital creative commons support this filmmaker's creative process, including the conditions she must meet, and weigh the risks of each to reach a conclusion.",
                     "verb": "COMPARE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a Year 11 filmmaker is making a short documentary about her school's garden. She plans to share early cuts on social media to gather feedback, and she wants background music from a digital creative commons library, where creators share music under Creative Commons licences.",
@@ -905,7 +905,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-imu-uim-stg11-07-n0-n1",
-                    "question": "Examine how the app may influence residents' walking behaviour, and how its voice navigation allows residents with disability to explore and participate in the trails.",
+                    "question": "Examine how the app may influence residents' walking behaviour, and how its voice navigation allows residents with disability to explore and participate in the trails, and judge how far each of these effects can be relied on.",
                     "verb": "EXAMINE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a city council launches a free mobile app that guides residents along its walking trails. The app sends push notifications at set times, counts steps, awards badges for weekly goals and offers voice navigation and high-contrast maps for residents with vision impairment.",
@@ -1029,7 +1029,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-imu-uim-stg11-08-n0-n1",
-                    "question": "Analyse how the store's combined use of autofill, cookies and pop-ups may influence this customer's purchasing decision.",
+                    "question": "Analyse how the store's combined use of autofill, cookies and pop-ups may influence this customer's purchasing decision, and weigh the ethical risks of combining them.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a customer returns to an online shoe store on her phone. The store has saved her card details through autofill, and cookies show she browsed running shoes last week. A pop-up offering a limited-time discount appears just as she reaches the checkout.",
@@ -2122,7 +2122,7 @@
                     "question": "Assess how effectively the interactive features of this data journalism piece help readers to understand the dataset, and identify where the design could mislead them.",
                     "verb": "ASSESS",
                     "totalMarks": 6,
-                    "scenario": "Hypothetical: A news team publishes an interactive chart showing bus trips per route for each year. The vertical axis starts well above zero, and readers can filter the routes by suburb.",
+                    "scenario": "Hypothetical: A news team publishes an interactive chart showing bus trips per route for each year. The vertical axis starts well above zero, and readers can filter the routes by suburb. The chart includes no note on what the trip counts measure or how they were collected.",
                     "markingCriteria": "6 marks: Assesses the interactive features against helping readers understand the dataset, weighing benefits against ways the design could mislead, and reaches a supported judgement\n5 marks: Assesses the features with clear strengths and a limitation\n4 marks: Explains how the interactive features aid understanding, and identifies one way the design may mislead readers\n3 marks: Explains one interactive feature and its effect on readers, with a general link to the dataset\n2 marks: Describes the interactive features in general terms\n1 mark: Names an interactive feature or the dataset",
                     "keywords": [
                       "data journalism",
@@ -2238,7 +2238,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-imu-cim-stg11-03-n0-n1",
-                    "question": "Recommend which project management approach the team should adopt for the interactive science quiz, giving reasons linked to the scenario.",
+                    "question": "Recommend which project management approach the team should adopt for the interactive science quiz, giving reasons linked to the scenario, comparing it with the other approach, and noting one trade-off.",
                     "verb": "RECOMMEND",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: A Year 11 team is building an interactive science quiz for a client who has agreed the overall goal but not the final scope. The client wants to see a working version every two weeks and expects to change the question types after reviewing it.",
@@ -4170,7 +4170,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-02-n0-n1",
-                    "question": "Discuss how graph and network theory could guide the design of friend suggestions for Fay, referring to mutual friends and the shortest path between members.",
+                    "question": "Discuss how graph and network theory could guide the design of friend suggestions for Fay, referring to mutual friends and the shortest path between members, and how the suggestions should be ranked.",
                     "verb": "DISCUSS",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: Fay has only one friendship in the network above, with Eli. The app's designers want to suggest new friends to members with few links, and they are considering ranking suggestions by mutual friends and by the shortest path to the member.",
@@ -4647,7 +4647,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-swe-stg11-01-n0-n1",
-                    "question": "Compare the task delegation and monitoring of office staff with those of remote staff, now that faster network connectivity supports remote working.",
+                    "question": "Compare the task delegation and monitoring of office staff with those of remote staff, now that faster network connectivity supports remote working, and reach a reasoned conclusion on the trade-offs.",
                     "verb": "COMPARE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: the agency assigns design tasks through a shared project board. Office staff are supervised in person, while remote staff's progress is tracked through the board, timestamped file uploads and a monitoring tool that logs activity on company laptops.",
@@ -4768,7 +4768,7 @@
                     "question": "Analyse how the features of this digital workflow create both benefits and limitations for the enterprise, including the supervisor's approvals on a weak mobile signal.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
-                    "scenario": "Hypothetical: the builders' firm adopts the digital workflow. The owner is pleased that invoices are tracked, but the site supervisor is often away from the site and must approve invoices on a phone with a weak mobile signal.",
+                    "scenario": "Hypothetical: the builders' firm adopts the digital workflow. The workflow sends each invoice to the site supervisor for approval, then to the owner, time-stamps each approval, and holds payment until both are recorded. The owner is pleased that invoices are tracked, but the site supervisor is often away from the site and must approve invoices on a phone with a weak mobile signal.",
                     "markingCriteria": "6 marks: Analyses how specific features, including the supervisor's approvals on a weak mobile signal, produce both benefits and limitations for the firm, with sustained cause and effect and a clear combined effect\n5 marks: Analyses the workflow's benefits and limitations with clear links to its features and the firm\n4 marks: Explains at least one benefit and one limitation of the workflow, with relevant links to the firm\n3 marks: Explains one benefit or one limitation of the workflow, with some reference to the firm's situation\n2 marks: Identifies a benefit or limitation of digital workflows\n1 mark: Makes a general statement about digital systems",
                     "keywords": [
                       "digital workflow",
@@ -5484,7 +5484,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-nai-stg11-03-n0-n1",
-                    "question": "Interpret the three signal-strength readings to explain how distance and topography each affect the wireless link.",
+                    "question": "Interpret the three signal-strength readings to explain how distance and topography each affect the wireless link, and recommend a fix suited to the terrain.",
                     "verb": "INTERPRET",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a technician measures the wireless signal strength from the farm office at three points. At 200 metres on open ground the signal is 80 per cent of full strength, at 400 metres on open ground it is 55 per cent, and at 400 metres on the far side of the ridge it is 20 per cent.",
@@ -5844,7 +5844,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-nai-stg11-06-n0-n1",
-                    "question": "Discuss the challenges of achieving device interoperability when a water utility adds IoT sensors from several manufacturers to its existing SCADA system.",
+                    "question": "Discuss the challenges of achieving device interoperability when a water utility adds IoT sensors from several manufacturers to its existing SCADA system, and whether standards or gateways would resolve them.",
                     "verb": "DISCUSS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a water utility runs a SCADA system built over many years, with older controllers from one manufacturer. It now wants to add new IoT flow and pressure sensors from three other manufacturers, and each brand uses its own data format and communication method.",
@@ -6080,7 +6080,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-nai-stg11-08-n0-n1",
-                    "question": "Evaluate the benefits of linking road sensors and a machine learning model to a city's traffic control, weighing these against the council's concerns about cost, sensor faults and privacy.",
+                    "question": "Evaluate the benefits of linking road sensors and a machine learning model to a city's traffic control, weighing these against the council's concerns about cost, sensor faults and privacy, and recommend how the council should proceed.",
                     "verb": "EVALUATE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a city council is considering road sensors at busy intersections, with a machine learning model that adjusts signal timing using vehicle counts and predicted congestion. The council is concerned about the cost of installation, faults in the sensors and the privacy of any camera data.",
@@ -6100,7 +6100,8 @@
                     "markerNotes": [
                       "Evaluate means judge the benefits against the concerns: say which outweighs the other, and under what condition.",
                       "Name specific benefits, such as shorter queues from live counts or detection of pedestrians, and link each to the council's context.",
-                      "Raising privacy or sensor faults without weighing them against a benefit earns less than a weighed judgement."
+                      "Raising privacy or sensor faults without weighing them against a benefit earns less than a weighed judgement.",
+                      "Finish with a recommendation for the council, such as a trial with human oversight, and the reasons for it."
                     ],
                     "commonStudentErrors": [
                       "Listing benefits without weighing them against the council's concerns.",
@@ -6559,7 +6560,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-nsc-cne-stg11-02-n0-n1",
-                    "question": "Recommend either a Gantt chart or a Kanban board to coordinate the network installation, referring to task dependencies and the project timeline.",
+                    "question": "Recommend either a Gantt chart or a Kanban board to coordinate the network installation, referring to task dependencies and the project timeline, and identify one limitation of the tool you choose.",
                     "verb": "RECOMMEND",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: the same IT coordinator has two technicians and a contractor. Mounting access points cannot start until the cabling in each room is finished, and the library must be ready before the school's assembly in week six. The principal wants a clear weekly view of progress.",
@@ -8389,7 +8390,7 @@
                     "markingCriteria": "2 marks: Identifies one advantage and one disadvantage of a spreadsheet for the dashboard, each stated clearly\n1 mark: Identifies ONE correct advantage or disadvantage of a spreadsheet for the dashboard",
                     "sampleAnswers": [
                       {
-                        "id": "sa-3a78bf6b-d22e-47d1-9c15-0ef335ac26a9",
+                        "id": "sa-dv-10-2m",
                         "source": "AI",
                         "mark": 2,
                         "answer": "Spreadsheet software is an advantage for a data visualisation dashboard because it is low-cost and familiar to a small business owner. Its disadvantage is limited interactivity, and performance slows noticeably with large datasets.",
@@ -8397,7 +8398,7 @@
                         "band": 1
                       },
                       {
-                        "id": "sa-af4326fb-24ae-4dfc-ae30-8ef21034a96e",
+                        "id": "prompt-dv-10-2m-s2",
                         "source": "AI",
                         "mark": 1,
                         "answer": "An advantage of using spreadsheet software for data visualisation dashboards is its widespread availability and familiarity, making it an accessible and low-cost tool for basic data analysis.",
@@ -10017,7 +10018,7 @@
                         "id": "sa-ec-03-4m",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "The company uses both methods to get a complete picture of a user's health. Active data collection, such as logging meals, gathers subjective information that a wearable device cannot detect on its own. Passive data collection, such as tracking heart rate, provides continuous, objective data without requiring effort from the user.\n\nA key benefit of computerised methods is efficiency and scale. The device can automatically and continuously sample heart rate from thousands of users at once, a task that would be impossible to perform manually. Automated collection also reduces transcription errors, which allows large-scale analysis and the identification of broad health trends.",
+                        "answer": "The company uses both methods to get a complete picture of a user's health. Active data collection, such as logging meals, gathers subjective information that a wearable device cannot detect on its own. Passive data collection, such as tracking heart rate, provides continuous, objective data without requiring effort from the user.\n\nA key benefit of computerised methods is efficiency and scale. Automated tracking can record heart rate continuously for thousands of users at once, a task that would be impossible to perform manually. Automated collection also reduces transcription errors, which allows large-scale analysis and the identification of broad health trends.",
                         "feedback": "Explains why both methods are used, with a reason for each, and describes a specific benefit of computerised collection, which meets the 4-mark row.",
                         "band": 3
                       },
@@ -10340,7 +10341,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-07-n0-n1",
-                    "question": "Recommend the presentation format the agency should use for each of its three board items, with a reason for each choice: monthly service demand, office locations and links to contractors.",
+                    "question": "Recommend the presentation format the agency should use for each of its three board items, with a reason for each choice: monthly service demand, office locations and links to contractors, and explain one risk the network diagram reveals.",
                     "verb": "RECOMMEND",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a state agency must brief its board on three things: monthly service demand across regions, the locations of its 12 offices, and the links between its offices and the contractors it relies on. Board members meet monthly, have limited reading time and need to interpret the results at a glance.",
@@ -10361,7 +10362,8 @@
                     "markerNotes": [
                       "Recommend means choose one option for each item and justify it; a bare list of formats earns no justification marks.",
                       "Match each format to what the board must do, such as scanning trends quickly or seeing where risk is concentrated.",
-                      "The board's limited reading time favours compact formats such as a dashboard, and this should be used in the reasoning."
+                      "The board's limited reading time favours compact formats such as a dashboard, and this should be used in the reasoning.",
+                      "Name one risk the network diagram reveals, such as one contractor serving several offices, and say why it matters to the board."
                     ],
                     "commonStudentErrors": [
                       "Recommending the same format for every item without justifying why it suits each one.",
@@ -10403,7 +10405,7 @@
                 "prompts": [
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-08-n0",
-                    "question": "Demonstrate the difference between the structured data and the unstructured data held by the pharmacy, giving one example of each from the scenario.",
+                    "question": "Demonstrate the difference between the structured data and the unstructured data held by the pharmacy, giving one example of each from the scenario, and how each can be analysed.",
                     "verb": "DEMONSTRATE",
                     "totalMarks": 3,
                     "scenario": "Hypothetical: an online pharmacy stores its orders in a table with one row per order, holding fields for order number, date, product code and quantity. It also keeps a folder of customer emails, chat transcripts and photos of packaging sent with complaints.",
@@ -10459,7 +10461,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-08-n0-n1",
-                    "question": "Analyse how the structure of the transport authority's two datasets determines the tools needed to analyse each one, and the kinds of insight each can give.",
+                    "question": "Analyse how the structure of the transport authority's two datasets determines the tools needed to analyse each one, and the kinds of insight each can give, and judge which dataset gives more reliable insight, with reasons.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a city transport authority holds two datasets. One is a table of ticket sales with a row for each trip, showing route, hour and fare. The other is a collection of 60,000 written feedback comments and social media posts about service delays.",
@@ -10876,7 +10878,7 @@
                   },
                   {
                     "id": "prompt-ec-05-4m",
-                    "question": "Explain how blockchain technology could be used to create a trustworthy system for tracking items of value, such as luxury goods, through a supply chain.",
+                    "question": "Explain how blockchain technology could be used to create a trustworthy system for tracking items of value, such as luxury goods, through a supply chain, and note one limitation of the system.",
                     "totalMarks": 4,
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: a luxury handbag brand wants a tracking system that lets customers and retailers verify each item's movement from the factory to the store, to reduce counterfeit products.",
@@ -10996,7 +10998,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-12-n0-n1",
-                    "question": "Justify whether a pre-ticked checkbox and long terms of agreement give a user informed consent for an app to share her data with a third party.",
+                    "question": "Justify whether a pre-ticked checkbox and long terms of agreement give a user informed consent for an app to share her data with a third party, and propose a design that would improve privacy.",
                     "verb": "JUSTIFY",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: a fitness app asks new users to agree to share their workout and location data with its advertising partners. The consent screen has a pre-ticked checkbox, and the long terms of agreement are linked by a small grey link beneath it.",
@@ -11297,7 +11299,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-14-n0-n1",
-                    "question": "Examine the benefits and risks of the unit's proposal to link the mined records to individual names.",
+                    "question": "Examine the benefits and risks of the unit's proposal to link the mined records to individual names, and support a view on whether the unit should proceed.",
                     "verb": "EXAMINE",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a city's public health unit uses data mining on anonymised hospital admissions and pharmacy sales records to find early signs of seasonal illness. The unit is considering linking these records to individual names so it can target warnings more precisely.",
@@ -11414,7 +11416,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-15-n0-n1",
-                    "question": "Predict how the bank's move from overnight batches to streaming transactions into a machine learning model would change its fraud detection and the behaviour of its customers.",
+                    "question": "Predict how the bank's move from overnight batches to streaming transactions into a machine learning model would change its fraud detection and the behaviour of its customers, and discuss the ethical consequences of the growing digital footprint.",
                     "verb": "PREDICT",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: a regional bank currently analyses card transactions in an overnight batch. It is considering streaming every transaction into a machine learning model that flags possible fraud as it happens. Each customer's online banking activity would also add to a growing digital footprint.",
@@ -11534,7 +11536,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-csa-stg12-16-n0-n1",
-                    "question": "Evaluate the effectiveness of local storage, cloud storage and data warehouses for a retailer that must store its daily sales records and analyse them for trends.",
+                    "question": "Evaluate the effectiveness of local storage, cloud storage and data warehouses for a retailer that must store its daily sales records and analyse them for trends, and recommend a storage design the retailer should adopt.",
                     "verb": "EVALUATE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A chain of twelve regional electronics stores records every sale on its point-of-sale terminals. Head office needs all sales records kept securely, available to managers at every store, and organised so that analysts can compare sales trends across several years.",
@@ -11657,7 +11659,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-dqu-stg12-01-n0-n1",
-                    "question": "Discuss the ethical considerations a university team must weigh before using public social media posts in social research.",
+                    "question": "Discuss the ethical considerations a university team must weigh before using public social media posts in social research, and give a reasoned view on whether the posts may be used.",
                     "verb": "DISCUSS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A university research team wants to analyse 50,000 public social media posts about housing affordability in Sydney to understand community concerns. The posts were written by people who did not know their words would be used in research, and some describe personal financial hardship.",
@@ -12008,7 +12010,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-dqu-stg12-04-n0-n1",
-                    "question": "Discuss how curated and communicated data can influence social behaviour, considering timeframes, signals and the role of educating users.",
+                    "question": "Discuss how curated and communicated data can influence social behaviour, considering timeframes, signals and the role of educating users, and give a reasoned view on the council's responsibility for how residents read the figures.",
                     "verb": "DISCUSS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A city council publishes a live dashboard of bus crowding, curated from sensor data and shared through its app and social media. Residents use it to choose when to travel, but the council has not explained how the figures are calculated, and many residents look only at a single morning's reading.",
@@ -12248,7 +12250,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-02-n0-n1",
-                    "question": "Analyse how a spreadsheet's charts, statistical analysis and what-if modelling can work together to help a café decide whether to change its opening hours.",
+                    "question": "Analyse how a spreadsheet's charts, statistical analysis and what-if modelling can work together to help a café decide whether to change its opening hours, and identify a limitation of the estimate.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A café owner records customer numbers for each trading hour in a spreadsheet and wants to know whether opening one extra hour on Sundays would be profitable. The spreadsheet holds hourly customer numbers for the past eight Sundays, with the average spend per customer and the cost of staffing the extra hour as inputs.",
@@ -12483,7 +12485,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-04-n0-n1",
-                    "question": "Evaluate how effectively pivot tables and slicers in the data dashboard support the manager's weekly decision about which membership types to promote.",
+                    "question": "Evaluate how effectively pivot tables and slicers in the data dashboard support the manager's weekly decision about which membership types to promote, and recommend what the manager should check before deciding.",
                     "verb": "EVALUATE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: A gym manager checks the dashboard every Monday to decide which membership type (basic, standard or premium) to promote that week. The dashboard includes a graph of sign-ups, a pivot table of cancellations by membership type and a slicer that limits the view to the three most recent months.",
@@ -12515,7 +12517,7 @@
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-04-n0-n1-s1",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "Pivot tables and slicers make the data dashboard effective for this weekly decision. A pivot table summarises cancellations by membership types from the full data, so the manager can compare basic, standard and premium without filtering rows by hand. The slicer for the three most recent months lets the manager focus on current trends, and the pivot table and linked graphs update together when a period is selected, so the views stay consistent. The graph of sign-ups gives a quick visual check of whether a membership type is growing. The approach has limitations, however. A slicer that shows only three months may make a type look strong because of a one-month spike rather than a trend. Filtered views can also hide older data, and the dashboard is only as current as its last refresh. The manager should therefore compare the latest months with a longer period before choosing a promotion. Overall, the dashboard supports the decision well when it is read alongside a check of the period shown.",
+                        "answer": "Pivot tables and slicers make the data dashboard effective for this weekly decision. A pivot table summarises cancellations by membership types from the full data, so the manager can compare basic, standard and premium without filtering rows by hand. The slicer for the three most recent months lets the manager focus on current trends, and the pivot table updates when a period is selected, so the views stay consistent. The graph of sign-ups gives a quick visual check of whether a membership type is growing. The approach has limitations, however. A slicer that shows only three months may make a type look strong because of a one-month spike rather than a trend. Filtered views can also hide older data, and the dashboard is only as current as its last refresh. The manager should therefore compare the latest months with a longer period before choosing a promotion. Overall, the dashboard supports the decision well when it is read alongside a check of the period shown.",
                         "feedback": "Evaluates the pivot table and slicer against the Monday decision, weighs two limitations, and recommends a check on a longer period, which meets the 6-mark row.",
                         "band": 6
                       },
@@ -13463,7 +13465,7 @@
                   },
                   {
                     "id": "prompt-is-03-5m",
-                    "question": "Explain the roles of the knowledge base and the inference engine in a vehicle mechanic expert system. In your answer, distinguish between forward chaining and backward chaining.",
+                    "question": "Explain the roles of the knowledge base and the inference engine in a vehicle mechanic expert system. In your answer, distinguish between forward chaining and backward chaining, and justify which suits the diagnosis.",
                     "totalMarks": 5,
                     "verb": "EXPLAIN",
                     "scenario": "Hypothetical: A mechanic is using a vehicle diagnostic expert system to find out why a car will not start. The system asks questions about the symptoms and works through its rules to suggest the most likely fault.",
@@ -13584,7 +13586,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-isy-sta-stg12-05-n0-n1",
-                    "question": "Discuss how the availability of data, together with neural networks and webometrics, has allowed expert systems to integrate probability.",
+                    "question": "Discuss how the availability of data, together with neural networks and webometrics, has allowed expert systems to integrate probability, and how reliable the resulting estimates are.",
                     "verb": "DISCUSS",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: An insurance company is upgrading a rule-based expert system that recommends policies. The upgrade would let the system estimate probabilities from past customer records and from web-based data on customer needs.",
@@ -14080,7 +14082,7 @@
                     "verb": "CLASSIFY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: A small company is building an intelligent system to control a greenhouse. It has a fingerprint reader at the staff door, a soil moisture probe, a microcontroller that reads the probe and decides what to do, and a motor that opens the roof vents.",
-                    "markingCriteria": "4 marks: Classifies all four components correctly, naming each one's type, with a reason for each that explains its role in the system\n3 marks: Classifies three components correctly, with the type named for each\n2 marks: Classifies TWO components correctly, OR classifies all four with general reasons\n1 mark: Names hardware types only",
+                    "markingCriteria": "4 marks: Classifies all four correctly, names each one's type, and gives a reason for each that explains its role in the system\n3 marks: Classifies all four correctly and names each type, with reasons for some of them\n2 marks: Classifies two or three components correctly, with the type named for some of them\n1 mark: Classifies ONE component correctly OR names hardware types only",
                     "keywords": [
                       "intelligent system",
                       "biometrics",
@@ -14107,17 +14109,17 @@
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-09-n0-s1",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "In this intelligent system, the fingerprint reader is input hardware, a biometric sensor that reads the staff member's fingerprint before the door is unlocked. The soil moisture probe is also input hardware, a sensor that measures the moisture in the soil. The microcontroller is processing hardware, because it reads the probe's signal and decides what action to take. The motor that opens the roof vents is output hardware, an actuator that turns the controller's signal into physical movement, which is why it is an output rather than an input.",
+                        "answer": "In this intelligent system, the fingerprint reader is input hardware, a biometric sensor that reads the staff member's fingerprint before the door is unlocked. The soil moisture probe is also input hardware, a sensor that measures the moisture in the soil and passes the reading to the microcontroller. The microcontroller is processing hardware, because it reads the probe's signal and decides what action to take. The motor that opens the roof vents is output hardware, an actuator that turns the controller's signal into physical movement, which is why it is an output rather than an input.",
                         "feedback": "Classifies all four components and names each type, with reasons that separate sensing, decision-making and action, which meets the 4-mark row.",
                         "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-09-n0-s2",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 3,
                         "answer": "Fingerprint reader: input, a biometric sensor. Soil probe: input, a sensor. Microcontroller: processing, it decides. Motor: output, an actuator that moves the vents.",
-                        "feedback": "Classifies all four components with general reasons, which meets the 2-mark row. To reach 4 marks, add the role each component plays in the system.",
-                        "band": 1
+                        "feedback": "Classifies all four components, naming each type, with reasons for some of them, which meets the 3-mark row. To reach 4 marks, give a reason for each component that explains its role in the system.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-09-n0-s3",
@@ -14435,7 +14437,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-isy-sta-stg12-11-n0-n1",
-                    "question": "Recommend which of a flowchart, a data flow diagram or an infographic would best communicate this logical process to the bakery staff.",
+                    "question": "Recommend which of a flowchart, a data flow diagram or an infographic would best communicate this logical process to the bakery staff, and note where one of the others would also help.",
                     "verb": "RECOMMEND",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: The bakery owner, who is not a programmer, must explain to staff how the weight-checking intelligent system decides what happens to each loaf. The owner is choosing between a flowchart, a data flow diagram and an infographic for a staff training sheet.",
@@ -14667,7 +14669,7 @@
                   },
                   {
                     "id": "prompt-is-04-5m",
-                    "question": "An intelligent system is used by a court to predict the likelihood of a defendant reoffending, which influences their bail hearing. Investigate the ethical issues of accountability and bias in this context.",
+                    "question": "An intelligent system is used by a court to predict the likelihood of a defendant reoffending, which influences their bail hearing. Investigate the ethical issues of accountability and bias in this context, and judge whether the tool should be used at bail.",
                     "totalMarks": 5,
                     "scenario": "Hypothetical: A magistrates court is trialling a risk-prediction system that estimates how likely a defendant is to reoffend. The estimate is one of the factors a magistrate considers at bail hearings, and the system was built from historical court and arrest records.",
                     "linkedOutcomes": [
@@ -14906,7 +14908,7 @@
                   },
                   {
                     "id": "prompt-ent-11-12-cp-isy-sta-stg12-15-n0-n1",
-                    "question": "Analyse how combining machine learning, a decision support system and a live sales dashboard could meet the buying team's need for timely stock decisions.",
+                    "question": "Analyse how combining machine learning, a decision support system and a live sales dashboard could meet the buying team's need for timely stock decisions, and identify one trade-off or risk of the combined system.",
                     "verb": "ANALYSE",
                     "totalMarks": 6,
                     "scenario": "Hypothetical: the online clothing retailer's buying team must decide each week which lines to reorder and which to discount. The team wants one intelligent system that forecasts demand, recommends orders and shows stock positions on a dashboard that updates as sales arrive.",
@@ -15095,7 +15097,7 @@
                     "verb": "CLASSIFY",
                     "totalMarks": 4,
                     "scenario": "Hypothetical: a regional food distributor fits temperature and door sensors to its chilled trucks and warehouses. Every reading is sent over the IoT network to a cloud server, and managers want to cut storage and transmission costs without losing information needed to protect stock.",
-                    "markingCriteria": "4 marks: Classifies all four items correctly as relevant or surplus, with a specific reason for each tied to a decision or to storage and transmission cost\n3 marks: Classifies all four items correctly, with reasons for most of them\n2 marks: Classifies two or three items correctly, with a brief reason for some of them\n1 mark: Classifies ONE item correctly, OR gives classifications alone",
+                    "markingCriteria": "4 marks: Classifies all four items correctly as relevant or surplus, with a specific reason for each tied to a decision or to storage and transmission cost\n3 marks: Classifies all four items correctly, with reasons for most of them\n2 marks: Classifies all four items correctly without reasons OR classifies two or three correctly with a brief reason for some of them\n1 mark: Classifies ONE item correctly OR classifies several with errors and no reasons",
                     "keywords": [
                       "IoT network",
                       "surplus data",
@@ -15111,7 +15113,8 @@
                     "markerNotes": [
                       "A classification needs a reason tied to a decision or to the cost of storing and sending the data; 'it is useful' is not enough.",
                       "Repeated readings that add no information are the clearest example of surplus data, and the reason should say so.",
-                      "Check that all four items are classified, because a missing item costs marks even when the others are right."
+                      "Check that all four items are classified, because a missing item costs marks even when the others are right.",
+                      "Item (c) may be classed either way: relevant if it explains a temperature change in item (a), surplus if no stock decision depends on it. Accept either with a sound reason."
                     ],
                     "commonStudentErrors": [
                       "Calling every sensor reading relevant because the sensors were installed for that purpose.",
@@ -15463,7 +15466,7 @@
                     ],
                     "markerNotes": [
                       "Each way needs a sensor-based outcome, such as lights switched off by occupancy readings, not just a general benefit of AI.",
-                      "Distinct ways, such as occupancy control, predictive maintenance and local processing, score better than three versions of the same energy saving.",
+                      "Distinct ways, such as occupancy control, predictive maintenance and fault detection, score better than three versions of the same energy saving.",
                       "Use the building's sensors in the scenario to make each outcome concrete."
                     ],
                     "commonStudentErrors": [
@@ -15476,7 +15479,7 @@
                         "id": "prompt-ent-11-12-cp-isy-dis-stg12-05-n0-s1",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "AI can learn occupancy patterns from sensor readings, so heating and lighting on empty floors are reduced, improving energy efficiency across the IoT network. Machine learning models can also predict when a lift motor will need service, so repairs happen before breakdowns, which is predictive maintenance. Processing sensor data at a local gateway lets the building respond quickly without sending every reading to the cloud.",
+                        "answer": "AI can learn occupancy patterns from sensor readings, so heating and lighting on empty floors are reduced, improving energy efficiency across the IoT network. Machine learning models can also predict when a lift motor will need service, so repairs happen before breakdowns, which is predictive maintenance. An AI model can flag faulty temperature sensors from their readings, so heating is not wasted on bad data.",
                         "feedback": "Outlines three distinct AI improvements, each with a sensor-based outcome, covering energy and lift performance, which meets the 3-mark row.",
                         "band": 2
                       },
@@ -15485,7 +15488,7 @@
                         "source": "AI",
                         "mark": 2,
                         "answer": "AI can use occupancy sensors to switch off lights in empty rooms. It can also predict when equipment needs repair.",
-                        "feedback": "Outlines two ways, with a sensor link for one, which meets the 2-mark row. To reach 3 marks, outline a third distinct way, such as local processing at a gateway, with its outcome.",
+                        "feedback": "Outlines two ways, with a sensor link for one, which meets the 2-mark row. To reach 3 marks, outline a third distinct way, such as fault detection from sensor readings, with its outcome.",
                         "band": 2
                       },
                       {
@@ -15532,7 +15535,7 @@
                         "id": "prompt-ent-11-12-cp-isy-dis-stg12-05-n0-n1-s1",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "Running the AI models on local edge gateways is the stronger choice for heating and lighting control across the IoT network. Edge computing processes sensor readings where they are produced, so a decision such as dimming a floor's lights takes effect with little latency and keeps working during an internet outage. A cloud service has greater computing power and can train models on data from many buildings, but every live decision would then depend on the internet link and the delay of a round trip. The council's budget also favours local processing, because the gateways already exist on each floor and only the models need installing. The cloud should still hold the historical data, so that models can be retrained periodically and efficiency gains tracked over time. Keeping live control at the edge, with the cloud used for training and reporting, gives the building both resilience and efficiency, which is why the council should adopt it.",
+                        "answer": "Running the AI models on local edge gateways is the stronger choice for heating and lighting control across the IoT network. Edge computing processes sensor readings where they are produced, so a decision such as dimming a floor's lights takes effect with little latency and keeps working during an internet outage. A cloud service has greater computing power and can train models on data from many buildings, but every live decision would then depend on the internet link and the delay of a round trip. The council's budget also favours local processing, because the existing local gateway only needs the models installed. The cloud should still hold the historical data, so that models can be retrained periodically and efficiency gains tracked over time. Keeping live control at the edge, with the cloud used for training and reporting, gives the building both resilience and efficiency, which is why the council should adopt it.",
                         "feedback": "Recommends edge gateways for live control, weighs latency, resilience and budget against the cloud, and ties each reason to the outage requirement, which meets the 6-mark row.",
                         "band": 5
                       },
@@ -17405,10 +17408,10 @@
                   },
                   {
                     "id": "prompt-ep-06-6m",
-                    "question": "A start-up is developing a new, innovative mobile app where the final requirements are not yet fully understood. In contrast, a government agency is building a large payroll system where the legal requirements are fixed and well-documented. Evaluate the suitability of the agile and waterfall approaches for EACH of these projects.",
+                    "question": "Evaluate the suitability of the agile and waterfall approaches for EACH of these projects, and weigh a limitation of each approach.",
                     "totalMarks": 6,
                     "verb": "EVALUATE",
-                    "scenario": "Hypothetical: Two organisations are choosing development methodologies for very different projects. A start-up is building an innovative mobile app with unclear requirements, and a government agency is building a payroll system governed by fixed legal rules.",
+                    "scenario": "Hypothetical: A start-up is developing a new, innovative mobile app where the final requirements are not yet fully understood. A government agency is building a large payroll system where the legal requirements are fixed and well-documented.",
                     "linkedOutcomes": [
                       "EC-12-09"
                     ],
