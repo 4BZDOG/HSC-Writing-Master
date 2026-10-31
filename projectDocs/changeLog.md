@@ -1,5 +1,22 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-10-31 (Generators work to the latest HSC paper; calibration as a selling point)
+
+- **Changed.** The AI question, marking-guide and sample-answer generators work to the latest real paper:
+  - Calibration examples from the same course put the most recent paper first among questions of a similar
+    length, and the brief names that paper ("write to the 2025 paper's standard").
+  - A full-mark sample answer is written to the length of NESA's own full-mark answers from the course's newest
+    paper at that mark (falling back to the cross-course medians), and is shown one of those answers as the
+    standard to match, never its content.
+  - An extended response (15 marks or more) is given NESA's five-row guide (17–20, 13–16, 9–12, 5–8, 1–4 on 20
+    marks) whatever its tier (`guideRanges`), which is what every past paper uses; at Band 6 the rows read 6 to 2.
+  - A generated question takes its course's band ceiling as it is made, so a new Standard English composition is
+    Band 5 and a new 20-mark Business Studies Discuss Band 6 from the start, with the guide written to that tier.
+- **Copy.** The README opens with "Calibrated Against Real HSC Papers" (308 past questions, 2019–2025, six
+  courses; 125 of NESA's published full-mark answers; NESA's ladders and bands; generators that have read the
+  paper). The sign-in tagline and the Plus perks for Advanced Questions, Sample Answers and the AI Content Studio
+  say the same.
+
 ## [Unreleased] - 2026-10-30 (Verb ribbon in the question's colour; Software Engineering past questions reviewed)
 
 - **Fixed.** The command verb ribbon was drawn in the verb's own tier, so on a question whose course sets its

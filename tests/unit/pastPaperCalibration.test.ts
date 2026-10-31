@@ -733,3 +733,57 @@ describe('generateNewPrompt is calibrated by the library', () => {
     expect(sent).not.toContain('REAL PAST HSC QUESTIONS');
   });
 });
+
+// ---------------------------------------------------------------------------
+// The latest paper is the standard
+
+describe('working to the latest paper', () => {
+  it('puts the newest paper first among questions of a similar length', () => {
+    registerCalibrationLibrary([
+      oneDotPoint('HSC Business Studies', 'cash', [
+        past('old-5', { hscYear: 2019, totalMarks: 5 }),
+        past('new-6', { hscYear: 2025, totalMarks: 6, hscQuestionNumber: '2' }),
+        past('new-20', { hscYear: 2025, totalMarks: 20, hscQuestionNumber: '3' }),
+      ]),
+    ]);
+    const { examples } = selectCalibrationExamples({
+      courseName: 'HSC Business Studies',
+      dotPoint: 'cash',
+      marks: 5,
+    });
+    // A 2025 6-mark question leads a 2019 5-mark one; the 20-mark one stays last.
+    expect(examples.map((x) => x.prompt.id)).toEqual(['new-6', 'old-5', 'new-20']);
+    expect(buildQuestionCalibrationBrief({ examples, fromOtherCourses: false })).toContain(
+      "write to the 2025 paper's standard"
+    );
+  });
+
+  it('shows the sample generator one of NESA’s own full-mark answers from the course', () => {
+    const nesa = (id: string, year: number, answer: string): Prompt =>
+      past(id, {
+        hscYear: year,
+        totalMarks: 3,
+        hscQuestionNumber: id,
+        question: `Question ${id}`,
+        sampleAnswers: [
+          { id: `${id}-1`, mark: 3, band: 3, source: 'HSC_EXEMPLAR', answer, feedback: '' },
+        ],
+      });
+    const target = generated('target', { totalMarks: 3 });
+    registerCalibrationLibrary([
+      oneDotPoint('HSC Software Engineering', 'web', [
+        nesa('q18', 2025, 'one two three four five six seven eight nine ten'),
+        nesa('q20', 2025, 'one two three four five six'),
+        nesa('q9', 2022, 'an older answer from an earlier paper'),
+        target,
+      ]),
+    ]);
+    const brief = buildSampleCalibrationBrief(target, 3);
+    // The newest paper's two answers (10 and 6 words) set the length.
+    expect(brief).toContain('in this course run to about 8 words');
+    expect(brief).toContain("NESA's full-mark answer:");
+    expect(brief).not.toContain('an older answer');
+    // A lower mark gets neither: NESA's answers are full-mark answers.
+    expect(buildSampleCalibrationBrief(target, 2)).toBe('');
+  });
+});

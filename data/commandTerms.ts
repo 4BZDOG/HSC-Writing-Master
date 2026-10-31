@@ -1195,6 +1195,32 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
 };
 
 /**
+ * The rows a marking guide has on this question, highest first, each with the
+ * band it is labelled with.
+ *
+ * An extended response (`EXTENDED_RESPONSE_MARKS` or more) is written on NESA's
+ * own ladder: five even rows, 17-20 / 13-16 / 9-12 / 5-8 / 1-4 on 20 marks,
+ * 13-15 … 1-3 on 15, 21-25 … 1-5 on 25. Every past paper in the library marks its
+ * long questions this way, so a generated question practises against the paper's
+ * shape, and its rows read the same bands as a past question's (each row the band
+ * of its top mark: 6, 5, 4, 3, 2 at a Band 6 ceiling). Shorter questions have one
+ * row per band, from `bandMarkRanges`.
+ */
+export const guideRanges = (
+  totalMarks: number,
+  tier: number = 4
+): { band: number; lo: number; hi: number }[] => {
+  if (totalMarks < EXTENDED_RESPONSE_MARKS) return bandMarkRanges(totalMarks, tier);
+  const rows: { band: number; lo: number; hi: number }[] = [];
+  for (let k = 5; k >= 1; k--) {
+    const hi = Math.round((totalMarks * k) / 5);
+    const lo = Math.round((totalMarks * (k - 1)) / 5) + 1;
+    rows.push({ band: getBandForMark(hi, totalMarks, tier), lo, hi });
+  }
+  return rows;
+};
+
+/**
  * The inclusive mark range that earns each band on this question, highest band
  * first. The single source for "which marks are Band 5 here" — the rubric brief
  * builds its rows from this, so a generated marking guide steps through exactly

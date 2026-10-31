@@ -13,8 +13,11 @@ import { getPastHscLabel } from './pastHscUtils';
  * and names a different city every time (`docs/hsc-scenario-conventions.md`).
  *
  * The examples come from the same course where it has any, nearest first: the same
- * dot point, then the same topic, then the course, each ordered by how close the
- * marks are. A course with no past papers yet (a new syllabus, a course NESA
+ * dot point, then the same topic, then the course. Within each, the most recent
+ * paper leads among questions of a similar length, because the latest paper is the
+ * standard a student will sit: NESA's wording and the demand at each mark move a
+ * little from year to year, and a 2019 stem is calibration only where nothing newer
+ * is as close. A course with no past papers yet (a new syllabus, a course NESA
  * publishes no wording for) borrows from OTHER courses, and the brief says so and
  * limits what may be taken from them to the craft, not the content.
  *
@@ -154,13 +157,19 @@ export const selectCalibrationExamples = ({
         : topicName && norm(e.topicName) === norm(topicName)
           ? 'topic'
           : 'course';
-    return { e, closeness, gap: Math.abs(e.prompt.totalMarks - marks) };
+    const gap = Math.abs(e.prompt.totalMarks - marks);
+    // Near (within 2 marks), comparable (within 5) or far: inside a band of length
+    // the newest paper leads, so a 2025 6-mark question outranks a 2019 5-mark one
+    // for a 5-mark brief, but never a 20-mark one.
+    const lengthBand = gap <= 2 ? 0 : gap <= 5 ? 1 : 2;
+    return { e, closeness, gap, lengthBand };
   });
   scored.sort(
     (a, b) =>
       CLOSENESS_RANK[a.closeness] - CLOSENESS_RANK[b.closeness] ||
-      a.gap - b.gap ||
+      a.lengthBand - b.lengthBand ||
       (b.e.prompt.hscYear ?? 0) - (a.e.prompt.hscYear ?? 0) ||
+      a.gap - b.gap ||
       a.e.prompt.id.localeCompare(b.e.prompt.id)
   );
 
@@ -183,6 +192,12 @@ export const selectCalibrationExamples = ({
     }
   }
   return { examples, fromOtherCourses };
+};
+
+/** The newest paper year among the examples, if any carries one. */
+const latestPaperYear = (examples: CalibrationExample[]): number | undefined => {
+  const years = examples.map((x) => x.prompt.hscYear ?? 0).filter((y) => y > 0);
+  return years.length ? Math.max(...years) : undefined;
 };
 
 const clip = (s: string, max: number): string => {
@@ -229,6 +244,7 @@ const describeExample = (x: CalibrationExample, i: number): string => {
  */
 export const buildQuestionCalibrationBrief = (selection: CalibrationSelection): string => {
   if (selection.examples.length === 0) return '';
+  const latest = latestPaperYear(selection.examples);
   const head = selection.fromOtherCourses
     ? 'REAL PAST HSC QUESTIONS FROM OTHER COURSES (calibration). This course has no past HSC ' +
       'questions in the library yet, so these come from other subjects. Take only the craft: how ' +
@@ -238,7 +254,10 @@ export const buildQuestionCalibrationBrief = (selection: CalibrationSelection): 
     : 'REAL PAST HSC QUESTIONS FROM THIS COURSE (calibration). Write the new question the way ' +
       'these are written: the stem’s length and shape, how a scenario or stimulus is introduced and ' +
       'tied back to the task, the demand at this many marks, and the guide’s wording. Never copy ' +
-      'their wording, scenarios or texts; the new question is for the dot point above.';
+      'their wording, scenarios or texts; the new question is for the dot point above.' +
+      (latest
+        ? ` The most recent paper here is ${latest}: where the examples differ, write to the ${latest} paper's standard.`
+        : '');
   return [head, ...selection.examples.map(describeExample)].join('\n');
 };
 
@@ -282,10 +301,67 @@ export const NESA_SAMPLE_MEDIAN_WORDS: Readonly<Record<number, number>> = {
   8: 202,
 };
 
+/** NESA's own full-mark answers in one course: (question, answer), newest paper first. */
+const nesaFullMarkAnswers = (courseName: string): { prompt: Prompt; answer: string }[] => {
+  const course = norm(courseName);
+  const out: { prompt: Prompt; answer: string }[] = [];
+  for (const e of pastEntries()) {
+    if (norm(e.courseName) !== course) continue;
+    for (const a of e.prompt.sampleAnswers ?? []) {
+      if (a.source === 'HSC_EXEMPLAR' && a.mark === e.prompt.totalMarks && a.answer?.trim()) {
+        out.push({ prompt: e.prompt, answer: a.answer });
+      }
+    }
+  }
+  return out.sort((x, y) => (y.prompt.hscYear ?? 0) - (x.prompt.hscYear ?? 0));
+};
+
+const wordCount = (s: string): number => s.split(/\s+/).filter(Boolean).length;
+
+/**
+ * How long NESA's own full-mark answers to questions of this many marks run in
+ * this course, from its newest paper that has any: the median of that paper's
+ * answers, or of every paper's when the newest has only one. Undefined when the
+ * course holds none at this mark.
+ */
+export const courseSampleMedianWords = (courseName: string, marks: number): number | undefined => {
+  const atMark = nesaFullMarkAnswers(courseName).filter((x) => x.prompt.totalMarks === marks);
+  if (atMark.length === 0) return undefined;
+  const newest = atMark[0].prompt.hscYear;
+  const sameYear = atMark.filter((x) => x.prompt.hscYear === newest);
+  const pool = (sameYear.length >= 2 ? sameYear : atMark)
+    .map((x) => wordCount(x.answer))
+    .sort((a, b) => a - b);
+  const mid = Math.floor(pool.length / 2);
+  return pool.length % 2 ? pool[mid] : Math.round((pool[mid - 1] + pool[mid]) / 2);
+};
+
+/**
+ * One of NESA's own full-mark answers from this course, at the same marks where
+ * there is one (otherwise the nearest), newest paper first: the standard a model
+ * answer is written to. Never an answer to the question being written.
+ */
+export const selectNesaAnchor = (
+  courseName: string,
+  marks: number,
+  excludePromptId?: string
+): { prompt: Prompt; answer: string } | undefined => {
+  const pool = nesaFullMarkAnswers(courseName).filter((x) => x.prompt.id !== excludePromptId);
+  if (pool.length === 0) return undefined;
+  const gap = (x: { prompt: Prompt }) => Math.abs(x.prompt.totalMarks - marks);
+  // Stable sort: newest paper first is kept within equal gaps.
+  return [...pool].sort((a, b) => gap(a) - gap(b))[0];
+};
+
 /**
  * The calibration lines for the sample-answer generator: whether the question is a
  * real HSC question (and so must be answered as the exam asks), and, for a full-mark
- * answer, how long NESA's own samples at that mark run.
+ * answer, how long NESA's own answers at that mark run and one of them to write to.
+ *
+ * The length comes from the course's newest paper where the library holds NESA's
+ * answers at that mark, otherwise from the cross-course medians above. The anchor is
+ * the standard, not the content: its question is different, so nothing in it may be
+ * reused.
  */
 export const buildSampleCalibrationBrief = (prompt: Prompt, mark: number): string => {
   const lines: string[] = [];
@@ -297,13 +373,28 @@ export const buildSampleCalibrationBrief = (prompt: Prompt, mark: number): strin
         `that awards ${mark}.`
     );
   }
-  // NESA's medians are for full-mark answers, so they say nothing about a 3/6.
-  const median = mark === prompt.totalMarks ? NESA_SAMPLE_MEDIAN_WORDS[mark] : undefined;
+  // NESA's answers are full-mark answers, so they say nothing about a 3/6.
+  if (mark !== prompt.totalMarks) return lines.join('\n');
+  const courseName = locatePrompt(prompt.id)?.courseName;
+  const courseMedian = courseName ? courseSampleMedianWords(courseName, mark) : undefined;
+  const median = courseMedian ?? NESA_SAMPLE_MEDIAN_WORDS[mark];
   if (median) {
     lines.push(
-      `- NESA’s own published full-mark answers to ${mark}-mark questions run to about ${median} ` +
-        'words, so the lower part of the length range above is where a model answer belongs: it ' +
-        'earns its mark by precision, not length.'
+      `- NESA’s own published full-mark answers to ${mark}-mark questions ` +
+        `${courseMedian ? 'in this course ' : ''}run to about ${median} words, so the lower part ` +
+        'of the length range above is where a model answer belongs: it earns its mark by ' +
+        'precision, not length.'
+    );
+  }
+  const anchor = courseName ? selectNesaAnchor(courseName, mark, prompt.id) : undefined;
+  if (anchor) {
+    const anchorLabel = getPastHscLabel(anchor.prompt)?.text ?? 'Past HSC';
+    lines.push(
+      `- The standard to write to: a full-mark answer NESA published for ${anchorLabel} ` +
+        `(${anchor.prompt.totalMarks} marks, ${anchor.prompt.verb}), a different question. Match its ` +
+        'precision, density and register, not its content; reuse none of its points or wording.\n' +
+        `  Question: ${clip(anchor.prompt.question, 300)}\n` +
+        `  NESA's full-mark answer: ${clip(anchor.answer, 1400)}`
     );
   }
   return lines.join('\n');

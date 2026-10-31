@@ -117,19 +117,20 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
   aiContentStudio: {
     title: 'AI Content Studio',
     blurb:
-      'Generate exam-style questions, model answers and marking rubrics on demand. ' +
+      'Generate exam-style questions, model answers and marking rubrics on demand, calibrated ' +
+      'against the latest real HSC papers in the course. ' +
       'Authoring tools are for teacher and admin accounts — a student account keeps ' +
       'its allowance for marking its own work.',
     // Says "for teachers" out loud. The plan unlocks the studio, but
     // `canUseAiGeneration` keeps it to staff roles, so a student reading this
     // list while deciding whether to buy Plus must not count it as something
     // they are about to get.
-    perk: 'AI generation of questions, rubrics and sample answers (teacher accounts)',
+    perk: 'AI questions, rubrics and sample answers calibrated against real HSC papers (teacher accounts)',
   },
   advancedQuestions: {
     title: 'Advanced Questions',
     blurb: 'Tackle higher-band questions (Analyse, Evaluate, Discuss) that push you beyond recall.',
-    perk: 'Full access to Band 4–6 questions (Analyse → Evaluate)',
+    perk: 'Full access to Band 4–6 questions (Analyse → Evaluate), including real past HSC questions',
   },
   fullFeedback: {
     title: 'Full Marking Feedback',
@@ -138,8 +139,9 @@ export const PREMIUM_FEATURES: Record<PremiumFeatureKey, PremiumFeatureMeta> = {
   },
   sampleAnswers: {
     title: 'Sample Answers',
-    blurb: 'Study model answers at every band level to see what markers really want.',
-    perk: 'View sample answers and exemplars across all bands',
+    blurb:
+      'Study model answers at every band level, including NESA’s own published full-mark answers, to see what markers really want.',
+    perk: 'Sample answers across all bands, and NESA’s own full-mark answers',
   },
   outcomeBriefing: {
     title: 'Outcome Briefings',

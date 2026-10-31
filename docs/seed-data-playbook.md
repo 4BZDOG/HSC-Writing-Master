@@ -102,7 +102,9 @@ syllabus's first HSC year on NESA's syllabus page rather than trusting this tabl
 - **20 marks is Tier 5.** Tier 5 at 20 marks derives NESA's five bands exactly
   (17–20 / 13–16 / 9–12 / 5–8 / 1–4); at 25 marks it gives 21–25 / 16–20 / 11–15 / 6–10 / 1–5.
   In every course but English Standard, Studies and EAL/D a 15+ mark question reaches Band 6
-  whatever its verb (`courseBandCeiling`), so there the same five rows read Bands 6 to 2.
+  whatever its verb (`courseBandCeiling`), so there the same five rows read Bands 6 to 2. An
+  app-written guide at 15+ marks uses the same five even rows (`guideRanges`), never one row per
+  band.
 - **Verb floor by length** (`minimumTierForMarks`, PR #362): 7–9 marks need Tier 3, 10–14
   need Tier 4, 15+ need Tier 5. The generators,
   import and storage load enforce it, and `tests/unit/verbLength.test.ts` holds the seed to
