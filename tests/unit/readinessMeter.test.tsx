@@ -9,6 +9,7 @@ afterEach(cleanup);
 const result = (over: Partial<ReadinessResult>): ReadinessResult => {
   const base = {
     score: 0,
+    percent: 0,
     level: 0 as ReadinessResult['level'],
     isNeutral: true,
     label: 'Start writing',
@@ -26,15 +27,52 @@ const fillOf = (bar: HTMLElement): Element => bar.firstElementChild as Element;
 describe('ReadinessMeter', () => {
   it('shows the percentage and the completeness label for a mid-level draft', () => {
     render(
-      <ReadinessMeter readiness={result({ score: 62, level: 4, isNeutral: false, label: 'Getting there' })} />
+      <ReadinessMeter
+        readiness={result({
+          score: 60,
+          percent: 62,
+          level: 4,
+          isNeutral: false,
+          label: 'Getting there',
+        })}
+      />
     );
     expect(screen.getByText('62%')).toBeTruthy();
     expect(screen.getByText('Getting there')).toBeTruthy();
   });
 
-  it('exposes an accessible progressbar carrying the score', () => {
+  it('shows the calibrated percent, never the raw score', () => {
+    // A complete answer: raw score 85 reads as 100% and "Ready to submit".
     render(
-      <ReadinessMeter readiness={result({ score: 62, level: 4, isNeutral: false, label: 'Getting there' })} />
+      <ReadinessMeter
+        readiness={result({
+          score: 85,
+          percent: 100,
+          level: 6,
+          isNeutral: false,
+          label: 'Ready to submit',
+        })}
+      />
+    );
+    expect(screen.getByText('100%')).toBeTruthy();
+    expect(screen.queryByText('85%')).toBeNull();
+    const bar = screen.getByRole('progressbar');
+    expect(bar.getAttribute('aria-valuenow')).toBe('100');
+    expect(bar.getAttribute('aria-label')).toBe('Draft readiness: Ready to submit, 100%');
+    expect(fillOf(bar).getAttribute('style')).toContain('width: 100%');
+  });
+
+  it('exposes an accessible progressbar carrying the percent', () => {
+    render(
+      <ReadinessMeter
+        readiness={result({
+          score: 60,
+          percent: 62,
+          level: 4,
+          isNeutral: false,
+          label: 'Getting there',
+        })}
+      />
     );
     const bar = screen.getByRole('progressbar');
     expect(bar.getAttribute('aria-valuenow')).toBe('62');
@@ -46,7 +84,15 @@ describe('ReadinessMeter', () => {
 
   it('applies the band palette gradient for a non-neutral level', () => {
     render(
-      <ReadinessMeter readiness={result({ score: 62, level: 4, isNeutral: false, label: 'Getting there' })} />
+      <ReadinessMeter
+        readiness={result({
+          score: 60,
+          percent: 62,
+          level: 4,
+          isNeutral: false,
+          label: 'Getting there',
+        })}
+      />
     );
     // Band 4 is green in the canonical palette.
     expect(fillOf(screen.getByRole('progressbar')).className).toMatch(/from-green-/);
@@ -58,7 +104,14 @@ describe('ReadinessMeter', () => {
     // never blue/purple.
     render(
       <ReadinessMeter
-        readiness={result({ score: 95, level: 6, chromaLevel: 4, isNeutral: false, label: 'Ready to submit' })}
+        readiness={result({
+          score: 85,
+          percent: 100,
+          level: 6,
+          chromaLevel: 4,
+          isNeutral: false,
+          label: 'Ready to submit',
+        })}
       />
     );
     expect(screen.getByText('Ready to submit')).toBeTruthy();
@@ -82,7 +135,13 @@ describe('ReadinessMeter', () => {
     render(
       <ReadinessMeter
         compact
-        readiness={result({ score: 40, level: 2, isNeutral: false, label: 'Taking shape' })}
+        readiness={result({
+          score: 35,
+          percent: 40,
+          level: 2,
+          isNeutral: false,
+          label: 'Taking shape',
+        })}
       />
     );
     expect(screen.queryByText('Taking shape')).toBeNull();

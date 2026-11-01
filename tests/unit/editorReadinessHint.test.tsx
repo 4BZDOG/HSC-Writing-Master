@@ -22,7 +22,7 @@ import { PromptVerb } from '../../types';
  *     off a statement about the QUESTION and once attached to the meter
  *     measuring the DRAFT.
  *   - The PERCENTAGE and its bar. The header carried its own `role="progressbar"`
- *     fed by `progress={readiness.score / 100}` — the meter's own number,
+ *     fed by `progress={readiness.percent / 100}` — the meter's own number,
  *     rendered a second time in the title block, white on the band gradient,
  *     with neither the completeness word nor the band hue that make it mean
  *     anything.
@@ -41,7 +41,8 @@ afterEach(cleanup);
 
 // A non-neutral readiness signal — completeness words, never a band name.
 const readyish: ReadinessResult = {
-  score: 62,
+  score: 60,
+  percent: 62,
   level: 4,
   chromaLevel: 4,
   isNeutral: false,
@@ -52,6 +53,7 @@ const readyish: ReadinessResult = {
 // The calm, off-palette level-0 state for an empty / barely-started draft.
 const neutral: ReadinessResult = {
   score: 0,
+  percent: 0,
   level: 0,
   chromaLevel: 0,
   isNeutral: true,
@@ -71,16 +73,16 @@ const renderEditor = (props: Partial<React.ComponentProps<typeof Editor>> = {}) 
   );
 
 describe('editor readiness hint (Surface B)', () => {
-  it('draws no progress bar of its own — the meter is the card\'s only one', () => {
+  it("draws no progress bar of its own — the meter is the card's only one", () => {
     renderEditor({ readiness: readyish, progress: 0.62 });
 
-    // The header's bar restated `readiness.score` without the word or the hue.
+    // The header's bar restated `readiness.percent` without the word or the hue.
     // The editor alone is now silent about it; the card's single meter arrives
     // through `footerAction`, which the test below assembles.
     expect(screen.queryAllByRole('progressbar')).toHaveLength(0);
   });
 
-  it('keeps the question\'s fixed goal in the header, which is not the draft', () => {
+  it("keeps the question's fixed goal in the header, which is not the draft", () => {
     renderEditor({ readiness: readyish, progress: 0.62 });
 
     // "Band 2" as the target is identity — what this card is FOR — and stays.

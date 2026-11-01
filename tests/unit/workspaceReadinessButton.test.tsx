@@ -99,7 +99,7 @@ describe('the Evaluate button + readiness meter (step 4)', () => {
     renderPanel({ userAnswer: SUBSTANTIAL_DRAFT });
 
     // There used to be two. The editor header carried its own "Draft readiness"
-    // bar and percentage, fed by `progress={readiness.score / 100}` — the same
+    // bar and percentage, fed by `progress={readiness.percent / 100}` — the same
     // number this meter shows, rendered a second time in the card's title
     // block, without the completeness word or the band hue that make it mean
     // anything. This assertion is the one that would have caught that, and the

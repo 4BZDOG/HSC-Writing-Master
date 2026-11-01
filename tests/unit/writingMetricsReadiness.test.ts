@@ -32,6 +32,7 @@ describe('useWritingMetrics readiness', () => {
     expect(result.current.readiness.isNeutral).toBe(true);
     expect(result.current.readiness.level).toBe(0);
     expect(result.current.readiness.score).toBe(0);
+    expect(result.current.readiness.percent).toBe(0);
   });
 
   it('climbs to a higher, non-neutral level for a substantial draft', () => {
@@ -51,5 +52,8 @@ describe('useWritingMetrics readiness', () => {
     expect(result.current.readiness.isNeutral).toBe(false);
     expect(result.current.readiness.level).toBeGreaterThan(0);
     expect(result.current.readiness.score).toBeGreaterThan(12);
+    // The displayed number is the calibrated percent, and it climbs off zero.
+    expect(result.current.readiness.percent).toBeGreaterThan(0);
+    expect(result.current.readiness.percent).toBeLessThanOrEqual(100);
   });
 });
