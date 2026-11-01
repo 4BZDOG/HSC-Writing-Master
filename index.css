@@ -1787,22 +1787,22 @@ a:focus-visible,
   --stage-ink-3: 203 213 225;
   --stage-line: 255 255 255;
   --aura-wash: 0;
-  --aura-1: 0.42;
-  --aura-2: 0.16;
-  --verb-glow: 0.32;
-  --rule-glow: 0.7;
-  --stage-glow: 0.5;
-  --chip-fill: 0.22;
-  --chip-edge: 0.65;
-  --col-lo: 0.18;
-  --col-hi: 0.62;
-  --col-cur-lo: 0.35;
+  --aura-1: 0.45;
+  --aura-2: 0.26;
+  --verb-glow: 0.48;
+  --rule-glow: 0.9;
+  --stage-glow: 0.7;
+  --chip-fill: 0.3;
+  --chip-edge: 0.9;
+  --col-lo: 0.3;
+  --col-hi: 0.85;
+  --col-cur-lo: 0.55;
   --col-cur-hi: 1;
-  --col-glow: 0.7;
-  --hatch-fill: 0.13;
-  --hatch-edge: 0.3;
-  --line-soft: 0.1;
-  --line-mid: 0.35;
+  --col-glow: 0.9;
+  --hatch-fill: 0.2;
+  --hatch-edge: 0.5;
+  --line-soft: 0.16;
+  --line-mid: 0.5;
 }
 [data-theme='light'] .ribbon-stage {
   --stage-ground: 248 250 252;
@@ -1811,23 +1811,23 @@ a:focus-visible,
   --stage-ink-2: 30 41 59;
   --stage-ink-3: 51 65 85;
   --stage-line: 15 23 42;
-  --aura-wash: 0.12;
-  --aura-1: 0.4;
-  --aura-2: 0.12;
-  --verb-glow: 0.4;
-  --rule-glow: 0.6;
-  --stage-glow: 0.6;
-  --chip-fill: 0.3;
-  --chip-edge: 0.9;
-  --col-lo: 0.6;
+  --aura-wash: 0.16;
+  --aura-1: 0.5;
+  --aura-2: 0.26;
+  --verb-glow: 0.5;
+  --rule-glow: 0.8;
+  --stage-glow: 0.8;
+  --chip-fill: 0.36;
+  --chip-edge: 1;
+  --col-lo: 0.75;
   --col-hi: 1;
-  --col-cur-lo: 0.75;
+  --col-cur-lo: 0.9;
   --col-cur-hi: 1;
-  --col-glow: 0.65;
-  --hatch-fill: 0.2;
-  --hatch-edge: 0.55;
-  --line-soft: 0.28;
-  --line-mid: 0.55;
+  --col-glow: 0.8;
+  --hatch-fill: 0.28;
+  --hatch-edge: 0.7;
+  --line-soft: 0.36;
+  --line-mid: 0.7;
 }
 .ribbon-stage-hue {
   --band-text: var(--band-rgb);
@@ -1853,14 +1853,16 @@ a:focus-visible,
    left where the tile is, and a tier-coloured foot rule in place of the slate one. The
    bar is inside the stage, so `--band-rgb` is there to read; with no verb chosen it is the
    neutral hue and the bar is a quiet grey. Its text is slate on a tint of at most 18%, which
-   is far from the 4.5:1 floor. Nothing in the dark theme, where the bar is the stage. */
+   is far from the 4.5:1 floor (the strongest stop is 30% of the tier over white, and
+   `tests/unit/verbRibbonChrome.test.tsx` holds the slate ink on it). Nothing in the dark
+   theme, where the bar is the stage. */
 [data-theme='light'] .ribbon-bar {
   background-image: linear-gradient(
     90deg,
-    rgb(var(--band-rgb) / 0.2) 0%,
-    rgb(var(--band-rgb) / 0.05) 70%
+    rgb(var(--band-rgb) / 0.3) 0%,
+    rgb(var(--band-rgb) / 0.08) 70%
   );
-  box-shadow: inset 0 -2px 0 rgb(var(--band-rgb) / 0.55);
+  box-shadow: inset 0 -2px 0 rgb(var(--band-rgb) / 1);
 }
 
 /*
@@ -1889,15 +1891,15 @@ a:focus-visible,
 .ribbon-tier-wash {
   background-image: linear-gradient(
     90deg,
-    rgb(var(--band-rgb) / 0.16) 0%,
-    rgb(var(--band-rgb) / 0.05) 100%
+    rgb(var(--band-rgb) / 0.26) 0%,
+    rgb(var(--band-rgb) / 0.1) 100%
   );
 }
 [data-theme='light'] .ribbon-tier-wash {
   background-image: linear-gradient(
     135deg,
-    rgb(var(--band-rgb) / 0.4) 0%,
-    rgb(var(--band-rgb) / 0.14) 100%
+    rgb(var(--band-rgb) / 0.45) 0%,
+    rgb(var(--band-rgb) / 0.2) 100%
   );
 }
 /* Hover brightens the wash a step, on devices that can hover: a tap leaves
@@ -1907,38 +1909,107 @@ a:focus-visible,
   .ribbon-tier-wash:hover {
     background-image: linear-gradient(
       90deg,
-      rgb(var(--band-rgb) / 0.26) 0%,
-      rgb(var(--band-rgb) / 0.1) 100%
+      rgb(var(--band-rgb) / 0.4) 0%,
+      rgb(var(--band-rgb) / 0.16) 100%
     );
   }
   [data-theme='light'] .ribbon-tier-wash:hover {
     background-image: linear-gradient(
       135deg,
       rgb(var(--band-rgb) / 0.5) 0%,
-      rgb(var(--band-rgb) / 0.2) 100%
+      rgb(var(--band-rgb) / 0.24) 100%
     );
   }
 }
 
-/* A tier card's edge, firmer in the light theme where the card sits on white, as the
-   sample rows' edge is. The selected card's edge is `band-edge-strong`. */
+/* The tier card's body: a gentle tint of the tier's hue, continuing down from the header's
+   wash, so each column reads as its own colour rather than as a white card with a coloured
+   top. The description and the pills sit on it, and `tests/unit/verbRibbonChrome.test.tsx`
+   holds them to 4.5:1 on this tint. The selected card's body is replaced below. */
+.ribbon-tier-card {
+  background-image: linear-gradient(rgb(var(--band-rgb) / 0.12), rgb(var(--band-rgb) / 0.08));
+}
+[data-theme='light'] .ribbon-tier-card {
+  background-image: linear-gradient(rgb(var(--band-rgb) / 0.08), rgb(var(--band-rgb) / 0.05));
+}
+
+/* The tier card's edge: the border, plus a 1px outline just inside it, so the card reads as
+   a 2px tier line without moving anything it holds. The outline paints over the header and
+   body, which is why it is not an inset shadow (children paint over those). The shared
+   `.band-edge` and `.band-edge-strong` are a whisper and a statement for the ladder rows
+   too, so the ribbon's cards take their own values here. */
+.ribbon-tier-card.band-edge {
+  border-color: rgb(var(--band-rgb) / 0.8);
+  outline: 1px solid rgb(var(--band-rgb) / 0.8);
+  outline-offset: -1px;
+}
+.ribbon-tier-card.band-edge-strong {
+  border-color: rgb(var(--band-rgb) / 1);
+  outline: 1px solid rgb(var(--band-rgb) / 1);
+  outline-offset: -1px;
+}
 [data-theme='light'] .ribbon-tier-card.band-edge {
-  border-color: rgb(var(--band-rgb) / 0.6);
+  border-color: rgb(var(--band-rgb) / 0.9);
+  outline-color: rgb(var(--band-rgb) / 0.9);
 }
 [data-theme='light'] .ribbon-tier-card.band-edge-strong {
   border-color: rgb(var(--band-rgb) / 1);
+  outline-color: rgb(var(--band-rgb) / 1);
+}
+
+/* The selected card's body. `band-fill` is the mark ladder's row fill and its alphas are
+   pinned for the feedback report, so the ribbon's selected card takes its own, a step
+   stronger, here. It is the card the reader is on, and it is the one saturated body in
+   the row. It comes after the idle tint so that, at equal specificity, it wins. */
+.ribbon-tier-card.band-fill {
+  --band-fill-alpha: 0.3;
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb) / var(--band-fill-alpha)) 0%,
+    rgb(var(--band-rgb) / 0.12) 90%
+  );
+}
+[data-theme='light'] .ribbon-tier-card.band-fill {
+  --band-fill-alpha: 0.3;
+}
+
+/* An unselected verb pill: filled in its tier's hue, with an edge in the same hue, and a
+   stronger fill on hover and on press. Its text is the tier's text step, set at the call
+   site, and `tests/unit/verbRibbonChrome.test.tsx` holds it to 4.5:1 on this fill. The
+   hover is gated to devices that can hover, as the card lift is. */
+.ribbon-verb-chip {
+  background-color: rgb(var(--band-rgb) / 0.14);
+  border-color: rgb(var(--band-rgb) / 0.85);
+}
+[data-theme='light'] .ribbon-verb-chip {
+  background-color: rgb(var(--band-rgb) / 0.1);
+  border-color: rgb(var(--band-rgb) / 1);
+}
+@media (hover: hover) {
+  .ribbon-verb-chip:hover {
+    background-color: rgb(var(--band-rgb) / 0.26);
+  }
+  [data-theme='light'] .ribbon-verb-chip:hover {
+    background-color: rgb(var(--band-rgb) / 0.2);
+  }
+}
+.ribbon-verb-chip:active {
+  background-color: rgb(var(--band-rgb) / 0.3);
+}
+[data-theme='light'] .ribbon-verb-chip:active {
+  background-color: rgb(var(--band-rgb) / 0.24);
 }
 
 /* The icon tile and the band chip on an unselected card: the band's own tint, with
    its edge. The glyph and the chip's ink are the tier's text step, set at the call
    site. On the selected card both are white alpha over the solid header instead. */
 .ribbon-tier-tile {
-  background-color: rgb(var(--band-rgb) / 0.16);
-  border-color: rgb(var(--band-rgb) / 0.45);
+  background-color: rgb(var(--band-rgb) / 0.24);
+  border-color: rgb(var(--band-rgb) / 0.75);
 }
 [data-theme='light'] .ribbon-tier-tile {
-  background-color: rgb(var(--band-rgb) / 0.14);
-  border-color: rgb(var(--band-rgb) / 0.7);
+  background-color: rgb(var(--band-rgb) / 0.22);
+  border-color: rgb(var(--band-rgb) / 0.9);
 }
 /*
  * The verb definition row above the writing area: the tier's hue running in from a
@@ -1966,12 +2037,12 @@ a:focus-visible,
 }
 
 .ribbon-tier-band {
-  background-color: rgb(var(--band-rgb) / 0.16);
-  border-color: rgb(var(--band-rgb) / 0.5);
+  background-color: rgb(var(--band-rgb) / 0.24);
+  border-color: rgb(var(--band-rgb) / 0.8);
 }
 [data-theme='light'] .ribbon-tier-band {
-  background-color: rgb(var(--band-rgb) / 0.12);
-  border-color: rgb(var(--band-rgb) / 0.7);
+  background-color: rgb(var(--band-rgb) / 0.18);
+  border-color: rgb(var(--band-rgb) / 0.9);
 }
 
 /*

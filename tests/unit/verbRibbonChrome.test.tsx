@@ -80,6 +80,7 @@ import {
   RIBBON_TIER_HEADER_TITLE,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_VERB_CHIP,
+  RIBBON_VERB_CHIP_IDLE,
   ribbonVerbSize,
 } from '../../utils/verbRibbonChrome';
 
@@ -694,7 +695,7 @@ describe('the scoreboard states what the verb is worth, in telemetry', () => {
     // whisper on the dark stage and the light one wants it firmer, so it reads
     // `--line-soft`, which the stylesheet sets per theme.
     expect(RIBBON_INK_SCOREBOARD).toContain('bg-[rgb(var(--stage-line)/var(--line-soft))]');
-    expect(Number(stagePalette('dark')['--line-soft'])).toBe(0.1);
+    expect(Number(stagePalette('dark')['--line-soft'])).toBeGreaterThan(0.1);
     expect(Number(stagePalette('light')['--line-soft'])).toBeGreaterThan(0.1);
   });
 });
@@ -1613,9 +1614,9 @@ describe('the ribbon asks nothing of a phone that it cannot afford', () => {
     const light = ruleBody(css, "[data-theme='light'] .ribbon-bar");
     expect(light, 'the light bar has no rule').toBeTruthy();
     // Drawn from the stage's hue at an alpha that leaves slate text far above 4.5:1
-    // (the strongest stop is 20% of the tier over white), with a tier-coloured foot.
-    expect(light).toMatch(/linear-gradient\([^)]*rgb\(var\(--band-rgb\) \/ 0\.2\) 0%/);
-    expect(light).toMatch(/box-shadow:\s*inset 0 -2px 0 rgb\(var\(--band-rgb\) \/ 0\.55\)/);
+    // (the strongest stop is 30% of the tier over white), with a tier-coloured foot.
+    expect(light).toMatch(/linear-gradient\([^)]*rgb\(var\(--band-rgb\) \/ 0\.3\) 0%/);
+    expect(light).toMatch(/box-shadow:\s*inset 0 -2px 0 rgb\(var\(--band-rgb\) \/ 1\)/);
     // No theme-less rule, so the dark bar keeps being the stage.
     expect(css).not.toMatch(/^\.ribbon-bar\s*\{/m);
   });
@@ -1699,7 +1700,7 @@ describe('the ribbon asks nothing of a phone that it cannot afford', () => {
     expect(RIBBON_TIER_HALO).toContain('transition-opacity');
     expect(RIBBON_TIER_HALO).toContain('pointer-events-none');
     expect(RIBBON_TIER_HALO).toContain('border-2');
-    expect(RIBBON_TIER_HALO).toContain('shadow-[0_0_0_4px_rgb(var(--band-rgb)/0.18)');
+    expect(RIBBON_TIER_HALO).toContain('shadow-[0_0_0_4px_rgb(var(--band-rgb)/0.4)');
 
     const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
     const strip = screen.getByRole('group', { name: /tier ladder/i });
@@ -1816,8 +1817,8 @@ describe('the banner is a themed bar, light in the light theme', () => {
     expect(RIBBON_SELECTED_CHIP).toContain('dark:text-white');
     // The chip's wash is a lighter one of the tier's hue on white and the deeper
     // one on the dark bar, each from the same `--band-rgb`.
-    expect(RIBBON_SELECTED_CHIP).toContain('bg-[rgb(var(--band-rgb)/0.2)]');
-    expect(RIBBON_SELECTED_CHIP).toContain('dark:bg-[rgb(var(--band-rgb)/0.22)]');
+    expect(RIBBON_SELECTED_CHIP).toContain('bg-[rgb(var(--band-rgb)/0.3)]');
+    expect(RIBBON_SELECTED_CHIP).toContain('dark:bg-[rgb(var(--band-rgb)/0.32)]');
     for (const value of [RIBBON_HEADER_CHEVRON_OPEN, RIBBON_HEADER_CHEVRON_SHUT]) {
       expect(value).toMatch(/(^|\s)text-slate-\d00(\s|$)/);
       expect(value).toMatch(/(^|\s)dark:text-/);
@@ -1877,9 +1878,9 @@ describe('the banner is a themed bar, light in the light theme', () => {
     expect(container).toBeTruthy();
   });
 
-  it('leaves the dark stage exactly as it was, and gives the light one a soft ground', () => {
-    // The dark palette is the stage as it shipped: the same near-black ground and
-    // the same cell, so this change cannot have moved a pixel of the dark theme.
+  it('keeps the dark stage’s ground, and gives the light one a soft ground', () => {
+    // The dark palette keeps the stage's near-black ground and cell. Its tints and
+    // glows are the part that was boosted, and nothing here pins those.
     const dark = stagePalette('dark');
     expect(dark['--stage-ground']).toBe('7 11 20');
     expect(dark['--stage-cell']).toBe('11 19 34');
@@ -2202,6 +2203,58 @@ describe('the banner is a themed bar, light in the light theme', () => {
         expect(getBandInkRgb(tier)).not.toBe(getBandRgb(tier));
       }
     });
+  });
+});
+
+/**
+ * The boost that makes the cards and pills read as their tier. The tint, the edges and
+ * the pill fills are drawn from the card's own `--band-rgb`, so each one is a rule in
+ * `index.css` and a class on the element, and these pin both halves.
+ */
+describe('the tier cards, pills and frame carry their tier hue', () => {
+  it('fills an unselected pill from its tier hue, and leaves the selected pill solid', () => {
+    render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+
+    const idle = screen.getAllByRole('button', { name: 'ACCOUNT' })[0];
+    expect(idle.className).toContain(RIBBON_VERB_CHIP_IDLE);
+    expect(idle.className).toContain(getTierScaleConfig(3).text);
+    // Its fill and edge are the CSS tint, not the config's transparent pill.
+    expect(idle.className).not.toContain('bg-transparent');
+
+    const selected = screen.getAllByRole('button', { name: 'EXPLAIN' })[0];
+    expect(selected.className).toContain('bg-yellow-500');
+    // A selected pill is re-tinted by nothing: it must not carry the idle class,
+    // whose hover would overwrite its solid fill.
+    expect(selected.className).not.toContain(RIBBON_VERB_CHIP_IDLE);
+  });
+
+  it('outlines the scoreboard in the active tier hue, so the figures sit in the tier', () => {
+    const { container } = render(<CommandVerbHierarchy currentVerb={'EXPLAIN' as PromptVerb} />);
+    const board = container.querySelector(`[class="${RIBBON_INK_SCOREBOARD}"]`) as HTMLElement;
+    expect(board).toBeTruthy();
+    expect(RIBBON_INK_SCOREBOARD).toContain('outline-[rgb(var(--band-rgb)/0.8)]');
+    expect(RIBBON_INK_SCOREBOARD).toContain('border-[rgb(var(--band-rgb)/0.8)]');
+  });
+
+  it('draws the card body tint and the 2px card edge in CSS, one value per theme', () => {
+    const css = readFileSync('index.css', 'utf8');
+    // The body tint continues from the header, and the light theme's is lighter.
+    expect(ruleBody(css, '.ribbon-tier-card')).toMatch(
+      /rgb\(var\(--band-rgb\) \/ 0\.12\)[^;]*rgb\(var\(--band-rgb\) \/ 0\.08\)/
+    );
+    expect(ruleBody(css, "[data-theme='light'] .ribbon-tier-card")).toMatch(
+      /rgb\(var\(--band-rgb\) \/ 0\.08\)[^;]*rgb\(var\(--band-rgb\) \/ 0\.05\)/
+    );
+    // The edge is the border plus a 1px outline just inside it, so it reads 2px and moves
+    // nothing. The selected card's is at full strength.
+    expect(ruleBody(css, '.ribbon-tier-card.band-edge')).toContain('outline-offset: -1px');
+    expect(ruleBody(css, '.ribbon-tier-card.band-edge-strong')).toContain(
+      'rgb(var(--band-rgb) / 1)'
+    );
+    // The selected body is declared after the idle tint, so at equal specificity it wins.
+    expect(css.indexOf('.ribbon-tier-card.band-fill {')).toBeGreaterThan(
+      css.indexOf('.ribbon-tier-card {')
+    );
   });
 });
 
