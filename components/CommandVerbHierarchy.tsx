@@ -84,6 +84,7 @@ import {
   RIBBON_TIER_SUBTITLE_CURRENT,
   RIBBON_TIER_SUBTITLE_IDLE,
   RIBBON_VERB_CHIP,
+  RIBBON_VERB_CHIP_IDLE,
   ribbonVerbSize,
 } from '../utils/verbRibbonChrome';
 
@@ -469,7 +470,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   // on a solid tier fill, so it reads the same in both themes; the neutral
   // branch is a white-alpha well on the stage's own ground.
   const headerTileClass = activeConfig
-    ? `${activeConfig.solidBg} ${activeConfig.solidText} border-white/20`
+    ? `${activeConfig.solidBg} ${activeConfig.solidText} border-white/45`
     : RIBBON_HEADER_TILE_NEUTRAL;
 
   return (
@@ -507,7 +508,17 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
             '--band-rgb': bandRgb,
             '--band-ink': bandInkRgb,
             '--band-ink-deep': bandDeepInkRgb,
-            ...(activeTier ? { borderColor: 'rgb(var(--band-rgb) / 0.5)' } : {}),
+            // The tier's edge is a 1px border at full strength plus a 1px outline
+            // drawn just inside it, so the frame reads as a 2px tier line. The
+            // outline is what makes it 2px without moving the content: a wider
+            // border would take a pixel off every side of the stage.
+            ...(activeTier
+              ? {
+                  borderColor: 'rgb(var(--band-rgb) / 0.8)',
+                  outline: '1px solid rgb(var(--band-rgb) / 0.8)',
+                  outlineOffset: '-1px',
+                }
+              : {}),
           } as React.CSSProperties
         }
       >
@@ -849,7 +860,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                                     backgroundImage: `linear-gradient(to top, rgb(var(--tier-rgb) / var(${isCurrent ? '--col-cur-lo' : '--col-lo'})), rgb(var(--tier-rgb) / var(${isCurrent ? '--col-cur-hi' : '--col-hi'})))`,
                                     boxShadow: isCurrent
                                       ? '0 0 40px -4px rgb(var(--tier-rgb) / var(--col-glow)), inset 0 3px 0 rgb(255 255 255 / 0.6)'
-                                      : 'inset 0 2px 0 rgb(var(--tier-rgb) / 0.9)',
+                                      : 'inset 0 2px 0 rgb(var(--tier-rgb))',
                                   }
                                 : {
                                     animationDelay: columnDelay,
@@ -1110,7 +1121,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                                             ${
                                               isSelected
                                                 ? `${tierConfig.solidBg} ${tierConfig.solidText} shadow-lg scale-105 border-transparent`
-                                                : `bg-transparent border ${tierConfig.border} ${tierConfig.text}`
+                                                : `${RIBBON_VERB_CHIP_IDLE} ${tierConfig.text}`
                                             }
                                         `}
                                   >

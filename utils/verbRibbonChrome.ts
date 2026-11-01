@@ -63,7 +63,8 @@
  *  lowered rather than as a second page background; in the light theme it is
  *  slate-50, a soft sheet that is distinct from the white banner and drawer
  *  around it without being a slab. The tier-lit border and the glow beneath it
- *  are inline at the call site, because they come from `--band-rgb`.
+ *  are inline at the call site, because they come from `--band-rgb`; so is the
+ *  outline that makes the tier edge 2px without moving the content.
  *
  *  `ribbon-stage-hue` is where `--band-text` is declared, because a custom
  *  property that reads another resolves on the element that declares it, and
@@ -188,7 +189,7 @@ export const RIBBON_FRAME = 'relative ribbon-stage';
  *  would clip an outside one: slate on the white bar, white on the dark one. */
 export const RIBBON_HEADER_BAR =
   'ribbon-bar relative z-10 w-full py-3.5 px-4 sm:px-6 flex items-center justify-between gap-3 text-left group/header ' +
-  'bg-white dark:bg-white/0 shadow-[inset_0_-1px_0_rgb(15_23_42/0.12)] dark:shadow-none transition-colors duration-300 ' +
+  'bg-white dark:bg-white/0 shadow-[inset_0_-1px_0_rgb(15_23_42/0.12)] dark:shadow-[inset_0_-2px_0_rgb(var(--band-rgb))] transition-colors duration-300 ' +
   'can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/[0.04] active:bg-slate-200 dark:active:bg-white/[0.07] ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/70';
 
@@ -240,8 +241,8 @@ export const RIBBON_SELECTED_LABEL = 't-label whitespace-nowrap text-slate-600 d
 export const RIBBON_SELECTED_CHIP =
   't-label px-2.5 py-0.5 rounded-lg whitespace-nowrap border ' +
   'text-slate-900 dark:text-white ' +
-  'bg-[rgb(var(--band-rgb)/0.2)] dark:bg-[rgb(var(--band-rgb)/0.22)] ' +
-  'border-[rgb(var(--band-rgb)/0.7)] dark:border-[rgb(var(--band-rgb)/0.65)]';
+  'bg-[rgb(var(--band-rgb)/0.3)] dark:bg-[rgb(var(--band-rgb)/0.32)] ' +
+  'border-[rgb(var(--band-rgb)/0.9)] dark:border-[rgb(var(--band-rgb)/0.9)]';
 
 /** The ceiling in miniature, in the header: six ascending bars, lit to the
  *  tier. It is what the staircase below says, small enough to say it while the
@@ -362,7 +363,7 @@ export const RIBBON_INK_DEFINITION =
  *  `sm` — all four stats fit a phone this way, where the old tray hid "Terms"
  *  to make room — and four from there. */
 export const RIBBON_INK_SCOREBOARD =
-  'grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[rgb(var(--stage-line)/var(--line-soft))] bg-[rgb(var(--stage-line)/var(--line-soft))]';
+  'grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-[rgb(var(--band-rgb)/0.8)] outline outline-1 -outline-offset-1 outline-[rgb(var(--band-rgb)/0.8)] bg-[rgb(var(--stage-line)/var(--line-soft))]';
 
 /** One scoreboard cell. A flat fill, a step lighter than the stage, so the
  *  hairlines between cells show. Painted on the stage. */
@@ -475,7 +476,7 @@ export const RIBBON_INK_STAIR_IGNITION =
  *  it are the ones this verb will not let you reach. It draws in from the left
  *  when the tier changes. Painted on the stage, over the columns. */
 export const RIBBON_INK_CEILING =
-  'absolute inset-x-0 z-20 h-0 border-t-2 border-dashed pointer-events-none origin-left animate-rule-draw';
+  'absolute inset-x-0 z-20 h-0 border-t-[3px] border-dashed pointer-events-none origin-left animate-rule-draw';
 
 /** The Deep Learning Threshold, as a dashed rule down the middle of the
  *  staircase — between tier 3 and tier 4, where a Band 3 cap stops being the
@@ -513,7 +514,7 @@ export const RIBBON_INK_SCALE_SPAN =
  *  rather than being crossed by it. */
 export const RIBBON_INK_THRESHOLD_CHIP =
   't-label absolute left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full border whitespace-nowrap ' +
-  'bg-[rgb(var(--stage-cell))] text-[rgb(var(--stage-ink-2))] border-[rgb(var(--stage-line)/0.25)]';
+  'bg-[rgb(var(--stage-cell))] text-[rgb(var(--stage-ink-2))] border-[rgb(var(--stage-line)/0.45)]';
 
 /** A step's tier name, under its column. Painted on the stage. */
 export const RIBBON_INK_STEP_LABEL =
@@ -616,7 +617,9 @@ export const RIBBON_TIER_SLOT =
 
 /** The selected tier's halo: a 2px tier-hued border, a 4px ring and the glow
  *  beneath, all drawn on an overlay that sits over the card and is faded in and
- *  out with `opacity`.
+ *  out with `opacity`. The border is the band at full strength; the ring and the
+ *  glow are the band at 40% and 85%, which is what makes the selected tier the
+ *  most saturated thing in the row rather than only the thickest.
  *
  *  This replaces `transition-all duration-700` on the card, with an overshoot
  *  curve, whose job was to animate the same three things. It did so by
@@ -634,8 +637,8 @@ export const RIBBON_TIER_SLOT =
  *  so selecting a tier moves nothing inside any card. `z-20` so the glow lies
  *  over the neighbouring cells. No text, and `pointer-events-none`. */
 export const RIBBON_TIER_HALO =
-  'absolute inset-0 z-20 rounded-2xl border-2 border-[rgb(var(--band-rgb)/0.85)] pointer-events-none ' +
-  'shadow-[0_0_0_4px_rgb(var(--band-rgb)/0.18),0_24px_48px_-16px_rgb(var(--band-rgb)/0.4)] ' +
+  'absolute inset-0 z-20 rounded-2xl border-2 border-[rgb(var(--band-rgb))] pointer-events-none ' +
+  'shadow-[0_0_0_4px_rgb(var(--band-rgb)/0.4),0_20px_56px_-10px_rgb(var(--band-rgb)/0.85)] ' +
   'transition-opacity duration-300 ease-out';
 
 /** A tier card with no verb selected anywhere, or one that is not the selected
@@ -661,9 +664,10 @@ export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] da
 
 /** Added to the card whose tier the selected verb belongs to. All it states is
  *  the stacking order, `z-10`, above the receded cards at `z-0`, and the card's
- *  fill: `band-fill`, the mark ladder's own row fill, so the selected card is the
- *  same band gradient as a Marking Guide row. What marks it as selected beyond that
- *  is its halo (`RIBBON_TIER_HALO`) and its solid header (`RIBBON_TIER_HEADER_SELECTED`).
+ *  fill: `band-fill`, the mark ladder's own row fill, drawn a step stronger for the
+ *  ribbon by `.ribbon-tier-card.band-fill` in `index.css`, which leaves the ladder's
+ *  own alphas alone. What marks it as selected beyond that is its halo
+ *  (`RIBBON_TIER_HALO`) and its solid header (`RIBBON_TIER_HEADER_SELECTED`).
  *
  *  It no longer carries a border width, a transform or a shadow. `border-2` here
  *  and 1px on the others meant selecting a tier re-laid out the card's contents
@@ -715,11 +719,13 @@ export const RIBBON_TIER_HEADER =
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
 /** The header on an unselected card: a wash of the tier's own hue
- *  (`.ribbon-tier-wash` in `index.css`, from `--band-rgb`), with a neutral rule
- *  under it. It was a solid `-100` pastel in the light theme, and six of those in a
+ *  (`.ribbon-tier-wash` in `index.css`, from `--band-rgb`), with a rule under it in
+ *  the same hue at full strength, and a 1px inset line of that hue above it, so the
+ *  wash has a 2px tier rule under it and the tier says where it ends. It was a solid `-100` pastel in the light theme, and six of those in a
  *  row beside the saturated selected card read as a sweet shop. The rule is a pair
- *  because the header sits on a theme surface. */
-export const RIBBON_TIER_HEADER_IDLE = 'ribbon-tier-wash border-slate-200 dark:border-white/5';
+ *  because the header sits on a theme surface, although the hue is the same in both. */
+export const RIBBON_TIER_HEADER_IDLE =
+  'ribbon-tier-wash border-[rgb(var(--band-rgb))] dark:border-[rgb(var(--band-rgb))] shadow-[inset_0_-1px_0_rgb(var(--band-rgb))]';
 
 /** The selected tier's header: the band at full strength, with the sheen the mark
  *  ladder's gutter has (`.ribbon-tier-solid` in `index.css`), under slate-950.
@@ -730,7 +736,7 @@ export const RIBBON_TIER_HEADER_IDLE = 'ribbon-tier-wash border-slate-200 dark:b
  *  name and its ceiling sit, and 10.5:1 on yellow. The title and the chip inherit
  *  the ink from here rather than naming a colour of their own. Pinned in
  *  `tests/unit/verbRibbonChrome.test.tsx`. */
-export const RIBBON_TIER_HEADER_SELECTED = 'ribbon-tier-solid text-slate-950 border-white/20';
+export const RIBBON_TIER_HEADER_SELECTED = 'ribbon-tier-solid text-slate-950 border-white/35';
 
 /** The icon tile, a 32px square with the app's own line icon in it. It replaced a
  *  system emoji, which is the one thing in the workspace's chrome drawn by the
@@ -818,6 +824,13 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 export const RIBBON_VERB_CHIP =
   't-label px-3 py-1.5 max-sm:min-h-11 rounded-xl border touch-manipulation select-none ' +
   'transition-[transform,background-color,border-color,color] duration-200 ease-out active:scale-95';
+
+/** An unselected verb pill. Its tint and edge are `.ribbon-verb-chip` in `index.css`,
+ *  drawn from the card's `--band-rgb`, so a pill is filled in its tier's hue in both
+ *  themes; its text is the tier's text step at the call site. Only the unselected pills
+ *  wear it: the selected pill keeps the tier's solid fill, which must not be re-tinted
+ *  on hover. */
+export const RIBBON_VERB_CHIP_IDLE = 'ribbon-verb-chip';
 
 /** The collapsible panel's motion, as a transition and not a state: the row track
  *  and the fade, on their own clocks. The open/closed values (`grid-rows-[1fr]`
