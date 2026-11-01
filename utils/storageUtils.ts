@@ -112,7 +112,9 @@ import {
 // highest mark first and 25 SE full-mark feedback tails ("No further marks are available.") removed.
 // 2.37.0: HSC Biology's first questions: 61 Section II parts from the 2023, 2024 and 2025 papers, with NESA's
 // ladders and sample answers and 37 stimulus figures.
-export const DATA_VERSION = '2.37.0';
+// 2.38.0: App-written questions reviewed against each course's past papers. Business Studies, Enterprise
+// Computing, Software Engineering and Geography fixes; Geography's past questions take NESA's own sample answers.
+export const DATA_VERSION = '2.38.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
