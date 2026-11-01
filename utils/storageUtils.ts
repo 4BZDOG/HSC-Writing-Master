@@ -110,7 +110,9 @@ import {
 // the note on NESA's Q26 sample corrected; the same duplicate removed from Enterprise Computing 2025 Q14, and five
 // EC 2025 questions' run-on marker notes split into separate notes; 29 exemplar lists (SE 28, Economics 1) put
 // highest mark first and 25 SE full-mark feedback tails ("No further marks are available.") removed.
-export const DATA_VERSION = '2.36.0';
+// 2.37.0: HSC Biology's first questions: 61 Section II parts from the 2023, 2024 and 2025 papers, with NESA's
+// ladders and sample answers and 37 stimulus figures.
+export const DATA_VERSION = '2.37.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
