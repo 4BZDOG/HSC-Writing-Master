@@ -1,5 +1,34 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-01 (App-written questions reviewed against the past papers)
+
+Each course with past questions had a random 30 of its app-written questions read against its own real
+papers (stem, marks and verb, scenario, ladder, exemplars, facts), and the course scanned for any pattern
+found. This round fixes Business Studies, Enterprise Computing, Software Engineering and Geography; English
+Standard and Advanced follow separately.
+
+- **Fixed.** Geography's past questions used an AI full-mark answer where NESA printed its own: 15 of the 20 now
+  have NESA's sample word for word as the `HSC_EXEMPLAR`, as the playbook requires.
+- **Fixed.** Questions that referred to data the student never sees. Six Geography stems asked students to read a
+  table or figure that was not printed (each now has a small table consistent with its sample answers), and 17
+  named a place or table defined only in a sibling question (the defining sentences are copied in). An Enterprise
+  Computing stem asked about "this digital workflow" without describing it.
+- **Fixed.** A marking guide's top row that rewarded something the stem did not ask for (a judgement, a
+  recommendation, a limitation): about 30 Enterprise Computing and six Geography stems now ask for it. Two-task
+  stems were made one task (Business Studies, Geography), and three ladders that ranked a weaker answer above a
+  stronger one were corrected (Enterprise Computing, Geography).
+- **Fixed.** Factual slips in exemplars: edge processing counted as AI, a single gateway described as one per
+  floor, one device sampling thousands of users (Enterprise Computing); a recursion example with no base case, an
+  overclaimed "high precision" and an unconfirmed ACM quotation (Software Engineering); a wrong account of how
+  drought affects runoff (Geography); a lender's decision presented as a government factor (Business Studies).
+- **Changed.** Invented scenarios carry the "Hypothetical:" label the generators already use: 180 Software
+  Engineering and 216 Geography scenarios had none. Scenarios about real places, laws or organisations are
+  unlabelled. Markdown lists and bold in 19 Software Engineering prose answers became prose.
+- **Not changed (decisions for later).** App-written questions at mark values the papers do not use (Business
+  Studies 6 and 8 marks, Geography 7, 8 and 10, Software Engineering above 6), full-mark answers that run about
+  1.4 times NESA's sample lengths, Geography's invented places where the papers use real ones, and stems that
+  restate their dot point (the playbook says not to rewrite those in bulk).
+
 ## [Unreleased] - 2026-10-31 (HSC Biology past questions, 2023–2025)
 
 The first science past questions, and Biology's first questions of any kind: 61 written-response parts from
