@@ -69,26 +69,37 @@ export interface ReadinessInput {
 }
 
 export interface ReadinessResult {
-  /** 0..100, rounded. */
+  /**
+   * The raw, uncalibrated completeness score, 0..100, rounded. It is the input
+   * to `percent` and nothing else: no surface displays it, so the number a
+   * student sees is always `percent`.
+   */
   score: number;
   /**
-   * The completeness PROGRESSION, 0 neutral (empty / barely-started) else 1..6.
-   * Drives the label only — it is NOT capped by the target band, so a short
-   * question's draft can still reach "Ready to submit". For colour, use
-   * `chromaLevel`.
+   * The calibrated, DISPLAYED readiness, 0..100. This is the one number every
+   * surface shows: the meter's bar and figure, the Evaluate button's accessible
+   * name, and the editor's progress veil. It is `score` remapped from the real
+   * weak→complete range (`CHROMA_FLOOR`..`CHROMA_FLOOR + CHROMA_SPAN`), so a
+   * complete answer reaches 100. It is 0 exactly when `level` is 0, and never
+   * above 83 while `level` is held at 5 (see `level`).
+   */
+  percent: number;
+  /**
+   * The completeness word's level, 0 neutral (empty / barely-started) else 1..6,
+   * derived from `percent` in sixths. It drives the label and nothing else: the
+   * number and the colour are read from `percent` and `chromaLevel`. It is NOT
+   * capped by the target band, so a short question's draft can still reach
+   * "Ready to submit". Level 6 is withheld (held at 5, `percent` capped at 83)
+   * until the draft meets its full length and every term the question names.
    */
   level: ReadinessLevel;
   /**
-   * The level used for COLOUR. It walks the question's OWN palette (red → its
-   * target band) in step with how complete the answer is, and is capped at that
-   * target band — no blue/purple accent on a Band-4 (green) question. It is
-   * calibrated (not merely `min(level, maxBand)`): the colour is placed on a
-   * fraction of the palette remapped from the real weak→complete score range, so
-   * a half-marks answer sits around the MIDDLE of the palette and only a
-   * near-complete one earns the top colour (see the chroma comment in
-   * `computeDraftReadiness`). 0 whenever `level` is 0. Every colour surface
-   * (meter, button, caret, glow) resolves its hue from THIS via
-   * `getReadinessChroma`; the label and score come from `level`/`score`.
+   * The level used for COLOUR, derived from `level` (no separate calibration)
+   * and placed on the question's OWN palette: red up to its target band, capped
+   * there, so a Band-4 (green) question never shows blue or purple. The top
+   * colour appears only at level 6, so "Ready to submit" and the top hue always
+   * agree. 0 whenever `level` is 0. Every colour surface (meter, button, caret,
+   * glow) resolves its hue from THIS via `getReadinessChroma`.
    */
   chromaLevel: ReadinessLevel;
   /** True when `level === 0`. */
@@ -131,33 +142,20 @@ const RUN_ON_SENTENCE_WORDS = 45;
 const FALLBACK_TARGET_WORDS = 100;
 
 /**
- * The completeness-score window the colour is spread across, calibrated against
- * the exemplar library (see the chroma comment in `computeDraftReadiness`): a
- * score at or below `CHROMA_FLOOR` sits at the bottom of the question's palette,
- * and `CHROMA_FLOOR + CHROMA_SPAN` (not 100 — complete answers score well short
- * of it) reaches the top. Widen the span to make the top colour harder to earn;
- * raise the floor to hold weak answers lower.
+ * The calibration window that turns the raw score into the displayed `percent`.
+ * Calibrated against the exemplar library (773 marked samples): a weak answer's
+ * raw score is ~40 and a complete one's ~85, and complete answers score well
+ * short of 100. So a raw score at or below `CHROMA_FLOOR` reads 0% of the way up,
+ * and `CHROMA_FLOOR + CHROMA_SPAN` reads 100%. Widen the span to make a complete
+ * answer harder to read as complete; raise the floor to hold weak answers lower.
  */
 const CHROMA_FLOOR = 25;
 const CHROMA_SPAN = 60;
 
-const clamp01 = (n: number): number => Math.max(0, Math.min(1, n));
+/** Highest `percent` a draft can show while it is held short of level 6. */
+const NEARLY_READY_CEILING = 83;
 
-/**
- * Maps a 0..100 readiness score to a palette level. Empty or barely-started
- * (`wordCount === 0` OR `score < 12`) returns 0 — the neutral, off-palette
- * state, so an empty box is calm rather than a red alarm. The bands are the
- * inclusive ranges from the plan (§2.3): 12–27 → 1 … 89–100 → 6.
- */
-const resolveLevel = (score: number, wordCount: number): ReadinessLevel => {
-  if (wordCount === 0 || score < 12) return 0;
-  if (score <= 27) return 1;
-  if (score <= 43) return 2;
-  if (score <= 59) return 3;
-  if (score <= 74) return 4;
-  if (score <= 88) return 5;
-  return 6;
-};
+const clamp01 = (n: number): number => Math.max(0, Math.min(1, n));
 
 export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult => {
   const {
@@ -217,49 +215,51 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
   const raw = 0.35 * length + 0.3 * keywords + 0.2 * structure + 0.15 * variety;
   const score = Math.round(raw * 100);
 
+  // ONE NUMBER DRIVES EVERYTHING. `percent` is the calibrated readiness; the
+  // word (`level` → `label`), the meter's bar and figure, the Evaluate button's
+  // name and the editor's glow/caret are all read from it, so no surface can
+  // tell a student one story about the draft and a second about its colour.
+  // This is a completeness signal, NOT a band prediction: nothing here knows
+  // what mark the answer would earn.
+  const isNeutralRaw = wordCount === 0 || score < 12;
+  const fraction = clamp01((score - CHROMA_FLOOR) / CHROMA_SPAN);
+  let percent = isNeutralRaw ? 0 : Math.max(1, Math.round(fraction * 100));
+  let level: ReadinessLevel = isNeutralRaw
+    ? 0
+    : (Math.min(6, Math.max(1, Math.ceil((percent * 6) / 100))) as ReadinessLevel);
+
   // "Ready to submit" is a promise the draft check below it has to agree with.
   // Length is only 35% of the score, so a draft twelve words short of the
   // full-mark length could still reach the top label while the check under it
-  // said "About 12 more words to reach full-mark length". The top rung now
-  // waits for the two things the check names by name: the length, and every
-  // term the question itself is built on. The score is untouched.
-  const resolved = resolveLevel(score, wordCount);
+  // said "About 12 more words to reach full-mark length". The top rung waits
+  // for the two things the check names by name: the length, and every term the
+  // question itself is built on. Until then the draft is held at level 5 and the
+  // percentage is held at 83, so "Nearly ready" never shows 84–100%.
   const meetsTheCheck = length >= 1 && mustUseUsed >= mustUseTotal;
-  const level: ReadinessLevel = resolved === 6 && !meetsTheCheck ? 5 : resolved;
+  if (level === 6 && !meetsTheCheck) {
+    level = 5;
+    percent = Math.min(percent, NEARLY_READY_CEILING);
+  }
 
-  // The COLOUR walks the question's OWN palette (red → its target band) in step
-  // with how complete the answer is, and is capped at that target band — no
-  // blue/purple accent on a green Band-4 question. Two things it must get right,
-  // and the old `min(level, maxBand)` got the first badly wrong:
-  //
-  //  1. It must not be too GENEROUS. Mapped straight, a half-marks answer landed
-  //     ~three-quarters of the way up the palette — a 2-out-of-4 response glowing
-  //     green. Calibrated against the exemplar library (773 marked samples), the
-  //     readiness score of a weak answer is ~40 and of a complete one ~85, so the
-  //     hue is placed on a FRACTION of the palette remapped from that real range
-  //     (`CHROMA_FLOOR`..`CHROMA_FLOOR+CHROMA_SPAN` → 0..1). A ~50% answer now
-  //     sits around the middle of the palette; only a near-complete answer earns
-  //     the top colour.
-  //  2. It must still REACH the top. A complete answer scores well short of 100,
-  //     so the span tops out at CHROMA_FLOOR+CHROMA_SPAN (not 100) — otherwise a
-  //     full Band-6 response could never turn purple.
-  //
-  // `level` 0 stays neutral slate; any real content is at least band 1 (red).
-  // The label and score are left uncapped and uncalibrated: a complete
-  // short-answer draft still reads "Ready to submit", just in a colour that
-  // reflects the mark it is worth rather than merely its length.
-  const cappedBand = Math.max(1, Math.min(6, Math.trunc(maxBand) || 1));
-  const chromaFraction = clamp01((score - CHROMA_FLOOR) / CHROMA_SPAN);
-  const chromaLevel: ReadinessLevel =
-    level === 0
-      ? 0
-      : (Math.max(
-          1,
-          Math.min(cappedBand, Math.round(chromaFraction * cappedBand))
-        ) as ReadinessLevel);
+  // COLOUR is derived from the same `level`, with no second calibration, so the
+  // hue can never disagree with the word. It walks the question's OWN palette
+  // (red → its target band) and is capped at that band: no blue or purple on a
+  // green Band-4 question. The top colour is reserved for level 6, so it appears
+  // exactly when the word is "Ready to submit". Level 0 stays neutral slate and
+  // any real content is at least band 1 (red).
+  const cap = Math.max(1, Math.min(6, Math.trunc(maxBand) || 1));
+  let chromaLevel: ReadinessLevel;
+  if (level === 0) chromaLevel = 0;
+  else if (level === 6) chromaLevel = cap as ReadinessLevel;
+  else
+    chromaLevel = Math.max(
+      1,
+      Math.min(cap > 1 ? cap - 1 : 1, Math.round((level * cap) / 6))
+    ) as ReadinessLevel;
 
   return {
     score,
+    percent,
     level,
     chromaLevel,
     isNeutral: level === 0,

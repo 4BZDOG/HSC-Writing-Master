@@ -134,7 +134,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
     insertText: (text: string) => void;
   }>(null);
 
-  const commandTermInfo = useMemo(() => getPromptTermInfo(currentPrompt), [currentPrompt.verb]);
+  const commandTermInfo = useMemo(
+    () => getPromptTermInfo(currentPrompt),
+    [currentPrompt.verb, currentPrompt.bandCeiling]
+  );
 
   // The band this prompt actually works toward — the verb's tier is the sole
   // ceiling (NESA-aligned), so a 3-mark Evaluate still targets Band 6.
@@ -390,7 +393,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       // falls back to the visible "Evaluate"/"Evaluating" text.
       aria-label={
         !isEvaluating && userAnswer.trim() && !readiness.isNeutral && !isExamMode
-          ? `Evaluate — draft readiness: ${readiness.label}, ${readiness.score}%`
+          ? `Evaluate — draft readiness: ${readiness.label}, ${readiness.percent}%`
           : undefined
       }
       title={
@@ -494,7 +497,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             // The editor's progress prop is a 0..1 completeness ratio; readiness
             // is 0..100, so it is scaled down. Same signal the Evaluate button
             // and the ReadinessMeter read, so the three never disagree.
-            progress={readiness.score / 100}
+            progress={readiness.percent / 100}
             readiness={readiness}
             syncedFontSize={promptFontSize}
             onFontSizeChange={onPromptFontSizeChange}

@@ -58,6 +58,7 @@ describe('computeDraftReadiness — the neutral guarantee', () => {
     expect(result.level).toBe(0);
     expect(result.isNeutral).toBe(true);
     expect(result.score).toBe(0);
+    expect(result.percent).toBe(0);
     expect(result.label).toBe('Start writing');
     expect(result.label).toBe(READINESS_LABELS[0]);
   });
@@ -81,19 +82,21 @@ describe('computeDraftReadiness — the neutral guarantee', () => {
     );
     expect(result.score).toBeGreaterThan(0);
     expect(result.score).toBeLessThan(12);
+    expect(result.percent).toBe(0);
     expect(result.level).toBe(0);
     expect(result.isNeutral).toBe(true);
     expect(result.label).toBe('Start writing');
   });
 });
 
-describe('computeDraftReadiness — score → level thresholds', () => {
-  // Each case is hand-built to land on the exact boundary score of a band, so
-  // the inclusive ranges (12–27 → 1 … 89–100 → 6) are pinned precisely. The
-  // arithmetic behind each is noted; all four sub-scores combine as
-  // 0.35·length + 0.30·keywords + 0.20·structure + 0.15·variety.
+describe('computeDraftReadiness — score → percent → level', () => {
+  // `percent` is the calibrated readiness: 0% at a raw score of 25 and 100% at
+  // 85. The word is `percent` in sixths: 1–16 → 1, 17–33 → 2, 34–50 → 3,
+  // 51–67 → 4, 68–83 → 5, 84–100 → 6. Each case is hand-built so the raw score
+  // is exact; the arithmetic behind each is noted. All four sub-scores combine
+  // as 0.35·length + 0.30·keywords + 0.20·structure + 0.15·variety.
 
-  it('score 12 lands on level 1 (Just beginning)', () => {
+  it('score 12 is the lowest non-neutral rung: 1% and level 1', () => {
     // length 12/35 = 0.342857 → 0.12; everything else 0.
     const result = computeDraftReadiness(
       makeInput({
@@ -110,12 +113,13 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(12);
+    expect(result.percent).toBe(1);
     expect(result.level).toBe(1);
     expect(result.label).toBe('Just beginning');
   });
 
-  it('score 28 lands on level 2 (Taking shape)', () => {
-    // length 80/100 = 0.8 → 0.28; everything else 0.
+  it('score 28 is still level 1: calibrated to 5%, short of level 2', () => {
+    // length 80/100 = 0.8 → 0.28; everything else 0. (28 − 25) / 60 → 5%.
     const result = computeDraftReadiness(
       makeInput({
         analysis: analysis({
@@ -131,11 +135,11 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(28);
-    expect(result.level).toBe(2);
-    expect(result.label).toBe('Taking shape');
+    expect(result.percent).toBe(5);
+    expect(result.level).toBe(1);
   });
 
-  it('score 44 lands on level 3 (Coming along)', () => {
+  it('score 44 lands on level 2 (Taking shape) at 32%', () => {
     // length 1 → 0.35, keywords 3/10 = 0.3 → 0.09; structure/variety 0.
     const result = computeDraftReadiness(
       makeInput({
@@ -152,11 +156,36 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(44);
+    expect(result.percent).toBe(32);
+    expect(result.level).toBe(2);
+    expect(result.label).toBe('Taking shape');
+  });
+
+  it('score 54 lands on level 3 (Coming along) at 48%', () => {
+    // length 1 → 0.35; keywords 3/10 → 0.09; one paragraph against the two a
+    // Band-4 question expects → structure 0.5 → 0.10.
+    const result = computeDraftReadiness(
+      makeInput({
+        analysis: analysis({
+          wordCount: 50,
+          sentenceCount: 0,
+          longestSentenceWords: 0,
+          paragraphCount: 1,
+        }),
+        wordCount: 50,
+        targetWordCount: 50,
+        keywordsTotal: 10,
+        keywordsUsed: 3,
+        maxBand: 4,
+      })
+    );
+    expect(result.score).toBe(54);
+    expect(result.percent).toBe(48);
     expect(result.level).toBe(3);
     expect(result.label).toBe('Coming along');
   });
 
-  it('score 60 lands on level 4 (Getting there)', () => {
+  it('score 60 lands on level 4 (Getting there) at 58%', () => {
     // length 500/700 = 5/7 → 0.25, structure 1 → 0.20, variety 1 → 0.15.
     const result = computeDraftReadiness(
       makeInput({
@@ -174,11 +203,12 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(60);
+    expect(result.percent).toBe(58);
     expect(result.level).toBe(4);
     expect(result.label).toBe('Getting there');
   });
 
-  it('score 75 lands on level 5 (Nearly ready)', () => {
+  it('score 75 lands on level 5 (Nearly ready) at 83%', () => {
     // length 200/700 = 2/7 → 0.10, keywords 1 → 0.30, structure 1 → 0.20,
     // variety 1 → 0.15.
     const result = computeDraftReadiness(
@@ -197,11 +227,12 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(75);
+    expect(result.percent).toBe(83);
     expect(result.level).toBe(5);
     expect(result.label).toBe('Nearly ready');
   });
 
-  it('score 89 lands on level 6 (Ready to submit)', () => {
+  it('score 89 lands on level 6 (Ready to submit) at 100%', () => {
     // length 2400/2400 = 1 → 0.35, keywords 19/30 → 0.19, structure 1 → 0.20,
     // variety 1 → 0.15. Full length, so the top rung's length gate is met and
     // this pins only the score boundary.
@@ -221,13 +252,15 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(89);
+    expect(result.percent).toBe(100);
     expect(result.level).toBe(6);
     expect(result.label).toBe('Ready to submit');
   });
 
-  // The top label is a promise the draft check has to agree with. This draft
-  // scores 89 — the old boundary case — while still well short of its length,
-  // and the check under the meter would be asking for more words.
+  // The top label is a promise the draft check below it has to agree with. This
+  // draft scores 89 while still well short of its length, and the check under the
+  // meter would be asking for more words. It is held at level 5 and its percentage
+  // is capped at 83, so the meter never reads 84–100% beside "Nearly ready".
   it('holds "Ready to submit" back while the draft is short of its length', () => {
     const result = computeDraftReadiness(
       makeInput({
@@ -245,6 +278,7 @@ describe('computeDraftReadiness — score → level thresholds', () => {
       })
     );
     expect(result.score).toBe(89);
+    expect(result.percent).toBe(83);
     expect(result.level).toBe(5);
     expect(result.label).toBe('Nearly ready');
   });
@@ -267,7 +301,8 @@ describe('computeDraftReadiness — score → level thresholds', () => {
         maxBand: 4,
       })
     );
-    expect(result.score).toBeGreaterThanOrEqual(89);
+    expect(result.score).toBeGreaterThanOrEqual(85);
+    expect(result.percent).toBe(83);
     expect(result.label).toBe('Nearly ready');
   });
 
@@ -312,7 +347,10 @@ describe("computeDraftReadiness — it reads the question's OWN target", () => {
 
     // 80 words is near-complete for a 100-word question but barely begun for a
     // 1600-word one, so the same draft is more "ready" against the small target.
-    expect(small.level).toBeGreaterThan(large.level);
+    // The small target reaches 100% but is held at level 5 for want of its full
+    // length, so the word can tie; the number and the raw score must not.
+    expect(small.level).toBeGreaterThanOrEqual(large.level);
+    expect(small.percent).toBeGreaterThan(large.percent);
     expect(small.score).toBeGreaterThan(large.score);
     expect(small.subscores.length).toBeGreaterThan(large.subscores.length);
   });
@@ -578,5 +616,116 @@ describe('draft readiness weights the terms the question names', () => {
     const absurd = withTerms({ keywordsUsed: 1, mustUseTotal: 4, mustUseUsed: 9 });
     const perfect = withTerms({ keywordsUsed: 4, mustUseTotal: 4, mustUseUsed: 4 });
     expect(absurd).toBeLessThanOrEqual(perfect);
+  });
+});
+
+describe('word, number and colour agree', () => {
+  // A synthetic grid across every input that moves the score: length against
+  // the target, keyword coverage with and without must-use terms, paragraph and
+  // sentence shape (including a run-on), and every target band 1..6. Each result
+  // is checked against the single-source contract: the word, the displayed
+  // number and the colour all come from one level.
+  const wordCounts = [0, 5, 40, 120, 300, 800, 2400];
+  const targets = [50, 200, 600, 3500];
+  const keywordSets = [
+    { keywordsTotal: 0, keywordsUsed: 0, mustUseTotal: 0, mustUseUsed: 0 },
+    { keywordsTotal: 4, keywordsUsed: 0, mustUseTotal: 0, mustUseUsed: 0 },
+    { keywordsTotal: 4, keywordsUsed: 2, mustUseTotal: 2, mustUseUsed: 1 },
+    { keywordsTotal: 6, keywordsUsed: 6, mustUseTotal: 2, mustUseUsed: 2 },
+  ];
+  const shapes = [
+    { sentenceCount: 0, longestSentenceWords: 0, paragraphCount: 0 },
+    { sentenceCount: 2, longestSentenceWords: 20, paragraphCount: 1 },
+    { sentenceCount: 6, longestSentenceWords: 20, paragraphCount: 3 },
+    { sentenceCount: 8, longestSentenceWords: 60, paragraphCount: 4 }, // a run-on
+  ];
+  const bands = [1, 2, 3, 4, 5, 6];
+
+  /** Every result in the grid, tagged with the band it was computed for. */
+  const sweep = () => {
+    const out: Array<{ maxBand: number; r: ReturnType<typeof computeDraftReadiness> }> = [];
+    for (const maxBand of bands)
+      for (const wordCount of wordCounts)
+        for (const targetWordCount of targets)
+          for (const keys of keywordSets)
+            for (const shape of shapes)
+              out.push({
+                maxBand,
+                r: computeDraftReadiness(
+                  makeInput({
+                    analysis: analysis({
+                      wordCount,
+                      sentenceCount: shape.sentenceCount,
+                      longestSentenceWords: shape.longestSentenceWords,
+                      paragraphCount: shape.paragraphCount,
+                    }),
+                    wordCount,
+                    targetWordCount,
+                    ...keys,
+                    maxBand,
+                  })
+                ),
+              });
+    return out;
+  };
+
+  it('every result: word, number and colour agree, and the bands line up', () => {
+    const violations: string[] = [];
+    const seenLevels = new Set<number>();
+    const chromaByLevel = new Map<number, Map<number, Set<number>>>();
+
+    for (const { maxBand, r } of sweep()) {
+      const cap = maxBand; // every maxBand here is already within 1..6
+      const tag = `maxBand=${maxBand} score=${r.score} percent=${r.percent} level=${r.level} chroma=${r.chromaLevel}`;
+      seenLevels.add(r.level);
+
+      if (r.label !== READINESS_LABELS[r.level]) violations.push(`label mismatch: ${tag}`);
+      const neutral = r.level === 0;
+      if (neutral !== (r.percent === 0) || neutral !== (r.chromaLevel === 0))
+        violations.push(`level 0 ⇔ percent 0 ⇔ chroma 0 broken: ${tag}`);
+      if (r.chromaLevel > cap) violations.push(`chroma above target band: ${tag}`);
+      if (!neutral && r.chromaLevel < 1) violations.push(`non-neutral chroma below 1: ${tag}`);
+      if (cap > 1 && (r.chromaLevel === cap) !== (r.level === 6))
+        violations.push(`top colour ⇔ level 6 broken: ${tag}`);
+      if (r.level === 6 && r.percent < 84) violations.push(`level 6 below 84%: ${tag}`);
+      if (r.level === 5 && (r.percent < 67 || r.percent > 83))
+        violations.push(`level 5 outside 67–83%: ${tag}`);
+
+      if (!chromaByLevel.has(maxBand)) chromaByLevel.set(maxBand, new Map());
+      const byLevel = chromaByLevel.get(maxBand)!;
+      if (!byLevel.has(r.level)) byLevel.set(r.level, new Set());
+      byLevel.get(r.level)!.add(r.chromaLevel);
+    }
+
+    expect(violations).toEqual([]);
+    // The grid must actually reach every rung, or the checks above prove little.
+    expect([...seenLevels].sort()).toEqual([0, 1, 2, 3, 4, 5, 6]);
+  });
+
+  it('colour is non-decreasing as the level rises, for a fixed target band', () => {
+    const violations: string[] = [];
+    const chromaByLevel = new Map<number, Map<number, Set<number>>>();
+    for (const { maxBand, r } of sweep()) {
+      if (!chromaByLevel.has(maxBand)) chromaByLevel.set(maxBand, new Map());
+      const byLevel = chromaByLevel.get(maxBand)!;
+      if (!byLevel.has(r.level)) byLevel.set(r.level, new Set());
+      byLevel.get(r.level)!.add(r.chromaLevel);
+    }
+    for (const [maxBand, byLevel] of chromaByLevel) {
+      // One colour per level for a given band: the hue is a function of the word.
+      for (const [level, chromas] of byLevel)
+        if (chromas.size !== 1)
+          violations.push(`band ${maxBand} level ${level} has ${chromas.size} colours`);
+      const levels = [...byLevel.keys()].sort((a, b) => a - b);
+      for (let i = 1; i < levels.length; i++) {
+        const lower = [...byLevel.get(levels[i - 1])!][0];
+        const higher = [...byLevel.get(levels[i])!][0];
+        if (higher < lower)
+          violations.push(
+            `band ${maxBand}: level ${levels[i]} is ${higher}, below level ${levels[i - 1]} at ${lower}`
+          );
+      }
+    }
+    expect(violations).toEqual([]);
   });
 });

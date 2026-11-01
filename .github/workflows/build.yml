@@ -248,7 +248,12 @@ jobs:
 
   e2e:
     name: E2E ${{ matrix.name }}
-    runs-on: ubuntu-latest
+    # Pinned, not `ubuntu-latest`. That label is moving to Ubuntu 26.04, which
+    # Playwright 1.58 does not support: its WebKit build links ICU 74, which
+    # 26.04 does not ship, so every WebKit test died at launch with
+    # "libicudata.so.74: cannot open shared object file". Move this forward
+    # with a Playwright release that supports the newer image.
+    runs-on: ubuntu-24.04
     needs: e2e-plan
     # Not `needs: lint`. It used to be, so a failing lint stopped a full E2E run
     # being spent on it — but lint takes ~2 minutes and the E2E legs are the
@@ -281,13 +286,15 @@ jobs:
       # scratch on every run before a test could start; now Chromium is one
       # entry, WebKit another, Firefox a third, and a Chromium leg never waits
       # for the WebKit download. The shared libraries live outside the cached
-      # directory, so a cache hit still installs those.
+      # directory, so a cache hit still installs those. The key names the runner
+      # image (`ImageOS`, e.g. ubuntu24): a browser built for one Ubuntu must
+      # never be restored onto another, where its shared libraries are missing.
       - name: Cache Playwright browser
         id: pw-cache
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
-          key: pw-${{ runner.os }}-${{ steps.pw.outputs.version }}-${{ matrix.engine }}
+          key: pw-${{ runner.os }}-${{ env.ImageOS }}-${{ steps.pw.outputs.version }}-${{ matrix.engine }}
 
       - name: Install Playwright browser
         run: |

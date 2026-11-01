@@ -434,6 +434,10 @@ const Editor = forwardRef<
       // Dark veil over the band colour: 60% opaque at a blank page, lifting to
       // fully transparent as the answer approaches the target length/coverage.
       const veil = (1 - p) * 0.6;
+      // The tier glow lights up exactly when the meter says "Ready to submit", so
+      // the surface and the word can never disagree. Without a readiness signal it
+      // falls back to the raw progress threshold.
+      const lit = readiness ? readiness.level === 6 : p > 0.85;
 
       return {
         name: getBandName(targetBand),
@@ -441,13 +445,13 @@ const Editor = forwardRef<
         accent: targetHex,
         background: cardHeaderWash(hue),
         veil,
-        glow: p > 0.85 ? targetConfig.glow : 'shadow-none',
+        glow: lit ? targetConfig.glow : 'shadow-none',
         border: targetConfig.border,
         mesh: '%23ffffff',
-        energy: p > 0.85 ? 'shadow-[0_0_30px_rgba(255,255,255,0.15)]' : 'none',
+        energy: lit ? 'shadow-[0_0_30px_rgba(255,255,255,0.15)]' : 'none',
         iconColor: 'text-white',
       };
-    }, [progress, maxBand, verbTier, isExamMode]);
+    }, [progress, maxBand, verbTier, isExamMode, readiness]);
 
     // Readiness accents, layered ON TOP of the tier-hue surface above. The base
     // hue stays the question's fixed tier identity (chroma) — readiness never
@@ -798,7 +802,7 @@ const Editor = forwardRef<
 
                           A second readiness bar and its percentage used to sit
                           here. `WorkspaceRightPanel` passes
-                          `progress={readiness.score / 100}` and `readiness`
+                          `progress={readiness.percent / 100}` and `readiness`
                           to this same component, so the number was rendered
                           twice on one card — and the copy up here was the
                           poorer one: white on the band gradient, with no
