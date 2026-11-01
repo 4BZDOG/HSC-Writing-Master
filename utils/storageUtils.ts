@@ -114,7 +114,9 @@ import {
 // ladders and sample answers and 37 stimulus figures.
 // 2.38.0: App-written questions reviewed against each course's past papers. Business Studies, Enterprise
 // Computing, Software Engineering and Geography fixes; Geography's past questions take NESA's own sample answers.
-export const DATA_VERSION = '2.38.0';
+// 2.39.0: English Standard (113) and English Advanced (60) app-written questions print the invented texts they
+// ask about, which they had described but never shown.
+export const DATA_VERSION = '2.39.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

@@ -1,5 +1,26 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-01 (English questions print the texts they ask about)
+
+The review of app-written questions against the past papers found that most English app-written questions
+could not be answered: their scenario described an invented poem, extract, opinion column, speech, review or
+draft "written for this question" but never printed it. A real paper always prints the text. The sample answers
+had invented its details as they went, and contradicted each other where several questions shared a text
+(the same essay in the present tense in one question and the past tense in another).
+
+- **Fixed.** Each invented text is now written once and printed in every question that uses it, under a bold
+  title line in the scenario: 86 texts in 113 English Standard questions, 42 in 60 English Advanced questions.
+  A novel or memoir gets an extract and an "About the text" note on what the questions need from the rest.
+- **Fixed.** The samples' quotations and claims are true of the printed text: every quoted span in a sample
+  answer is in the question's text or stem, except a student's own composition. Contradictions between
+  questions sharing a text were settled one way and the outlying samples edited. Quotations stay at 8 words or
+  fewer, and samples no longer call the text "invented" or refer to "this scenario".
+- **Fixed.** Stems that said "a text you have studied" or "your prescribed text" over an invented text name it,
+  and scenario sentences that listed the features the question asks the student to find were removed, since the
+  student can now find them. Scenarios with invented material start "Hypothetical:".
+- **Fixed.** English Standard prompt-en-74 asked students to assess a classmate's interpretation that was never
+  shown; an extract of it is printed after the story.
+
 ## [Unreleased] - 2026-11-01 (App-written questions reviewed against the past papers)
 
 Each course with past questions had a random 30 of its app-written questions read against its own real

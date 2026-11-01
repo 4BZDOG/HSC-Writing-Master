@@ -145,6 +145,10 @@ review. Do this each time:
   a top answer), headings or bullets inside an answer, and any mention of bands or marks.
 - Check the middle and bottom exemplars really show the flaws of their row, not just fewer words.
 - Real places and texts need sources; invented businesses are labelled "Hypothetical:".
+- **Print what the question asks about.** An app-written question on a stimulus (an extract, poem, table, draft, a
+  classmate's interpretation) must print it in the scenario; a description of it is not enough, and samples will
+  invent its details. English questions sharing an invented text print the same text (November 2026: 173 English
+  questions had to be fixed for this).
 - Reviewers asked to "improve stems" rewrite the task. Reject changes that alter what the
   student must do (for example replacing "a text you have studied" with a named title).
 
