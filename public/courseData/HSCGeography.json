@@ -196,7 +196,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Carrow Estuary is a low-lying coastal system where tidal sediment has built up for thousands of years. A storm surge last decade reshaped the shoreline, and a dam built upstream now traps sediment that once reached the mudflats. This estuary is hypothetical and is used only for this question."
+                    "scenario": "Hypothetical: The Carrow Estuary is a low-lying coastal system where tidal sediment has built up for thousands of years. A storm surge last decade reshaped the shoreline, and a dam built upstream now traps sediment that once reached the mudflats. This estuary is hypothetical and is used only for this question."
                   }
                 ]
               },
@@ -256,7 +256,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical weather station at Marlow Point has recorded annual mean temperature for 70 years. The graph shows a generally rising trend, a spread of values between the warmest and coolest years, and a few unusually warm years that stand apart from the trend. The station and its dataset are hypothetical."
+                    "scenario": "Hypothetical: A weather station at Marlow Point has recorded annual mean temperature for 70 years. The graph shows a generally rising trend, a spread of values between the warmest and coolest years, and a few unusually warm years that stand apart from the trend. The station and its dataset are hypothetical."
                   },
                   {
                     "id": "prompt-geo-4",
@@ -310,7 +310,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Marlow Point graph plots two series over the same years: annual mean temperature and atmospheric carbon dioxide concentration in parts per million. The values plotted are:\n\n| Year | Annual mean temperature (°C) | Carbon dioxide (ppm) |\n| --- | --- | --- |\n| 1975 | 13.6 | 331 |\n| 1990 | 13.9 | 354 |\n| 2005 | 14.3 | 380 |\n| 2020 | 14.6 | 414 |\n| 2024 | 14.8 | 424 |\n\nThis graph is hypothetical and does not come from a real station."
+                    "scenario": "Hypothetical: The Marlow Point graph plots two series over the same years: annual mean temperature and atmospheric carbon dioxide concentration in parts per million. The values plotted are:\n\n| Year | Annual mean temperature (°C) | Carbon dioxide (ppm) |\n| --- | --- | --- |\n| 1975 | 13.6 | 331 |\n| 1990 | 13.9 | 354 |\n| 2005 | 14.3 | 380 |\n| 2020 | 14.6 | 414 |\n| 2024 | 14.8 | 424 |\n\nThis graph is hypothetical and does not come from a real station."
                   }
                 ]
               },
@@ -416,7 +416,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical lake, Ashby Mere, has a sediment core dated over about ten thousand years. The core contains pollen, charcoal and oxygen isotope ratios, each of which acts as a proxy for past vegetation, fire or temperature. The lake and the core are hypothetical."
+                    "scenario": "Hypothetical: A lake, Ashby Mere, has a sediment core dated over about ten thousand years. The core contains pollen, charcoal and oxygen isotope ratios, each of which acts as a proxy for past vegetation, fire or temperature. The lake and the core are hypothetical."
                   }
                 ]
               },
@@ -476,7 +476,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical briefing paper lists these four land cover changes observed across the world over the last century and asks students to sort them by their dominant driver. The briefing is hypothetical and is used only for this question."
+                    "scenario": "Hypothetical: A briefing paper lists these four land cover changes observed across the world over the last century and asks students to sort them by their dominant driver. The briefing is hypothetical and is used only for this question."
                   },
                   {
                     "id": "prompt-geo-8",
@@ -530,7 +530,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical class report compares satellite land cover maps for two decades. It shows forest loss in one region, dryland soil degradation in another and shrinking ice margins in a mountain range. The report is hypothetical and is used to frame a class discussion of global change."
+                    "scenario": "Hypothetical: A class report compares satellite land cover maps for two decades. It shows forest loss in one region, dryland soil degradation in another and shrinking ice margins in a mountain range. The report is hypothetical and is used to frame a class discussion of global change."
                   }
                 ]
               }
@@ -597,7 +597,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical council report records forest cover in the Hollin Valley, a fictional catchment, at two dates. Forest cover was 480 square kilometres in 2000 and 396 square kilometres in 2020, and the report treats forest as the one form of land cover measured for the valley. The report and its figures are hypothetical."
+                    "scenario": "Hypothetical: A council report records forest cover in the Hollin Valley, a fictional catchment, at two dates. Forest cover was 480 square kilometres in 2000 and 396 square kilometres in 2020, and the report treats forest as the one form of land cover measured for the valley. The report and its figures are hypothetical."
                   },
                   {
                     "id": "prompt-geo-10",
@@ -651,7 +651,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical catchment, the Hollin Valley, has lost forest cover as farms expanded onto its steeper slopes. Local data suggest that the cleared slopes now shed more runoff into the river, and the change is part of a wider pattern in the region. The catchment and its data are hypothetical."
+                    "scenario": "Hypothetical: A catchment, the Hollin Valley, has lost forest cover as farms expanded onto its steeper slopes. Local data suggest that the cleared slopes now shed more runoff into the river, and the change is part of a wider pattern in the region. The catchment and its data are hypothetical."
                   }
                 ]
               }
@@ -763,7 +763,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical Year 11 class is choosing a Study 1 region. Their preferred option is the Corran River basin, a fictional catchment that crosses a state border, and some students propose using the state boundary instead. The basin and the class are hypothetical."
+                    "scenario": "Hypothetical: A Year 11 class is choosing a Study 1 region. Their preferred option is the Corran River basin, a fictional catchment that crosses a state border, and some students propose using the state boundary instead. The basin and the class are hypothetical."
                   }
                 ]
               },
@@ -878,7 +878,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical coastal town, Tarn Bay, has had repeated flooding after heavy rain and an algal bloom in its estuary that closed a shellfish harvest. Students are choosing one event as their Study 2 hazard. The town and its events are hypothetical."
+                    "scenario": "Hypothetical: A coastal town, Tarn Bay, has had repeated flooding after heavy rain and an algal bloom in its estuary that closed a shellfish harvest. Students are choosing one event as their Study 2 hazard. The town and its events are hypothetical."
                   }
                 ]
               },
@@ -1057,7 +1057,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Halvern Basin is a regional-scale river catchment that rises in mountain headwaters, crosses a semi-arid plain and reaches an estuary. The basin is hypothetical and is used as the chosen geographic region for Study 1 in this question."
+                    "scenario": "Hypothetical: The Halvern Basin is a regional-scale river catchment that rises in mountain headwaters, crosses a semi-arid plain and reaches an estuary. The basin is hypothetical and is used as the chosen geographic region for Study 1 in this question."
                   },
                   {
                     "id": "prompt-geo-18",
@@ -1103,7 +1103,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Halvern Basin is a regional-scale river catchment that rises in mountain headwaters, crosses a semi-arid plain and reaches an estuary."
+                    "scenario": "Hypothetical: The Halvern Basin is a regional-scale river catchment that rises in mountain headwaters, crosses a semi-arid plain and reaches an estuary."
                   }
                 ]
               },
@@ -1157,7 +1157,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Halvern Basin is a regional-scale river catchment that rises in mountain headwaters, crosses a semi-arid plain and reaches an estuary."
+                    "scenario": "Hypothetical: The Halvern Basin is a regional-scale river catchment that rises in mountain headwaters, crosses a semi-arid plain and reaches an estuary."
                   },
                   {
                     "id": "prompt-geo-20",
@@ -1271,7 +1271,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: In this hypothetical scenario, the Halvern Basin plain has been linked to export markets for grain since the 1960s, and irrigation from the river has changed flows and salinity. Recent records, also hypothetical, show that rainfall in the headwaters is more variable than before, while the estuary has lost part of its wetland."
+                    "scenario": "Hypothetical: In this scenario, the Halvern Basin plain has been linked to export markets for grain since the 1960s, and irrigation from the river has changed flows and salinity. Recent records, also hypothetical, show that rainfall in the headwaters is more variable than before, while the estuary has lost part of its wetland."
                   },
                   {
                     "id": "prompt-geo-22",
@@ -1325,7 +1325,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical data table for the Halvern Basin records irrigated area, mean river salinity and wetland area at four dates across three decades. The table is hypothetical and was compiled by a fictional regional agency for use in this question.\n\n| Year | Irrigated area (km²) | Mean river salinity (mg/L) | Wetland area (km²) |\n| --- | --- | --- | --- |\n| 1995 | 120 | 310 | 46 |\n| 2005 | 165 | 380 | 39 |\n| 2015 | 210 | 455 | 31 |\n| 2025 | 262 | 530 | 22 |"
+                    "scenario": "Hypothetical: A data table for the Halvern Basin records irrigated area, mean river salinity and wetland area at four dates across three decades. The table is hypothetical and was compiled by a fictional regional agency for use in this question.\n\n| Year | Irrigated area (km²) | Mean river salinity (mg/L) | Wetland area (km²) |\n| --- | --- | --- | --- |\n| 1995 | 120 | 310 | 46 |\n| 2005 | 165 | 380 | 39 |\n| 2015 | 210 | 455 | 31 |\n| 2025 | 262 | 530 | 22 |"
                   }
                 ]
               },
@@ -1385,7 +1385,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: In this hypothetical scenario, the Halvern Basin plain has been linked to export markets for grain since the 1960s, and irrigation from the river has changed flows and salinity."
+                    "scenario": "Hypothetical: In this scenario, the Halvern Basin plain has been linked to export markets for grain since the 1960s, and irrigation from the river has changed flows and salinity."
                   },
                   {
                     "id": "prompt-geo-24",
@@ -1553,7 +1553,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Halvern Basin allocation scheme aims to reduce water overuse and protect the estuary's wetlands. The agency publishes salinity readings for the river and annual wetland area estimates, and both are hypothetical for this question."
+                    "scenario": "Hypothetical: The Halvern Basin allocation scheme aims to reduce water overuse and protect the estuary's wetlands. The agency publishes salinity readings for the river and annual wetland area estimates, and both are hypothetical for this question."
                   }
                 ]
               }
@@ -1619,7 +1619,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Pellow Creek catchment has experienced repeated flash floods in recent years. A hazard map shows flood extent across the lower catchment, and rainfall records show intense short bursts of rain falling on steep upper slopes. The catchment, map and records are hypothetical."
+                    "scenario": "Hypothetical: The Pellow Creek catchment has experienced repeated flash floods in recent years. A hazard map shows flood extent across the lower catchment, and rainfall records show intense short bursts of rain falling on steep upper slopes. The catchment, map and records are hypothetical."
                   },
                   {
                     "id": "prompt-geo-28",
@@ -1675,7 +1675,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical hazard briefing for Pellow Creek describes flooding that is confined to the lower valley and the township beside the creek. The rain that causes it falls on the steep upper slopes of the same catchment, and no other sub-catchment floods at the same time. The briefing is hypothetical."
+                    "scenario": "Hypothetical: A hazard briefing for Pellow Creek describes flooding that is confined to the lower valley and the township beside the creek. The rain that causes it falls on the steep upper slopes of the same catchment, and no other sub-catchment floods at the same time. The briefing is hypothetical."
                   }
                 ]
               },
@@ -1728,7 +1728,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Pellow Creek catchment has experienced repeated flash floods in recent years. Pellow Creek's catchment has steep upper slopes with thin soils."
+                    "scenario": "Hypothetical: The Pellow Creek catchment has experienced repeated flash floods in recent years. Pellow Creek's catchment has steep upper slopes with thin soils."
                   },
                   {
                     "id": "prompt-geo-30",
@@ -1896,7 +1896,7 @@
                         "band": 3
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical table lists flash flood warnings and heavy rainfall bursts in Pellow Creek for four decades. Both columns rise across the period. The table is hypothetical."
+                    "scenario": "Hypothetical: A table lists flash flood warnings and heavy rainfall bursts in Pellow Creek for four decades. Both columns rise across the period. The table is hypothetical."
                   }
                 ]
               },
@@ -2010,7 +2010,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical hazard briefing for Pellow Creek describes flooding that is confined to the lower valley and the township beside the creek."
+                    "scenario": "Hypothetical: A hazard briefing for Pellow Creek describes flooding that is confined to the lower valley and the township beside the creek."
                   }
                 ]
               },
@@ -2188,7 +2188,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical global temperature map for one recent decade shows warming strongest over high northern latitudes and weaker over the southern oceans. A hypothetical time series from 1900 to the present shows an upward trend with a steeper rise after 1980. Both are hypothetical."
+                    "scenario": "Hypothetical: A global temperature map for one recent decade shows warming strongest over high northern latitudes and weaker over the southern oceans. A hypothetical time series from 1900 to the present shows an upward trend with a steeper rise after 1980. Both are hypothetical."
                   },
                   {
                     "id": "prompt-geo-38",
@@ -2293,7 +2293,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Calder Delta is a low-lying river delta where sea level is rising and storm surges are becoming more frequent. Rice paddies, fishing villages and a saltwater wetland line the delta's edge. The delta and its records are hypothetical."
+                    "scenario": "Hypothetical: The Calder Delta is a low-lying river delta where sea level is rising and storm surges are becoming more frequent. Rice paddies, fishing villages and a saltwater wetland line the delta's edge. The delta and its records are hypothetical."
                   },
                   {
                     "id": "prompt-geo-40",
@@ -2347,7 +2347,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Calder Delta is a low-lying river delta where sea level is rising and storm surges are becoming more frequent. Rice paddies, fishing villages and a saltwater wetland line the delta's edge."
+                    "scenario": "Hypothetical: The Calder Delta is a low-lying river delta where sea level is rising and storm surges are becoming more frequent. Rice paddies, fishing villages and a saltwater wetland line the delta's edge."
                   }
                 ]
               },
@@ -2463,7 +2463,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Calder Delta is a low-lying river delta where sea level is rising and storm surges are becoming more frequent. Rice paddies, fishing villages and a saltwater wetland line the delta's edge."
+                    "scenario": "Hypothetical: The Calder Delta is a low-lying river delta where sea level is rising and storm surges are becoming more frequent. Rice paddies, fishing villages and a saltwater wetland line the delta's edge."
                   }
                 ]
               },
@@ -2764,7 +2764,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical proposal to build a flood levee in a township has drawn responses from a university hydrology group, the state government, a residents' advocacy group, a local newspaper and individual residents. The proposal and its participants are hypothetical."
+                    "scenario": "Hypothetical: A proposal to build a flood levee in a township has drawn responses from a university hydrology group, the state government, a residents' advocacy group, a local newspaper and individual residents. The proposal and its participants are hypothetical."
                   },
                   {
                     "id": "prompt-geo-48",
@@ -3312,7 +3312,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: Lark Creek (hypothetical) has four sampling sites along a 2 km reach. Each site is visited once in a single afternoon, and the team must return to school with records it can process in class."
+                    "scenario": "Hypothetical: Lark Creek has four sampling sites along a 2 km reach. Each site is visited once in a single afternoon, and the team must return to school with records it can process in class."
                   }
                 ]
               },
@@ -3577,7 +3577,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: Lark Creek (hypothetical) runs through a fictional suburb. The four sampling sites, Site 1 to Site 4, lie along a 2 km reach, and the class must produce a map for readers who will not see the field notes."
+                    "scenario": "Hypothetical: Lark Creek runs through a fictional suburb. The four sampling sites, Site 1 to Site 4, lie along a 2 km reach, and the class must produce a map for readers who will not see the field notes."
                   },
                   {
                     "id": "prompt-geo-63",
@@ -4034,7 +4034,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical survey compares two communities: a remote coastal town and a large inner-city suburb. Residents of both were asked how much they feel part of the natural world around them."
+                    "scenario": "Hypothetical: A survey compares two communities: a remote coastal town and a large inner-city suburb. Residents of both were asked how much they feel part of the natural world around them."
                   },
                   {
                     "id": "prompt-geo-71",
@@ -4264,7 +4264,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: Lark Creek (hypothetical) drains a catchment of 40 km2 that includes forest, grassland, water and urban land. The class is studying the catchment as an example of a natural system."
+                    "scenario": "Hypothetical: Lark Creek drains a catchment of 40 km2 that includes forest, grassland, water and urban land. The class is studying the catchment as an example of a natural system."
                   },
                   {
                     "id": "prompt-geo-75",
@@ -4652,7 +4652,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A Year 11 student is describing the changes to a river valley in the Lark Creek catchment (hypothetical) after a series of major floods."
+                    "scenario": "Hypothetical: A Year 11 student is describing the changes to a river valley in the Lark Creek catchment after a series of major floods."
                   }
                 ]
               },
@@ -4711,7 +4711,7 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "Hypothetical: A Year 11 class is writing a report on the Lark Creek floodplain (hypothetical). It draws on Table 5 and its own field observations of sediment bars and vegetation zones."
+                    "scenario": "Hypothetical: A Year 11 class is writing a report on the Lark Creek floodplain. It draws on Table 5 and its own field observations of sediment bars and vegetation zones."
                   },
                   {
                     "id": "prompt-geo-83",
@@ -6430,7 +6430,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical regional planning report on Kelvane Delta notes that farmers harvest two crops a year in most years. The same report says the permanent channel supports small-scale ferries and fishing throughout the year."
+                    "scenario": "Hypothetical: A regional planning report on Kelvane Delta notes that farmers harvest two crops a year in most years. The same report says the permanent channel supports small-scale ferries and fishing throughout the year."
                   }
                 ]
               },
@@ -7441,7 +7441,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical survey of three places around the world, Coralmere, Dunhaven and Velt Ridge, records the share of households speaking a heritage language at home and the number of traditional festivals held each year, in two survey periods. Coralmere's heritage-language share fell from 42 to 31 per cent, Dunhaven's rose from 18 to 26 per cent, and Velt Ridge's festivals rose from 6 to 9 each year. All figures are hypothetical."
+                    "scenario": "Hypothetical: A survey of three places around the world, Coralmere, Dunhaven and Velt Ridge, records the share of households speaking a heritage language at home and the number of traditional festivals held each year, in two survey periods. Coralmere's heritage-language share fell from 42 to 31 per cent, Dunhaven's rose from 18 to 26 per cent, and Velt Ridge's festivals rose from 6 to 9 each year. All figures are hypothetical."
                   },
                   {
                     "id": "prompt-geo-131",
@@ -8238,7 +8238,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical town of Ashmere has a council preparing a briefing on how the town has been connected to global networks over recent decades."
+                    "scenario": "Hypothetical: The town of Ashmere has a council preparing a briefing on how the town has been connected to global networks over recent decades."
                   },
                   {
                     "id": "prompt-geo-145",
@@ -8353,7 +8353,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical network map shows shipping and air links converging on three hubs, Ashmere, Lysen Harbour and Cape Verrin. Thin lines link the hubs with the highland districts, and a single long route runs inland from Cape Verrin."
+                    "scenario": "Hypothetical: A network map shows shipping and air links converging on three hubs, Ashmere, Lysen Harbour and Cape Verrin. Thin lines link the hubs with the highland districts, and a single long route runs inland from Cape Verrin."
                   },
                   {
                     "id": "prompt-geo-147",
@@ -8459,7 +8459,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: A hypothetical regional planning review compares Ashmere, a port connected to global shipping and data networks, with Tarrin Hollow, a highland village that gained broadband access only recently."
+                    "scenario": "Hypothetical: A regional planning review compares Ashmere, a port connected to global shipping and data networks, with Tarrin Hollow, a highland village that gained broadband access only recently."
                   },
                   {
                     "id": "prompt-geo-149",
@@ -8806,7 +8806,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: On the hypothetical Kestrel Gorge map, Mount Halder is marked as a spot height of 620 m, and it lies within the grid square whose lower-left corner is 4712."
+                    "scenario": "Hypothetical: On the Kestrel Gorge map, Mount Halder is marked as a spot height of 620 m, and it lies within the grid square whose lower-left corner is 4712."
                   }
                 ]
               },
@@ -8865,7 +8865,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: On the hypothetical Kestrel Gorge map the contour interval is 20 m. Contours on the northern slope are closely spaced for the lower 200 m of the slope and widely spaced across the upper ridge."
+                    "scenario": "Hypothetical: On the Kestrel Gorge map the contour interval is 20 m. Contours on the northern slope are closely spaced for the lower 200 m of the slope and widely spaced across the upper ridge."
                   },
                   {
                     "id": "prompt-geo-155",
@@ -9069,7 +9069,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: On the hypothetical Kestrel Gorge map at 1:50 000, the contour interval is 20 m. The 300 m and 340 m contours sit on the northern slope, and the distance between them is measured horizontally on the ground."
+                    "scenario": "Hypothetical: On the Kestrel Gorge map at 1:50 000, the contour interval is 20 m. The 300 m and 340 m contours sit on the northern slope, and the distance between them is measured horizontally on the ground."
                   },
                   {
                     "id": "prompt-geo-159",
@@ -9180,7 +9180,7 @@
                         "band": 1
                       }
                     ],
-                    "scenario": "Hypothetical: The hypothetical Kestrel Gorge map is drawn from a topographic survey with a 20 m contour interval. The transect from A to B is 2.5 km long on the ground, and it crosses every 20 m contour between 240 m and 620 m."
+                    "scenario": "Hypothetical: The Kestrel Gorge map is drawn from a topographic survey with a 20 m contour interval. The transect from A to B is 2.5 km long on the ground, and it crosses every 20 m contour between 240 m and 620 m."
                   },
                   {
                     "id": "prompt-geo-161",
