@@ -7,7 +7,8 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { X, FileCheck, ArrowUpCircle, Check } from 'lucide-react';
 import { isFeatureLocked } from '../services/entitlements';
-import { stripHtmlTags } from '../utils/renderUtils';
+import { stripHtmlTags, getBandRgb } from '../utils/renderUtils';
+import { getCommandTermInfo } from '../data/commandTerms';
 import { ladderBandVars } from './LadderRow';
 import { presentableRewrite } from './feedback/rewriteText';
 import { BAND_GROUND, PRIMARY_ACTION, SECONDARY_ACTION } from './feedback/feedbackChrome';
@@ -57,6 +58,9 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   // The footer's note on what "Use this version" does, named by the button it
   // describes. It must be called before the early return below.
   const replacesNoteId = useId();
+  // The modal is portalled, so it cannot inherit the workspace's band. It takes the
+  // question's own tier for its frame and header strip (`.band-surface-primary`).
+  const modalBandRgb = getBandRgb(getCommandTermInfo(prompt.verb).tier);
 
   // Escape closes the feedback like every other modal surface — but never
   // mid-improvement, so the regeneration can't be abandoned half-rendered.
@@ -103,8 +107,11 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
       aria-label="Marking result"
       className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
     >
-      <div className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg border border-white/10 light:border-slate-300 flex flex-col relative animate-fade-in-up overflow-hidden">
-        <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-elevated))] flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
+      <div
+        className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg border border-white/10 band-surface-primary flex flex-col relative animate-fade-in-up overflow-hidden"
+        style={{ '--band-rgb': modalBandRgb } as React.CSSProperties}
+      >
+        <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/10 light:border-slate-400 band-header-strip bg-[rgb(var(--color-bg-surface-elevated))] flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
           <MeshOverlay opacity="opacity-[0.03]" />
 
           <div className="flex items-center gap-3 sm:gap-4 relative z-10 min-w-0">
@@ -116,11 +123,11 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
                 Marking Feedback
               </h2>
               <div className="flex items-center gap-2 mt-1.5">
-                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 whitespace-nowrap">
+                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-700 whitespace-nowrap">
                   {prompt.verb}
                 </span>
                 <span className="w-1 h-1 rounded-full bg-white/20 light:bg-slate-300"></span>
-                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-500 whitespace-nowrap">
+                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-700 whitespace-nowrap">
                   {prompt.totalMarks} Marks
                 </span>
               </div>
@@ -182,7 +189,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
             reach and the footer never stacks into a second band of controls.
             On a phone the note on what "Use this version" does has no row of its
             own: it is the second line of that button, and the button names it too. */}
-        <div className="shrink-0 relative z-20 px-4 sm:px-8 py-3 sm:py-4 border-t border-slate-300 dark:border-white/10 bg-[rgb(var(--color-bg-surface-elevated))] flex flex-nowrap items-center justify-end gap-2 sm:gap-3">
+        <div className="shrink-0 relative z-20 px-4 sm:px-8 py-3 sm:py-4 border-t border-slate-400 dark:border-white/10 bg-[rgb(var(--color-bg-surface-elevated))] flex flex-nowrap items-center justify-end gap-2 sm:gap-3">
           {canUse && (
             <p
               id={replacesNoteId}

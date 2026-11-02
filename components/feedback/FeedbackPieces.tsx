@@ -113,7 +113,7 @@ export const BandGoalCard = ({
         </div>
       </div>
       {capNote && (
-        <p className="pt-3 border-t border-slate-200/80 dark:border-white/10 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="pt-3 border-t border-slate-300/80 dark:border-white/10 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
           {capNote}
         </p>
       )}

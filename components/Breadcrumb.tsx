@@ -33,7 +33,7 @@ const LEVEL_NAMES = ['course', 'topic', 'sub-topic', 'syllabus point'];
 const SIZES = {
   default: {
     shell:
-      'w-full overflow-hidden rounded-xl border border-white/10 light:border-slate-200 bg-[rgb(var(--color-bg-surface-elevated))]/40 light:bg-white backdrop-blur-md shadow-sm hover:border-white/20 transition-colors',
+      'w-full overflow-hidden rounded-xl border border-white/10 band-surface bg-[rgb(var(--color-bg-surface-elevated))]/40 light:bg-white backdrop-blur-md shadow-sm hover:border-white/20 transition-colors',
     list: 'py-3 px-4',
     // 44px tall on a phone, the touch floor; the pill keeps its own size from `sm`.
     crumb: 'gap-2 px-3 py-1.5 text-sm min-h-11 sm:min-h-0',
@@ -177,7 +177,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
                     whitespace-nowrap border transition-all duration-200
                     ${
                       isLast
-                        ? 'bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-primary))] border-white/10 light:border-slate-200 shadow-sm font-bold'
+                        ? 'bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-primary))] border-white/10 shadow-sm font-bold band-chip'
                         : 'bg-transparent text-[rgb(var(--color-text-secondary))] border-transparent hover:bg-[rgb(var(--color-bg-surface-light))]/50 hover:text-[rgb(var(--color-text-primary))]'
                     }
                     ${canJump ? 'cursor-pointer active:scale-[0.98]' : 'cursor-default'}

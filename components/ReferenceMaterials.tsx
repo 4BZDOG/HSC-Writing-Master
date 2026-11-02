@@ -93,7 +93,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
       // The band reaches the panel's own header, body divider and lit edge through
       // `--band-rgb`. Set only on a hero, so an ordinary section draws none of it.
       style={hero ? ladderBandVars(band) : undefined}
-      className={`${PANEL_SURFACE} mb-3 last:mb-0 ${hero && isOpen ? HERO_LIT : ''}`}
+      className={`${PANEL_SURFACE} band-surface mb-3 last:mb-0 ${hero && isOpen ? HERO_LIT : ''}`}
     >
       {/* The header row is a wrapper around the disclosure, which carries the shared
           row height and the tint. The hero's wash sits on this row, behind the title. */}

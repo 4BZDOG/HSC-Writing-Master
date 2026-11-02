@@ -367,7 +367,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // separate device bolted under the workspace rather than the first of the
     // reference panels.
     return (
-      <div className={PANEL_SURFACE}>
+      <div className={`${PANEL_SURFACE} band-surface`}>
         {/* The divider only earns its place when something sits below it —
             collapsed, it doubled up with the card's own bottom border. */}
         {/* The header row. Its tone follows the disclosure exactly as every other
@@ -475,7 +475,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             {/* On a phone the two controls are one segmented strip of 44px cells,
                 so the touch targets are the size of the thumb and the strip is
                 no taller than they are. */}
-            <div className="relative z-10 flex gap-1 max-sm:gap-0 bg-slate-100 dark:bg-white/5 p-1 max-sm:p-0 max-sm:overflow-hidden rounded-xl border border-slate-200 dark:border-white/10">
+            <div className="relative z-10 flex gap-1 max-sm:gap-0 bg-slate-100 dark:bg-white/5 p-1 max-sm:p-0 max-sm:overflow-hidden rounded-xl border border-slate-300 dark:border-white/10">
               <button
                 onClick={() => {
                   const next = !isTimerActive;
@@ -540,7 +540,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
         >
           <div className="overflow-hidden">
             <div className="p-4 sm:p-5 space-y-5">
-              <div className="p-3.5 sm:p-4 rounded-2xl border border-slate-200 dark:border-white/20 bg-slate-50 dark:bg-black/30 shadow-inner">
+              <div className="p-3.5 sm:p-4 rounded-2xl border border-slate-400 dark:border-white/20 bg-slate-50 dark:bg-black/30 shadow-inner">
                 <div className="flex items-center justify-between gap-4 mb-3 px-0.5">
                   <div className="flex items-center gap-3 min-w-0">
                     <BarChart3 className="w-4 h-4 shrink-0 text-indigo-500 dark:text-indigo-400" />

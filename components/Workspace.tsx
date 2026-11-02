@@ -19,6 +19,7 @@ import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
 import { getCommandTermInfo, getTargetBand, getPromptTermInfo } from '../data/commandTerms';
 import { findAndUpdateItem } from '../utils/stateUtils';
+import { getBandRgb } from '../utils/renderUtils';
 import {
   MIN_CARD_HEIGHT,
   isTwoColumnWidth,
@@ -688,8 +689,20 @@ const Workspace: React.FC<WorkspaceProps> = ({
       </>
     );
 
+  // The question's tier, for the light theme's band-hued surfaces (`.band-surface` in
+  // index.css): the breadcrumb, both cards and the panels under them read `--band-rgb`
+  // from here. The feedback modal is portalled, so it sets its own.
+  const workspaceBandRgb = currentPrompt
+    ? getBandRgb(getCommandTermInfo(currentPrompt.verb).tier)
+    : undefined;
+
   return (
-    <div className="flex flex-col h-full gap-4">
+    <div
+      className="flex flex-col h-full gap-4"
+      style={
+        workspaceBandRgb ? ({ '--band-rgb': workspaceBandRgb } as React.CSSProperties) : undefined
+      }
+    >
       {!isFocusMode && showBreadcrumb && (
         <div className="w-full flex-shrink-0">
           <Breadcrumb items={crumbs} />
