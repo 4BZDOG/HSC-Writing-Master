@@ -272,7 +272,7 @@ describe('ImprovementReviewModal', () => {
   it('reads two changes with a short kept run between them as one edit', () => {
     renderModal(BRIDGED);
 
-    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const margin = screen.getByRole('complementary', { name: 'The edits' });
     const items = within(margin).getAllByRole('listitem');
     expect(items).toHaveLength(1);
     expect(items[0].textContent).toContain('slow and costly');
@@ -312,7 +312,7 @@ describe('ImprovementReviewModal', () => {
       improvedAnswer: THREE_EDITS_REVISED,
     });
 
-    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const margin = screen.getByRole('complementary', { name: 'The edits' });
     const items = within(margin).getAllByRole('listitem');
     expect(items).toHaveLength(3);
     // A replacement shows what was cut and what took its place.
@@ -329,7 +329,7 @@ describe('ImprovementReviewModal', () => {
       improvedAnswer: THREE_EDITS_REVISED,
     });
 
-    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const margin = screen.getByRole('complementary', { name: 'The edits' });
     fireEvent.click(within(margin).getAllByRole('button')[2]);
     expect(screen.getByText('3/3')).toBeTruthy();
 
@@ -448,7 +448,7 @@ describe('ImprovementReviewModal', () => {
       improvedAnswer: THREE_EDITS_REVISED,
     });
 
-    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
+    const margin = screen.getByRole('complementary', { name: 'The edits' });
     const [first, second] = within(margin).getAllByRole('button');
     expect(first.className).toContain('band-edge-strong');
     expect(second.className).not.toContain('band-edge-strong');
@@ -481,19 +481,25 @@ describe('ImprovementReviewModal', () => {
     expect(document.body.querySelectorAll('span[aria-label]')).toHaveLength(0);
   });
 
-  it('says what changed and why above the edits, when the rewrite says', () => {
+  /**
+   * The why and the where are two rails: the reasons sit in their own landmark
+   * beside the edits, not inside the same list. Each is named for what it holds,
+   * and the why still comes first in reading order, as it did above the edits.
+   */
+  it('says what changed and why beside the edits, when the rewrite says', () => {
     renderModal({
       keyChanges: ['Named the consequence', 'Added a judgement'],
       originalAnswer: THREE_EDITS_ORIGINAL,
       improvedAnswer: THREE_EDITS_REVISED,
     });
 
-    const margin = screen.getByRole('complementary', { name: 'What changed and why' });
-    const reasons = within(margin).getByRole('heading', { name: 'What changed and why' });
-    const edits = within(margin).getByRole('heading', { name: 'The edits' });
-    expect(within(margin).getByText('Named the consequence')).toBeTruthy();
-    expect(within(margin).getByText('Added a judgement')).toBeTruthy();
-    expect(reasons.compareDocumentPosition(edits) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const why = screen.getByRole('complementary', { name: 'What changed and why' });
+    const where = screen.getByRole('complementary', { name: 'The edits' });
+    expect(within(why).getByRole('heading', { name: 'What changed and why' })).toBeTruthy();
+    expect(within(why).getByText('Named the consequence')).toBeTruthy();
+    expect(within(why).getByText('Added a judgement')).toBeTruthy();
+    expect(within(where).getByRole('heading', { name: 'The edits' })).toBeTruthy();
+    expect(why.compareDocumentPosition(where) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   });
 
   it('leaves the reasons out when the rewrite gives none', () => {
