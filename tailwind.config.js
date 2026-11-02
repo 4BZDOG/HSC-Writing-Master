@@ -248,6 +248,13 @@ export default {
         // duration and curve as `fade-in`, so the two opacities sum to one all
         // the way across and the stage never dips toward black between tiers.
         'fade-out': 'fadeOut 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        // The improvement review's replay. A focused edit's ring pulses once as it
+        // arrives, rather than appearing. Each runs once and has no fill, so it
+        // leaves the element at its own resting style: the ring, the full-strength
+        // ink, the mark. Reduced motion turns each off at the call site.
+        'edit-focus': 'editFocus 700ms cubic-bezier(0.16, 1, 0.3, 1)',
+        'replay-cut': 'replayCut 900ms cubic-bezier(0.16, 1, 0.3, 1)',
+        'replay-in': 'replayIn 700ms cubic-bezier(0.16, 1, 0.3, 1)',
       },
       keyframes: {
         // All keyframes animate only transform/opacity so they stay on the
@@ -338,6 +345,23 @@ export default {
         fadeOut: {
           '0%': { opacity: '1' },
           '100%': { opacity: '0' },
+        },
+        // A pulse out from the ring: the band's colour spreads and clears.
+        editFocus: {
+          '0%': { boxShadow: '0 0 0 0 rgb(var(--band-rgb) / 0.55)' },
+          '100%': { boxShadow: '0 0 0 6px rgb(var(--band-rgb) / 0)' },
+        },
+        // A cut run: its strike is drawn in as it fades up to full strength. The
+        // end is the run's own colour, so it settles into the marked view's rose.
+        replayCut: {
+          '0%': { opacity: '0.35', textDecorationColor: 'transparent' },
+          '100%': { opacity: '1', textDecorationColor: 'currentColor' },
+        },
+        // An added run: it comes up out of the page with a band-coloured halo that
+        // clears, so an insertion reads as arriving rather than being there.
+        replayIn: {
+          '0%': { opacity: '0', boxShadow: '0 0 0 0.4em rgb(var(--band-rgb) / 0.45)' },
+          '100%': { opacity: '1', boxShadow: '0 0 0 0 rgb(var(--band-rgb) / 0)' },
         },
       },
     },
