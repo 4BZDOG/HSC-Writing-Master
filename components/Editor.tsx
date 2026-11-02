@@ -11,6 +11,7 @@ import {
   renderEditorHighlights,
   getBandConfig,
   getBandHex,
+  getBandRgb,
   getBandName,
 } from '../utils/renderUtils';
 import { getPromptTermInfo } from '../data/commandTerms';
@@ -732,7 +733,7 @@ const Editor = forwardRef<
         // only lit at high progress. Either way it is a gentle band-palette
         // shadow with light: variants, never colour under text. The wrapper's
         // existing box-shadow transition is already reduced-motion-safe.
-        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface overflow-hidden border-2 ${chroma.border} shadow-lg ${readinessAccent ? readinessAccent.glow : chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
+        className={`clip-stable flex flex-col w-full h-auto bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface overflow-hidden border-2 ${chroma.border} ${isExamMode ? '' : 'band-card-body'} shadow-lg ${readinessAccent ? readinessAccent.glow : chroma.glow} transition-[box-shadow,border-color,background-color] duration-700 ease-in-out ${className}`}
         // Pinned to the question prompt's height: min and max are the same
         // value, so the writing area matches the card beside it exactly and a
         // response longer than that scrolls inside it. The fallback applies
@@ -740,10 +741,13 @@ const Editor = forwardRef<
         // side by side (Focus Mode, one column), where nothing pins it to the
         // question. A long saved draft cannot stretch the page during the
         // first paint either way.
-        style={{
-          minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : `${FREE_CARD_FLOOR}px`,
-          maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : freeCardMaxHeight,
-        }}
+        style={
+          {
+            minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : `${FREE_CARD_FLOOR}px`,
+            maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : freeCardMaxHeight,
+            '--band-rgb': getBandRgb(verbTier),
+          } as React.CSSProperties
+        }
       >
         <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
           {/* Header */}

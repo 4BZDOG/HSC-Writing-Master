@@ -248,10 +248,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </nav>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="t-label px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg band-chip bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
             {prompt.verb}
           </span>
-          <span className="t-label px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg band-chip bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
             {prompt.totalMarks} Marks
           </span>
         </div>
@@ -403,7 +403,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             self-contained record of what was actually submitted. */}
         {userAnswer.trim() && (
           <section className={`${FEEDBACK_CARD} overflow-hidden xl:col-span-2`}>
-            <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-300 dark:border-white/10 bg-surface-elevated">
+            <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-400 dark:border-white/10 band-header-strip bg-surface-elevated">
               <div className="flex items-center gap-3 min-w-0">
                 <div
                   className={`${FEEDBACK_TILE} bg-slate-200/70 dark:bg-white/10 text-slate-700 dark:text-slate-300`}

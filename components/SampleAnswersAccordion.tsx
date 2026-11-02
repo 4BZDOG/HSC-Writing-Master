@@ -1223,7 +1223,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
               setChosenText(text);
               if (text) rememberText(text);
             }}
-            className="min-h-9 px-3 py-1.5 rounded-xl bg-white dark:bg-[rgb(var(--color-bg-surface))] border border-slate-300 dark:border-white/15 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/40"
+            className="min-h-9 px-3 py-1.5 rounded-xl bg-white dark:bg-[rgb(var(--color-bg-surface))] border border-slate-500 dark:border-white/15 text-sm font-medium text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]/40"
           >
             <option value="">All {prescribedTexts.length} prescribed texts</option>
             {prescribedTexts.map((text) => (

@@ -16,7 +16,7 @@
  *  a lifted card in the dark. The edge does the separating on the desk, so the
  *  card is not a bare white slab on a near-white ground. Painted on the desk. */
 export const FEEDBACK_CARD =
-  'rounded-panel bg-surface border border-slate-300 dark:border-white/10 shadow-sm';
+  'rounded-panel bg-surface border border-slate-500 band-surface dark:border-white/10 shadow-sm';
 
 /** A section heading. Sentence case and bold, in primary ink: the caps and italics
  *  of `.t-section` are a boundary marker, and a report with seven of them read as
@@ -31,7 +31,7 @@ export const FEEDBACK_TILE = 'p-1.5 rounded-lg shrink-0';
 /** A secondary action: a quiet button on the card. It is 44px on a phone, the
  *  touch target, and returns to its own height from `sm`. Painted on the card. */
 export const SECONDARY_ACTION =
-  't-label inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-0 px-4 py-2.5 rounded-xl border border-slate-300 bg-surface-elevated text-slate-800 shadow-sm hover:bg-surface-inset dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10 transition-colors duration-200 touch-manipulation active:scale-[0.98] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
+  't-label inline-flex items-center justify-center gap-2 min-h-11 sm:min-h-0 px-4 py-2.5 rounded-xl border border-slate-500 bg-surface-elevated text-slate-800 shadow-sm hover:bg-surface-inset dark:border-white/10 dark:bg-white/5 dark:text-slate-200 dark:hover:bg-white/10 transition-colors duration-200 touch-manipulation active:scale-[0.98] disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
 /** The primary action on a band: the band's flat ground (`BAND_GROUND`) with its ink,
  *  and no white anywhere on it. Set the band's `--band-rgb`

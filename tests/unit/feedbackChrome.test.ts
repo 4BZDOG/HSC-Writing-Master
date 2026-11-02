@@ -168,7 +168,7 @@ describe('the rows and notes painted on the band fill, in both themes', () => {
 describe('the report surfaces are the ladder, not white slabs', () => {
   it('a report card is paper with an edge, not a bare white box', () => {
     expect(FEEDBACK_CARD).toContain('bg-surface');
-    expect(FEEDBACK_CARD).toContain('border-slate-300');
+    expect(FEEDBACK_CARD).toContain('border-slate-500');
     expect(FEEDBACK_CARD).not.toMatch(/\bbg-white\b/);
   });
 

@@ -788,7 +788,7 @@ export const VERB_HIGHLIGHT_IN_MARK_CLASS =
  * edge and padding because it stands alone.
  */
 export const KEYWORD_CHIP_CLASS =
-  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold text-emerald-400 light:text-emerald-900 bg-emerald-500/10 light:bg-emerald-600/10 border border-emerald-500/25 light:border-emerald-600/25';
+  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold text-emerald-400 light:text-emerald-900 bg-emerald-500/10 light:bg-emerald-600/10 border border-emerald-500/25 light:border-emerald-600';
 /**
  * …and the same verb where it OPENS the command-verb guide.
  *

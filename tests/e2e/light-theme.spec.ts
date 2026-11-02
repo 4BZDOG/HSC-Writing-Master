@@ -244,11 +244,28 @@ test.describe('light theme, past the first screen', () => {
         await setTheme(page, theme);
         await freezeAnimations(page);
         const { readings, unassessed } = await measureContrast(page);
+        // The flat sweep skips text over a background image, and the light
+        // theme's band-tinted panels draw their tint as one. That text is
+        // measured here instead, against every ground its paint can show, so a
+        // panel taking a tint never drops its text out of the audit.
+        const overGradient = await measureGradientContrast(page.locator('body'));
 
         // The same guard the base sweep carries, and for the same reason: a
         // run that measured almost nothing passes silently and proves nothing.
-        // Here it also catches a `reach` that quietly failed to reach.
-        expect(readings.length, 'nothing was measured').toBeGreaterThan(20);
+        // Here it also catches a `reach` that quietly failed to reach. Text the
+        // gradient pass measured counts: it was measured, just not flat.
+        expect(
+          readings.length + overGradient.gradientReadings,
+          'nothing was measured'
+        ).toBeGreaterThan(20);
+
+        const gradientFailing = overGradient.readings.filter((r) => r.ratio < r.floor);
+        expect(
+          gradientFailing,
+          `${theme} theme, ${state.name}: ${gradientFailing.length} run(s) over a gradient ` +
+            `fall below their contrast floor\n` +
+            describeGradientReadings(gradientFailing)
+        ).toEqual([]);
 
         const failures = readings.filter((r) => r.neutralBackground && r.ratio < r.floor);
         expect(

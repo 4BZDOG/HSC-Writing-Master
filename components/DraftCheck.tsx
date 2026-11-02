@@ -57,6 +57,10 @@ const ClearRing: React.FC<{ cleared: number; total: number; resting: boolean }> 
 
   return (
     <div className="relative w-8 h-8 shrink-0">
+      <span
+        aria-hidden="true"
+        className="absolute inset-[4px] rounded-full light:bg-[rgb(var(--band-rgb))]"
+      />
       <svg viewBox="0 0 32 32" className="w-8 h-8 -rotate-90" aria-hidden="true">
         <circle
           cx="16"
@@ -64,7 +68,7 @@ const ClearRing: React.FC<{ cleared: number; total: number; resting: boolean }> 
           r={RING_RADIUS}
           fill="none"
           strokeWidth="3"
-          className="stroke-slate-200 dark:stroke-white/10"
+          className="stroke-slate-200 dark:stroke-white/10 light:stroke-[rgb(var(--band-rgb)/0.3)]"
         />
         <circle
           cx="16"
@@ -81,7 +85,7 @@ const ClearRing: React.FC<{ cleared: number; total: number; resting: boolean }> 
       {/* An em dash while resting, not a nought. Zero is a RESULT: it says the
           draft has been read and nothing is clear yet, and there is no draft
           to read. */}
-      <span className="absolute inset-0 flex items-center justify-center font-mono text-sm font-bold tabular-nums text-slate-900 dark:text-white">
+      <span className="absolute inset-0 flex items-center justify-center font-mono text-sm font-bold tabular-nums text-slate-900 light:text-slate-950 dark:text-white">
         {resting ? '—' : cleared}
       </span>
     </div>
@@ -177,7 +181,7 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
     }, [resting, allClear, cleared, total]);
 
     return (
-      <div className={`${PANEL_SURFACE} animate-fade-in`}>
+      <div className={`${PANEL_SURFACE} band-surface animate-fade-in`}>
         <button
           onClick={() => setIsCollapsed((c) => !c)}
           disabled={resting}

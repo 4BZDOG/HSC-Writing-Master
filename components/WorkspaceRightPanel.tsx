@@ -446,11 +446,12 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
           {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
                 Windows and ChromeOS machines most NSW schools issue, where
                 the shortcut is Ctrl + Enter — and at 9px the glyph blurred
-                into a smudge. */}
+                into a smudge. Full strength on an enabled button: dimmed to
+                60%, the band ink fell to 3.3:1 on the red fill. */}
           <kbd
             className={`hidden md:inline text-[10px] font-bold border rounded-lg px-1.5 py-0.5 tracking-normal whitespace-nowrap transition-opacity ${
               userAnswer.trim()
-                ? 'bg-white/15 border-white/10 opacity-60 group-hover:opacity-100'
+                ? 'bg-white/15 border-white/10'
                 : 'bg-black/5 border-current/20 opacity-50'
             }`}
           >

@@ -2,7 +2,7 @@ import React from 'react';
 import { Pencil, Award, Link2 } from 'lucide-react';
 import { Prompt } from '../types';
 import { getTargetBand, getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
-import { getTierScaleConfig } from '../utils/renderUtils';
+import { getTierScaleConfig, getBandRgb } from '../utils/renderUtils';
 import Breadcrumb from './Breadcrumb';
 import type { SyllabusCrumb } from '../types';
 
@@ -53,7 +53,8 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
 
   return (
     <div
-      className={`clip-stable relative overflow-hidden rounded-panel border ${band.border} bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl shadow-lg animate-fade-in`}
+      className={`clip-stable relative overflow-hidden rounded-panel border ${band.border} band-surface-primary bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl shadow-lg animate-fade-in`}
+      style={{ '--band-rgb': getBandRgb(safeTier) } as React.CSSProperties}
     >
       <div
         className={`absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b ${band.gradient}`}
@@ -89,9 +90,11 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
             {prompt.verb}
           </span>
           <div className="t-label hidden md:flex items-center gap-2.5 text-[rgb(var(--color-text-muted))]">
-            <span>{prompt.totalMarks} marks</span>
+            <span className="band-chip rounded-lg px-2 py-0.5">{prompt.totalMarks} marks</span>
             <span className="w-px h-3.5 bg-[rgb(var(--color-border-secondary))]" />
-            <span className={`flex items-center gap-1.5 ${band.text}`}>
+            <span
+              className={`band-chip flex items-center gap-1.5 rounded-lg px-2 py-0.5 ${band.text}`}
+            >
               <Award className="w-3.5 h-3.5" /> Band {targetBand}
             </span>
           </div>

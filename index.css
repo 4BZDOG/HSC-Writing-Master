@@ -1038,6 +1038,49 @@ a:focus-visible,
 }
 
 /*
+ * The question and writing cards' body, in the light theme: a whisper of the card's own
+ * band, so the pair reads as coloured surfaces and not white sheets with a coloured frame.
+ * It is the ribbon's tier-card tint (`.ribbon-tier-card`) at the same weight. The card sets
+ * `--band-rgb`; the dark theme does not use this class.
+ */
+[data-theme='light'] .band-card-body {
+  background-image: linear-gradient(rgb(var(--band-rgb) / 0.12), rgb(var(--band-rgb) / 0.08));
+}
+
+/*
+ * Round two, the light theme's question-level surfaces: the band-hue edge and a whisper of the
+ * hue (`.band-surface`), the same edge drawn at 2px on a primary card (`.band-surface-primary`),
+ * a band wash across a header (`.band-header-strip`) and a chip filled in the hue (`.band-chip`).
+ * They read `--band-rgb` from the nearest ancestor that sets it (the workspace, the feedback
+ * modal, a hero panel). Where none does, they fall back to the slate-500 triplet, so the edge
+ * stays neutral rather than going to black. The selector is `:root[data-theme='light']` so these
+ * outrank the utilities they replace, whatever order the stylesheet puts them in.
+ */
+:root[data-theme='light'] .band-surface {
+  border-color: rgb(var(--band-rgb, 100 116 139) / 0.7);
+  background-image: linear-gradient(
+    rgb(var(--band-rgb, 100 116 139) / 0.06),
+    rgb(var(--band-rgb, 100 116 139) / 0.06)
+  );
+}
+:root[data-theme='light'] .band-surface-primary {
+  border-color: rgb(var(--band-rgb, 100 116 139) / 0.75);
+  outline: 1px solid rgb(var(--band-rgb, 100 116 139) / 0.75);
+  outline-offset: -1px;
+}
+:root[data-theme='light'] .band-header-strip {
+  background-image: linear-gradient(
+    90deg,
+    rgb(var(--band-rgb, 100 116 139) / 0.14),
+    rgb(var(--band-rgb, 100 116 139) / 0.04)
+  );
+}
+:root[data-theme='light'] .band-chip {
+  border: 1px solid rgb(var(--band-rgb, 100 116 139) / 0.7);
+  background-color: rgb(var(--band-rgb, 100 116 139) / 0.14);
+}
+
+/*
  * The Sample Answers rows, in the LIGHT theme only.
  *
  * On a white panel the shared ladder fill is faint: a 20% band wash fading to 7%, an
@@ -1748,6 +1791,14 @@ a:focus-visible,
   box-shadow:
     0 1px 2px 0 rgb(0 0 0 / 0.05),
     0 16px 36px -18px rgb(var(--band-rgb) / 0.8);
+}
+/* The lit panel's edge in the light theme: the ribbon's selected-card edge, a 1px border
+   at 90% with a 1px inset outline in the same hue, so it reads as 2px without moving
+   anything inside. Light only; the dark theme keeps its half-strength edge. */
+:root[data-theme='light'] .band-lit {
+  border-color: rgb(var(--band-rgb) / 0.9);
+  outline: 1px solid rgb(var(--band-rgb) / 0.9);
+  outline-offset: -1px;
 }
 
 /*

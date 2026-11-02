@@ -152,7 +152,8 @@ const FOOTER_CHIP =
  * a firm edge of the tier's own hue, read from `--band-rgb` on the footer. The ink is
  * the tier's text step, as it was on the flat pastel these replace.
  */
-const OUTCOME_FILL = 'band-fill border-[rgb(var(--band-rgb)/0.55)]';
+const OUTCOME_FILL =
+  'band-fill border-[rgb(var(--band-rgb)/0.55)] light:border-[rgb(var(--band-rgb)/0.9)]';
 
 /**
  * A tool button beside the brief button: the AI auto-link wand and the flag.
@@ -308,7 +309,7 @@ const ProvenanceEditor: React.FC<{
             value={year}
             onChange={(e) => setYear(e.target.value)}
             placeholder="e.g. 2023"
-            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40 tabular-nums"
+            className="w-28 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-500 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40 tabular-nums"
           />
         </label>
         <label className="flex flex-col gap-1.5">
@@ -318,7 +319,7 @@ const ProvenanceEditor: React.FC<{
             value={questionNumber}
             onChange={(e) => setQuestionNumber(e.target.value)}
             placeholder="e.g. 12(b)"
-            className="w-32 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+            className="w-32 px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-500 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
           />
         </label>
         <label className="flex flex-col gap-1.5 basis-full">
@@ -328,7 +329,7 @@ const ProvenanceEditor: React.FC<{
             value={section}
             onChange={(e) => setSection(e.target.value)}
             placeholder="e.g. Paper 2, Section III — Module C: The Craft of Writing (20 marks). Allow about 40 minutes."
-            className="w-full px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+            className="w-full px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-500 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
           />
         </label>
         <label className="flex flex-col gap-1.5 basis-full">
@@ -338,7 +339,7 @@ const ProvenanceEditor: React.FC<{
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder="e.g. Prose Fiction — George Orwell, Nineteen Eighty-Four"
-            className="w-full px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-300 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+            className="w-full px-3 py-2 rounded-xl bg-[rgb(var(--color-bg-surface))] light:bg-white border border-white/10 light:border-slate-500 text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
           />
         </label>
         <div className="flex items-center gap-2 ml-auto">
@@ -622,16 +623,19 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             bg-[rgb(var(--color-bg-surface))] light:bg-white
             border-2 ${bandConfig.border} shadow-lg ${bandConfig.glow}
             transition-[box-shadow,border-color,background-color] duration-500
-            group/prompt flex flex-col h-full
+            group/prompt flex flex-col h-full band-card-body
         `}
       // min and max are the same value, so the card is exactly the height the
       // sync decided: its own content where that fits, the viewport cap where
       // it doesn't. A question that outruns the cap scrolls in its body rather
       // than pushing the writing area below the fold.
-      style={{
-        minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
-        maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
-      }}
+      style={
+        {
+          minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
+          maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
+          '--band-rgb': getBandRgb(verbInfo.tier),
+        } as React.CSSProperties
+      }
     >
       <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
         {/* Header Container */}
@@ -926,7 +930,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {/* Question Section - "The Canvas" */}
             <div className="group/question relative pt-2">
               {isEditingQuestion ? (
-                <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-panel border border-white/10 light:border-slate-300 shadow-inner">
+                <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-panel border border-white/10 band-surface shadow-inner">
                   <div className="px-2 pt-2">
                     <MathSymbolToolbar
                       textareaRef={questionTextareaRef}
@@ -994,7 +998,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                           )}
                           className={`p-2.5 max-sm:size-11 max-sm:flex max-sm:items-center max-sm:justify-center rounded-xl shadow-lg hover:scale-110 transition-all ${
                             studioChrome ||
-                            'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-emerald-400 hover:text-emerald-300'
+                            'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-500 text-emerald-400 hover:text-emerald-300'
                           }`}
                           title={studioTitle('Run Quality Check')}
                         >
@@ -1003,7 +1007,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       )}
                       <button
                         onClick={() => setIsEditingQuestion(true)}
-                        className="p-2.5 max-sm:size-11 max-sm:flex max-sm:items-center max-sm:justify-center rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-300 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-lg hover:scale-110 transition-all"
+                        className="p-2.5 max-sm:size-11 max-sm:flex max-sm:items-center max-sm:justify-center rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-500 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-lg hover:scale-110 transition-all"
                         title="Edit Question"
                       >
                         <Edit3 className="w-4 h-4" />
@@ -1085,7 +1089,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 )}
 
                 {isEditingScenario ? (
-                  <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-2xl border border-white/10 light:border-slate-300">
+                  <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-2xl border border-white/10 band-surface">
                     <div className="px-2 pt-2">
                       <MathSymbolToolbar
                         textareaRef={scenarioTextareaRef}
@@ -1130,8 +1134,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                            }
                            ${
                              prompt.scenario || prompt.scenarioImage
-                               ? `bg-black/20 light:bg-slate-100 border-2 border-white/10 light:border-slate-300 shadow-inner`
-                               : 'bg-transparent border-dashed border border-slate-700/50 light:border-slate-300'
+                               ? `bg-black/20 light:bg-slate-100 border-2 border-white/10 band-surface shadow-inner`
+                               : 'bg-transparent border-dashed border border-slate-700/50 light:border-slate-500'
                            }
                        `}
                   >
@@ -1180,7 +1184,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                             title={studioTitle('Generate Context')}
                             className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 hover:scale-105 ${
                               studioChrome ||
-                              'bg-indigo-500/10 light:bg-indigo-100 text-indigo-400 light:text-indigo-700 border border-indigo-500/20 light:border-indigo-300 hover:bg-indigo-500/20 light:hover:bg-indigo-200'
+                              'bg-indigo-500/10 light:bg-indigo-100 text-indigo-400 light:text-indigo-700 border border-indigo-500/20 light:border-indigo-500 hover:bg-indigo-500/20 light:hover:bg-indigo-200'
                             }`}
                           >
                             <Sparkles className="w-3.5 h-3.5" /> Generate Context

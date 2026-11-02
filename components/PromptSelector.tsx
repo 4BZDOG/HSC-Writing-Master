@@ -235,56 +235,68 @@ const LEVEL_LABEL: Record<(typeof LEVEL_KEYS)[number], string> = {
  */
 const THEMES: Record<string, any> = {
   blue: {
-    activeBorder: 'border-blue-500/30 light:border-blue-600/50',
+    activeBorder: 'border-blue-500/30 light:border-blue-600',
     activeShadow: 'shadow-blue-900/10',
+    stepFill: 'light:bg-blue-600/[0.08]',
+    stepEdge: 'light:border-blue-600/70',
     selectedBorder: 'border-blue-500/20',
     nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]',
+      'bg-[rgb(var(--color-bg-surface))] light:bg-blue-500/25 light:border-blue-600 border-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.4)]',
     headerIcon:
       'bg-blue-500/10 text-blue-400 light:bg-blue-100 light:text-blue-700 border-blue-500/20',
   },
   purple: {
-    activeBorder: 'border-purple-500/30 light:border-purple-600/50',
+    activeBorder: 'border-purple-500/30 light:border-purple-600',
     activeShadow: 'shadow-purple-900/10',
+    stepFill: 'light:bg-purple-600/[0.08]',
+    stepEdge: 'light:border-purple-600/70',
     selectedBorder: 'border-purple-500/20',
     nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]',
+      'bg-[rgb(var(--color-bg-surface))] light:bg-purple-500/25 light:border-purple-600 border-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.4)]',
     headerIcon:
       'bg-purple-500/10 text-purple-400 light:bg-purple-100 light:text-purple-700 border-purple-500/20',
   },
   teal: {
-    activeBorder: 'border-teal-500/30 light:border-teal-600/50',
+    activeBorder: 'border-teal-500/30 light:border-teal-600',
     activeShadow: 'shadow-teal-900/10',
+    stepFill: 'light:bg-teal-600/[0.08]',
+    stepEdge: 'light:border-teal-600/70',
     selectedBorder: 'border-teal-500/20',
     nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.4)]',
+      'bg-[rgb(var(--color-bg-surface))] light:bg-teal-500/25 light:border-teal-600 border-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.4)]',
     headerIcon:
       'bg-teal-500/10 text-teal-400 light:bg-teal-100 light:text-teal-700 border-teal-500/20',
   },
   pink: {
-    activeBorder: 'border-pink-500/30 light:border-pink-600/50',
+    activeBorder: 'border-pink-500/30 light:border-pink-600',
     activeShadow: 'shadow-pink-900/10',
+    stepFill: 'light:bg-pink-600/[0.08]',
+    stepEdge: 'light:border-pink-600/70',
     selectedBorder: 'border-pink-500/20',
     nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.4)]',
+      'bg-[rgb(var(--color-bg-surface))] light:bg-pink-500/25 light:border-pink-600 border-pink-500 shadow-[0_0_8px_rgba(236,72,153,0.4)]',
     headerIcon:
       'bg-pink-500/10 text-pink-400 light:bg-pink-100 light:text-pink-700 border-pink-500/20',
   },
   amber: {
-    activeBorder: 'border-amber-500/30 light:border-amber-600/50',
+    activeBorder: 'border-amber-500/30 light:border-amber-600',
     activeShadow: 'shadow-amber-900/10',
+    stepFill: 'light:bg-amber-600/[0.08]',
+    stepEdge: 'light:border-amber-600/70',
     selectedBorder: 'border-amber-500/20',
     nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]',
+      'bg-[rgb(var(--color-bg-surface))] light:bg-amber-500/25 light:border-amber-600 border-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]',
     headerIcon:
       'bg-amber-500/10 text-amber-400 light:bg-amber-100 light:text-amber-700 border-amber-500/20',
   },
   green: {
-    activeBorder: 'border-emerald-500/30 light:border-emerald-600/50',
+    activeBorder: 'border-emerald-500/30 light:border-emerald-600',
     activeShadow: 'shadow-emerald-900/10',
+    stepFill: 'light:bg-emerald-600/[0.08]',
+    stepEdge: 'light:border-emerald-600/70',
     selectedBorder: 'border-emerald-500/20',
     nodeSelected:
-      'bg-[rgb(var(--color-bg-surface))] light:bg-white border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]',
+      'bg-[rgb(var(--color-bg-surface))] light:bg-emerald-500/25 light:border-emerald-600 border-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]',
     headerIcon:
       'bg-emerald-500/10 text-emerald-400 light:bg-emerald-100 light:text-emerald-700 border-emerald-500/20',
   },
@@ -355,7 +367,7 @@ const RailNode = ({
   }
   return (
     <div
-      className={`${base} w-4 h-4 border-2 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-400 scale-90 opacity-50`}
+      className={`${base} w-4 h-4 border-2 bg-[rgb(var(--color-bg-surface))] light:bg-slate-200 border-white/20 light:border-slate-500 scale-90 opacity-50`}
     />
   );
 };
@@ -446,7 +458,7 @@ const ActionButton = ({
             : variant === 'primary'
               ? 'bg-indigo-600 hover:bg-indigo-500 border-transparent text-white shadow-sm'
               : variant === 'vault'
-                ? 'bg-blue-600/10 light:bg-blue-50 border-blue-600/20 light:border-blue-300 text-blue-400 light:text-blue-700'
+                ? 'bg-blue-600/10 border-blue-600/20 light:border-blue-600 text-blue-400 light:text-blue-700'
                 : 'bg-[rgb(var(--color-bg-surface-inset))] border border-white/5 light:border-slate-400 text-[rgb(var(--color-text-secondary))] light:text-slate-600'
     }`}
     title={locked ? `${title} — ${describeAccess('aiContentStudio').explanation}` : title}
@@ -490,7 +502,7 @@ const pastHscChipClass = (pressed: boolean): string =>
   `t-label flex items-center gap-1.5 px-2.5 py-1 min-h-11 sm:min-h-0 rounded-lg border transition-all ${
     pressed
       ? 'bg-amber-500 text-slate-900 border-amber-400 shadow-sm'
-      : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-300 hover:border-amber-500/40'
+      : 'bg-[rgb(var(--color-bg-surface))] light:bg-white text-amber-400 light:text-amber-700 border-white/10 light:border-slate-400 hover:border-amber-500/40'
   }`;
 
 /**
@@ -1547,18 +1559,18 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     // No `scale`: a 1% scale resamples the text inside, and the open step
     // already has the frame, the shadow and the extra padding to mark it.
     if (isActive) {
-      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] light:bg-white border-2 ${theme.activeBorder} shadow-lg ${theme.activeShadow} py-6 px-6 z-20`;
+      return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface))] ${theme.stepFill} border-2 ${theme.activeBorder} shadow-lg ${theme.activeShadow} py-6 px-6 z-20`;
     }
     // It steps back by tone and colour, not by `opacity`: the text inside is
     // read at its own ink, and an opacity on the card would take it under AA.
-    return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 light:bg-slate-50 border border-white/5 light:border-slate-300 py-4 px-6 text-[rgb(var(--color-text-secondary))] light:text-slate-600 grayscale hover:grayscale-0`;
+    return `relative rounded-2xl transition-all duration-500 ease-out w-full bg-[rgb(var(--color-bg-surface-inset))]/30 ${theme.stepFill} border border-white/5 ${theme.stepEdge} py-4 px-6 text-[rgb(var(--color-text-secondary))] light:text-slate-600 grayscale hover:grayscale-0`;
   };
 
   return (
     <div className={`flex flex-col ${RAIL_GUTTER} relative animate-fade-in`}>
       <div
         data-rail-line
-        className={`absolute ${RAIL_LINE_OFFSET} -translate-x-1/2 top-0 bottom-0 w-px bg-white/5 light:bg-slate-400 z-0`}
+        className={`absolute ${RAIL_LINE_OFFSET} -translate-x-1/2 top-0 bottom-0 w-px light:w-0.5 bg-white/5 light:bg-slate-500 z-0`}
       ></div>
 
       {/* 1. Course Selection */}
@@ -1720,7 +1732,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           the year has past papers to filter by, since a control that could
           match nothing is worse than no control. */}
       {isCourseSelected && pastHscAvailable && (
-        <div className="mb-4 rounded-xl border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 px-3 py-2.5">
+        <div className="mb-4 rounded-xl border border-white/10 light:border-slate-400 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 px-3 py-2.5">
           <PastHscNavigator
             on={pastHscNavOn}
             years={pastHscYearsInForce}
@@ -1869,7 +1881,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     value={inlineTopicName}
                     onChange={(e) => setInlineTopicName(e.target.value)}
                     placeholder="Topic name (e.g. Core 1: Meanings and Values)"
-                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm font-medium text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40"
+                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-500 text-sm font-medium text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40"
                     autoFocus
                     onKeyDown={(e) => {
                       if (
@@ -1889,7 +1901,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     onChange={(e) => setInlineSyllabusText(e.target.value)}
                     placeholder="Optional: paste NESA syllabus text here to auto-create sub-topics and dot points…"
                     rows={4}
-                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-200 text-sm text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40 resize-y"
+                    className="w-full px-3 py-2 rounded-xl bg-white/10 light:bg-white border border-white/10 light:border-slate-500 text-sm text-[rgb(var(--color-text-primary))] placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none focus:ring-2 focus:ring-purple-500/40 resize-y"
                     onKeyDown={(e) => {
                       if (e.key === 'Escape') setInlineTopicOpen(false);
                     }}
@@ -2345,7 +2357,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     <div className="flex gap-2 flex-wrap justify-end">
                       <button
                         onClick={onManualEntry}
-                        className="t-label flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-200 light:text-slate-700 border border-white/10 light:border-slate-300 transition-all"
+                        className="t-label flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[rgb(var(--color-bg-surface-inset))] light:bg-slate-100 hover:bg-white/10 light:hover:bg-slate-200 text-slate-200 light:text-slate-700 border border-white/10 light:border-slate-400 transition-all"
                       >
                         <PenTool className="w-4 h-4" /> Write a question
                       </button>
