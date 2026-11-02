@@ -122,12 +122,6 @@ const UNLIT_TERM_CLASS =
   'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border border-dashed border-slate-300 dark:border-white/20 text-slate-600 dark:text-slate-400 transition-colors duration-500 motion-reduce:transition-none';
 
 /**
- * A syllabus term the revision has brought in, lit once its edit is on the page.
- * It is the app's term style exactly, so it reads as the same chip everywhere.
- */
-const LIT_TERM_CLASS = KEYWORD_CHIP_CLASS;
-
-/**
  * Splits a run into its words and the whitespace that follows them, so the
  * whitespace can be drawn outside the run's mark.
  */
@@ -978,7 +972,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     const lit = !replaying || replayDone || (at >= 0 && at < (replayStep ?? 0));
                     return (
                       <li key={kw}>
-                        <span className={lit ? LIT_TERM_CLASS : UNLIT_TERM_CLASS}>{kw}</span>
+                        {/* Lit, it is the app's term chip exactly, so it reads as the
+                            same chip everywhere. Read here, not aliased at module
+                            init: see scripts/findModuleInitReads.mjs. */}
+                        <span className={lit ? KEYWORD_CHIP_CLASS : UNLIT_TERM_CLASS}>{kw}</span>
                       </li>
                     );
                   })}
