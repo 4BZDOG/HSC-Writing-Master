@@ -27,7 +27,7 @@ interface WaitNoteFigureProps {
  */
 const WaitNoteFigure: React.FC<WaitNoteFigureProps> = ({ note, accent, className }) => (
   <figure
-    className={`flex gap-3 pl-3 border-l-2 animate-fade-in${className ? ` ${className}` : ''}`}
+    className={`flex gap-3 pl-3 border-l-2 min-h-[4.75rem] animate-fade-in${className ? ` ${className}` : ''}`}
     style={{ borderColor: `color-mix(in srgb, ${accent} 40%, transparent)` }}
   >
     <PenLine

@@ -23,7 +23,7 @@ const HscResultsCard: React.FC = () => {
   return (
     <figure
       aria-labelledby={titleId}
-      className="rounded-xl bg-surface-inset px-4 py-3.5 animate-fade-in"
+      className="rounded-xl bg-surface-inset px-4 py-3.5 animate-fade-in light:border light:border-slate-400"
     >
       <p id={titleId} className="t-label text-slate-800 dark:text-slate-200">
         How {HSC_RESULTS_YEAR} HSC results fell
