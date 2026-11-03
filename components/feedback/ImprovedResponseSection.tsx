@@ -166,7 +166,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
                 own answer, and reading it as a block of prose hides the handful of
                 words that earned the mark. "Use this version" is in the footer. */}
             {(onCompareImprovement || !atCeiling) && (
-              <div className="px-6 sm:px-8 py-4 border-t border-slate-300/80 dark:border-white/10 bg-surface-elevated flex flex-wrap items-center gap-2.5 no-print">
+              <div className="px-6 sm:px-8 py-4 border-t border-slate-500 dark:border-white/40 bg-surface-elevated flex flex-wrap items-center gap-2.5 no-print">
                 {onCompareImprovement && (
                   <button onClick={onCompareImprovement} className={SECONDARY_ACTION}>
                     <Columns2 className="w-4 h-4" />

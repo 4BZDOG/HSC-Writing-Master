@@ -155,7 +155,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           disabled={isExporting}
           aria-busy={isExporting}
           title={pdfLocked ? describeAccess('pdfExport').explanation : undefined}
-          className="min-h-11 sm:min-h-0 px-5 py-3 rounded-l-2xl text-xs font-bold shadow-sm transition-all border border-r-0 border-white/40 bg-white/25 hover:bg-white/35 text-slate-950 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="min-h-11 sm:min-h-0 px-5 py-3 rounded-l-2xl text-xs font-bold shadow-sm transition-all border border-r-0 border-slate-950/80 bg-white/25 hover:bg-white/35 text-slate-950 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {isExporting ? (
             <>
@@ -187,7 +187,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           aria-label="PDF export options"
           aria-expanded={showPdfOptions}
           title="Paper size, copies and what to include"
-          className={`min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 px-3 rounded-r-2xl text-slate-950 border border-white/40 transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
+          className={`min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 px-3 rounded-r-2xl text-slate-950 border border-slate-950/80 transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
             showPdfOptions ? 'bg-white/35' : 'bg-white/25 hover:bg-white/35'
           }`}
         >
@@ -248,10 +248,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </nav>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="t-label px-2.5 py-1 rounded-lg band-chip bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg band-chip edge-ink bg-slate-100 dark:bg-white/10 dark:ring-1 dark:ring-inset dark:ring-white/40 text-slate-600 dark:text-slate-300">
             {prompt.verb}
           </span>
-          <span className="t-label px-2.5 py-1 rounded-lg band-chip bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg band-chip edge-ink bg-slate-100 dark:bg-white/10 dark:ring-1 dark:ring-inset dark:ring-white/40 text-slate-600 dark:text-slate-300">
             {prompt.totalMarks} Marks
           </span>
         </div>
@@ -403,7 +403,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             self-contained record of what was actually submitted. */}
         {userAnswer.trim() && (
           <section className={`${FEEDBACK_CARD} overflow-hidden xl:col-span-2`}>
-            <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-400 dark:border-white/10 band-header-strip bg-surface-elevated">
+            <div className="px-6 py-4 flex flex-wrap items-center justify-between gap-3 border-b border-slate-500 dark:border-white/40 band-header-strip bg-surface-elevated">
               <div className="flex items-center gap-3 min-w-0">
                 <div
                   className={`${FEEDBACK_TILE} bg-slate-200/70 dark:bg-white/10 text-slate-700 dark:text-slate-300`}

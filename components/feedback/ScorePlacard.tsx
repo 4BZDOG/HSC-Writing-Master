@@ -61,7 +61,7 @@ const ScorePlacard: React.FC<ScorePlacardProps> = ({ band, mark, total, atCeilin
                 it. See pdf/buildBlocks.ts, where the same cell is labelled. */}
             <p className="t-label mt-2">Result</p>
           </div>
-          <div className="w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center border border-slate-950/25 bg-slate-950/10 no-print">
+          <div className="w-14 h-14 shrink-0 rounded-2xl flex items-center justify-center border border-slate-950/80 bg-slate-950/10 no-print">
             {atCeiling ? (
               <Trophy className="w-7 h-7" aria-hidden="true" />
             ) : (

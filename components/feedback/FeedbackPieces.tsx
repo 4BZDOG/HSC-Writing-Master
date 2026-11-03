@@ -30,7 +30,9 @@ export const MetricCard = ({
         keeps the tile compact so the score placard beside it doesn't have to
         stretch to match an artificially tall column. */}
     <div className="flex items-center gap-2.5">
-      <div className={`p-2 rounded-xl shrink-0 ${theme.bg} ${theme.text}`}>
+      <div
+        className={`p-2 rounded-xl shrink-0 ring-1 ring-inset ring-current ${theme.bg} ${theme.text}`}
+      >
         <Icon className="w-4 h-4" />
       </div>
       <h4 className="t-label text-slate-600 dark:text-slate-400 truncate">{label}</h4>
@@ -97,7 +99,7 @@ export const BandGoalCard = ({
             <div key={b} className="flex-1 flex flex-col items-center gap-1.5">
               <div
                 className={`h-2 w-full rounded-full transition-colors duration-500 ${
-                  b <= currentBand ? '' : 'bg-slate-200 dark:bg-white/10'
+                  b <= currentBand ? '' : 'bg-slate-500 dark:bg-white/30'
                 }`}
                 style={b <= currentBand ? { backgroundColor: getBandHex(b) } : undefined}
               />
@@ -113,7 +115,7 @@ export const BandGoalCard = ({
         </div>
       </div>
       {capNote && (
-        <p className="pt-3 border-t border-slate-300/80 dark:border-white/10 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
+        <p className="pt-3 border-t border-slate-500 dark:border-white/40 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
           {capNote}
         </p>
       )}
