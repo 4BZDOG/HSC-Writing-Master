@@ -1,5 +1,54 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-03 (AI waits, feedback and improve-your-answer: contrast and flicker)
+
+- **Fixed (#464).** The marking wait's drawing flickered: the page's entrance fade (`glyph-settle`) was restarted
+  about once a second as the clock beside it changed its text. `WaitStage` is now `contain: layout paint` and the
+  page fade is gone (a page turn is a plain cut); `tests/unit/aiWaitStability.test.tsx` pins the stage and page as
+  the same DOM nodes across clock ticks.
+- **Fixed (#464).** White on white in the light theme's AI waits. The veil is the desk wash (`.ai-wait-veil`), the
+  card an opaque sheet with a band-hue edge, a band tint and a real shadow (`.ai-wait-card`), and the stage takes
+  the band's tint with the drawing's page bars and unlit ladder rungs drawn stronger (`--glyph-rung-dim`). Track
+  segments, step dots, quiz options and the results tile have visible edges.
+- **Fixed (#464).** In the wide quick-check layout the drawing spans both columns, so the header and "Quick check"
+  start level (the quiz sat ~100px higher); the rotating note reserves its height so the card no longer jumps.
+- **Fixed (#465).** Marking feedback and the improve-your-answer screen measured in both themes, three widths and
+  every band: region edges under 3:1 went from 204 to 10 (the rest are inline highlight fills that keep their
+  underline or strike). New light-theme `.report-card`, `.report-tile` and `.edge-ink` classes (index.css). The
+  placard's chips and buttons have dark-ink edges; the band-6 "/6" criteria gutter now clears AA.
+
+## [Unreleased] - 2026-11-02 (Improve-your-answer redesign; light theme carries the band colour)
+
+- **Added (#462).** The improve-your-answer screen (`ImprovementReviewModal`) uses wide screens: from `xl` the why
+  (what the marker asked for, what changed and why), the page at a reading measure and the where (numbered edits)
+  sit in three zones. A "What changed" strip shows words kept, added and cut and the syllabus terms gained, and
+  "Watch the marker's edits" replays the revision edit by edit (pause, step, skip; mark counts up at the end; no
+  motion under reduced-motion). Tests in `tests/unit/improvementReviewReplay.test.tsx`.
+- **Changed (#463).** The light theme carries the question's band hue the way the verb ribbon does. New light-only
+  classes `band-surface`, `band-surface-primary`, `band-header-strip` and `band-chip` (index.css) read `--band-rgb`
+  from the nearest ancestor (set on the workspace, prompt and writing cards, navigator bar and feedback modal).
+  Navigator step rows take their step colour; Draft check is a filled tier disc; control borders reach 3:1.
+- **Changed (#463).** The light-theme sweep in `tests/e2e/light-theme.spec.ts` also measures text over gradient
+  grounds in every state, so a tinted panel never drops its text out of the audit. It found the Evaluate button's
+  dimmed "Ctrl ↵" hint at 3.3:1 on red; it is drawn at full strength.
+
+## [Unreleased] - 2026-11-01 (Live readiness feedback in sync; stronger verb ribbon)
+
+- **Fixed (#460).** The live draft-readiness word, percentage and colour were computed three ways (raw-score bins,
+  a separately calibrated colour window, the raw score), so a complete answer could glow purple while reading
+  "Nearly ready, 85%". `computeDraftReadiness` now derives one calibrated `percent` (a complete answer reaches
+  100); the word is `percent` in sixths and the colour is derived from the word, so the question's top colour
+  appears exactly at "Ready to submit". The meter, the Evaluate button's name, the editor veil and its ready glow
+  all read it. "Ready to submit" now arrives at a raw score of ~76 (was 89) and still needs full length and every
+  term the question names.
+- **Fixed (#460).** `WorkspaceRightPanel` memoised the question's tier on `verb` only, so two questions with the
+  same verb and different course band ceilings (COMPOSE) kept the first one's target band.
+- **Changed (#460).** CI's E2E legs are pinned to `ubuntu-24.04` and the Playwright browser cache is keyed by the
+  runner image: `ubuntu-latest` is moving to 26.04, where Playwright 1.58's WebKit cannot load (missing
+  `libicudata.so.74`).
+- **Changed (#461).** The Command Verb Hierarchy ribbon's tier colours and borders are stronger in both themes:
+  tier-tinted card bodies, a 2px tier edge and header rule, filled verb pills, tier-hue frame and scoreboard.
+
 ## [Unreleased] - 2026-11-01 (English questions print the texts they ask about)
 
 The review of app-written questions against the past papers found that most English app-written questions

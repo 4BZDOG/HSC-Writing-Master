@@ -71,6 +71,16 @@ can still fail on Mobile Safari, and a click that resolves in ~100 ms in
 Chromium can take much longer on a loaded WebKit runner, so do not put a short
 timeout on a helper action that WebKit runs (it broke eight tests once).
 
+In the development container Playwright 1.58 looks for `chromium-1208` but
+`chromium-1243` is installed, so pass it explicitly:
+`PW_SERVERS=default PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome npx playwright test --project=chromium <spec>`.
+CI's E2E legs are pinned to `ubuntu-24.04` (Playwright 1.58's WebKit cannot load
+on 26.04); move the pin when Playwright is upgraded. Inside a git worktree, run
+ESLint as `npx eslint --no-ignore --resolve-plugins-relative-to . <files>`.
+
+The latest handoff (what changed recently, open decisions, working notes) is
+`projectDocs/handoff-2026-11-03.md`.
+
 Copy `.env.example` to `.env.local` for local setup. Husky + lint-staged run on
 commit — fix failures rather than using `--no-verify`.
 
