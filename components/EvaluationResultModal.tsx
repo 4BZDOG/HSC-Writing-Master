@@ -7,7 +7,7 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { X, FileCheck, ArrowUpCircle, Check } from 'lucide-react';
 import { isFeatureLocked } from '../services/entitlements';
-import { stripHtmlTags, getBandRgb } from '../utils/renderUtils';
+import { stripHtmlTags, getBandRgb, getBandDeepInkRgb } from '../utils/renderUtils';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { ladderBandVars } from './LadderRow';
 import { presentableRewrite } from './feedback/rewriteText';
@@ -60,7 +60,9 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   const replacesNoteId = useId();
   // The modal is portalled, so it cannot inherit the workspace's band. It takes the
   // question's own tier for its frame and header strip (`.band-surface-primary`).
-  const modalBandRgb = getBandRgb(getCommandTermInfo(prompt.verb).tier);
+  const modalBandTier = getCommandTermInfo(prompt.verb).tier;
+  const modalBandRgb = getBandRgb(modalBandTier);
+  const modalBandDeepRgb = getBandDeepInkRgb(modalBandTier);
 
   // Escape closes the feedback like every other modal surface — but never
   // mid-improvement, so the regeneration can't be abandoned half-rendered.
@@ -108,14 +110,19 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
       className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
     >
       <div
-        className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg border border-white/10 band-surface-primary flex flex-col relative animate-fade-in-up overflow-hidden"
-        style={{ '--band-rgb': modalBandRgb } as React.CSSProperties}
+        className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg border border-slate-500 dark:border-white/40 band-surface-primary flex flex-col relative animate-fade-in-up overflow-hidden"
+        style={
+          {
+            '--band-rgb': modalBandRgb,
+            '--band-ink-deep-rgb': modalBandDeepRgb,
+          } as React.CSSProperties
+        }
       >
-        <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/10 light:border-slate-400 band-header-strip bg-[rgb(var(--color-bg-surface-elevated))] flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
+        <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/40 light:border-slate-500 band-header-strip bg-[rgb(var(--color-bg-surface-elevated))] flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
           <MeshOverlay opacity="opacity-[0.03]" />
 
           <div className="flex items-center gap-3 sm:gap-4 relative z-10 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-indigo-500/10 light:bg-indigo-100 flex items-center justify-center border border-indigo-500/20 light:border-indigo-200 text-indigo-400 light:text-indigo-600 shadow-inner">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-indigo-500/10 light:bg-indigo-100 flex items-center justify-center border border-indigo-500/20 light:border-indigo-500 dark:border-indigo-300/70 text-indigo-400 light:text-indigo-600 shadow-inner">
               <FileCheck className="w-5 h-5 sm:w-6 sm:h-6" />
             </div>
             <div className="min-w-0">
@@ -138,7 +145,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               close button always stays on screen. */}
           <div className="flex items-center gap-2 sm:gap-3 relative z-10 shrink-0">
             <div
-              className="t-label flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-emerald-500/10 light:bg-emerald-50 text-emerald-500 light:text-emerald-700 border border-emerald-500/20 light:border-emerald-200"
+              className="t-label flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-emerald-500/10 light:bg-emerald-50 text-emerald-500 light:text-emerald-700 border border-emerald-500/60 light:border-emerald-600"
               title="This marked response has been auto-saved to your library"
             >
               <Check className="w-4 h-4" />
@@ -150,7 +157,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               <span className="md:hidden sr-only">Auto-saved to your library</span>
             </div>
 
-            <div className="w-px h-8 bg-white/10 light:bg-slate-300 sm:mx-2"></div>
+            <div className="w-px h-8 bg-white/10 light:bg-slate-500 sm:mx-2"></div>
 
             <button
               onClick={onClose}
@@ -189,7 +196,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
             reach and the footer never stacks into a second band of controls.
             On a phone the note on what "Use this version" does has no row of its
             own: it is the second line of that button, and the button names it too. */}
-        <div className="shrink-0 relative z-20 px-4 sm:px-8 py-3 sm:py-4 border-t border-slate-400 dark:border-white/10 bg-[rgb(var(--color-bg-surface-elevated))] flex flex-nowrap items-center justify-end gap-2 sm:gap-3">
+        <div className="shrink-0 relative z-20 px-4 sm:px-8 py-3 sm:py-4 border-t border-slate-500 dark:border-white/40 bg-[rgb(var(--color-bg-surface-elevated))] flex flex-nowrap items-center justify-end gap-2 sm:gap-3">
           {canUse && (
             <p
               id={replacesNoteId}

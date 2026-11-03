@@ -7,6 +7,7 @@ import {
   cleanMarkdown,
   getBandConfig,
   getBandRgb,
+  getBandDeepInkRgb,
   KEYWORD_CHIP_CLASS,
   renderFormattedText,
   renderHighlightedText,
@@ -102,11 +103,11 @@ const COUNT_UP_MS = 900;
 const OP_CLASS: Record<DiffSegment['op'], string> = {
   equal: '',
   insert:
-    'bg-emerald-500/15 text-emerald-900 dark:text-emerald-200 rounded-lg px-0.5 underline decoration-emerald-600/60 dark:decoration-emerald-400/60 decoration-2 underline-offset-[3px]',
+    'bg-emerald-200/80 dark:bg-emerald-500/15 text-emerald-900 dark:text-emerald-200 rounded-lg px-0.5 underline decoration-emerald-600/60 dark:decoration-emerald-400/60 decoration-2 underline-offset-[3px]',
   // Cut text is struck through, and still has to be read to be compared, so it
   // takes the full tone rather than an alpha that drops it under 4.5:1.
   delete:
-    'bg-rose-500/10 text-rose-800 dark:text-rose-300 rounded-lg px-0.5 line-through decoration-rose-600/70 dark:decoration-rose-400/70 decoration-2',
+    'bg-rose-200/80 dark:bg-rose-500/10 text-rose-800 dark:text-rose-300 rounded-lg px-0.5 line-through decoration-rose-600/70 dark:decoration-rose-400/70 decoration-2',
 };
 
 /**
@@ -115,11 +116,11 @@ const OP_CLASS: Record<DiffSegment['op'], string> = {
  * that the margin and the page now share.
  */
 const RING_CLASS =
-  'ring-2 ring-offset-1 ring-offset-transparent animate-edit-focus motion-reduce:animate-none';
+  'ring-2 ring-offset-1 ring-offset-transparent animate-edit-focus motion-reduce:animate-none ring-[rgb(var(--band-ink-deep-rgb))] dark:ring-[rgb(var(--band-rgb))]';
 
 /** A syllabus term the revision has not reached yet, in the replay. */
 const UNLIT_TERM_CLASS =
-  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border border-dashed border-slate-300 dark:border-white/20 text-slate-600 dark:text-slate-400 transition-colors duration-500 motion-reduce:transition-none';
+  'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border border-dashed border-slate-500 dark:border-white/40 text-slate-600 dark:text-slate-400 transition-colors duration-500 motion-reduce:transition-none';
 
 /**
  * Splits a run into its words and the whitespace that follows them, so the
@@ -258,7 +259,7 @@ const DiffText: React.FC<{
               className={`relative after:absolute after:left-1/2 after:top-1/2 after:h-11 after:w-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-[''] inline-flex items-center justify-center align-[0.3em] mr-0.5 min-w-[1.4em] h-[1.4em] px-1 rounded-full font-sans text-[10px] font-bold tabular-nums leading-none transition-colors ${
                 inActive
                   ? 'band-solid'
-                  : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300 can-hover:hover:bg-slate-300 dark:can-hover:hover:bg-white/20'
+                  : 'bg-slate-200 text-slate-600 ring-1 ring-inset ring-slate-500 dark:bg-white/10 dark:text-slate-300 dark:ring-white/50 can-hover:hover:bg-slate-300 dark:can-hover:hover:bg-white/20'
               }`}
             >
               {number}
@@ -269,9 +270,6 @@ const DiffText: React.FC<{
         if (pending && segment.op === 'insert') {
           return <React.Fragment key={index}>{numberButton}</React.Fragment>;
         }
-        const ringStyle = inActive
-          ? ({ '--tw-ring-color': 'rgb(var(--band-rgb))' } as React.CSSProperties)
-          : undefined;
         const ringClass = inActive ? RING_CLASS : '';
         if (pending) {
           // The student's own words, as they were. Plain, with its paragraph
@@ -282,7 +280,6 @@ const DiffText: React.FC<{
               <span
                 ref={opensEdit && registerMark ? (el) => registerMark(index, el) : undefined}
                 className={`rounded-lg ${ringClass}`}
-                style={ringStyle}
                 {...hover}
               >
                 {renderHighlightedText(segment.value, keywords, verb)}
@@ -326,7 +323,6 @@ const DiffText: React.FC<{
                     // The focused edit gets a ring rather than a different colour, so
                     // "where am I" never competes with "what kind of edit is this".
                     className={`${OP_CLASS[segment.op]} ${ringClass} ${animation}`}
-                    style={ringStyle}
                     title={segment.op === 'insert' ? 'Added by the marker' : 'Cut by the marker'}
                     {...hover}
                   >
@@ -408,7 +404,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   // The band as one custom property on the frame. Every band-coloured part of
   // the modal reads it from here, through `band-solid`, `band-edge-strong` and
   // `rgb(var(--band-rgb))`, so no colour is written at a call site.
-  const bandStyle = { '--band-rgb': getBandRgb(targetBand) } as React.CSSProperties;
+  const bandStyle = {
+    '--band-rgb': getBandRgb(targetBand),
+    '--band-ink-deep-rgb': getBandDeepInkRgb(targetBand),
+  } as React.CSSProperties;
 
   useEscapeKey(isOpen, onClose);
 
@@ -754,17 +753,17 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   // with its ink (`band-solid`), which holds AA on all six hues where white did
   // not.
   const secondaryButton =
-    't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 border border-slate-300 dark:border-white/10 transition-colors touch-manipulation flex items-center justify-center gap-2';
+    't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 border border-slate-500 dark:border-white/40 transition-colors touch-manipulation flex items-center justify-center gap-2';
   const primaryButton =
     't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-6 rounded-xl font-semibold band-solid can-hover:hover:brightness-110 active:brightness-95 transition-[filter] touch-manipulation flex items-center justify-center gap-2';
   const toolGroup =
-    'flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-black/20';
+    'flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-500 dark:border-white/40 bg-white dark:bg-black/20';
   const toolButton =
     'inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-1.5 rounded-lg text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-100 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors touch-manipulation disabled:opacity-40';
   // The replay's start is a labelled control, not an icon: it is the one thing
   // on the toolbar a student has to find on purpose.
   const replayStartButton =
-    't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg text-slate-800 dark:text-slate-100 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors touch-manipulation whitespace-nowrap';
+    't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-slate-500 dark:border-white/40 text-slate-800 dark:text-slate-100 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors touch-manipulation whitespace-nowrap';
 
   // ---- Layout -------------------------------------------------------------
   // Wide screens: the page in its own column, the margins either side of it. The
@@ -793,7 +792,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
     ? ''
     : split
       ? 'md:grid md:grid-cols-2'
-      : 'lg:overflow-y-auto lg:min-h-0 custom-scrollbar lg:col-start-2 lg:row-start-1 lg:border-l border-slate-200 dark:border-white/10 xl:contents';
+      : 'lg:overflow-y-auto lg:min-h-0 custom-scrollbar lg:col-start-2 lg:row-start-1 lg:border-l border-slate-500 dark:border-white/40 xl:contents';
   const whyRailClass = split
     ? 'border-t md:border-t-0 md:border-r'
     : `border-t lg:border-t-0 xl:border-t-0 xl:border-r xl:row-start-1 xl:col-start-1 xl:overflow-y-auto xl:min-h-0 custom-scrollbar`;
@@ -803,7 +802,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         hasWhy ? 'xl:col-start-3' : 'xl:col-start-2'
       } xl:overflow-y-auto xl:min-h-0 custom-scrollbar`;
   const railSurface =
-    'bg-surface-elevated dark:bg-white/[0.02] border-slate-200 dark:border-white/10 px-5 sm:px-6 py-6 flex flex-col gap-7';
+    'bg-surface-inset dark:bg-white/[0.02] border-slate-500 dark:border-white/40 px-5 sm:px-6 py-6 flex flex-col gap-7';
 
   return createPortal(
     <div
@@ -818,14 +817,14 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         aria-labelledby={titleId}
         aria-describedby={descId}
         style={bandStyle}
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg w-full max-w-6xl xl:max-w-[min(94vw,1500px)] border border-slate-200 dark:border-white/10 animate-fade-in-up motion-reduce:animate-none overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]"
+        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg w-full max-w-6xl xl:max-w-[min(94vw,1500px)] border border-slate-500 dark:border-white/40 animate-fade-in-up motion-reduce:animate-none overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* The band this revision reaches, as one rule across the top — the
             only saturated colour on the frame, so the edits keep the page's
             attention. During the replay it fills edit by edit, to the band. */}
         <div
-          className="h-1 shrink-0 bg-slate-200 dark:bg-white/10 overflow-hidden"
+          className="h-1 shrink-0 bg-slate-500 dark:bg-white/30 overflow-hidden"
           aria-hidden="true"
         >
           <div
@@ -911,7 +910,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         {comparing && (
           <section
             aria-label="What changed"
-            className="px-5 sm:px-8 pt-4 pb-3 shrink-0 border-b border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] animate-fade-in-up motion-reduce:animate-none"
+            className="px-5 sm:px-8 pt-4 pb-3 shrink-0 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] animate-fade-in-up motion-reduce:animate-none"
           >
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="min-w-0 md:max-w-xl">
@@ -945,7 +944,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 ].map((tile, i) => (
                   <div
                     key={tile.key}
-                    className="flex flex-col-reverse gap-0.5 px-3 py-2 md:px-3.5 md:min-w-[7.5rem] rounded-xl border border-slate-200 dark:border-white/10 bg-white dark:bg-white/[0.04] animate-fade-in-up-sm motion-reduce:animate-none"
+                    className="flex flex-col-reverse gap-0.5 px-3 py-2 md:px-3.5 md:min-w-[7.5rem] report-tile rounded-xl border border-slate-500 dark:border-white/40 bg-white dark:bg-white/[0.04] animate-fade-in-up-sm motion-reduce:animate-none"
                     style={{ animationDelay: `${120 + i * 90}ms`, animationFillMode: 'both' }}
                   >
                     {/* The label comes first in the source, as a `dl` requires; the
@@ -990,10 +989,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {liveText}
         </p>
 
-        <div className="px-5 sm:px-8 py-2.5 border-b border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
+        <div className="px-5 sm:px-8 py-2.5 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
           {comparing && (
             <div
-              className="flex items-center gap-0.5 p-0.5 rounded-xl bg-slate-200/70 dark:bg-black/25"
+              className="flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-500 bg-slate-200 dark:border-white/40 dark:bg-black/25"
               role="group"
               aria-label="How to show the revision"
             >
@@ -1004,7 +1003,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   aria-pressed={view === v.id}
                   className={`t-label inline-flex items-center min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap touch-manipulation ${
                     view === v.id
-                      ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm'
+                      ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-500 dark:ring-white/50'
                       : 'text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-200'
                   }`}
                 >
@@ -1093,7 +1092,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     aria-valuemax={edits.length}
                     aria-valuenow={replayStep}
                     aria-valuetext={replayLabel}
-                    className="h-1.5 flex-1 rounded-full bg-slate-200 dark:bg-white/10 overflow-hidden"
+                    className="h-1.5 flex-1 rounded-full bg-slate-500 dark:bg-white/30 overflow-hidden"
                   >
                     <div
                       className="h-full origin-left rounded-full bg-[rgb(var(--band-rgb))] transition-transform duration-300 ease-out motion-reduce:transition-none"
@@ -1184,7 +1183,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             )}
 
             {comparing && split ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-200 dark:divide-white/10">
+              <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-500 dark:divide-white/40">
                 {(
                   [
                     ['Your original', stats.originalWords, originalSide, false],
@@ -1192,7 +1191,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   ] as const
                 ).map(([label, words, runs, isRevised]) => (
                   <div key={label}>
-                    <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-surface-elevated/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-200 dark:border-white/10 flex items-center gap-2 z-10">
+                    <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-surface-elevated/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-500 dark:border-white/40 flex items-center gap-2 z-10">
                       {isRevised && (
                         <span
                           className="w-2 h-2 rounded-full bg-[rgb(var(--band-rgb))]"
@@ -1367,7 +1366,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                             // page is on in the colour the page uses for it.
                             className={`w-full text-left flex gap-3 p-2.5 rounded-xl border touch-manipulation transition-colors duration-200 ${
                               active
-                                ? 'bg-white dark:bg-white/[0.06] band-edge-strong shadow-sm'
+                                ? 'bg-white dark:bg-white/[0.06] band-edge-strong edge-ink shadow-sm'
                                 : 'border-transparent can-hover:hover:bg-white/70 dark:can-hover:hover:bg-white/[0.04]'
                             }`}
                           >
@@ -1377,7 +1376,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                                   ? 'band-solid'
                                   : reached
                                     ? 'text-slate-800 dark:text-slate-100'
-                                    : 'bg-slate-200 text-slate-600 dark:bg-white/10 dark:text-slate-300'
+                                    : 'bg-slate-200 text-slate-600 ring-1 ring-inset ring-slate-500 dark:bg-white/10 dark:text-slate-300 dark:ring-white/50'
                               }`}
                               // An edit the replay has passed takes a tint of the band,
                               // set from the frame's own variable rather than a class.
@@ -1434,7 +1433,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             "Back to feedback" when there is not. Everything else is secondary. On a
             phone the primary takes the first full-width row, and the rest share the
             row beneath. */}
-        <div className="px-5 sm:px-8 py-4 border-t border-slate-200 dark:border-white/10 bg-surface-elevated dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
+        <div className="px-5 sm:px-8 py-4 border-t border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-col sm:flex-row justify-between items-center gap-3 shrink-0">
           {/* A note on what comes next, which a phone cannot spare two lines for:
               the primary button already names it. */}
           <p className="hidden sm:block text-xs text-slate-600 dark:text-slate-400 text-left">

@@ -57,7 +57,7 @@ const ResponseFeedback: React.FC<ResponseFeedbackProps> = ({
   }
 
   return (
-    <div className="p-5 rounded-panel bg-surface border border-slate-300 dark:border-white/10 shadow-sm no-print">
+    <div className="p-5 rounded-panel bg-surface border border-slate-500 dark:border-white/40 shadow-sm no-print">
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between gap-3">
           <h4 className="text-sm font-bold text-[rgb(var(--color-text-muted))] flex items-center gap-2">

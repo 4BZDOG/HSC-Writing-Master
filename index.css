@@ -2380,3 +2380,44 @@ a:focus-visible,
  * exporter in /pdf (see EvaluationDisplay "Export PDF"). The previous
  * window.print() + @media print stylesheet approach has been removed.
  */
+
+/*
+ * The marking report and the Improve-your-answer screen, round three.
+ *
+ * Every region edge in these two surfaces is held to 3:1 and every run of text to 4.5:1 by
+ * the e2e contrast audit. Light is the theme these were measured for; the dark rules below
+ * only raise an edge that was under 3:1 there. A band reaches each rule through
+ * `--band-rgb` (the tier hue) and `--band-ink-deep-rgb` (its 800 step, which is what makes a
+ * 3:1 edge possible in every hue, the yellow included).
+ */
+
+/* A report card: the band's deep ink for the edge, so it reads on the paper in every hue,
+   and a whisper of the band across the card. Light only. */
+:root[data-theme='light'] .report-card {
+  border-color: rgb(var(--band-ink-deep-rgb, 71 85 105) / 0.85);
+  background-image: linear-gradient(
+    rgb(var(--band-rgb, 100 116 139) / 0.05),
+    rgb(var(--band-rgb, 100 116 139) / 0.05)
+  );
+}
+
+/* A stat tile on a strip: the band's wash, with the same deep-ink edge. Light only. */
+:root[data-theme='light'] .report-tile {
+  border-color: rgb(var(--band-ink-deep-rgb, 71 85 105) / 0.85);
+  background-image: linear-gradient(
+    rgb(var(--band-rgb, 100 116 139) / 0.1),
+    rgb(var(--band-rgb, 100 116 139) / 0.1)
+  );
+}
+
+/* A chip or segmented control whose edge must read on a white ground. Light only. */
+:root[data-theme='light'] .edge-ink {
+  border-color: rgb(var(--band-ink-deep-rgb, 71 85 105) / 0.85);
+}
+
+/* A criteria row's gutter is the band's flat ground, not `band-solid`. The solid's bottom-right
+   shade takes the ink under 4.5:1 on band 6 (the "/6" total measured 4.41:1), and the flat band
+   measures 5.1:1 there. Scoped to the report's criteria rows, so the other ladders keep theirs. */
+.CriteriaRow .band-solid {
+  background-image: none;
+}
