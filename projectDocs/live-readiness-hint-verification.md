@@ -1,5 +1,10 @@
 # Live Draft-Readiness Hint — Verification
 
+> **Superseded in part (#460, November 2026).** The readiness model below predates #460. Surfaces no longer
+> show `score`: they show a calibrated `percent`, the word is `percent` in sixths, and the colour
+> (`chromaLevel`) is derived from the word, so the top colour appears exactly at "Ready to submit". See
+> `projectDocs/handoff-2026-11-03.md` §2 and `utils/draftReadiness.ts`. This document is kept as history.
+
 Branch: `claude/live-band-hint-styling`
 Verifier pass: independent review of the implemented feature against
 `projectDocs/live-readiness-hint-plan.md`, the repo house rules, and accessibility.
