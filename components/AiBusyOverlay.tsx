@@ -73,7 +73,7 @@ const AiBusyOverlay: React.FC<AiBusyOverlayProps> = ({
 
   return (
     <div
-      className={`absolute inset-0 ${z} ${rounded} cursor-wait animate-fade-in bg-surface/95`}
+      className={`ai-wait-veil absolute inset-0 ${z} ${rounded} cursor-wait animate-fade-in bg-surface/95`}
       role="presentation"
     >
       {/* The stage is its own layer, not the veil, and the gutter round the

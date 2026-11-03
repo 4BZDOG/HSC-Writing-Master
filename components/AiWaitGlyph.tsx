@@ -128,7 +128,6 @@ const MarkingPage: React.FC<{ accent: string }> = ({ accent }) => {
       viewBox={`0 0 ${PAGE_WIDTH} 40`}
       className="absolute top-0 left-0"
       aria-hidden="true"
-      style={{ animation: 'glyph-settle 300ms ease-out' }}
     >
       {rows.map((words, r) =>
         words.map((word, i) => (
@@ -139,7 +138,7 @@ const MarkingPage: React.FC<{ accent: string }> = ({ accent }) => {
             width={word.w}
             height="5"
             rx="2.5"
-            className="fill-slate-300 dark:fill-slate-600"
+            className="fill-slate-300 dark:fill-slate-600 light:fill-slate-400"
           />
         ))
       )}
@@ -215,19 +214,18 @@ const MarkingScene: React.FC<{ accent: string }> = ({ accent }) => {
   return (
     <div className="relative w-[168px] h-[92px]">
       <MarkingPage accent={accent} />
-      {/* The caret sits above the ladder at the rung under consideration.
-          Keyed on the tick so each move replays its little hop. */}
+      {/* The caret sits above the ladder at the rung under consideration. */}
       <div
         className="absolute left-0 top-[46px] w-[28px] flex justify-center transition-transform duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
         style={{ transform: `translateX(${(band - 1) * 28}px)` }}
       >
+        {/* Keyed on the tick, so each move plays its hop from the start. */}
         <svg
           key={tick}
           width="14"
           height="16"
           viewBox="0 0 14 16"
-          className="text-slate-700 dark:text-slate-200"
-          style={{ animation: still ? undefined : 'glyph-hop 420ms ease-out' }}
+          className={`text-slate-700 dark:text-slate-200${still ? '' : ' glyph-caret'}`}
         >
           <path d="M7 16 L1 5 A6 6 0 1 1 13 5 Z" fill="currentColor" />
           <circle cx="7" cy="5.5" r="2.2" fill={getBandHex(band)} />
@@ -242,7 +240,8 @@ const MarkingScene: React.FC<{ accent: string }> = ({ accent }) => {
               className="h-3 flex-1 origin-bottom transition-[transform,opacity] duration-500"
               style={{
                 backgroundColor: getBandHex(b),
-                opacity: lit ? 1 : 0.28,
+                // The unlit rungs' strength is a theme token: 0.28 vanished on the light stage.
+                opacity: lit ? 1 : 'var(--glyph-rung-dim, 0.28)',
                 transform: lit && !still ? 'scaleY(1.9)' : 'scaleY(1)',
               }}
             />
@@ -359,7 +358,7 @@ const WritingPage: React.FC<{ accent: string }> = ({ accent }) => {
           x2={PAGE_WIDTH}
           y1={y}
           y2={y}
-          className="stroke-slate-300 dark:stroke-slate-600"
+          className="stroke-slate-300 dark:stroke-slate-600 light:stroke-slate-400"
           strokeWidth="1"
         />
       ))}
@@ -374,9 +373,9 @@ const WritingPage: React.FC<{ accent: string }> = ({ accent }) => {
         strokeOpacity="0.55"
         strokeWidth="1"
       />
-      <g key={page} style={{ animation: 'glyph-settle 300ms ease-out' }}>
+      <g key={page}>
         {/* A forward slant, as a hand writes. An SVG attribute rather than CSS
-            so it does not fight the settle animation for `transform`. The nibs
+            so it does not fight the stroke animations for `transform`. The nibs
             sit in this group too, so they lean with the strokes they belong to. */}
         <g transform="skewX(-10) translate(8 0)">
           {words.map((word, i) => (
@@ -446,7 +445,6 @@ const HighlightedText: React.FC<{ accent: string }> = ({ accent }) => {
       height="80"
       viewBox={`0 0 ${PAGE_WIDTH} 80`}
       aria-hidden="true"
-      style={{ animation: 'glyph-settle 300ms ease-out' }}
     >
       {rows.map((words, r) =>
         words.map((word, i) => (
@@ -474,7 +472,7 @@ const HighlightedText: React.FC<{ accent: string }> = ({ accent }) => {
               width={word.w}
               height="6"
               rx="3"
-              className="fill-slate-300 dark:fill-slate-600"
+              className="fill-slate-300 dark:fill-slate-600 light:fill-slate-400"
             />
           </g>
         ))

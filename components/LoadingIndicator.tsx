@@ -209,7 +209,13 @@ export const WaitCard: React.FC<{
  * than sitting small in the middle of it, and the stage clips any overhang.
  */
 export const WaitStage: React.FC<{ task: AiTaskType; accent: string }> = ({ task, accent }) => (
-  <div className="ai-wait-glyph h-[136px] shrink-0 flex items-center justify-center overflow-hidden bg-surface-inset border-b border-primary">
+  // Layout and paint are contained: the clock beside the stage changes its text every second,
+  // and without the containment each change restarted the drawing's own animations, so the
+  // page faded out and its read-sweeps started over once a second.
+  <div
+    className="ai-wait-glyph h-[136px] shrink-0 flex items-center justify-center overflow-hidden bg-surface-inset border-b border-primary"
+    style={{ contain: 'layout paint' }}
+  >
     <div className="ai-wait-glyph-scale">
       <AiWaitGlyph task={task} accent={accent} />
     </div>
@@ -260,7 +266,7 @@ export const WaitTrack: React.FC<WaitTrackProps> = ({
         return (
           <span
             key={i}
-            className="relative h-1.5 flex-1 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-700"
+            className="relative h-1.5 flex-1 rounded-full overflow-hidden bg-slate-200 dark:bg-slate-700 light:bg-slate-300 light:ring-1 light:ring-inset light:ring-slate-500"
           >
             {i < active && <span className="absolute inset-0" style={{ backgroundColor: ink }} />}
             {i === active &&
@@ -532,7 +538,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
                as one: a thread down the left, filled where it has been. Aria-hidden,
                because the live region above already names the step. */
             <ul aria-hidden="true" className="relative space-y-2 pl-1 ai-wait-steps">
-              <span className="absolute left-[8px] top-2 bottom-2 w-px bg-slate-200 dark:bg-slate-700" />
+              <span className="absolute left-[8px] top-2 bottom-2 w-px bg-slate-300 dark:bg-slate-700 light:bg-slate-400" />
               {visibleSteps.map((step, i) => {
                 const state = i < current ? 'done' : i === current ? 'active' : 'pending';
                 return (
@@ -547,7 +553,7 @@ const LoadingIndicator: React.FC<LoadingIndicatorProps> = ({
                       <span
                         className={`w-[10px] h-[10px] rounded-full border-2 transition-colors duration-500 ${
                           state === 'pending'
-                            ? 'border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900'
+                            ? 'border-slate-300 dark:border-slate-600 light:border-slate-500 bg-white dark:bg-slate-900'
                             : ''
                         }`}
                         style={

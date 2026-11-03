@@ -182,7 +182,7 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
       'ai-wait-choice rounded-lg border px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-accent))]';
     const align = grid ? 'text-center font-medium' : 'text-left';
     if (!answered) {
-      return `${base} ${align} cursor-pointer border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:border-[rgb(var(--color-accent))]`;
+      return `${base} ${align} cursor-pointer border-slate-300 dark:border-slate-600 light:border-slate-500 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:border-[rgb(var(--color-accent))]`;
     }
     if (i === question.answerIndex) {
       return `${base} ${align} cursor-default border-emerald-500/60 bg-emerald-500/10 text-emerald-800 dark:text-emerald-300`;
@@ -192,7 +192,7 @@ const WaitQuiz: React.FC<WaitQuizProps> = ({ verb, accent, className }) => {
     }
     // Dimmed by colour, not opacity: opacity composites the text towards the
     // background and drops its contrast well below the undimmed tone's.
-    return `${base} ${align} cursor-default border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400`;
+    return `${base} ${align} cursor-default border-slate-200 dark:border-slate-700 light:border-slate-400 bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400`;
   };
 
   return (

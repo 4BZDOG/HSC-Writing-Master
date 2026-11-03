@@ -330,6 +330,11 @@ body.ai-busy .aurora {
     transform: scaleX(1);
   }
 }
+/* The marking caret's hop on each move: the group that holds the caret is remounted on each
+   move, so the hop plays from its start (components/AiWaitGlyph). */
+.glyph-caret {
+  animation: glyph-hop 420ms ease-out;
+}
 @keyframes glyph-hop {
   0% {
     transform: translateY(0);
@@ -357,16 +362,6 @@ body.ai-busy .aurora {
   100% {
     opacity: 0.75;
     transform: scaleY(1);
-  }
-}
-@keyframes glyph-settle {
-  from {
-    opacity: 0;
-    transform: translateY(3px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 /* The nib blinks at the end of a word: lit as the pen lifts, then gone. Its
@@ -1396,6 +1391,34 @@ a:focus-visible,
 .ai-wait-stage {
   container: ai-wait / size;
 }
+/*
+ * The wait in the LIGHT theme only (the dark theme is unchanged). The veil was white at 95% over a
+ * white card, so the card and what it covered read as one sheet. The veil is now the desk token
+ * (`--color-bg-base`), a slate wash the card stands clearly off. The card is an opaque sheet with
+ * a band-hue edge and a real shadow; it reads `--band-rgb` from the nearest ancestor (the writing
+ * card sets it), and falls back to slate-500, so the edge is never lost.
+ */
+:root[data-theme='light'] .ai-wait-veil {
+  background-color: rgb(var(--color-bg-base) / 0.94);
+}
+:root[data-theme='light'] .ai-wait-card {
+  background-color: rgb(var(--color-bg-surface));
+  background-image: linear-gradient(
+    rgb(var(--band-rgb, 100 116 139) / 0.06),
+    rgb(var(--band-rgb, 100 116 139) / 0.06)
+  );
+  border-color: rgb(var(--band-rgb, 100 116 139) / 0.85);
+  box-shadow:
+    0 1px 2px 0 rgb(15 23 42 / 0.08),
+    0 18px 40px -16px rgb(15 23 42 / 0.35);
+}
+:root[data-theme='light'] .ai-wait-card .ai-wait-glyph {
+  /* The stage is the band's own tint, not a second near-white, and the drawing's page bars and
+     unlit ladder rungs are drawn strong enough to read on it (AiWaitGlyph). */
+  background-color: rgb(var(--band-rgb, 100 116 139) / 0.1);
+  border-color: rgb(var(--band-rgb, 100 116 139) / 0.35);
+  --glyph-rung-dim: 0.5;
+}
 /* The gutter between the veil's edge and the card (AiBusyOverlay). */
 .ai-wait-frame {
   padding: 1rem;
@@ -1578,13 +1601,26 @@ a:focus-visible,
    This tier comes last, so it wins over the tiers above that hide the drawing: it needs at
    least 20rem of height, so none of those tiers can apply inside it. */
 @container ai-wait (min-width: 40rem) and (min-height: 20rem) {
+  /* A grid, not a row: the drawing spans both columns, and the header and the quick check
+     start on the same line beneath it. In a row the drawing sat over the header only, so the
+     quiz's top was about 100px above the header's. `display: contents` hands the drawing and
+     the body to the grid as its own items. */
   .ai-wait-card.ai-wait-has-quiz {
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 34% minmax(0, 1fr);
     max-width: 46rem;
   }
   .ai-wait-has-quiz .ai-wait-main {
-    flex: 0 0 34%;
+    display: contents;
+  }
+  .ai-wait-has-quiz .ai-wait-body {
+    grid-column: 1;
+    grid-row: 2;
     min-width: 0;
+  }
+  .ai-wait-has-quiz .ai-wait-aside {
+    grid-column: 2;
+    grid-row: 2;
   }
   /* The header column is narrow here, so its padding is trimmed. Its top matches the quiz
      column's top (both 0.5rem), so "Marking your response" and "Quick check" start level. */
@@ -1593,13 +1629,13 @@ a:focus-visible,
   }
   .ai-wait-has-quiz .ai-wait-glyph {
     display: flex;
-    flex: 1 1 auto;
+    grid-column: 1 / -1;
+    grid-row: 1;
     height: auto;
     min-height: 104px;
   }
   .ai-wait-has-quiz .ai-wait-aside {
     display: flex;
-    flex: 1 1 0;
     min-width: 0;
     border-left-width: 1px;
     padding-top: 0.5rem;
