@@ -109,13 +109,13 @@ describe('shipped course data survives the app’s own import', () => {
 
     expect(withQuestions).toEqual(
       expect.arrayContaining([
-        'HSC Software Engineering',
-        'HSC Enterprise Computing',
-        'HSC Modern History',
-        'HSC Legal Studies',
-        'HSC Business Studies',
-        'HSC Economics',
-        'HSC English Advanced',
+        'Software Engineering',
+        'Enterprise Computing',
+        'Modern History',
+        'Legal Studies',
+        'Business Studies',
+        'Economics',
+        'English Advanced',
       ])
     );
     // The per-topic file imports into a course that is already listed, so the

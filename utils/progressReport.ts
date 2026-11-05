@@ -158,7 +158,7 @@ const noteDate = (ms: number): string =>
 const windowPhrase = (windowDays: number | 'all'): string | null =>
   windowDays === 'all' ? null : `in the ${formatWindowLabel(windowDays).toLowerCase()}`;
 
-/** "No marked answers in HSC Enterprise Computing in the last 90 days.", from the scope actually applied. */
+/** "No marked answers in Enterprise Computing in the last 90 days.", from the scope actually applied. */
 const emptyScopeNote = (courseName: string | null, windowDays: number | 'all'): string => {
   const words = [courseName === null ? null : `in ${courseName}`, windowPhrase(windowDays)].filter(
     (w): w is string => w !== null

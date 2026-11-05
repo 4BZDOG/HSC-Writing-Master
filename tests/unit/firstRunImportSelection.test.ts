@@ -31,7 +31,7 @@ const topic = (targetCourseName: string): DiscoveredDoc => ({
 
 describe('first-run import selection', () => {
   it('unticks a topic whose course is not ticked', () => {
-    const docs = untickUnplaceableTopics([course('HSC Biology (Advanced)'), topic('HSC Biology')]);
+    const docs = untickUnplaceableTopics([course('Biology (Advanced)'), topic('HSC Biology')]);
     expect(docs[1].selected).toBe(false);
     // The course the student is getting stays ticked.
     expect(docs[0].selected).toBe(true);

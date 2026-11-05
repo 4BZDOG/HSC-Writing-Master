@@ -1,6 +1,37 @@
 # HSC AI Evaluator - Change Log
 
-## [Unreleased] - 2026-11-03 (AI waits, feedback and improve-your-answer: contrast and flicker)
+## [Unreleased] - 2026-11-05 (Navigator text made consistent across the shipped courses)
+
+- **Changed (DATA_VERSION 2.40.0).** Every shipped course's navigator text follows one convention:
+  1. A course is named for its subject, with no "HSC " prefix ("Biology", "Software Engineering"). The app is the
+     HSC app and the Year 11 / Year 12 control sits beside the name.
+  2. A topic carries no year prefix ("Year 11: ") and no "11–12" suffix. A Year 11 and a Year 12 topic may share a
+     name ("Working scientifically"); `findMatchingTopic` already matches topics by name within a year.
+  3. Core topics are plain names: no " (core)" and no "Core study: ". Option topics are "<group>: <title>" with one
+     group label: "Case study (List A): Troy", "Option: Consumer law", "Elective A: Voices of Australia",
+     "Ancient societies: …".
+  4. Sub-topic names are sentence case, with no trailing colon or full stop ("Contemporary business issues",
+     "Undertaking the geographical investigation").
+  5. Dot points start with a capital, use single spaces and no non-breaking spaces, take no trailing full stop
+     (except multi-sentence elective paragraphs), and use curly apostrophes.
+  6. Outcome descriptions use NESA's lower-case verb form ("analyses …") with no skill label ("Analysis: ").
+  Ids are unchanged, so browsers at 2.39.0 refresh their unedited copies in place; an edited copy is kept and
+  offered the update.
+- **Changed.** Code that assumed an "HSC <Course>" name. `courseNameFromSyllabus` adds no prefix and strips a
+  leading one (`utils/nesaSyllabus.ts`). A new `utils/courseNames.ts` (`withoutHscPrefix`, `isSameCourseName`) lets
+  course pairing match a copy saved as "HSC Biology" to "Biology" in the library merge and the first-run import
+  (`hooks/useSyllabusData.ts`), the import picker (`components/dataManager/ImportFlow.tsx`) and the syllabus
+  importer's duplicate check (`components/SyllabusImportModal.tsx`). The manifest's Software Engineering topic
+  targets "Software Engineering". The retired sample course is "Biology (Advanced)" in comments and fixtures.
+- **Changed.** `build-course-data` reproduces the convention. `build_structure.py` and `build_course.py` key topics
+  by name within their year, so a shared name is not a duplicate, and `build_structure.py` takes `{list}` in
+  `nameFormat` ("Case study ({list}): {title}"). The configs in `.claude/skills/build-course-data/configs/` drop the
+  "Year 11: " / "Year 12: " overrides and the "(core)" / "Core study:" titles. Running `build_structure.py` on the
+  Biology config yields the shipped topic and sub-topic names.
+- **Added.** `tests/unit/syllabusNamingConventions.test.ts` asserts rules 1–6 and the within-year uniqueness for
+  every shipped course, listing the offending text on failure. `tests/unit/courseNames.test.ts` covers the helper.
+
+## [Unreleased] - 2026-11-03 (AI waits, feedback and improve-your-answer: contrast and flicker) (AI waits, feedback and improve-your-answer: contrast and flicker)
 
 - **Fixed (#464).** The marking wait's drawing flickered: the page's entrance fade (`glyph-settle`) was restarted
   about once a second as the clock beside it changed its text. `WaitStage` is now `contain: layout paint` and the

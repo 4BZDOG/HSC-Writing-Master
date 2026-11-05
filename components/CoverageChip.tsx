@@ -3,7 +3,7 @@ import type { CoverageCount } from '../utils/starterQuestions';
 
 interface CoverageChipProps {
   coverage: CoverageCount;
-  /** Spelt out for the tooltip, e.g. "HSC Biology". */
+  /** Spelt out for the tooltip, e.g. "Biology". */
   label: string;
   /**
    * Extra classes for the caller's layout — the picker hides the chip on a phone

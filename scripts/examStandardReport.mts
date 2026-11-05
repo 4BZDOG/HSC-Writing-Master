@@ -56,7 +56,7 @@ for (const file of readdirSync(ROOT).filter((f) => f.endsWith('.json') && f !== 
           if (p.isPastHSC) counts.past++;
         }
   rows.push([
-    course.name.replace('HSC ', ''),
+    course.name,
     ...Object.values(counts).map(String),
     `${Math.round((counts.restating / counts.total) * 100)}%`,
   ]);

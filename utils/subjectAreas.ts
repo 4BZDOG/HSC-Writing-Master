@@ -123,7 +123,7 @@ const isSubjectArea = (value: string): value is SubjectArea =>
  * attached at import time from the manifest — so a library assembled any other
  * way (a hand-rolled export, a course created in the app, an older backup)
  * would otherwise land entirely in `Other`. Sniffing the name is a guess, but
- * "HSC Biology" under Science is a better guess than no guess at all, and
+ * "Biology" under Science is a better guess than no guess at all, and
  * `subjectAreaOf` below prefers a recorded subject wherever there is one.
  */
 export const detectSubjectArea = (name: string): SubjectArea => {

@@ -67,17 +67,22 @@ for did, k in assign.items():
     if k not in prim or sc > prim[k][0]: prim[k] = (sc, did)
 print('UNPLACED existing dot points (add overrides):', [d for d, k in assign.items() if k is None])
 
-oldtop = {t['name']: t for t in c['topics']}
-oldst = {(t['name'], st['name']): st for t in c['topics'] for st in t['subTopics']}
+# A topic is keyed by its name WITHIN its year: NESA reuses a name across the two years ("Working scientifically"
+# in Biology), and a name-only key would hand one year's id and sub-topic ids to the other.
+def year_of(t): return t.get('year', 'year12')
+
+
+oldtop = {(t['name'], year_of(t)): t for t in c['topics']}
+oldst = {(t['name'], year_of(t), st['name']): st for t in c['topics'] for st in t['subTopics']}
 
 
 def mk_topic(fa, year):
-    ot = oldtop.get(fa['title'])
+    ot = oldtop.get((fa['title'], year))
     t = {'id': ot['id'] if ot else f"topic-{a.prefix}-{year[-2:]}-{slug(fa['title'])}", 'name': fa['title']}
     if year == 'year11': t['year'] = 'year11'
     subs = []
     for g in fa['groups']:
-        ost = oldst.get((fa['title'], g['title']))
+        ost = oldst.get((fa['title'], year, g['title']))
         dps = []
         for it in g['items']:
             k = it['code']
@@ -96,8 +101,8 @@ def mk_topic(fa, year):
 
 
 new12 = [mk_topic(fa, 'year12') for fa in y12]
-order = [t['name'] for t in c['topics']]
-new12.sort(key=lambda t: order.index(t['name']) if t['name'] in order else 99)
+order = [(t['name'], year_of(t)) for t in c['topics']]
+new12.sort(key=lambda t: order.index((t['name'], 'year12')) if (t['name'], 'year12') in order else 99)
 c['topics'] = [mk_topic(fa, 'year11') for fa in y11] + new12
 
 oc = {}

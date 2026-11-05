@@ -44,7 +44,7 @@ const db = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
 const appId = (row) => row.legacy_id || row.id;
 const arr = (v) => (Array.isArray(v) ? v : []);
 
-// Turn "HSC Software Engineering" / a legacy id into a safe file name.
+// Turn "Software Engineering" / a legacy id into a safe file name.
 const slugify = (s) =>
   String(s)
     .toLowerCase()

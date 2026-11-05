@@ -3,7 +3,7 @@
   "source": "https://curriculum.nsw.edu.au/learning-areas/hsie/economics-11-12-2025",
   "startFocusAreas": ["content/year-11/fa2593734b", "content/year-12/fa32ce3c4b"],
   "id": "course-hsc-economics",
-  "name": "HSC Economics",
+  "name": "Economics",
   "prefix": "eco",
   "outcomePattern": "^ECO-1[12]-\\d\\d$",
   "topics": [

@@ -33,6 +33,7 @@ import {
   Loader2,
 } from 'lucide-react';
 import { parseJsonWithRepair } from '../../utils/jsonRepair';
+import { isSameCourseName } from '../../utils/courseNames';
 
 interface ImportFlowProps {
   existingCourses: Course[];
@@ -100,9 +101,7 @@ const ImportFlow: React.FC<ImportFlowProps> = ({
       selectAll();
       const autoMap = new Map<string, string>();
       importedCourses.forEach((imp) => {
-        const match = existingCourses.find(
-          (ex) => ex.name.trim().toLowerCase() === imp.name.trim().toLowerCase()
-        );
+        const match = existingCourses.find((ex) => isSameCourseName(ex.name, imp.name));
         if (match) {
           autoMap.set(imp.id, match.id);
         }

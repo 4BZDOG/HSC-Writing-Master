@@ -29,8 +29,8 @@ const doc = (over: Partial<DiscoveredDoc> & { id: string; name: string }): Disco
   }) as DiscoveredDoc;
 
 const docs: DiscoveredDoc[] = [
-  doc({ id: 'a', name: 'HSC Biology (Advanced)' }),
-  doc({ id: 'b', name: 'HSC Chemistry (Advanced)' }),
+  doc({ id: 'a', name: 'Biology (Advanced)' }),
+  doc({ id: 'b', name: 'Chemistry (Advanced)' }),
   doc({ id: 'c', name: 'Heredity', type: 'topic', targetCourseName: 'HSC Biology' }),
   doc({ id: 'd', name: 'Orphan Topic', type: 'topic' }),
 ];
@@ -47,14 +47,14 @@ afterEach(cleanup);
 describe('picking syllabuses', () => {
   it('offers a real checkbox for each one, named after it', () => {
     open();
-    expect(screen.getByRole('checkbox', { name: /HSC Biology \(Advanced\)/ })).toBeTruthy();
+    expect(screen.getByRole('checkbox', { name: /Biology \(Advanced\)/ })).toBeTruthy();
     expect(screen.getByRole('checkbox', { name: /HSC Chemistry \(Advanced\)/ })).toBeTruthy();
   });
 
   it('ticks and unticks from the keyboard route', () => {
     open();
     const bio = screen.getByRole('checkbox', {
-      name: /HSC Biology \(Advanced\)/,
+      name: /Biology \(Advanced\)/,
     }) as HTMLInputElement;
     const before = bio.checked;
     fireEvent.click(bio);
@@ -77,7 +77,7 @@ describe('picking syllabuses', () => {
 
   it('gives each subject picker a name, rather than four identical ones', () => {
     open();
-    expect(screen.getByLabelText('Subject area for HSC Biology (Advanced)')).toBeTruthy();
+    expect(screen.getByLabelText('Subject area for Biology (Advanced)')).toBeTruthy();
     expect(screen.getByLabelText('Subject area for Heredity')).toBeTruthy();
   });
 
@@ -121,7 +121,7 @@ describe('picking syllabuses', () => {
       if (box.checked) fireEvent.click(box);
     }
     expect(screen.getByRole('button', { name: /Add 0 syllabuses/ })).toBeTruthy();
-    fireEvent.click(screen.getByRole('checkbox', { name: /HSC Biology \(Advanced\)/ }));
+    fireEvent.click(screen.getByRole('checkbox', { name: /Biology \(Advanced\)/ }));
     expect(screen.getByRole('button', { name: /Add 1 syllabus$/ })).toBeTruthy();
   });
 });

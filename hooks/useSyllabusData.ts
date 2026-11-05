@@ -43,6 +43,7 @@ import {
 } from '../services/contributionService';
 import { generateId } from '../utils/idUtils';
 import { detectSubjectArea } from '../utils/subjectAreas';
+import { isSameCourseName } from '../utils/courseNames';
 import {
   mergeCourseContents,
   mergeOrAddTopic,
@@ -332,9 +333,8 @@ const resolveTopicTargetCourse = (
   }
 
   if (doc.targetCourseName) {
-    return availableCourses.find(
-      (course) => normalizeText(course.name) === normalizeText(doc.targetCourseName)
-    );
+    // A copy saved before the "HSC " prefix was dropped still names its course "HSC Biology".
+    return availableCourses.find((course) => isSameCourseName(course.name, doc.targetCourseName));
   }
 
   const subjectMatches = doc.subject
@@ -356,8 +356,8 @@ const resolveTopicTargetCourse = (
  * A topic is only ticked to begin with if the course it belongs to will be
  * there to receive it.
  *
- * The manifest pre-ticks the Heredity topic for "HSC Biology", but the built-in
- * sample course a new workspace starts with is "HSC Biology (Advanced)" — so
+ * The manifest pre-ticks the Heredity topic for "Biology", but the built-in
+ * sample course a new workspace starts with is "Biology (Advanced)" — so
  * every new account's first action ended in "Imported 2 items. One topic was
  * left out because the course it belongs to is not in your workspace", about a
  * topic they never chose. Mutates and returns `docs`.
@@ -620,7 +620,7 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
             const existingCourseIndex = draft.findIndex(
               (course) =>
                 course.id === importedCourse.id ||
-                normalizeText(course.name) === normalizeText(importedCourse.name)
+                isSameCourseName(course.name, importedCourse.name)
             );
 
             if (existingCourseIndex !== -1) {

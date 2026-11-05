@@ -209,26 +209,32 @@ describe('hasNesaStatements', () => {
 });
 
 describe('courseNameFromSyllabus', () => {
-  it('turns a NESA syllabus name into an HSC course name', () => {
+  it('turns a NESA syllabus name into a course name, with no HSC prefix', () => {
     expect(courseNameFromSyllabus('Health and Movement Science 11–12 (2023)')).toBe(
-      'HSC Health and Movement Science'
+      'Health and Movement Science'
     );
   });
 
   it('strips a Stage 6 suffix', () => {
-    expect(courseNameFromSyllabus('Biology Stage 6 (2017)')).toBe('HSC Biology');
+    expect(courseNameFromSyllabus('Biology Stage 6 (2017)')).toBe('Biology');
   });
 
   it('strips a bare year of issue', () => {
-    expect(courseNameFromSyllabus('English Advanced (2024)')).toBe('HSC English Advanced');
+    expect(courseNameFromSyllabus('English Advanced (2024)')).toBe('English Advanced');
   });
 
   it('accepts a hyphen as well as an en dash in the stage', () => {
-    expect(courseNameFromSyllabus('Chemistry 11-12 (2019)')).toBe('HSC Chemistry');
+    expect(courseNameFromSyllabus('Chemistry 11-12 (2019)')).toBe('Chemistry');
   });
 
-  it('does not add HSC twice', () => {
-    expect(courseNameFromSyllabus('HSC Biology 11–12 (2023)')).toBe('HSC Biology');
+  it('strips a leading HSC, so an older syllabus title still gives the plain name', () => {
+    expect(courseNameFromSyllabus('HSC Biology 11–12 (2023)')).toBe('Biology');
+    expect(courseNameFromSyllabus('HSC Biology')).toBe('Biology');
+  });
+
+  it('leaves an HSC that is not a leading prefix alone', () => {
+    expect(courseNameFromSyllabus('HSC Writing 11–12 (2023)')).toBe('Writing');
+    expect(courseNameFromSyllabus('Practical HSC Skills (2023)')).toBe('Practical HSC Skills');
   });
 
   it('returns an empty string for an empty syllabus', () => {
