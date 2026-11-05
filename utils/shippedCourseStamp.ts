@@ -33,13 +33,21 @@ const leavePersonalFields = (key: string, value: unknown): unknown =>
   (PERSONAL_PROMPT_FIELDS as readonly string[]).includes(key) ? undefined : value;
 
 /**
- * Fingerprint of a course's content, leaving out the stamp itself and the student's
- * working state. A course with no such state hashes exactly as it always did, so
- * the stamps already stored stay valid.
+ * Fingerprint of a course's content, leaving out the stamp itself, the student's
+ * working state and `subject`. A course with no such state hashes exactly as it
+ * always did, so the stamps already stored stay valid.
+ *
+ * `subject` is the faculty the manifest files a course under, not its content. No
+ * course file carries one: the import adds it after the stamp is taken. Counted,
+ * it made every course imported through the first-run picker look edited from its
+ * first save, so none of them ever received a newer shipped version, and each bump
+ * offered "Your copy has changes" to students who had changed nothing. A refresh
+ * keeps the copy's subject (`keepSubject`).
  */
 export const hashCourse = (course: Course): string => {
   const content: Partial<Course> = { ...course };
   delete content.shippedHash;
+  delete content.subject;
   return hashText(JSON.stringify(content, leavePersonalFields));
 };
 
@@ -88,6 +96,10 @@ export const carryPersonalFields = (
   };
   return { course: carried, orphaned: held.size > 0 };
 };
+
+/** `next`, filed under the subject `copy` was filed under (a refresh must not drop it). */
+export const keepSubject = (copy: Course, next: Course): Course =>
+  copy.subject !== undefined ? { ...next, subject: copy.subject } : next;
 
 /** A copy of a shipped course, stamped with the fingerprint of its content. */
 export const stampShipped = (course: Course): Course => ({

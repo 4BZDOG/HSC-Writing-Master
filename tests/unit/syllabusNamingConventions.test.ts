@@ -106,7 +106,7 @@ const hygiene = (text: string): string[] => {
   const faults: string[] = [];
   if (text !== text.trim()) faults.push('leading or trailing space');
   if (/ {2,}/.test(text)) faults.push('double space');
-  if (/[  ]/.test(text)) faults.push('non-breaking space');
+  if (/[\u00a0\u202f]/.test(text)) faults.push('non-breaking space');
   if (/\p{L}'\p{L}/u.test(text)) faults.push('straight apostrophe between letters (use ’)');
   return faults;
 };

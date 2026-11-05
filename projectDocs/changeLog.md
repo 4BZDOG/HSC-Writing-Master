@@ -28,10 +28,17 @@
   `nameFormat` ("Case study ({list}): {title}"). The configs in `.claude/skills/build-course-data/configs/` drop the
   "Year 11: " / "Year 12: " overrides and the "(core)" / "Core study:" titles. Running `build_structure.py` on the
   Biology config yields the shipped topic and sub-topic names.
+- **Fixed.** Courses imported through the first-run picker never received a newer shipped version. The picker
+  stamped a course's fingerprint as the file has it, then saved it with the manifest's `subject` added, and the
+  fingerprint counted `subject`; so every such copy looked edited from its first save, was held back at each bump
+  with "Your copy has changes", and "Update it" left a "(before refresh)" backup. `hashCourse` now leaves `subject`
+  out (no course file carries one, so stored stamps stay valid and affected copies read as unedited again with no
+  migration), and a refresh keeps the copy's subject (`keepSubject`, `utils/shippedCourseStamp.ts`). Two regression
+  tests in `tests/unit/shippedCourseMigration.test.ts` use production-shaped copies.
 - **Added.** `tests/unit/syllabusNamingConventions.test.ts` asserts rules 1–6 and the within-year uniqueness for
   every shipped course, listing the offending text on failure. `tests/unit/courseNames.test.ts` covers the helper.
 
-## [Unreleased] - 2026-11-03 (AI waits, feedback and improve-your-answer: contrast and flicker) (AI waits, feedback and improve-your-answer: contrast and flicker)
+## [Unreleased] - 2026-11-03 (AI waits, feedback and improve-your-answer: contrast and flicker)
 
 - **Fixed (#464).** The marking wait's drawing flickered: the page's entrance fade (`glyph-settle`) was restarted
   about once a second as the clock beside it changed its text. `WaitStage` is now `contain: layout paint` and the

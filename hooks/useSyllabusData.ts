@@ -57,6 +57,7 @@ import {
   hashCourse,
   isUnedited,
   stampShipped,
+  keepSubject,
 } from '../utils/shippedCourseStamp';
 
 type DiscoveredDocType = 'course' | 'topic';
@@ -240,7 +241,8 @@ export const syncShippedCourses = async (
       const stamped = stampShipped(next);
       // A refresh replaces the course but not the student's own words: their drafts and
       // the time they have spent are carried onto the same questions in the newer copy.
-      const { course: carried, orphaned } = carryPersonalFields(course, stamped);
+      const { course: carriedWork, orphaned } = carryPersonalFields(course, stamped);
+      const carried = keepSubject(course, carriedWork);
       if (course.shippedHash === undefined) {
         // Predates fingerprints. Identical content needs no backup.
         if (hashCourse(course) !== stamped.shippedHash) backups.push(backupOf(course, taken));
@@ -293,7 +295,7 @@ export const replaceWithShipped = (
       courses.push(course);
       continue;
     }
-    courses.push(carryPersonalFields(course, stampShipped(next)).course);
+    courses.push(keepSubject(course, carryPersonalFields(course, stampShipped(next)).course));
     backups.push(backupOf(course, taken));
   }
   return [...courses, ...backups];
