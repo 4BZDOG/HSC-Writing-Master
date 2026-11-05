@@ -4,6 +4,56 @@
     "name": "Business Studies",
     "outcomes": [
       {
+        "code": "P1",
+        "description": "discusses the nature of business, its role in society and types of business structure",
+        "year": "year11"
+      },
+      {
+        "code": "P2",
+        "description": "explains the internal and external influences on businesses",
+        "year": "year11"
+      },
+      {
+        "code": "P3",
+        "description": "describes the factors contributing to the success or failure of small to medium enterprises",
+        "year": "year11"
+      },
+      {
+        "code": "P4",
+        "description": "assesses the processes and interdependence of key business functions",
+        "year": "year11"
+      },
+      {
+        "code": "P5",
+        "description": "examines the application of management theories and strategies",
+        "year": "year11"
+      },
+      {
+        "code": "P6",
+        "description": "analyses the responsibilities of business to internal and external stakeholders",
+        "year": "year11"
+      },
+      {
+        "code": "P7",
+        "description": "plans and conducts investigations into contemporary business issues",
+        "year": "year11"
+      },
+      {
+        "code": "P8",
+        "description": "evaluates information for actual and hypothetical business situations",
+        "year": "year11"
+      },
+      {
+        "code": "P9",
+        "description": "communicates business information and issues in appropriate formats",
+        "year": "year11"
+      },
+      {
+        "code": "P10",
+        "description": "applies mathematical concepts appropriately in business situations",
+        "year": "year11"
+      },
+      {
         "code": "H1",
         "description": "critically analyses the role of business in Australia and globally"
       },
@@ -45,6 +95,776 @@
       }
     ],
     "topics": [
+      {
+        "id": "topic-bs-11-1",
+        "name": "Nature of business",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-bs-11-1-1",
+            "name": "Contemporary business issues",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-1-1-1",
+                "description": "Discuss the global expansion of one Australian business",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-1-2",
+                "description": "Discuss the expansion into Australia of one global business",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-1-3",
+                "description": "Explain how changes in external influences have contributed to the growth of the tertiary, quaternary and quinary industries in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-1-4",
+                "description": "Identify problems that arise for stakeholders when companies go into liquidation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-1-2",
+            "name": "Business case studies",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-1-2-1",
+                "description": "Distinguish between the different types of businesses",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-2-2",
+                "description": "Identify actual businesses at different stages in the business life cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-2-3",
+                "description": "Outline possible business strategies appropriate for different stages in the business life cycle",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-1-3",
+            "name": "Role of business",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-1-3-1",
+                "description": "The nature of a business",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-3-2",
+                "description": "Producing goods and services",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-3-3",
+                "description": "Profit, employment, incomes, choice, innovation, entrepreneurship and risk, wealth and quality of life",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-1-4",
+            "name": "Types of businesses",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-1-4-1",
+                "description": "Classification of business",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-4-2",
+                "description": "Size – small to medium enterprises (SMEs), large",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-4-3",
+                "description": "Local, national, global",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-4-4",
+                "description": "Industry – primary, secondary, tertiary, quaternary, quinary",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-4-5",
+                "description": "Legal structure – sole trader, partnership, private company, public company, government enterprise",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-4-6",
+                "description": "Factors influencing choice of legal structure",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-4-7",
+                "description": "Size, ownership, finance",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-1-5",
+            "name": "Influences in the business environment",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-1-5-1",
+                "description": "External influences – economic, financial, geographic, social, legal, political, institutional, technological, competitive situation, markets",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-5-2",
+                "description": "Internal influences – products, location, resources, management and business culture",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-5-3",
+                "description": "Stakeholders",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-1-6",
+            "name": "Business growth and decline",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-1-6-1",
+                "description": "Stages of the business life cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-6-2",
+                "description": "Establishment",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-6-3",
+                "description": "Growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-6-4",
+                "description": "Maturity",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-6-5",
+                "description": "Post-maturity",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-6-6",
+                "description": "Responding to challenges at each stage of the business life cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-6-7",
+                "description": "Factors that can contribute to business decline",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-1-6-8",
+                "description": "Voluntary and involuntary cessation – liquidation",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bs-11-2",
+        "name": "Business management",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-bs-11-2-1",
+            "name": "Contemporary business issues",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-2-1-1",
+                "description": "Discuss strategies that could reconcile the conflicting interests of stakeholders",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-1-2",
+                "description": "Compare and contrast approaches to management",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-1-3",
+                "description": "Explain the benefits of quality management practices",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-2-2",
+            "name": "Business case studies",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-2-2-1",
+                "description": "Identify the qualities of managers who have exhibited high personal and ethical standards",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-2-2",
+                "description": "Analyse different ways of coordinating key business functions for an SME",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-2-3",
+                "description": "Examine effective cash flow management",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-2-4",
+                "description": "Assess the role of the income statement and the balance sheet when describing the financial performance of a business",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-2-5",
+                "description": "Explain how SMEs manage change effectively",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-2-3",
+            "name": "Nature of management",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-2-3-1",
+                "description": "Features of effective management",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-3-2",
+                "description": "Skills of management",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-3-3",
+                "description": "Interpersonal, communication, strategic thinking, vision, problem-solving, decision-making, flexibility, adaptability to change, reconciling the conflicting interests of stakeholders",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-3-4",
+                "description": "Achieving business goals",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-3-5",
+                "description": "Profits, market share, growth, share price, social, environmental",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-3-6",
+                "description": "Achieving a mix of the above goals",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-3-7",
+                "description": "Staff involvement – innovation, motivation, mentoring, training",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-2-4",
+            "name": "Management approaches",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-2-4-1",
+                "description": "Classical approach",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-2",
+                "description": "Management as planning, organising and controlling",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-3",
+                "description": "Hierarchical organisational structure",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-4",
+                "description": "Autocratic leadership style",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-5",
+                "description": "Behavioural approach",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-6",
+                "description": "Management as leading, motivating, communicating",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-7",
+                "description": "Teams",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-8",
+                "description": "Participative/democratic leadership style",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-9",
+                "description": "Contingency approach",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-4-10",
+                "description": "Adapting to changing circumstances",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-2-5",
+            "name": "Management process",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-2-5-1",
+                "description": "Coordinating key business functions and resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-2",
+                "description": "Operations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-3",
+                "description": "Goods and/or services",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-4",
+                "description": "The production process",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-5",
+                "description": "Quality management",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-6",
+                "description": "Marketing",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-7",
+                "description": "Identification of the target market",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-8",
+                "description": "Marketing mix",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-9",
+                "description": "Finance",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-10",
+                "description": "Cash flow statement",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-11",
+                "description": "Income statement",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-12",
+                "description": "Balance sheet",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-13",
+                "description": "Human resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-14",
+                "description": "Recruitment",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-15",
+                "description": "Training",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-16",
+                "description": "Employment contracts",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-17",
+                "description": "Separation – voluntary/involuntary",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-5-18",
+                "description": "Ethical business behaviour",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-2-6",
+            "name": "Management and change",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-2-6-1",
+                "description": "Responding to internal and external influences",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-6-2",
+                "description": "Managing change effectively",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-6-3",
+                "description": "Identifying the need for change",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-6-4",
+                "description": "Business information systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-6-5",
+                "description": "Setting achievable goals",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-6-6",
+                "description": "Resistance to change",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-2-6-7",
+                "description": "Management consultants",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-bs-11-3",
+        "name": "Business planning",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-bs-11-3-1",
+            "name": "Contemporary business issues",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-3-1-1",
+                "description": "Discuss the influence of government on SMEs",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-1-2",
+                "description": "Assess the effect of two changes in the business environment on SMEs",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-3-2",
+            "name": "Business case studies",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-3-2-1",
+                "description": "Explain how the business plan is determined in at least one SME",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-2-2",
+                "description": "Explain how SMEs can enter the global market for long-term growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-2-3",
+                "description": "Identify ways that SMEs gain a competitive advantage",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-3-3",
+            "name": "Small business plan",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-3-3-1",
+                "description": "Based on a hypothetical or actual business",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-3-2",
+                "description": "Presented in a business plan/report format",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-3-4",
+            "name": "Small to medium enterprises",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-3-4-1",
+                "description": "Definition",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-4-2",
+                "description": "Role",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-4-3",
+                "description": "Economic contribution",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-4-4",
+                "description": "Success and/or failure",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-3-5",
+            "name": "Influences in establishing a small to medium enterprise",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-3-5-1",
+                "description": "Personal qualities – qualifications, skills, motivation, entrepreneurship, cultural background, gender",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-2",
+                "description": "Sources of information",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-3",
+                "description": "The business idea – competition",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-4",
+                "description": "Establishment options – new, existing, franchise",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-5",
+                "description": "Market – goods and/or services, price, location",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-6",
+                "description": "Finance – source, cost",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-7",
+                "description": "Legal – business name, zoning, health and other regulations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-8",
+                "description": "Human resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-9",
+                "description": "Skills",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-10",
+                "description": "Costs – wage and non-wage",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-5-11",
+                "description": "Taxation – federal and state taxes, local rates and charges",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-3-6",
+            "name": "The business planning process",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-3-6-1",
+                "description": "Sources of planning ideas",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-2",
+                "description": "Situational analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-3",
+                "description": "Vision, goals and/or objectives",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-4",
+                "description": "Vision",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-5",
+                "description": "Business goals",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-6",
+                "description": "Long-term growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-7",
+                "description": "Organising resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-8",
+                "description": "Operations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-9",
+                "description": "Marketing",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-10",
+                "description": "Finance",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-11",
+                "description": "Human resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-12",
+                "description": "Forecasting",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-13",
+                "description": "Total revenue, total cost",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-14",
+                "description": "Break-even analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-15",
+                "description": "Cash flow projections",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-16",
+                "description": "Monitoring and evaluations",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-17",
+                "description": "Sales",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-18",
+                "description": "Budgets",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-19",
+                "description": "Profit",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-6-20",
+                "description": "Taking corrective action",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-bs-11-3-7",
+            "name": "Critical issues in business success and failure",
+            "dotPoints": [
+              {
+                "id": "dp-bs-11-3-7-1",
+                "description": "Importance of a business plan",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-7-2",
+                "description": "Management – staffing and teams",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-7-3",
+                "description": "Trend analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-7-4",
+                "description": "Identifying and sustaining competitive advantage",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-7-5",
+                "description": "Avoiding over-extension of finance and other resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-7-6",
+                "description": "Using technology",
+                "prompts": []
+              },
+              {
+                "id": "dp-bs-11-3-7-7",
+                "description": "Economic conditions",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
       {
         "id": "topic-bs-1",
         "name": "Operations",

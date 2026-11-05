@@ -87,6 +87,248 @@
     ],
     "topics": [
       {
+        "id": "topic-geo-11-geographical-tools",
+        "name": "Geographical tools",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-geo-11-geographical-tools-1",
+            "name": "Maps",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-tools-1-1",
+                "description": "Determine area and grid references, and degrees and minutes of latitude and longitude",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-2",
+                "description": "Interpret contour lines",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-3",
+                "description": "Calculate the local relief of an area",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-4",
+                "description": "Calculate the gradient of a slope as a ratio",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-5",
+                "description": "Construct and annotate a cross-section from a topographic map",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-6",
+                "description": "Calculate and interpret the vertical exaggeration of a cross-section",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-7",
+                "description": "Calculate distance, time and speed of travel between 2 points",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-8",
+                "description": "Determine aspect, altitude, river flow, features within quadrants, directions, bearings and sight lines between 2 points",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-9",
+                "description": "Use scale to calculate distance and area",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-10",
+                "description": "Determine the density of a specific feature on a map",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-11",
+                "description": "Construct and interpret choropleth maps",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-12",
+                "description": "Recognise the key features of changing pressure patterns on weather maps",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-1-13",
+                "description": "Identify and describe spatial patterns and associations, relationships, networks, linkages and evidence of change, within and between regions or areas, using a range of maps",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-geo-11-geographical-tools-2",
+            "name": "Fieldwork",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-tools-2-1",
+                "description": "Formulate geographical questions for investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-2-2",
+                "description": "Identify, collect and record geographical data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-2-3",
+                "description": "Construct a log of events and activities that records the development of a fieldwork activity",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-2-4",
+                "description": "Synthesise and interpret fieldwork data",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-2-5",
+                "description": "Evaluate a fieldwork activity",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-geo-11-geographical-tools-3",
+            "name": "Graphs and statistics",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-tools-3-1",
+                "description": "Calculate the rate of increase or decrease between 2 points",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-2",
+                "description": "Estimate the value of proportional circles of different size",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-3",
+                "description": "Construct and interpret proportional divided circles",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-4",
+                "description": "Calculate the value of particular segments of pie/sector graphs of different size",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-5",
+                "description": "Interpret frequency distributions and diagrams",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-6",
+                "description": "Interpret and analyse population profiles",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-7",
+                "description": "Use scatter graphs and ternary graphs to identify correlations within data",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-8",
+                "description": "Calculate absolute and proportional change",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-9",
+                "description": "Construct, interpret and analyse tables and graphs",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-3-10",
+                "description": "Interpret and analyse statistics to identify patterns, trends and relationships",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-geo-11-geographical-tools-4",
+            "name": "Spatial technologies",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-tools-4-1",
+                "description": "Use GPS to collect location data",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-4-2",
+                "description": "Represent spatial information in a variety of forms",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-4-3",
+                "description": "Use data to create maps and map layers",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-4-4",
+                "description": "Use spatial technologies to calculate, analyse and compare patterns, distributions and densities",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-4-5",
+                "description": "Use spatial information to determine connections, impacts and change over time",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-geo-11-geographical-tools-5",
+            "name": "Visual representations",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-tools-5-1",
+                "description": "Estimate the scale of aerial photographs and satellite images",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-5-2",
+                "description": "Estimate the time of day a photograph was taken",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-5-3",
+                "description": "Calculate areas of land use as a ratio",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-5-4",
+                "description": "Construct a précis map from an aerial photograph or satellite image",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-5-5",
+                "description": "Use aerial photographs and satellite images to describe the rate and extent of change",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-5-6",
+                "description": "Orient a photograph to a map",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-5-7",
+                "description": "Construct a transect between 2 points on a map or photograph and describe the changes along it",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-tools-5-8",
+                "description": "Identify and describe spatial patterns and associations, interactions and change using a range of visual representations",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
         "id": "topic-geo-1",
         "name": "Human–environment interactions",
         "year": "year11",
@@ -542,7 +784,7 @@
             "dotPoints": [
               {
                 "id": "dp-geo-1-2-1",
-                "description": "The extent and rate of change in ONE form of land cover",
+                "description": "The extent and rate of change in ONE form of land cover (how changes in land use can interrupt natural systems and contribute to the land cover change; the impacts of the land cover change at a range of scales, including climate change)",
                 "prompts": [
                   {
                     "id": "prompt-geo-9",
@@ -1217,7 +1459,7 @@
               },
               {
                 "id": "dp-geo-1-4-3",
-                "description": "Human–environment interactions and evidence of change",
+                "description": "Human–environment interactions and evidence of change (change due to international integration; change in relation to climate)",
                 "prompts": [
                   {
                     "id": "prompt-geo-21",
@@ -1331,7 +1573,7 @@
               },
               {
                 "id": "dp-geo-1-4-4",
-                "description": "Challenges, opportunities and responses",
+                "description": "Challenges, opportunities and responses (changes to natural processes, systems and/or environments; impacts of change on people and communities; management to minimise negative impacts; varying perspectives)",
                 "prompts": [
                   {
                     "id": "prompt-geo-23",
@@ -1788,7 +2030,7 @@
               },
               {
                 "id": "dp-geo-1-5-3",
-                "description": "Human–environment interactions and evidence of change",
+                "description": "Human–environment interactions and evidence of change (the contribution of human activities to hazard events; change in relation to climate)",
                 "prompts": [
                   {
                     "id": "prompt-geo-31",
@@ -1902,7 +2144,7 @@
               },
               {
                 "id": "dp-geo-1-5-4",
-                "description": "Challenges, opportunities and responses",
+                "description": "Challenges, opportunities and responses (changes to natural processes, systems and/or environments; impacts on people and communities; management at a range of scales; varying perspectives)",
                 "prompts": [
                   {
                     "id": "prompt-geo-33",
@@ -2239,7 +2481,7 @@
               },
               {
                 "id": "dp-geo-1-6-2",
-                "description": "Environmental and human impacts of climate change at a range of scales",
+                "description": "Environmental and human impacts of climate change at a range of scales (impacts on natural processes, systems and/or environments; impacts on people and communities)",
                 "prompts": [
                   {
                     "id": "prompt-geo-39",
@@ -2353,7 +2595,7 @@
               },
               {
                 "id": "dp-geo-1-6-3",
-                "description": "Challenges, opportunities and responses",
+                "description": "Challenges, opportunities and responses (varying perspectives; mitigation in relation to the rate and magnitude of change; minimising risk through adaptation, resilience and innovation; local, national and global action)",
                 "prompts": [
                   {
                     "id": "prompt-geo-41",
@@ -2935,7 +3177,7 @@
               },
               {
                 "id": "dp-geo-2-2-2",
-                "description": "Develop geographical questions and formulate a plan",
+                "description": "Develop geographical questions and formulate a plan (what is the focus of the research?; what is the geographic extent of the investigation?; how should the investigation be sequenced?; what time should be allocated to the various steps?)",
                 "prompts": [
                   {
                     "id": "prompt-geo-51",
@@ -3478,7 +3720,7 @@
               },
               {
                 "id": "dp-geo-2-2-6",
-                "description": "Present and communicate findings",
+                "description": "Present and communicate findings (using evidence derived from the geographical inquiry process; selecting appropriate forms; using geographical terms and concepts; applying a recognised form of referencing)",
                 "prompts": [
                   {
                     "id": "prompt-geo-61",
@@ -4322,7 +4564,7 @@
               },
               {
                 "id": "dp-geo-3-2-2",
-                "description": "The processes, cycles and circulations connecting natural systems",
+                "description": "The processes, cycles and circulations connecting natural systems (atmospheric systems; hydrological systems; geomorphic systems; ecological systems)",
                 "prompts": [
                   {
                     "id": "prompt-geo-76",
@@ -4545,7 +4787,7 @@
               },
               {
                 "id": "dp-geo-3-3-2",
-                "description": "Natural processes, cycles and circulations that change Earth’s land and water cover",
+                "description": "Natural processes, cycles and circulations that change Earth’s land and water cover (climatic and glacial cycles; the invasion and ecological succession of vegetation communities)",
                 "prompts": [
                   {
                     "id": "prompt-geo-80",
@@ -4998,7 +5240,7 @@
               },
               {
                 "id": "dp-geo-4-1-3",
-                "description": "The increasingly integrated nature of the world",
+                "description": "The increasingly integrated nature of the world (economic activities and cultures; the effect of technological change on interconnections between places in relation to distance and time; the role of transnational corporations (TNCs), world cities, migration and tourism in international integration)",
                 "prompts": [
                   {
                     "id": "prompt-geo-88",
@@ -5229,7 +5471,7 @@
               },
               {
                 "id": "dp-geo-4-2-2",
-                "description": "Influences that shape global population change",
+                "description": "Influences that shape global population change (demographic transition; population movements)",
                 "prompts": [
                   {
                     "id": "prompt-geo-92",
@@ -5444,7 +5686,7 @@
               },
               {
                 "id": "dp-geo-4-2-4",
-                "description": "Population characteristics and trends in TWO countries",
+                "description": "Population characteristics and trends in TWO countries (reasons for similarities and/or differences; challenges and responses in each country; varying perspectives on population management)",
                 "prompts": [
                   {
                     "id": "prompt-geo-96",
@@ -5549,7 +5791,7 @@
               },
               {
                 "id": "dp-geo-4-2-5",
-                "description": "Links between population characteristics and natural resources",
+                "description": "Links between population characteristics and natural resources (the global distribution and consumption of natural resources; population size, distribution and concentration, and levels of resource consumption in various places; challenges of resource consumption, including depletion of resources, impacts on Indigenous Peoples, environmental degradation, and inequalities in human wellbeing)",
                 "prompts": [
                   {
                     "id": "prompt-geo-98",
@@ -6543,7 +6785,7 @@
               },
               {
                 "id": "dp-geo-4-4-4",
-                "description": "ONE environment at a local or national scale that challenges human occupation and survival",
+                "description": "ONE environment at a local or national scale that challenges human occupation and survival (spatial patterns and characteristics of the environment; evidence of human ingenuity and resilience; impacts of, and responses to, change; opportunities to enhance environmental sustainability and/or human wellbeing)",
                 "prompts": [
                   {
                     "id": "prompt-geo-116",
@@ -7048,7 +7290,7 @@
               },
               {
                 "id": "dp-geo-4-5-4",
-                "description": "ONE place outside Australia shaped by international economic integration",
+                "description": "ONE place outside Australia shaped by international economic integration (nature of change resulting from global linkages; responses to economic integration; opportunities to enhance environmental sustainability and/or human wellbeing)",
                 "prompts": [
                   {
                     "id": "prompt-geo-124",
@@ -7274,7 +7516,7 @@
               },
               {
                 "id": "dp-geo-4-6-2",
-                "description": "Influences on the culture of place",
+                "description": "Influences on the culture of place (the continuity of cultures in different places; the processes of diffusion, adoption and adaptation of culture; the mediums facilitating cultural change)",
                 "prompts": [
                   {
                     "id": "prompt-geo-128",
@@ -7614,7 +7856,7 @@
               },
               {
                 "id": "dp-geo-4-6-5",
-                "description": "ONE place at a local or national scale",
+                "description": "ONE place at a local or national scale (the spatial and cultural characteristics of the place; influences on the cultural identity of the place; perceptions of, and responses to, cultural continuity and/or change; opportunities to enhance environmental sustainability and/or human wellbeing)",
                 "prompts": [
                   {
                     "id": "prompt-geo-134",
@@ -8060,7 +8302,7 @@
               },
               {
                 "id": "dp-geo-4-7-4",
-                "description": "ONE contested space at a local or regional scale",
+                "description": "ONE contested space at a local or regional scale (spatial patterns and characteristics of the space; the influence of economic, environmental, social, cultural and/or technological factors; impacts of political tension and/or conflict on people, places and the environment; opportunities to enhance environmental sustainability and/or human wellbeing)",
                 "prompts": [
                   {
                     "id": "prompt-geo-142",
@@ -8578,7 +8820,7 @@
               },
               {
                 "id": "dp-geo-4-8-4",
-                "description": "ONE study of a network at any scale",
+                "description": "ONE study of a network at any scale (spatial patterns and/or characteristics of the network; the development and/or operation of the network and technological advances; impacts of, and responses to, change; opportunities to enhance environmental sustainability and/or human wellbeing)",
                 "prompts": [
                   {
                     "id": "prompt-geo-150",
@@ -8690,6 +8932,102 @@
                     ]
                   }
                 ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-geo-11-geographical-inquiry-skills",
+        "name": "Geographical inquiry skills",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-geo-11-geographical-inquiry-skills-1",
+            "name": "Acquiring geographical information",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-1-1",
+                "description": "Develop geographical questions to inform a plan for inquiry",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-1-2",
+                "description": "Acquire quantitative and/or qualitative data and information using ethical practices by: collecting and recording primary geographical data using a range of tools; gathering and organising geographical information from secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-geo-11-geographical-inquiry-skills-2",
+            "name": "Processing geographical information",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-2-1",
+                "description": "Represent data and information in appropriate forms, and where appropriate, by: using digital and spatial technologies; conforming to cartographic conventions",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-2-2",
+                "description": "Interpret, synthesise and analyse data and information, using quantitative and qualitative methods, to: make reasoned generalisations and inferences; propose explanations for patterns, trends, relationships and anomalies, using geographical models and theories where relevant; draw conclusions and predict future trends",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-2-3",
+                "description": "Use geographic information systems (GIS) to analyse data where appropriate",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-2-4",
+                "description": "Evaluate data and information in various forms for reliability, bias, validity and usefulness, including limitations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-geo-11-geographical-inquiry-skills-3",
+            "name": "Applying geographical understanding",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-3-1",
+                "description": "Evaluate options in response to a geographical challenge by: developing evaluation criteria based on environmental, social and economic considerations; making an on-balance judgement about the most appropriate option(s)",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-3-2",
+                "description": "Propose actions and predict outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-3-3",
+                "description": "Develop a plan to implement a proposal",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-3-4",
+                "description": "Assess how causes, impacts, opportunities, challenges and/or responses relevant to one geographic context may be applicable to another",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-geo-11-geographical-inquiry-skills-4",
+            "name": "Communicating geographical understanding",
+            "dotPoints": [
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-4-1",
+                "description": "Communicate geographical understanding, findings, conclusions and/or ideas by using: a variety of presentation methods appropriate to purpose and audience; digital and spatial technologies where appropriate; ethical practices as relevant",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-4-2",
+                "description": "Plan effective communication of ideas and/or actions for stakeholders for the management of places and environments",
+                "prompts": []
+              },
+              {
+                "id": "dp-geo-11-geographical-inquiry-skills-4-3",
+                "description": "Reflect on the process and effectiveness of geographical inquiry",
+                "prompts": []
               }
             ]
           }
@@ -10874,7 +11212,7 @@
               },
               {
                 "id": "dp-geo-5-3-2",
-                "description": "Estimate the value of proportional circles of different size",
+                "description": "Estimate the value of proportional circles of different sizes",
                 "prompts": [
                   {
                     "id": "prompt-geo-190",
@@ -11100,7 +11438,7 @@
               },
               {
                 "id": "dp-geo-5-3-4",
-                "description": "Calculate the value of particular segments of pie/sector graphs of different size",
+                "description": "Calculate the value of particular segments of pie/sector graphs of different sizes",
                 "prompts": [
                   {
                     "id": "prompt-geo-194",
@@ -11553,7 +11891,7 @@
               },
               {
                 "id": "dp-geo-5-3-8",
-                "description": "Calculate absolute and proportional change",
+                "description": "Calculate absolute and proportional changes",
                 "prompts": [
                   {
                     "id": "prompt-geo-202",
@@ -12364,7 +12702,7 @@
               },
               {
                 "id": "dp-geo-5-4-5",
-                "description": "Use spatial information to determine connections, impacts and change over time",
+                "description": "Use spatial information to determine connections, impacts and changes over time",
                 "prompts": [
                   {
                     "id": "prompt-geo-216",
@@ -13468,7 +13806,7 @@
             "dotPoints": [
               {
                 "id": "dp-geo-6-1-1",
-                "description": "The nature and complexity of ecosystem functioning and global biodiversity",
+                "description": "The nature and complexity of ecosystem functioning and global biodiversity (energy flows and nutrient cycles; dynamic equilibrium and feedback loops; relationships between natural systems)",
                 "prompts": [
                   {
                     "id": "prompt-geo-235",
@@ -13501,7 +13839,7 @@
                         "id": "sa-geo-235-1",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "Ecosystem functioning depends on three linked processes. Energy enters through photosynthesis in producers and moves through food webs as herbivores, carnivores and decomposers consume one another. Energy flow is one-way: much of it is lost as heat at each trophic level, so the system must be continually supplied from the sun. Nutrient cycling is different, because nutrients such as nitrogen and phosphorus are recycled between organisms and the soil. Decomposers return nutrients from dead material to the soil, and plants take them up again, so nutrient supply sustains the producers that drive energy flow. In a tropical rainforest, nutrients are held mainly in living biomass and recycled rapidly. Species interactions connect these processes into a complex, interdependent system. Predation moves energy up the food web, mutualism between plants and mycorrhizal fungi improves nutrient uptake, and competition shapes which species dominate. Because these relationships overlap, removing one species can alter energy flow and nutrient cycling in several places at once, which is the source of the complexity of the rainforest.",
+                        "answer": "Ecosystem functioning depends on three linked processes. Energy enters through photosynthesis in producers and moves through food webs as herbivores, carnivores and decomposers consume one another. Energy flow is one-way: much of it is lost as heat at each trophic level, so the system must be continually supplied from the sun. Nutrient cycling is different, because nutrients such as nitrogen and phosphorus are recycled between organisms and the soil. Decomposers return nutrients from dead material to the soil, and plants take them up again, so nutrient supply sustains the producers that drive energy flow. In a tropical rainforest, nutrients are held mainly in living biomass and recycled rapidly. Species interactions connect these processes into a complex, interdependent system. Predation moves energy up the food web, mutualism between plants and mycorrhizal fungi improves nutrient uptake, and competition shapes which species dominate. Because these relationships overlap, feedback loops form: removing one species can alter energy flow and nutrient cycling in several places at once, which is the source of the complexity of the rainforest.",
                         "feedback": "Explains how energy flow, nutrient cycling and species interactions are linked into one interdependent system, with a named rainforest example. This meets the full-mark criteria.",
                         "band": 3
                       },
@@ -13924,7 +14262,7 @@
               },
               {
                 "id": "dp-geo-6-1-4",
-                "description": "The global state of ecosystems and biodiversity",
+                "description": "The global state of ecosystems and biodiversity (current and future trends, and reasons for the trends; shifting baselines and tipping points)",
                 "prompts": [
                   {
                     "id": "prompt-geo-242",
@@ -15388,7 +15726,7 @@
               },
               {
                 "id": "dp-geo-7-1-3",
-                "description": "Opportunities and challenges in planning for and achieving global sustainability",
+                "description": "Opportunities and challenges in planning for and achieving global sustainability (the role of global forums, agreements and cooperation; levels of action at a range of scales, from the United Nations Sustainable Development Goals to practices in local communities, including actions by governments, intergovernmental organisations (IGOs), non-government organisations (NGOs), corporations, community organisations and individuals; Indigenous Peoples’ practices and benefit sharing; political, economic, technological, social, cultural and environmental influences)",
                 "prompts": [
                   {
                     "id": "prompt-geo-265",
@@ -16097,7 +16435,7 @@
               },
               {
                 "id": "dp-geo-7-3-2",
-                "description": "Influences on the global economic activity",
+                "description": "Influences on the global economic activity (biophysical; economic; technological; political/organisational)",
                 "prompts": [
                   {
                     "id": "prompt-geo-274",
@@ -16520,7 +16858,7 @@
             "dotPoints": [
               {
                 "id": "dp-geo-8-1-1",
-                "description": "The size, pattern and spatial distribution of settlements",
+                "description": "The size, pattern and spatial distribution of settlements (different types of settlements – remote settlement, village, suburb, regional centre, city, megacity and urban mega-region; settlement patterns; influences on size and spatial distribution – location, climate, topography, natural resources, population and economic development)",
                 "prompts": [
                   {
                     "id": "prompt-geo-278",
@@ -16752,7 +17090,7 @@
               },
               {
                 "id": "dp-geo-8-1-3",
-                "description": "The nature of urbanisation and urban growth at a global scale",
+                "description": "The nature of urbanisation and urban growth at a global scale (challenges facing rural and urban places; the interdependence of rural and urban places)",
                 "prompts": [
                   {
                     "id": "prompt-geo-282",

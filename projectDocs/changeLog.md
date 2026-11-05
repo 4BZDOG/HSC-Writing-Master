@@ -1,5 +1,27 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-05 (Syllabus alignment: Geography, Economics, Business Studies Year 11, HMS questions)
+
+- **Fixed (DATA_VERSION 2.41.0).** Every shipped course was compared with NESA's own page data (the CMS JSON each
+  curriculum.nsw.edu.au page embeds) for dot-point wording, sub-topics, outcomes and year tags. Thirteen matched
+  word for word. The rest:
+  - **Geography** had never been rebuilt from NESA's data: 27 dot points lacked their "including" sub-points, and
+    the Year 11 _Geographical tools_ (41 statements) and _Geographical inquiry skills_ (13) focus areas were
+    missing. Its dot points now carry NESA's full text, in NESA's order, and the two Year 11 topics are added as
+    structure. All 353 questions are kept on their dot points. One app-written full-mark answer (`prompt-geo-235`)
+    now names "feedback loops", which the fuller dot point makes a must-use term.
+  - **Economics** lacked 11 Year 12 statements that NESA writes with an equation (real GDP, the multiplier, the
+    terms of trade, CPI and labour-force rates): they were blank when the course was built, before
+    `fetch_nesa.py` read MathML. They are added in NESA's order, with the flattened fractions bracketed so they
+    read as formulas.
+  - **Business Studies** had no Preliminary course. Its three Year 11 topics (_Nature of business_, _Business
+    management_, _Business planning_: 127 dot points) and outcomes P1–P10 come from the 2010 syllabus, which NESA
+    has not replaced, mapped exactly as the HSC topics were (the parser reproduces the shipped Operations topic).
+  - Health and Movement Science's Year 11 Collaborative Investigation has no content statements in NESA's data,
+    so it has no topic.
+- **Added.** Health and Movement Science's first questions: 138 (two per dot point, a 3–4 mark and a 5–6 mark),
+  validated with `apply_patch.mts` (0 errors, 0 warnings) and reviewed for accuracy against the dot points.
+
 ## [Unreleased] - 2026-11-05 (Navigator text made consistent across the shipped courses)
 
 - **Changed (DATA_VERSION 2.40.0).** Every shipped course's navigator text follows one convention:

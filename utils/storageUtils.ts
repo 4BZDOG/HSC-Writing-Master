@@ -123,7 +123,11 @@ import {
 // Business Studies and Geography sub-topic names and dot points are sentence case. Ids are unchanged, so browsers at
 // 2.39.0 refresh their unedited copies in place. An edited copy keeps its name and is offered the update, and an
 // import still finds a course saved as "HSC Biology" when the file says "Biology".
-export const DATA_VERSION = '2.40.0';
+// 2.41.0: syllabus alignment. Geography takes NESA's full statements (the "including" sub-points its dot points
+// lacked) and gains the Year 11 Geographical tools and Geographical inquiry skills focus areas; Economics gains the
+// 11 Year 12 statements NESA writes with an equation; Business Studies gains its Preliminary course (2010 syllabus)
+// and outcomes P1–P10; Health and Movement Science gains its first 138 questions. No question was removed.
+export const DATA_VERSION = '2.41.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

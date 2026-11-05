@@ -1098,6 +1098,16 @@
                 ]
               },
               {
+                "id": "dp-ec-1-1-n2",
+                "description": "Calculate real GDP using the formula nominal GDP × (CPI base / CPI current)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ec-1-1-n3",
+                "description": "Relationship between GDP and economic growth ((real GDP current − real GDP previous) / real GDP previous × 100)",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-1-1-2",
                 "description": "Limitations of GDP as a measurement, specifically the exclusion of population, hours worked, the informal economy, the non-market sector, distribution of income, environmental degradation and depletion of the resource base",
                 "prompts": [
@@ -1326,6 +1336,26 @@
                 ]
               },
               {
+                "id": "dp-ec-1-1-n6",
+                "description": "Factors influencing the components of aggregate demand (AD = C + I + G + X − M), including consumption (C), investment (I), government spending (G) and net exports (X − M)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ec-1-1-n7",
+                "description": "Effect of changes in the terms of trade (export price index / import price index × 100) on net exports and aggregate demand",
+                "prompts": []
+              },
+              {
+                "id": "dp-ec-1-1-n8",
+                "description": "Effects of changes in aggregate expenditure (AE) on national income (Y) through the multiplier effect",
+                "prompts": []
+              },
+              {
+                "id": "dp-ec-1-1-n9",
+                "description": "Calculate and interpret the simple expenditure multiplier (k) using the formula k = 1 / (1 − MPC) and its effect on national income using the formula ΔY = k × ΔAE",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-1-1-4",
                 "description": "Factors influencing the components of aggregate supply, including productivity, quality and quantity of inputs",
                 "prompts": [
@@ -1438,6 +1468,11 @@
                     ]
                   }
                 ]
+              },
+              {
+                "id": "dp-ec-1-1-n11",
+                "description": "Identify an equilibrium position for an economy from leakages and injections using the formula S + T + M = I + G + X",
+                "prompts": []
               },
               {
                 "id": "dp-ec-1-1-5",
@@ -2246,6 +2281,11 @@
                 ]
               },
               {
+                "id": "dp-ec-1-2-n3",
+                "description": "Calculate and interpret the rate of labour force participation using the formula labour force / working-age population × 100",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-1-2-3",
                 "description": "Economic implications of demographic shifts and changes to Australia’s dependency ratio, including possible effects on economic growth, government revenue and expenditure, immigration and retirement age",
                 "prompts": [
@@ -2588,6 +2628,11 @@
                 ]
               },
               {
+                "id": "dp-ec-1-2-n7",
+                "description": "Calculate and interpret the rate of unemployment using the formula unemployed / labour force × 100",
+                "prompts": []
+              },
+              {
                 "id": "dp-ec-1-2-6",
                 "description": "Limitations of measuring the rate of unemployment, including hidden unemployed, underemployed and informal workers",
                 "prompts": [
@@ -2700,6 +2745,11 @@
                     ]
                   }
                 ]
+              },
+              {
+                "id": "dp-ec-1-2-n9",
+                "description": "Relationship between the labour force, labour force participation rate, unemployment rate and labour force underutilisation rate ((unemployed + underemployed) / labour force × 100)",
+                "prompts": []
               },
               {
                 "id": "dp-ec-1-2-7",
@@ -3162,6 +3212,11 @@
                     ]
                   }
                 ]
+              },
+              {
+                "id": "dp-ec-1-3-n2",
+                "description": "Measurement of inflation from the consumer price index (CPI) using the formula (CPI current − CPI previous) / CPI previous × 100",
+                "prompts": []
               },
               {
                 "id": "dp-ec-1-3-2",
