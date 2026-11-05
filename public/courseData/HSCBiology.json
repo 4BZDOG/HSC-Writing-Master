@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-biology",
-    "name": "HSC Biology",
+    "name": "Biology",
     "outcomes": [
       {
         "code": "BI-11-01",
@@ -101,7 +101,7 @@
     "topics": [
       {
         "id": "topic-bio-11-year-11-working-scientifically",
-        "name": "Year 11: Working scientifically",
+        "name": "Working scientifically",
         "year": "year11",
         "subTopics": [
           {
@@ -1344,7 +1344,7 @@
       },
       {
         "id": "topic-bio-12-year-12-working-scientifically",
-        "name": "Year 12: Working scientifically",
+        "name": "Working scientifically",
         "subTopics": [
           {
             "id": "subtopic-bio-12-year-12-working-scientifically-1",
@@ -5260,7 +5260,7 @@
             "dotPoints": [
               {
                 "id": "dp-bio-12-biotechnology-3-1",
-                "description": "Discuss Aboriginal and Torres Strait Islander Peoples' uses and applications of biotechnologies",
+                "description": "Discuss Aboriginal and Torres Strait Islander Peoples’ uses and applications of biotechnologies",
                 "prompts": []
               },
               {

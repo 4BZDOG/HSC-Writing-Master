@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-legal-studies",
-    "name": "HSC Legal Studies",
+    "name": "Legal Studies",
     "outcomes": [
       {
         "code": "LST-12-01",
@@ -79,7 +79,7 @@
     "topics": [
       {
         "id": "topic-ls-11-year-11-legal-themes-and-skills",
-        "name": "Year 11: Legal themes and skills",
+        "name": "Legal themes and skills",
         "year": "year11",
         "subTopics": [
           {
@@ -803,7 +803,7 @@
       },
       {
         "id": "topic-ls-11-case-study-2-one-group-in-society",
-        "name": "Case study 2: ONE group in society",
+        "name": "Case study 2: One group in society",
         "year": "year11",
         "subTopics": [
           {
@@ -878,7 +878,7 @@
       },
       {
         "id": "topic-ls-1",
-        "name": "The criminal justice system (core)",
+        "name": "The criminal justice system",
         "subTopics": [
           {
             "id": "subtopic-ls-1-1",
@@ -4198,7 +4198,7 @@
       },
       {
         "id": "topic-ls-2",
-        "name": "International relations and human rights (core)",
+        "name": "International relations and human rights",
         "subTopics": [
           {
             "id": "subtopic-ls-2-1",
@@ -7038,7 +7038,7 @@
       },
       {
         "id": "topic-ls-3",
-        "name": "Consumer law",
+        "name": "Option: Consumer law",
         "subTopics": [
           {
             "id": "subtopic-ls-3-1",
@@ -9520,7 +9520,7 @@
       },
       {
         "id": "topic-ls-4",
-        "name": "Family law",
+        "name": "Option: Family law",
         "subTopics": [
           {
             "id": "subtopic-ls-4-1",
@@ -12128,7 +12128,7 @@
       },
       {
         "id": "topic-ls-5",
-        "name": "Housing law",
+        "name": "Option: Housing law",
         "subTopics": [
           {
             "id": "subtopic-ls-5-1",
@@ -14718,7 +14718,7 @@
       },
       {
         "id": "topic-ls-6",
-        "name": "Peace, conflict and the law",
+        "name": "Option: Peace, conflict and the law",
         "subTopics": [
           {
             "id": "subtopic-ls-6-1",
@@ -17327,7 +17327,7 @@
       },
       {
         "id": "topic-ls-7",
-        "name": "Workplace law",
+        "name": "Option: Workplace law",
         "subTopics": [
           {
             "id": "subtopic-ls-7-1",

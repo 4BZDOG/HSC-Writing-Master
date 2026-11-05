@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-ancient-history",
-    "name": "HSC Ancient History",
+    "name": "Ancient History",
     "outcomes": [
       {
         "code": "AH-11-01",
@@ -75,7 +75,7 @@
     "topics": [
       {
         "id": "topic-ah-1",
-        "name": "Historical concepts and skills 11–12",
+        "name": "Historical concepts and skills",
         "subTopics": [
           {
             "id": "subtopic-ah-1-1",
@@ -7094,7 +7094,7 @@
       },
       {
         "id": "topic-ah-11-year-11-historical-concepts-and-skills-11-12",
-        "name": "Year 11: Historical concepts and skills 11–12",
+        "name": "Historical concepts and skills",
         "year": "year11",
         "subTopics": [
           {
@@ -7190,7 +7190,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-old-kingdom-egypt",
-        "name": "Case study: List A: Old Kingdom Egypt",
+        "name": "Case study (List A): Old Kingdom Egypt",
         "year": "year11",
         "subTopics": [
           {
@@ -7270,7 +7270,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-tutankhamun-s-tomb",
-        "name": "Case study: List A: Tutankhamun’s tomb",
+        "name": "Case study (List A): Tutankhamun’s tomb",
         "year": "year11",
         "subTopics": [
           {
@@ -7356,7 +7356,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-deir-el-medina",
-        "name": "Case study: List A: Deir el-Medina",
+        "name": "Case study (List A): Deir el-Medina",
         "year": "year11",
         "subTopics": [
           {
@@ -7441,7 +7441,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-alexandria",
-        "name": "Case study: List A: Alexandria",
+        "name": "Case study (List A): Alexandria",
         "year": "year11",
         "subTopics": [
           {
@@ -7521,7 +7521,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-thera",
-        "name": "Case study: List A: Thera",
+        "name": "Case study (List A): Thera",
         "year": "year11",
         "subTopics": [
           {
@@ -7596,7 +7596,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-troy",
-        "name": "Case study: List A: Troy",
+        "name": "Case study (List A): Troy",
         "year": "year11",
         "subTopics": [
           {
@@ -7681,7 +7681,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-the-roman-games",
-        "name": "Case study: List A: The Roman games",
+        "name": "Case study (List A): The Roman games",
         "year": "year11",
         "subTopics": [
           {
@@ -7761,7 +7761,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-the-celts",
-        "name": "Case study: List A: The Celts",
+        "name": "Case study (List A): The Celts",
         "year": "year11",
         "subTopics": [
           {
@@ -7836,7 +7836,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-a-boudicca",
-        "name": "Case study: List A: Boudicca",
+        "name": "Case study (List A): Boudicca",
         "year": "year11",
         "subTopics": [
           {
@@ -7911,7 +7911,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-ancient-australia",
-        "name": "Case study: List B: Ancient Australia",
+        "name": "Case study (List B): Ancient Australia",
         "year": "year11",
         "subTopics": [
           {
@@ -7986,7 +7986,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-the-shang-dynasty",
-        "name": "Case study: List B: The Shang dynasty",
+        "name": "Case study (List B): The Shang dynasty",
         "year": "year11",
         "subTopics": [
           {
@@ -8056,7 +8056,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-ashoka",
-        "name": "Case study: List B: Ashoka",
+        "name": "Case study (List B): Ashoka",
         "year": "year11",
         "subTopics": [
           {
@@ -8126,7 +8126,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-nineveh",
-        "name": "Case study: List B: Nineveh",
+        "name": "Case study (List B): Nineveh",
         "year": "year11",
         "subTopics": [
           {
@@ -8201,7 +8201,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-persepolis",
-        "name": "Case study: List B: Persepolis",
+        "name": "Case study (List B): Persepolis",
         "year": "year11",
         "subTopics": [
           {
@@ -8271,7 +8271,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-civilisations-of-the-river-mesopotamia-and",
-        "name": "Case study: List B: Civilisations of the river – Mesopotamia and the Indus Valley",
+        "name": "Case study (List B): Civilisations of the river – Mesopotamia and the Indus Valley",
         "year": "year11",
         "subTopics": [
           {
@@ -8336,7 +8336,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-masada",
-        "name": "Case study: List B: Masada",
+        "name": "Case study (List B): Masada",
         "year": "year11",
         "subTopics": [
           {
@@ -8406,7 +8406,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-palmyra-and-the-silk-road",
-        "name": "Case study: List B: Palmyra and the Silk Road",
+        "name": "Case study (List B): Palmyra and the Silk Road",
         "year": "year11",
         "subTopics": [
           {
@@ -8486,7 +8486,7 @@
       },
       {
         "id": "topic-ah-11-case-study-list-b-teotihuacan",
-        "name": "Case study: List B: Teotihuacan",
+        "name": "Case study (List B): Teotihuacan",
         "year": "year11",
         "subTopics": [
           {
@@ -8726,7 +8726,7 @@
       },
       {
         "id": "topic-ah-4",
-        "name": "Core study: Cities of Vesuvius – Pompeii and Herculaneum",
+        "name": "Cities of Vesuvius – Pompeii and Herculaneum",
         "subTopics": [
           {
             "id": "subtopic-ah-4-1",
@@ -11894,7 +11894,7 @@
               },
               {
                 "id": "dp-ah-12-historical-personalities-greece-alexander-the-great-3-7",
-                "description": "The manner and impact of Alexander the Great's death",
+                "description": "The manner and impact of Alexander the Great’s death",
                 "prompts": []
               }
             ]
@@ -12838,7 +12838,7 @@
               },
               {
                 "id": "dp-ah-12-historical-periods-the-fall-of-the-roman-republic-78-42-bce-3-3",
-                "description": "The significance of Caesar's dictatorship",
+                "description": "The significance of Caesar’s dictatorship",
                 "prompts": []
               },
               {

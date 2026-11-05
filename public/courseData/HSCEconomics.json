@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-economics",
-    "name": "HSC Economics",
+    "name": "Economics",
     "outcomes": [
       {
         "code": "ECO-12-01",
@@ -328,7 +328,7 @@
               },
               {
                 "id": "dp-eco-11-household-and-business-sector-1-4",
-                "description": "Relationship between consumption, savings and income, including the marginal propensity to consume (MPC), marginal propensity to save (MPS), and MPC + MPS = 1",
+                "description": "Relationship between consumption, savings and income, including the marginal propensity to consume (MPC), marginal propensity to save (MPS), and MPC + MPS = 1",
                 "prompts": []
               },
               {
@@ -10622,7 +10622,7 @@
             "dotPoints": [
               {
                 "id": "dp-ec-2-6-1",
-                "description": "Role of Aboriginal and Torres Strait Islander Peoples' land and water management Practices in economic environmental policy, including caring for Country",
+                "description": "Role of Aboriginal and Torres Strait Islander Peoples’ land and water management Practices in economic environmental policy, including caring for Country",
                 "prompts": [
                   {
                     "id": "prompt-ec-85",

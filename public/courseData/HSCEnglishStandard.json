@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-english-standard",
-    "name": "HSC English Standard",
+    "name": "English Standard",
     "outcomes": [
       {
         "code": "EST-11-01",
@@ -2816,7 +2816,7 @@
       },
       {
         "id": "topic-en-3",
-        "name": "Year 11: Close study of literature",
+        "name": "Close study of literature",
         "year": "year11",
         "subTopics": [
           {
@@ -8549,7 +8549,7 @@
       },
       {
         "id": "topic-en-6",
-        "name": "Year 12: Close study of literature",
+        "name": "Close study of literature",
         "subTopics": [
           {
             "id": "subtopic-en-6-1",

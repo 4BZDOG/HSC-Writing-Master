@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-health-and-movement-science",
-    "name": "HSC Health and Movement Science",
+    "name": "Health and Movement Science",
     "outcomes": [
       {
         "code": "HM-11-01",
@@ -25,32 +25,32 @@
       },
       {
         "code": "HM-11-05",
-        "description": "Collaboration: demonstrates strategies to positively interact with others to develop an understanding of health and movement concepts",
+        "description": "demonstrates strategies to positively interact with others to develop an understanding of health and movement concepts",
         "year": "year11"
       },
       {
         "code": "HM-11-06",
-        "description": "Analysis: analyses the relationships and implications of health and movement concepts",
+        "description": "analyses the relationships and implications of health and movement concepts",
         "year": "year11"
       },
       {
         "code": "HM-11-07",
-        "description": "Communication: communicates health and movement concepts to audiences and contexts, using a variety of modes",
+        "description": "communicates health and movement concepts to audiences and contexts, using a variety of modes",
         "year": "year11"
       },
       {
         "code": "HM-11-08",
-        "description": "Creative thinking: generates new ideas that are meaningful and relevant to health and movement contexts",
+        "description": "generates new ideas that are meaningful and relevant to health and movement contexts",
         "year": "year11"
       },
       {
         "code": "HM-11-09",
-        "description": "Problem-solving: proposes and evaluates solutions to health and movement issues",
+        "description": "proposes and evaluates solutions to health and movement issues",
         "year": "year11"
       },
       {
         "code": "HM-11-10",
-        "description": "Research: analyses a range of sources to make conclusions about health and movement concepts",
+        "description": "analyses a range of sources to make conclusions about health and movement concepts",
         "year": "year11"
       },
       {
@@ -75,23 +75,23 @@
       },
       {
         "code": "HM-12-06",
-        "description": "Analysis: critically analyses the relationships and implications of health and movement concepts"
+        "description": "critically analyses the relationships and implications of health and movement concepts"
       },
       {
         "code": "HM-12-07",
-        "description": "Communication: communicates health and movement concepts using modes appropriate to a range of audiences and contexts"
+        "description": "communicates health and movement concepts using modes appropriate to a range of audiences and contexts"
       },
       {
         "code": "HM-12-08",
-        "description": "Creative thinking: generates and assesses new ideas that are meaningful and relevant to health and movement contexts"
+        "description": "generates and assesses new ideas that are meaningful and relevant to health and movement contexts"
       },
       {
         "code": "HM-12-09",
-        "description": "Problem-solving: proposes and evaluates solutions to complex health and movement issues"
+        "description": "proposes and evaluates solutions to complex health and movement issues"
       },
       {
         "code": "HM-12-10",
-        "description": "Research: analyses a range of sources to make conclusions and judgements about health and movement concepts"
+        "description": "analyses a range of sources to make conclusions and judgements about health and movement concepts"
       }
     ],
     "topics": [
@@ -347,7 +347,7 @@
               },
               {
                 "id": "dp-hms-12-health-in-an-australian-and-global-context-1-4",
-                "description": "Examine cardiovascular disease, cancer and ONE other condition in Australia using Australia’s Health and other health reports (what does the data tell us about the mortality and morbidity, prevalence and incidence rates of these conditions?; what are the risk and protective factors for these conditions?; where and for whom are these conditions changing?)",
+                "description": "Examine cardiovascular disease, cancer and ONE other condition in Australia using Australia’s Health and other health reports (what does the data tell us about the mortality and morbidity, prevalence and incidence rates of these conditions?; what are the risk and protective factors for these conditions?; where and for whom are these conditions changing?)",
                 "prompts": []
               },
               {

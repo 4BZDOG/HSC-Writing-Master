@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-english-advanced",
-    "name": "HSC English Advanced",
+    "name": "English Advanced",
     "outcomes": [
       {
         "code": "EAV-12-01",
@@ -189,7 +189,7 @@
       },
       {
         "id": "topic-eav-11-year-11-critical-study-of-literature",
-        "name": "Year 11: Critical study of literature",
+        "name": "Critical study of literature",
         "year": "year11",
         "subTopics": [
           {

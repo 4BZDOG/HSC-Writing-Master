@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-business-studies",
-    "name": "HSC Business Studies",
+    "name": "Business Studies",
     "outcomes": [
       {
         "code": "H1",
@@ -9,7 +9,7 @@
       },
       {
         "code": "H2",
-        "description": "evaluates management strategies in response to changes in internal and external influences"
+        "description": "evaluates management strategies in response to changes in internal and external influences"
       },
       {
         "code": "H3",
@@ -51,11 +51,11 @@
         "subTopics": [
           {
             "id": "subtopic-bs-1-1",
-            "name": "examine contemporary business issues to",
+            "name": "Contemporary business issues",
             "dotPoints": [
               {
                 "id": "dp-bs-1-1-1",
-                "description": "discuss the balance between cost and quality in operations strategy",
+                "description": "Discuss the balance between cost and quality in operations strategy",
                 "prompts": [
                   {
                     "id": "prompt-bs-1",
@@ -170,7 +170,7 @@
               },
               {
                 "id": "dp-bs-1-1-2",
-                "description": "examine the impact of globalisation on operations strategy",
+                "description": "Examine the impact of globalisation on operations strategy",
                 "prompts": [
                   {
                     "id": "prompt-bs-2",
@@ -285,7 +285,7 @@
               },
               {
                 "id": "dp-bs-1-1-3",
-                "description": "identify the breadth of government policies that affect operations management",
+                "description": "Identify the breadth of government policies that affect operations management",
                 "prompts": [
                   {
                     "id": "prompt-bs-3",
@@ -400,7 +400,7 @@
               },
               {
                 "id": "dp-bs-1-1-4",
-                "description": "explain why corporate social responsibility is a key concern in operations management",
+                "description": "Explain why corporate social responsibility is a key concern in operations management",
                 "prompts": [
                   {
                     "id": "prompt-bs-4",
@@ -509,11 +509,11 @@
           },
           {
             "id": "subtopic-bs-1-2",
-            "name": "investigate aspects of business using hypothetical situations and actual business case studies to",
+            "name": "Business case studies",
             "dotPoints": [
               {
                 "id": "dp-bs-1-2-1",
-                "description": "describe the features of operations management for businesses in a tertiary industry",
+                "description": "Describe the features of operations management for businesses in a tertiary industry",
                 "prompts": [
                   {
                     "id": "prompt-bs-5",
@@ -628,7 +628,7 @@
               },
               {
                 "id": "dp-bs-1-2-2",
-                "description": "assess the relationship between operations and the other key business functions in two actual businesses",
+                "description": "Assess the relationship between operations and the other key business functions in two actual businesses",
                 "prompts": [
                   {
                     "id": "prompt-bs-6",
@@ -743,7 +743,7 @@
               },
               {
                 "id": "dp-bs-1-2-3",
-                "description": "explain how operations strategy can help a business sustain its competitive advantage",
+                "description": "Explain how operations strategy can help a business sustain its competitive advantage",
                 "prompts": [
                   {
                     "id": "prompt-bs-7",
@@ -858,7 +858,7 @@
               },
               {
                 "id": "dp-bs-1-2-4",
-                "description": "recommend possible operations strategies for one hypothetical business",
+                "description": "Recommend possible operations strategies for one hypothetical business",
                 "prompts": [
                   {
                     "id": "prompt-bs-8",
@@ -975,11 +975,11 @@
           },
           {
             "id": "subtopic-bs-1-3",
-            "name": "role of operations management",
+            "name": "Role of operations management",
             "dotPoints": [
               {
                 "id": "dp-bs-1-3-1",
-                "description": "strategic role of operations management – cost leadership, good/service differentiation",
+                "description": "Strategic role of operations management – cost leadership, good/service differentiation",
                 "prompts": [
                   {
                     "id": "prompt-bs-9",
@@ -1155,7 +1155,7 @@
               },
               {
                 "id": "dp-bs-1-3-2",
-                "description": "goods and/or services in different industries",
+                "description": "Goods and/or services in different industries",
                 "prompts": [
                   {
                     "id": "prompt-bs-10",
@@ -1322,7 +1322,7 @@
               },
               {
                 "id": "dp-bs-1-3-3",
-                "description": "interdependence with other key business functions",
+                "description": "Interdependence with other key business functions",
                 "prompts": [
                   {
                     "id": "prompt-bs-11",
@@ -1499,11 +1499,11 @@
           },
           {
             "id": "subtopic-bs-1-4",
-            "name": "influences",
+            "name": "Influences on operations",
             "dotPoints": [
               {
                 "id": "dp-bs-1-4-1",
-                "description": "globalisation, technology, quality expectations, cost-based competition, government policies, legal regulation, environmental sustainability",
+                "description": "Globalisation, technology, quality expectations, cost-based competition, government policies, legal regulation, environmental sustainability",
                 "prompts": [
                   {
                     "id": "prompt-bs-12",
@@ -1740,7 +1740,7 @@
               },
               {
                 "id": "dp-bs-1-4-2",
-                "description": "corporate social responsibility",
+                "description": "Corporate social responsibility",
                 "prompts": [
                   {
                     "id": "prompt-bs-13",
@@ -1969,7 +1969,7 @@
               },
               {
                 "id": "dp-bs-1-4-3",
-                "description": "the difference between legal compliance and ethical responsibility",
+                "description": "The difference between legal compliance and ethical responsibility",
                 "prompts": [
                   {
                     "id": "prompt-bs-14",
@@ -2084,7 +2084,7 @@
               },
               {
                 "id": "dp-bs-1-4-4",
-                "description": "environmental sustainability and social responsibility",
+                "description": "Environmental sustainability and social responsibility",
                 "prompts": [
                   {
                     "id": "prompt-bs-15",
@@ -2201,11 +2201,11 @@
           },
           {
             "id": "subtopic-bs-1-5",
-            "name": "operations processes",
+            "name": "Operations processes",
             "dotPoints": [
               {
                 "id": "dp-bs-1-5-1",
-                "description": "inputs",
+                "description": "Inputs",
                 "prompts": [
                   {
                     "id": "prompt-bs-16",
@@ -2312,7 +2312,7 @@
               },
               {
                 "id": "dp-bs-1-5-2",
-                "description": "transformed resources (materials, information, customers)",
+                "description": "Transformed resources (materials, information, customers)",
                 "prompts": [
                   {
                     "id": "prompt-bs-17",
@@ -2480,7 +2480,7 @@
               },
               {
                 "id": "dp-bs-1-5-3",
-                "description": "transforming resources (human resources, facilities)",
+                "description": "Transforming resources (human resources, facilities)",
                 "prompts": [
                   {
                     "id": "prompt-bs-18",
@@ -2595,7 +2595,7 @@
               },
               {
                 "id": "dp-bs-1-5-4",
-                "description": "transformation processes",
+                "description": "Transformation processes",
                 "prompts": [
                   {
                     "id": "prompt-bs-19",
@@ -2710,7 +2710,7 @@
               },
               {
                 "id": "dp-bs-1-5-5",
-                "description": "the influence of volume, variety, variation in demand and visibility (customer contact)",
+                "description": "The influence of volume, variety, variation in demand and visibility (customer contact)",
                 "prompts": [
                   {
                     "id": "prompt-bs-20",
@@ -2886,7 +2886,7 @@
               },
               {
                 "id": "dp-bs-1-5-6",
-                "description": "sequencing and scheduling – Gantt charts, critical path analysis",
+                "description": "Sequencing and scheduling – Gantt charts, critical path analysis",
                 "prompts": [
                   {
                     "id": "prompt-bs-21",
@@ -3132,7 +3132,7 @@
               },
               {
                 "id": "dp-bs-1-5-7",
-                "description": "technology, task design and process layout",
+                "description": "Technology, task design and process layout",
                 "prompts": [
                   {
                     "id": "prompt-bs-22",
@@ -3317,7 +3317,7 @@
               },
               {
                 "id": "dp-bs-1-5-8",
-                "description": "monitoring, control and improvement",
+                "description": "Monitoring, control and improvement",
                 "prompts": [
                   {
                     "id": "prompt-bs-23",
@@ -3432,7 +3432,7 @@
               },
               {
                 "id": "dp-bs-1-5-9",
-                "description": "outputs",
+                "description": "Outputs",
                 "prompts": [
                   {
                     "id": "prompt-bs-24",
@@ -3539,7 +3539,7 @@
               },
               {
                 "id": "dp-bs-1-5-10",
-                "description": "customer service",
+                "description": "Customer service",
                 "prompts": [
                   {
                     "id": "prompt-bs-25",
@@ -3654,7 +3654,7 @@
               },
               {
                 "id": "dp-bs-1-5-11",
-                "description": "warranties",
+                "description": "Warranties",
                 "prompts": [
                   {
                     "id": "prompt-bs-26",
@@ -3771,11 +3771,11 @@
           },
           {
             "id": "subtopic-bs-1-6",
-            "name": "operations strategies",
+            "name": "Operations strategies",
             "dotPoints": [
               {
                 "id": "dp-bs-1-6-1",
-                "description": "performance objectives – quality, speed, dependability, flexibility, customisation, cost",
+                "description": "Performance objectives – quality, speed, dependability, flexibility, customisation, cost",
                 "prompts": [
                   {
                     "id": "prompt-bs-27",
@@ -4056,7 +4056,7 @@
               },
               {
                 "id": "dp-bs-1-6-2",
-                "description": "new product or service design and development",
+                "description": "New product or service design and development",
                 "prompts": [
                   {
                     "id": "prompt-bs-28",
@@ -4171,7 +4171,7 @@
               },
               {
                 "id": "dp-bs-1-6-3",
-                "description": "supply chain management – logistics, e-commerce, global sourcing",
+                "description": "Supply chain management – logistics, e-commerce, global sourcing",
                 "prompts": [
                   {
                     "id": "prompt-bs-29",
@@ -4286,7 +4286,7 @@
               },
               {
                 "id": "dp-bs-1-6-4",
-                "description": "outsourcing – advantages and disadvantages",
+                "description": "Outsourcing – advantages and disadvantages",
                 "prompts": [
                   {
                     "id": "prompt-bs-30",
@@ -4461,7 +4461,7 @@
               },
               {
                 "id": "dp-bs-1-6-5",
-                "description": "technology – leading edge, established",
+                "description": "Technology – leading edge, established",
                 "prompts": [
                   {
                     "id": "prompt-bs-31",
@@ -4638,7 +4638,7 @@
               },
               {
                 "id": "dp-bs-1-6-6",
-                "description": "inventory management – advantages and disadvantages of holding stock, LIFO (last-in-first-out), FIFO (first-in-first-out), JIT (just-in-time)",
+                "description": "Inventory management – advantages and disadvantages of holding stock, LIFO (last-in-first-out), FIFO (first-in-first-out), JIT (just-in-time)",
                 "prompts": [
                   {
                     "id": "prompt-bs-32",
@@ -4884,7 +4884,7 @@
               },
               {
                 "id": "dp-bs-1-6-7",
-                "description": "quality management",
+                "description": "Quality management",
                 "prompts": [
                   {
                     "id": "prompt-bs-33",
@@ -5059,7 +5059,7 @@
               },
               {
                 "id": "dp-bs-1-6-8",
-                "description": "control",
+                "description": "Control",
                 "prompts": [
                   {
                     "id": "prompt-bs-34",
@@ -5166,7 +5166,7 @@
               },
               {
                 "id": "dp-bs-1-6-9",
-                "description": "assurance",
+                "description": "Assurance",
                 "prompts": [
                   {
                     "id": "prompt-bs-35",
@@ -5281,7 +5281,7 @@
               },
               {
                 "id": "dp-bs-1-6-10",
-                "description": "improvement",
+                "description": "Improvement",
                 "prompts": [
                   {
                     "id": "prompt-bs-36",
@@ -5396,7 +5396,7 @@
               },
               {
                 "id": "dp-bs-1-6-11",
-                "description": "overcoming resistance to change – financial costs, purchasing new equipment, redundancy payments, retraining, reorganising plant layout, inertia",
+                "description": "Overcoming resistance to change – financial costs, purchasing new equipment, redundancy payments, retraining, reorganising plant layout, inertia",
                 "prompts": [
                   {
                     "id": "prompt-bs-37",
@@ -5635,7 +5635,7 @@
               },
               {
                 "id": "dp-bs-1-6-12",
-                "description": "global factors – global sourcing, economies of scale, scanning and learning, research and development",
+                "description": "Global factors – global sourcing, economies of scale, scanning and learning, research and development",
                 "prompts": [
                   {
                     "id": "prompt-bs-38",
@@ -5818,11 +5818,11 @@
         "subTopics": [
           {
             "id": "subtopic-bs-2-1",
-            "name": "examine contemporary business issues to",
+            "name": "Contemporary business issues",
             "dotPoints": [
               {
                 "id": "dp-bs-2-1-1",
-                "description": "explain why goods and/or services are central to both marketing and operations",
+                "description": "Explain why goods and/or services are central to both marketing and operations",
                 "prompts": [
                   {
                     "id": "prompt-bs-39",
@@ -5937,7 +5937,7 @@
               },
               {
                 "id": "dp-bs-2-1-2",
-                "description": "examine why ethical behaviour and government regulation are important in marketing",
+                "description": "Examine why ethical behaviour and government regulation are important in marketing",
                 "prompts": [
                   {
                     "id": "prompt-bs-40",
@@ -6051,7 +6051,7 @@
               },
               {
                 "id": "dp-bs-2-1-3",
-                "description": "assess why a mix of promotional strategies is important in the marketing of goods and services",
+                "description": "Assess why a mix of promotional strategies is important in the marketing of goods and services",
                 "prompts": [
                   {
                     "id": "prompt-bs-41",
@@ -6168,11 +6168,11 @@
           },
           {
             "id": "subtopic-bs-2-2",
-            "name": "investigate aspects of business using hypothetical situations and actual business case studies to",
+            "name": "Business case studies",
             "dotPoints": [
               {
                 "id": "dp-bs-2-2-1",
-                "description": "evaluate the marketing strategies for a good or service",
+                "description": "Evaluate the marketing strategies for a good or service",
                 "prompts": [
                   {
                     "id": "prompt-bs-42",
@@ -6294,7 +6294,7 @@
               },
               {
                 "id": "dp-bs-2-2-2",
-                "description": "analyse a marketing plan for a business",
+                "description": "Analyse a marketing plan for a business",
                 "prompts": [
                   {
                     "id": "prompt-bs-43",
@@ -6409,7 +6409,7 @@
               },
               {
                 "id": "dp-bs-2-2-3",
-                "description": "explain how globalisation has affected marketing management",
+                "description": "Explain how globalisation has affected marketing management",
                 "prompts": [
                   {
                     "id": "prompt-bs-44",
@@ -6526,11 +6526,11 @@
           },
           {
             "id": "subtopic-bs-2-3",
-            "name": "role of marketing",
+            "name": "Role of marketing",
             "dotPoints": [
               {
                 "id": "dp-bs-2-3-1",
-                "description": "strategic role of marketing goods and services",
+                "description": "Strategic role of marketing goods and services",
                 "prompts": [
                   {
                     "id": "prompt-bs-45",
@@ -6645,7 +6645,7 @@
               },
               {
                 "id": "dp-bs-2-3-2",
-                "description": "interdependence with other key business functions",
+                "description": "Interdependence with other key business functions",
                 "prompts": [
                   {
                     "id": "prompt-bs-46",
@@ -6812,7 +6812,7 @@
               },
               {
                 "id": "dp-bs-2-3-3",
-                "description": "production, selling, marketing approaches",
+                "description": "Production, selling, marketing approaches",
                 "prompts": [
                   {
                     "id": "prompt-bs-47",
@@ -6986,7 +6986,7 @@
               },
               {
                 "id": "dp-bs-2-3-4",
-                "description": "types of markets – resource, industrial, intermediate, consumer, mass, niche",
+                "description": "Types of markets – resource, industrial, intermediate, consumer, mass, niche",
                 "prompts": [
                   {
                     "id": "prompt-bs-48",
@@ -7095,11 +7095,11 @@
           },
           {
             "id": "subtopic-bs-2-4",
-            "name": "influences on marketing",
+            "name": "Influences on marketing",
             "dotPoints": [
               {
                 "id": "dp-bs-2-4-1",
-                "description": "factors influencing customer choice – psychological, sociocultural, economic, government",
+                "description": "Factors influencing customer choice – psychological, sociocultural, economic, government",
                 "prompts": [
                   {
                     "id": "prompt-bs-49",
@@ -7397,7 +7397,7 @@
               },
               {
                 "id": "dp-bs-2-4-2",
-                "description": "consumer laws",
+                "description": "Consumer laws",
                 "prompts": [
                   {
                     "id": "prompt-bs-50",
@@ -7572,7 +7572,7 @@
               },
               {
                 "id": "dp-bs-2-4-3",
-                "description": "deceptive and misleading advertising",
+                "description": "Deceptive and misleading advertising",
                 "prompts": [
                   {
                     "id": "prompt-bs-51",
@@ -7687,7 +7687,7 @@
               },
               {
                 "id": "dp-bs-2-4-4",
-                "description": "price discrimination",
+                "description": "Price discrimination",
                 "prompts": [
                   {
                     "id": "prompt-bs-52",
@@ -7802,7 +7802,7 @@
               },
               {
                 "id": "dp-bs-2-4-5",
-                "description": "implied conditions",
+                "description": "Implied conditions",
                 "prompts": [
                   {
                     "id": "prompt-bs-53",
@@ -7909,7 +7909,7 @@
               },
               {
                 "id": "dp-bs-2-4-6",
-                "description": "warranties",
+                "description": "Warranties",
                 "prompts": [
                   {
                     "id": "prompt-bs-54",
@@ -8024,7 +8024,7 @@
               },
               {
                 "id": "dp-bs-2-4-7",
-                "description": "ethical – truth, accuracy and good taste in advertising, products that may damage health, engaging in fair competition, sugging",
+                "description": "Ethical – truth, accuracy and good taste in advertising, products that may damage health, engaging in fair competition, sugging",
                 "prompts": [
                   {
                     "id": "prompt-bs-55",
@@ -8141,11 +8141,11 @@
           },
           {
             "id": "subtopic-bs-2-5",
-            "name": "marketing process",
+            "name": "Marketing process",
             "dotPoints": [
               {
                 "id": "dp-bs-2-5-1",
-                "description": "situational analysis – SWOT, product life cycle",
+                "description": "Situational analysis – SWOT, product life cycle",
                 "prompts": [
                   {
                     "id": "prompt-bs-56",
@@ -8484,7 +8484,7 @@
               },
               {
                 "id": "dp-bs-2-5-2",
-                "description": "market research",
+                "description": "Market research",
                 "prompts": [
                   {
                     "id": "prompt-bs-57",
@@ -8598,7 +8598,7 @@
               },
               {
                 "id": "dp-bs-2-5-3",
-                "description": "establishing market objectives",
+                "description": "Establishing market objectives",
                 "prompts": [
                   {
                     "id": "prompt-bs-58",
@@ -8713,7 +8713,7 @@
               },
               {
                 "id": "dp-bs-2-5-4",
-                "description": "identifying target markets",
+                "description": "Identifying target markets",
                 "prompts": [
                   {
                     "id": "prompt-bs-59",
@@ -8827,7 +8827,7 @@
               },
               {
                 "id": "dp-bs-2-5-5",
-                "description": "developing marketing strategies",
+                "description": "Developing marketing strategies",
                 "prompts": [
                   {
                     "id": "prompt-bs-60",
@@ -8941,7 +8941,7 @@
               },
               {
                 "id": "dp-bs-2-5-6",
-                "description": "implementation, monitoring and controlling – developing a financial forecast; comparing actual and planned results, revising the marketing strategy",
+                "description": "Implementation, monitoring and controlling – developing a financial forecast; comparing actual and planned results, revising the marketing strategy",
                 "prompts": [
                   {
                     "id": "prompt-bs-61",
@@ -9177,11 +9177,11 @@
           },
           {
             "id": "subtopic-bs-2-6",
-            "name": "marketing strategies",
+            "name": "Marketing strategies",
             "dotPoints": [
               {
                 "id": "dp-bs-2-6-1",
-                "description": "market segmentation, product/service differentiation and positioning",
+                "description": "Market segmentation, product/service differentiation and positioning",
                 "prompts": [
                   {
                     "id": "prompt-bs-62",
@@ -9418,7 +9418,7 @@
               },
               {
                 "id": "dp-bs-2-6-2",
-                "description": "products – goods and/or services",
+                "description": "Products – goods and/or services",
                 "prompts": [
                   {
                     "id": "prompt-bs-63",
@@ -9584,7 +9584,7 @@
               },
               {
                 "id": "dp-bs-2-6-3",
-                "description": "branding",
+                "description": "Branding",
                 "prompts": [
                   {
                     "id": "prompt-bs-64",
@@ -9698,7 +9698,7 @@
               },
               {
                 "id": "dp-bs-2-6-4",
-                "description": "packaging",
+                "description": "Packaging",
                 "prompts": [
                   {
                     "id": "prompt-bs-65",
@@ -9804,7 +9804,7 @@
               },
               {
                 "id": "dp-bs-2-6-5",
-                "description": "price including pricing methods – cost, market, competition-based",
+                "description": "Price including pricing methods – cost, market, competition-based",
                 "prompts": [
                   {
                     "id": "prompt-bs-66",
@@ -9978,7 +9978,7 @@
               },
               {
                 "id": "dp-bs-2-6-6",
-                "description": "pricing strategies – skimming, penetration, loss leaders, price points",
+                "description": "Pricing strategies – skimming, penetration, loss leaders, price points",
                 "prompts": [
                   {
                     "id": "prompt-bs-67",
@@ -10084,7 +10084,7 @@
               },
               {
                 "id": "dp-bs-2-6-7",
-                "description": "price and quality interaction",
+                "description": "Price and quality interaction",
                 "prompts": [
                   {
                     "id": "prompt-bs-68",
@@ -10198,7 +10198,7 @@
               },
               {
                 "id": "dp-bs-2-6-8",
-                "description": "promotion",
+                "description": "Promotion",
                 "prompts": [
                   {
                     "id": "prompt-bs-69",
@@ -10364,7 +10364,7 @@
               },
               {
                 "id": "dp-bs-2-6-9",
-                "description": "elements of the promotion mix – advertising, personal selling and relationship marketing, sales promotions, publicity and public relations",
+                "description": "Elements of the promotion mix – advertising, personal selling and relationship marketing, sales promotions, publicity and public relations",
                 "prompts": [
                   {
                     "id": "prompt-bs-70",
@@ -10478,7 +10478,7 @@
               },
               {
                 "id": "dp-bs-2-6-10",
-                "description": "the communication process – opinion leaders, word of mouth",
+                "description": "The communication process – opinion leaders, word of mouth",
                 "prompts": [
                   {
                     "id": "prompt-bs-71",
@@ -10592,7 +10592,7 @@
               },
               {
                 "id": "dp-bs-2-6-11",
-                "description": "place/distribution",
+                "description": "Place/distribution",
                 "prompts": [
                   {
                     "id": "prompt-bs-72",
@@ -10706,7 +10706,7 @@
               },
               {
                 "id": "dp-bs-2-6-12",
-                "description": "distribution channels",
+                "description": "Distribution channels",
                 "prompts": [
                   {
                     "id": "prompt-bs-73",
@@ -10820,7 +10820,7 @@
               },
               {
                 "id": "dp-bs-2-6-13",
-                "description": "channel choice – intensive, selective, exclusive",
+                "description": "Channel choice – intensive, selective, exclusive",
                 "prompts": [
                   {
                     "id": "prompt-bs-74",
@@ -10934,7 +10934,7 @@
               },
               {
                 "id": "dp-bs-2-6-14",
-                "description": "physical distribution issues – transport, warehousing, inventory",
+                "description": "Physical distribution issues – transport, warehousing, inventory",
                 "prompts": [
                   {
                     "id": "prompt-bs-75",
@@ -11112,7 +11112,7 @@
               },
               {
                 "id": "dp-bs-2-6-15",
-                "description": "people, processes and physical evidence",
+                "description": "People, processes and physical evidence",
                 "prompts": [
                   {
                     "id": "prompt-bs-76",
@@ -11280,7 +11280,7 @@
               },
               {
                 "id": "dp-bs-2-6-16",
-                "description": "e-marketing",
+                "description": "E-marketing",
                 "prompts": [
                   {
                     "id": "prompt-bs-77",
@@ -11395,7 +11395,7 @@
               },
               {
                 "id": "dp-bs-2-6-17",
-                "description": "global marketing",
+                "description": "Global marketing",
                 "prompts": [
                   {
                     "id": "prompt-bs-78",
@@ -11633,7 +11633,7 @@
               },
               {
                 "id": "dp-bs-2-6-18",
-                "description": "global branding",
+                "description": "Global branding",
                 "prompts": [
                   {
                     "id": "prompt-bs-79",
@@ -11747,7 +11747,7 @@
               },
               {
                 "id": "dp-bs-2-6-19",
-                "description": "standardisation",
+                "description": "Standardisation",
                 "prompts": [
                   {
                     "id": "prompt-bs-80",
@@ -11924,7 +11924,7 @@
               },
               {
                 "id": "dp-bs-2-6-20",
-                "description": "customisation",
+                "description": "Customisation",
                 "prompts": [
                   {
                     "id": "prompt-bs-81",
@@ -12098,7 +12098,7 @@
               },
               {
                 "id": "dp-bs-2-6-21",
-                "description": "global pricing",
+                "description": "Global pricing",
                 "prompts": [
                   {
                     "id": "prompt-bs-82",
@@ -12212,7 +12212,7 @@
               },
               {
                 "id": "dp-bs-2-6-22",
-                "description": "competitive positioning",
+                "description": "Competitive positioning",
                 "prompts": [
                   {
                     "id": "prompt-bs-83",
@@ -12334,11 +12334,11 @@
         "subTopics": [
           {
             "id": "subtopic-bs-3-1",
-            "name": "examine contemporary business issues to",
+            "name": "Contemporary business issues",
             "dotPoints": [
               {
                 "id": "dp-bs-3-1-1",
-                "description": "explain potential conflicts between short-term and long-term financial objectives",
+                "description": "Explain potential conflicts between short-term and long-term financial objectives",
                 "prompts": [
                   {
                     "id": "prompt-bs-84",
@@ -12514,7 +12514,7 @@
               },
               {
                 "id": "dp-bs-3-1-2",
-                "description": "analyse the influence of government and the global market on financial management",
+                "description": "Analyse the influence of government and the global market on financial management",
                 "prompts": [
                   {
                     "id": "prompt-bs-85",
@@ -12628,7 +12628,7 @@
               },
               {
                 "id": "dp-bs-3-1-3",
-                "description": "identify the limitations of financial reporting",
+                "description": "Identify the limitations of financial reporting",
                 "prompts": [
                   {
                     "id": "prompt-bs-86",
@@ -12742,7 +12742,7 @@
               },
               {
                 "id": "dp-bs-3-1-4",
-                "description": "compare the risks involved in domestic and global financial transactions",
+                "description": "Compare the risks involved in domestic and global financial transactions",
                 "prompts": [
                   {
                     "id": "prompt-bs-87",
@@ -12917,11 +12917,11 @@
           },
           {
             "id": "subtopic-bs-3-2",
-            "name": "investigate aspects of business using hypothetical situations and actual business case studies to",
+            "name": "Business case studies",
             "dotPoints": [
               {
                 "id": "dp-bs-3-2-1",
-                "description": "calculate key financial ratios",
+                "description": "Calculate key financial ratios",
                 "prompts": [
                   {
                     "id": "prompt-bs-88",
@@ -13036,7 +13036,7 @@
               },
               {
                 "id": "dp-bs-3-2-2",
-                "description": "assess business performance using comparative ratio analysis",
+                "description": "Assess business performance using comparative ratio analysis",
                 "prompts": [
                   {
                     "id": "prompt-bs-89",
@@ -13151,7 +13151,7 @@
               },
               {
                 "id": "dp-bs-3-2-3",
-                "description": "recommend strategies to improve financial performance",
+                "description": "Recommend strategies to improve financial performance",
                 "prompts": [
                   {
                     "id": "prompt-bs-90",
@@ -13269,7 +13269,7 @@
               },
               {
                 "id": "dp-bs-3-2-4",
-                "description": "examine ethical financial reporting practices",
+                "description": "Examine ethical financial reporting practices",
                 "prompts": [
                   {
                     "id": "prompt-bs-91",
@@ -13386,11 +13386,11 @@
           },
           {
             "id": "subtopic-bs-3-3",
-            "name": "role of financial management",
+            "name": "Role of financial management",
             "dotPoints": [
               {
                 "id": "dp-bs-3-3-1",
-                "description": "strategic role of financial management",
+                "description": "Strategic role of financial management",
                 "prompts": [
                   {
                     "id": "prompt-bs-92",
@@ -13504,7 +13504,7 @@
               },
               {
                 "id": "dp-bs-3-3-2",
-                "description": "objectives of financial management",
+                "description": "Objectives of financial management",
                 "prompts": [
                   {
                     "id": "prompt-bs-93",
@@ -13673,7 +13673,7 @@
               },
               {
                 "id": "dp-bs-3-3-3",
-                "description": "profitability, growth, efficiency, liquidity, solvency",
+                "description": "Profitability, growth, efficiency, liquidity, solvency",
                 "prompts": [
                   {
                     "id": "prompt-bs-94",
@@ -13850,7 +13850,7 @@
               },
               {
                 "id": "dp-bs-3-3-4",
-                "description": "short-term and long-term",
+                "description": "Short-term and long-term",
                 "prompts": [
                   {
                     "id": "prompt-bs-95",
@@ -13964,7 +13964,7 @@
               },
               {
                 "id": "dp-bs-3-3-5",
-                "description": "interdependence with other key business functions",
+                "description": "Interdependence with other key business functions",
                 "prompts": [
                   {
                     "id": "prompt-bs-96",
@@ -14081,11 +14081,11 @@
           },
           {
             "id": "subtopic-bs-3-4",
-            "name": "influences on financial management",
+            "name": "Influences on financial management",
             "dotPoints": [
               {
                 "id": "dp-bs-3-4-1",
-                "description": "internal sources of finance – retained profits",
+                "description": "Internal sources of finance – retained profits",
                 "prompts": [
                   {
                     "id": "prompt-bs-97",
@@ -14199,7 +14199,7 @@
               },
               {
                 "id": "dp-bs-3-4-2",
-                "description": "external sources of finance",
+                "description": "External sources of finance",
                 "prompts": [
                   {
                     "id": "prompt-bs-98",
@@ -14313,7 +14313,7 @@
               },
               {
                 "id": "dp-bs-3-4-3",
-                "description": "debt – short-term borrowing (overdraft, commercial bills, factoring), long-term borrowing (mortgage, debentures, unsecured notes, leasing)",
+                "description": "Debt – short-term borrowing (overdraft, commercial bills, factoring), long-term borrowing (mortgage, debentures, unsecured notes, leasing)",
                 "prompts": [
                   {
                     "id": "prompt-bs-99",
@@ -14418,7 +14418,7 @@
               },
               {
                 "id": "dp-bs-3-4-4",
-                "description": "equity – ordinary shares (new issues, rights issues, placements, share purchase plans), private equity",
+                "description": "Equity – ordinary shares (new issues, rights issues, placements, share purchase plans), private equity",
                 "prompts": [
                   {
                     "id": "prompt-bs-100",
@@ -14532,7 +14532,7 @@
               },
               {
                 "id": "dp-bs-3-4-5",
-                "description": "financial institutions – banks, investment banks, finance companies, superannuation funds, life insurance companies, unit trusts and the Australian Securities Exchange",
+                "description": "Financial institutions – banks, investment banks, finance companies, superannuation funds, life insurance companies, unit trusts and the Australian Securities Exchange",
                 "prompts": [
                   {
                     "id": "prompt-bs-101",
@@ -14707,7 +14707,7 @@
               },
               {
                 "id": "dp-bs-3-4-6",
-                "description": "influence of government – Australian Securities and Investments Commission, company taxation",
+                "description": "Influence of government – Australian Securities and Investments Commission, company taxation",
                 "prompts": [
                   {
                     "id": "prompt-bs-102",
@@ -14821,7 +14821,7 @@
               },
               {
                 "id": "dp-bs-3-4-7",
-                "description": "global market influences – economic outlook, availability of funds, interest rates",
+                "description": "Global market influences – economic outlook, availability of funds, interest rates",
                 "prompts": [
                   {
                     "id": "prompt-bs-103",
@@ -14998,11 +14998,11 @@
           },
           {
             "id": "subtopic-bs-3-5",
-            "name": "processes of financial management",
+            "name": "Processes of financial management",
             "dotPoints": [
               {
                 "id": "dp-bs-3-5-1",
-                "description": "planning and implementing – financial needs, budgets, record systems, financial risks, financial controls",
+                "description": "Planning and implementing – financial needs, budgets, record systems, financial risks, financial controls",
                 "prompts": [
                   {
                     "id": "prompt-bs-104",
@@ -15116,7 +15116,7 @@
               },
               {
                 "id": "dp-bs-3-5-2",
-                "description": "debt and equity financing – advantages and disadvantages of each",
+                "description": "Debt and equity financing – advantages and disadvantages of each",
                 "prompts": [
                   {
                     "id": "prompt-bs-105",
@@ -15354,7 +15354,7 @@
               },
               {
                 "id": "dp-bs-3-5-3",
-                "description": "matching the terms and source of finance to business purpose",
+                "description": "Matching the terms and source of finance to business purpose",
                 "prompts": [
                   {
                     "id": "prompt-bs-106",
@@ -15468,7 +15468,7 @@
               },
               {
                 "id": "dp-bs-3-5-4",
-                "description": "monitoring and controlling – cash flow statement, income statement, balance sheet",
+                "description": "Monitoring and controlling – cash flow statement, income statement, balance sheet",
                 "prompts": [
                   {
                     "id": "prompt-bs-107",
@@ -15675,7 +15675,7 @@
               },
               {
                 "id": "dp-bs-3-5-5",
-                "description": "financial ratios",
+                "description": "Financial ratios",
                 "prompts": [
                   {
                     "id": "prompt-bs-108",
@@ -15850,7 +15850,7 @@
               },
               {
                 "id": "dp-bs-3-5-6",
-                "description": "liquidity – current ratio (current assets ÷ current liabilities)",
+                "description": "Liquidity – current ratio (current assets ÷ current liabilities)",
                 "prompts": [
                   {
                     "id": "prompt-bs-109",
@@ -16016,7 +16016,7 @@
               },
               {
                 "id": "dp-bs-3-5-7",
-                "description": "gearing – debt to equity ratio (total liabilities ÷ total equity)",
+                "description": "Gearing – debt to equity ratio (total liabilities ÷ total equity)",
                 "prompts": [
                   {
                     "id": "prompt-bs-110",
@@ -16191,7 +16191,7 @@
               },
               {
                 "id": "dp-bs-3-5-8",
-                "description": "profitability – gross profit ratio (gross profit ÷ sales); net profit ratio (net profit ÷ sales); return on equity ratio (net profit ÷ total equity)",
+                "description": "Profitability – gross profit ratio (gross profit ÷ sales); net profit ratio (net profit ÷ sales); return on equity ratio (net profit ÷ total equity)",
                 "prompts": [
                   {
                     "id": "prompt-bs-111",
@@ -16305,7 +16305,7 @@
               },
               {
                 "id": "dp-bs-3-5-9",
-                "description": "efficiency – expense ratio (total expenses ÷ sales), accounts receivable turnover ratio (sales ÷ accounts receivable)",
+                "description": "Efficiency – expense ratio (total expenses ÷ sales), accounts receivable turnover ratio (sales ÷ accounts receivable)",
                 "prompts": [
                   {
                     "id": "prompt-bs-112",
@@ -16664,7 +16664,7 @@
               },
               {
                 "id": "dp-bs-3-5-10",
-                "description": "comparative ratio analysis – over different time periods, against standards, with similar businesses",
+                "description": "Comparative ratio analysis – over different time periods, against standards, with similar businesses",
                 "prompts": [
                   {
                     "id": "prompt-bs-113",
@@ -16900,7 +16900,7 @@
               },
               {
                 "id": "dp-bs-3-5-11",
-                "description": "limitations of financial reports – normalised earnings, capitalising expenses, valuing assets, timing issues, debt repayments, notes to the financial statements",
+                "description": "Limitations of financial reports – normalised earnings, capitalising expenses, valuing assets, timing issues, debt repayments, notes to the financial statements",
                 "prompts": [
                   {
                     "id": "prompt-bs-114",
@@ -17075,7 +17075,7 @@
               },
               {
                 "id": "dp-bs-3-5-12",
-                "description": "ethical issues related to financial reports",
+                "description": "Ethical issues related to financial reports",
                 "prompts": [
                   {
                     "id": "prompt-bs-115",
@@ -17191,11 +17191,11 @@
           },
           {
             "id": "subtopic-bs-3-6",
-            "name": "financial management strategies",
+            "name": "Financial management strategies",
             "dotPoints": [
               {
                 "id": "dp-bs-3-6-1",
-                "description": "cash flow management",
+                "description": "Cash flow management",
                 "prompts": [
                   {
                     "id": "prompt-bs-116",
@@ -17310,7 +17310,7 @@
               },
               {
                 "id": "dp-bs-3-6-2",
-                "description": "cash flow statements",
+                "description": "Cash flow statements",
                 "prompts": [
                   {
                     "id": "prompt-bs-117",
@@ -17427,7 +17427,7 @@
               },
               {
                 "id": "dp-bs-3-6-3",
-                "description": "distribution of payments, discounts for early payment, factoring",
+                "description": "Distribution of payments, discounts for early payment, factoring",
                 "prompts": [
                   {
                     "id": "prompt-bs-118",
@@ -17665,7 +17665,7 @@
               },
               {
                 "id": "dp-bs-3-6-4",
-                "description": "working capital management",
+                "description": "Working capital management",
                 "prompts": [
                   {
                     "id": "prompt-bs-119",
@@ -17782,7 +17782,7 @@
               },
               {
                 "id": "dp-bs-3-6-5",
-                "description": "control of current assets – cash, receivables, inventories",
+                "description": "Control of current assets – cash, receivables, inventories",
                 "prompts": [
                   {
                     "id": "prompt-bs-120",
@@ -17899,7 +17899,7 @@
               },
               {
                 "id": "dp-bs-3-6-6",
-                "description": "control of current liabilities – payables, loans, overdrafts",
+                "description": "Control of current liabilities – payables, loans, overdrafts",
                 "prompts": [
                   {
                     "id": "prompt-bs-121",
@@ -18015,7 +18015,7 @@
               },
               {
                 "id": "dp-bs-3-6-7",
-                "description": "strategies – leasing, sale and lease back",
+                "description": "Strategies – leasing, sale and lease back",
                 "prompts": [
                   {
                     "id": "prompt-bs-122",
@@ -18132,7 +18132,7 @@
               },
               {
                 "id": "dp-bs-3-6-8",
-                "description": "profitability management",
+                "description": "Profitability management",
                 "prompts": [
                   {
                     "id": "prompt-bs-123",
@@ -18311,7 +18311,7 @@
               },
               {
                 "id": "dp-bs-3-6-9",
-                "description": "cost controls – fixed and variable, cost centres, expense minimisation",
+                "description": "Cost controls – fixed and variable, cost centres, expense minimisation",
                 "prompts": [
                   {
                     "id": "prompt-bs-124",
@@ -18427,7 +18427,7 @@
               },
               {
                 "id": "dp-bs-3-6-10",
-                "description": "revenue controls – marketing objectives",
+                "description": "Revenue controls – marketing objectives",
                 "prompts": [
                   {
                     "id": "prompt-bs-125",
@@ -18543,7 +18543,7 @@
               },
               {
                 "id": "dp-bs-3-6-11",
-                "description": "global financial management",
+                "description": "Global financial management",
                 "prompts": [
                   {
                     "id": "prompt-bs-126",
@@ -18660,7 +18660,7 @@
               },
               {
                 "id": "dp-bs-3-6-12",
-                "description": "exchange rates",
+                "description": "Exchange rates",
                 "prompts": [
                   {
                     "id": "prompt-bs-127",
@@ -18768,7 +18768,7 @@
               },
               {
                 "id": "dp-bs-3-6-13",
-                "description": "interest rates",
+                "description": "Interest rates",
                 "prompts": [
                   {
                     "id": "prompt-bs-128",
@@ -18884,7 +18884,7 @@
               },
               {
                 "id": "dp-bs-3-6-14",
-                "description": "methods of international payment – payment in advance, letter of credit, clean payment, bill of exchange",
+                "description": "Methods of international payment – payment in advance, letter of credit, clean payment, bill of exchange",
                 "prompts": [
                   {
                     "id": "prompt-bs-129",
@@ -19000,7 +19000,7 @@
               },
               {
                 "id": "dp-bs-3-6-15",
-                "description": "hedging",
+                "description": "Hedging",
                 "prompts": [
                   {
                     "id": "prompt-bs-130",
@@ -19116,7 +19116,7 @@
               },
               {
                 "id": "dp-bs-3-6-16",
-                "description": "derivatives",
+                "description": "Derivatives",
                 "prompts": [
                   {
                     "id": "prompt-bs-131",
@@ -19241,11 +19241,11 @@
         "subTopics": [
           {
             "id": "subtopic-bs-4-1",
-            "name": "examine contemporary business issues to",
+            "name": "Contemporary business issues",
             "dotPoints": [
               {
                 "id": "dp-bs-4-1-1",
-                "description": "discuss the influence of government on the process of determining employment contracts",
+                "description": "Discuss the influence of government on the process of determining employment contracts",
                 "prompts": [
                   {
                     "id": "prompt-bs-132",
@@ -19362,7 +19362,7 @@
               },
               {
                 "id": "dp-bs-4-1-2",
-                "description": "explain how businesses exhibit corporate social responsibility in the management of human resources",
+                "description": "Explain how businesses exhibit corporate social responsibility in the management of human resources",
                 "prompts": [
                   {
                     "id": "prompt-bs-133",
@@ -19478,7 +19478,7 @@
               },
               {
                 "id": "dp-bs-4-1-3",
-                "description": "analyse the causes of two workplace disputes and the strategies used to resolve them",
+                "description": "Analyse the causes of two workplace disputes and the strategies used to resolve them",
                 "prompts": [
                   {
                     "id": "prompt-bs-134",
@@ -19595,7 +19595,7 @@
               },
               {
                 "id": "dp-bs-4-1-4",
-                "description": "examine the advantages of a diverse, culturally competent workforce for a global business",
+                "description": "Examine the advantages of a diverse, culturally competent workforce for a global business",
                 "prompts": [
                   {
                     "id": "prompt-bs-135",
@@ -19713,11 +19713,11 @@
           },
           {
             "id": "subtopic-bs-4-2",
-            "name": "investigate aspects of business using hypothetical situations and actual business case studies to",
+            "name": "Business case studies",
             "dotPoints": [
               {
                 "id": "dp-bs-4-2-1",
-                "description": "explain the interdependence between human resources and other key business functions",
+                "description": "Explain the interdependence between human resources and other key business functions",
                 "prompts": [
                   {
                     "id": "prompt-bs-136",
@@ -19834,7 +19834,7 @@
               },
               {
                 "id": "dp-bs-4-2-2",
-                "description": "compare the process of negotiating enterprise/collective agreements with the negotiation of individual contracts",
+                "description": "Compare the process of negotiating enterprise/collective agreements with the negotiation of individual contracts",
                 "prompts": [
                   {
                     "id": "prompt-bs-137",
@@ -19950,7 +19950,7 @@
               },
               {
                 "id": "dp-bs-4-2-3",
-                "description": "discuss the advantages and disadvantages of outsourcing in the global market",
+                "description": "Discuss the advantages and disadvantages of outsourcing in the global market",
                 "prompts": [
                   {
                     "id": "prompt-bs-138",
@@ -20067,7 +20067,7 @@
               },
               {
                 "id": "dp-bs-4-2-4",
-                "description": "evaluate the effectiveness of human resource management for one business and recommend appropriate alternative strategies",
+                "description": "Evaluate the effectiveness of human resource management for one business and recommend appropriate alternative strategies",
                 "prompts": [
                   {
                     "id": "prompt-bs-139",
@@ -20194,11 +20194,11 @@
           },
           {
             "id": "subtopic-bs-4-3",
-            "name": "role of human resource management",
+            "name": "Role of human resource management",
             "dotPoints": [
               {
                 "id": "dp-bs-4-3-1",
-                "description": "strategic role of human resources",
+                "description": "Strategic role of human resources",
                 "prompts": [
                   {
                     "id": "prompt-bs-140",
@@ -20314,7 +20314,7 @@
               },
               {
                 "id": "dp-bs-4-3-2",
-                "description": "interdependence with other key business functions",
+                "description": "Interdependence with other key business functions",
                 "prompts": [
                   {
                     "id": "prompt-bs-141",
@@ -20431,7 +20431,7 @@
               },
               {
                 "id": "dp-bs-4-3-3",
-                "description": "outsourcing",
+                "description": "Outsourcing",
                 "prompts": [
                   {
                     "id": "prompt-bs-142",
@@ -20547,7 +20547,7 @@
               },
               {
                 "id": "dp-bs-4-3-4",
-                "description": "human resource functions",
+                "description": "Human resource functions",
                 "prompts": [
                   {
                     "id": "prompt-bs-143",
@@ -20655,7 +20655,7 @@
               },
               {
                 "id": "dp-bs-4-3-5",
-                "description": "using contractors – domestic, global",
+                "description": "Using contractors – domestic, global",
                 "prompts": [
                   {
                     "id": "prompt-bs-144",
@@ -20823,11 +20823,11 @@
           },
           {
             "id": "subtopic-bs-4-4",
-            "name": "key influences",
+            "name": "Key influences on human resource management",
             "dotPoints": [
               {
                 "id": "dp-bs-4-4-1",
-                "description": "stakeholders – employers, employees, employer associations, unions, government organisations, society",
+                "description": "Stakeholders – employers, employees, employer associations, unions, government organisations, society",
                 "prompts": [
                   {
                     "id": "prompt-bs-145",
@@ -21097,7 +21097,7 @@
               },
               {
                 "id": "dp-bs-4-4-2",
-                "description": "legal – the current legal framework",
+                "description": "Legal – the current legal framework",
                 "prompts": [
                   {
                     "id": "prompt-bs-146",
@@ -21275,7 +21275,7 @@
               },
               {
                 "id": "dp-bs-4-4-3",
-                "description": "the employment contract – common law (rights and obligations of employers and employees), minimum employment standards, minimum wage rates, awards, enterprise agreements, other employment contracts",
+                "description": "The employment contract – common law (rights and obligations of employers and employees), minimum employment standards, minimum wage rates, awards, enterprise agreements, other employment contracts",
                 "prompts": [
                   {
                     "id": "prompt-bs-147",
@@ -21564,7 +21564,7 @@
               },
               {
                 "id": "dp-bs-4-4-4",
-                "description": "work health and safety and workers compensation",
+                "description": "Work health and safety and workers compensation",
                 "prompts": [
                   {
                     "id": "prompt-bs-148",
@@ -21671,7 +21671,7 @@
               },
               {
                 "id": "dp-bs-4-4-5",
-                "description": "antidiscrimination and equal employment opportunity",
+                "description": "Antidiscrimination and equal employment opportunity",
                 "prompts": [
                   {
                     "id": "prompt-bs-149",
@@ -21841,7 +21841,7 @@
               },
               {
                 "id": "dp-bs-4-4-6",
-                "description": "economic",
+                "description": "Economic",
                 "prompts": [
                   {
                     "id": "prompt-bs-150",
@@ -21957,7 +21957,7 @@
               },
               {
                 "id": "dp-bs-4-4-7",
-                "description": "technological",
+                "description": "Technological",
                 "prompts": [
                   {
                     "id": "prompt-bs-151",
@@ -22193,7 +22193,7 @@
               },
               {
                 "id": "dp-bs-4-4-8",
-                "description": "social – changing work patterns, living standards",
+                "description": "Social – changing work patterns, living standards",
                 "prompts": [
                   {
                     "id": "prompt-bs-152",
@@ -22429,7 +22429,7 @@
               },
               {
                 "id": "dp-bs-4-4-9",
-                "description": "ethics and corporate social responsibility",
+                "description": "Ethics and corporate social responsibility",
                 "prompts": [
                   {
                     "id": "prompt-bs-153",
@@ -22608,11 +22608,11 @@
           },
           {
             "id": "subtopic-bs-4-5",
-            "name": "processes of human resource management",
+            "name": "Processes of human resource management",
             "dotPoints": [
               {
                 "id": "dp-bs-4-5-1",
-                "description": "acquisition",
+                "description": "Acquisition",
                 "prompts": [
                   {
                     "id": "prompt-bs-154",
@@ -22789,7 +22789,7 @@
               },
               {
                 "id": "dp-bs-4-5-2",
-                "description": "development",
+                "description": "Development",
                 "prompts": [
                   {
                     "id": "prompt-bs-155",
@@ -22905,7 +22905,7 @@
               },
               {
                 "id": "dp-bs-4-5-3",
-                "description": "maintenance",
+                "description": "Maintenance",
                 "prompts": [
                   {
                     "id": "prompt-bs-156",
@@ -23082,7 +23082,7 @@
               },
               {
                 "id": "dp-bs-4-5-4",
-                "description": "separation",
+                "description": "Separation",
                 "prompts": [
                   {
                     "id": "prompt-bs-157",
@@ -23257,11 +23257,11 @@
           },
           {
             "id": "subtopic-bs-4-6",
-            "name": "strategies in human resource management",
+            "name": "Strategies in human resource management",
             "dotPoints": [
               {
                 "id": "dp-bs-4-6-1",
-                "description": "leadership style",
+                "description": "Leadership style",
                 "prompts": [
                   {
                     "id": "prompt-bs-158",
@@ -23377,7 +23377,7 @@
               },
               {
                 "id": "dp-bs-4-6-2",
-                "description": "job design – general or specific tasks",
+                "description": "Job design – general or specific tasks",
                 "prompts": [
                   {
                     "id": "prompt-bs-159",
@@ -23493,7 +23493,7 @@
               },
               {
                 "id": "dp-bs-4-6-3",
-                "description": "recruitment – internal or external, general or specific skills",
+                "description": "Recruitment – internal or external, general or specific skills",
                 "prompts": [
                   {
                     "id": "prompt-bs-160",
@@ -23727,7 +23727,7 @@
               },
               {
                 "id": "dp-bs-4-6-4",
-                "description": "training and development – current or future skills",
+                "description": "Training and development – current or future skills",
                 "prompts": [
                   {
                     "id": "prompt-bs-161",
@@ -23843,7 +23843,7 @@
               },
               {
                 "id": "dp-bs-4-6-5",
-                "description": "performance management – developmental or administrative",
+                "description": "Performance management – developmental or administrative",
                 "prompts": [
                   {
                     "id": "prompt-bs-162",
@@ -24020,7 +24020,7 @@
               },
               {
                 "id": "dp-bs-4-6-6",
-                "description": "rewards – monetary and non-monetary, individual or group, performance pay",
+                "description": "Rewards – monetary and non-monetary, individual or group, performance pay",
                 "prompts": [
                   {
                     "id": "prompt-bs-163",
@@ -24135,7 +24135,7 @@
               },
               {
                 "id": "dp-bs-4-6-7",
-                "description": "global – costs, skills, supply",
+                "description": "Global – costs, skills, supply",
                 "prompts": [
                   {
                     "id": "prompt-bs-164",
@@ -24250,7 +24250,7 @@
               },
               {
                 "id": "dp-bs-4-6-8",
-                "description": "workplace disputes",
+                "description": "Workplace disputes",
                 "prompts": [
                   {
                     "id": "prompt-bs-165",
@@ -24427,7 +24427,7 @@
               },
               {
                 "id": "dp-bs-4-6-9",
-                "description": "resolution – negotiation, mediation, grievance procedures, involvement of courts and tribunals",
+                "description": "Resolution – negotiation, mediation, grievance procedures, involvement of courts and tribunals",
                 "prompts": [
                   {
                     "id": "prompt-bs-166",
@@ -24545,11 +24545,11 @@
           },
           {
             "id": "subtopic-bs-4-7",
-            "name": "effectiveness of human resource management",
+            "name": "Effectiveness of human resource management",
             "dotPoints": [
               {
                 "id": "dp-bs-4-7-1",
-                "description": "indicators",
+                "description": "Indicators",
                 "prompts": [
                   {
                     "id": "prompt-bs-167",
@@ -24727,7 +24727,7 @@
               },
               {
                 "id": "dp-bs-4-7-2",
-                "description": "corporate culture",
+                "description": "Corporate culture",
                 "prompts": [
                   {
                     "id": "prompt-bs-168",
@@ -24894,7 +24894,7 @@
               },
               {
                 "id": "dp-bs-4-7-3",
-                "description": "benchmarking key variables",
+                "description": "Benchmarking key variables",
                 "prompts": [
                   {
                     "id": "prompt-bs-169",
@@ -25009,7 +25009,7 @@
               },
               {
                 "id": "dp-bs-4-7-4",
-                "description": "changes in staff turnover",
+                "description": "Changes in staff turnover",
                 "prompts": [
                   {
                     "id": "prompt-bs-170",
@@ -25124,7 +25124,7 @@
               },
               {
                 "id": "dp-bs-4-7-5",
-                "description": "absenteeism",
+                "description": "Absenteeism",
                 "prompts": [
                   {
                     "id": "prompt-bs-171",
@@ -25239,7 +25239,7 @@
               },
               {
                 "id": "dp-bs-4-7-6",
-                "description": "accidents",
+                "description": "Accidents",
                 "prompts": [
                   {
                     "id": "prompt-bs-172",
@@ -25346,7 +25346,7 @@
               },
               {
                 "id": "dp-bs-4-7-7",
-                "description": "levels of disputation",
+                "description": "Levels of disputation",
                 "prompts": [
                   {
                     "id": "prompt-bs-173",
@@ -25453,7 +25453,7 @@
               },
               {
                 "id": "dp-bs-4-7-8",
-                "description": "worker satisfaction",
+                "description": "Worker satisfaction",
                 "prompts": [
                   {
                     "id": "prompt-bs-174",

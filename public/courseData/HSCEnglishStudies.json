@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-english-studies",
-    "name": "HSC English Studies",
+    "name": "English Studies",
     "outcomes": [
       {
         "code": "ESD-11-01",
@@ -111,7 +111,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-a-voices-of-australia",
-        "name": "Year 11 Elective A: Voices of Australia",
+        "name": "Elective A: Voices of Australia",
         "year": "year11",
         "subTopics": [
           {
@@ -170,7 +170,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-b-media-and-influence",
-        "name": "Year 11 Elective B: Media and influence",
+        "name": "Elective B: Media and influence",
         "year": "year11",
         "subTopics": [
           {
@@ -229,7 +229,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-c-on-the-road",
-        "name": "Year 11 Elective C: On the road",
+        "name": "Elective C: On the road",
         "year": "year11",
         "subTopics": [
           {
@@ -288,7 +288,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-d-playing-the-game",
-        "name": "Year 11 Elective D: Playing the game",
+        "name": "Elective D: Playing the game",
         "year": "year11",
         "subTopics": [
           {
@@ -347,7 +347,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-e-lyrical-voices",
-        "name": "Year 11 Elective E: Lyrical voices",
+        "name": "Elective E: Lyrical voices",
         "year": "year11",
         "subTopics": [
           {
@@ -406,7 +406,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-f-everyday-heroes",
-        "name": "Year 11 Elective F: Everyday heroes",
+        "name": "Elective F: Everyday heroes",
         "year": "year11",
         "subTopics": [
           {
@@ -465,7 +465,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-g-part-of-a-family",
-        "name": "Year 11 Elective G: Part of a family",
+        "name": "Elective G: Part of a family",
         "year": "year11",
         "subTopics": [
           {
@@ -524,7 +524,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-h-uncovering-the-truth",
-        "name": "Year 11 Elective H: Uncovering the truth",
+        "name": "Elective H: Uncovering the truth",
         "year": "year11",
         "subTopics": [
           {
@@ -583,7 +583,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-i-the-big-screen",
-        "name": "Year 11 Elective I: The big screen",
+        "name": "Elective I: The big screen",
         "year": "year11",
         "subTopics": [
           {
@@ -642,7 +642,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-j-representing-the-past",
-        "name": "Year 11 Elective J: Representing the past",
+        "name": "Elective J: Representing the past",
         "year": "year11",
         "subTopics": [
           {
@@ -701,7 +701,7 @@
       },
       {
         "id": "topic-esd-11-year-11-elective-k-achieving-through-english-english-in",
-        "name": "Year 11 Elective K: Achieving through English – English in education, work and community",
+        "name": "Elective K: Achieving through English – English in education, work and community",
         "year": "year11",
         "subTopics": [
           {
@@ -906,7 +906,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-a-voices-of-australia",
-        "name": "Year 12 Elective A: Voices of Australia",
+        "name": "Elective A: Voices of Australia",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-a-voices-of-australia-1",
@@ -974,7 +974,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-b-media-and-influence",
-        "name": "Year 12 Elective B: Media and influence",
+        "name": "Elective B: Media and influence",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-b-media-and-influence-1",
@@ -1042,7 +1042,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-c-on-the-road",
-        "name": "Year 12 Elective C: On the road",
+        "name": "Elective C: On the road",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-c-on-the-road-1",
@@ -1110,7 +1110,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-d-playing-the-game",
-        "name": "Year 12 Elective D: Playing the game",
+        "name": "Elective D: Playing the game",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-d-playing-the-game-1",
@@ -1178,7 +1178,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-e-lyrical-voices",
-        "name": "Year 12 Elective E: Lyrical voices",
+        "name": "Elective E: Lyrical voices",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-e-lyrical-voices-1",
@@ -1246,7 +1246,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-f-everyday-heroes",
-        "name": "Year 12 Elective F: Everyday heroes",
+        "name": "Elective F: Everyday heroes",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-f-everyday-heroes-1",
@@ -1314,7 +1314,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-g-part-of-a-family",
-        "name": "Year 12 Elective G: Part of a family",
+        "name": "Elective G: Part of a family",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-g-part-of-a-family-1",
@@ -1382,7 +1382,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-h-uncovering-the-truth",
-        "name": "Year 12 Elective H: Uncovering the truth",
+        "name": "Elective H: Uncovering the truth",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-h-uncovering-the-truth-1",
@@ -1450,7 +1450,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-i-the-big-screen",
-        "name": "Year 12 Elective I: The big screen",
+        "name": "Elective I: The big screen",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-i-the-big-screen-1",
@@ -1518,7 +1518,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-j-representing-the-past",
-        "name": "Year 12 Elective J: Representing the past",
+        "name": "Elective J: Representing the past",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-j-representing-the-past-1",
@@ -1586,7 +1586,7 @@
       },
       {
         "id": "topic-esd-12-year-12-elective-k-achieving-through-english-english-in",
-        "name": "Year 12 Elective K: Achieving through English – English in education, work and community",
+        "name": "Elective K: Achieving through English – English in education, work and community",
         "subTopics": [
           {
             "id": "subtopic-esd-12-year-12-elective-k-achieving-through-english-english-in-1",
