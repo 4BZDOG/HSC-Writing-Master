@@ -144,8 +144,9 @@ const subTopicName = (text: string): string[] => {
 
 const dotPoint = (text: string): string[] => {
   const faults: string[] = [];
-  // A numeral opens some NESA sentences ("21st-century archaeology …"), so a digit counts as a capital here.
-  if (!/^(\p{Lu}|\d)/u.test(text)) faults.push('does not start with a capital letter');
+  // A numeral opens some NESA sentences ("21st-century archaeology …"), so a digit counts as a capital here, and
+  // an opening quotation mark may come first ("‘Adolescence’ as a social construct …").
+  if (!/^[‘“]?(\p{Lu}|\d)/u.test(text)) faults.push('does not start with a capital letter');
   // A multi-sentence paragraph (an elective's description) may end with a full stop.
   if (!text.includes('. ') && text.trim().endsWith('.')) faults.push('ends with a full stop');
   return faults;

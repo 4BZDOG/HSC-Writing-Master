@@ -19,8 +19,10 @@ focus_area_options is fetched at content/year-NN/<optionslist>/<option> and emit
 
 Needs the agent proxy CA: curl --cacert /root/.ccr/ca-bundle.crt (retries on resets). Set NESA_REUSE=1 to
 re-parse the pages already saved in <out_dir> rather than download them again.
-Statements holding an equation are rich-text components with MathML; they are flattened to plain text
-(C₆H₁₂O₆, a / b, —(light, chlorophyll)→).
+Statements holding an equation are rich-text components with MathML; each equation is flattened to one line of
+plain text (C₆H₁₂O₆, 10⁻¹⁵, n = m / MM, f (vwave + vobserver) / (vwave − vsource), —(light, chlorophyll)→).
+The rendering rules are in the mathml() docstring. Outside MathML, <sup>/<sub> text becomes Unicode script
+characters when every character has one (10<sup>-15</sup> -> 10⁻¹⁵, mol<sup>-1</sup> -> mol⁻¹).
 Output: <out_dir>/nesa.json = [{year, codename, title, intro, outcomes:[{code,description}],
   groups:[{title, intro, items:[{code,title,including[],examples[]}]}],
   electives?:[{title, description}],
@@ -32,7 +34,8 @@ Output: <out_dir>/nesa.json = [{year, codename, title, intro, outcomes:[{code,de
   optionIndex is the option's 0-based position in that list's focus_area_options.
 Prints one summary line per entry, then one line per options list with fetched/expected counts.
 """
-import html, json, os, re, subprocess, sys, time
+import html, html.entities, json, os, re, subprocess, sys, time
+import xml.etree.ElementTree as ET
 
 CA = '/root/.ccr/ca-bundle.crt'
 STAGE_YEARS = {'n11': 'year-11', 'n12': 'year-12'}
@@ -42,26 +45,240 @@ STAGE_YEARS = {'n11': 'year-11', 'n12': 'year-12'}
 # equation is stored as an <object data-codename=...> placeholder pointing at one of these; without
 # resolving it the statement comes out blank (Biology "Use the summary equation ...").
 COMPONENTS = {}
-SUB = str.maketrans('0123456789+-', '₀₁₂₃₄₅₆₇₈₉₊₋')
-SUP = str.maketrans('0123456789+-', '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻')
+SUB = str.maketrans('0123456789+-−=()', '₀₁₂₃₄₅₆₇₈₉₊₋₋₌₍₎')
+SUP = str.maketrans("0123456789+-−=()'", '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁻⁼⁽⁾′')
+SUB_CHARS = set('0123456789+-−=()')
+SUP_CHARS = set("0123456789+-−=()'")
+MO_TEXT = {'-': '−', '−': '−', '∆': 'Δ', '⁠': '', ' ': ' '}  # U+2206 (increment) is Greek Delta
+FUNCTION_NAMES = {'sin', 'cos', 'tan', 'cot', 'sec', 'cosec', 'csc', 'ln', 'log', 'exp', 'max', 'min', 'lim', 'det'}
+SPACED_OPS = {'=', '×', '→', '⇌', '⇒', '⇔', '≈', '≠', '≥', '≤', '<', '>', '∝', '/'}
+ADD_OPS = {'+', '−', '±'}  # spaced after an operand; otherwise unary and glued to the term that follows
+SEQ_TAGS = {'math', 'mrow', 'mstyle', 'mtd', 'mtr', 'mpadded', 'semantics'}
+OPERANDS = ('term', 'func', 'frac')
+UNKNOWN_TAGS = set()
 
 
 def mathml(m):
-    """Flatten a MathML fragment to plain text: subscripts and superscripts as Unicode, fractions as a/b."""
-    s = m
-    for _ in range(6):  # innermost first, so nested msub/mfrac resolve outwards
-        s = re.sub(r'<msub>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*</msub>',
-                   lambda x: re.sub(r'<[^>]+>', '', x.group(1)) + re.sub(r'<[^>]+>', '', x.group(2)).translate(SUB), s, flags=re.S)
-        s = re.sub(r'<msup>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*</msup>',
-                   lambda x: re.sub(r'<[^>]+>', '', x.group(1)) + re.sub(r'<[^>]+>', '', x.group(2)).translate(SUP), s, flags=re.S)
-        s = re.sub(r'<mfrac>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*<mrow>((?:(?!<mrow>).)*?)</mrow>\s*</mfrac>',
-                   lambda x: re.sub(r'<[^>]+>', '', x.group(1)).strip() + ' / ' + re.sub(r'<[^>]+>', '', x.group(2)).strip(), s, flags=re.S)
-    # Reaction conditions written over an arrow: "→" with "light / chlorophyll" above it.
-    s = re.sub(r'<mover[^>]*>\s*<mo>\s*(→)\s*</mo>(.*?)</mover>',
-               lambda x: ' —(' + ', '.join(t for t in (re.sub(r'<[^>]+>', '', c).strip() for c in re.findall(r'<mtd>(.*?)</mtd>', x.group(2), re.S)) if t) + ')→ ', s, flags=re.S)
-    s = re.sub(r'<mo>\s*([=+→×])\s*</mo>', r' \1 ', s)
-    s = re.sub(r'</?(mtr|mtd|mtable)[^>]*>', ' ', s)
-    return re.sub(r'<[^>]+>', '', s)
+    """Flatten one <math> element to a single line of plain text (HTML-escaped; txt() unescapes it later).
+
+    Rendering rules:
+      - sub/superscripts: digits and signs become Unicode script characters (C₆H₁₂O₆, 10⁻¹⁵, H₃O⁺); letters
+        stay plain as NESA wrote them (v_esc -> vesc); T_(1/2) -> T½; msubsup is base, subscript, superscript.
+      - fraction: "a / b"; a side with a top-level + − or = is bracketed; a fraction followed by a factor is
+        bracketed, (1 / 2)mv²; a fraction after a factor gets a space: f (vwave + vobserver) / (vwave − vsource).
+      - square root: √x or √(...), no extra brackets when the radicand is already one bracketed group.
+      - mfenced keeps its brackets (R(1 / nf² − 1 / ni²)); a function name (sin, cos, ln) is followed by a
+        space, except before brackets (ln(2)).
+      - '-' is the Unicode minus; U+2061 is a space; &nbsp;, U+2008 and line breaks are ordinary spaces.
+      - reaction conditions above an arrow: " —(light, chlorophyll)→ ".
+    """
+    m = m.strip()
+    if not m.startswith('<math'):
+        m = '<math>' + m + '</math>'
+    try:
+        root = ET.fromstring(re.sub(r'&[A-Za-z][A-Za-z0-9]*;', _xml_entity, m))
+    except ET.ParseError as e:
+        print('MathML not parsed (%s): %s' % (e, re.sub(r'\s+', ' ', m)[:160]), file=sys.stderr)
+        return html.escape(re.sub(r'\s+', ' ', re.sub(r'<[^>]+>', ' ', m)).strip(), quote=False)
+    s = re.sub(r'\s+', ' ', _join(_items(root))).strip()
+    s = re.sub(r'([(\[]) ', r'\1', s)
+    s = re.sub(r' ([)\]])', r'\1', s)
+    s = re.sub(r' ,', ',', s)
+    return html.escape(s, quote=False)
+
+
+def _xml_entity(m):
+    """Named HTML entities (&nbsp; ...) -> numeric references, so the MathML parses as XML."""
+    name = m.group(0)[1:]
+    if name in ('amp;', 'lt;', 'gt;', 'quot;', 'apos;') or name not in html.entities.html5:
+        return m.group(0)
+    return ''.join('&#%d;' % ord(c) for c in html.entities.html5[name])
+
+
+def _local(tag):
+    return tag.rsplit('}', 1)[-1]
+
+
+def _text(el):
+    return re.sub(r'\s+', ' ', el.text or '')  # &nbsp;, U+2008 and newlines all become plain spaces
+
+
+def _raw(el):
+    """Unformatted text of a subtree, used inside sub/superscripts and accents."""
+    if len(el):
+        return ''.join(_raw(c) for c in el).strip()
+    t = _text(el).strip()
+    return MO_TEXT.get(t, t).replace('⁡', '') if _local(el.tag) == 'mo' else t
+
+
+def _items(el):
+    """Layout items of one element as (kind, text); kinds: term, func, frac, bin, addop, raw, fa, sp."""
+    tag = _local(el.tag)
+    if tag in SEQ_TAGS:
+        return _seq(el)
+    if tag == 'mo':
+        t = (el.text or '').strip()
+        if t == '⁡':
+            return [('fa', '')]
+        t = MO_TEXT.get(t, t)
+        if t == "'":
+            t = '′'
+        if not t:
+            return []
+        if t == '⋯':  # "V₁ + V₂ + ⋯ + Vₙ": the + after the ellipsis is binary, so the ellipsis is not an operator
+            return [('raw', ' ⋯ ')]
+        if t in SPACED_OPS:
+            return [('bin', t)]
+        if t in ADD_OPS:
+            return [('addop', t)]
+        return [('raw', t)]
+    if tag in ('mi', 'mn', 'mtext'):
+        t = _text(el)
+        core = t.strip()
+        if not core:  # a spacer token such as <mi>&nbsp;</mi> between operands: "v = f λ" is written "v = fλ"
+            return []
+        out = [('sp', '')] if t[:1] == ' ' else []
+        if core:
+            out.append(('func' if tag == 'mi' and core in FUNCTION_NAMES else 'term', core))
+        if len(t) > 1 and t[-1:] == ' ':
+            out.append(('sp', ''))
+        return out
+    if tag == 'mspace':
+        return [('sp', '')]
+    if tag in ('maligngroup', 'malignmark'):
+        return []
+    if tag == 'mfrac':
+        return [('frac', _frac(el))]
+    if tag in ('msub', 'msup', 'msubsup'):
+        return [_script(el, tag)]
+    if tag == 'msqrt':
+        body = _join(_seq(el))
+        return [('term', '√' + (body if _wrapped(body) or len(body) == 1 else '(' + body + ')'))]
+    if tag == 'mfenced':
+        sep = el.get('separators', ',').strip()
+        joiner = ', ' if sep == ',' else (' %s ' % sep if sep else '')
+        return [('term', el.get('open', '(') + joiner.join(_join(_items(k)) for k in el) + el.get('close', ')'))]
+    if tag == 'mover' and len(el) >= 2:
+        base, over = list(el)[:2]
+        if _local(base.tag) == 'mo' and _raw(base) in ('→', '⇌'):  # arrow with its conditions above it
+            cells = [c for c in over.iter() if _local(c.tag) == 'mtd']
+            conds = [c for c in (_join(_items(x)).strip() for x in (cells or [over])) if c]
+            if conds:
+                return [('raw', ' —(' + ', '.join(conds) + ')' + _raw(base) + ' ')]
+            return [('bin', _raw(base))]
+        return [('term', _join(_items(base)) + _raw(over))]  # accent, e.g. v with the combining arrow
+    if tag == 'mtable':
+        rows = [', '.join(_join(_items(c)).strip() for c in r if _local(c.tag) == 'mtd') for r in el]
+        return [('term', ', '.join(x for x in rows if x))]
+    if len(el) == 0:
+        t = _text(el).strip()
+        return [('term', t)] if t else []
+    if tag not in UNKNOWN_TAGS:
+        UNKNOWN_TAGS.add(tag)
+        print('MathML: <%s> rendered as its children' % tag, file=sys.stderr)
+    return _seq(el)
+
+
+def _seq(el):
+    return [it for c in el for it in _items(c)]
+
+
+def _script(el, tag):
+    kids = list(el)
+    base_items = _items(kids[0])
+    base = _join(base_items)
+    is_func = any(k == 'func' for k, _ in base_items) and all(k in ('func', 'sp') for k, _ in base_items)
+    if tag == 'msub':
+        text = base + _sub(_raw(kids[1]))
+    elif tag == 'msup':
+        text = base + _sup(_raw(kids[1]))
+    else:
+        text = base + _sub(_raw(kids[1])) + _sup(_raw(kids[2]))
+    return ('func' if is_func else 'term', text)
+
+
+def _sub(raw):
+    if raw in ('1/2', '1 / 2'):
+        return '½'  # T_(1/2), the half-life
+    if raw and set(raw) <= SUB_CHARS:
+        return raw.translate(SUB)
+    return raw  # letters stay on the line: v_esc -> vesc
+
+
+def _sup(raw):
+    if not raw:
+        return ''
+    if set(raw) <= SUP_CHARS:
+        return raw.translate(SUP)
+    return '^' + raw if len(raw) == 1 else '^(' + raw + ')'
+
+
+def _frac(el):
+    kids = list(el)
+    num, den = _join(_items(kids[0])).strip(), _join(_items(kids[1])).strip()
+    if _multi(num):
+        num = '(' + num + ')'
+    if _multi(den):
+        den = '(' + den + ')'
+    return num + ' / ' + den
+
+
+def _multi(s):
+    """True when s has a + − or = outside any brackets, i.e. it is more than one term."""
+    depth = 0
+    for i, ch in enumerate(s):
+        if ch in '([':
+            depth += 1
+        elif ch in ')]':
+            depth -= 1
+        elif depth == 0 and ch in '+−=' and s[max(i - 1, 0):i] == ' ' and s[i + 1:i + 2] == ' ':
+            return True
+    return False
+
+
+def _wrapped(s):
+    """True when s is one bracketed group, (...), with the first '(' closed by the last ')'."""
+    if not (s.startswith('(') and s.endswith(')')):
+        return False
+    depth = 0
+    for i, ch in enumerate(s):
+        depth += (ch == '(') - (ch == ')')
+        if depth == 0 and i < len(s) - 1:
+            return False
+    return True
+
+
+def _join(items):
+    """Join layout items: operators spaced, implicit products glued, brackets where a fraction needs them."""
+    res, last = [], None
+    for kind, text in items:
+        if kind == 'addop':
+            unary = last is None or last[0] in ('bin', 'un') or (last[0] == 'raw' and last[1] in ('(', '[', '{', ',', '∑'))
+            kind = 'un' if unary else 'bin'
+        res.append((kind, text))
+        if kind not in ('sp', 'fa'):
+            last = (kind, text)
+    out = []
+    for pos, (kind, text) in enumerate(res):
+        prev = res[pos - 1] if pos else None
+        nxt = res[pos + 1] if pos + 1 < len(res) else None
+        if kind == 'sp':
+            out.append(' ')
+        elif kind == 'fa':
+            if not (nxt and nxt[0] == 'term' and nxt[1].startswith('(')):
+                out.append(' ')
+        elif kind == 'bin':
+            out.append(' ' + text + ' ')
+        elif kind in ('un', 'raw'):
+            out.append(text)
+        else:
+            if kind == 'frac' and nxt and nxt[0] in OPERANDS:
+                text = '(' + text + ')'
+            if prev and prev[0] in OPERANDS and (kind != 'term' or prev[0] == 'func') \
+                    and not (prev[0] == 'func' and kind == 'term' and text.startswith('(')):
+                out.append(' ')
+            out.append(text)
+    return ''.join(out)
 
 
 def components(s):
@@ -69,7 +286,18 @@ def components(s):
         el = COMPONENTS.get(m.group(1)) or {}
         return components(str((el.get('content') or {}).get('value') or ''))
     s = re.sub(r'<object[^>]*data-codename="([^"]+)"[^>]*>\s*</object>', sub, s)
-    return re.sub(r'<math[^>]*>(.*?)</math>', lambda m: mathml(m.group(1)), s, flags=re.S)
+    return re.sub(r'<math[^>]*>.*?</math>', lambda m: mathml(m.group(0)), s, flags=re.S)
+
+
+def _html_script(m):
+    """HTML <sup>/<sub> in statement text (outside MathML): Unicode script characters when every character has one
+    (10<sup>-15</sup> -> 10⁻¹⁵, mol<sup>-1</sup> -> mol⁻¹); otherwise the text is kept without the tags."""
+    tag, inner = m.group(1), m.group(2)
+    if tag == 'sup' and inner and set(inner) <= SUP_CHARS:
+        return inner.translate(SUP)
+    if tag == 'sub' and inner and set(inner) <= SUB_CHARS:
+        return inner.translate(SUB)
+    return inner
 
 
 def txt(v):
@@ -78,8 +306,9 @@ def txt(v):
     s = components(str(v))
     s = re.sub(r'</(li|p)>', '\n', s)
     s = re.sub(r'<br\s*/?>', '\n', s)
+    s = re.sub(r'<(sup|sub)(?:\s[^>]*)?>(.*?)</\1>', _html_script, s, flags=re.S)
     s = re.sub(r'<[^>]+>', '', s)
-    s = html.unescape(s)
+    s = html.unescape(s).replace(' ', ' ')  # NBSP before or after an equation is an ordinary space
     return '\n'.join(re.sub(r'[ \t ]+', ' ', l).strip() for l in s.split('\n') if l.strip())
 
 

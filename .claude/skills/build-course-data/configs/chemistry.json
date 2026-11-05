@@ -1,0 +1,50 @@
+{
+  "syllabus": "Chemistry 11–12 Syllabus (2025); Year 11 from 2028, first HSC 2029",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/science/chemistry-11-12-2025",
+  "startFocusAreas": [
+    "content/year-11/fa206b9d23",
+    "content/year-12/fa76868f0b"
+  ],
+  "id": "course-hsc-chemistry",
+  "name": "Chemistry",
+  "prefix": "chem",
+  "outcomePattern": "^[A-Z0-9]+-1[12][A-Z]*-\\d\\d$",
+  "topics": [
+    {
+      "title": "Working scientifically",
+      "year": "year11"
+    },
+    {
+      "title": "Properties and structure of matter",
+      "year": "year11"
+    },
+    {
+      "title": "Quantitative chemistry",
+      "year": "year11"
+    },
+    {
+      "title": "Chemical reactions",
+      "year": "year11"
+    },
+    {
+      "title": "Working scientifically",
+      "year": "year12"
+    },
+    {
+      "title": "Equilibrium",
+      "year": "year12"
+    },
+    {
+      "title": "Acid–base reactions",
+      "year": "year12"
+    },
+    {
+      "title": "Organic chemistry",
+      "year": "year12"
+    },
+    {
+      "title": "Applying chemical ideas",
+      "year": "year12"
+    }
+  ]
+}

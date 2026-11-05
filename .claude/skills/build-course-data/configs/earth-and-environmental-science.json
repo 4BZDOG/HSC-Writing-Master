@@ -1,0 +1,50 @@
+{
+  "syllabus": "Earth and Environmental Science 11–12 Syllabus (2025); Year 11 from 2028, first HSC 2029",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/science/earth-and-environmental-science-11-12-2025",
+  "startFocusAreas": [
+    "content/year-11/fa73dfeee2",
+    "content/year-12/faa3225947"
+  ],
+  "id": "course-hsc-earth-and-environmental-science",
+  "name": "Earth and Environmental Science",
+  "prefix": "ees",
+  "outcomePattern": "^[A-Z0-9]+-1[12][A-Z]*-\\d\\d$",
+  "topics": [
+    {
+      "title": "Working scientifically",
+      "year": "year11"
+    },
+    {
+      "title": "Dynamic Earth",
+      "year": "year11"
+    },
+    {
+      "title": "Australia’s geological and energy resources",
+      "year": "year11"
+    },
+    {
+      "title": "Human impacts",
+      "year": "year11"
+    },
+    {
+      "title": "Working scientifically",
+      "year": "year12"
+    },
+    {
+      "title": "Evolving Earth",
+      "year": "year12"
+    },
+    {
+      "title": "Natural hazards",
+      "year": "year12"
+    },
+    {
+      "title": "Climate science",
+      "year": "year12"
+    },
+    {
+      "title": "Sustainability",
+      "year": "year12"
+    }
+  ]
+}

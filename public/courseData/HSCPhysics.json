@@ -1,0 +1,2387 @@
+[
+  {
+    "id": "course-hsc-physics",
+    "name": "Physics",
+    "outcomes": [
+      {
+        "code": "PY-11-01",
+        "description": "analyses motion and events using scientific laws and models",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11-02",
+        "description": "explains the properties and behaviours of waves",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11-03",
+        "description": "explains electric and magnetic field interactions",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11WS-02",
+        "description": "designs and evaluates scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11WS-03",
+        "description": "conducts scientific investigations to collect data and information",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11WS-04",
+        "description": "selects and processes qualitative and quantitative data and information",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11WS-05",
+        "description": "analyses and evaluates primary and secondary data and information",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11WS-06",
+        "description": "uses scientific processes to solve scientific problems",
+        "year": "year11"
+      },
+      {
+        "code": "PY-11WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience",
+        "year": "year11"
+      },
+      {
+        "code": "PY-12-01",
+        "description": "analyses circular and projectile motion in gravitational fields"
+      },
+      {
+        "code": "PY-12-02",
+        "description": "analyses the effect of the interactions between electric and magnetic fields"
+      },
+      {
+        "code": "PY-12-03",
+        "description": "analyses the properties of light using models and theories"
+      },
+      {
+        "code": "PY-12-04",
+        "description": "analyses matter, its relationship with energy, and the roles of matter and energy in astronomical events"
+      },
+      {
+        "code": "PY-12WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations"
+      },
+      {
+        "code": "PY-12WS-02",
+        "description": "designs and evaluates scientific investigations"
+      },
+      {
+        "code": "PY-12WS-03",
+        "description": "conducts scientific investigations to collect data and information"
+      },
+      {
+        "code": "PY-12WS-04",
+        "description": "selects and processes qualitative and quantitative data and information"
+      },
+      {
+        "code": "PY-12WS-05",
+        "description": "analyses and evaluates primary and secondary data and information"
+      },
+      {
+        "code": "PY-12WS-06",
+        "description": "uses scientific processes to solve scientific problems"
+      },
+      {
+        "code": "PY-12WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-phy-11-working-scientifically",
+        "name": "Working scientifically",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-11-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-5-7",
+                "description": "Use appropriate significant figures to express quantitative solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-5-8",
+                "description": "Use appropriate scale prefixes for powers of 10: femto (f) = 10⁻¹⁵, pico (p) = 10⁻¹², nano (n) = 10⁻⁹, micro (μ) = 10⁻⁶, milli (m) = 10⁻³, kilo (k) = 10³, mega (M) = 10⁶, giga (G) = 10⁹, tera (T) = 1012 and peta (P) = 10¹⁵",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena, and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-11-fundamentals-of-mechanics",
+        "name": "Fundamentals of mechanics",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-11-fundamentals-of-mechanics-1",
+            "name": "Quantities of motion",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-1",
+                "description": "Classify distance, displacement, time, speed, velocity and acceleration as either scalar or vector quantities",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-2",
+                "description": "Use vector diagrams to represent the displacement, velocity and acceleration of an object",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-3",
+                "description": "Add and subtract vectors in 2 dimensions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-4",
+                "description": "Resolve vectors into components",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-5",
+                "description": "Solve total distance and displacement problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-6",
+                "description": "Explain how instantaneous speed, average speed, instantaneous velocity and average velocity are measured and calculated",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-7",
+                "description": "Solve problems using v⃗av = Δs⃗ / Δt",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-8",
+                "description": "Solve problems involving the calculation of velocity in 2 dimensions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-9",
+                "description": "Solve problems to determine speed, velocity, distance, displacement and time",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-1-10",
+                "description": "Solve problems in one and 2 dimensions using a⃗ = Δv⃗ / Δt",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-fundamentals-of-mechanics-2",
+            "name": "Motion relationships",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-2-1",
+                "description": "Use data to construct displacement–time graphs, velocity–time graphs and acceleration–time graphs",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-2-2",
+                "description": "Use data to analyse motion graphs to describe the displacement, velocity and acceleration of an object",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-2-3",
+                "description": "Analyse motion graphs to determine the relationships between displacement, initial velocity, final velocity, acceleration and time",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-2-4",
+                "description": "Solve problems involving uniformly accelerated motion in one dimension using s⃗ = u⃗t + (1 / 2)a⃗t², v⃗ = u⃗ + a⃗t and v⃗² = u⃗² + 2a⃗s⃗",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-2-5",
+                "description": "Conduct a laboratory experiment to compare 2 methods of graphically determining a value for acceleration due to gravity and assess the accuracy and reliability of the experimental results",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-2-6",
+                "description": "Analyse problems of relative velocity involving motion in two dimensions using v⃗AB = v⃗A − v⃗B",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-fundamentals-of-mechanics-3",
+            "name": "Forces and motion",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-1",
+                "description": "Resolve vectors into perpendicular components using Fx = F cos θ and Fy = F sin θ where θ is the angle with the x-axis",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-2",
+                "description": "Use free-body diagrams and vector analysis to determine the net force acting on an object",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-3",
+                "description": "Apply Newton’s first law of motion to stationary objects and objects moving with a constant velocity",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-4",
+                "description": "Analyse the forces acting on an object moving with constant velocity",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-5",
+                "description": "Conduct a scientific investigation to illustrate the relationship between force, mass and acceleration",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-6",
+                "description": "Analyse the forces acting on an accelerating object",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-7",
+                "description": "Solve problems involving Newton’s second law of motion using F⃗net = ma⃗",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-8",
+                "description": "Use examples to describe the effects of Newton’s third law of motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-9",
+                "description": "Analyse the forces acting on connected bodies in physical contact and linked by ropes using vector diagrams and Newton’s laws of motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-10",
+                "description": "Compare static and kinetic friction",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-11",
+                "description": "Solve problems using ffriction = μFN",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-3-12",
+                "description": "Solve a variety of problems in static and dynamic real-world situations by applying Newton’s laws of motion",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-fundamentals-of-mechanics-4",
+            "name": "Motion on inclined planes",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-4-1",
+                "description": "Determine the normal force on objects on inclined planes",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-4-2",
+                "description": "Construct free-body diagrams to show the gravitational, normal, frictional and net force acting on an object on an inclined plane",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-4-3",
+                "description": "Resolve the weight force into perpendicular and parallel components on inclined planes using F⊥ = mg cos θ and F∥ = mg sin θ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-4-4",
+                "description": "Derive a = g sin θ − μg cos θ to describe the acceleration on an object on an inclined plane with friction using Newton’s second law parallel to the plane",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-4-5",
+                "description": "Solve problems involving objects with constant velocity and objects accelerating on inclined planes",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-4-6",
+                "description": "Explain why Aboriginal and/or Torres Strait Islander Peoples used inclined planes to move heavy objects",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-4-7",
+                "description": "Conduct a laboratory experiment to analyse the relationship between the angle of an inclined plane and the acceleration of an object",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-fundamentals-of-mechanics-5",
+            "name": "Momentum and energy",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-1",
+                "description": "Compare conservative forces and non-conservative forces",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-2",
+                "description": "State the conditions under which total mechanical energy is conserved",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-3",
+                "description": "Relate the work done on an object to the change in its kinetic energy during accelerated rectilinear motion using W = F∥s = Fs cos θ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-4",
+                "description": "Solve problems involving changes in gravitational potential energy in a uniform gravitational field using ΔU = mgΔh",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-5",
+                "description": "Solve problems involving kinetic energy using KE = (1 / 2)mv²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-6",
+                "description": "Apply the law of conservation of mechanical energy and use W = ΔKE = (1 / 2)mv² and W = ΔU to solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-7",
+                "description": "Analyse energy transformations and calculate the work done when an object moves within a uniform gravitational field, including changes in gravitational potential energy due to height and identifying the forces responsible for doing work",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-8",
+                "description": "State the conditions under which momentum is conserved",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-9",
+                "description": "Explain why momentum is conserved during collisions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-10",
+                "description": "Classify collisions as elastic or inelastic by calculating and comparing the total kinetic energy before and after the collision",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-11",
+                "description": "Solve problems involving momentum using p⃗ = mv⃗ and Δp⃗ = F⃗netΔt",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-12",
+                "description": "Solve problems involving the conservation of momentum using ∑mv⃗before = ∑mv⃗after and, where appropriate, conservation of kinetic energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-13",
+                "description": "Solve problems involving the conservation of momentum in elastic collisions using ∑(1 / 2)mvbefore² = ∑(1 / 2)mvafter²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-fundamentals-of-mechanics-5-14",
+                "description": "Conduct a practical investigation to analyse the conservation of momentum in collisions",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-11-waves",
+        "name": "Waves",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-11-waves-1",
+            "name": "Wave properties",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-waves-1-1",
+                "description": "Conduct a practical investigation to model the oscillation of particles in transverse waves and longitudinal waves and relate to the direction of energy transfer",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-1-2",
+                "description": "Describe the wavelength, frequency, period, crest, trough and amplitude of transverse waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-1-3",
+                "description": "Describe the wavelength, frequency, period, compression, rarefaction and amplitude of longitudinal waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-1-4",
+                "description": "Solve problems using f = 1 / T and v = fλ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-1-5",
+                "description": "Analyse displacement–time graphs for longitudinal and transverse waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-1-6",
+                "description": "Analyse displacement–distance graphs for longitudinal and transverse waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-1-7",
+                "description": "Describe how Aboriginal Peoples use the wave velocity and wavelength of water waves to approximate water depth",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-waves-2",
+            "name": "Light and sound",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-waves-2-1",
+                "description": "Identify that mechanical waves require a medium for propagation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-2",
+                "description": "Explain how sound waves transfer energy through a medium",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-3",
+                "description": "Conduct a practical investigation, to relate wavelength to frequency, frequency to pitch, and amplitude to loudness",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-4",
+                "description": "Conduct a practical investigation to demonstrate how frequency and amplitude relate to the energy of a sound wave",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-5",
+                "description": "Identify light as an electromagnetic wave that does not require a medium for propagation and travels at c, the speed of light, in a vacuum",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-6",
+                "description": "Describe the production and transfer of energy of electromagnetic wave",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-7",
+                "description": "Interpret diagrams of the electromagnetic spectrum to quantitatively demonstrate the relationship between frequency, wavelength and energy E = hf and c = fλ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-8",
+                "description": "Describe practical applications for regions of the electromagnetic spectrum, linking properties to uses",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-9",
+                "description": "Solve problems involving the inverse square law using I α 1 / r² and I₁r₁² = I₂r₂² to compare the intensity of light at points r₁ and r₂",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-10",
+                "description": "Explain the relationship between distance and radiation intensity from a point source",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-2-11",
+                "description": "Conduct a laboratory experiment to analyse the relationship between light intensity and distance from a light source",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-waves-3",
+            "name": "Wave behaviours",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-waves-3-1",
+                "description": "Describe examples of the law of reflection",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-2",
+                "description": "Use linear wavefront diagrams and ray diagrams to analyse the motion of a wave",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-3",
+                "description": "Conduct a scientific investigation to demonstrate refraction between 2 media",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-4",
+                "description": "Relate the velocity of light to the refractive index of a medium",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-5",
+                "description": "Solve refractive index problems using nx = c / vx, where nx is the refractive index of the medium and vx is the speed of light in the medium",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-6",
+                "description": "Solve problems by applying the law of refraction of light using n₁ sin θ₁ = n₂ sin θ₂",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-7",
+                "description": "Solve total internal reflection and critical angle problems using sin θc = n₂ / n₁",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-8",
+                "description": "Relate the change in velocity of a light wave crossing an interface to differences between refractive indices",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-9",
+                "description": "Construct ray diagrams to show reflection from plane mirrors and refraction at a boundary",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-10",
+                "description": "Conduct a laboratory experiment to determine the refractive index of a material and assess the accuracy of the measurement",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-11",
+                "description": "Conduct a scientific investigation to discuss how spectacles assist people with vision impairment",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-12",
+                "description": "Conduct a practical investigation to model how waves diffract through openings and around obstacles of different sizes",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-13",
+                "description": "Model the principle of superposition",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-14",
+                "description": "Use the principle of superposition to explain the constructive interference and destructive interference of waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-15",
+                "description": "Explain how the superposition of waves produces interference patterns with observable maxima and minima",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-16",
+                "description": "Demonstrate the formation of a standing wave",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-17",
+                "description": "Explain the production of nodes and antinodes in a standing wave",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-18",
+                "description": "Analyse the frequency and wavelength of standing waves in strings fixed at both ends using v = fλ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-19",
+                "description": "Explain the frequency shift phenomenon for sound waves and light waves (blueshift and redshift), as a source moves towards and away from an observer",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-waves-3-20",
+                "description": "Solve frequency shift phenomenon problems for sound using f′ = f (vwave + vobserver) / (vwave − vsource)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-11-electricity-and-magnetism",
+        "name": "Electricity and magnetism",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-11-electricity-and-magnetism-1",
+            "name": "Electrostatics",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-1",
+                "description": "Explain the role of the movement of electrons in charging particles and objects",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-2",
+                "description": "Explain how friction, induction and conduction can cause objects to become electrically charged",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-3",
+                "description": "Outline characteristics of an electric field surrounding a point charge",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-4",
+                "description": "Explain the role of static electricity in producing a lightning strike",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-5",
+                "description": "Use the equation E = (1 / 4πε₀) q / r² to demonstrate that the electric field strength around a point charge follows the inverse square law",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-6",
+                "description": "Use field line diagrams to describe the electric field around point charges and between charged particles",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-7",
+                "description": "Solve problems involving charges in electric fields using F⃗ = qE⃗",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-8",
+                "description": "Analyse the factors that affect the force between 2 charged particles using the electrostatic force law and F = (1 / 4πε₀) q₁q₂ / r²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-9",
+                "description": "Use field line diagrams to describe the electric field between 2 charged parallel plates",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-10",
+                "description": "Analyse the factors that affect the strength of the electric field between 2 charged parallel plates using E = V / d",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-11",
+                "description": "Solve problems relating to the charged particles in electric fields using F⃗ = qE⃗, E = V / d, F⃗net = ma⃗ and W = ΔKE",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-12",
+                "description": "Explain how the electric potential energy of a charged particle changes due to its position in an electric field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-13",
+                "description": "Solve problems involving changes in electric potential energy in a uniform electric field using W = qV = qEd and W = ΔKE",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-14",
+                "description": "Account for the energy transformations that occur when a charge moves in a uniform electric field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-15",
+                "description": "Solve problems involving the work done when moving a charge in an electric field using the relationships between W, ΔU and ΔKE",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-16",
+                "description": "Analyse the relationships between voltage, potential energy difference and work when changing the position of a charge in a uniform electric field using V = ΔU / q",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-1-17",
+                "description": "Solve problems relating to changes in position of charges in electric fields using W = qV",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-electricity-and-magnetism-2",
+            "name": "Electric circuits",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-1",
+                "description": "Calculate electric current using I = q / t",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-2",
+                "description": "Relate the flow of charge to the direction of conventional current",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-3",
+                "description": "Explain why electrons flow through a metallic conductor when connected to an external voltage",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-4",
+                "description": "Compare direct current (DC) and alternating current (AC)",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-5",
+                "description": "Relate voltage to electron flow in a circuit of constant resistance",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-6",
+                "description": "Explain why the resistance of a conductor can be affected by its material, length, cross-sectional area and temperature",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-7",
+                "description": "Analyse the relationships between voltage, current and resistance using V = IR for electric circuits having constant and variable resistance",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-8",
+                "description": "Conduct a laboratory experiment to examine the relationships between voltage and current for ohmic conductors and non-ohmic conductors",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-9",
+                "description": "Relate power to energy transformations",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-10",
+                "description": "Solve problems using P = W / Δt = ΔE / Δt",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-11",
+                "description": "Describe the relationship between power and voltage using P = VI",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-12",
+                "description": "Solve problems relating to energy loss in circuits using P = I²R and the law of conservation of energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-13",
+                "description": "Compare the connection of components in series circuits with that in parallel circuits",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-14",
+                "description": "Construct and analyse diagrams of series circuits and parallel circuits",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-15",
+                "description": "Explain why ammeters are connected in series, and voltmeters are connected in parallel to components, in electric circuits",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-16",
+                "description": "Account for the magnitude of current at any point in a series circuit",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-17",
+                "description": "Account for the total voltage of a series circuit being the sum of the voltages of its components using conservation of energy and Vseries = V₁ + V₂ + ⋯ + Vn",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-18",
+                "description": "Account for the total resistance of a series circuit being the sum of the resistances of its components using Rseries = R₁ + R₂ + ⋯ + Rn",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-19",
+                "description": "Use the relationship between the total resistance and resistance in each branch of a parallel circuit, 1 / Rparallel = 1 / R₁ + 1 / R₂ + ⋯ + 1 / Rn to calculate resistances",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-20",
+                "description": "Explain the relationship between the total current of a parallel circuit and the current passing through each component using Iparallel = I₁ + I₂ + ⋯ + In",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-21",
+                "description": "Solve problems involving voltage, current and resistance, in series, parallel and combination circuits",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-2-22",
+                "description": "Conduct a laboratory experiment to measure the voltage differences across components and current at different points in a combination circuit of fixed resistance, and account for variation from the calculated values",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-11-electricity-and-magnetism-3",
+            "name": "Magnetism",
+            "dotPoints": [
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-1",
+                "description": "Identify that magnetic field lines are continuous and used to represent the strength and direction of magnetic fields",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-2",
+                "description": "Use field line diagrams to analyse the magnetic field around a bar magnet, current-carrying wire and current-carrying loop",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-3",
+                "description": "Calculate the strength of the magnetic field produced by a current-carrying wire using B = μ₀I / 2πr",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-4",
+                "description": "Describe the structure of a simple solenoid",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-5",
+                "description": "Account for the shape and direction of the magnetic field produced by a direct current passing through a solenoid",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-6",
+                "description": "Calculate the strength of the uniform magnetic field inside a solenoid using B = μ₀NI / L",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-7",
+                "description": "Conduct a secondary-source investigation to assess the choice of materials used in the core of electromagnets",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-11-electricity-and-magnetism-3-8",
+                "description": "Conduct a practical investigation to examine the factors affecting the strength of an electromagnet",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-12-working-scientifically",
+        "name": "Working scientifically",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-12-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-5-7",
+                "description": "Use appropriate significant figures to express quantitative solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-5-8",
+                "description": "Use appropriate scale prefixes for powers of 10: femto (f) = 10⁻¹⁵, pico (p) = 10⁻¹², nano (n) = 10⁻⁹, micro (μ) = 10⁻⁶, milli (m) = 10⁻³, kilo (k) = 10³, mega (M) = 10⁶, giga (G) = 10⁹, tera (T) = 1012 and peta (P) = 10¹⁵",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena, and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-12-advanced-mechanics",
+        "name": "Advanced mechanics",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-12-advanced-mechanics-1",
+            "name": "Projectile motion",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-advanced-mechanics-1-1",
+                "description": "Explain why projectiles in a uniform gravitational field experience constant vertical acceleration and zero horizontal acceleration when gravity is the only force acting",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-1-2",
+                "description": "Resolve the instantaneous velocity of a projectile into horizontal and vertical components",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-1-3",
+                "description": "Calculate the time of flight, maximum height, range and final velocity of a projectile using s⃗ = u⃗t + (1 / 2)a⃗t², v⃗ = u⃗ + a⃗t and v⃗² = u⃗² + 2a⃗s⃗",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-1-4",
+                "description": "Solve problems involving projectiles to analyse the relationships between launch angle, initial velocity, launch height, maximum height, time of flight, final velocity and horizontal range",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-1-5",
+                "description": "Analyse the motion of projectiles used by Aboriginal and/or Torres Strait Islander Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-1-6",
+                "description": "Conduct a practical investigation to analyse the motion of a projectile",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-advanced-mechanics-2",
+            "name": "Circular motion",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-1",
+                "description": "Account for forces that cause an object to move in uniform circular motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-2",
+                "description": "Explain why a constant net force acting perpendicular to a body’s velocity causes uniform circular motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-3",
+                "description": "Use vector diagrams to show the relationships between instantaneous velocity, change in velocity, force and centripetal acceleration for an object moving in uniform circular motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-4",
+                "description": "Analyse the relationship between period and frequency for an object moving in uniform circular motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-5",
+                "description": "Explain why the speed of an object in circular motion is v = 2πr / T",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-6",
+                "description": "Describe the motion of an object that was in uniform circular motion after the forces providing the centripetal acceleration are removed",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-7",
+                "description": "Analyse the relationships between speed, period, radius, centripetal force and acceleration in uniform circular motion using v = 2πr / T, ac = v² / r and Fc = mv² / r",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-8",
+                "description": "Analyse the forces acting on a vehicle moving at constant speed around a horizontal uniform circular bend",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-9",
+                "description": "Analyse the forces acting on a mass suspended by a string moving in horizontal uniform circular motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-10",
+                "description": "Conduct a laboratory experiment of an object in uniform circular motion to analyse the relationships between mass, radius, instantaneous velocity and centripetal force",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-11",
+                "description": "Solve quantitative problems involving uniform circular motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-12",
+                "description": "Analyse the factors that affect the gravitational potential energy of an object above a planet’s surface using U = −GMm / r",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-13",
+                "description": "Analyse graphs of the changes in gravitational potential energy, kinetic energy and work done for an object launched vertically to escape a planet’s gravitational field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-14",
+                "description": "Derive the formula for escape velocity vesc = √(2GM / r) using the law of conservation of mechanical energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-15",
+                "description": "Solve problems involving gravitational potential energy and escape velocity",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-16",
+                "description": "Analyse the relationships between gravitational potential energy, kinetic energy and total energy for a satellite in orbit using U + K = −GMm / 2r",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-17",
+                "description": "Solve problems involving the energy of satellites in orbit",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-2-18",
+                "description": "Analyse how moving to a different circular orbit affects a satellite’s gravitational potential energy, kinetic energy and total mechanical energy",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-advanced-mechanics-3",
+            "name": "Motion in gravitational fields",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-1",
+                "description": "Analyse the factors that affect the force of gravity with reference to Newton’s law of universal gravitation and F = GMm / r² and F⃗w = mg⃗",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-2",
+                "description": "Analyse the factors that affect a planet’s gravitational field strength with reference to g = GM / r²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-3",
+                "description": "Solve problems involving Newton’s law of universal gravitation and gravitational field strength at any point in a gravitational field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-4",
+                "description": "Explain why a planet’s radial gravitational field approximates a uniform field close to its surface",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-5",
+                "description": "Account for the use of circular motion as an approximation for the orbital motion of satellites and planets",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-6",
+                "description": "Derive the orbital velocity of a satellite vorb = √(GM / r) by applying the law of universal gravitation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-7",
+                "description": "Apply the law of ellipses and the law of equal areas to explain the motion of orbiting bodies",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-8",
+                "description": "Derive the law of periods r³ / T² = GM / 4π² using Newton’s law of universal gravitation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-9",
+                "description": "Compare the motion of 2 satellites orbiting the same central mass using the law of orbital periods and r³ / T² = GM / 4π²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-10",
+                "description": "Analyse the relationships between acceleration, radius, mass, orbital velocity and period of an orbiting body using ac = v² / r, v = 2πr / T, vorb = √(GM / r) and r³ / T² = GM / 4π²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-11",
+                "description": "Conduct a secondary-source investigation to describe the uses of low Earth orbit satellites and geostationary satellites and relate these to their orbital features",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-12",
+                "description": "Discuss the convention of assigning zero gravitational potential energy to masses at an infinite distance from a planet",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-advanced-mechanics-3-13",
+                "description": "Explain why the convention of assigning zero gravitational potential energy to masses at an infinite distance from a planet results in negative gravitational potential energy for a mass in a radial field around the planet",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-12-electromagnetism",
+        "name": "Electromagnetism",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-12-electromagnetism-1",
+            "name": "Charged particles in electric and magnetic fields",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-electromagnetism-1-1",
+                "description": "Apply conventions to determine the direction of electrostatic forces on charges in an electric field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-2",
+                "description": "Analyse the motion of a charged particle in a uniform electric field using E = V / d, F⃗ = qE⃗, W = qV = ΔKE, and equations for uniformly accelerated motion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-3",
+                "description": "Analyse the energy changes of a charged particle in a uniform electric field using W, ΔU and ΔKE",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-4",
+                "description": "Solve problems involving the trajectories of charged particles projected into uniform electric fields",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-5",
+                "description": "Identify factors affecting the magnitude of the magnetic field produced by a moving charge",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-6",
+                "description": "Account for the force experienced by a charged particle moving in a magnetic field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-7",
+                "description": "Predict the direction of the force acting on a charged particle moving in a magnetic field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-8",
+                "description": "Analyse the force on a charged particle in a uniform magnetic field by applying F = qv⊥B = qvB sin θ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-9",
+                "description": "Derive the relationship r = mv / qB by equating the centripetal force and the magnetic force",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-10",
+                "description": "Solve problems involving the uniform circular motion of charged particles in uniform magnetic fields",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-11",
+                "description": "Account for the similarities and differences between the paths of masses in uniform gravitational fields, satellites in orbit, charged particles in electric fields, and moving charged particles in magnetic fields",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-1-12",
+                "description": "Outline the functions and effects of electric fields and magnetic fields in mass spectrometers and electron guns",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-electromagnetism-2",
+            "name": "The motor effect and electric motors",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-electromagnetism-2-1",
+                "description": "Use magnetic field interactions to explain why a current-carrying conductor experiences a force in a magnetic field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-2",
+                "description": "Determine the direction of a force acting on a current-carrying conductor in a uniform magnetic field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-3",
+                "description": "Analyse how the magnitude of a force acting on a current-carrying conductor varies by changing the conductor length, current, magnetic field strength, and angle between the current-carrying conductor and magnetic field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-4",
+                "description": "Conduct a laboratory experiment to demonstrate the motor effect",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-5",
+                "description": "Solve problems involving the motor effect using F = lI⊥ and B = lIB sin θ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-6",
+                "description": "Analyse factors that affect the magnitude of torque using τ = rF sin θ, where θ is the angle between the radius and the direction of the applied force",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-7",
+                "description": "Analyse the factors that affect the magnitude of torque on a current-carrying loop using τ = nIA⊥B = nIAB sin θ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-8",
+                "description": "Solve problems involving torque on a conducting loop in a magnetic field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-9",
+                "description": "Analyse the structure and function of the components of simple direct current (DC) motors and simple alternating current (AC) motors, including rotor coils, field magnets, brushes, and split-ring commutators and slip rings",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-2-10",
+                "description": "Analyse factors that can increase torque in a brushed electric motor",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-electromagnetism-3",
+            "name": "Electromagnetic induction",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-electromagnetism-3-1",
+                "description": "Describe magnetic flux as the measure of the total magnetic field passing through a given area",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-2",
+                "description": "Analyse the relationships between magnetic flux, magnetic field strength, and the angle between the magnetic field and the plane of a loop, using Φ = BA cos θ, where θ is the angle between the magnetic field and the area vector (normal) of the loop",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-3",
+                "description": "Analyse the relationship between generated electromotive force (emf) and the change in magnetic flux per unit time, using the law of electromagnetic induction and |ε| = N|Δϕ / Δt|",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-4",
+                "description": "Analyse how the size of generated emf is affected by factors, including the number of turns in a coil of wire, and the change in magnetic flux over time",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-5",
+                "description": "Explain how |ε| = N|Δϕ / Δt| and the direction of an induced current are consistent with the law of conservation of energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-6",
+                "description": "Solve problems involving emf by applying the law of conservation of energy and using |ε| = N|Δϕ / Δt|",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-7",
+                "description": "Account for the production of eddy currents in conductive materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-8",
+                "description": "Explain the effects of electromagnetic induction in straight conductors, metal plates and solenoids experiencing a change in magnetic flux",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-3-9",
+                "description": "Conduct a scientific investigation to examine the factors affecting electromagnetic induction in a solenoid",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-electromagnetism-4",
+            "name": "Applications of electromagnetic induction",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-electromagnetism-4-1",
+                "description": "Relate the structure of simple step-up transformers and step-down transformers to their functions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-2",
+                "description": "Explain why a primary coil requires an AC input to induce an AC output in the secondary coil of a transformer",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-3",
+                "description": "Analyse the relationships between the primary and secondary voltages and number of turns in the primary and secondary coils of step-up and step-down transformers using Vp / Vs = Np / Ns",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-4",
+                "description": "Solve problems involving ideal transformers using P = VI, the law of conservation of energy, and VpIp = VsIs",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-5",
+                "description": "Explain the differences in power output between ideal and real transformers in terms of incomplete flux linkage, eddy currents and resistive heating",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-6",
+                "description": "Explain how the components of an AC induction motor are designed to support its function and operation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-7",
+                "description": "Explain how electromagnetic induction causes a torque on the armature of a brushless DC motor",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-8",
+                "description": "Explain how a force opposing motion is generated during electromagnetic braking",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-9",
+                "description": "Outline the differences between a motor and a generator in terms of energy transformation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-10",
+                "description": "Explain the production of back emf in simple DC motors",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-11",
+                "description": "Explain the effects of back emf on the current flowing through and speed of a simple DC motor",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-12",
+                "description": "Outline the structure and function of components in a simple AC generator and a simple DC generator, including rotor coils, stator magnets, brushes, and slip rings and split-ring commutators",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-electromagnetism-4-13",
+                "description": "Explain the variations in current produced by AC generators and DC generators",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-12-nature-of-light",
+        "name": "Nature of light",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-12-nature-of-light-1",
+            "name": "Electromagnetic waves",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-nature-of-light-1-1",
+                "description": "Identify that all forms of electromagnetic radiation have constant speed, c, in a vacuum",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-1-2",
+                "description": "Explain how electromagnetic waves are produced and propagated",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-1-3",
+                "description": "Discuss how the historical prediction of the speed of light was made by relating the electric permittivity and magnetic permeability of free space, using c = 1 / √(ε₀μ₀)",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-1-4",
+                "description": "Conduct a secondary source investigation to explain how a spark-gap oscillator and a loop antenna verified the predicted speed of electromagnetic waves (Hertz experiment)",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-1-5",
+                "description": "Conduct a laboratory experiment to measure the speed of electromagnetic waves and assess the accuracy of the measured value",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-nature-of-light-2",
+            "name": "The wave model of light",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-nature-of-light-2-1",
+                "description": "Account for the diffraction and interference effects produced when monochromatic light is shone through a double slit",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-2",
+                "description": "Explain why small slit gaps are used in diffraction of light experiments",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-3",
+                "description": "Interpret the theoretical pattern and intensity graph produced by visible light passing through a double slit",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-4",
+                "description": "Explain observations of the double-slit experiment in terms of constructive interference and destructive interference",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-5",
+                "description": "Analyse the factors involved in the production of an interference pattern from a double slit and a diffraction grating using d sin θ = mλ = dy / L",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-6",
+                "description": "Conduct a laboratory experiment to produce and analyse interference patterns",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-7",
+                "description": "Solve problems involving interference patterns from a double slit and a diffraction grating",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-8",
+                "description": "Compare linearly polarised and unpolarised light in terms of the plane of the electric field",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-9",
+                "description": "Explain how light becomes polarised when passing through a filter",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-10",
+                "description": "Solve problems involving polarised light using I = Imax cos² θ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-2-11",
+                "description": "Evaluate the evidence supporting the wave model of light, including diffraction, interference and polarisation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-nature-of-light-3",
+            "name": "The quantum model of light",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-nature-of-light-3-1",
+                "description": "Explain the particle model of light in terms of photons with discrete energy and frequency",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-2",
+                "description": "Analyse the relationships between photon energy, frequency, speed of light and wavelength, using E = hf and c = fλ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-3",
+                "description": "Describe the relationship between the temperature of an object and the distribution of kinetic energies among particles within the object",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-4",
+                "description": "Explain why black bodies emit electromagnetic radiation as a function of their temperature",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-5",
+                "description": "Use models to explain why theoretical black bodies are perfect absorbers and emitters of energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-6",
+                "description": "Analyse the black-body curves of objects of different temperatures",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-7",
+                "description": "Solve problems involving black bodies using λmax = b / T",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-8",
+                "description": "Compare black-body radiation curves with classical curve predictions to highlight the importance of a theory being supported by experimental observations",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-9",
+                "description": "Explain how the proposal of quantised energy given by E = hf resolves the difference between classical predictions and experimental evidence for black-body radiators",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-10",
+                "description": "Solve problems using E = hf",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-11",
+                "description": "Use quantum theory to analyse the relationships between frequency of light, intensity of light, energy of photons and number of photons",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-12",
+                "description": "Account for the photoelectric effect in metals",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-13",
+                "description": "Relate the law of conservation of energy to the maximum kinetic energy of photoelectrons and Kmax = hf − ϕ",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-14",
+                "description": "Analyse data from photoelectric effect and thermionic emission experiments to explain relationships using Kmax = hf − ϕ and Kmax = qV₀",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-15",
+                "description": "Solve problems involving the photoelectric effect and thermionic emission using Kmax = hf − ϕ and Kmax = qV₀",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-16",
+                "description": "Analyse graphs of photoelectric experiments involving different metals",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-17",
+                "description": "Conduct a secondary-source investigation to explain how the photelectric effect is used in photovoltaics (solar cells) and one other real-world application",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-3-18",
+                "description": "Explain how observations of the photoelectric effect and data can validate predictions about the quantum nature of light",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-nature-of-light-4",
+            "name": "Light and special relativity",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-nature-of-light-4-1",
+                "description": "Compare inertial and non-inertial frames of reference",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-4-2",
+                "description": "Outline Einstein’s first and second postulates of special relativity",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-4-3",
+                "description": "Apply Einstein’s first and second postulates of special relativity to a simultaneity thought experiment involving 2 events occurring at opposite ends of a vehicle moving at relativistic speed when viewed from different frames of reference",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-4-4",
+                "description": "Apply Einstein’s first and second postulates of special relativity to a time dilation thought experiment involving light pulses reflecting inside a vehicle moving at relativistic speed when viewed from different frames of reference",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-4-5",
+                "description": "Account for the relativistic effects of time dilation, length contraction and relativistic momentum from an external frame of reference",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-4-6",
+                "description": "Solve quantitative problems involving t = t₀ / √(1 − v² / c²), lv = l₀√(1 − v² / c²) and pv = m₀v / √(1 − v² / c²)",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-4-7",
+                "description": "Explain why an object with mass cannot travel at the speed of light",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-nature-of-light-4-8",
+                "description": "Analyse the evidence supporting the theory of relativity, including the muon lifetime and atomic clocks moving at different velocities",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-phy-12-matter-energy-and-the-cosmos",
+        "name": "Matter, energy and the cosmos",
+        "subTopics": [
+          {
+            "id": "subtopic-phy-12-matter-energy-and-the-cosmos-1",
+            "name": "Modelling the atom",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-1",
+                "description": "Account for the origin of cathode rays in a cathode-ray tube",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-2",
+                "description": "Describe the observations made inside a low-pressure tube when a cathode ray interacts with a Maltese cross, a paddle wheel, electric fields, and magnetic fields",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-3",
+                "description": "Analyse how observations of cathode rays provide evidence that cathode rays consist of particles with mass and charge",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-4",
+                "description": "Explain how the charge-to-mass ratio of the electron was first determined",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-5",
+                "description": "Derive the charge-to-mass ratio q / m = E / rB² for an electron in a cathode-ray tube with perpendicular electric and magnetic fields",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-6",
+                "description": "Evaluate the evidence supporting the plum pudding model of the atom",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-7",
+                "description": "Explain how the observations of the gold foil experiment led to the proposal of a nuclear model of the atom",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-8",
+                "description": "Explain how limitations of the nuclear model led to the development of the stationary energy level model of the atom",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-9",
+                "description": "Explain how the stationary energy level model of the atom uses a mixture of classical physics and quantum physics to address the limitations of the nuclear model of the atom",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-10",
+                "description": "Explain why the difference between the predicted mass and measured mass of a nucleus was a limitation of early models of the atom, and led to the prediction of neutrons",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-11",
+                "description": "Analyse how the law of the conservation of energy and the law of the conservation of momentum were applied in experiments to determine the existence and properties of the neutron",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-12",
+                "description": "Explain why unique line emission spectra and absorption spectra are produced by an element",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-13",
+                "description": "Identify the limitations of the stationary energy level model of the atom",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-14",
+                "description": "Interpret energy level diagrams showing the transition of electrons between energy levels involving both absorption and emission of energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-15",
+                "description": "Explain how the law of conservation of energy applies to electrons transitioning between energy levels",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-16",
+                "description": "Solve problems involving the transition of electrons using E = hf, c = fλ and 1 / λ = R(1 / nf² − 1 / ni²)",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-17",
+                "description": "Explain how standing waves can be used to represent electrons in stationary energy levels using qualitative data",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-18",
+                "description": "Use λ = h / mv to relate wave and particle properties of matter",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-19",
+                "description": "Explain why the production of electron diffraction patterns provides evidence for electrons behaving as waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-20",
+                "description": "Explain how the proposal of electrons as waves in atoms addresses a limitation of the stationary energy level model",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-21",
+                "description": "Describe baryons in terms of quark combinations and the role of the strong force",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-22",
+                "description": "Describe atomic structure in terms of quarks and leptons",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-23",
+                "description": "Explain how particle accelerators and collision experiments are used to discover and study quarks, leptons and force-carrying bosons",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-1-24",
+                "description": "Analyse how experimental evidence can lead to refinements in scientific models",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-matter-energy-and-the-cosmos-2",
+            "name": "Radioactivity",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-1",
+                "description": "Relate the isotopic mass number of an element to its subatomic components",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-2",
+                "description": "Describe the range and effect of the strong nuclear force on nucleons",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-3",
+                "description": "Explain how the balance between the strong nuclear force and the electrostatic repulsion force impacts the stability of the nucleus",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-4",
+                "description": "Describe the process of alpha decay, beta decay and gamma decay",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-5",
+                "description": "Compare the composition, charge, mass, ionising ability, and penetration of alpha radiation, beta radiation and gamma radiation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-6",
+                "description": "Use nuclear decay equations to describe reactions, including radioactive decay and transmutation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-7",
+                "description": "Apply conservation of mass, energy and charge to nuclear reactions, transmutation and radioactive decay",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-8",
+                "description": "Describe the role of the weak force in beta-minus decay and beta-plus transformation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-9",
+                "description": "Describe the concept of half-life as it relates to a radioisotope",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-10",
+                "description": "Interpret graphs of radioactive decay to determine the changing amounts of radioisotopes over time",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-11",
+                "description": "Relate the decay constant λ to the half-life of radioisotopes",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-12",
+                "description": "Solve problems involving radioactive decay using λ = ln(2) / T½",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-13",
+                "description": "Conduct a practical investigation to model the process of the radioactive decay of an isotope and analyse its half-life",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-14",
+                "description": "Outline the contribution of selected scientists to radio-medicine",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-2-15",
+                "description": "Explain how the properties of radioisotopes determine their suitability for use in medical scans and industry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-matter-energy-and-the-cosmos-3",
+            "name": "Nuclear energy",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-1",
+                "description": "Identify that the special theory of relativity demonstrates the mass–energy equivalence relationship E = mc²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-2",
+                "description": "Account for the law of conservation of mass and the law of conservation of energy being replaced by the law of conservation of mass–energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-3",
+                "description": "Explain the relationship between mass defect and the energy released in a nuclear reaction using E = mc²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-4",
+                "description": "Explain the process of nuclear fission",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-5",
+                "description": "Compare the processes of controlled chain reactions and uncontrolled chain reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-6",
+                "description": "Explain the structure and function of the components of a fission reactor, including fuel, control rods, moderator and coolant",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-7",
+                "description": "Explain the process of nuclear fusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-8",
+                "description": "Outline the contribution of selected scientists to the discovery of nuclear fission",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-9",
+                "description": "Use nuclear equations to describe fusion of small nuclei and fission of large nuclei",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-10",
+                "description": "Explain why fusion requires high temperatures and pressures",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-11",
+                "description": "Compare the energy release of nuclear reactions with the energy release of fossil fuels and conventional explosives",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-12",
+                "description": "Explain nuclear binding energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-13",
+                "description": "Solve problems involving mass defect and nuclear binding energy using Δm = mi − mf and E = mc²",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-14",
+                "description": "Distinguish between the proton-neutron ratio and binding energy in the context of nuclear stability",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-15",
+                "description": "Analyse graphical representations of nuclear binding energy per nucleon as atomic number increases, and apply this to the iron limit",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-16",
+                "description": "Account for net release of energy in fission reactions and fusion reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-17",
+                "description": "Describe the properties of a positron",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-18",
+                "description": "Discuss the process of positron–electron annihilation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-19",
+                "description": "Explain how the law of conservation of mass–energy applies to particle–antiparticle annihilation",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-20",
+                "description": "Explain how positron emission tomography (PET) uses positron–electron annihilation to produce a medical scan",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-3-21",
+                "description": "Solve problems using mass defect and E = mc² for nuclear decay, nuclear fission, nuclear fusion, and positron–electron annihilation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-phy-12-matter-energy-and-the-cosmos-4",
+            "name": "Astrophysics",
+            "dotPoints": [
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-1",
+                "description": "Analyse how the spectra of astronomical objects can be used to draw conclusions about their translational velocity, chemical composition and surface temperature",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-2",
+                "description": "Describe Payne Gaposchkin’s spectral analysis technique for determining the chemical composition of stars",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-3",
+                "description": "Explain how measured spectra of galaxies provides evidence that the universe is expanding",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-4",
+                "description": "Analyse H-R diagrams to classify stars and determine their surface temperature, colour, luminosity and size",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-5",
+                "description": "Explain the role of gravity and nuclear fusion in the formation of a main sequence star",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-6",
+                "description": "Explain how the mass of a main sequence star determines its position on an H-R diagram and the amount of time that it remains on the main sequence",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-7",
+                "description": "Analyse the nucleosynthesis reactions that occur in main sequence stars by interpreting representations of the proton–proton chain and the carbon–nitrogen–oxygen (CNO) cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-8",
+                "description": "Relate Aboriginal Peoples’ Knowledge of different star colours to the type of nucleosynthesis reactions occurring in main sequence stars",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-9",
+                "description": "Describe, using a H-R diagram, the evolutionary path of a star of one solar mass and a star of greater than 3 solar masses, once they have completed hydrogen fusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-10",
+                "description": "Explain how changing forces of gravity and the outwards pressure created by nuclear fusion allows for the synthesis of successively heavier elements",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-11",
+                "description": "Explain, in terms of binding energy, why iron is the heaviest element that can be synthesised in a red supergiant",
+                "prompts": []
+              },
+              {
+                "id": "dp-phy-12-matter-energy-and-the-cosmos-4-12",
+                "description": "Explain how elements up to, and including iron, are synthesised by stars, and how atoms larger than iron are synthesised",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

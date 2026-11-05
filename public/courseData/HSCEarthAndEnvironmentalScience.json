@@ -1,0 +1,1697 @@
+[
+  {
+    "id": "course-hsc-earth-and-environmental-science",
+    "name": "Earth and Environmental Science",
+    "outcomes": [
+      {
+        "code": "EES-11-01",
+        "description": "explains the formation and changing structures of the Earth",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11-02",
+        "description": "explains the formation, location, extraction, use and consumption of Australia’s geological and energy resources",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11-03",
+        "description": "explains the relationships between human activity and the Earth’s processes and resources",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11WS-02",
+        "description": "designs and evaluates scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11WS-03",
+        "description": "conducts scientific investigations to collect data and information",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11WS-04",
+        "description": "selects and processes qualitative and quantitative data and information",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11WS-05",
+        "description": "analyses and evaluates primary and secondary data and information",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11WS-06",
+        "description": "uses scientific processes to solve scientific problems",
+        "year": "year11"
+      },
+      {
+        "code": "EES-11WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience",
+        "year": "year11"
+      },
+      {
+        "code": "EES-12-01",
+        "description": "analyses evidence for the transformation of Earth’s systems over geological and evolutionary time"
+      },
+      {
+        "code": "EES-12-02",
+        "description": "analyses the interrelationships between natural hazards, humans and Earth’s systems"
+      },
+      {
+        "code": "EES-12-03",
+        "description": "analyses scientific evidence about the natural processes and human influences causing changes in Earth’s climate"
+      },
+      {
+        "code": "EES-12-04",
+        "description": "assesses the sustainability of resource use and waste management strategies"
+      },
+      {
+        "code": "EES-12WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations"
+      },
+      {
+        "code": "EES-12WS-02",
+        "description": "designs and evaluates scientific investigations"
+      },
+      {
+        "code": "EES-12WS-03",
+        "description": "conducts scientific investigations to collect data and information"
+      },
+      {
+        "code": "EES-12WS-04",
+        "description": "selects and processes qualitative and quantitative data and information"
+      },
+      {
+        "code": "EES-12WS-05",
+        "description": "analyses and evaluates primary and secondary data and information"
+      },
+      {
+        "code": "EES-12WS-06",
+        "description": "uses scientific processes to solve scientific problems"
+      },
+      {
+        "code": "EES-12WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-ees-11-working-scientifically",
+        "name": "Working scientifically",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-11-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-11-dynamic-earth",
+        "name": "Dynamic Earth",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-11-dynamic-earth-1",
+            "name": "Formation and structure of the Earth",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-dynamic-earth-1-1",
+                "description": "Recognise Aboriginal Dreaming Stories and Torres Strait Islander Legends that feature the formation of the Earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-2",
+                "description": "Use accretion theory and the concept of the ‘potato radius’ to account for the formation and shape of the Earth and smaller celestial bodies",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-3",
+                "description": "Conduct a laboratory experiment to model the hypothesised role of density separation in planetary differentiation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-4",
+                "description": "Outline the processes that initially formed the geosphere, atmosphere and hydrosphere",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-5",
+                "description": "Use Lehmann’s seismic wave methodology to provide evidence for the internal structure of the Earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-6",
+                "description": "Conduct a practical investigation to model the processes of seismic wave reflection and refraction inside the Earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-7",
+                "description": "Describe the relative thickness, temperature and physical properties of the asthenosphere, crust, lithosphere, outer core and inner core",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-8",
+                "description": "Conduct a laboratory experiment to compare the density of samples representing oceanic crust, continental crust, mantle and core, using quantitative data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-1-9",
+                "description": "Explain how the composition and density of meteorites provides evidence for the Earth’s composition",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-dynamic-earth-2",
+            "name": "Developing the theory of plate tectonics",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-dynamic-earth-2-1",
+                "description": "Analyse how Wegener and Tharps’ research provides evidence for the theory of plate tectonics",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-2-2",
+                "description": "Explain the roles of gravity and heat in maintaining convection in the mantle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-2-3",
+                "description": "Conduct a laboratory experiment to examine convection currents in a fluid",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-2-4",
+                "description": "Explain how the age of the sea floor and magnetic reversals support the theory of plate tectonics",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-2-5",
+                "description": "Explain how the theory of seafloor spreading relates to the movement of tectonic plates",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-2-6",
+                "description": "Explain the role of hotspot volcanoes in determining plate velocity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-2-7",
+                "description": "Account for the relative contributions of slab pull, ridge push and basal drag to plate velocity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-2-8",
+                "description": "Evaluate the geological evidence, models and theories contributing to the theory of plate tectonics",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-dynamic-earth-3",
+            "name": "Plate boundaries and tectonic structures",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-dynamic-earth-3-1",
+                "description": "Use earthquake and volcano distribution data and maps to deduce the locations of active plate boundaries",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-2",
+                "description": "Use geological data and maps to deduce the locations of oceanic and continental transform boundaries",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-3",
+                "description": "Interpret geological data and maps to deduce the location of oceanic and continental divergent boundaries, based on the presence of mid-ocean ridges and rift valleys",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-4",
+                "description": "Interpret geological data and maps to deduce the location of ocean–continental and ocean–ocean subduction zones at convergent boundaries, based on the presence of trenches, volcanic arcs and volcanic island arcs",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-5",
+                "description": "Interpret geological data and maps to deduce the location of continental–continental convergent boundaries, based on the presence of fold and thrust belts forming mountain ranges",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-6",
+                "description": "Explain the processes that have contributed to the formation of divergent, convergent and transform boundaries and the associated geological features",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-7",
+                "description": "Conduct a practical investigation to model normal faults, reverse faults and strike-slip faults",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-8",
+                "description": "Use force diagrams to account for the presence of normal faults at divergent boundaries, reverse thrust faults at convergent boundaries, and strike-slip faults at transform boundaries",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-9",
+                "description": "Construct annotated cross-section diagrams to account for the presence of mid-ocean ridges and rift valleys and the nature of volcanic and earthquake activity at ocean–ocean and continental–continental divergent boundaries",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-10",
+                "description": "Construct annotated cross-section diagrams to represent the formation of ocean trenches, volcanic arcs, volcanic island arcs and mountain ranges in ocean–continental, ocean–ocean and continental–continental convergent plate boundary settings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-dynamic-earth-3-11",
+                "description": "Analyse the scientific evidence, models and theories contributing to the formation of the Earth’s geological features",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-11-australia-s-geological-and-energy-resources",
+        "name": "Australia’s geological and energy resources",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-11-australia-s-geological-and-energy-resources-1",
+            "name": "Rocks, minerals and the rock cycle",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-1-1",
+                "description": "Distinguish between rocks, minerals and ores",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-1-2",
+                "description": "Relate plate boundary types to the occurrence of mafic and felsic magma types",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-1-3",
+                "description": "Compare the chemical composition of mafic and felsic minerals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-1-4",
+                "description": "Conduct a practical investigation to identify mafic and felsic minerals by observing their physical properties using a dichotomous key",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-1-5",
+                "description": "Explain the roles of pressure, heat, weathering, erosion, deposition, compaction, cementation, melting and solidification in the formation of regional and contact metamorphic rocks, clastic and non-clastic sedimentary rocks, and intrusive and extrusive igneous rocks in the rock cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-1-6",
+                "description": "Conduct a practical investigation using keys to identify clastic and non-clastic sedimentary rocks, intrusive and extrusive igneous rocks, and regional and contact metamorphic rocks according to their physical properties",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-australia-s-geological-and-energy-resources-2",
+            "name": "Mining resources",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-1",
+                "description": "Outline the tectonic processes and environmental conditions which resulted in the formation of Australian ore deposits",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-2",
+                "description": "Explain the role of Aboriginal and Torres Strait Islander traditional Custodians in mining processes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-3",
+                "description": "Use data to analyse the current and predicted economic impact of coal, oil, natural gas, copper, iron ore and aluminium on Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-4",
+                "description": "Conduct a secondary-source investigation to assess Australia’s critical minerals, their deposit location(s), reserves available and uses in a renewable energy economy",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-5",
+                "description": "Explain how geological maps, remote sensing and direct sampling are used to explore for geological resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-6",
+                "description": "Conduct a laboratory experiment to model a geomagnetic survey to locate a magnetic ore under the Earth’s surface",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-7",
+                "description": "Evaluate the use of open pit mining, underground mining, and offshore and onshore drilling extraction techniques at a variety of locations",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-8",
+                "description": "Assess practices used by mining companies to minimise environmental impact",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-9",
+                "description": "Assess the impact of mining on Aboriginal Cultural sites and Country in the Pilbara and one NSW location",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-australia-s-geological-and-energy-resources-3",
+            "name": "Energy resources",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-1",
+                "description": "Compare the energy transformations involved in the generation of electric currents from turbines powered by coal, natural gas, wind and water",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-2",
+                "description": "Conduct a practical investigation to generate an electric current using a turbine",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-3",
+                "description": "Conduct a practical investigation to gather quantitative data on a factor affecting the power output of a photovoltaic cell",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-4",
+                "description": "Relate the locations of existing Australian power generation from coal, natural gas, wind farm, solar farm and hydro-electric to environmental, topographic and population data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-5",
+                "description": "Conduct a secondary-source investigation to evaluate the capacity of potential future renewable power generation sites using sunlight, wind, rainfall, topographic and population data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-6",
+                "description": "Explain the role of consultation with Aboriginal and Torres Strait Islander Peoples when considering potential power generation sites",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-7",
+                "description": "Assess the need for energy storage associated with solar and wind power generation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-8",
+                "description": "Conduct a secondary-source investigation to compare the main uses of energy in Australian society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-9",
+                "description": "Justify the use of renewable and non-renewable sources to generate electricity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-australia-s-geological-and-energy-resources-3-10",
+                "description": "Relate supply and demand to the need for a mix of sources to supply energy",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-11-human-impacts",
+        "name": "Human impacts",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-11-human-impacts-1",
+            "name": "Water processes",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-human-impacts-1-1",
+                "description": "Describe the major water reservoirs located within the atmosphere, geosphere, hydrosphere and biosphere",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-2",
+                "description": "Construct representations to demonstrate how water moves between the major water reservoirs within the atmosphere, geosphere, hydrosphere and biosphere due to water cycle processes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-3",
+                "description": "Analyse water distribution data to determine the relative amount of fresh water available to terrestrial organisms in the global water cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-4",
+                "description": "Explain the role of Cultural water flows for Aboriginal Peoples and their relationships with water Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-5",
+                "description": "Describe the major water reservoirs and the flows between them in the global water cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-6",
+                "description": "Explain how water’s density, thermal capacity and ability to act as a solvent affect biological and physical processes on Earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-7",
+                "description": "Conduct a laboratory experiment to examine the relationship between the salt concentration in water and the water’s density, using quantitative data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-8",
+                "description": "Conduct a practical investigation to examine density layering in water based on temperature differences",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-9",
+                "description": "Explain the roles of water temperature and salinity in producing thermohaline circulation resulting in the ocean conveyor belt",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-10",
+                "description": "Explain how changes in ocean currents and atmospheric pressure influence El Niño-Southern Oscillation (ENSO)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-11",
+                "description": "Conduct a secondary-source investigation to analyse the ENSO pattern and its effects on water availability in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-12",
+                "description": "Discuss changes in the ENSO pattern over time and its potential impact on human activity in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-13",
+                "description": "Explain the environmental effects of the overextraction of water",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-14",
+                "description": "Analyse the relationship between needs and end uses of primary, secondary and tertiary stages of sewage treatment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-15",
+                "description": "Assess the effect of increased nutrient levels from sewage release and run-off from agriculture in waterways",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-16",
+                "description": "Use water monitoring data to determine possible sources of water contamination",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-1-17",
+                "description": "Evaluate the effectiveness of water quality guidelines in maintaining human and environmental health",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-human-impacts-2",
+            "name": "Soil, salinity and erosion",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-human-impacts-2-1",
+                "description": "Explain the factors affecting the development of a soil profile",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-2",
+                "description": "Outline the composition of soil samples in terms of their physical, chemical and biological components",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-3",
+                "description": "Classify sand, silt and clay samples based on the relative sizes of particles",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-4",
+                "description": "Conduct a laboratory experiment to determine soil types using a soil texture triangle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-5",
+                "description": "Conduct a laboratory experiment to examine factors affecting soil quality",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-6",
+                "description": "Analyse the impact of soil contamination on humans, plants and animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-7",
+                "description": "Conduct a secondary-source investigation to evaluate strategies used for the effective management of soil as a resource",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-8",
+                "description": "Distinguish between primary and secondary soil salinity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-9",
+                "description": "Explain how land clearing and irrigation impact secondary soil salinity and environmental water flows",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-10",
+                "description": "Conduct a laboratory experiment to measure the effect of salinity on seedling growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-11",
+                "description": "Evaluate a strategy used to rehabilitate areas affected by secondary salinity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-12",
+                "description": "Analyse land management practices that affect soil erosion",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-13",
+                "description": "Explain the impacts of soil erosion on the environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-2-14",
+                "description": "Conduct a scientific investigation to evaluate the effectiveness of an erosion prevention strategy",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-11-human-impacts-3",
+            "name": "Native and introduced species",
+            "dotPoints": [
+              {
+                "id": "dp-ees-11-human-impacts-3-1",
+                "description": "Classify species of plants and animals as endemic, native, introduced or invasive",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-3-2",
+                "description": "Use examples to explain how changes to the biotic and abiotic factors of ecosystems impact Australia’s unique flora and fauna",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-3-3",
+                "description": "Use data to evaluate the biotic and abiotic effects of an introduced species on an Australian ecosystem",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-3-4",
+                "description": "Conduct a secondary-source investigation to analyse the biotic and abiotic effects of the intentional and unintentional introduction of species into Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-3-5",
+                "description": "Explain how introduced species impact Aboriginal and Torres Strait Islander Peoples’ interconnections with Country and Place",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-3-6",
+                "description": "Analyse ways human activity can alter ecosystems to favour introduced species",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-3-7",
+                "description": "Assess control, mitigation and eradication strategies as management options for invasive species",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-11-human-impacts-3-8",
+                "description": "Explain the influence of invasive species in terms of biodiversity decline and species extinction in Australia",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-12-working-scientifically",
+        "name": "Working scientifically",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-12-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-12-evolving-earth",
+        "name": "Evolving Earth",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-12-evolving-earth-1",
+            "name": "The geological timescale",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-evolving-earth-1-1",
+                "description": "Conduct a laboratory experiment to model the processes of mold, cast and trace fossil formation, and evaluate the validity of the model",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-2",
+                "description": "Use sources to make observations of fossils to infer past ecosystem interactions and environmental conditions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-3",
+                "description": "Outline the characteristics of epochs, periods, eras and eons in terms of relative length, biological and geological changes, events, developments and features",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-4",
+                "description": "Explain the significance of index fossils in developing the geological timescale",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-5",
+                "description": "Explain the principle of uniformitarianism and how extreme events and event conjunctions fit with this principle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-6",
+                "description": "Use the laws of superposition, original horizontality, lateral continuity, cross-cutting relationships, faunal succession, inclusions and unconformity to determine the age of strata",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-7",
+                "description": "Explain how radioisotope decay can be used to determine the age of geological materials, from recent fossils to the age of the Earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-8",
+                "description": "Conduct a scientific investigation to model the process of radioactive decay in geological materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-9",
+                "description": "Explain how evidence from zircon crystals and meteorites is used to estimate the age of the Earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-10",
+                "description": "Solve problems relating to the absolute and relative dating of stratigraphic layers and geological samples, using index fossils, radiometric and stratigraphic dating techniques",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-1-11",
+                "description": "Analyse scientific evidence to draw conclusions about the age of geological materials and the Earth",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-evolving-earth-2",
+            "name": "Development of the biosphere and atmosphere",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-evolving-earth-2-1",
+                "description": "Analyse chemical evolution experiments used to model conditions related to the origin of organic molecules on Earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-2-2",
+                "description": "Evaluate evidence for the possible origin of organic molecules on Earth from deep-sea hydrothermal vents, meteorites and hot springs",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-2-3",
+                "description": "Describe the effects of the development of photosynthetic organisms on the biosphere, atmosphere, hydrosphere and geosphere",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-2-4",
+                "description": "Analyse stromatolites, cyanobacteria fossils and banded iron formations as evidence of the development of photosynthetic life and the origins of the great oxidation event",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-2-5",
+                "description": "Relate the development of photosynthetic life to the formation of the ozone layer",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-evolving-earth-3",
+            "name": "Evolutionary changes",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-evolving-earth-3-1",
+                "description": "Conduct a secondary-source investigation to analyse physical characteristics of Ediacaran fossils to infer features of their ecosystems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-2",
+                "description": "Compare the physical characteristics of Cambrian metazoans with that of Ediacaran biota",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-3",
+                "description": "Explain possible causes of the Cambrian event",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-4",
+                "description": "Analyse how fossil evidence indicates changes to ecosystem interactions during the Cambrian period",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-5",
+                "description": "Explain the selection pressures and opportunities that led animals and plants to colonise terrestrial environments during the Palaeozoic era",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-6",
+                "description": "Analyse the environmental conditions and transitional forms needed for the conquest of land for plants and animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-7",
+                "description": "Explain how mass extinction events affect the diversity and distribution of biological classes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-8",
+                "description": "Account for observed recoveries after mass extinction events, using the theories of adaptive radiation and punctuated equilibrium",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-9",
+                "description": "Use models to demonstrate the plate tectonic supercycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-10",
+                "description": "Explain how the plate tectonic supercycle influences long-term greenhouse and icehouse conditions and species evolution by altering continental positions, latitudes, and biomes over geological time",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-evolving-earth-3-11",
+                "description": "Analyse evidence about the changing conditions of the biosphere over geological time",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-12-natural-hazards",
+        "name": "Natural hazards",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-12-natural-hazards-1",
+            "name": "Volcanic hazards",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-natural-hazards-1-1",
+                "description": "Explain scientific evidence from Aboriginal Oral traditions of past volcanic hazards in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-1-2",
+                "description": "Analyse the causes and features of effusive and explosive eruptions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-1-3",
+                "description": "Describe the potential hazards and disasters associated with effusive and explosive volcanic eruptions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-1-4",
+                "description": "Analyse data and maps to predict the zones along which effusive and explosive volcanic eruptions are likely to occur and relate these to plate boundaries",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-1-5",
+                "description": "Conduct a secondary-source investigation to explain the causes and effects of lava flows, volcanic bombs, pyroclastic flows, ash clouds and lahars",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-1-6",
+                "description": "Analyse data to explain the local and global atmospheric effects of large volcanic ash clouds and gas emissions over timescales of days to years and consider implications for the Australian environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-1-7",
+                "description": "Explain the geological causes and effects of the 1991 eruption of Mount Pinatubo and the 2010 eruptions of Eyjafjallajökull on the environment and society",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-1-8",
+                "description": "Explain how prediction technologies and warning systems are used to minimise the impacts of volcanic eruptions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-natural-hazards-2",
+            "name": "Earthquakes and tsunamis",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-natural-hazards-2-1",
+                "description": "Explain scientific evidence from Aboriginal Oral traditions of past earthquake and tsunami hazards in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-2",
+                "description": "Analyse the forces and energy transformations involved in the formation of seismic waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-3",
+                "description": "Account for the location of earthquake foci at a convergent boundary subduction zone, divergent boundary and transform boundary",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-4",
+                "description": "Relate the frequency, depth and intensity of earthquakes to convergent, divergent and transform tectonic margins",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-5",
+                "description": "Compare the features of P, S, R and L seismic waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-6",
+                "description": "Analyse hazards in built environments associated with ground motion caused by seismic waves",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-7",
+                "description": "Explain how building design technologies are used to minimise damage due to earthquakes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-8",
+                "description": "Conduct a practical investigation to evaluate a model of the effect of earthquake waves on built structures",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-9",
+                "description": "Use examples of tsunamis to analyse their causes and associated hazards and disasters",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-10",
+                "description": "Evaluate the effectiveness of earthquake detection technologies and warning systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-2-11",
+                "description": "Explain how prediction technologies and warning systems are used to minimise the impacts of tsunamis",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-natural-hazards-3",
+            "name": "Meteorological hazards",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-natural-hazards-3-1",
+                "description": "Explain the causes and physical impacts of tropical cyclones, east coast lows, bushfires, droughts, floods and hailstorms in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-3-2",
+                "description": "Assess the effectiveness of current forecast modelling and warning technologies for predicting the impact of, and preparing for, tropical cyclones and east coast lows",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-3-3",
+                "description": "Analyse meteorological factors affecting the frequency and severity of floods, droughts and bushfires",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-3-4",
+                "description": "Explain how anthropogenic climate change, improper fire management, water overuse and changing land use impact the frequency and severity of floods, droughts and bushfires",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-3-5",
+                "description": "Analyse the impact of Cultural burning on the reduction of bushfire disasters",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-natural-hazards-3-6",
+                "description": "Conduct a secondary-source investigation to analyse the effectiveness of technologies used to predict and manage the impact of floods, droughts and bushfires",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-12-climate-science",
+        "name": "Climate science",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-12-climate-science-1",
+            "name": "Natural climate processes",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-climate-science-1-1",
+                "description": "Explain how heat energy is stored and distributed by ocean currents and ocean circulation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-2",
+                "description": "Relate changes in ocean currents to the effects of El Niño-Southern Oscillation (ENSO) on the Australian climate and the timescales in which these effects occur",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-3",
+                "description": "Describe the role of Atlantic meridional overturning circulation (AMOC) and thermohaline circulation in the regulation of global climate and the timescales in which these effects occur",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-4",
+                "description": "Explain changes in ocean currents due to the plate tectonic supercycle and ocean gateway closures/openings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-5",
+                "description": "Assess the impact of changes in ocean currents and position of the continents on global greenhouse and icehouse climate conditions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-6",
+                "description": "Describe the changes in Earth’s orbital eccentricity, obliquity and precession and the timescales in which these effects occur",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-7",
+                "description": "Explain the effects of Earth’s orbital eccentricity, obliquity and precession on global climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-8",
+                "description": "Relate volcanic eruptions in the Deccan and Siberian Traps to changes in global climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-9",
+                "description": "Outline natural sources and sinks of the greenhouse gases carbon dioxide, methane, nitrous oxide and water vapour",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-10",
+                "description": "Use examples to analyse the roles of feedback loops and tipping points in processes that control the Earth’s climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-11",
+                "description": "Describe the positive feedback between changes to glacier, sea ice and ice sheet coverage and global climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-12",
+                "description": "Conduct a laboratory experiment to model the effect of surface albedo on temperature",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-1-13",
+                "description": "Conduct a secondary-source investigation to assess the impact of glacier, sea ice and ice sheet coverage on climate and sea levels",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-climate-science-2",
+            "name": "Evidence for climate variation",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-climate-science-2-1",
+                "description": "Distinguish between using proxy data and the direct measurement of climatic parameters",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-2",
+                "description": "Analyse how pollen microfossils can be used to infer past environments",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-3",
+                "description": "Account for changes to oxygen isotope ratios due to global temperature conditions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-4",
+                "description": "Conduct a secondary-source investigation to analyse how changes in oxygen isotope ratios in marine microfossils can be used to infer ancient climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-5",
+                "description": "Explain how ice cores containing gas bubbles and oxygen isotopes provide evidence of Earth’s past atmospheric composition and climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-6",
+                "description": "Relate the oxygen isotope ratios in stalagmites, stalactites and corals to changes in Earth’s past climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-7",
+                "description": "Explain how dendrochronology is used as a method of inferring Earth’s past climate",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-8",
+                "description": "Explain how Aboriginal rock art sites provide evidence of extinct species and climate variation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-2-9",
+                "description": "Assess the validity, reliability and accuracy of using sources of proxy data and direct measurements to infer past climate",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-climate-science-3",
+            "name": "Human influence on climate",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-climate-science-3-1",
+                "description": "Distinguish between the natural greenhouse effect and anthropogenic greenhouse effect",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-2",
+                "description": "Conduct a laboratory experiment to demonstrate the products of a combustion reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-3",
+                "description": "Use ice-core and Mauna Loa Observatory data to analyse changes in atmospheric carbon dioxide concentration since the Industrial Revolution",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-4",
+                "description": "Conduct a laboratory experiment using Newton Foote’s methodology to model the effect of increased carbon dioxide on atmospheric temperature",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-5",
+                "description": "Discuss anthropogenic sources and global warming potential (GWP) of carbon dioxide, methane, nitrous oxide and sulfur hexafluoride",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-6",
+                "description": "Relate changes to land use and coverage type to changes in concentrations of greenhouse gases",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-7",
+                "description": "Conduct a practical investigation to demonstrate the relationship between dissolved carbon dioxide concentration and water pH",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-8",
+                "description": "Analyse the impacts of increasing ocean acidification on marine life and the flow-on effects for the biosphere",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-3-9",
+                "description": "Conduct a laboratory experiment to model the impact of increasing ocean acidification on shells",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-climate-science-4",
+            "name": "Responses to climate change",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-climate-science-4-1",
+                "description": "Compare mitigation and adaptation as responses to anthropogenic climate change",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-4-2",
+                "description": "Conduct a secondary-source investigation to suggest strategies individuals can use to reduce their carbon footprint",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-4-3",
+                "description": "Conduct a scientific investigation to describe how energy use is affected by home and urban design",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-4-4",
+                "description": "Assess the role of alternative energy production in reducing carbon dioxide emissions",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-4-5",
+                "description": "Evaluate the effectiveness of geoengineering strategies to mitigate anthropogenic climate change",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-4-6",
+                "description": "Use examples of changing agricultural and land-use practices as mitigation and adaptation strategies",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-climate-science-4-7",
+                "description": "Use examples to assess the role of international cooperation and agreements in reducing greenhouse emissions",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ees-12-sustainability",
+        "name": "Sustainability",
+        "subTopics": [
+          {
+            "id": "subtopic-ees-12-sustainability-1",
+            "name": "Sustainability and waste management",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-sustainability-1-1",
+                "description": "Discuss the role of the 4 pillars of sustainability in maintaining society and the environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-2",
+                "description": "Explain how aspects of sustainability are achieved using Australian renewable and non-renewable resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-3",
+                "description": "Conduct a secondary-source investigation to analyse the factors affecting the sustainability of a water resource, mining resource, forestry product and agricultural product",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-4",
+                "description": "Examine the sustainability and resilience of Aboriginal and Torres Strait Islander Peoples’ food systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-5",
+                "description": "Conduct a secondary-source investigation to assess the viability of producing useful materials from household waste",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-6",
+                "description": "Use examples to explain how a circular economy can contribute to sustainable consumption and production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-7",
+                "description": "Conduct a secondary-source investigation to evaluate traditional landfill practices and bioreactors as waste management strategies",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-8",
+                "description": "Use scientific evidence to justify strategies for the safe management of problem wastes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-1-9",
+                "description": "Evaluate the effect of waste reduction strategies on the geosphere, atmosphere, biosphere and hydrosphere",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ees-12-sustainability-2",
+            "name": "Resources and energy futures",
+            "dotPoints": [
+              {
+                "id": "dp-ees-12-sustainability-2-1",
+                "description": "Conduct a secondary-source investigation to identify the essential materials and minerals required to construct photovoltaic cells, wind turbines, electric motors/generators and batteries",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-2",
+                "description": "Use raw material, land area and mining data to compare the total material use for equivalent nuclear, coal fired, natural gas fired, hydroelectric, solar farm and wind farm electricity generation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-3",
+                "description": "Analyse the demand for fossil fuels in maintaining a non-renewable energy economy, and the impact on mining and carbon dioxide emissions in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-4",
+                "description": "Analyse the demand for copper and other critical minerals in the renewable and non-renewable energy economy, and the implications for mining in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-5",
+                "description": "Analyse data to compare the dispatchability, greenhouse gas emissions, wastes and fuel sustainability of operating nuclear, coal fired, natural gas fired, hydroelectric, solar farm and wind farm for electricity generation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-6",
+                "description": "Examine proposed electricity generation mixes for Australia, with consideration given to demand, capacity, reliability, and environmental, economic and social factors",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-7",
+                "description": "Assess the production of blue and green hydrogen and their potential uses as alternatives to fossil fuels as an energy carrier",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-8",
+                "description": "Conduct a laboratory experiment to demonstrate the production of hydrogen by electrolysis of water and its subsequent combustion",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-9",
+                "description": "Evaluate the impact of reducing the dependence on crude oil as an energy resource for transport",
+                "prompts": []
+              },
+              {
+                "id": "dp-ees-12-sustainability-2-10",
+                "description": "Conduct a secondary-source investigation to evaluate energy sources and technologies needed to reduce reliance on fossil fuels for transport",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

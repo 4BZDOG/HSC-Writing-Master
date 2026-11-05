@@ -25,6 +25,11 @@ Related: `docs/hsc-exam-profiles.md` (what a real paper looks like per course),
 | Modern History       | 2024 (new)                     | none                                                                                                                                                                                                                                  | As above                                                                                                                                                                                                                                                                                                                                           |
 | Ancient History      | 2024 (new)                     | none                                                                                                                                                                                                                                  | As above                                                                                                                                                                                                                                                                                                                                           |
 
+Structure-only courses added November 2026: Chemistry, Physics, Earth and Environmental Science (2025; Physics first
+HSC 2028, Chemistry and EES 2029), Community and Family Studies (amended 2022) and Society and Culture (2013), the
+last two from NESA's DOCX. Business Studies gained its Preliminary course (2010) and Geography its Year 11 tools and
+inquiry skills, also structure only. Health and Movement Science gained 138 questions.
+
 Structure-only courses (October 2026, no questions yet): Health and Movement Science (2023, first HSC 2026), English Studies, English EAL/D, English Extension 1 and History Extension (all
 2024, first HSC 2027). Built with `build_structure.py` from the configs in
 `.claude/skills/build-course-data/configs/`. The same month, the rest of the Modern History, Ancient History,
