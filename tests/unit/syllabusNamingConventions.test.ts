@@ -75,7 +75,8 @@ const topicItems = (where: string, topic: Node): Item[] => {
 
 const courseItems = (course: Course): Item[] => {
   const items: Item[] = [{ where: course.file, kind: 'course', text: course.name }];
-  for (const topic of course.topics) items.push(...topicItems(`${course.file} (${course.name})`, topic));
+  for (const topic of course.topics)
+    items.push(...topicItems(`${course.file} (${course.name})`, topic));
   for (const outcome of course.outcomes) {
     items.push({
       where: `${course.file} (${course.name}) outcome ${outcome.code}`,
@@ -92,10 +93,7 @@ const allItems: Item[] = [
 ];
 
 /** The violations of one rule across the items of the given kinds, one readable line each. */
-const violations = (
-  kinds: Kind[],
-  check: (text: string, kind: Kind) => string[]
-): string[] =>
+const violations = (kinds: Kind[], check: (text: string, kind: Kind) => string[]): string[] =>
   allItems
     .filter((item) => kinds.includes(item.kind))
     .flatMap((item) =>
@@ -109,7 +107,7 @@ const hygiene = (text: string): string[] => {
   if (text !== text.trim()) faults.push('leading or trailing space');
   if (/ {2,}/.test(text)) faults.push('double space');
   if (/[  ]/.test(text)) faults.push('non-breaking space');
-  if (/\p{L}'\p{L}/u.test(text)) faults.push("straight apostrophe between letters (use ’)");
+  if (/\p{L}'\p{L}/u.test(text)) faults.push('straight apostrophe between letters (use ’)');
   return faults;
 };
 
@@ -155,7 +153,7 @@ const dotPoint = (text: string): string[] => {
 
 const outcome = (text: string): string[] => {
   if (/^\p{Lu}[\p{Ll} ]*: /u.test(text)) return ['starts with a skill label ("Analysis: ")'];
-  if (!/^\p{Ll}/u.test(text)) return ["does not start with NESA's lower-case verb (\"explains …\")"];
+  if (!/^\p{Ll}/u.test(text)) return ['does not start with NESA\'s lower-case verb ("explains …")'];
   return [];
 };
 
@@ -172,9 +170,7 @@ describe('shipped navigator text follows the naming convention', () => {
   });
 
   it('uses single spaces, no non-breaking spaces and curly apostrophes everywhere', () => {
-    expect(violations(['course', 'topic', 'subTopic', 'dotPoint', 'outcome'], hygiene)).toEqual(
-      []
-    );
+    expect(violations(['course', 'topic', 'subTopic', 'dotPoint', 'outcome'], hygiene)).toEqual([]);
   });
 
   it('rule 1: a course is named for its subject, with no HSC prefix', () => {

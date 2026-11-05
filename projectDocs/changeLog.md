@@ -15,8 +15,8 @@
   5. Dot points start with a capital, use single spaces and no non-breaking spaces, take no trailing full stop
      (except multi-sentence elective paragraphs), and use curly apostrophes.
   6. Outcome descriptions use NESA's lower-case verb form ("analyses …") with no skill label ("Analysis: ").
-  Ids are unchanged, so browsers at 2.39.0 refresh their unedited copies in place; an edited copy is kept and
-  offered the update.
+     Ids are unchanged, so browsers at 2.39.0 refresh their unedited copies in place; an edited copy is kept and
+     offered the update.
 - **Changed.** Code that assumed an "HSC <Course>" name. `courseNameFromSyllabus` adds no prefix and strips a
   leading one (`utils/nesaSyllabus.ts`). A new `utils/courseNames.ts` (`withoutHscPrefix`, `isSameCourseName`) lets
   course pairing match a copy saved as "HSC Biology" to "Biology" in the library merge and the first-run import

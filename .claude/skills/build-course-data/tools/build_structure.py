@@ -12,7 +12,8 @@ what goes in the course. Each entry is one of:
                                                           optionIndex if present, else file order; name is nameFormat
                                                           with {title} replaced (default "{title}"). A format with {list}
                                                           splits the option title at its first colon: "Case study ({list}):
-                                                          {title}" gives "Case study (List A): Troy". "skip" lists NESA
+                                                          {title}" gives "Case study (List A): Troy". "rename" maps a NESA
+                                                          option title to the name it takes (NESA's "ONE" to "One"). "skip" lists NESA
                                                           option titles to leave out (options the course already has under
                                                           another name); "strip" is a suffix removed from each option
                                                           title before nameFormat is applied.
@@ -146,14 +147,16 @@ for n, t in enumerate(cfg['topics'], 1):
         if not hits: die(f'topics[{n}]: no nesa.json entry in options list {t["optionsList"]!r} for {t["year"]}')
         hits.sort(key=lambda h: (h[1].get('optionIndex', float('inf')), h[0]))
         fmt = t.get('nameFormat', '{title}')
-        skip, strip = set(t.get('skip', [])), t.get('strip', '')
+        skip, strip, rename = set(t.get('skip', [])), t.get('strip', ''), t.get('rename', {})
         unknown = skip - {fa['title'] for _, fa in hits}
         if unknown: die(f'topics[{n}]: "skip" names no option of {t["optionsList"]!r}: {sorted(unknown)}')
+        unknown = set(rename) - {fa['title'] for _, fa in hits}
+        if unknown: die(f'topics[{n}]: "rename" names no option of {t["optionsList"]!r}: {sorted(unknown)}')
         if strip and not any(suffix_matches(fa['title'], strip) for _, fa in hits):
             die(f'topics[{n}]: "strip" {strip!r} ends no option title of {t["optionsList"]!r}')
         for i, fa in hits:
             if fa['title'] in skip: continue
-            title = fa['title']
+            title = rename.get(fa['title'], fa['title'])
             if suffix_matches(title, strip): title = title.replace('\xa0', ' ')[:-len(strip)]
             picks.append((i, t, option_name(fmt, title, n)))
     else:

@@ -26,7 +26,8 @@
     {
       "optionsList": "Experiences with the law",
       "year": "year11",
-      "nameFormat": "{title}"
+      "nameFormat": "{title}",
+      "rename": { "Case study 2: ONE group in society": "Case study 2: One group in society" }
     },
     {
       "title": "Legal themes and skills",

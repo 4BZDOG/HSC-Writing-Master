@@ -92,7 +92,8 @@ prefix; topic names carry no year prefix (`"Year 11: "`, `"Year 12: "`) and no "
 study has no "(core)" or "Core study: " marker, so set `name` to the plain name. Topic names must be unique
 within a year (import matches a topic by name within its year), so a focus area NESA repeats in both years
 ("Working scientifically") needs no `name` at all. A `nameFormat` with `{list}` splits an option title at its
-first colon: NESA's "List A: Troy" with `"Case study ({list}): {title}"` gives "Case study (List A): Troy".
+first colon: NESA's "List A: Troy" with `"Case study ({list}): {title}"` gives "Case study (List A): Troy". A `rename` map on an options list gives an option the name the shipped course uses where NESA's
+wording or capitalisation differs (Legal Studies' "ONE group in society" is "One group in society").
 `allOutcomes`
 keeps outcomes from parts you excluded (History Extension's project outcome). The configs used for the
 October 2026 round (HMS, Biology, English Studies, EAL/D, Extension 1, History Extension) are in

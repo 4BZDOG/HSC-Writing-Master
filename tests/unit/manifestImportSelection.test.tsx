@@ -48,7 +48,7 @@ describe('picking syllabuses', () => {
   it('offers a real checkbox for each one, named after it', () => {
     open();
     expect(screen.getByRole('checkbox', { name: /Biology \(Advanced\)/ })).toBeTruthy();
-    expect(screen.getByRole('checkbox', { name: /HSC Chemistry \(Advanced\)/ })).toBeTruthy();
+    expect(screen.getByRole('checkbox', { name: /Chemistry \(Advanced\)/ })).toBeTruthy();
   });
 
   it('ticks and unticks from the keyboard route', () => {
@@ -69,7 +69,7 @@ describe('picking syllabuses', () => {
     for (const box of screen.getAllByRole('checkbox') as HTMLInputElement[]) {
       if (box.checked) fireEvent.click(box);
     }
-    fireEvent.click(screen.getByRole('checkbox', { name: /HSC Chemistry \(Advanced\)/ }));
+    fireEvent.click(screen.getByRole('checkbox', { name: /Chemistry \(Advanced\)/ }));
     fireEvent.click(screen.getByRole('button', { name: /Add 1 syllabus/ }));
     await waitFor(() => expect(onImport).toHaveBeenCalledTimes(1));
     expect(onImport.mock.calls[0][0].map((d) => d.id)).toEqual(['b']);
