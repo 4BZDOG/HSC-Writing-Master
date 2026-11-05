@@ -66,7 +66,7 @@ const SIZES = {
     // always did, and the fade at the start shows the rest is there.
     //
     // The ancestors get a floor of 8.5rem from `lg`. At 4.5rem they were squeezed
-    // to ~70px at 1440px, which left "HSC Enterpris… › Data vi… › Using data…" and
+    // to ~70px at 1440px, which left "Enterpris… › Data vi… › Using data…" and
     // gave the dot point ~580px; at 8.5rem each one reads as a few words. The
     // deepest crumb keeps its 4.5rem floor and takes whatever width is left,
     // truncating with its full title. It also shrinks at full weight from `lg`:

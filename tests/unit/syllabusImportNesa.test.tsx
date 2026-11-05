@@ -119,7 +119,9 @@ const renderModal = (onImport = vi.fn()) =>
 
 /** Types a URL into the fetch box and presses Fetch. */
 const fetchPage = (url: string) => {
-  fireEvent.change(screen.getByPlaceholderText(/curriculum\.nsw\.edu\.au/), { target: { value: url } });
+  fireEvent.change(screen.getByPlaceholderText(/curriculum\.nsw\.edu\.au/), {
+    target: { value: url },
+  });
   fireEvent.click(screen.getByRole('button', { name: /^fetch$/i }));
 };
 
@@ -155,7 +157,7 @@ describe('reading a NESA page', () => {
     await openHealthIssues();
 
     expect((screen.getByPlaceholderText(/New course name/) as HTMLInputElement).value).toBe(
-      'HSC Health and Movement Science'
+      'Health and Movement Science'
     );
     expect(screen.getByRole('radio', { name: 'Year 11' }).getAttribute('aria-checked')).toBe(
       'true'
@@ -260,7 +262,7 @@ describe('reviewing and importing', () => {
     fireEvent.click(screen.getByRole('button', { name: /import syllabus/i }));
 
     expect(onImport).toHaveBeenCalledWith(
-      'HSC Health and Movement Science',
+      'Health and Movement Science',
       [
         {
           name: 'Health Issues',

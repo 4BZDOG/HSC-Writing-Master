@@ -10,7 +10,10 @@ what goes in the course. Each entry is one of:
   {"optionsList", "year", "nameFormat"?, "electives"?, "skip"?, "strip"?}
                                                           every nesa.json entry with that optionsList and year, ordered by
                                                           optionIndex if present, else file order; name is nameFormat
-                                                          with {title} replaced (default "{title}"). "skip" lists NESA
+                                                          with {title} replaced (default "{title}"). A format with {list}
+                                                          splits the option title at its first colon: "Case study ({list}):
+                                                          {title}" gives "Case study (List A): Troy". "rename" maps a NESA
+                                                          option title to the name it takes (NESA's "ONE" to "One"). "skip" lists NESA
                                                           option titles to leave out (options the course already has under
                                                           another name); "strip" is a suffix removed from each option
                                                           title before nameFormat is applied.
@@ -32,7 +35,7 @@ Writes [{"id", "name", "outcomes", "topics"}] (one course) and prints a summary.
 
 With --append-to <course.json> the output is that existing course, changed only by addition: every existing topic,
 sub-topic, dot point and outcome stays exactly as it is. A built topic whose name (case-insensitive, trimmed) already
-exists in the course is skipped and printed. Year 11 topics are inserted after the existing Year 11 topics (or first if
+exists in the same year of the course is skipped and printed; the same name in the other year is a different topic. Year 11 topics are inserted after the existing Year 11 topics (or first if
 there are none); Year 12 topics go at the end. A built outcome whose code is new is appended; an existing code whose
 description differs from NESA's is kept and warned about. The config id and name must match the file's. The whole
 resulting file is validated, existing ids included. The file keeps its form (one-course list or bare course object).
@@ -81,12 +84,33 @@ def suffix_matches(title, suffix):
     return bool(suffix) and title.replace('\xa0', ' ').endswith(suffix)
 
 
+def year_of(t):
+    """A topic's year: "year11" or "year12". Year 12 topics carry no key, so absence means Year 12."""
+    return t.get('year', 'year12')
+
+
+def topic_key(t):
+    """What makes a topic the same topic: its name (case-insensitive, trimmed) WITHIN its year. NESA reuses a name
+    across the two years ("Working scientifically" in Biology), so a name alone is not an identity."""
+    return (norm(t['name']), year_of(t))
+
+
+def option_name(fmt, title, n):
+    """An option's topic name from nameFormat. {title} is the option's title; a format with {list} splits the title at
+    its first colon, so {list} is "List A" and {title} is the rest of NESA's "List A: Troy". Then
+    "Case study ({list}): {title}" gives "Case study (List A): Troy"."""
+    if '{list}' not in fmt: return fmt.replace('{title}', title)
+    head, sep, rest = title.partition(':')
+    if not sep or not rest.strip(): die(f'topics[{n}]: option {title!r} has no "list: " prefix for nameFormat {fmt!r}')
+    return fmt.replace('{list}', head.strip()).replace('{title}', rest.strip())
+
+
 def validate(topics):
-    """The topic list as a whole: names unique (case-insensitive, trimmed), sub-topic names unique per topic, ids unique."""
+    """The topic list as a whole: names unique within each year (case-insensitive, trimmed), sub-topic names unique per topic, ids unique."""
     for t in topics:
         if not t['name'].strip(): die('blank topic name')
-    dd = dupes([norm(t['name']) for t in topics])
-    if dd: die(f'duplicate topic names: {dd}')
+    dd = dupes([topic_key(t) for t in topics])
+    if dd: die(f'duplicate topic names within a year: {[(n, y) for n, y in dd]}')
     ids = []
     for t in topics:
         dd = dupes([s['name'] for s in t['subTopics']])
@@ -123,16 +147,18 @@ for n, t in enumerate(cfg['topics'], 1):
         if not hits: die(f'topics[{n}]: no nesa.json entry in options list {t["optionsList"]!r} for {t["year"]}')
         hits.sort(key=lambda h: (h[1].get('optionIndex', float('inf')), h[0]))
         fmt = t.get('nameFormat', '{title}')
-        skip, strip = set(t.get('skip', [])), t.get('strip', '')
+        skip, strip, rename = set(t.get('skip', [])), t.get('strip', ''), t.get('rename', {})
         unknown = skip - {fa['title'] for _, fa in hits}
         if unknown: die(f'topics[{n}]: "skip" names no option of {t["optionsList"]!r}: {sorted(unknown)}')
+        unknown = set(rename) - {fa['title'] for _, fa in hits}
+        if unknown: die(f'topics[{n}]: "rename" names no option of {t["optionsList"]!r}: {sorted(unknown)}')
         if strip and not any(suffix_matches(fa['title'], strip) for _, fa in hits):
             die(f'topics[{n}]: "strip" {strip!r} ends no option title of {t["optionsList"]!r}')
         for i, fa in hits:
             if fa['title'] in skip: continue
-            title = fa['title']
+            title = rename.get(fa['title'], fa['title'])
             if suffix_matches(title, strip): title = title.replace('\xa0', ' ')[:-len(strip)]
-            picks.append((i, t, fmt.replace('{title}', title)))
+            picks.append((i, t, option_name(fmt, title, n)))
     else:
         hits = [(i, fa) for i, fa in enumerate(nesa) if fa['title'] == t.get('title') and fa['year'] == t['year']]
         if len(hits) != 1: die(f'topics[{n}]: {len(hits)} nesa.json entries titled {t.get("title")!r} for {t["year"]}, need exactly 1')
@@ -211,10 +237,10 @@ if a.append_to:
     for k in ('id', 'name'):
         if course0.get(k) != cfg[k]: die(f"config {k} {cfg[k]!r} is not the course file's {k} {course0.get(k)!r}")
     old_topics = course0['topics']
-    old_names = {norm(t['name']) for t in old_topics}
+    old_keys = {topic_key(t) for t in old_topics}
     added = []
     for t in topics:
-        if norm(t['name']) in old_names: skipped_existing.append(t['name'])
+        if topic_key(t) in old_keys: skipped_existing.append(f"{t['name']} ({year_of(t)})")
         else: added.append(t)
     y11 = [t for t in added if t.get('year') == 'year11']
     y12 = [t for t in added if t.get('year') != 'year11']
@@ -249,7 +275,7 @@ if skipped_el:
     print('skipped electives with empty description:')
     for s in skipped_el: print('  ' + s)
 if skipped_existing:
-    print('skipped built topics whose name already exists in the course:')
+    print('skipped built topics whose name already exists in the course for that year:')
     for s in skipped_existing: print('  ' + s)
 print('added topics:' if a.append_to else 'summary:')
 n_sub = n_dp = 0

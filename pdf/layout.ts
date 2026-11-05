@@ -70,9 +70,9 @@ const TRAIL_SEPARATOR = '  \u203a  ';
 /**
  * The syllabus trail, fitted to exactly ONE line, keeping the END.
  *
- * A trail is orientation, and the orienting part is the far end: "HSC
- * Enterprise Computing" is on the masthead already, while "Securing enterprise
- * data" is the only segment that says where in the course this question sits.
+ * A trail is orientation, and the orienting part is the far end: "Enterprise
+ * Computing" is on the masthead already, while "Securing enterprise data" is
+ * the only segment that says where in the course this question sits.
  * Wrapped to two or three lines it also out-measured the question it belongs
  * to, which is the wrong way round on the one card a reader looks at first.
  *

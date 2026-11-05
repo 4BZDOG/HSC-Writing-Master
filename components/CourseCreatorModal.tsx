@@ -56,7 +56,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
    * Outcomes per year, because NESA writes a separate set for each.
    *
    * A course created here used to take one list, which meant a teacher setting
-   * up "HSC Physics" could only enter the HSC outcomes and had to come back
+   * up "Physics" could only enter the HSC outcomes and had to come back
    * through the navigator to add the Year 11 ones — after creating a Year 11
    * topic, since the year control cannot be reached on a course with no
    * content. Both sets are entered where the course is defined.
@@ -269,7 +269,7 @@ const CourseCreatorModal: React.FC<CourseCreatorModalProps> = ({
                   if (error) setError(null);
                 }}
                 className={CREATOR_INPUT}
-                placeholder="e.g., HSC Chemistry"
+                placeholder="e.g., Chemistry"
                 autoFocus
               />
             </div>

@@ -116,7 +116,14 @@ import {
 // Computing, Software Engineering and Geography fixes; Geography's past questions take NESA's own sample answers.
 // 2.39.0: English Standard (113) and English Advanced (60) app-written questions print the invented texts they
 // ask about, which they had described but never shown.
-export const DATA_VERSION = '2.39.0';
+// 2.40.0: navigator text made consistent across every shipped course. A course is named for its subject ("Biology",
+// no "HSC" prefix); a topic carries no year prefix or "11–12" suffix, since the year control says the year and a
+// Year 11 and a Year 12 topic may share a name; core topics are plain ("The criminal justice system", no "(core)" or
+// "Core study:"); option topics are "<group>: <title>" ("Case study (List A): Troy", "Option: Consumer law"); and the
+// Business Studies and Geography sub-topic names and dot points are sentence case. Ids are unchanged, so browsers at
+// 2.39.0 refresh their unedited copies in place. An edited copy keeps its name and is offered the update, and an
+// import still finds a course saved as "HSC Biology" when the file says "Biology".
+export const DATA_VERSION = '2.40.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
@@ -127,8 +134,8 @@ export const DATA_VERSION = '2.39.0';
  */
 export const RETIRED_SEED_COURSE_IDS: readonly string[] = [
   'course-3cb7f305-5233-428e-8255-566fa5c10560', // HSC Biology (manifest file)
-  'course-bio-advanced', // HSC Biology (Advanced), built-in sample
-  'course-chemistry-advanced', // HSC Chemistry (Advanced), built-in sample
+  'course-bio-advanced', // Biology (Advanced), built-in sample
+  'course-chemistry-advanced', // Chemistry (Advanced), built-in sample
   'course-template-01', // template course
 ];
 

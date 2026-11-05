@@ -17,7 +17,7 @@ import { clearOnboarding, signIn } from './support/workspace';
  * topic rows instead say how many past papers each holds.
  */
 
-const COURSE = 'HSC Business Studies';
+const COURSE = 'Business Studies';
 const COURSE_ID = 'course-hsc-business-studies';
 const YEAR = '2024';
 

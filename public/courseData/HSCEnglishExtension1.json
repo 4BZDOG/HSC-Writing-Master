@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-english-extension-1",
-    "name": "HSC English Extension 1",
+    "name": "English Extension 1",
     "outcomes": [
       {
         "code": "EE1-11-01",
@@ -249,7 +249,7 @@
             "dotPoints": [
               {
                 "id": "dp-ee1-12-literary-worlds-7-1",
-                "description": "In this elective, students consider the nature and characteristics of the worlds of Shakespeare's works. They explore, interrogate and evaluate the ways these worlds can be referenced, reconstructed, extended or subverted in other texts. Students consider the enduring nature of Shakespeare’s work, and the way his work is valued across a range of cultures and contexts. They examine how Shakespeare’s worlds can represent concepts of individualism and subjectivity. In reading and engaging with Shakespearean worlds through texts other than those written by Shakespeare, they will deepen their understanding of the ways structure, ideas, content, and language are adapted and appropriated in new ways. Students evaluate Shakespearean worlds that represent moments of crisis and new ways of understanding the world. In their responding and composing, students explore, analyse, experiment with, and critically evaluate, their prescribed texts and other appropriate texts. They write imaginative compositions that use textual forms and language to represent Shakespearean worlds. In this elective, students are required to study THREE of the prescribed texts, which must include at least TWO extended print texts. Students are also required to study ONE related text of their own choosing. Texts can be drawn from a range of contexts and media to explore how Shakespearean worlds have endured.",
+                "description": "In this elective, students consider the nature and characteristics of the worlds of Shakespeare’s works. They explore, interrogate and evaluate the ways these worlds can be referenced, reconstructed, extended or subverted in other texts. Students consider the enduring nature of Shakespeare’s work, and the way his work is valued across a range of cultures and contexts. They examine how Shakespeare’s worlds can represent concepts of individualism and subjectivity. In reading and engaging with Shakespearean worlds through texts other than those written by Shakespeare, they will deepen their understanding of the ways structure, ideas, content, and language are adapted and appropriated in new ways. Students evaluate Shakespearean worlds that represent moments of crisis and new ways of understanding the world. In their responding and composing, students explore, analyse, experiment with, and critically evaluate, their prescribed texts and other appropriate texts. They write imaginative compositions that use textual forms and language to represent Shakespearean worlds. In this elective, students are required to study THREE of the prescribed texts, which must include at least TWO extended print texts. Students are also required to study ONE related text of their own choosing. Texts can be drawn from a range of contexts and media to explore how Shakespearean worlds have endured.",
                 "prompts": []
               }
             ]

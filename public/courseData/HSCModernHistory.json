@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-modern-history",
-    "name": "HSC Modern History",
+    "name": "Modern History",
     "outcomes": [
       {
         "code": "MH-12-01",
@@ -75,7 +75,7 @@
     "topics": [
       {
         "id": "topic-mh-11-year-11-historical-concepts-and-skills-11-12",
-        "name": "Year 11: Historical concepts and skills 11–12",
+        "name": "Historical concepts and skills",
         "year": "year11",
         "subTopics": [
           {
@@ -216,47 +216,47 @@
             "dotPoints": [
               {
                 "id": "dp-mh-11-historical-investigation-2-1",
-                "description": "aspects of a modern society as revealed through sources",
+                "description": "Aspects of a modern society as revealed through sources",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-2",
-                "description": "the causes and impact of a historical event",
+                "description": "The causes and impact of a historical event",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-3",
-                "description": "the role of a significant historical individual",
+                "description": "The role of a significant historical individual",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-4",
-                "description": "the significance of a historical development",
+                "description": "The significance of a historical development",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-5",
-                "description": "tracing the development of an aspect of the past over time through a thematic approach",
+                "description": "Tracing the development of an aspect of the past over time through a thematic approach",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-6",
-                "description": "the analysis of a historical debate, controversy or representation of the past",
+                "description": "The analysis of a historical debate, controversy or representation of the past",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-7",
-                "description": "the contribution of a historical site to our understanding of the past",
+                "description": "The contribution of a historical site to our understanding of the past",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-8",
-                "description": "the nature of social and cultural change in a decade of the 20th century",
+                "description": "The nature of social and cultural change in a decade of the 20th century",
                 "prompts": []
               },
               {
                 "id": "dp-mh-11-historical-investigation-2-9",
-                "description": "an interpretation or representation of an individual, group or event",
+                "description": "An interpretation or representation of an individual, group or event",
                 "prompts": []
               }
             ]
@@ -690,7 +690,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-australia-and-the-rise-of-communism",
-        "name": "Case study: List A: Australia and the rise of communism",
+        "name": "Case study (List A): Australia and the rise of communism",
         "year": "year11",
         "subTopics": [
           {
@@ -755,7 +755,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-making-change-the-day-of-mourning-to-the",
-        "name": "Case study: List A: Making change: The Day of Mourning to the National Apology to the Stolen Generations",
+        "name": "Case study (List A): Making change: The Day of Mourning to the National Apology to the Stolen Generations",
         "year": "year11",
         "subTopics": [
           {
@@ -815,7 +815,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-the-changing-nature-of-anglo-irish",
-        "name": "Case study: List A: The changing nature of Anglo–Irish relations",
+        "name": "Case study (List A): The changing nature of Anglo–Irish relations",
         "year": "year11",
         "subTopics": [
           {
@@ -895,7 +895,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-the-decline-and-fall-of-the-romanov",
-        "name": "Case study: List A: The decline and fall of the Romanov dynasty",
+        "name": "Case study (List A): The decline and fall of the Romanov dynasty",
         "year": "year11",
         "subTopics": [
           {
@@ -955,7 +955,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-the-transatlantic-slave-trade",
-        "name": "Case study: List A: The transatlantic slave trade",
+        "name": "Case study (List A): The transatlantic slave trade",
         "year": "year11",
         "subTopics": [
           {
@@ -1025,7 +1025,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-the-american-civil-war",
-        "name": "Case study: List A: The American Civil War",
+        "name": "Case study (List A): The American Civil War",
         "year": "year11",
         "subTopics": [
           {
@@ -1100,7 +1100,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-the-rise-of-the-american-environmental",
-        "name": "Case study: List A: The rise of the American environmental movement",
+        "name": "Case study (List A): The rise of the American environmental movement",
         "year": "year11",
         "subTopics": [
           {
@@ -1175,7 +1175,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-a-women-s-movements",
-        "name": "Case study: List A: Women’s movements",
+        "name": "Case study (List A): Women’s movements",
         "year": "year11",
         "subTopics": [
           {
@@ -1260,7 +1260,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-b-the-boxer-rebellion-in-china",
-        "name": "Case study: List B: The Boxer Rebellion in China",
+        "name": "Case study (List B): The Boxer Rebellion in China",
         "year": "year11",
         "subTopics": [
           {
@@ -1330,7 +1330,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-b-the-british-in-india-and-burma",
-        "name": "Case study: List B: The British in India and Burma",
+        "name": "Case study (List B): The British in India and Burma",
         "year": "year11",
         "subTopics": [
           {
@@ -1405,7 +1405,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-b-the-meiji-restoration",
-        "name": "Case study: List B: The Meiji Restoration",
+        "name": "Case study (List B): The Meiji Restoration",
         "year": "year11",
         "subTopics": [
           {
@@ -1470,7 +1470,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-b-tibet-in-the-modern-world",
-        "name": "Case study: List B: Tibet in the modern world",
+        "name": "Case study (List B): Tibet in the modern world",
         "year": "year11",
         "subTopics": [
           {
@@ -1540,7 +1540,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-b-contact-in-the-pacific",
-        "name": "Case study: List B: Contact in the Pacific",
+        "name": "Case study (List B): Contact in the Pacific",
         "year": "year11",
         "subTopics": [
           {
@@ -1605,7 +1605,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-b-the-making-of-modern-south-africa",
-        "name": "Case study: List B: The making of modern South Africa",
+        "name": "Case study (List B): The making of modern South Africa",
         "year": "year11",
         "subTopics": [
           {
@@ -1675,7 +1675,7 @@
       },
       {
         "id": "topic-mh-11-case-study-list-b-the-origins-of-the-arab-israeli-conflict",
-        "name": "Case study: List B: The origins of the Arab–Israeli conflict",
+        "name": "Case study (List B): The origins of the Arab–Israeli conflict",
         "year": "year11",
         "subTopics": [
           {
@@ -1887,7 +1887,7 @@
       },
       {
         "id": "topic-mh-1",
-        "name": "Core study: Democracy and dictatorship 1919–1939",
+        "name": "Democracy and dictatorship 1919–1939",
         "subTopics": [
           {
             "id": "subtopic-mh-1-1",
@@ -7596,7 +7596,7 @@
       },
       {
         "id": "topic-mh-12-historical-concepts-and-skills-11-12",
-        "name": "Historical concepts and skills 11–12",
+        "name": "Historical concepts and skills",
         "subTopics": [
           {
             "id": "subtopic-mh-12-historical-concepts-and-skills-11-12-1",

@@ -2,6 +2,7 @@ import type { CourseOutcome, SyllabusYear } from '../types';
 import type { NesaPage } from '../services/geminiService';
 import type { SyllabusPreviewNode } from './dataManagerUtils';
 import { yearOfOutcomeCode } from './outcomeCodes';
+import { withoutHscPrefix } from './courseNames';
 
 /**
  * NESA's own structure for a syllabus page, turned into the import's shapes.
@@ -107,16 +108,16 @@ export const hasNesaStatements = (page: Pick<NesaPage, 'groups'>): boolean =>
 
 /**
  * The course a syllabus belongs to, named the way a teacher would name it:
- * "Health and Movement Science 11–12 (2023)" becomes "HSC Health and Movement
+ * "Health and Movement Science 11–12 (2023)" becomes "Health and Movement
  * Science". The stage and the year of issue are stripped, because a course is
  * one subject across both years, and the year is already chosen in the modal.
+ *
+ * Course names carry no "HSC " prefix (the app is the HSC app), so a leading
+ * one is stripped if the syllabus title or an older copy still has it.
  */
 const TRAILING_STAGE = /\s*(?:\d{2}\s*[–-]\s*\d{2}|Stage\s*6)?\s*\(\d{4}\)\s*$/i;
-export const courseNameFromSyllabus = (syllabus: string): string => {
-  const subject = syllabus.trim().replace(TRAILING_STAGE, '').trim();
-  if (!subject) return '';
-  return /^HSC\b/i.test(subject) ? subject : `HSC ${subject}`;
-};
+export const courseNameFromSyllabus = (syllabus: string): string =>
+  withoutHscPrefix(syllabus.trim().replace(TRAILING_STAGE, ''));
 
 /**
  * The other focus areas of a syllabus, grouped for the picker.

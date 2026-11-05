@@ -308,6 +308,37 @@ describe('refreshing copies already in the library', () => {
     expect(result.courses.map((c) => c.id)).not.toContain(`${MODERN_HISTORY}-before-refresh`);
   });
 
+  // The first-run picker stamps the course as the file has it, then saves it with the
+  // manifest's subject added. Counted in the fingerprint, that subject made every
+  // picker-imported copy look edited, so it never received a newer version.
+  it('refreshes a picker-imported copy, which gained its subject after it was stamped', async () => {
+    serveShipped();
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const older = { ...modernHistory, name: 'HSC Modern History (older)' };
+    const saved = [{ ...stampShipped(older), subject: 'HSIE' }];
+    expect(isUnedited(saved[0])).toBe(true);
+
+    const result = await syncShippedCourses(saved);
+
+    const refreshed = result.courses.find((c) => c.id === MODERN_HISTORY);
+    expect(refreshed?.name).toBe(modernHistory.name);
+    expect(refreshed?.subject).toBe('HSIE');
+    expect(result.heldBack).toEqual([]);
+    expect(result.courses.map((c) => c.id)).not.toContain(`${MODERN_HISTORY}-before-refresh`);
+  });
+
+  it('keeps the subject a user filed a copy under when the copy is replaced on request', () => {
+    const modernHistory = shippedCourse('HSCModernHistory.json');
+    const copy = { ...stampShipped(modernHistory), name: 'My Modern History', subject: 'History' };
+
+    const [replaced] = replaceWithShipped([copy], new Map([[MODERN_HISTORY, modernHistory]]), [
+      MODERN_HISTORY,
+    ]);
+
+    expect(replaced.name).toBe(modernHistory.name);
+    expect(replaced.subject).toBe('History');
+  });
+
   it('keeps a stamped copy the user has edited', async () => {
     serveShipped();
     const modernHistory = shippedCourse('HSCModernHistory.json');

@@ -1,7 +1,7 @@
 [
   {
     "id": "course-hsc-english-eald",
-    "name": "HSC English EAL/D",
+    "name": "English EAL/D",
     "outcomes": [
       {
         "code": "EEA-11-01",
@@ -204,7 +204,7 @@
       },
       {
         "id": "topic-eald-11-year-11-close-study-of-text",
-        "name": "Year 11: Close study of text",
+        "name": "Close study of text",
         "year": "year11",
         "subTopics": [
           {
@@ -379,7 +379,7 @@
       },
       {
         "id": "topic-eald-12-year-12-close-study-of-text",
-        "name": "Year 12: Close study of text",
+        "name": "Close study of text",
         "subTopics": [
           {
             "id": "subtopic-eald-12-year-12-close-study-of-text-1",

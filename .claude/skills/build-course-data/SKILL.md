@@ -84,9 +84,17 @@ python3 .claude/skills/build-course-data/tools/build_structure.py \
 
 The config names the course and lists, in order, exactly which focus areas become topics
 (`{"title", "year", "name"?, "electives"?}`), or expands an options list (`{"optionsList", "year",
-"nameFormat": "Year 11 {title}"}`). Everything not listed is printed as excluded, so a left-out focus area
-is a decision you can see. Topic names must be unique in a course (import matches topics by name), so a
-focus area NESA repeats in both years needs a `name` ("Year 11: Working scientifically"). `allOutcomes`
+"nameFormat": "Case study ({list}): {title}"}`). Everything not listed is printed as excluded, so a left-out
+focus area is a decision you can see.
+
+Naming follows the app's convention (projectDocs/changeLog.md, the top entry): course names have no "HSC"
+prefix; topic names carry no year prefix (`"Year 11: "`, `"Year 12: "`) and no "11–12" suffix, and a core
+study has no "(core)" or "Core study: " marker, so set `name` to the plain name. Topic names must be unique
+within a year (import matches a topic by name within its year), so a focus area NESA repeats in both years
+("Working scientifically") needs no `name` at all. A `nameFormat` with `{list}` splits an option title at its
+first colon: NESA's "List A: Troy" with `"Case study ({list}): {title}"` gives "Case study (List A): Troy". A `rename` map on an options list gives an option the name the shipped course uses where NESA's
+wording or capitalisation differs (Legal Studies' "ONE group in society" is "One group in society").
+`allOutcomes`
 keeps outcomes from parts you excluded (History Extension's project outcome). The configs used for the
 October 2026 round (HMS, Biology, English Studies, EAL/D, Extension 1, History Extension) are in
 `.claude/skills/build-course-data/configs/`; each file's top-level keys are the course id, name and prefix.

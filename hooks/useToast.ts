@@ -60,7 +60,7 @@ export type ShowToast = (
  * Something to do about what the toast just said.
  *
  * Several flows ended in a message describing exactly what the person would
- * want to act on next — "Merged into HSC Physics", "84 syllabus points have no
+ * want to act on next — "Merged into Physics", "84 syllabus points have no
  * question yet" — with no way to get there, which is what pushed one of them
  * into opening a modal at the user instead of asking.
  */

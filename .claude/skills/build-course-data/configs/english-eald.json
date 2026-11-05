@@ -3,7 +3,7 @@
   "source": "https://curriculum.nsw.edu.au/learning-areas/english/english-eald-11-12-2024",
   "startFocusAreas": ["content/year-11/fa1ef6c784", "content/year-12/fa1cdf0291"],
   "id": "course-hsc-english-eald",
-  "name": "HSC English EAL/D",
+  "name": "English EAL/D",
   "prefix": "eald",
   "outcomePattern": "^[A-Z0-9]+-1[12][A-Z]*-\\d\\d$",
   "topics": [
@@ -17,8 +17,7 @@
     },
     {
       "title": "Close study of text",
-      "year": "year11",
-      "name": "Year 11: Close study of text"
+      "year": "year11"
     },
     {
       "title": "Texts and human experiences",
@@ -33,7 +32,6 @@
     {
       "title": "Close study of text",
       "year": "year12",
-      "name": "Year 12: Close study of text",
       "electives": true
     },
     {

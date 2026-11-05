@@ -3,7 +3,7 @@
   "source": "https://curriculum.nsw.edu.au/learning-areas/hsie/history-extension-11-12-2024",
   "startFocusAreas": ["content/year-12/fa896c554a", "content/year-12/faaba5a608"],
   "id": "course-hsc-history-extension",
-  "name": "HSC History Extension",
+  "name": "History Extension",
   "prefix": "hx",
   "allOutcomes": true,
   "outcomePattern": "^[A-Z0-9]+-1[12][A-Z]*-\\d\\d$",

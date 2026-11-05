@@ -1,7 +1,7 @@
 // scripts/pdfSamples/fixtures.ts
 //
 // Realistic marking-feedback payloads for the PDF sample generator. Content is
-// drawn from the HSC Enterprise Computing syllabus data shipped with the app so
+// drawn from the Enterprise Computing syllabus data shipped with the app so
 // the samples exercise the same prose shapes a real export sees: syllabus
 // keywords, **bold** marker emphasis, multi-paragraph responses, and rewrites
 // that differ from the original by a lot rather than a little.
@@ -63,7 +63,7 @@ export const typicalBand2: EvaluationExportData = {
   verb: 'EXPLAIN',
   totalMarks: 6,
   syllabusPath:
-    'HSC Enterprise Computing  ›  Data visualisation  ›  Using data to tell a story  ›  Explain the purposes of data visualisation',
+    'Enterprise Computing  ›  Data visualisation  ›  Using data to tell a story  ›  Explain the purposes of data visualisation',
   studentAnswer:
     'A data visualisation is better than a table because it is easier to look at. When you have thousands of numbers in a table it is really hard to see what is going on, but a graph shows you straight away. For example if sea levels are rising you can see the line going up on a line chart which is much clearer than reading the numbers.\n\nVisualisations also use colour which helps. If you make the important part red then people will look at that first. Tables are all the same colour so nothing stands out. This means the audience can understand the data quicker and the person presenting can tell a story with the data instead of just showing numbers.',
   overallMark: 4,
@@ -130,7 +130,7 @@ export const shortBand1: EvaluationExportData = {
   question: 'Identify two main purposes of data visualisation.',
   verb: 'IDENTIFY',
   totalMarks: 2,
-  syllabusPath: 'HSC Enterprise Computing  ›  Data visualisation  ›  Using data to tell a story',
+  syllabusPath: 'Enterprise Computing  ›  Data visualisation  ›  Using data to tell a story',
   studentAnswer: 'To make data easier to understand and to make it look good in a presentation.',
   overallMark: 1,
   ...bandsFor('IDENTIFY', 1, 2),
@@ -179,7 +179,7 @@ export const longBand4: EvaluationExportData = {
   verb: 'EVALUATE',
   totalMarks: 8,
   syllabusPath:
-    'HSC Enterprise Computing  ›  Data management  ›  Legal, social and ethical responsibilities  ›  Assess responsibilities associated with the use and management of enterprise data',
+    'Enterprise Computing  ›  Data management  ›  Legal, social and ethical responsibilities  ›  Assess responsibilities associated with the use and management of enterprise data',
   studentAnswer: longAnswer,
   overallMark: 5,
   ...bandsFor('EVALUATE', 5, 8),
@@ -278,7 +278,7 @@ export const editedBand2: EvaluationExportData = {
   verb: 'DESCRIBE',
   totalMarks: 6,
   syllabusPath:
-    'HSC Enterprise Computing  ›  Data management  ›  Securing enterprise data  ›  Describe the controls used to protect enterprise data',
+    'Enterprise Computing  ›  Data management  ›  Securing enterprise data  ›  Describe the controls used to protect enterprise data',
   studentAnswer: editedAnswer,
   overallMark: 4,
   ...bandsFor('DESCRIBE', 4, 6),
@@ -342,22 +342,22 @@ export const editedBand2: EvaluationExportData = {
 export const SAMPLES: { name: string; subtitle: string; data: EvaluationExportData }[] = [
   {
     name: 'A-typical-band2',
-    subtitle: 'HSC Enterprise Computing',
+    subtitle: 'Enterprise Computing',
     data: typicalBand2,
   },
   {
     name: 'B-short-band1',
-    subtitle: 'HSC Enterprise Computing',
+    subtitle: 'Enterprise Computing',
     data: shortBand1,
   },
   {
     name: 'C-long-band4',
-    subtitle: 'HSC Enterprise Computing',
+    subtitle: 'Enterprise Computing',
     data: longBand4,
   },
   {
     name: 'D-edited-band2',
-    subtitle: 'HSC Enterprise Computing',
+    subtitle: 'Enterprise Computing',
     data: editedBand2,
   },
 ];

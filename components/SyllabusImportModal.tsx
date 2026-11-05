@@ -42,6 +42,7 @@ import {
   CircleCheck,
 } from 'lucide-react';
 import { generateId } from '../utils/idUtils';
+import { isSameCourseName } from '../utils/courseNames';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useFocusTrap } from '../hooks/useFocusTrap';
@@ -525,16 +526,15 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
     /**
      * A second course with the same name is a trap, not a duplicate.
      *
-     * Import matching pairs courses BY NAME, so two called "HSC Biology" make
+     * Import matching pairs courses BY NAME, so two called "Biology" make
      * every later import ambiguous and split a subject's content across two
      * entries that look identical in every picker. `CourseCreatorModal` has
      * refused this since it was written; this path — the one seeding actually
      * uses — did not, and merging is one dropdown away.
      */
     if (!targetCourseId) {
-      const clash = courses.find(
-        (c) => c.name.trim().toLowerCase() === courseName.trim().toLowerCase()
-      );
+      // "HSC Biology" from an older copy is the same course as "Biology".
+      const clash = courses.find((c) => isSameCourseName(c.name, courseName));
       if (clash) {
         setError(
           `A course named "${clash.name}" already exists. Choose it under "Import Into" to add this syllabus to it, or use a different name.`
@@ -846,7 +846,7 @@ const SyllabusImportModal: React.FC<SyllabusImportModalProps> = ({
                       type="text"
                       value={courseName}
                       onChange={(e) => setCourseName(e.target.value)}
-                      placeholder="New course name, e.g., HSC Software Engineering"
+                      placeholder="New course name, e.g., Software Engineering"
                       className="w-full bg-[rgb(var(--color-bg-surface-light))] light:bg-white border border-slate-300 dark:border-white/15 rounded-lg py-2.5 px-4 min-h-11 sm:min-h-0 text-base sm:text-sm text-[rgb(var(--color-text-primary))] light:text-slate-900 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-accent))]"
                     />
                   )}
