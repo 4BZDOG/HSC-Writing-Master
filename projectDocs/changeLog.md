@@ -1,5 +1,31 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-05 (Five new courses: Chemistry, Physics, Earth and Environmental Science, CAFS, Society and Culture)
+
+- **Added (DATA_VERSION 2.42.0).** Five structure-only courses, unticked in the first-run picker (teachers fill
+  them with the Starter questions tool or a later authoring pass), all following the navigator naming convention:
+  - **Chemistry** (303 dot points), **Physics** (397) and **Earth and Environmental Science** (265): the 2025
+    syllabuses, built with `build_structure.py` from NESA's page data, Year 11 and Year 12, each with its own
+    _Working scientifically_ topic per year and NESA's outcome codes. NESA's timeline: Physics is implemented in
+    Year 11 in 2027 (first HSC 2028, as Biology); Chemistry and Earth and Environmental Science in 2028 (first HSC
+    2029). As with Biology, current students sit the 2017 syllabus until then. Configs are in
+    `.claude/skills/build-course-data/configs/`.
+  - **Community and Family Studies** (amended 2022; 210 dot points; outcomes P1.1–H6.2) and **Society and
+    Culture** (2013; 177 dot points; P1–H10): the syllabuses still in force, not on NESA's curriculum site, built
+    from NESA's DOCX. Each "learn about" heading is a sub-topic, its content a dot point in NESA's newer
+    "statement (sub-point; sub-point)" form, and each "learn to" statement a dot point. Lists of short items keep
+    their lead-in ("Choose ONE social theory …: conflict; evolutionary; functionalist; interactionist"). Teacher
+    notes and website references are left out. CAFS options read "Option: …"; Society and Culture's choices
+    "Depth study: …". A CAFS 11–12 draft syllabus is in consultation (closes 18 December 2026), not in force.
+- **Fixed.** `fetch_nesa.py` flattened NESA's equations badly: fractions without `<mrow>` lost their slash
+  ("Δs⃗Δt"), superscripts and `msubsup` lost their powers ("10-15", "I₁r12"), square roots disappeared, and
+  Chemistry's equations came apart into "n; =; m / MM;". `mathml()` is now a tree walk with bracketing rules (a
+  multi-term numerator or denominator is bracketed: "f′ = f (vwave + vobserver) / (vwave − vsource)"), and HTML
+  `<sup>`/`<sub>` become Unicode. Re-parsing the saved pages changed 44 Physics, 16 Chemistry and 8 Economics
+  statements and no statement without an equation; Biology's were already right. Physics "tera (T) = 1012 and
+  peta (P) = 1015", plain text in NESA's page, is written 10¹² and 10¹⁵.
+- **Changed.** The naming-convention test lets a dot point open with a quotation mark before its capital.
+
 ## [Unreleased] - 2026-11-05 (Syllabus alignment: Geography, Economics, Business Studies Year 11, HMS questions)
 
 - **Fixed (DATA_VERSION 2.41.0).** Every shipped course was compared with NESA's own page data (the CMS JSON each

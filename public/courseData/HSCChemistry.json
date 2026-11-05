@@ -1,0 +1,1905 @@
+[
+  {
+    "id": "course-hsc-chemistry",
+    "name": "Chemistry",
+    "outcomes": [
+      {
+        "code": "CH-11-01",
+        "description": "explains physical, structural and chemical properties of matter and their trends",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11-02",
+        "description": "applies the mole concept and stoichiometric relationships",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11-03",
+        "description": "analyses a variety of chemical reactions",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11WS-02",
+        "description": "designs and evaluates scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11WS-03",
+        "description": "conducts scientific investigations to collect data and information",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11WS-04",
+        "description": "selects and processes qualitative and quantitative data and information",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11WS-05",
+        "description": "analyses and evaluates primary and secondary data and information",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11WS-06",
+        "description": "uses scientific processes to solve scientific problems",
+        "year": "year11"
+      },
+      {
+        "code": "CH-11WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience",
+        "year": "year11"
+      },
+      {
+        "code": "CH-12-01",
+        "description": "explains the characteristics and factors that affect equilibrium systems"
+      },
+      {
+        "code": "CH-12-02",
+        "description": "analyses acids and bases using contemporary models"
+      },
+      {
+        "code": "CH-12-03",
+        "description": "analyses the structural, chemical and physical properties of carbon compounds and their uses"
+      },
+      {
+        "code": "CH-12-04",
+        "description": "analyses the structures, production and uses of substances"
+      },
+      {
+        "code": "CH-12WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigations"
+      },
+      {
+        "code": "CH-12WS-02",
+        "description": "designs and evaluates scientific investigations"
+      },
+      {
+        "code": "CH-12WS-03",
+        "description": "conducts scientific investigations to collect data and information"
+      },
+      {
+        "code": "CH-12WS-04",
+        "description": "selects and processes qualitative and quantitative data and information"
+      },
+      {
+        "code": "CH-12WS-05",
+        "description": "analyses and evaluates primary and secondary data and information"
+      },
+      {
+        "code": "CH-12WS-06",
+        "description": "uses scientific processes to solve scientific problems"
+      },
+      {
+        "code": "CH-12WS-07",
+        "description": "communicates scientific arguments using evidence, scientific language and terminology for a specific audience"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-chem-11-working-scientifically",
+        "name": "Working scientifically",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-11-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-5-7",
+                "description": "Use appropriate significant figures to express quantitative solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-5-8",
+                "description": "Use appropriate scale prefixes for powers of 10: femto (f) = 10⁻¹⁵, pico (p) = 10⁻¹², nano (n) = 10⁻⁹, micro (μ) = 10⁻⁶, milli (m) = 10⁻³, kilo (k) = 10³, mega (M) = 10⁶, giga (G) = 10⁹, tera (T) = 10¹² and peta (P) = 10¹⁵",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-11-properties-and-structure-of-matter",
+        "name": "Properties and structure of matter",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-11-properties-and-structure-of-matter-1",
+            "name": "Separation of mixtures",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-1-1",
+                "description": "Use the physical characteristics of the components in homogeneous and heterogeneous mixtures to explain how they can be separated",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-1-2",
+                "description": "Discuss Aboriginal methods of separating mixtures by extracting dyes from plants and using woven baskets for filtration",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-1-3",
+                "description": "Conduct a laboratory experiment to determine the percentage composition of a mixture by mass",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-properties-and-structure-of-matter-2",
+            "name": "Atomic structure and electron configuration",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-1",
+                "description": "Use the element symbol, atomic number and mass number from the periodic table to construct models of atoms and illustrate the particles present",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-2",
+                "description": "Describe the distribution of mass and charge in an atom",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-3",
+                "description": "Compare the number of protons and neutrons in various isotopes of an element",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-4",
+                "description": "Calculate the relative atomic mass from isotopic composition",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-5",
+                "description": "Use examples to explain why isotopes have similar chemical properties but different densities",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-6",
+                "description": "Relate Aboriginal Knowledge of sickness Country to the presence of radioactive material",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-7",
+                "description": "Identify naturally occurring radioisotopes that undergo nuclear reactions and emit radiation, resulting in background radiation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-8",
+                "description": "Describe the mass and charge properties of alpha (α), beta (β) and gamma (γ) radiations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-9",
+                "description": "Construct balanced nuclear equations for nuclear decay and nuclear fission",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-10",
+                "description": "Explain how the emitted radiation type and half-life determine the use of natural and human-made radioisotopes",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-11",
+                "description": "Conduct a secondary-source investigation to justify the use of a selected radioisotope in medicine, industry or environmental monitoring",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-12",
+                "description": "Explain the contributions of selected scientists to society’s understanding of the atom",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-13",
+                "description": "Compare the energy of electrons in discrete energy levels, sublevels and orbitals",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-14",
+                "description": "Apply spdf notation to describe electron configurations of atoms and ions of various elements up to Z = 36",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-15",
+                "description": "Relate the electron configuration of an element to its position on the periodic table",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-16",
+                "description": "Conduct a laboratory experiment to determine the flame colours produced by heated metal ion solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-17",
+                "description": "Relate flame tests to emission spectroscopy",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-18",
+                "description": "Explain the colours emitted in flame tests in relation to changes in electron energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-2-19",
+                "description": "Describe a use of emission spectroscopy to qualitatively analyse mixtures in industry and medicine",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-properties-and-structure-of-matter-3",
+            "name": "Patterns and trends in the periodic table",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-3-1",
+                "description": "Distinguish between the periods, groups and blocks in the periodic table",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-3-2",
+                "description": "Determine the effective charge of an ion from the electron configuration and atomic number",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-3-3",
+                "description": "Conduct a secondary-source investigation to collect, tabulate and plot data on atomic radii, ionic radii, first ionisation energy and electronegativity of elements",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-3-4",
+                "description": "Interpret data to explain the trends in atomic radii, ionic radii, first ionisation energy and electronegativity of elements",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-3-5",
+                "description": "Predict the features of atoms based on their position in the periodic table",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-properties-and-structure-of-matter-4",
+            "name": "Chemical bonding",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-1",
+                "description": "Apply the International Union of Pure and Applied Chemistry (IUPAC) nomenclature to identify inorganic substances",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-2",
+                "description": "Explain metallic bonding in terms of electrostatic attraction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-3",
+                "description": "Use models to demonstrate the features of metallic bonding and lattice formation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-4",
+                "description": "Analyse the relationship between metallic bonding and the melting point, boiling point and electrical conductivity of metallic elements",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-5",
+                "description": "Explain the role of electronegativity in determining the ionic or covalent nature of bonds between atoms",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-6",
+                "description": "Predict the formation of metallic and non-metallic ions using the periodic table",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-7",
+                "description": "Explain the arrangement of ions in ionic lattices",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-8",
+                "description": "Conduct a secondary-source investigation to explain the trends in melting points within and between group 1 and group 2 chlorides",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-9",
+                "description": "Interpret representations to explain the formation of covalent bonds in discrete molecules and covalent network structures",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-10",
+                "description": "Construct electron dot diagrams for discrete molecules and simple polyatomic ions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-11",
+                "description": "Relate electronegativity to the polarity of covalent bonds",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-12",
+                "description": "Predict the molecular geometry and polarity of covalent molecules using electron dot structures, valence shell electron pair repulsion (VSEPR) theory and electronegativity",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-13",
+                "description": "Relate the features of dispersion, dipole–dipole and hydrogen bonding to intermolecular forces",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-14",
+                "description": "Use diagrams to illustrate the intermolecular forces between molecules",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-15",
+                "description": "Account for the strength of intermolecular forces, ionic bonds, covalent bonds and metallic bonds",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-16",
+                "description": "Explain the expected physical properties of common substances based on the type of chemical bonding present",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-17",
+                "description": "Conduct a practical investigation to determine the bonding type present in a variety of substances based on their properties",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-18",
+                "description": "Evaluate how models are used to illustrate the key characteristics of ionic, covalent and metallic compounds",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-properties-and-structure-of-matter-4-19",
+                "description": "Conduct a secondary-source investigation to explain the differences in melting point, electrical conductivity and hardness of carbon allotropes",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-11-quantitative-chemistry",
+        "name": "Quantitative chemistry",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-11-quantitative-chemistry-1",
+            "name": "Conservation of mass",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-quantitative-chemistry-1-1",
+                "description": "Relate the law of conservation of mass to stoichiometry",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-1-2",
+                "description": "Conduct a laboratory experiment to measure the mass and volume of gas produced in a chemical reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-1-3",
+                "description": "Describe the features of open and closed systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-1-4",
+                "description": "Explain Aboriginal cooking processes that used coals and enclosed pit ovens as examples of open and closed systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-1-5",
+                "description": "Conduct a practical investigation to model the law of conservation of mass in a chemical reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-1-6",
+                "description": "Solve problems involving changes of mass in chemical reactions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-quantitative-chemistry-2",
+            "name": "Mole concept",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-1",
+                "description": "Relate the Avogadro constant to the concept of the mole",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-2",
+                "description": "Relate the relative atomic mass of an atom to carbon-12",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-3",
+                "description": "Solve problems using n = m / MM (n = chemical amount in moles, m = mass in grams, MM = molar mass in g mol⁻¹) to determine the quantities in moles, mass in grams and molar mass in g mol⁻¹",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-4",
+                "description": "Conduct a practical investigation to physically compare masses of equimolar amounts of pure substances",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-5",
+                "description": "Conduct a practical investigation to accurately and quantitatively demonstrate how chemicals react in simple whole-number molar ratios",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-6",
+                "description": "Determine the percentage composition by mass (% w/w) and the empirical formulas of compounds",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-7",
+                "description": "Solve problems that involve limiting reagents of chemical reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-2-8",
+                "description": "Solve real-world problems using combinations of stoichiometric principles that involve reacting masses",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-quantitative-chemistry-3",
+            "name": "Measures of concentration",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-quantitative-chemistry-3-1",
+                "description": "Outline the uses of the following measures: mol L⁻¹, g L⁻¹, mg L⁻¹, % (w/w), % (w/v), % (v/v), ppm, ppb",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-3-2",
+                "description": "Manipulate variables and solve problems to calculate molar concentration, moles and volume by applying C = n / V (molarity formula)",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-3-3",
+                "description": "Perform calculations involving mol L⁻¹, g L⁻¹, mg L⁻¹, % (w/w), % (w/v), % (v/v), ppm and ppb",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-3-4",
+                "description": "Manipulate variables and solve dilution problems by applying C₁V₁ = C₂V₂",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-3-5",
+                "description": "Conduct a laboratory experiment to prepare a primary standard solution and perform a dilution with a calculated concentration",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-3-6",
+                "description": "Discuss Aboriginal and Torres Strait Islander Peoples’ methods of infusion, roasting, pounding and leaching to extract chemicals from plants to control the rate of chemical delivery",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-3-7",
+                "description": "Solve real-world problems using combinations of stoichiometric principles that involve reacting masses and solutions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-quantitative-chemistry-4",
+            "name": "Properties of gases",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-quantitative-chemistry-4-1",
+                "description": "Use the particle theory to describe the properties of ideal gases",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-4-2",
+                "description": "Manipulate variables and solve problems using PV = nRT for ideal gases at standard temperature and pressure (STP)",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-4-3",
+                "description": "Use data to analyse the relationship between pressure in kPa and volume in L in a closed gas system at a constant temperature",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-4-4",
+                "description": "Use data to analyse the relationship between temperature in K and pressure in kPa in a closed gas system at a constant volume",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-4-5",
+                "description": "Use data to analyse the relationship between temperature in K and volume in L in a closed gas system at a constant pressure",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-quantitative-chemistry-4-6",
+                "description": "Solve real-world problems using combinations of stoichiometric principles that involve reacting masses, solutions and gases",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-11-chemical-reactions",
+        "name": "Chemical reactions",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-11-chemical-reactions-1",
+            "name": "Classifying chemical reactions",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-chemical-reactions-1-1",
+                "description": "Use balanced chemical equations to describe the features and predict the products of synthesis, decomposition, combustion, precipitation and neutralisation reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-2",
+                "description": "Conduct laboratory experiments to demonstrate synthesis, decomposition, combustion and neutralisation reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-3",
+                "description": "Explain how the removal of toxicity in the preparation of nardoo by Aboriginal and Torres Strait Islander Peoples is an example of a decomposition reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-4",
+                "description": "Describe the features of and construct full and net ionic equations for precipitation reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-5",
+                "description": "Conduct a laboratory experiment to predict the products of precipitation reactions using balanced equations and solubility rules",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-6",
+                "description": "Conduct a practical investigation to demonstrate a metal displacement reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-7",
+                "description": "Explain oxidation and reduction in terms of electron transfer and change in oxidation state",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-8",
+                "description": "Relate electron transfer and change in oxidation state to metal displacement reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-9",
+                "description": "Predict the products of a metal displacement reaction using half-equations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-10",
+                "description": "Conduct laboratory experiments to compare the reactivity of metals in oxygen, water, dilute acid and other metal ions in solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-11",
+                "description": "Construct a metal activity series using the data obtained from practical investigations and compare this series with secondary sources",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-12",
+                "description": "Analyse the relationship between metal reactivity and ionisation energy, atomic radius and electronegativity",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-1-13",
+                "description": "Conduct a secondary-source investigation to evaluate the impact of a chemical reaction in medicine or agriculture",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-chemical-reactions-2",
+            "name": "Rates of reactions",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-chemical-reactions-2-1",
+                "description": "Explain the roles of activation energy and molecular orientation, and the frequency of successful collisions of particles in collision theory",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-2-2",
+                "description": "Analyse how concentration, temperature, surface area and catalysts affect reaction rate using collision theory",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-2-3",
+                "description": "Conduct a laboratory experiment to measure the effect of concentration, temperature, surface area or catalysts on the rate of a chemical reaction",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-11-chemical-reactions-3",
+            "name": "Energy changes",
+            "dotPoints": [
+              {
+                "id": "dp-chem-11-chemical-reactions-3-1",
+                "description": "Describe the energy changes of endothermic and exothermic reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-2",
+                "description": "Conduct a practical investigation to measure the energy changes in endothermic and exothermic reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-3",
+                "description": "Relate heat energy changes to total bond energy changes and to the law of conservation of energy",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-4",
+                "description": "Analyse endothermic and exothermic energy profile diagrams in terms of chemical potential energy, and bond breaking and formation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-5",
+                "description": "Conduct a laboratory experiment to measure and compare temperature changes in substances of different heat capacities",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-6",
+                "description": "Solve problems using q = mcΔT for heat energy, mass, specific heat capacity or temperature change, using the known values",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-7",
+                "description": "Solve problems involving enthalpy changes by using ΔH = −q / n",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-8",
+                "description": "Conduct a laboratory experiment using calorimetry to calculate the ΔH value for endothermic and exothermic reactions and discuss accuracy using secondary-source data",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-9",
+                "description": "Analyse the effect of catalysts on activation energy in endothermic and exothermic reactions and provide an alternative lower-energy pathway for a chemical reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-11-chemical-reactions-3-10",
+                "description": "Conduct a secondary-source investigation about the economic advantages of using a catalyst on an industrial process",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-12-working-scientifically",
+        "name": "Working scientifically",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-12-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-working-scientifically-1-1",
+                "description": "Use observations and scientific knowledge and understanding to propose questions and hypotheses for scientific investigations involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-1-2",
+                "description": "Evaluate questions and hypotheses based on scientific knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-1-3",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-working-scientifically-2",
+            "name": "Planning scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-working-scientifically-2-1",
+                "description": "Justify the use of independent, dependent and controlled variables, and experimental controls in a valid scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-2-2",
+                "description": "Explain how reliable primary data is obtained",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-2-3",
+                "description": "Assess the reliability of secondary data and information when planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-2-4",
+                "description": "Assess potential hazards and their associated risks to develop a risk assessment",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-2-5",
+                "description": "Select appropriate materials and technologies to design a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-2-6",
+                "description": "Discuss ethical issues in the development and use of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-working-scientifically-3",
+            "name": "Conducting scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-working-scientifically-3-1",
+                "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-3-2",
+                "description": "Construct and manipulate identified materials and technologies to perform scientific investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-3-3",
+                "description": "Use equipment appropriately and systematically to collect and record data, information, evidence and findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-3-4",
+                "description": "Gather data and information from a range of secondary sources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative information from texts, diagrams, flow charts, tables, databases, graphs and multimedia resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-4-2",
+                "description": "Apply quantitative processes to data, including unit conversions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-4-3",
+                "description": "Select and use a range of representations to organise data and information, including graphs, keys, models, diagrams, tables and spreadsheets",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-4-4",
+                "description": "Extract data and information from a wide range of sources and acknowledge these sources using an accepted referencing style",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-4-5",
+                "description": "Describe the Cultural Knowledges and observations of Aboriginal and Torres Strait Islander Peoples and examine how these contribute to the development of scientific knowledge",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-working-scientifically-5-1",
+                "description": "Describe qualitative and quantitative relationships between variables",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-5-2",
+                "description": "Explain patterns and trends, including inconsistencies in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-5-3",
+                "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-5-4",
+                "description": "Assess the validity, reliability, accuracy and precision of data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-5-5",
+                "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-5-6",
+                "description": "Evaluate data and information to suggest improvements or further investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-5-7",
+                "description": "Use appropriate significant figures to express quantitative solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-5-8",
+                "description": "Use appropriate scale prefixes for powers of 10: femto (f) = 10⁻¹⁵, pico (p) = 10⁻¹², nano (n) = 10⁻⁹, micro (μ) = 10⁻⁶, milli (m) = 10⁻³, kilo (k) = 10³, mega (M) = 10⁶, giga (G) = 10⁹, tera (T) = 10¹² and peta (P) = 10¹⁵",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-working-scientifically-6",
+            "name": "Problem-solving",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-working-scientifically-6-1",
+                "description": "Apply scientific principles to address real-world applications and problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-6-2",
+                "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena and solve problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-6-3",
+                "description": "Evaluate and modify a scientific investigation in response to new evidence",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-6-4",
+                "description": "Explain why current scientific knowledge is both contestable and testable by further inquiry",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-working-scientifically-7-1",
+                "description": "Construct evidence-based arguments and recognise the role of peer review in the evaluation of scientific practices, solutions or conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-7-2",
+                "description": "Select and use appropriate digital, visual, written and oral media to convey scientific arguments",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-7-3",
+                "description": "Apply appropriate scientific notations, language and nomenclature",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-working-scientifically-7-4",
+                "description": "Use evidence and correct scientific language and terminology to address a specific audience and purpose in a variety of contexts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-12-equilibrium",
+        "name": "Equilibrium",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-12-equilibrium-1",
+            "name": "Dynamic equilibrium",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-equilibrium-1-1",
+                "description": "Account for the characteristics of a dynamic equilibrium system using collision theory",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-1-2",
+                "description": "Explain why macroscopic properties remain constant at equilibrium",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-1-3",
+                "description": "Conduct a laboratory experiment to demonstrate the reversibility of a chemical reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-1-4",
+                "description": "Conduct a practical investigation to model a dynamic equilibrium system",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-1-5",
+                "description": "Discuss the impact of a closed system on dynamic equilibrium",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-equilibrium-2",
+            "name": "Factors that affect equilibrium",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-equilibrium-2-1",
+                "description": "Use Le Chatelier’s principle to predict the effects of temperature, concentration, volume and pressure changes on equilibrium systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-2-2",
+                "description": "Conduct a practical investigation to analyse the effects of temperature and concentration changes on a system at equilibrium",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-2-3",
+                "description": "Use collision theory to explain the effects of concentration and temperature changes on equilibrium systems using qualitative data",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-2-4",
+                "description": "Use collision theory to explain the effect of pressure changes on gaseous equilibrium systems using qualitative data",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-2-5",
+                "description": "Conduct a practical investigation to analyse pressure and volume changes in a gaseous system at equilibrium",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-2-6",
+                "description": "Use Le Chatelier’s principle and collision theory to address real-world applications involving equilibrium systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-2-7",
+                "description": "Justify methods associated with temperature, concentration and pressure that are used to increase yield in chemical equilibria",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-2-8",
+                "description": "Conduct a secondary-source investigation to analyse the manipulation of reaction conditions to ensure economical production of an industrial chemical",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-equilibrium-3",
+            "name": "Calculating the equilibrium constant",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-equilibrium-3-1",
+                "description": "Determine equilibrium expressions in terms of the equilibrium constant (Keq) for reactions occurring in homogeneous solution equilibrium systems and homogeneous gas equilibrium systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-3-2",
+                "description": "Perform calculations to find the value of Keq and concentrations of substances within an equilibrium system, and use these values to predict the direction of a reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-3-3",
+                "description": "Calculate the reaction quotient (Q) using concentrations of substances in chemical systems, and use these values to determine if a system is at equilibrium",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-3-4",
+                "description": "Analyse the effect of temperature on the value of Keq using qualitative data",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-3-5",
+                "description": "Conduct a practical investigation to determine Keq of the iron(III) thiocyanate equilibrium system",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-3-6",
+                "description": "Solve equilibrium system problems using Keq, 1 / Keq and Q",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-equilibrium-4",
+            "name": "Solution equilibria",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-equilibrium-4-1",
+                "description": "Use diagrams to model the processes by which bonds break and form during the dissolution of ionic compounds in water",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-2",
+                "description": "Conduct a laboratory experiment to construct a set of solubility rules for the cations barium (Ba²⁺), calcium (Ca²⁺), silver (Ag⁺), copper(II) (Cu²⁺), iron(II) (Fe²⁺) and iron(III) (Fe³⁺)",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-3",
+                "description": "Conduct a laboratory experiment to construct a set of solubility rules for the anions chloride (Cl⁻), bromide (Br⁻), iodide (I⁻), hydroxide (OH⁻), acetate (CH₃COO⁻), carbonate (CO₃²⁻), sulfate (SO₄²⁻) and phosphate (PO₄³⁻)",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-4",
+                "description": "Use secondary sources to assess the accuracy of the solubility rules derived in the solubility experiments",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-5",
+                "description": "Conduct a scientific investigation applying known solubility rules and identify 2 unknown ions in the resulting solution",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-6",
+                "description": "Derive equilibrium expressions for saturated solutions in terms of Ksp",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-7",
+                "description": "Use the Ksp value of ionic substances to determine their solubility in g L-1 and mol L⁻¹",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-8",
+                "description": "Predict the formation of a precipitate given the standard reference values for Ksp",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-9",
+                "description": "Solve problems using Ksp solubility and equilibrium concentration data in equilibrium systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-equilibrium-4-10",
+                "description": "Conduct a secondary-source investigation to analyse the use of solubility equilibria to monitor the presence of lead (Pb²⁺) and phosphate (PO₄³⁻) ions in the environment",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-12-acid-base-reactions",
+        "name": "Acid–base reactions",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-12-acid-base-reactions-1",
+            "name": "Properties of acids and bases",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-acid-base-reactions-1-1",
+                "description": "Identify the common name and International Union of Pure and Applied Chemistry (IUPAC) nomenclature of inorganic acids and bases",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-1-2",
+                "description": "Describe chemical properties of common inorganic acids and bases",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-1-3",
+                "description": "Conduct a laboratory experiment to prepare a natural indicator and compare it to a universal indicator in terms of its effectiveness in identifying a variety of acids and bases",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-1-4",
+                "description": "Conduct a scientific investigation to compare the accuracy of digital pH probes and indicators when identifying strong and weak acids and bases",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-1-5",
+                "description": "Explain how limitations in Arrhenius’s theory led to the development of the Brønsted–Lowry theory of acids and bases",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-acid-base-reactions-2",
+            "name": "Using Brønsted–Lowry theory",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-1",
+                "description": "Use Brønsted–Lowry theory to recognise conjugate acid–base pairs and amphiprotic substances",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-2",
+                "description": "Use Brønsted–Lowry theory to explain the difference between monoprotic, diprotic and triprotic acids using balanced chemical equations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-3",
+                "description": "Conduct a practical investigation to compare the pH of a strong acid and a strong base in a variety of concentrations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-4",
+                "description": "Analyse the relationship between pH and hydrogen ion concentration ([H⁺])",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-5",
+                "description": "Calculate the pH, pOH, hydrogen ion concentration ([H⁺]) and hydroxide ion concentration ([OH⁻]) of solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-6",
+                "description": "Solve dilution problems using C₁V₁ = C₂V₂ and pH = −log₁₀ [H₃O⁺]",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-7",
+                "description": "Describe the relationship between ionisation constant for water (Kw), hydrogen ion concentration ([H⁺]) and hydroxide ion concentration ([OH⁻]) in solutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-8",
+                "description": "Calculate the pH of a resultant solution when solutions of acids and bases are mixed",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-9",
+                "description": "Conduct a practical investigation to compare the pH of a variety of acids and bases with the same concentration",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-10",
+                "description": "Use models and equilibrium principles to demonstrate the difference between strong and weak acids, including polyprotic acids",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-11",
+                "description": "Use ionic equations to explain the ionisation or dissociation of acids and bases in water, conjugate acid–base pairs, and the amphiprotic natures of some salts",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-12",
+                "description": "Use balanced equations to predict the acidic or basic nature of the salt produced by neutralisation reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-13",
+                "description": "Calculate and apply the dissociation constants Ka and Kb, and pKa and pKb to compare the strengths of acids and bases",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-14",
+                "description": "Conduct a laboratory experiment to determine the Ka of a weak acid",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-15",
+                "description": "Solve problems to relate Ka, Kb and Kw",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-16",
+                "description": "Discuss the use of buffers in equilibrium systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-17",
+                "description": "Conduct a practical investigation to prepare a buffer and demonstrate its properties",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-2-18",
+                "description": "Conduct a secondary-source investigation to describe the role of buffers in a natural system",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-acid-base-reactions-3",
+            "name": "Quantitative analysis",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-1",
+                "description": "Conduct a laboratory experiment to prepare a primary standard solution",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-2",
+                "description": "Discuss the relationship between the equivalence point and endpoint, in determining the choice of an indicator for a titration",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-3",
+                "description": "Conduct laboratory experiments to analyse the concentration of a strong acid and a strong base by titration",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-4",
+                "description": "Analyse titration curves and conductivity graphs for monoprotic acids",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-5",
+                "description": "Solve problems using titration curves and titration data to determine the concentration of strong and weak acids and bases",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-6",
+                "description": "Analyse the use of limiting reagents in back titrations",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-7",
+                "description": "Conduct a practical investigation using back titrations to determine the concentration of an unknown substance",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-acid-base-reactions-3-8",
+                "description": "Conduct a scientific investigation to analyse acid–base analysis techniques used in household digital probes and instruments",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-12-organic-chemistry",
+        "name": "Organic chemistry",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-12-organic-chemistry-1",
+            "name": "Hydrocarbons",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-organic-chemistry-1-1",
+                "description": "Use molecular formulas, condensed structural formulas, expanded structural formulas and skeletal structures to represent hydrocarbons",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-2",
+                "description": "Use International Union of Pure and Applied Chemistry (IUPAC) nomenclature to name and construct representations of straight chain and branched chain aliphatic hydrocarbons C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-3",
+                "description": "Construct and model chain isomers of alkanes C1–C8 to compare their molecular shapes",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-4",
+                "description": "Explain why alkanes, alkenes and alkynes belong to different homologous series",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-5",
+                "description": "Construct and model the position isomers and geometric isomers of alkenes and alkynes C1–C8 and explore their molecular shapes",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-6",
+                "description": "Assess the health and safety risks when handling and disposing of gaseous and liquid hydrocarbons",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-7",
+                "description": "Conduct a laboratory experiment to compare the chemical properties of alkanes and alkenes",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-8",
+                "description": "Relate intermolecular forces to the shapes, bonding and polarity of molecules",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-9",
+                "description": "Conduct a secondary-source investigation to analyse the relationship between boiling point and chain length of straight chain hydrocarbons C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-10",
+                "description": "Use IUPAC nomenclature to name and construct representations of haloalkanes C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-11",
+                "description": "Construct chemical equations and models to represent the addition reaction of alkenes when added to hydrogen, halogens, hydrogen halides (HX) and water",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-12",
+                "description": "Construct chemical equations and models to represent the substitution reaction between alkanes and halogens to form haloalkanes",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-13",
+                "description": "Explain reactivity differences between alkanes and alkenes during addition reactions and substitution reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-14",
+                "description": "Conduct a secondary-source investigation to discuss the uses of methane and ethene in relation to their physical and chemical properties",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-1-15",
+                "description": "Solve chemical reaction problems involving hydrocarbons to determine the quantities of reactants and products",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-organic-chemistry-2",
+            "name": "Alcohols",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-organic-chemistry-2-1",
+                "description": "Use molecular formulas, condensed structural formulas, expanded structural formulas and skeletal structures to represent alcohols",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-2",
+                "description": "Use IUPAC nomenclature to name and construct representations of primary, secondary and tertiary alcohols C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-3",
+                "description": "Explain the properties of homologous series of primary, secondary and tertiary alcohols in terms of intermolecular and intramolecular bonding",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-4",
+                "description": "Conduct a secondary-source investigation to analyse the relationship between chain length, boiling point and solubility in water in straight chain primary alcohols C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-5",
+                "description": "Use IUPAC nomenclature to name and construct representations of position isomers of alcohols C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-6",
+                "description": "Compare the reactants, products and experimental conditions of complete and incomplete combustion reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-7",
+                "description": "Construct equations, state conditions and predict products to represent complete combustion of alcohols C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-8",
+                "description": "Analyse the relationship between enthalpy of combustion and chain length of alcohols",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-9",
+                "description": "Conduct a laboratory experiment to measure the enthalpy of combustion of a variety of alcohols",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-10",
+                "description": "Construct equations, state conditions and predict products relating to the dehydration of alcohols",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-11",
+                "description": "Account for aldehyde and ketone products in the oxidation of alcohols",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-12",
+                "description": "Construct equations, state conditions and predict products relating to the substitution of alcohols with hydrogen halides (HX)",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-13",
+                "description": "Conduct a laboratory experiment to demonstrate the reactivity of primary, secondary and tertiary alcohols",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-14",
+                "description": "Construct equations to illustrate the production of alcohols using haloalkane substitution reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-15",
+                "description": "Solve chemical reaction problems involving alcohols to determine the quantities of reactants and products",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-2-16",
+                "description": "Evaluate the processes involved in producing alcohol from plants and crude oil",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-organic-chemistry-3",
+            "name": "Organic acids",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-organic-chemistry-3-1",
+                "description": "Use molecular formulas, condensed structural formulas, expanded structural formulas and skeletal structures to represent organic acids",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-3-2",
+                "description": "Use IUPAC nomenclature to name and construct representations of organic acids C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-3-3",
+                "description": "Conduct a secondary-source investigation to analyse the relationship between chain length, boiling point and solubility in water in unbranched carboxylic acids C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-3-4",
+                "description": "Outline the production of carboxylic acids through oxidation of primary alcohols",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-3-5",
+                "description": "Conduct a laboratory experiment to identify the presence of a carboxylic acid",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-3-6",
+                "description": "Analyse the effect of intermolecular forces on the boiling point and solubility trends of alkanes, alcohols and carboxylic acids",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-3-7",
+                "description": "Apply stoichiometric calculations to determine the quantities of reactants and products in reactions involving carboxylic acids",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-organic-chemistry-4",
+            "name": "Esters",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-organic-chemistry-4-1",
+                "description": "Use molecular formulas, condensed structural formulas, expanded structural formulas and skeletal structures to represent esters",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-2",
+                "description": "Use IUPAC nomenclature to name and construct representations of esters C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-3",
+                "description": "Construct representations of functional group isomers of carboxylic acids and esters C1–C8",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-4",
+                "description": "Relate the boiling points of esters, alcohols and carboxylic acids to their structures",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-5",
+                "description": "Relate the combustibility of esters, alcohols and carboxylic acids to their physical properties",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-6",
+                "description": "Conduct a scientific investigation to safely produce and purify an ester in the school laboratory using a condensation reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-7",
+                "description": "Examine the role of esterification reactions in the condensation polymerisation process to produce polyester polymers",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-8",
+                "description": "Solve chemical reaction problems involving the production of esters to determine the amounts of reactants and products",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-organic-chemistry-4-9",
+                "description": "Construct flow charts to show reaction pathways for ester synthesis, including pathways that involve more than one step",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-chem-12-applying-chemical-ideas",
+        "name": "Applying chemical ideas",
+        "subTopics": [
+          {
+            "id": "subtopic-chem-12-applying-chemical-ideas-1",
+            "name": "Analysis and uses of organic substances",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-1",
+                "description": "Analyse the structure of simple organic compounds using mass spectrometry data",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-2",
+                "description": "Interpret mass spectrometry data to qualitatively and quantitatively monitor the presence of pollutants in environmental samples",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-3",
+                "description": "Describe the use of infrared spectrometry to identify functional groups in simple organic compounds",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-4",
+                "description": "Describe the composition and origin of petroleum",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-5",
+                "description": "Explain how fractional distillation is used to refine petroleum and separate its components",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-6",
+                "description": "Discuss the applications and environmental impacts of using products obtained from refining petroleum",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-7",
+                "description": "Analyse qualitative infrared spectrometry data from petroleum samples",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-8",
+                "description": "Construct flow charts to demonstrate the process of obtaining ethene from petroleum to produce chloroethene",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-9",
+                "description": "Model and compare the formation, structure, properties and uses of polyethylene, polyvinyl chloride, polytetrafluoroethylene and polypropylene",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-10",
+                "description": "Conduct a secondary-source investigation to compare organic resins used by Aboriginal Peoples to modern polymer materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-11",
+                "description": "Evaluate environmental and health impacts of using ethene, chloroethene, polytetrafluoroethylene and polypropylene, and their polymers",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-12",
+                "description": "Discuss the scientific evidence that a selected scientist used to confirm the structure of organic substances in medicinal and agricultural chemicals",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-13",
+                "description": "Use chemical shift data to interpret carbon (¹³C) nuclear magnetic resonance (NMR) spectra",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-14",
+                "description": "Use splitting patterns, relative peak areas and chemical shift data to interpret proton (¹H) NMR spectra",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-1-15",
+                "description": "Interpret mass spectroscopic, infrared spectroscopic, proton (¹H) and carbon (¹³C) NMR spectra data to deduce the structures and structural features of simple organic compounds",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-chem-12-applying-chemical-ideas-2",
+            "name": "Analysis and uses of inorganic substances",
+            "dotPoints": [
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-1",
+                "description": "Describe the features of a base metal ore",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-2",
+                "description": "Justify the need to quantify the amount of metal present in base metal ores",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-3",
+                "description": "Construct flow charts and use chemical equations to demonstrate the extraction and processing of a metal from the base metal ore",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-4",
+                "description": "Evaluate the environmental, social and economic issues involved in the extraction and processing of a base metal from its ore",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-5",
+                "description": "Compare atomic emission spectroscopy (AES) to flame tests for elemental analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-6",
+                "description": "Relate atomic absorption spectroscopy (AAS) and AES to electron configuration",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-7",
+                "description": "Discuss the process of AAS as a quantitative method used for elemental analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-8",
+                "description": "Solve problems and perform calculations using AAS and gravimetric data to analyse pollutants in water",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-9",
+                "description": "Describe redox reactions using the terms oxidant and reductant",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-10",
+                "description": "Construct half-equations and balanced overall equations to represent redox reactions in galvanic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-11",
+                "description": "Use the table of standard reduction potentials to calculate cell potential and predict the spontaneity of redox reactions",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-12",
+                "description": "Conduct a practical investigation to construct and compare the potential of different galvanic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-13",
+                "description": "Solve problems related to standard reduction potentials and galvanic cells",
+                "prompts": []
+              },
+              {
+                "id": "dp-chem-12-applying-chemical-ideas-2-14",
+                "description": "Conduct a secondary-source investigation to analyse how understanding of redox reactions has impacted battery technology",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

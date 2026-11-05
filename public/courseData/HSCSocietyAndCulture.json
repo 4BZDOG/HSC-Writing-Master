@@ -1,0 +1,1294 @@
+[
+  {
+    "id": "course-hsc-society-and-culture",
+    "name": "Society and Culture",
+    "outcomes": [
+      {
+        "code": "P1",
+        "description": "identifies and applies social and cultural concepts",
+        "year": "year11"
+      },
+      {
+        "code": "P2",
+        "description": "describes personal, social and cultural identity",
+        "year": "year11"
+      },
+      {
+        "code": "P3",
+        "description": "identifies and describes relationships and interactions within and between social and cultural groups",
+        "year": "year11"
+      },
+      {
+        "code": "P4",
+        "description": "identifies the features of social and cultural literacy and how it develops",
+        "year": "year11"
+      },
+      {
+        "code": "P5",
+        "description": "explains continuity and change and their implications for societies and cultures",
+        "year": "year11"
+      },
+      {
+        "code": "P6",
+        "description": "differentiates between social and cultural research methods",
+        "year": "year11"
+      },
+      {
+        "code": "P7",
+        "description": "selects, organises and considers information from a variety of sources for usefulness, validity and bias",
+        "year": "year11"
+      },
+      {
+        "code": "P8",
+        "description": "plans and conducts ethical social and cultural research",
+        "year": "year11"
+      },
+      {
+        "code": "P9",
+        "description": "uses appropriate course language and concepts suitable for different audiences and contexts",
+        "year": "year11"
+      },
+      {
+        "code": "P10",
+        "description": "communicates information, ideas and issues using appropriate written, oral and graphic forms",
+        "year": "year11"
+      },
+      {
+        "code": "H1",
+        "description": "evaluates and effectively applies social and cultural concepts"
+      },
+      {
+        "code": "H2",
+        "description": "explains the development of personal, social and cultural identity"
+      },
+      {
+        "code": "H3",
+        "description": "analyses relationships and interactions within and between social and cultural groups"
+      },
+      {
+        "code": "H4",
+        "description": "assesses the interaction of personal experience and public knowledge in the development of social and cultural literacy"
+      },
+      {
+        "code": "H5",
+        "description": "analyses continuity and change and their influence on personal and social futures"
+      },
+      {
+        "code": "H6",
+        "description": "evaluates social and cultural research methods for appropriateness to specific research tasks"
+      },
+      {
+        "code": "H7",
+        "description": "selects, organises, synthesises and analyses information from a variety of sources for usefulness, validity and bias"
+      },
+      {
+        "code": "H8",
+        "description": "uses planning and review strategies to conduct ethical social and cultural research that is appropriate for tasks ranging from the simple to the complex"
+      },
+      {
+        "code": "H9",
+        "description": "applies complex course language and concepts appropriate for a range of audiences and contexts"
+      },
+      {
+        "code": "H10",
+        "description": "communicates complex information, ideas and issues using appropriate written, oral and graphic forms"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-sac-11-1",
+        "name": "The social and cultural world",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-11-1-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-1-1-1",
+                "description": "Fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-1-2",
+                "description": "Additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-1-3",
+                "description": "Related depth study concepts (social and cultural literacy; community; continuity and change; social construct; citizenship; socialisation; micro/meso/macro level; social structure)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-1-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-1-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-2-2",
+                "description": "Assess the impact of technologies, including communication technologies, on individuals, groups and institutions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-1-3",
+            "name": "The nature of the social and cultural world",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-1-3-1",
+                "description": "An overview of the multicultural and hybrid nature of societies and cultures",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-3-2",
+                "description": "Persons and their interactions with individuals, groups and the community within the contexts of micro-level, meso-level and macro-level society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-3-3",
+                "description": "Society as a construct that develops through time (society is comprised of the interactions of its members at the micro, meso and macro levels; society influences the ways its members interact; how interactions between members of society cause change in the nature of society over time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-3-4",
+                "description": "How individual behaviour towards others is socially constructed and influenced by social expectation",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-3-5",
+                "description": "The following groups and institutions of society – how they shape and are shaped by individuals (family; school; peers; work; government; media; legal system)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-3-6",
+                "description": "Students will apply each of the fundamental concepts to TWO of the following: school; family; the media; a group of which the student is a member",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-1-4",
+            "name": "Social and cultural research",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-1-4-1",
+                "description": "Outline the principles and practices of ethical research that underpin all social and cultural research",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-2",
+                "description": "Examine the process of research using the steps briefly outlined below as a guide",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-3",
+                "description": "Decide on the topic to be researched",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-4",
+                "description": "Develop a focus question or hypothesis",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-5",
+                "description": "Gather background information",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-6",
+                "description": "Design the research",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-7",
+                "description": "Develop the research methods to be used",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-8",
+                "description": "Apply the research methods ethically",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-9",
+                "description": "Compile and organise the collected information so that it is manageable",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-10",
+                "description": "Analyse, synthesise and interpret the findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-11",
+                "description": "Write up the conclusions in an appropriate format, considering the audience for the final product",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-4-12",
+                "description": "Check the final product for editing or typing mistakes and ensure that all bibliographical information is included and correct",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-1-5",
+            "name": "Quantitative and qualitative research",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-1-5-1",
+                "description": "Explore the differences between quantitative and qualitative research",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-5-2",
+                "description": "Determine the strengths and weaknesses of quantitative and qualitative methods for different research situations",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-5-3",
+                "description": "Overview the following methods of research (content analysis; interview; observation; participant observation; questionnaire; secondary research; statistical analysis)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-5-4",
+                "description": "Examine at least TWO contemporary issues within society, using ONE appropriate research method drawn from (content analysis of the media; questionnaire (short); secondary research)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-1-6",
+            "name": "Focus study: Looking in/Looking out: exploring the social and cultural world",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-1-6-1",
+                "description": "A study, from Australia or overseas, of a cultural group that is different from the student’s own in relation to TWO of the following (gender; identity; roles and status; conflict/cooperation; power, authority, influence and decision-making)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-1-6-2",
+                "description": "Reflecting on their experience of their own society and culture and how this may be similar to, or different from, the cultural group in the focus study undertaken",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-11-2",
+        "name": "Personal and social identity",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-11-2-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-2-1-1",
+                "description": "Fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-1-2",
+                "description": "Additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-1-3",
+                "description": "Related depth study concepts (the self and self-concept; socialisation; social construct; life stages and life course; roles and status; rights and responsibilities; kinship; class; ethnicity)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-2-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-2-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-2-2",
+                "description": "Assess the impact of technologies, including communication technologies, on individuals, groups and institutions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-2-3",
+            "name": "The nature of the development of personal and social identity",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-2-3-1",
+                "description": "The development of personality, self-awareness and self-concept",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-3-2",
+                "description": "The development of identity and the social self",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-3-3",
+                "description": "The role of socialisation and the influence of agents of socialisation on the development of personal and social identity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-3-4",
+                "description": "The influence of each of the following on the development of personal and social identity (family and kinship; ethnicity and culture; gender; sexuality; beliefs; location, class and status; peers; school; media, including contemporary communication technologies)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-3-5",
+                "description": "The ‘nature versus nurture’ debate",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-3-6",
+                "description": "‘Adolescence’ as a social construct and its validity for different cultures",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-3-7",
+                "description": "Theories that offer an explanation or understanding of the development of the physical and social self (David Elkind; Erik Erikson; Carol Gilligan; Robert Havighurst; Jane Loevinger; Jean Piaget; a theorist not listed above)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-3-8",
+                "description": "Transitions through the life course (changing rights and responsibilities; Theory of Generations: Karl Mannheim OR Generational Theory: Strauss–Howe)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-2-4",
+            "name": "Focus study: Looking in/Looking out: exploring the processes of socialisation",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-2-4-1",
+                "description": "Conduct a comparative cross-generational study of how the processes of socialisation have changed over time within the student’s own cultural context, using the research method of questionnaire or focus group",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-4-2",
+                "description": "Conduct a study of the transition through life stages in a cultural group different from the student’s own – this may be a further development of the cultural group study undertaken in The Social and Cultural World depth study",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-2-4-3",
+                "description": "Apply ethical research practices and follow the steps of the research process to (develop and administer a questionnaire that contains both open and closed questions and that is suitable for people from different generations; compile, analyse and synthesise the results obtained; present the findings and conclusions about these findings in an appropriate format)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-11-3",
+        "name": "Intercultural communication",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-11-3-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-3-1-1",
+                "description": "Fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-1-2",
+                "description": "Additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-1-3",
+                "description": "Related depth study concepts (acculturation; continuity and change; cultural heritage; cultural relativism; cultural transmission; customs; cultural diversity; stereotypes; values)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-3-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-3-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-2-2",
+                "description": "Examine the impact of technologies, including communication technologies, on individuals, groups and institutions",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-3-3",
+            "name": "The nature of communication",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-3-3-1",
+                "description": "How culture determines the ways individuals encode messages, what mediums they choose for transmitting them, and the ways messages are interpreted",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-3-2",
+                "description": "Verbal and non-verbal communication",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-3-3",
+                "description": "The role of communication in maintaining social relationships and social control",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-3-4",
+                "description": "The individual’s rights and responsibilities in relation to communication, communication technologies and citizenship",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-3-5",
+                "description": "The impact of changing communication technologies on (intra-generational interaction; language usage; cross-generational interaction; social interaction; cross-cultural interaction; globalisation)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-3-4",
+            "name": "Theories relating to intercultural communication",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-3-4-1",
+                "description": "Communication Accommodation Theory",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-4-2",
+                "description": "Cross-Cultural Adaptation Theory",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-4-3",
+                "description": "A school-selected contemporary intercultural communication theory",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-11-3-5",
+            "name": "Focus study: Looking in/Looking out: exploring intercultural communication",
+            "dotPoints": [
+              {
+                "id": "dp-sac-11-3-5-1",
+                "description": "Choose a cultural group and examine (aspects of society and culture that are similar to or different from the student’s own cultural group through the research method of secondary research; the existence of group identity and commitment to cultural continuity; examples of potential intercultural misunderstanding; strategies for dealing with intercultural misunderstanding; the role of intercultural exchange in gaining cultural perception and values; the role of intercultural dialogue in effective intercultural communication)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-11-3-5-2",
+                "description": "Apply ethical research practices and follow the steps of the research process to (develop a set of interview questions that includes both open and closed questions and is suitable for a person from a culture different from the student’s own; interview a person from a culture different from the student’s own; analyse and synthesise the results; present the findings and conclusions about these findings in an appropriate format)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-12-1",
+        "name": "Personal interest project",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-12-1-1",
+            "name": "Completing the Personal Interest Project",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-1-1-1",
+                "description": "Develop a research proposal clearly outlining the topic, question or problem",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-1-1-2",
+                "description": "Select appropriate concepts to ensure that the topic and the subsequent research relate to the Society and Culture course",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-1-1-3",
+                "description": "Select methods appropriate to the research proposal and apply these to the topic",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-1-1-4",
+                "description": "Gather and evaluate information and sources related to the topic",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-1-1-5",
+                "description": "Draft and edit text that analyses and synthesises the findings of the research",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-1-1-6",
+                "description": "Complete all formal requirements of the Personal Interest Project (introduction; log; central material; conclusion; resource list)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-1-1-7",
+                "description": "Achieve an appreciation of the ethical implications of social research and apply these to the Personal Interest Project (see page 21)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-1-1-8",
+                "description": "Communicate the findings of their research",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-12-2",
+        "name": "Social and cultural continuity and change",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-12-2-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-2-1-1",
+                "description": "Fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-1-2",
+                "description": "Additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-1-3",
+                "description": "Related core study concepts (continuity and change; modernisation; sustainability; tradition; beliefs and values; empowerment; westernisation; cooperation and conflict)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-2-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-2-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-2-2",
+                "description": "Examine the impact of technologies, including communication technologies, on continuity and change",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-2-3",
+                "description": "Apply a social theory to a selected country and assess its ability to explain both continuity and change",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-2-4",
+                "description": "Assess the role and value of social and cultural research in the examination of contemporary societies and cultures",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-2-3",
+            "name": "The nature of social and cultural research methods",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-2-3-1",
+                "description": "The features of primary and secondary research",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-3-2",
+                "description": "The nature and characteristics of quantitative and qualitative research",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-3-3",
+                "description": "The characteristics, strengths and weaknesses of the following research methods (case study; focus group; observation; personal reflection; secondary research; content analysis; interview; participant observation; questionnaire; statistical analysis)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-2-4",
+            "name": "The nature of social and cultural continuity and change",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-2-4-1",
+                "description": "The nature of continuity and change (change is a complex process; ‘evolutionary’ change; ‘transformative’ change; resistance to change)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-4-2",
+                "description": "The influence that continuity and change have on the development of society at the micro, meso and macro levels",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-4-3",
+                "description": "The impact of modernisation and westernisation on social and cultural continuity and change",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-4-4",
+                "description": "Theories of social change as attempts to explain change, and resistance to change, within societies and cultures in relation to (structural changes within society; the processes and agents of social change; the directions of change)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-4-5",
+                "description": "Key features of each of the following theories (conflict; evolutionary; functionalist; interactionist)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-2-5",
+            "name": "Focus study: Social and cultural continuity and change in a selected country",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-2-5-1",
+                "description": "Determine the nature of traditional society and culture",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-2",
+                "description": "Analyse the nature of power and authority",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-3",
+                "description": "Examine the impact of continuity and change upon the lives of individuals and groups in the micro, meso and macro levels of society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-4",
+                "description": "Students will explore BOTH continuity AND change in the selected country through a detailed study of ONE of the following aspects: beliefs, values and lifestyles; education; family life and population changes; gender roles and the status of men and women; the legal system and political processes",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-9",
+                "description": "Is all change necessarily progress?",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-10",
+                "description": "Which groups benefit from change? Which do not?",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-11",
+                "description": "How has access to technologies impacted on the rate and direction of change?",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-12",
+                "description": "Choose ONE social theory from the list below and apply it to the selected country: conflict; evolutionary; functionalist; interactionist",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-5-13",
+                "description": "Assess the appropriateness of this social theory in explaining continuity and change for the selected country",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-2-6",
+            "name": "The near future (5 to 10 years)",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-2-6-1",
+                "description": "Determine current trends and suggest probable future directions for the aspect of the country studied in the focus study",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-6-2",
+                "description": "Evaluate the impact and implications for the aspect of the country studied of (likely changes; probable continuities)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-2-6-3",
+                "description": "Predict the importance of technologies to the country studied",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-12-3",
+        "name": "Depth study: Popular culture",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-12-3-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-3-1-1",
+                "description": "Fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-1-2",
+                "description": "Additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-1-3",
+                "description": "Related depth study concepts (commercialisation; consumption; ideology; commodification; change; institutional power; continuity; conflict; values)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-3-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-3-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-2-2",
+                "description": "Assess the impact of technologies, including communication technologies, on popular culture",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-2-3",
+                "description": "Examine a contemporary issue in popular culture using the research method of content analysis",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-3-3",
+            "name": "The nature of popular culture",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-3-3-1",
+                "description": "Associated with commercial products and paraphernalia (demand develops and expands due to media, marketing and dissemination processes)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-3-2",
+                "description": "Develops from a local to a global level (experiences global acceptance with the progression and integration of technologies)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-3-3",
+                "description": "Achieves widespread consumer access (broad access is assisted by media and communication technologies)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-3-4",
+                "description": "Is constantly changing and evolving (experiences continuity and change – influences society while simultaneously society influences the popular culture)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-3-4",
+            "name": "Focus study",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-3-4-1",
+                "description": "The creation and development of the popular culture (the origins of the popular culture; the development of the popular culture from a local to a global level; the process of commodification for the popular culture; the role of mythology in the creation and perpetuation of the popular culture; continuities and changes to the popular culture)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-4-2",
+                "description": "The consumption of the popular culture (the consumers of the popular culture and the nature of its consumption; the relationship of heroes and mythology to media and consumption; how globalisation and technologies have influenced consumption; the relationship of access and consumption to age, class, ethnicity, gender, location, sexuality; how consumption and ownership of paraphernalia influence a sense of identity)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-4-3",
+                "description": "The control of the popular culture (the ownership of the popular culture and the tensions between consumers and producers; the stakeholders and how they influence the popular culture – family, peer groups, media, marketers, governments, global groups; the role and impact of official and unofficial censorship; the influence of power and authority at the micro, meso and macro levels)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-4-4",
+                "description": "The different perceptions of the popular culture (groups that accept and reject the popular culture; changing perceptions and the value of the popular culture to groups in society; how the popular culture constructs or deconstructs gender)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-4-5",
+                "description": "The contribution of the popular culture to social change (how the popular culture expresses contemporary social values; the positive and negative impact of the popular culture on wider society; the ways in which the popular culture has contributed to social change)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-4-6",
+                "description": "The popular culture studied must be drawn from a GENRE of ONE of the following: comic book; cyber culture; fashion; film; leisure; literature; music; sport; television series; toy",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-3-5",
+            "name": "The near future (5 to 10 years)",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-3-5-1",
+                "description": "Determine current trends and suggest probable future directions for the popular culture",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-5-2",
+                "description": "Evaluate the impact and implications for the popular culture of (likely changes; probable continuities)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-3-5-3",
+                "description": "Predict the importance of the popular culture to society in the near future",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-12-4",
+        "name": "Depth study: Belief systems and ideologies",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-12-4-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-4-1-1",
+                "description": "Fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-1-2",
+                "description": "Additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-1-3",
+                "description": "Related depth study concepts (values; beliefs; symbols; customs; worldview; ritual; philosophy; secularisation; institutional power)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-4-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-4-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-2-2",
+                "description": "Assess the impact of technologies, including communication technologies, on the belief system or ideology",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-2-3",
+                "description": "Examine a contemporary issue in a belief system or ideology using the research method of interview",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-4-3",
+            "name": "The nature of belief systems and ideologies",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-4-3-1",
+                "description": "The similarities and differences between belief systems and ideologies",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-3-2",
+                "description": "The nature and role of shared values and understanding within belief systems and ideologies and how this creates meaning, purpose and an identity for individuals and groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-3-3",
+                "description": "How belief systems and ideologies express values and beliefs and ways of perceiving the world at the micro, meso and macro levels",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-3-4",
+                "description": "The nature and role of hierarchy and internal power structures within belief systems and ideologies",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-3-5",
+                "description": "The process of secularisation in the development and extent of belief systems and ideologies within Australia",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-4-4",
+            "name": "Focus study",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-4-4-1",
+                "description": "The philosophy of the belief system or ideology (the relationship between its historical development and its underlying principles; the beliefs and values expressed and the impact on personal and collective identity; the nature and extent of adherents in the world today)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-4-2",
+                "description": "Traditions and culture in the belief system or ideology (important places, texts and unique language and their significance; the role of symbols, rituals and customs; the importance of myths and stories; how the belief system or ideology defines gender and gender roles)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-4-3",
+                "description": "The internal structure in the belief system or ideology (the role of important people and power structures; the role and impact of dissent; the nature and impact of change and resistance to change; the impact of technologies and globalisation on continuity and change)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-4-4",
+                "description": "The relationship of the belief system or ideology to wider society (acceptance and rejection of the philosophy at the micro, meso and macro levels; the relationship of the belief system or ideology to ethical issues in society; the relationship of the belief system or ideology to peace and conflict in the world)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-4-5",
+                "description": "Belief systems (Baha’i; Buddhism; Christianity; Hinduism; Indigenous spiritualities; Islam; Jainism; Judaism; Shinto; Sikhism)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-4-6",
+                "description": "Ideologies (Capitalism; Confucianism; Democracy; Environmentalism; Feminism; Humanism; Socialism; Taoism; Totalitarianism)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-4-5",
+            "name": "The near future (5 to 10 years)",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-4-5-1",
+                "description": "Determine current trends and suggest probable future directions for the belief system or ideology",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-5-2",
+                "description": "Evaluate the impact and implications for the belief system or ideology of (likely changes; probable continuities)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-4-5-3",
+                "description": "Predict the importance of the belief system or ideology to society in the near future",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-12-5",
+        "name": "Depth study: Social inclusion and exclusion",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-12-5-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-5-1-1",
+                "description": "The fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-1-2",
+                "description": "The additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-1-3",
+                "description": "Related depth study concepts (social mobility; social class; socioeconomic status; life course; ‘race’ and ethnicity; social differentiation; equality; human rights; prejudice and discrimination)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-5-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-5-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-2-2",
+                "description": "Assess the impact of technologies, including communication technologies, on individuals, groups and institutions",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-2-3",
+                "description": "Examine a contemporary issue related to social inclusion and/or exclusion using the research method of data analysis",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-5-3",
+            "name": "The nature of social inclusion and exclusion",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-5-3-1",
+                "description": "The pluralist nature of societies and cultures",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-3-2",
+                "description": "An overview of similarities and differences between individuals and groups in societies and cultures",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-3-3",
+                "description": "The concept of ‘socially valued resources’",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-3-4",
+                "description": "How individuals and groups experience social exclusion within Australia at the micro, meso and macro levels",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-5-4",
+            "name": "Focus study",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-5-4-1",
+                "description": "Inclusion and exclusion for ONE of the following groups (a different ‘racial’ or ethnic group; those who follow different belief systems and cultural practices; people with a disability; those living in different environments – urban, rural, isolated; different ages; different genders) in relation to access to EACH of the following socially valued resources: education; housing; employment; health care; technologies; the justice system",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-4-2",
+                "description": "The implications of access for this group in relation to life chances for its members",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-4-3",
+                "description": "The perception of this group by other groups within the country (influences on individuals’ perceptions of others; how attitudes of group members towards other groups influence their behaviour towards those groups, including stereotyping, prejudice and discrimination)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-4-4",
+                "description": "The initiatives of governments and community organisations in implementing programs focused on social inclusion for the group",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-4-5",
+                "description": "The role and influence of historical, economic, political and legal forces in the generation and maintenance of social inclusion and exclusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-4-6",
+                "description": "Emerging social exclusion resulting from limited access to modern technologies and communications, and its implications",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-5-5",
+            "name": "The near future (5 to 10 years)",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-5-5-1",
+                "description": "Determine current trends and suggest probable future directions for the country studied in relation to social inclusion and exclusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-5-2",
+                "description": "Evaluate the impact and implications for social inclusion and exclusion in the country studied of (likely changes; probable continuities)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-5-5-3",
+                "description": "Propose strategies that are likely to reduce prejudice and discrimination and lead to the achievement of social cohesion within the near future for the country studied",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sac-12-6",
+        "name": "Depth study: Social conformity and nonconformity",
+        "subTopics": [
+          {
+            "id": "subtopic-sac-12-6-1",
+            "name": "Integrated concepts",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-6-1-1",
+                "description": "Fundamental course concepts (persons; society; culture; environment; time)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-1-2",
+                "description": "Additional course concepts (power; authority; gender; identity; technologies; globalisation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-1-3",
+                "description": "Related depth study concepts (deindividuation; stereotype; world view; social cognition; social cohesion; deviance; self-concept; values)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-6-2",
+            "name": "Contemporary context",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-6-2-1",
+                "description": "Use examples drawn from contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-2-2",
+                "description": "Assess the impact of technologies, including communication technologies, on social conformity and nonconformity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-2-3",
+                "description": "Examine a contemporary issue associated with conformity and/or nonconformity using the research method of observation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-6-3",
+            "name": "The nature of social conformity and nonconformity",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-6-3-1",
+                "description": "Factors that influence conformity and obedience in individuals",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-3-2",
+                "description": "Responses to social influence: acquiescence, internalisation and identification",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-3-3",
+                "description": "Deindividuation: the impact of personal anonymity of individuals in groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-3-4",
+                "description": "How nonconformity determines the boundary between ‘appropriate’ and ‘inappropriate’ behaviours and attitudes",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-3-5",
+                "description": "The social costs and benefits of nonconformity for both individuals and the wider society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-3-6",
+                "description": "The impact of agenda setting, including the role of the media, on attitude formation in individuals and groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-3-7",
+                "description": "The ways the ideologies, values and behaviours of a subcultural group currently perceived as not conforming to the wider society may influence others and lead to social change",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-6-4",
+            "name": "Focus study",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-6-4-1",
+                "description": "The historical and social development of the group",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-4-2",
+                "description": "The role of status, authority, power, privilege and responsibility within the group",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-4-3",
+                "description": "How the concepts of cohesion and community operate to define the group’s identity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-4-4",
+                "description": "Ways in which the group influences its individual members in order to achieve group cohesion (the role of group values and norms; peer pressure)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-4-5",
+                "description": "Attitudes of the group to nonconformity and the role of sanctions within the group",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-4-6",
+                "description": "Positive and negative interactions with the wider society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-4-7",
+                "description": "Perceptions of the group by the wider society and the implications of these perceptions",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-4-8",
+                "description": "The group studied must be drawn from one of the following: community; cultural; environmental; interest; non-government organisation; political; protest",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sac-12-6-5",
+            "name": "The near future (5 to 10 years)",
+            "dotPoints": [
+              {
+                "id": "dp-sac-12-6-5-1",
+                "description": "Determine current trends for interactions between the subcultural group studied and the wider society",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-5-2",
+                "description": "Evaluate the impact and implications for the subcultural group of (likely changes; probable continuities)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sac-12-6-5-3",
+                "description": "Predict how the subcultural group may interact with and influence society in the near future",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

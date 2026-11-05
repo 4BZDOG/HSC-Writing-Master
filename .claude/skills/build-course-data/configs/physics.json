@@ -1,0 +1,50 @@
+{
+  "syllabus": "Physics 11–12 Syllabus (2025); Year 11 from 2027, first HSC 2028",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/science/physics-11-12-2025",
+  "startFocusAreas": [
+    "content/year-11/fad694c6c2",
+    "content/year-12/fadfb76dd3"
+  ],
+  "id": "course-hsc-physics",
+  "name": "Physics",
+  "prefix": "phy",
+  "outcomePattern": "^[A-Z0-9]+-1[12][A-Z]*-\\d\\d$",
+  "topics": [
+    {
+      "title": "Working scientifically",
+      "year": "year11"
+    },
+    {
+      "title": "Fundamentals of mechanics",
+      "year": "year11"
+    },
+    {
+      "title": "Waves",
+      "year": "year11"
+    },
+    {
+      "title": "Electricity and magnetism",
+      "year": "year11"
+    },
+    {
+      "title": "Working scientifically",
+      "year": "year12"
+    },
+    {
+      "title": "Advanced mechanics",
+      "year": "year12"
+    },
+    {
+      "title": "Electromagnetism",
+      "year": "year12"
+    },
+    {
+      "title": "Nature of light",
+      "year": "year12"
+    },
+    {
+      "title": "Matter, energy and the cosmos",
+      "year": "year12"
+    }
+  ]
+}

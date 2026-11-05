@@ -1,0 +1,1448 @@
+[
+  {
+    "id": "course-hsc-community-and-family-studies",
+    "name": "Community and Family Studies",
+    "outcomes": [
+      {
+        "code": "P1.1",
+        "description": "describes the contribution an individual’s experiences, values, attitudes and beliefs make to the development of goals",
+        "year": "year11"
+      },
+      {
+        "code": "P1.2",
+        "description": "proposes effective solutions to resource problems",
+        "year": "year11"
+      },
+      {
+        "code": "H1.1",
+        "description": "analyses the effect of resource management on the wellbeing of individuals, groups, families and communities"
+      },
+      {
+        "code": "P2.1",
+        "description": "accounts for the roles and relationships that individuals adopt within groups",
+        "year": "year11"
+      },
+      {
+        "code": "P2.2",
+        "description": "describes the role of the family and other groups in the socialisation of individuals",
+        "year": "year11"
+      },
+      {
+        "code": "P2.3",
+        "description": "examines the role of leadership and group dynamics in contributing to positive interpersonal relationships and achievement",
+        "year": "year11"
+      },
+      {
+        "code": "P2.4",
+        "description": "analyses the interrelationships between internal and external factors and their impact on family functioning",
+        "year": "year11"
+      },
+      {
+        "code": "H2.1",
+        "description": "analyses different approaches to parenting and caring relationships"
+      },
+      {
+        "code": "H2.2",
+        "description": "evaluates strategies to contribute to positive relationships and the wellbeing of individuals, groups, families and communities"
+      },
+      {
+        "code": "H2.3",
+        "description": "critically examines how individual rights and responsibilities in various environments contribute to wellbeing"
+      },
+      {
+        "code": "P3.1",
+        "description": "explains the changing nature of families and communities in contemporary society",
+        "year": "year11"
+      },
+      {
+        "code": "P3.2",
+        "description": "analyses the significance of gender in defining roles and relationships",
+        "year": "year11"
+      },
+      {
+        "code": "H3.1",
+        "description": "analyses the sociocultural factors that lead to special needs of individuals in groups"
+      },
+      {
+        "code": "H3.2",
+        "description": "evaluates networks available to individuals, groups and families within communities"
+      },
+      {
+        "code": "H3.3",
+        "description": "critically analyses the role of policy and community structures in supporting diversity"
+      },
+      {
+        "code": "H3.4",
+        "description": "critically evaluates the impact of social, legal and technological change on individuals, groups, families and communities"
+      },
+      {
+        "code": "P4.1",
+        "description": "utilises research methodology appropriate to the study of social issues",
+        "year": "year11"
+      },
+      {
+        "code": "P4.2",
+        "description": "presents information in written, oral and graphic form",
+        "year": "year11"
+      },
+      {
+        "code": "H4.1",
+        "description": "justifies and applies appropriate research methodologies"
+      },
+      {
+        "code": "H4.2",
+        "description": "communicates ideas, debates issues and justifies opinions"
+      },
+      {
+        "code": "P5.1",
+        "description": "applies management processes to maximise the efficient use of resources",
+        "year": "year11"
+      },
+      {
+        "code": "H5.1",
+        "description": "proposes management strategies to enable individuals and groups to satisfy their specific needs and to ensure equitable access to resources"
+      },
+      {
+        "code": "H5.2",
+        "description": "develops strategies for managing multiple roles and demands of family, work and other environments"
+      },
+      {
+        "code": "P6.1",
+        "description": "distinguishes those actions that enhance wellbeing",
+        "year": "year11"
+      },
+      {
+        "code": "P6.2",
+        "description": "uses critical thinking skills to enhance decision making",
+        "year": "year11"
+      },
+      {
+        "code": "H6.1",
+        "description": "analyses how the empowerment of women and men influences the way they function within society"
+      },
+      {
+        "code": "H6.2",
+        "description": "formulates strategic plans that preserve rights, promote responsibilities and establish roles leading to the creation of positive social environments"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-cafs-11-1",
+        "name": "Resource management",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-11-1-1",
+            "name": "Fundamental concepts of resource management",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-1-1-1",
+                "description": "Wellbeing (defining wellbeing; factors affecting wellbeing (emotional; economic; cultural; physical; spiritual; social); individual and group wellbeing)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-2",
+                "description": "Explore the concept of wellbeing by considering the following questions: what is the opposite to wellbeing?; how do people describe wellbeing?; why might there be different understandings of wellbeing?",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-3",
+                "description": "Analyse the relationship between the factors and explain how they can impact on wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-4",
+                "description": "Discuss the effect that their own wellbeing can have on the wellbeing of the groups to which they belong",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-5",
+                "description": "Needs and wants (defining needs and wants; specific needs (adequate standard of living (food, clothing, shelter); health; education; employment; safety and security; sense of identity); Maslow’s hierarchy; satisfaction of needs and wants (goal setting; enhancing wellbeing))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-6",
+                "description": "Describe each of the specific needs and compare the significance of each to different individuals",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-7",
+                "description": "Critique Maslow’s hierarchy and debate its relevance and validity after considering contemporary views on human needs",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-8",
+                "description": "Outline a specific need that is significant to them and explain how goal setting can contribute to the satisfaction of that need",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-9",
+                "description": "Resources (defining resources; specific resources (human, eg energy, knowledge, intelligence, sight, language, skills and abilities, motivation; non-human, eg food, clothing, money, electricity, shelter); interchangeability of resources; resource sustainability (to conserve a resource))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-10",
+                "description": "Describe a range of resources and explain how they assist in satisfying specific needs",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-11",
+                "description": "Propose how resources could be interchanged to enhance wellbeing in a variety of situations",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-1-12",
+                "description": "Outline strategies individuals use to conserve human and non-human resources",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-1-2",
+            "name": "Influences on resource management",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-1-2-1",
+                "description": "Factors affecting resource management (personal values and past experiences; factors influencing availability of and access to resources, eg age, gender, disability, culture, socioeconomic status; access to support (informal, eg relatives, friends, neighbours; formal, eg government agencies, community organisations))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-2-2",
+                "description": "Explain how a combination of factors can influence resource management for a range of individuals, including: a person with a disability; a person who is homeless; a 16-year-old male; a retired aged person",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-2-3",
+                "description": "Describe how access to support can contribute to the satisfaction of specific needs in a range of situations",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-2-4",
+                "description": "Personal management skills (planning and organisation; communication (verbal and non-verbal; assertive, aggressive, passive; characteristics of effective communication); decision making (decision-making styles – impulsive, intuitive, hesitant, confident, rational; factors influencing decision making); problem solving)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-2-5",
+                "description": "Assess the extent to which personal management skills can influence resource management",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-2-6",
+                "description": "Use scenarios to apply and refine their personal management skills to relevant and contemporary challenges",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-2-7",
+                "description": "Identify and challenge gender expectations in regard to personal management skills",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-1-3",
+            "name": "Effective resource management",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-1-3-1",
+                "description": "Strategies for effective resource management (using interchangeable resources; adopting sustainable behaviours; accessing support; developing personal management skills; engaging in education or training)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-3-2",
+                "description": "Propose and evaluate strategies individuals can adopt to effectively manage their resources in a range of life contexts, eg caring for a family member, completing the HSC, seeking employment",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-3-3",
+                "description": "Interviews as a primary research method (constructing, conducting, recording responses (structured and unstructured); advantages and disadvantages; analysing research results)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-1-3-4",
+                "description": "Use interviews as a research method by: designing an interview to investigate how accessing support can contribute to effective resource management; conducting interviews and recording responses; analysing the data to determine the extent to which accessing support assists individuals to manage their resources effectively",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-11-2",
+        "name": "Individuals and groups",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-11-2-1",
+            "name": "Groups in the community",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-2-1-1",
+                "description": "Types of groups (family and friendship groups; sporting and leisure groups; study and work groups; religious groups; cultural groups; other specific groups within the community)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-1-2",
+                "description": "Explore various types of groups in the community and explain why each group has formed",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-1-3",
+                "description": "Reasons for group formation (locality/geography; gender; shared interest/common goal; security; sexuality; specific need; social interaction; culture; religion; other)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-1-4",
+                "description": "Critically examine groups to which they belong by: identifying the type of group; explaining why each group formed; justifying why they belong to each group",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-2-2",
+            "name": "Roles individuals adopt within groups",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-2-2-1",
+                "description": "Specific roles of individuals (the specific roles adopted by individuals in groups (to ensure tasks are achieved; to maintain/build relationships; to influence the group’s progress); norms, conformity, and cohesiveness within and among groups)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-2",
+                "description": "Compare the specific roles various individuals adopt within a range of school and community groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-3",
+                "description": "Determine the specific roles they adopt in the groups to which they belong and propose how and why their roles may vary",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-4",
+                "description": "Explore how individuals can influence a group’s progress and discuss the impact this can have on group cohesiveness",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-5",
+                "description": "Factors that contribute to the role they adopt within groups (personal factors (self-esteem; self-confidence; sense of belonging; education; heredity; previous experience; culture))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-6",
+                "description": "Assess the extent to which personal factors impact on the role they adopt within groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-7",
+                "description": "Social factors (relationship with group members; attitudes of group members, eg peer acceptance; gender expectations; media)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-8",
+                "description": "Explain how social factors contribute to an individual’s sense of belonging within a group",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-9",
+                "description": "Critically examine the impact of gender expectations on the specific roles individuals adopt within groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-10",
+                "description": "Observation as a primary research method (conducting and recording observations; advantages and disadvantages; presenting research findings)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-2-11",
+                "description": "Observe the specific roles various individuals adopt within groups, and present research findings",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-2-3",
+            "name": "Power within groups",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-2-3-1",
+                "description": "Power bases (legitimate; reward; coercive; referent; expert)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-3-2",
+                "description": "Evaluate the impact of power bases used by individuals in a range of groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-3-3",
+                "description": "Leadership (self-leadership; leadership styles, eg autocratic, democratic, laissez faire, transformational; leadership adaptability and flexibility)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-3-4",
+                "description": "Assess the role of self-leadership in contributing to positive interpersonal relationships and task achievement",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-3-5",
+                "description": "Compare styles of leadership and assess the effectiveness of each in a variety of situations, eg small workplace, committee",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-3-6",
+                "description": "Factors influencing leadership (type of task; knowledge and skills within the group; attitudes of individuals within the group; relationship between group members)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-3-7",
+                "description": "Justify the importance of leadership adaptability by examining how each factor can influence different styles of leadership",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-2-4",
+            "name": "Conflict within groups",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-2-4-1",
+                "description": "Case study as a secondary research method (collecting and recording data; advantages and disadvantages)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-4-2",
+                "description": "Explore conflict within groups by collecting and recording data from existing case studies",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-4-3",
+                "description": "Causes of conflict (incompatible goals; individual differences/personality; limited resources; ineffective communication; varying values; multiple role expectations)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-4-4",
+                "description": "Analyse the impact conflict has on groups by: identifying examples of group conflict; recognising the causes of the conflict; analysing the extent of the impact on wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-4-5",
+                "description": "Conflict resolution (process (negotiation, agreement, resolution); role of support people, eg mediators, advocates; outcomes of conflict resolution (win-win; win-lose; lose-lose))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-4-6",
+                "description": "Propose reasons why conflict resolution has different outcomes for various groups and determine the impact on group wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-2-4-7",
+                "description": "Investigate a current conflict between 2 (two) groups in the community and evaluate the extent to which support people can assist in conflict resolution",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-11-3",
+        "name": "Families and communities",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-11-3-1",
+            "name": "Families",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-3-1-1",
+                "description": "Family (defining family; the Australian Census Dictionary glossary definition of family)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-1-2",
+                "description": "Examine definitions of family and propose reasons for the variations",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-1-3",
+                "description": "Family structures (adoptive; blended; childless; communal; de facto; extended; foster; nuclear; same-sex couple; sole parent; kinship)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-1-4",
+                "description": "Compare and contrast different family structures",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-1-5",
+                "description": "Roles individuals adopt within families (satisfying specific needs; building relationships; promoting wellbeing)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-1-6",
+                "description": "Outline the roles within families",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-1-7",
+                "description": "Analyse how different family structures can influence the roles individuals adopt",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-3-2",
+            "name": "Communities",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-3-2-1",
+                "description": "Communities (definitions of a community; reasons for community formation, eg common interest/purpose)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-2",
+                "description": "Use data from the Australian Bureau of Statistics (ABS) to identify the groups that make up their local community",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-3",
+                "description": "Questionnaires as a primary research method (developing reliable questions; collecting and recording data; advantages and disadvantages)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-4",
+                "description": "Construct a questionnaire that could be used to identify the demographics of their local community",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-5",
+                "description": "Use tallying to record research data collected from numerous questionnaires",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-6",
+                "description": "Levels of community organisation (local; state; national; global)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-7",
+                "description": "Analyse ways that groups within communities can meet the specific needs of people from a local to a global level",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-8",
+                "description": "Roles groups adopt within communities (satisfying specific needs; building relationships; promoting wellbeing)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-9",
+                "description": "Investigate how groups have assisted individuals to overcome adversity through the roles they have adopted within the community. Consider groups such as: charity groups; religious groups; health services groups; emergency services groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-10",
+                "description": "Decision making in communities (influences on decision making (legislation; environmental factors; lobbying and community petitions; protesting); processes (arbitration; consensus; election; voting; referendum))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-11",
+                "description": "Explain how each factor influences decisions within the community",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-12",
+                "description": "Explore the processes used to make decisions in the community, eg local council meeting, resident management groups, tribunal",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-2-13",
+                "description": "Examine a local community decision or proposal by: identifying the roles of individuals and groups; the factors influencing the decision-making process; the processes employed to make the decision; the outcome(s) or potential outcome(s) of the decision",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-3-3",
+            "name": "Managing change in families and communities",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-3-3-1",
+                "description": "Nature of change (internal and external; planned and unplanned; temporary and permanent)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-3-2",
+                "description": "Explore examples of change within families and communities and determine: the nature of the change; the impact of the change",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-3-3",
+                "description": "Impact of change on families and communities (family and community wellbeing; roles individuals adopt; environmental; legislation; technology)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-3-4",
+                "description": "Types of support (informal, eg relatives, friends, neighbours; formal, eg government agencies, community organisations)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-3-5",
+                "description": "Investigate how informal and formal support assists to manage change",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-11-3-4",
+            "name": "Socialisation of individuals within families and communities",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-11-3-4-1",
+                "description": "Stages of the life span (infancy; childhood; adolescence; adulthood; the aged)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-4-2",
+                "description": "Analyse the specific needs that are of greatest significance to the individual at each stage of the life span",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-4-3",
+                "description": "Literature review as a secondary research method (accessing sources of data; advantages and disadvantages)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-4-4",
+                "description": "Access sources of secondary data in order to conduct a literature review on socialisation throughout the life span",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-4-5",
+                "description": "Influences on socialisation (relatives; peers; paid carers; health professionals; online networks; media; print and digital information)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-4-6",
+                "description": "Assess how family and other groups within the community contribute to socialisation during infancy and childhood",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-4-7",
+                "description": "Analyse how the socialisation of children influences the construction of gender",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-11-3-4-8",
+                "description": "Explain how socialisation aims to assist individuals to adopt positive roles within families and communities",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-12-1",
+        "name": "Research methodology",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-12-1-1",
+            "name": "Research methodology",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-1-1-1",
+                "description": "Research fundamentals (the purpose of research, eg advance knowledge, increase understanding, educate others, inform practice; the focus of research, eg question/ hypothesis; sampling (methods; sample group; sample size); types of data (primary and secondary; qualitative and quantitative); sources of data (individuals and groups; print and digital); reliability and validity; ethical behaviour (respect; integrity; privacy; bias))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-2",
+                "description": "Explore a variety of existing research projects/reports and consider the following questions: what was the focus of the research?; what was the sample group and size?; what type of data was collected?; what sources of data were used?",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-3",
+                "description": "Describe the types of data that can be collected from individuals and groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-4",
+                "description": "Examine data from print and electronic sources to determine the key findings",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-5",
+                "description": "Discuss the advantages and limitations of each of the sources of data",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-6",
+                "description": "Explain how sampling contributes to reliable and valid research",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-7",
+                "description": "Assess the importance of ethical behaviour when conducting research by considering the following: sensitive research topics; confidentiality; research bias; crediting sources of data",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-8",
+                "description": "Research methods (questionnaires; interviews; case studies; observations; literature reviews)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-9",
+                "description": "Describe each research methodology and evaluate the suitability of each for different research topics",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-10",
+                "description": "Select and utilise appropriate research methods to conduct research",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-11",
+                "description": "Research process (planning for research (formulating a research proposal; managing resources, eg time, materials); conducting research (accessing sources of data; collecting and recording data; documenting actions and issues); interpreting research (presenting research findings; analysing research results; drawing conclusions from research))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-1-1-12",
+                "description": "Apply the research process to a chosen topic by: selecting a research focus; selecting appropriate sampling methods; proposing how the research will be conducted; creating a timeline for research goals; accessing relevant sources of secondary data; using suitable research methods to collect and record primary and secondary data; recording actions and proposing solutions to any research issues; presenting primary data in graphs, tables or written reports; comparing key findings from primary and secondary data; forming research-based conclusions and making recommendations; crediting sources of data by means of bibliography and appendix",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-12-2",
+        "name": "Groups in context",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-12-2-1",
+            "name": "Specific groups within the community",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-2-1-1",
+                "description": "All students must study the 2 (two) groups in Category A plus 2 (two) groups selected from Category B",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-1-2",
+                "description": "Category A groups (Mandatory groups) (Youth; Rural and remote families)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-1-3",
+                "description": "Category B groups (Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander peoples; People with disabilities; Lesbian, Gay, Bisexual, Transgender, Queer, Intersex, Asexual plus (LGBTQIA+) communities; Sole parents; Homeless people)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-2-2",
+            "name": "Exploring the 4 (four) specific groups within the community",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-2-2-1",
+                "description": "Prevalence of each group within the community; individual diversity within each group; terminology used by the community to describe the group",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-2-2",
+                "description": "Utilise reliable sources of data to examine the nature of each group by considering the following questions: what is the prevalence of the group within Australia?; what determines whether an individual is part of the group?; how might individuals vary within the group?",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-2-3",
+                "description": "Recognise that the community uses positive and negative terminology to describe each group. Discuss the impact this might have on individuals within the group",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-2-3",
+            "name": "Issues of concern for the 4 (four) specific groups within the community",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-2-3-1",
+                "description": "Satisfaction of needs (specific needs of each group (adequate standard of living (food, clothing, shelter); health; education; employment; safety and security; sense of identity))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-3-2",
+                "description": "Identify and prioritise the specific needs of each group",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-3-3",
+                "description": "Justify the 2 (two) most significant needs for each group and discuss the implications if these are not met",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-3-4",
+                "description": "Access to services (types of services, eg financial support, transport, accommodation and housing, health care, counselling, education, employment, legal aid; factors affecting access to services (characteristics of individuals within the group, eg age, gender, level of education, culture, type of disability, first language spoken, socioeconomic status; resources, eg time, money, energy, knowledge; aspects of the service, eg opening hours, confidentiality, location, staffing))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-3-5",
+                "description": "Explore the factors that can affect each group’s access to services by considering the following questions: what types of services does each group require access to?; how do the characteristics of individuals within each group affect their access to services?; what resources are necessary to support each group’s access to the service?; how available are the services within the community?",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-2-4",
+            "name": "Creating positive social environments",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-2-4-1",
+                "description": "Addressing the groups’ issues of concern (government policy and legislation; organisations within the community that support the group; equity issues)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-4-2",
+                "description": "Examine government policy and legislation to determine its role in ensuring equity for each group",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-4-3",
+                "description": "Critically analyse the extent to which organisations within the community assist in satisfying the needs of each group",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-4-4",
+                "description": "Investigate a current inequity issue faced by each group and propose strategies to address the issue",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-4-5",
+                "description": "Positive influences on community attitudes (contributions the group makes within the community; advocacy (speaking up for the group’s needs and concerns) (raising awareness within the community; educating the community; promoting the rights of the group))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-4-6",
+                "description": "Explore ONE example of what each group has done to try to improve community attitudes, and assess the impact this has had on the wellbeing of the group",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-2-4-7",
+                "description": "Outline how community organisations advocate for each group and describe the positive influence it can have on community attitudes",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-12-3",
+        "name": "Parenting and caring",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-12-3-1",
+            "name": "Becoming a parent or carer",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-3-1-1",
+                "description": "Types of parents and carers (biological parents; social parents (adoption; fostering; step-parenting; surrogacy); carers (primary; informal and formal))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-1-2",
+                "description": "Describe the different types of parents and carers",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-1-3",
+                "description": "Explore the impact of legal, social and technological change on social parents by considering changes in: legislation; community beliefs and attitudes; reproductive technology",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-1-4",
+                "description": "Examine current research data on primary carers to determine the: significance of age and gender; reasons for carers taking on the role, eg emotional obligation, alternative care too costly",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-1-5",
+                "description": "The roles of parents and carers (satisfying the specific needs of the dependant; building a positive relationship with the dependant; promoting the wellbeing of the dependant)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-1-6",
+                "description": "Outline the roles of parents and carers and evaluate the significance of each role in various parenting and caring situations",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-1-7",
+                "description": "Preparations for becoming a parent or carer (changing health behaviours, eg nutrition, physical activity, social or spiritual connections; enhancing knowledge and skills, eg education, information, training; modifying the physical environment, eg housing, amenities, equipment; organising finances, eg budgeting, saving, support payments)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-1-8",
+                "description": "Examine a range of parenting and caring situations and assess the impact preparations can have on the wellbeing of the dependant",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-3-2",
+            "name": "Factors affecting the roles of parents and carers",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-3-2-1",
+                "description": "Characteristics of the dependant (age; skills/capabilities; special needs, eg illness, disability)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-2",
+                "description": "Influences on parents and carers (personal (culture, customs and tradition; religion/spirituality; education; previous experience))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-3",
+                "description": "Describe how the characteristics of the dependant can affect the roles of the parent or carer",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-4",
+                "description": "Examine each influence to determine its effect on parenting and caring",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-5",
+                "description": "Propose strategies to assist parents and carers to manage their multiple commitments",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-6",
+                "description": "Own upbringing; multiple commitments, eg work, study, sport, family; socioeconomic status; special needs, eg illness, disability",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-7",
+                "description": "Social (community attitudes; gender expectations; media stereotypes)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-8",
+                "description": "Describe how social influences affect the roles of parents and carers",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-9",
+                "description": "Critically analyse expectations of males and females in parenting and caring roles in a changing society",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-10",
+                "description": "Explore one example of how a parent or carer may challenge social influences and assess the impact this can have on their wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-11",
+                "description": "Styles of parenting or caring (authoritarian; democratic; permissive/indulgent; negligent)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-12",
+                "description": "Explore each parenting or caring style and assess the impact it can have on the roles of parents and carers",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-13",
+                "description": "Rights and responsibilities in parenting and caring (legal rights of parents, carers and dependants; responsibilities of parents and carers (duty of care; setting limits; discipline))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-14",
+                "description": "Analyse the impact of legal rights on the wellbeing of parents, carers and dependants by considering the following: health and medical decisions; education and schooling; financial support",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-2-15",
+                "description": "Discuss how the responsibilities of parents and carers contribute to building a positive relationship with the dependant",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-3-3",
+            "name": "Support for parents and carers",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-3-3-1",
+                "description": "Types of support (informal (relatives, friends, neighbours); formal (government agencies; community organisations))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-3-2",
+                "description": "Explain how different types of support can assist parents and carers to: prepare for their roles; fulfil their responsibilities; maintain their own wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-3-3",
+                "description": "Types of services provided through formal support (health care; education; financial support; childcare; respite care; counselling)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-3-3-4",
+                "description": "Assess the impact accessing formal support services can have on the wellbeing of: young carers; aged carers; first-time parents; working parents",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-12-4",
+        "name": "Option: Family and societal interactions",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-12-4-1",
+            "name": "Supporting and protecting individuals and families",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-4-1-1",
+                "description": "Role of legislation (to protect members of society; to promote a just and cohesive society; to set guidelines for socially acceptable behaviour; to provide processes to settle disputes peacefully; to outline what governments can and cannot do)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-1-2",
+                "description": "Describe how legislation can support and protect individuals and families in contemporary society",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-1-3",
+                "description": "Role of community organisations and agencies (how community organisations support government legislation and initiatives)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-1-4",
+                "description": "Explore how community organisations and agencies interact with governments to support and protect individuals and families in contemporary society",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-4-2",
+            "name": "Protecting children",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-4-2-1",
+                "description": "The government’s role (legislation relating to the protection and welfare of children (child protection; education, eg school attendance; safety, eg travel restraints, product safety standards); government agencies that implement and monitor these laws, eg NSW Commission for Children and Young People)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-2-2",
+                "description": "Examine current NSW child protection legislation by: locating and identifying current NSW child protection legislation; describing the areas of regulation, eg reporting children at risk, working with children checks; evaluating its effectiveness in supporting and protecting the welfare of children",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-2-3",
+                "description": "The community’s role in providing for the wellbeing of children (children’s services; schools and out-of-school care; leisure activities; not-for-profit organisations and support groups)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-2-4",
+                "description": "Investigate the provisions made by their local community to protect the welfare of children",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-2-5",
+                "description": "Identify a community support organisation that provides for the wellbeing of children and evaluate the services it provides, eg Kidsafe NSW",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-4-3",
+            "name": "Assisting young people to become young adults",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-4-3-1",
+                "description": "The government’s role in regulating rights of young people (licensing drivers; school attendance; access to tobacco and alcohol; gambling regulations; right to vote; legal age for sexual relationships and marriage)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-3-2",
+                "description": "Debate the age appropriateness of the rights afforded to young people through the law. Consider questions such as: are all 17-year-olds responsible enough to drive safely?; should the minimum age for alcohol be raised?",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-3-3",
+                "description": "Identify and evaluate the meaning and purpose of adolescent rites of passage",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-3-4",
+                "description": "Gaining other entitlements, eg passport; workplace protections, eg minimum wage",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-3-5",
+                "description": "Examine differing societal expectations of young females and young males as they assume increasing rights, responsibilities and opportunities",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-3-6",
+                "description": "The community’s role in supporting young people (health care; leisure and recreation; community support organisations, eg online youth mental health services)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-3-7",
+                "description": "Investigate a community support organisation and describe how it provides for the wellbeing of young people, eg ReachOut Australia",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-4-4",
+            "name": "Being a responsible adult family member",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-4-4-1",
+                "description": "Government’s role in supporting adults and families (current legislation supporting adults and families (laws relating to family; laws relating to adoption; laws relating to assisted reproductive technology))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-4-2",
+                "description": "Examine the current Family Law Act by: locating and identifying the current legislation; describing the areas of regulation, eg marriage and de facto relationships, divorce, spousal and child support, injunctions related to family violence; evaluating its effectiveness in supporting and protecting adults and families",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-4-3",
+                "description": "Community support for adults and families (counselling for individuals and families; health services; women’s refuges; community support organisations, eg Centacare, St Vincent de Paul Society)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-4-4",
+                "description": "Identify a community support group that provides for the wellbeing of adults and families and evaluate the services it provides",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-4-5",
+            "name": "The aged",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-4-5-1",
+                "description": "Issues for the aged (government legislation and entitlements for the aged; community support for the aged; recognising the aged as a valuable community resource)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-4-5-2",
+                "description": "Conduct a case study on the aged by considering the following questions: what are the current and future issues for the aged?; how do government entitlements assist the aged in planning for retirement?; what is available in the community to support the housing needs of the aged?; how can the community recognise the aged as valuable citizens?",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-12-5",
+        "name": "Option: Social impact of technology",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-12-5-1",
+            "name": "Defining technology",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-5-1-1",
+                "description": "Technology as hardware, eg appliances, gadgets, toys; technology as software, eg applications, databases, websites; technology as organisation of knowledge, eg communications, media, internet, home entertainment",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-1-2",
+                "description": "Describe both primitive and complex technologies",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-1-3",
+                "description": "Historical perspectives (the Digital Revolution; the Information Age)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-1-4",
+                "description": "Outline how the nature and use of information and communication technology has evolved",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-1-5",
+                "description": "Examine data from the Australian Bureau of Statistics (ABS) to compare trends in household use of information and communication technology over time",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-5-2",
+            "name": "Reasons for the development of technology",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-5-2-1",
+                "description": "Improve upon existing technology; economic benefit; consumer demand and human needs; social betterment; the global community; response to social problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-2-2",
+                "description": "Analyse how technology has emerged within the following contexts: transport; communication; consumer services",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-5-3",
+            "name": "Factors affecting access to and acceptance of technology",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-5-3-1",
+                "description": "Age; culture; education; economic status; disability; geographical location; gender; religion",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-3-2",
+                "description": "Discuss how each of the factors may impact on an individual’s access to and acceptance of technology",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-5-4",
+            "name": "The impact of technology on lifestyle",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-5-4-1",
+                "description": "Technologies and the family (household technology; information and communication technology; entertainment technology)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-2",
+                "description": "Explore how household technology contributes to the wellbeing of individuals within families",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-3",
+                "description": "Critically analyse the impact of technology on interpersonal relationships within families",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-4",
+                "description": "Technologies and the community (education and training; transport and travel; health and medicine; food; leisure and entertainment)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-5",
+                "description": "Explore how technology contributes to productive communities",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-6",
+                "description": "Critically examine the impact of technology on community health and wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-7",
+                "description": "Technologies and the workplace (safety technology; information and communication technology; structure of the workplace (health and safety; equipment; efficiency; flexibility; education and training); introduction of technology into the workplace)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-8",
+                "description": "Assess the degree to which technology impacts on: workplace safety; work/life balance; career pathways",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-4-9",
+                "description": "Evaluate the rights and responsibilities of employers and employees in adopting technology in the workplace",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-5-5",
+            "name": "Technological development",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-5-5-1",
+                "description": "Issues related to information and communication technology (privacy and safety; security of information; accuracy of information; information overload; copyright)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-5-2",
+                "description": "Debate the issues related to the development of information and communication technologies",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-5-3",
+                "description": "Impact of emerging technologies (ethics; equity and access; health and safety; economic; environmental; education and learning)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-5-4",
+                "description": "Examine various emerging technologies and predict the potential impact of their development",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-5-6",
+            "name": "A selected piece of technology",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-5-6-1",
+                "description": "Issues related to technological development (reasons for the development of the technology; factors affecting access to and acceptance of the technology; impact on lifestyle and wellbeing of the technology)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-5-6-2",
+                "description": "Conduct a case study of the selected piece of technology by considering the following questions: how has the technology emerged or developed over time?; what impact has the technology had politically, economically and socially?; what issues are related to the use and development of the technology?",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-cafs-12-6",
+        "name": "Option: Individuals and work",
+        "subTopics": [
+          {
+            "id": "subtopic-cafs-12-6-1",
+            "name": "The nature of work",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-6-1-1",
+                "description": "Reasons people work (to meet specific needs; economic; value and status)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-2",
+                "description": "Describe how work can contribute to the satisfaction of specific needs",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-3",
+                "description": "Compare and contrast the needs that are met through paid and unpaid work",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-4",
+                "description": "Explain how values and status of work impact on how a person perceives work",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-5",
+                "description": "The labour force (labour force concepts and terms (labour force; employed; unemployed; employed part time; employed full time; participation rate); labour force participation across the life span)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-6",
+                "description": "Research and identify current trends in the labour force in regards to age and gender",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-7",
+                "description": "Account for labour force participation rates across the life span by researching: full-time versus part-time employment; unemployment",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-8",
+                "description": "Patterns of work (full-time, part-time, job share, casual; permanent, temporary/contract; self-employed; shift work; voluntary; seasonal; working remotely; others)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-1-9",
+                "description": "Describe each work pattern and evaluate the suitability of each for different individuals across the life span",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-6-2",
+            "name": "Changing work patterns",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-6-2-1",
+                "description": "Social factors leading to changing work patterns (education/retraining; technology (computers; automation/robotics; research and development); employment/unemployment; perceptions of gender; family circumstances, including structural change; government policy; economics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-2-2",
+                "description": "Analyse the relationship between patterns of work and the various social factors",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-6-3",
+            "name": "Structures that support individuals in the workplace",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-6-3-1",
+                "description": "Rights and responsibilities (employees; employers)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-3-2",
+                "description": "Explain the importance of rights and responsibilities in the workplace",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-3-3",
+                "description": "Workplace structures (legislation, eg health and safety, equal employment opportunity; work conditions, eg awards, grievance procedures; trade unions; flexible work patterns and practices, eg job share, flexible work arrangements; workplace culture, eg childcare, prayer room, kitchen; leave entitlements, eg parental, carers)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-3-4",
+                "description": "Analyse how rights and responsibilities are supported by workplace structures and affect: the wellbeing of the employer and employee in the workplace; efficient work practices",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-3-5",
+                "description": "Examine the extent to which the workplace can provide equal access to work entitlements for females and males",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-6-4",
+            "name": "Maintaining work and life balance",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-6-4-1",
+                "description": "Individual roles (personal commitments and interests (work; leadership; parenting; caring; volunteering; religion; recreation; studying; hobbies))",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-4-2",
+                "description": "Recognise that individuals may have multiple roles outside the workplace",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-4-3",
+                "description": "Individual strategies for managing multiple roles (negotiating and sharing roles; managing resources; using technology; accessing support; utilising workplace structures)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-4-4",
+                "description": "Devise strategies that individuals can utilise to effectively manage multiple role expectations caused by changing circumstances",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-cafs-12-6-5",
+            "name": "Youth employment",
+            "dotPoints": [
+              {
+                "id": "dp-cafs-12-6-5-1",
+                "description": "Issues that impact on youth employment (personal management skills required in the workplace; steps taken to prepare and plan for a career; predominant patterns of work of young people; rights and responsibilities of young people in the workplace)",
+                "prompts": []
+              },
+              {
+                "id": "dp-cafs-12-6-5-2",
+                "description": "Conduct a case study of the issues that impact on youth employment by considering the following questions: what are the factors contributing to youth unemployment?; how can a young person optimise their employment prospects?; how does work support young people to manage multiple roles?",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -97,6 +97,36 @@
       "selected": false
     },
     {
+      "file": "HSCChemistry.json",
+      "type": "course",
+      "subject": "Science",
+      "selected": false
+    },
+    {
+      "file": "HSCPhysics.json",
+      "type": "course",
+      "subject": "Science",
+      "selected": false
+    },
+    {
+      "file": "HSCEarthAndEnvironmentalScience.json",
+      "type": "course",
+      "subject": "Science",
+      "selected": false
+    },
+    {
+      "file": "HSCCommunityAndFamilyStudies.json",
+      "type": "course",
+      "subject": "PDHPE",
+      "selected": false
+    },
+    {
+      "file": "HSCSocietyAndCulture.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": false
+    },
+    {
       "file": "topics/software-engineering-secure-architecture-topic.json",
       "type": "topic",
       "subject": "TAS",
