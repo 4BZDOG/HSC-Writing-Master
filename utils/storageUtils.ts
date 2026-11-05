@@ -179,6 +179,15 @@ const STORE_LIBRARY = 'library_store';
 const STORE_USERS = 'users_store';
 export const STORE_SCENARIO_IMAGES = 'scenario_images_store';
 const KEY_COURSES = 'courses_data';
+// Where the daily backup was last written (its day key and time), kept in the main store so that
+// checking it does not read the backup itself, which holds the whole library.
+const KEY_BACKUP_STAMP = 'backup_stamp';
+const BACKUP_INTERVAL_MS = 60 * 60 * 1000;
+
+interface BackupStamp {
+  key: string;
+  at: number;
+}
 
 interface AppDB extends DBSchema {
   [STORE_MAIN]: {
@@ -305,6 +314,8 @@ export const clearStore = async (storeName: string): Promise<void> => {
   try {
     const db = await getDB();
     await db.clear(storeName as any);
+    // The stamp describes a backup in the store just emptied.
+    if (storeName === STORE_BACKUPS) await db.delete(STORE_MAIN, KEY_BACKUP_STAMP);
     console.log(`Store '${storeName}' cleared.`);
   } catch (error) {
     console.error(`Failed to clear store '${storeName}':`, error);
@@ -534,10 +545,18 @@ export const createBackup = async (courses: Course[]): Promise<boolean> => {
     // We want to keep a snapshot for each day.
     // However, if the user works all day, we don't want to rely on a stale backup from 9 AM.
     // Strategy: Update the daily backup if the existing one is older than 1 hour.
-    const existing = await db.get(STORE_BACKUPS, key);
-    if (existing && timestamp - existing.timestamp < 60 * 60 * 1000) {
-      // Existing backup is fresh enough (less than 1 hour old)
-      return true;
+    // The check reads the stamp the last write left, not the backup: the backup holds the whole
+    // library, and reading it on every save and launch cost a full deserialise each time.
+    const stamp = (await db.get(STORE_MAIN, KEY_BACKUP_STAMP)) as BackupStamp | undefined;
+    if (stamp?.key === key) {
+      if (timestamp - stamp.at < BACKUP_INTERVAL_MS) {
+        // Existing backup is fresh enough (less than 1 hour old)
+        return true;
+      }
+    } else {
+      // No stamp for today's backup, so the record is the only word on when it was written.
+      const existing = await db.get(STORE_BACKUPS, key);
+      if (existing && timestamp - existing.timestamp < BACKUP_INTERVAL_MS) return true;
     }
 
     await db.put(
@@ -549,6 +568,8 @@ export const createBackup = async (courses: Course[]): Promise<boolean> => {
       },
       key
     );
+    const written: BackupStamp = { key, at: timestamp };
+    await db.put(STORE_MAIN, written, KEY_BACKUP_STAMP);
 
     console.log(`Backup updated for: ${dateStr}`);
     await cleanupOldBackups();
@@ -627,9 +648,19 @@ export const deleteBackup = async (key: string) => {
   try {
     const db = await getDB();
     await db.delete(STORE_BACKUPS, key);
+    await forgetStampFor(db, [key]);
   } catch (error) {
     console.error('Failed to delete backup:', error);
   }
+};
+
+/**
+ * Drops the stamp when the backup it describes has been deleted, so the next backup check
+ * finds no fresh stamp and writes one.
+ */
+const forgetStampFor = async (db: IDBPDatabase<AppDB>, deletedKeys: string[]): Promise<void> => {
+  const stamp = (await db.get(STORE_MAIN, KEY_BACKUP_STAMP)) as BackupStamp | undefined;
+  if (stamp && deletedKeys.includes(stamp.key)) await db.delete(STORE_MAIN, KEY_BACKUP_STAMP);
 };
 
 const cleanupOldBackups = async () => {
@@ -654,6 +685,10 @@ const cleanupOldBackups = async () => {
     for (const item of toDelete) {
       await db.delete(STORE_BACKUPS, item.key);
     }
+    await forgetStampFor(
+      db,
+      toDelete.map((item) => item.key)
+    );
   } catch (error) {
     console.error('Backup cleanup error:', error);
   }

@@ -77,6 +77,13 @@ describe('scenarioImageStorage', () => {
 
       expect(result).toBeNull();
     });
+
+    it('returns null, rather than rejecting, when IndexedDB cannot be read', async () => {
+      // Blocked storage or a damaged database: the panel and the scenario treat it as no image.
+      mockGet.mockRejectedValue(new Error('IndexedDB is blocked'));
+
+      await expect(loadScenarioImage('p1')).resolves.toBeNull();
+    });
   });
 
   describe('deleteScenarioImage', () => {

@@ -31,14 +31,24 @@ export const useScenarioImage = (
     let cancelled = false;
     setLoading(true);
     (async () => {
-      let row = await loadScenarioImage(ref.id);
-      if (!row && ref.storagePath) {
-        await syncScenarioImageDown(ref.id, ref);
+      let row: Awaited<ReturnType<typeof loadScenarioImage>> = null;
+      try {
         row = await loadScenarioImage(ref.id);
+        if (!row && ref.storagePath) {
+          await syncScenarioImageDown(ref.id, ref);
+          row = await loadScenarioImage(ref.id);
+        }
+      } catch (err) {
+        // Fails soft: a failed read or download leaves nothing to show. The rejection is
+        // handled here, so it does not escape this unawaited function.
+        console.warn('Could not load scenario image:', err);
+      } finally {
+        // Always runs, so a failure cannot leave the image area in its loading state.
+        if (!cancelled) {
+          setStored(row?.dataUrl ?? null);
+          setLoading(false);
+        }
       }
-      if (cancelled) return;
-      setStored(row?.dataUrl ?? null);
-      setLoading(false);
     })();
     return () => {
       cancelled = true;
