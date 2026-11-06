@@ -31,7 +31,9 @@ const makeBuilder = (table: string) => {
     in: (column: string, values: string[]) => {
       rec.in.push({ column, values });
       return Promise.resolve(
-        failWith ? { data: null, error: { message: failWith } } : { data: rows[column] ?? [], error: null }
+        failWith
+          ? { data: null, error: { message: failWith } }
+          : { data: rows[column] ?? [], error: null }
       );
     },
   };
@@ -39,13 +41,12 @@ const makeBuilder = (table: string) => {
 };
 
 vi.mock('../../services/supabaseClient', () => ({
-  supabase: { from: (table: string) => makeBuilder(table), rpc: vi.fn() },
-  fetchAllRows: vi.fn(),
+  getSupabase: async () => ({ from: (table: string) => makeBuilder(table), rpc: vi.fn() }),
 }));
+vi.mock('../../services/supabaseConfig', () => ({ fetchAllRows: vi.fn() }));
 
-const { resolvePromptRowIds, __clearPromptRowIdCache } = await import(
-  '../../services/contributionService'
-);
+const { resolvePromptRowIds, __clearPromptRowIdCache } =
+  await import('../../services/contributionService');
 
 const UUID_A = '11111111-1111-4111-8111-111111111111';
 

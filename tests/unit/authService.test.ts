@@ -5,7 +5,7 @@ import {
   mapProfileToUser,
   isDemoAuthEnabled,
 } from '../../services/authService';
-import { isSupabaseConfigured } from '../../services/supabaseClient';
+import { isSupabaseConfigured } from '../../services/supabaseConfig';
 
 describe('Supabase gating (safety: defaults to mock auth)', () => {
   it('is NOT configured when env vars are absent', () => {

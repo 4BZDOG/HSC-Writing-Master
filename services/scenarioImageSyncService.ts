@@ -10,7 +10,7 @@
  * rather than throw. A prompt submission, or a carousel render, must never
  * fail because an image couldn't sync.
  */
-import { supabase } from './supabaseClient';
+import { getSupabase } from './supabaseClient';
 import { loadScenarioImage, saveScenarioImage } from '../utils/scenarioImageStorage';
 import { ScenarioImageRef } from '../types';
 
@@ -51,9 +51,12 @@ export const syncScenarioImageUp = async (
   promptId: string,
   ref: ScenarioImageRef | undefined
 ): Promise<ScenarioImageRef | undefined> => {
-  if (!ref || !supabase) return ref;
+  if (!ref) return ref;
   if (ref.storagePath) return ref; // already synced — don't re-upload unchanged bytes
   try {
+    // Null in mock mode: the local copy stays the only one, and nothing is read.
+    const supabase = await getSupabase();
+    if (!supabase) return ref;
     const cached = await loadScenarioImage(promptId);
     if (!cached) return ref;
     const { blob, contentType } = dataUrlToBlob(cached.dataUrl);
@@ -82,8 +85,10 @@ export const syncScenarioImageDown = async (
   promptId: string,
   ref: ScenarioImageRef | undefined
 ): Promise<void> => {
-  if (!ref?.storagePath || !supabase) return;
+  if (!ref?.storagePath) return;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return;
     if (await loadScenarioImage(promptId)) return; // already cached
     const { data, error } = await supabase.storage.from(BUCKET).download(ref.storagePath);
     if (error || !data) {
@@ -109,8 +114,10 @@ export const syncScenarioImageDown = async (
 export const deleteScenarioImageFromStorage = async (
   storagePath: string | undefined
 ): Promise<void> => {
-  if (!storagePath || !supabase) return;
+  if (!storagePath) return;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return;
     const { error } = await supabase.storage.from(BUCKET).remove([storagePath]);
     if (error) {
       console.warn('[ScenarioImage] Storage delete failed (non-fatal):', error.message);

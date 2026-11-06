@@ -20,15 +20,16 @@ const postBillingJson = vi.fn();
 let supabaseConfigured = true;
 
 vi.mock('../../services/supabaseClient', () => ({
-  get supabase() {
-    return supabaseConfigured
+  getSupabase: async () =>
+    supabaseConfigured
       ? {
           from,
           rpc,
           auth: { getSession: async () => ({ data: { session: { user: { id: 'uid-1' } } } }) },
         }
-      : null;
-  },
+      : null,
+}));
+vi.mock('../../services/supabaseConfig', () => ({
   get isSupabaseConfigured() {
     return supabaseConfigured;
   },

@@ -23,8 +23,7 @@ const maybeSingleMock = vi.fn();
 const updateMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  isSupabaseConfigured: true,
-  supabase: {
+  getSupabase: async () => ({
     auth: {
       signUp: (...args: unknown[]) => signUpMock(...args),
       signInWithPassword: (...args: unknown[]) => signInWithPasswordMock(...args),
@@ -36,7 +35,10 @@ vi.mock('../../services/supabaseClient', () => ({
       select: () => ({ eq: () => ({ maybeSingle: () => maybeSingleMock() }) }),
       update: (payload: unknown) => ({ eq: () => updateMock(payload) }),
     }),
-  },
+  }),
+}));
+vi.mock('../../services/supabaseConfig', () => ({
+  isSupabaseConfigured: true,
   fetchAllRows: vi.fn(),
 }));
 
@@ -46,7 +48,6 @@ const ORIGINAL_ENV = { ...import.meta.env };
 
 /** A user object shaped like a real signup response (one linked identity). */
 const newUser = { id: 'user-1', email: 'student@example.com', identities: [{ id: 'i1' }] };
-
 
 /**
  * `import.meta.env` is declared readonly for the app, and rightly so — nothing
@@ -146,9 +147,7 @@ describe('authService.signUp', () => {
     // the confirmation link would land nowhere.
     signUpMock.mockResolvedValue({ data: { user: newUser, session: null }, error: null });
     await authService.signUp('student@example.com', 'correct-horse');
-    expect(signUpMock.mock.calls[0][0].options.emailRedirectTo).toBe(
-      `${window.location.origin}/`
-    );
+    expect(signUpMock.mock.calls[0][0].options.emailRedirectTo).toBe(`${window.location.origin}/`);
   });
 
   it('trims the email before sending it', async () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { fetchAllRows } from '../../services/supabaseClient';
+import { fetchAllRows } from '../../services/supabaseConfig';
 
 /** Builds a fake PostgREST query whose .range() serves slices of `rows`. */
 const fakeQuery = (rows: unknown[], calls: Array<[number, number]>) => () => ({

@@ -18,7 +18,7 @@ import type { User } from '../../types';
  * on the exact day their whole school drops back to the free tier.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 vi.mock('../../services/authService', () => ({
   authService: { getCurrentUser: () => null, updateUser: vi.fn() },
 }));

@@ -15,17 +15,18 @@ const sessionMock = vi.fn();
 const clientState = { configured: true };
 
 vi.mock('../../services/supabaseClient', () => ({
-  get isSupabaseConfigured() {
-    return clientState.configured;
-  },
-  get supabase() {
-    return clientState.configured
+  getSupabase: async () =>
+    clientState.configured
       ? {
           rpc: (...args: unknown[]) => rpcMock(...args),
           from: (...args: unknown[]) => fromMock(...args),
           auth: { getSession: () => sessionMock() },
         }
-      : null;
+      : null,
+}));
+vi.mock('../../services/supabaseConfig', () => ({
+  get isSupabaseConfigured() {
+    return clientState.configured;
   },
   fetchAllRows: vi.fn(),
 }));

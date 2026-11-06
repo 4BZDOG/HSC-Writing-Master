@@ -16,9 +16,9 @@ import userEvent from '@testing-library/user-event';
  * the submit button must match.
  */
 
-vi.mock('../../services/supabaseClient', () => ({
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => ({}) }));
+vi.mock('../../services/supabaseConfig', () => ({
   isSupabaseConfigured: true,
-  supabase: {},
   fetchAllRows: vi.fn(),
 }));
 

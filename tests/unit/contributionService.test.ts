@@ -12,9 +12,9 @@ import { Prompt, SampleAnswer } from '../../types';
 
 const rpcMock = vi.fn();
 vi.mock('../../services/supabaseClient', () => ({
-  supabase: { rpc: (...a: unknown[]) => rpcMock(...a) },
-  fetchAllRows: vi.fn(),
+  getSupabase: async () => ({ rpc: (...a: unknown[]) => rpcMock(...a) }),
 }));
+vi.mock('../../services/supabaseConfig', () => ({ fetchAllRows: vi.fn() }));
 
 describe('promptToRow (app Prompt -> DB insert row)', () => {
   it('maps all fields and preserves the app id as legacy_id', () => {

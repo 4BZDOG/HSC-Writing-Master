@@ -28,9 +28,7 @@ vi.mock('../../services/authService', () => ({
 }));
 
 vi.mock('../../services/supabaseClient', () => ({
-  get supabase() {
-    return hasSupabase ? { rpc: rpcMock } : null;
-  },
+  getSupabase: async () => (hasSupabase ? { rpc: rpcMock } : null),
 }));
 
 import {

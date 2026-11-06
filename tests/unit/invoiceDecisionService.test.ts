@@ -21,7 +21,7 @@ import { INVOICE_DUE_DAYS, INVOICE_LIMITS } from '../../api/_lib/schoolLicence';
  * stubbed and the Supabase client is absent.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 const approvedBody = (over: Record<string, unknown> = {}) => ({
   request: { id: 'req_1', status: 'approved' },

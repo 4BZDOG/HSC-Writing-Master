@@ -1,4 +1,5 @@
 import { postBillingJson, STRIPE_PRICE_IDS } from './entitlements';
+import { getSupabase } from './supabaseClient';
 
 /**
  * The school's side of purchase orders: ask for a licence to be invoiced, and
@@ -188,7 +189,7 @@ export const submitInvoiceRequest = async (
  */
 export const fetchMyLicenceRequests = async (): Promise<LicenceRequest[] | null> => {
   try {
-    const { supabase } = await import('./supabaseClient');
+    const supabase = await getSupabase();
     if (!supabase) return null;
     const { data: session } = await supabase.auth.getSession();
     const userId = session.session?.user.id;

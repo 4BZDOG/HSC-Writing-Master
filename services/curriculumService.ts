@@ -9,7 +9,9 @@
  * IndexedDB stays the offline cache; useSyllabusData treats Supabase as the
  * source of truth when configured and falls back to the cache on failure.
  */
-import { supabase, isSupabaseConfigured, fetchAllRows } from './supabaseClient';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { isSupabaseConfigured, fetchAllRows } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 import {
   Course,
   Topic,
@@ -296,9 +298,7 @@ export const assembleCourses = (rows: CurriculumRows): Course[] => {
  * be described; the worst case is the old behaviour, which is that nothing is
  * offered for sale here.
  */
-const withheldSampleAnswers = async (
-  client: NonNullable<typeof supabase>
-): Promise<SampleAnswerRow[]> => {
+const withheldSampleAnswers = async (client: SupabaseClient): Promise<SampleAnswerRow[]> => {
   try {
     const { data, error } = await client.rpc('withheld_sample_answers');
     if (error || !Array.isArray(data)) return [];
@@ -321,7 +321,7 @@ const withheldSampleAnswers = async (
   }
 };
 
-export const isCurriculumRemote = (): boolean => isSupabaseConfigured && Boolean(supabase);
+export const isCurriculumRemote = (): boolean => isSupabaseConfigured;
 
 /**
  * Loads the full visible curriculum from Supabase and assembles it into
@@ -331,8 +331,8 @@ export const isCurriculumRemote = (): boolean => isSupabaseConfigured && Boolean
  * to the local cache.
  */
 export const fetchRemoteCourses = async (): Promise<Course[]> => {
-  if (!supabase) return [];
-  const client = supabase;
+  const client = await getSupabase();
+  if (!client) return [];
 
   // Visibility rule for the status-bearing tables: everything APPROVED, plus
   // the caller's OWN rows — so a just-submitted (pending) contribution doesn't

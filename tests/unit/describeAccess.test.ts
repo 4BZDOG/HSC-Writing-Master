@@ -10,7 +10,7 @@ import type { User } from '../../types';
  * does a wording that offers the wrong button.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 import {
   describeAccess,

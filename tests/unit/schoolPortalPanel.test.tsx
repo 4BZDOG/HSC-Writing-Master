@@ -9,7 +9,7 @@ import type { User } from '../../types';
  * personal request keeps the body it always had, with no scope at all.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 vi.mock('../../services/entitlements', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../services/entitlements')>();

@@ -6,7 +6,9 @@ import {
   saveUserProfile,
   STORAGE_KEYS,
 } from '../utils/storageUtils';
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { isSupabaseConfigured } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 import { notifyAiNotice } from './quotaNotifier';
 import type { Provider } from '@supabase/auth-js';
 import {
@@ -247,6 +249,16 @@ const mockLogin = async (username: string, password: string): Promise<User> => {
 // ----------------------------------------------------------------------------
 
 /**
+ * The client, for code that only runs when Supabase is configured. It throws
+ * rather than returning null, so a mistaken call fails loudly.
+ */
+const requireSupabase = async (): Promise<SupabaseClient> => {
+  const client = await getSupabase();
+  if (!client) throw new Error('Supabase is not configured.');
+  return client;
+};
+
+/**
  * Reads the caller's profile row. THROWS on a failed read (network/REST error)
  * and returns null only when the row genuinely does not exist. The distinction
  * matters: callers write stats/preferences back to this row, and treating a
@@ -257,7 +269,8 @@ const fetchProfile = async (userId: string): Promise<ProfileRow | null> => {
   // stripe_plan / plan_period_end are what the Stripe webhook writes after a
   // purchase — omitting them here silently broke the entire upgrade loop
   // (users paid, the plan never reached the client).
-  const { data: profile, error } = await supabase!
+  const client = await requireSupabase();
+  const { data: profile, error } = await client
     .from('profiles')
     .select('username, display_name, role, preferences, stats, stripe_plan, plan_period_end')
     .eq('id', userId)
@@ -268,7 +281,8 @@ const fetchProfile = async (userId: string): Promise<ProfileRow | null> => {
 
 /** Best-effort write-back of streak/preferences; only call with real data. */
 const persistProfileState = async (userId: string, user: User): Promise<void> => {
-  await supabase!
+  const client = await requireSupabase();
+  await client
     .from('profiles')
     .update({ stats: user.stats, preferences: user.preferences })
     .eq('id', userId);
@@ -296,7 +310,8 @@ const persistProfileState = async (userId: string, user: User): Promise<void> =>
  */
 export const applySchoolPlan = async (userId: string, user: User): Promise<User> => {
   try {
-    const { data, error } = await supabase!
+    const client = await requireSupabase();
+    const { data, error } = await client
       .from('profiles')
       .select(
         'school_id, school:school_id (name, plan_status, plan_period_end, plan_cancel_at_period_end)'
@@ -366,7 +381,8 @@ const applyOnboardingState = async (
   });
 
   try {
-    const { data, error } = await supabase!
+    const client = await requireSupabase();
+    const { data, error } = await client
       .from('profiles')
       .select('agreement_version, agreement_accepted_at, quick_start_seen_version')
       .eq('id', userId)
@@ -428,7 +444,7 @@ const clearAuthRedirectParams = (): void => {
  * choice is forgotten whatever the outcome.
  */
 const applyPendingParentChoice = async (
-  client: NonNullable<typeof supabase>,
+  client: SupabaseClient,
   authUser: { app_metadata?: { provider?: string } },
   onNotice?: (message: string) => void
 ): Promise<void> => {
@@ -487,7 +503,7 @@ const hydrateSessionUser = async (authUser: { id: string; email?: string }): Pro
 };
 
 const supabaseLogin = async (email: string, password: string): Promise<User> => {
-  const client = supabase!;
+  const client = await requireSupabase();
   const { data, error } = await client.auth.signInWithPassword({ email, password });
   if (error) throw new Error(describeSignInError(error));
   if (!data.user) throw new Error('Invalid username or password');
@@ -620,7 +636,7 @@ const isTransientAuthError = (error: { name?: string; status?: number }): boolea
  * unchanged so the app keeps working from the local cache.
  */
 const supabaseRefreshSession = async (cachedUser: User): Promise<User | null> => {
-  const client = supabase!;
+  const client = await requireSupabase();
   const { data, error } = await client.auth.getUser();
   if (error) {
     return isTransientAuthError(error) ? cachedUser : null;
@@ -652,7 +668,7 @@ const supabaseRefreshSession = async (cachedUser: User): Promise<User | null> =>
 export const authService = {
   login: async (username: string, password: string): Promise<User> => {
     // In Supabase mode the username field is treated as the account email.
-    if (isSupabaseConfigured && supabase) {
+    if (isSupabaseConfigured) {
       return supabaseLogin(username, password);
     }
     return mockLogin(username, password);
@@ -684,7 +700,8 @@ export const authService = {
     displayName?: string,
     accountType: SignUpAccountType = 'student'
   ): Promise<SignUpResult> => {
-    if (!isSupabaseConfigured || !supabase) {
+    const supabase = await getSupabase();
+    if (!supabase) {
       throw new Error('Account creation requires Supabase to be configured on this deployment.');
     }
     if (!isSignupEnabled(import.meta.env.VITE_ENABLE_SIGNUP)) {
@@ -748,7 +765,8 @@ export const authService = {
    * here: Supabase sends nothing to an address that has no account.
    */
   requestPasswordReset: async (email: string): Promise<void> => {
-    if (!isSupabaseConfigured || !supabase) {
+    const supabase = await getSupabase();
+    if (!supabase) {
       throw new Error('Password reset requires Supabase to be configured on this deployment.');
     }
     const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
@@ -801,7 +819,8 @@ export const authService = {
    * password they just chose adds a step and no security.
    */
   completePasswordReset: async (newPassword: string): Promise<User> => {
-    if (!isSupabaseConfigured || !supabase) {
+    const supabase = await getSupabase();
+    if (!supabase) {
       throw new Error('Password reset requires Supabase to be configured.');
     }
 
@@ -851,8 +870,9 @@ export const authService = {
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
     }
-    if (isSupabaseConfigured && supabase) {
-      await supabase.auth.signOut().catch(() => {});
+    if (isSupabaseConfigured) {
+      const supabase = await getSupabase().catch(() => null);
+      await supabase?.auth.signOut().catch(() => {});
     }
   },
 
@@ -878,7 +898,8 @@ export const authService = {
    * passes nothing, which also clears any choice left from an earlier sign-up.
    */
   loginWithOAuth: async (provider: Provider, accountType?: SignUpAccountType): Promise<void> => {
-    if (!isSupabaseConfigured || !supabase) {
+    const supabase = await getSupabase();
+    if (!supabase) {
       throw new Error('OAuth login requires Supabase to be configured.');
     }
     rememberPendingAccountType(accountType);
@@ -923,7 +944,7 @@ export const authService = {
   handleOAuthCallback: async (
     options: { onNotice?: (message: string) => void } = {}
   ): Promise<User | null> => {
-    if (!isSupabaseConfigured || !supabase) return null;
+    if (!isSupabaseConfigured) return null;
 
     // A recovery return carries the same `?code=` as an OAuth sign-in. If this
     // consumed it the user would be signed straight in and never shown the form
@@ -938,7 +959,8 @@ export const authService = {
     // which used to dump a successfully signed-in user back on the login
     // page until they manually refreshed. When the URL shows we're mid
     // OAuth-return, wait (bounded) for the SIGNED_IN event instead.
-    const client = supabase;
+    const client = await getSupabase();
+    if (!client) return null;
     let session = (await client.auth.getSession()).data.session;
 
     if (!session) {
@@ -1006,9 +1028,11 @@ export const authService = {
   },
 
   logout: (): void => {
-    if (isSupabaseConfigured && supabase) {
+    if (isSupabaseConfigured) {
       // Fire-and-forget; the local cache clear below is what gates the UI.
-      void supabase.auth.signOut();
+      void getSupabase()
+        .then((client) => client?.auth.signOut())
+        .catch(() => {});
     }
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem(STORAGE_KEYS.AUTH_USER);
@@ -1025,8 +1049,11 @@ export const authService = {
   refreshSession: async (user: User): Promise<User | null> => {
     if (user.role === 'guest') return user;
 
-    if (isSupabaseConfigured && supabase) {
-      return supabaseRefreshSession(user);
+    if (isSupabaseConfigured) {
+      // Offline, the client library may fail to load. Keep the cached user, as a
+      // network failure does, rather than reading it as a rejected session.
+      const client = await getSupabase().catch(() => null);
+      return client ? supabaseRefreshSession(user) : user;
     }
 
     const updatedStats = calculateStreak(user.stats);
@@ -1044,7 +1071,10 @@ export const authService = {
   },
 
   updateUser: async (user: User): Promise<void> => {
-    if (isSupabaseConfigured && supabase && user.role !== 'guest') {
+    // Null for a guest and in mock mode. A client that cannot load counts as
+    // offline, so the local save below still happens.
+    const supabase = user.role !== 'guest' ? await getSupabase().catch(() => null) : null;
+    if (supabase) {
       const { data } = await supabase.auth.getUser();
       if (data.user) {
         await supabase

@@ -19,7 +19,9 @@
  * The counting lives in pure functions so the unit tests can drive them with
  * fixtures and no database.
  */
-import { supabase, fetchAllRows } from './supabaseClient';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { fetchAllRows } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 import { fetchSchools, LIVE_LICENCE_STATUSES, type SchoolRow } from './quotaService';
 import { STRIPE_PRICE_IDS } from './entitlements';
 
@@ -497,9 +499,7 @@ export const isMissingSchemaError = (message: string): boolean =>
 /** Stripe is wired into this build when at least one price is configured. */
 const stripeConfiguredInBuild = (): boolean => Object.values(STRIPE_PRICE_IDS).some(Boolean);
 
-const loadRecentEvents = async (
-  client: NonNullable<typeof supabase>
-): Promise<BillingEventRow[]> => {
+const loadRecentEvents = async (client: SupabaseClient): Promise<BillingEventRow[]> => {
   const { data, error } = await client
     .from('stripe_events')
     .select('id, type, received_at')
@@ -514,7 +514,7 @@ const loadRecentEvents = async (
  * is read, not a page of them, because a request left unseen is the thing the
  * queue exists to prevent.
  */
-const loadPendingRequests = (client: NonNullable<typeof supabase>): Promise<InvoiceRequestRow[]> =>
+const loadPendingRequests = (client: SupabaseClient): Promise<InvoiceRequestRow[]> =>
   fetchAllRows<InvoiceRequestRow>(
     () => client.from('licence_requests').select(REQUEST_COLUMNS).eq('status', 'pending'),
     'Could not load invoice requests'
@@ -529,7 +529,7 @@ const loadPendingRequests = (client: NonNullable<typeof supabase>): Promise<Invo
  * not had §27 applied yet must still show its subscriptions.
  */
 export const loadBillingOverview = async (now: Date = new Date()): Promise<BillingOverview> => {
-  const client = supabase;
+  const client = await getSupabase();
   if (!client) throw new Error('Supabase is not configured.');
 
   const [subscriptionRows, recentEvents, schoolResult, requestResult, incidentResult] =
@@ -660,7 +660,7 @@ export const withoutIncident = (summary: IncidentSummary, id: string): IncidentS
  * A database without schema §29 has no such function, and the message says so.
  */
 export const resolveBillingIncident = async (id: string, note: string | null): Promise<void> => {
-  const client = supabase;
+  const client = await getSupabase();
   if (!client) throw new Error('Supabase is not configured.');
   const { error } = await client.rpc('resolve_billing_incident', { p_id: id, p_note: note });
   if (error) throw new Error(error.message || 'Could not mark the incident resolved.');
@@ -674,7 +674,7 @@ export const resolveBillingIncident = async (id: string, note: string | null): P
 export const loadOpenBillingIncidents = async (
   now: Date = new Date()
 ): Promise<IncidentSummary> => {
-  const client = supabase;
+  const client = await getSupabase();
   if (!client) throw new Error('Supabase is not configured.');
   try {
     const rows = await fetchAllRows<BillingIncidentRow>(

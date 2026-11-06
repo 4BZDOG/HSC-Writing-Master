@@ -52,9 +52,9 @@ const makeBuilder = (table: string) => {
 };
 
 vi.mock('../../services/supabaseClient', () => ({
-  supabase: { from: (table: string) => makeBuilder(table), rpc: vi.fn() },
-  fetchAllRows: vi.fn(),
+  getSupabase: async () => ({ from: (table: string) => makeBuilder(table), rpc: vi.fn() }),
 }));
+vi.mock('../../services/supabaseConfig', () => ({ fetchAllRows: vi.fn() }));
 
 const { resolvePromptRowId } = await import('../../services/contributionService');
 

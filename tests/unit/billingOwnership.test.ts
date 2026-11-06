@@ -27,11 +27,7 @@ vi.mock('../../services/authService', () => ({
   },
 }));
 
-vi.mock('../../services/supabaseClient', () => ({
-  get supabase() {
-    return supabaseClient;
-  },
-}));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => supabaseClient }));
 
 import { fetchBillingLookup, fetchBillingState } from '../../services/entitlements';
 

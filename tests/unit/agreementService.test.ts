@@ -14,10 +14,8 @@ vi.mock('../../services/authService', () => ({
 
 // Supabase unconfigured — the durable write is skipped and acceptance must
 // still succeed locally. That is the mock-mode path most deployments run.
-vi.mock('../../services/supabaseClient', () => ({
-  supabase: null,
-  isSupabaseConfigured: false,
-}));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
+vi.mock('../../services/supabaseConfig', () => ({ isSupabaseConfigured: false }));
 
 const safeSetItem = vi.fn();
 
@@ -204,7 +202,9 @@ describe('recording acceptance', () => {
     expect(updated.agreement?.audience).toBe('student');
     expect(updated.agreement?.acceptedAt).toBeGreaterThan(0);
     expect(needsAgreement(updated)).toBe(false);
-    expect(updateUser).toHaveBeenCalledWith(expect.objectContaining({ agreement: updated.agreement }));
+    expect(updateUser).toHaveBeenCalledWith(
+      expect.objectContaining({ agreement: updated.agreement })
+    );
   });
 
   it('records acceptance synchronously, before any await', async () => {
@@ -220,7 +220,9 @@ describe('recording acceptance', () => {
 
     expect(safeSetItem).toHaveBeenCalledWith(
       'hsc-ai-auth-user-v2',
-      expect.objectContaining({ agreement: expect.objectContaining({ version: AGREEMENT_VERSION }) })
+      expect.objectContaining({
+        agreement: expect.objectContaining({ version: AGREEMENT_VERSION }),
+      })
     );
     expect(cachedBeforeAwait).toBeTruthy();
   });

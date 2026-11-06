@@ -6,7 +6,7 @@
  * reads state for display and lets admins manage the limits through the
  * admin-gated RPCs — it is a convenience layer, not the control point.
  */
-import { supabase } from './supabaseClient';
+import { getSupabase } from './supabaseClient';
 
 export interface QuotaStatus {
   used: number;
@@ -36,21 +36,24 @@ export interface RoleQuota {
 
 const ROLE_ORDER: QuotaRole[] = QUOTA_ROLES;
 
-const requireClient = () => {
-  if (!supabase) throw new Error('Supabase is not configured.');
-  return supabase;
+const requireClient = async () => {
+  const client = await getSupabase();
+  if (!client) throw new Error('Supabase is not configured.');
+  return client;
 };
 
 /** The signed-in user's own usage today (does not consume). */
 export const fetchMyQuotaStatus = async (): Promise<QuotaStatus> => {
-  const { data, error } = await requireClient().rpc('get_ai_quota_status');
+  const { data, error } = await (await requireClient()).rpc('get_ai_quota_status');
   if (error) throw new Error(`Could not load AI quota status: ${error.message}`);
   return data as QuotaStatus;
 };
 
 /** The per-role (group) daily limits, in a stable admin→student order. */
 export const fetchRoleQuotas = async (): Promise<RoleQuota[]> => {
-  const { data, error } = await requireClient().from('ai_quota_limits').select('role, daily_limit');
+  const { data, error } = await (await requireClient())
+    .from('ai_quota_limits')
+    .select('role, daily_limit');
   if (error) throw new Error(`Could not load quota limits: ${error.message}`);
   const rows = (data ?? []) as RoleQuota[];
   return [...rows].sort((a, b) => ROLE_ORDER.indexOf(a.role) - ROLE_ORDER.indexOf(b.role));
@@ -58,7 +61,9 @@ export const fetchRoleQuotas = async (): Promise<RoleQuota[]> => {
 
 /** Admin-only: set the daily limit for a whole role/group. */
 export const setRoleQuota = async (role: QuotaRole, limit: number): Promise<void> => {
-  const { error } = await requireClient().rpc('set_role_ai_quota', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('set_role_ai_quota', {
     p_role: role,
     p_limit: limit,
   });
@@ -73,7 +78,9 @@ export const setUserQuotaOverride = async (
   username: string,
   limit: number | null
 ): Promise<void> => {
-  const { error } = await requireClient().rpc('set_user_ai_quota', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('set_user_ai_quota', {
     p_username: username,
     p_limit: limit,
   });
@@ -94,7 +101,9 @@ export interface UsageReportRow {
 
 /** Reviewer-gated usage report over the last `days` UTC days (1–31). */
 export const fetchUsageReport = async (days = 7): Promise<UsageReportRow[]> => {
-  const { data, error } = await requireClient().rpc('get_ai_usage_report', { p_days: days });
+  const { data, error } = await (
+    await requireClient()
+  ).rpc('get_ai_usage_report', { p_days: days });
   if (error) throw new Error(`Could not load the usage report: ${error.message}`);
   return (data ?? []) as UsageReportRow[];
 };
@@ -113,8 +122,9 @@ export const fetchUsageReport = async (days = 7): Promise<UsageReportRow[]> => {
  * rather than inventing a figure.
  */
 export const fetchFreeEvaluationLimit = async (): Promise<number | null> => {
-  if (!supabase) return null;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return null;
     const { data, error } = await supabase.rpc('free_evaluation_limit');
     if (error || typeof data !== 'number') return null;
     return data;
@@ -128,7 +138,9 @@ export const fetchFreeEvaluationLimit = async (): Promise<number | null> => {
  * The RPC bounds it to 0–1000 and refuses a non-admin.
  */
 export const setFreeEvaluationLimit = async (limit: number): Promise<void> => {
-  const { error } = await requireClient().rpc('set_plan_setting', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('set_plan_setting', {
     p_key: 'free_evaluation_limit',
     p_value: limit,
   });
@@ -175,14 +187,16 @@ export const LIVE_LICENCE_STATUSES = ['active', 'trialing', 'past_due'];
  * them from the REST API. Teachers never call it.
  */
 export const fetchSchools = async (): Promise<SchoolRow[]> => {
-  const { data, error } = await requireClient().rpc('list_schools');
+  const { data, error } = await (await requireClient()).rpc('list_schools');
   if (error) throw new Error(`Could not load schools: ${error.message}`);
   return (data ?? []) as SchoolRow[];
 };
 
 /** Admin-only: create a school, optionally with a pooled daily limit. */
 export const createSchool = async (name: string, limit: number | null): Promise<void> => {
-  const { error } = await requireClient().rpc('create_school', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('create_school', {
     p_name: name,
     p_limit: limit,
   });
@@ -191,7 +205,9 @@ export const createSchool = async (name: string, limit: number | null): Promise<
 
 /** Admin-only: set (or clear, with null) a school's pooled daily limit. */
 export const setSchoolQuota = async (name: string, limit: number | null): Promise<void> => {
-  const { error } = await requireClient().rpc('set_school_ai_quota', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('set_school_ai_quota', {
     p_name: name,
     p_limit: limit,
   });
@@ -203,7 +219,9 @@ export const assignUserSchool = async (
   username: string,
   schoolName: string | null
 ): Promise<void> => {
-  const { error } = await requireClient().rpc('assign_user_school', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('assign_user_school', {
     p_username: username,
     p_school_name: schoolName,
   });
@@ -228,7 +246,9 @@ export interface ModelUsageRow {
  * surfacing an error.
  */
 export const fetchModelUsageReport = async (days = 7): Promise<ModelUsageRow[]> => {
-  const { data, error } = await requireClient().rpc('get_ai_model_usage_report', { p_days: days });
+  const { data, error } = await (
+    await requireClient()
+  ).rpc('get_ai_model_usage_report', { p_days: days });
   if (error) throw new Error(`Could not load the model usage report: ${error.message}`);
   return (data ?? []) as ModelUsageRow[];
 };

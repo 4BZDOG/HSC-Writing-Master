@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { User } from '../types';
 import { authService, isDemoAuthEnabled, type SignUpAccountType } from '../services/authService';
-import { isSupabaseConfigured } from '../services/supabaseClient';
+import { isSupabaseConfigured } from '../services/supabaseConfig';
 import { PLAN_LABELS } from '../services/entitlements';
 import {
   isSignupEnabled,

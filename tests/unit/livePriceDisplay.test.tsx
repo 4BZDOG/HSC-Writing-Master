@@ -10,7 +10,7 @@ import { render, screen, fireEvent, cleanup, waitFor, renderHook } from '@testin
  * The request is stubbed at fetch. The service and the hook are the real ones.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 let priceIds = { plus_monthly: 'price_m', plus_yearly: 'price_y', school: 'price_s' };
 vi.mock('../../services/entitlements', async (importOriginal) => {

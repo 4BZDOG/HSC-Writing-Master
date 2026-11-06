@@ -9,8 +9,7 @@ const maybeSingleMock = vi.fn();
 const updateMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  isSupabaseConfigured: true,
-  supabase: {
+  getSupabase: async () => ({
     auth: {
       getUser: (...args: unknown[]) => getUserMock(...args),
       signInWithPassword: (...args: unknown[]) => signInMock(...args),
@@ -21,7 +20,10 @@ vi.mock('../../services/supabaseClient', () => ({
       select: () => ({ eq: () => ({ maybeSingle: () => maybeSingleMock() }) }),
       update: (payload: unknown) => ({ eq: () => updateMock(payload) }),
     }),
-  },
+  }),
+}));
+vi.mock('../../services/supabaseConfig', () => ({
+  isSupabaseConfigured: true,
   fetchAllRows: vi.fn(),
 }));
 

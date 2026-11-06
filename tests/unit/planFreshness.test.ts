@@ -8,7 +8,7 @@ import type { User } from '../../types';
  * wires it to the tab is covered in usePlanFreshness.test.tsx.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 import {
   applyPlanFields,

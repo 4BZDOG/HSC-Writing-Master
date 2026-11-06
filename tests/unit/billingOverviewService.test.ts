@@ -21,7 +21,7 @@ import {
   type InvoiceRequestRow,
 } from '../../services/billingOverviewService';
 import type { SchoolRow } from '../../services/quotaService';
-import * as supabaseClient from '../../services/supabaseClient';
+import * as supabaseConfig from '../../services/supabaseConfig';
 import * as quotaService from '../../services/quotaService';
 
 /**
@@ -639,9 +639,13 @@ vi.mock('../../services/supabaseClient', async (importOriginal) => {
   };
   return {
     ...actual,
-    supabase: { from: () => chain },
-    fetchAllRows: vi.fn(),
+    getSupabase: async () => ({ from: () => chain }),
   };
+});
+
+vi.mock('../../services/supabaseConfig', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../../services/supabaseConfig')>();
+  return { ...actual, fetchAllRows: vi.fn() };
 });
 
 vi.mock('../../services/quotaService', async (importOriginal) => {
@@ -656,7 +660,7 @@ const REQUESTS_LABEL = 'Could not load invoice requests';
  * stub has to tell them apart by the label each call passes.
  */
 const pagedReads = (subscriptions: unknown[], requests: unknown[] | Error = []): void => {
-  vi.mocked(supabaseClient.fetchAllRows).mockImplementation((async (
+  vi.mocked(supabaseConfig.fetchAllRows).mockImplementation((async (
     _buildQuery: unknown,
     label: string
   ) => {
@@ -667,7 +671,7 @@ const pagedReads = (subscriptions: unknown[], requests: unknown[] | Error = []):
     // Open billing incidents (schema §13, §29) are read on their own, and this test has none.
     if (label === 'Could not load billing incidents') return [];
     return subscriptions;
-  }) as typeof supabaseClient.fetchAllRows);
+  }) as typeof supabaseConfig.fetchAllRows);
 };
 
 describe('loadBillingOverview', () => {
@@ -702,7 +706,7 @@ describe('loadBillingOverview', () => {
 
     await loadBillingOverview(NOW);
 
-    const labels = vi.mocked(supabaseClient.fetchAllRows).mock.calls.map((call) => call[1]);
+    const labels = vi.mocked(supabaseConfig.fetchAllRows).mock.calls.map((call) => call[1]);
     expect(labels).toHaveLength(3);
     expect(labels).toEqual(
       expect.arrayContaining([

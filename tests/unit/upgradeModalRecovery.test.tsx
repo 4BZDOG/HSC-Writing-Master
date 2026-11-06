@@ -14,7 +14,7 @@ import type { User } from '../../types';
  * prompt turns its own CTA into that control instead.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 const createCheckoutUrlMock = vi.fn();
 const createPortalUrlMock = vi.fn();

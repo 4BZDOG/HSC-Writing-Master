@@ -1,5 +1,25 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-06 (First load: Supabase and the modal dialogs leave the eager graph)
+
+- **Changed.** The Supabase client is no longer created at import. `services/supabaseClient.ts` exports
+  `getSupabase()`, which loads `@supabase/supabase-js` on first use and resolves to null when Supabase is not
+  configured. `isSupabaseConfigured` and `fetchAllRows` moved to `services/supabaseConfig.ts`, which does not import
+  the library. Every caller awaits the accessor. A local-mode student no longer downloads the library (about 54 kB
+  gzipped), and the build warning that `supabaseClient` was both dynamically and statically imported is gone.
+  Two places changed behaviour on purpose: `refreshSession` and `updateUser` treat a client that fails to load as
+  offline (the cached user is kept, and the local save still happens), and `deleteMyAccount` fetches the client
+  before ending billing, so a load failure cancels nothing.
+- **Changed.** The sixteen dialogs `AppModals.tsx` opens on demand are `React.lazy`. Each mounts on its first open
+  and then stays mounted, so its state survives a close as before. They ship as one `modals` chunk, fetched on the
+  first open of any of them. QuickStartModal, ConfirmationModal and LegalDocumentModal stay eager: the first load
+  already imports each one.
+- **Measured** (production build, `gzip -c`). First load: 11 files, 560,393 bytes gzipped, falls to 8 files,
+  442,165 bytes (about 118 kB less, 21%). The modulepreload list drops `supabase`, `modals` and `dataManager`.
+- **Guarded.** `scripts/checkEagerChunks.mjs` fails if `supabase` or `modals` appears in the first load.
+  Tests that mocked `services/supabaseClient` now mock `getSupabase`, and the pure helpers' mocks moved to
+  `services/supabaseConfig`.
+
 ## [Unreleased] - 2026-11-05 (Library saved only when it changes; scenario images and the held-back update fixed)
 
 - **Fixed.** The whole library was written to IndexedDB on every launch, and every backup check read the whole

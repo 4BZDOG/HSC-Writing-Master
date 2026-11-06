@@ -9,7 +9,7 @@
  * A database that has not had §30 applied is not an error. It is `unavailable`,
  * and the panel says to re-apply the schema.
  */
-import { supabase } from './supabaseClient';
+import { getSupabase } from './supabaseClient';
 import { isMissingSchemaError } from './billingOverviewService';
 import type { SchoolSeatUsage, SeatUsageMeasures } from '../utils/seatEconomics';
 
@@ -94,8 +94,9 @@ export const parseSeatUsage = (raw: unknown): SeatUsage | null => {
  * §30 has not been applied, is `unavailable` rather than an error.
  */
 export const loadSeatUsage = async (days: number): Promise<SeatUsageResult> => {
-  if (!supabase) return { status: 'error', message: 'Supabase is not configured.' };
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return { status: 'error', message: 'Supabase is not configured.' };
     const { data, error } = await supabase.rpc('school_seat_usage', { p_days: days });
     if (error) {
       if (isMissingSchemaError(error.message)) return { status: 'unavailable' };

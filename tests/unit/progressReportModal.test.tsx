@@ -15,7 +15,7 @@ import type { ProgressReportPayload, TeachingClass } from '../../services/respon
  */
 
 vi.mock('../../services/geminiService', () => ({}));
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 vi.mock('../../services/authService', () => ({
   authService: {
     getCurrentUser: () => null,

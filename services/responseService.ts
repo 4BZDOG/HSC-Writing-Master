@@ -15,7 +15,7 @@
  *   - One row per (user, prompt) via the uq_responses_user_prompt index: each
  *     evaluation upserts the latest attempt in place.
  */
-import { supabase } from './supabaseClient';
+import { getSupabase } from './supabaseClient';
 import { isCurriculumRemote } from './curriculumService';
 import { resolvePromptRowId, resolvePromptRowIds } from './contributionService';
 import type { EvaluationResult, UserFeedback } from '../types';
@@ -89,6 +89,7 @@ export interface TeachingClass {
  * showing a failure the user cannot act on.
  */
 export const fetchMyClasses = async (): Promise<TeachingClass[]> => {
+  const supabase = await getSupabase();
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data, error } = await supabase.rpc('list_my_classes');
   if (error) {
@@ -124,6 +125,7 @@ export const fetchClassAnalytics = async (
   days = 30,
   classId?: string | null
 ): Promise<ClassAnalytics> => {
+  const supabase = await getSupabase();
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data, error } = await supabase.rpc(
     'get_class_analytics',
@@ -152,6 +154,7 @@ export const fetchResponseStudents = async (
   days = 30,
   classId?: string | null
 ): Promise<RosterStudent[]> => {
+  const supabase = await getSupabase();
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data, error } = await supabase.rpc(
     'get_response_students',
@@ -212,6 +215,7 @@ export const fetchClassCohort = async (
   days = 30,
   classId?: string | null
 ): Promise<ClassCohort> => {
+  const supabase = await getSupabase();
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data, error } = await supabase.rpc(
     'get_class_cohort',
@@ -251,6 +255,7 @@ export const fetchStudentProgress = async (
   days = 30,
   classId?: string | null
 ): Promise<StudentProgress> => {
+  const supabase = await getSupabase();
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data, error } = await supabase.rpc(
     'get_student_progress',
@@ -278,11 +283,13 @@ export const fetchStudentProgress = async (
  * a guest with no session), so the profile can say so rather than draw an empty
  * chart that reads as "no attempts". Throws on a failed read, for the same reason.
  *
- * The `supabase` check comes first and short-circuits the mode check, so a caller
- * in local mode never reaches `isCurriculumRemote`.
+ * The mode check comes first, so a caller in local mode returns before the client
+ * library is loaded.
  */
 export const fetchMyAttemptHistory = async (limit = 200): Promise<OwnAttempt[] | null> => {
-  if (!supabase || !isCurriculumRemote()) return null;
+  if (!isCurriculumRemote()) return null;
+  const supabase = await getSupabase();
+  if (!supabase) return null;
   const userId = await currentUserId();
   if (!userId) return null;
   const { data, error } = await supabase
@@ -310,7 +317,9 @@ export const fetchMyAttemptHistory = async (limit = 200): Promise<OwnAttempt[] |
 export const fetchMyReportHistory = async (
   limit = REPORT_HISTORY_LIMIT
 ): Promise<OwnAttempt[] | null> => {
-  if (!supabase || !isCurriculumRemote()) return null;
+  if (!isCurriculumRemote()) return null;
+  const supabase = await getSupabase();
+  if (!supabase) return null;
   const userId = await currentUserId();
   if (!userId) return null;
   const { data, error } = await supabase
@@ -496,6 +505,7 @@ export const fetchProgressReport = async (
   classId?: string | null,
   courseRowId?: string | null
 ): Promise<ProgressReportPayload> => {
+  const supabase = await getSupabase();
   if (!supabase) throw new Error('Supabase is not configured.');
   const { data, error } = await supabase.rpc(
     'get_progress_report',
@@ -567,6 +577,7 @@ export const buildEventRow = (
 
 /** The signed-in user's id, or null when there is no usable session. */
 const currentUserId = async (): Promise<string | null> => {
+  const supabase = await getSupabase();
   if (!supabase) return null;
   const { data, error } = await supabase.auth.getUser();
   if (error || !data.user) return null;
@@ -608,8 +619,10 @@ export const persistResponse = async (
   promptAppId: string,
   input: ResponsePersistInput
 ): Promise<void> => {
-  if (!isCurriculumRemote() || !supabase) return;
+  if (!isCurriculumRemote()) return;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return;
     const userId = await currentUserId();
     if (!userId) return;
     const promptId = await resolvePromptRowId(promptAppId);
@@ -660,13 +673,15 @@ export const fetchMyAttempts = async (
   promptAppIds: string[]
 ): Promise<Map<string, AttemptSummary>> => {
   const empty = new Map<string, AttemptSummary>();
-  if (!isCurriculumRemote() || !supabase || promptAppIds.length === 0) return empty;
+  if (!isCurriculumRemote() || promptAppIds.length === 0) return empty;
 
   const key = attemptCacheKey(promptAppIds);
   const hit = attemptCache.get(key);
   if (hit && Date.now() - hit.at < ATTEMPT_CACHE_TTL_MS) return hit.value;
 
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return empty;
     const userId = await currentUserId();
     if (!userId) return empty;
 
@@ -724,8 +739,10 @@ export const saveResponseFeedback = async (
   promptAppId: string,
   feedback: UserFeedback
 ): Promise<void> => {
-  if (!isCurriculumRemote() || !supabase) return;
+  if (!isCurriculumRemote()) return;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return;
     const userId = await currentUserId();
     if (!userId) return;
     const promptId = await resolvePromptRowId(promptAppId);
