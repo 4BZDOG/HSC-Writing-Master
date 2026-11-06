@@ -277,7 +277,194 @@
               {
                 "id": "dp-eald-12-texts-and-human-experiences-1-3",
                 "description": "The use of literary and persuasive features, including rhetorical devices, figurative language and dramatic irony, in familiar and unfamiliar texts",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-eald-hsc-2025-p11",
+                    "question": "How does Text 1 communicate the effects of having a positive outlook?",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EEA-12-01",
+                      "EEA-12-06"
+                    ],
+                    "markerNotes": [
+                      "A strong answer names the effect each quotation creates, such as feeling lighter, calm or empowered, and ties it back to having a positive outlook.",
+                      "Evidence needs a short quotation followed by an explanation of how the words create the effect; a quotation alone earns only the middle row.",
+                      "The question asks how the text communicates, so name the language choice (a metaphor, or a phrase such as ‘calm now’) and not only the idea."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling what happens in the passage instead of explaining how the language communicates the effects of a positive outlook.",
+                      "Stating an effect, such as 'the writer makes the reader feel happy', without pointing to the words that cause it.",
+                      "Naming a device such as metaphor without saying what it shows about having a positive outlook."
+                    ],
+                    "keywords": [
+                      "positive outlook",
+                      "effect",
+                      "figurative language",
+                      "metaphor",
+                      "imagery",
+                      "textual evidence",
+                      "connotation",
+                      "tone"
+                    ],
+                    "markingCriteria": "3 marks: Explains how Text 1 communicates the effects of having a positive outlook, using well-selected supporting evidence\n2 marks: Describes how Text 1 communicates the effects of having a positive outlook, using relevant supporting evidence\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eald-hsc-2025-p11-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Text 1 communicates the beneficial effects of having a positive outlook. The metaphor of ‘your mind becomes light’ reveals that positive thinking allows us to feel less mentally weighed down, as well as being ‘calm now’. Additionally, ‘your power is yours’ reveals the empowerment that comes from having a clear mindset.",
+                        "feedback": "Meets the top row: each quotation is linked to an effect of a positive outlook, such as feeling less weighed down and staying calm. This is NESA's own full-mark answer.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p11-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Text 1 says that a positive outlook changes how a person feels. The writer says your mind becomes light and that you are calm now. This shows that positive thinking brings peace.",
+                        "feedback": "Meets the middle row: it describes the effect of a positive outlook with relevant quotations but does not explain how the words create the effect. To reach the top row, explain what ‘your mind becomes light’ shows about how the person feels.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p11-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The text is about being positive and feeling better. It says that people can feel calm and strong after bad times.",
+                        "feedback": "Meets the bottom row: it gives some relevant information about a positive outlook but no quotation or technique. To reach the middle row, quote a phrase from Text 1 and say what effect it has.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 1 (prose fiction): Yung Pueblo, clarity & connection. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-eald-paper-1.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• demonstrate understanding of the ways language shapes and expresses perceptions",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "1",
+                    "hscSection": "Section I — Module A: Texts and Human Experiences 30 marks Part A – 15 marks"
+                  },
+                  {
+                    "id": "prompt-eald-hsc-2025-p12",
+                    "question": "How does Text 2 represent the speaker’s freedom?",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EEA-12-01",
+                      "EEA-12-06"
+                    ],
+                    "markerNotes": [
+                      "A strong answer explains what the flight and the birds symbolise, such as escape from worry, and does not stop at saying the speaker is free.",
+                      "Quote the words that carry the freedom, such as the metaphor in the last lines, and explain what each one shows about the speaker.",
+                      "'Represent' asks how the poem presents freedom, so compare the speaker before and after the flight."
+                    ],
+                    "commonStudentErrors": [
+                      "Saying the speaker is free because she flies, without showing that flight stands for escape from worries.",
+                      "Quoting a line and moving on without explaining what it shows about the speaker's freedom.",
+                      "Describing the speaker's children as part of the flock, which misreads the poem's symbolism."
+                    ],
+                    "keywords": [
+                      "symbolism",
+                      "metaphor",
+                      "freedom",
+                      "imagery",
+                      "figurative language",
+                      "speaker",
+                      "textual evidence",
+                      "representation"
+                    ],
+                    "markingCriteria": "3 marks: Explains how Text 2 represents the speaker’s freedom, using well-selected textual evidence\n2 marks: Describes how Text 2 represents the speaker’s freedom, using relevant textual evidence\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eald-hsc-2025-p12-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Text 2 represents the speaker’s freedom through the symbolism of the birds. As she flies ‘out of the window’, she leaves behind the ‘worries that… weighed me down’ and escapes from her ordinary life. The metaphorical ‘I was ash, I was ink, I was smoke’ reveals the speaker is now weightless and free.",
+                        "feedback": "Meets the top row: it explains the symbolism of the birds and links the metaphor ‘I was ash, I was ink, I was smoke’ to the speaker's freedom. This is NESA's own full-mark answer.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p12-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Text 2 shows the speaker's freedom. She flies out of the window and joins the flock. She forgets her children and the worries that weighed her down, so she feels free.",
+                        "feedback": "Meets the middle row: it describes how the speaker is free, with relevant evidence, but does not explain what the birds or the flight symbolise. To reach the top row, explain what the flight shows about the speaker's freedom.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p12-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The speaker in this poem feels free and happy. She flies with birds and forgets her problems.",
+                        "feedback": "Meets the bottom row: it gives some relevant information about the speaker but no quotation or explanation. To reach the middle row, quote a line from the poem and say what it shows about the freedom.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 2 (poem): Corinna Board, Of a feather. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-eald-paper-1.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• demonstrate understanding of the ways language shapes and expresses perceptions",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "2",
+                    "hscSection": "Section I — Module A: Texts and Human Experiences 30 marks Part A – 15 marks"
+                  },
+                  {
+                    "id": "prompt-eald-hsc-2025-p13",
+                    "question": "Analyse how the composer uses language to represent Margaret Lightning’s morning routine.",
+                    "totalMarks": 4,
+                    "verb": "ANALYSE",
+                    "linkedOutcomes": [
+                      "EEA-12-01",
+                      "EEA-12-06"
+                    ],
+                    "markerNotes": [
+                      "A strong answer identifies a device and explains what it shows about the routine, such as Margaret's calm or her growing pleasure in the day.",
+                      "Quote short phrases and follow each with an analysis of its effect, for example what the simile or the repeated 'she hummed' shows.",
+                      "The top row covers the routine as a whole, from waking and washing in the water to the walk into town, not one moment only."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing devices such as simile, repetition and personification without saying how each one represents Margaret's routine.",
+                      "Describing what Margaret does step by step, without analysing the language the composer uses.",
+                      "Treating the humming or song as only a sound, not as a choice that shows Margaret's mood."
+                    ],
+                    "keywords": [
+                      "simile",
+                      "personification",
+                      "repetition",
+                      "imagery",
+                      "representation",
+                      "textual evidence",
+                      "tone",
+                      "composer"
+                    ],
+                    "markingCriteria": "4 marks: Effectively analyses how the composer uses language to represent Margaret Lightning’s morning routine, using well-selected textual evidence\n3 marks: Analyses how the composer uses language to represent Margaret Lightning’s morning routine, using relevant textual evidence\n2 marks: Describes how the composer uses language to represent Margaret Lightning’s morning routine, using some textual reference\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eald-hsc-2025-p13-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The composer uses language to represent Margaret Lightning’s morning routine as quiet and pleasant. The simile, ‘her nightgown’s hem floating like her own tail behind her’ reflects the calm way in which she begins her day. The repetition of ‘she hummed’ further develops her growing sense of peace. The contrast in her hum evolving from ‘timid’ to ‘robust’ emphasises her deepening sense of pleasure as she continues her day. The ending personification of ‘timid tune into robust phrase’ reinforces how Margaret Lightning starts her day through song, which energises her and brings her peace.",
+                        "feedback": "Meets the top row: it analyses three devices (a simile, repetition and personification) and links each to Margaret's calm and growing pleasure. This is NESA's own full-mark answer.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p13-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The composer shows Margaret's morning routine. She puts her hands in the water and she hums a song. The writer says she hums as she washes her face and does her hair, and this shows she is happy.",
+                        "feedback": "Meets the middle row: it describes the routine with some textual reference but does not analyse a device or what it shows. To reach the top row, name a device such as the simile and explain what it shows about Margaret's calm.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p13-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Margaret gets up and does things in the morning. She sings a song while she does them.",
+                        "feedback": "Meets the bottom row: it gives some relevant information about the morning routine but no reference to the language. To reach the middle row, quote a phrase from the extract and say what it shows.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 3 (fiction extract): Nardi Simpson, Song of the Crocodile. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-eald-paper-1.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• demonstrate understanding of the ways language shapes and expresses perceptions",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "3",
+                    "hscSection": "Section I — Module A: Texts and Human Experiences 30 marks Part A – 15 marks"
+                  }
+                ]
               },
               {
                 "id": "dp-eald-12-texts-and-human-experiences-1-4",
@@ -293,7 +480,71 @@
               {
                 "id": "dp-eald-12-texts-and-human-experiences-2-1",
                 "description": "Compose creative, informed and sustained interpretations of texts supported by integrated textual evidence",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-eald-hsc-2025-p15",
+                    "question": "How have the perspectives represented in your prescribed text shaped your understanding of courage?",
+                    "totalMarks": 15,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EEA-12-01",
+                      "EEA-12-02",
+                      "EEA-12-04"
+                    ],
+                    "markerNotes": [
+                      "A strong answer identifies which perspectives the text represents, such as the writer's own, her father's, the people of the valley and the Taliban's, and explains how each one changes the idea of courage.",
+                      "Courage has to be defined through the text: say what a perspective shows courage to be, such as continuing to speak while afraid, and support it with well-chosen examples.",
+                      "The question asks how the perspectives shaped the reader's understanding, so keep returning to understanding rather than retelling events."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the events of the text in order without explaining how its perspectives shape the idea of courage.",
+                      "Treating courage only as physical bravery, without considering the fear and the choices the text shows.",
+                      "Using examples from the text without linking them back to the question about perspectives."
+                    ],
+                    "keywords": [
+                      "perspective",
+                      "courage",
+                      "textual evidence",
+                      "representation",
+                      "interpretation",
+                      "human experience",
+                      "point of view",
+                      "audience"
+                    ],
+                    "markingCriteria": "13-15 marks: Analyses skilfully how the perspectives represented in the prescribed text have shaped their understanding of courage; Uses well-selected examples from the prescribed text in a discerning way; Skilfully organises and expresses ideas using language appropriate to audience, purpose and form\n10-12 marks: Analyses effectively how the perspectives represented in the prescribed text have shaped their understanding of courage; Uses detailed examples from the prescribed text in an effective way; Effectively organises and expresses ideas using language appropriate to audience, purpose and form\n7-9 marks: Analyses how the perspective(s) represented in the prescribed text have shaped their understanding of courage; Uses examples from the prescribed text in an adequate way; Organises and expresses ideas using language appropriate to audience, purpose and form\n4-6 marks: Explains the perspective(s) represented in the prescribed text; Provides some examples from the prescribed text; Attempts to organise and express ideas using language appropriate to audience, purpose and form\n1-3 marks: Attempts to respond to the question; Refers to the text in an elementary way; Demonstrates minimal control of language and expression",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eald-hsc-2025-p15-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "In I Am Malala, Malala Yousafzai and Christina Lamb represent courage through several perspectives: Malala's own, her father's, the people of the valley who lived under Taliban rule, and the Taliban themselves. Together these perspectives shape the reader's understanding of courage as something that is chosen again and again, not a single brave act.\n\nThe first perspective is Malala's own. Because the memoir is told in her voice, the reader sees her fear and her hope at the same time. Her decision to keep going to school, even when girls had been banned from education in the Swat Valley, shows courage as a daily choice. Her voice is also direct and unshowy, so the reader understands that courage does not have to look dramatic. A young girl refuses to stop learning, and that refusal is brave.\n\nThe second perspective is that of her father, who ran a school. He keeps working for girls' education despite the danger to his family. Through his determination, the text suggests that courage can come from the people around a child as well as from the child herself. This perspective changes the reader's idea of courage from something personal to something shared. It is a family courage, and it carries risk for everyone in the household.\n\nThe third perspective is that of the people of the valley. Malala describes how many families are afraid to speak, and how fear keeps girls at home. Set against her own voice, this shows that courage is not the absence of fear. The reader understands that fear is normal and that the bravest people still feel it. This changes the view of courage from a heroic image to an honest one.\n\nThe Taliban's perspective is represented through their actions and the threats made against Malala and her family. Their harsh rule explains why speaking out is dangerous. Because the reader sees the cost of speaking, the courage Malala shows becomes more significant. The shooting on her way home from school in October 2012 is the moment this cost becomes real, and it changes how the reader understands her earlier choices.\n\nTaken together, these perspectives shape the reader's understanding of courage in three ways. First, courage is a choice made every day, such as going to school. Second, courage is shared within families and communities. Third, courage includes fear and continues after danger. The memoir does not present Malala as fearless. It presents her as a person who keeps speaking even when she is afraid, and this makes her courage believable.\n\nFor these reasons, the perspectives in I Am Malala suggest that courage is ordinary people choosing to act, and that its value is measured by what it protects, such as the right of girls to learn.",
+                        "feedback": "Meets the top row: it analyses how four perspectives shape the idea of courage and uses detailed examples from the memoir in a discerning way. This sample is on I Am Malala by Malala Yousafzai and Christina Lamb, a prescribed nonfiction text; the same rows apply to any prescribed text.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p15-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "In I Am Malala, Malala Yousafzai shows her perspective on courage through her own voice and through her family. The memoir shows that the Taliban banned girls from school in the Swat Valley, and Malala keeps going to school anyway. This makes the reader think that courage is a daily choice.\n\nHer father is also an important perspective. He runs a school and keeps working even though people threaten his family. This shows the reader that courage can be shared in a family and is not only the child's idea.\n\nThe shooting on the way home from school in October 2012 shows the cost of speaking out. The reader can see that the Taliban are dangerous and that Malala was very brave to keep speaking. So the reader understands courage as something that takes risks.\n\nOverall, the perspectives in the memoir show that courage is a choice, and that people who speak out can change things.",
+                        "feedback": "Meets the middle row: it analyses how perspectives shape courage, with adequate examples, but the explanation is general in places. To reach the top row, choose one perspective and explain in detail how a specific passage changes the reader's view of courage.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p15-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Malala is brave in the book. She goes to school and the Taliban shoot her. Her father helps her. The book is about courage.",
+                        "feedback": "Meets the bottom row: it attempts the question with an elementary reference to the memoir and minimal control of language, with no analysis. To reach the middle row, name a perspective in the text and give one example of how it shows courage.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• organise, develop and express ideas using language appropriate to audience, context and purpose",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "5",
+                    "hscSection": "Section I – Module A (continued) Part B – 15 marks"
+                  }
+                ]
               },
               {
                 "id": "dp-eald-12-texts-and-human-experiences-2-2",
@@ -330,7 +581,70 @@
               {
                 "id": "dp-eald-12-language-identity-and-culture-1-1",
                 "description": "The ways cultural perspectives and identities are represented in texts",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-eald-hsc-2025-p21",
+                    "question": "How are the complications of embracing identity represented in your prescribed text? In your response, make detailed reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EEA-12-01",
+                      "EEA-12-02"
+                    ],
+                    "markerNotes": [
+                      "A strong answer shows the complications of embracing identity, such as being claimed as part of a nation while being kept apart, and traces them through the language and structure of the poem.",
+                      "Discuss the tension the poem holds, such as the speaker's defiance against the expectation to stay in the kitchen, rather than summarising the poem stanza by stanza.",
+                      "Detailed textual knowledge means citing exact words and showing how a choice such as 'the darker brother' shapes the reader's view of belonging."
+                    ],
+                    "commonStudentErrors": [
+                      "Summarising the poem line by line without discussing the complications of identity it represents.",
+                      "Treating the ending as proof that the speaker has been fully accepted, when the poem only imagines this acceptance in the future.",
+                      "Writing about the poet's life or the Harlem Renaissance in place of the poem's own language."
+                    ],
+                    "keywords": [
+                      "identity",
+                      "belonging",
+                      "exclusion",
+                      "perspective",
+                      "imagery",
+                      "repetition",
+                      "tone",
+                      "textual evidence"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains skilfully how the complications of embracing identity are represented in the prescribed text; Demonstrates detailed textual knowledge and uses examples in a discerning way; Skilfully organises and expresses ideas using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the complications of embracing identity are represented in the prescribed text; Demonstrates detailed textual knowledge and uses examples in an effective way; Effectively organises and expresses ideas using language appropriate to audience, purpose and form\n9-12 marks: Explains how the complications of embracing identity are represented in the prescribed text; Demonstrates sound textual knowledge and uses examples from the text in a competent way; Adequately organises and expresses ideas using language appropriate to audience, purpose and form\n5-8 marks: Describes how the complications of embracing identity are explored in the prescribed text; Demonstrates some textual knowledge and provides some examples from the text; Attempts to organise and express ideas\n1-4 marks: Provides relevant information about the prescribed text; Demonstrates limited textual knowledge; Demonstrates limited ability to organise and express ideas",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eald-hsc-2025-p21-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "In ‘I, Too’, Langston Hughes represents the complications of embracing identity through a speaker who claims a place in America while being kept at its edges. The central tension lies in the gap between belonging to a family and being treated as a stranger within it. The speaker is ‘the darker brother’, so he is part of the family, yet he is sent to ‘eat in the kitchen’ when company comes. Identity is therefore not something the speaker can simply embrace. It is something others try to control.\n\nThe first complication is exclusion. The kitchen is a place of separation, and its use reveals how the speaker's identity is judged by others. When company comes, the house is shown to be divided. The speaker's place in the family is recognised only when it suits the visitors, so his identity is represented as conditional. The word ‘send’ in the second stanza is important, because the speaker does not choose to go to the kitchen. Others decide where he belongs.\n\nThe second complication is the speaker's response. He could accept this treatment, but he chooses to laugh, eat well and grow strong. These verbs show a speaker who refuses to be made small. The short lines and simple structure give the response a calm, almost matter-of-fact tone, and this makes the defiance more powerful. The speaker is not loudly angry. He quietly insists that his life is strong, and this resistance is a form of embracing his identity despite the pressure to hide it.\n\nThe third complication is the future. In the third stanza, the speaker imagines that tomorrow he will be ‘at the table’ when company comes. The repetition of ‘when company comes’ links the stanzas and shows the same situation returning. The speaker's hope is tied to a future that has not yet arrived. Nobody will dare to send him away, and the single word ‘Then’ on its own line creates a pause that suggests both the moment of change and the uncertainty of whether it will happen.\n\nThe final stanza reveals the poem's most important claim. The speaker says that visitors will ‘see how beautiful I am’ and be ashamed. This line uses the language of looking and judging to turn the gaze back onto those who excluded him. His beauty is a statement of self-worth, and the shame is imagined on the part of the observers. The poem does not show the shame happening. It ends with ‘I, too, am America’, which is a declaration rather than a confirmation. The speaker has embraced his identity, but the poem leaves the recognition of that identity unresolved.\n\nThe opening line, ‘I, too, sing America’, responds to a national voice that has excluded certain people. The word ‘too’ is significant because it asks to be included in a song that has been sung without him. This repeated claim of belonging reveals the complication at the heart of the poem: the speaker is part of America, yet America has not yet accepted that he is part of it.\n\nOverall, Hughes represents the complications of embracing identity as a struggle between exclusion and claiming a place. The speaker's quiet defiance, his imagined future and his repeated declaration of belonging show that identity is something to be fought for, not simply accepted. The poem's power lies in its calm voice, which makes the injustice clear while holding on to hope.",
+                        "feedback": "Meets the top row: it explains skilfully how the speaker's belonging is complicated, using precise examples such as ‘eat in the kitchen’ and the closing claim, and organises the argument clearly. This sample is on Langston Hughes's poem ‘I, Too’, a prescribed poem; the same rows apply to any prescribed text.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p21-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Langston Hughes shows the complications of embracing identity through a speaker who is part of America but is treated as separate. The speaker says he is ‘the darker brother’, which suggests he belongs to the family, but he is sent to ‘eat in the kitchen’ when company comes. This shows that others decide where he belongs.\n\nThe speaker responds by laughing, eating well and growing strong. This shows that he does not accept the treatment and that he stays strong. The poem uses short lines, which makes the speaker sound calm and sure of himself.\n\nIn the third stanza, the speaker says that one day he will sit at the table. He imagines that nobody will dare to send him to the kitchen. This shows hope for the future, but the poem does not say that this has happened yet.\n\nThe ending says ‘I, too, am America’. The speaker wants to be seen as part of the country. The poem shows the difficulty of being accepted, and the speaker's identity is complicated because he has to keep fighting to be included.\n\nOverall, the poem shows that identity is complicated when others do not accept you, even though you feel you belong.",
+                        "feedback": "Meets the middle row: it explains the complications and uses sound textual evidence, but the analysis of word choice is brief and some points are general. To reach the top row, analyse how particular words such as ‘beautiful’ or ‘Then’ shape the reader's view of the speaker's identity.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p21-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "In ‘I, Too’, the speaker is sent to eat in the kitchen when company comes. He is not happy about this. He laughs and eats well, and he says that one day people will see how beautiful he is. This shows the speaker wants to belong in America.",
+                        "feedback": "Meets the bottom row: it describes the speaker and gives a few examples, but the explanation is minimal and the answer is loosely organised. To reach the middle row, explain how one example shows the complication of belonging and support it with a quotation.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate understanding of how language is used to express cultural identity\n• organise, develop and express ideas using language appropriate to audience, purpose and form",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "1",
+                    "hscSection": "Section I — Module B: Language, Identity and Culture 20 marks"
+                  }
+                ]
               },
               {
                 "id": "dp-eald-12-language-identity-and-culture-1-2",
@@ -388,7 +702,70 @@
               {
                 "id": "dp-eald-12-year-12-close-study-of-text-1-1",
                 "description": "The ways language features, text structures and stylistic choices create particular effects for specific purposes",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-eald-hsc-2025-p22",
+                    "question": "How does your prescribed text use language forms and features to evoke empathy, and challenge you to see the world differently? In your response, make detailed reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EEA-12-01",
+                      "EEA-12-06"
+                    ],
+                    "markerNotes": [
+                      "A strong answer assesses how particular forms and features create empathy and challenge, such as Montag's loneliness or Mildred's emptiness, rather than listing features.",
+                      "'Challenge you to see the world differently' needs the answer to explain what the reader is asked to question about their own world, such as happiness and conformity.",
+                      "Detailed reference means exact words, such as the opening sentence, and an explanation of what each one does to the reader's view of Montag or of the society."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the plot of the novel in order, without assessing how language forms and features produce empathy or challenge.",
+                      "Saying the text is 'sad' or 'interesting' without naming a language choice that creates the feeling.",
+                      "Treating the society in the novel as remote from the reader, so the challenge to see the world differently is missed."
+                    ],
+                    "keywords": [
+                      "empathy",
+                      "imagery",
+                      "symbolism",
+                      "characterisation",
+                      "narrative perspective",
+                      "tone",
+                      "textual evidence",
+                      "dystopia"
+                    ],
+                    "markingCriteria": "17-20 marks: Explains skilfully how the prescribed text uses language forms and features to evoke empathy and challenge them to see the world differently; Demonstrates highly developed skills in interpretation of the text; Skilfully organises, develops and expresses ideas using language appropriate to audience, purpose and form\n13-16 marks: Explains effectively how the prescribed text uses language forms and features to evoke empathy and challenge them to see the world differently; Demonstrates well-developed skills in interpretation of the text; Effectively organises, develops and expresses ideas using language appropriate to audience, purpose and form\n9-12 marks: Explains how the prescribed text uses language forms and features to evoke empathy and challenge them to see the world differently; Demonstrates satisfactory skills in interpretation of the text; Adequately organises, develops and expresses ideas using language appropriate to audience, purpose and form\n5-8 marks: Describes how the prescribed text explores empathy and/or challenges them to see the world differently; Demonstrates some skills in interpretation of the text; Attempts to organise, develop and express ideas\n1-4 marks: Provides relevant information about the prescribed text; Demonstrates limited skills in interpretation of the text; Demonstrates limited ability to organise and express ideas",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eald-hsc-2025-p22-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Ray Bradbury uses language forms and features in Fahrenheit 451 to evoke empathy for Guy Montag and to challenge the reader to question the comfortable world he lives in. The dystopia is built so that the reader first accepts its normality, then begins to feel its emptiness through Montag's experience. The novel's power lies in its narrative perspective, its imagery and its symbolism.\n\nThe novel opens with the sentence ‘It was a pleasure to burn.’ This short, direct statement places the reader inside the work of a fireman without explanation, and the word ‘pleasure’ is disturbing when set against destruction. The reader is invited to share Montag's view at first and is then made uncomfortable by it. This first challenge teaches the reader to question what they have been told is enjoyable.\n\nBradbury's narrative is told in close third person, so the reader sees the world through Montag's thoughts. This perspective evokes empathy because the reader comes to know his confusion and loneliness. Mildred, his wife, is absorbed in the wall-sized screens, which the novel calls the parlor walls. Her talk is empty, and the reader feels the emptiness of her life. The reader pities her, but also sees how a society can produce this emptiness.\n\nClarisse McClellan challenges Montag, and through him the reader. Her question ‘Are you happy?’ is short, but it forces Montag to examine a life he has never questioned. The dialogue is quick and direct here, so the question seems to hang in the air. The reader is challenged to answer the same question for themselves, which is the novel's most direct way of asking the reader to see the world differently.\n\nImagery of fire and ash runs throughout the novel. Fire is a symbol of both destruction and renewal, and the salamander motif in the first part's title suggests that burning can also make new things possible. The reader is encouraged to think about what is lost when books are destroyed and what might be gained when people remember them. Montag's change from burner of books to reader gives the reader a model for changing their own view.\n\nThe later sections, where the book people memorise texts and the city is destroyed in war, widen the challenge. Bradbury presents a future that resembles present-day habits of distraction, so the reader cannot dismiss it as only fiction. The imagery of destruction makes the reader consider how society chooses what it values.\n\nOverall, Bradbury's close perspective, direct opening and symbolic fire evoke empathy for Montag and challenge the reader to question happiness, conformity and the role of knowledge. The novel does not offer comfort. It asks the reader to see the world as a place that can be changed.",
+                        "feedback": "Meets the top row: it assesses how point of view, the opening line and symbolism evoke empathy and challenge the reader, with detailed references to the novel. This sample is on Ray Bradbury's Fahrenheit 451, a Module C prescribed text; the same rows apply to any prescribed text.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p22-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Ray Bradbury uses language and structure in Fahrenheit 451 to make the reader feel for Guy Montag and to question the society he lives in. The novel is written in the third person, so the reader sees things through Montag's eyes. This helps the reader understand his confusion.\n\nThe opening line, ‘It was a pleasure to burn’, shows a fireman who enjoys his job. The reader may find this shocking because burning books is wrong. Bradbury makes the reader question why Montag thinks this job is a pleasure.\n\nMildred is another important character. She watches the screens all day and does not seem to think about anything real. This makes the reader feel sorry for her and shows how people in this society are empty.\n\nClarisse asks Montag ‘Are you happy?’ This question makes Montag think about his life. It also makes the reader think about whether they are happy and whether their own lives are real.\n\nThe fire imagery shows destruction, and the salamander shows that something new can come from fire. This suggests that the novel is about hope as well as danger.\n\nIn summary, Bradbury uses point of view, character and imagery to evoke empathy and to challenge the reader to think about happiness and knowledge.",
+                        "feedback": "Meets the middle row: it explains how features create empathy and challenge with sound references, but the analysis of individual words is brief and some points are general. To reach the top row, analyse one passage closely and show how a specific word choice changes the reader's response.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eald-hsc-2025-p22-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Fahrenheit 451 is about a fireman called Montag who burns books. His wife Mildred watches the screens all day. A girl called Clarisse asks him if he is happy. The novel is set in a future society and the reader might think it is sad. Bradbury uses a lot of description.",
+                        "feedback": "Meets the bottom row: it describes the plot and names some features, with few examples and little explanation of their effect. To reach the middle row, choose one feature, such as the opening line, and explain how it makes the reader respond.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate understanding of a text’s distinctive qualities and how these shape meaning\n• organise, develop and express ideas using language appropriate to audience, purpose and form",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "2",
+                    "hscSection": "Section II — Module C: Close Study of Text 20 marks"
+                  }
+                ]
               },
               {
                 "id": "dp-eald-12-year-12-close-study-of-text-1-2",

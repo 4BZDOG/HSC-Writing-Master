@@ -1,0 +1,89 @@
+{
+  "year": 2025,
+  "course": "History Extension",
+  "papers": [
+    "2025-hsc-history-extension.pdf"
+  ],
+  "skipped": [],
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I\n25 marks",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate Bongiorno’s interpretation of the aims and purposes of history. Use Source A and at least TWO other sources to support your argument.",
+      "stimulus": "Source A: an extract from Frank Bongiorno, \"What is history for?\", Australian Historical Association Presidential Address 2024, History Australia, 2024. The extract is copyright and is not reproduced here; read it in the 2025 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-history-extension.pdf",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of relevant issues of historiography",
+        "use relevant sources to support your argument",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides an insightful evaluation of Bongiorno’s interpretation of the aims and purposes of history ; Supports the response with sustained integration of Source A and at least TWO other relevant sources ; Demonstrates extensive knowledge and insightful understanding of relevant historiographical issues ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective evaluation of Bongiorno’s interpretation of the aims and purposes of history ; Makes detailed references to Source A and at least TWO other relevant sources ; Demonstrates thorough knowledge and understanding of relevant historiographical issues ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides some evaluation of Bongiorno’s interpretation and/or the aims and purposes of history ; Makes references to Source A and at least TWO other relevant sources ; Demonstrates sound knowledge and understanding of historiographical issues ; Constructs a structured response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a description of Bongiorno's interpretation and/or the aims and purposes of history ; Makes limited references to Source A and at least ONE other source ; Demonstrates limited knowledge and understanding of historiographical issues ; Constructs a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations on the aims and purposes of history ; Makes minimal references to Source A and/or at least ONE other source ; Demonstrates minimal knowledge of historiographical issues"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II\n25 marks",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": true,
+      "stem": "To what extent does the statement in Source B apply to the methods of historians in your case study? In your response, make explicit reference to at least ONE area of debate in your case study. Identify your case study at the beginning of your answer.",
+      "stimulus": "Source B: NESA could not reproduce this source in the paper for copyright reasons; the paper links to it: https://www.researchgate.net/publication/336256682_Becoming_a_Professional_Historian_A_Study_in_The_Sources_of_History_and_Methodology",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of an appropriate case study",
+        "engage with the historiography of the areas of debate selected for discussion",
+        "present a comprehensive, logical and sustained response"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides an insightful judgement of the extent to which the statement in Source B applies to the methods of historians ; Supports the response with explicit and sustained references to at least ONE area of debate in their chosen case study ; Demonstrates extensive knowledge, and insightful understanding of relevant historiographical issues from the chosen area(s) of debate in their case study ; Constructs a comprehensive, logical and sustained response"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides an effective judgement of the extent to which the statement in Source B and the methods of historians ; Supports the response with detailed references to at least ONE area of debate in their chosen case study ; Demonstrates thorough knowledge and relevant understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a logical and sustained response"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides a relevant judgement with reference(s) to the statement in Source B and the methods of historians ; Constructs a response with references to at least ONE area of debate in their chosen case study ; Demonstrates sound knowledge and understanding of historiographical issues from the chosen area(s) of debate in their case study ; Constructs a structured response"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a description of the statement in Source B and/or the methods of historians in relation to at least ONE area of debate from the chosen case study ; Constructs a response with limited reference to at least ONE area of debate in their chosen case study ; Demonstrates limited knowledge and/or understanding of relevant historiographical issues ; Constructs a limited response"
+        },
+        {
+          "marks": "1–5",
+          "text": "Provides isolated observations that may be relevant to Source B and/or the methods of historians ; May refer to ONE area of debate in their chosen case study ; Demonstrates minimal knowledge of historiographical issues"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    }
+  ],
+  "note": "Stimulus texts replaced by citations (copyright); the verified verbatim extract is 2025-extract.verified.json."
+}

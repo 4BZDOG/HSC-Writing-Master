@@ -1,0 +1,603 @@
+{
+  "year": 2025,
+  "course": "Chemistry",
+  "papers": [
+    "2025-hsc-chemistry.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "24(a)",
+      "reason": "Requires drawing the full structural formula of ethyne in the answer box; cannot be answered as text."
+    },
+    {
+      "number": "26(a)",
+      "reason": "Requires constructing a column graph of pKa against halogen X; a drawn graph."
+    },
+    {
+      "number": "27(b)",
+      "reason": "Requires writing an equation using drawn structural formulae of ethene and ethanol in the answer box."
+    },
+    {
+      "number": "27(c)",
+      "reason": "Requires sketching changes on the printed concentration-time graph."
+    },
+    {
+      "number": "28(a)",
+      "reason": "Requires drawing the missing monomer structure in the box provided."
+    },
+    {
+      "number": "34(a)",
+      "reason": "Requires reading pH, equivalence and half-equivalence values from the titration curve, which cannot be transcribed as text."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "In the space provided, identify reaction condition X and name the organic product.",
+      "stimulus": "Consider the following organic reaction. [CH₃CH₂CH₂CH₃ + Br₂ → CH₃CH₂CHCH₃ + HBr, written over an arrow labelled 'Reaction condition X'; a Br atom is drawn above the CH carbon of the product, the carbon next to the right-hand CH₃ group.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly identifies both the reaction condition AND product"
+        },
+        {
+          "marks": "1",
+          "text": "Correctly identifies either the reaction condition OR product"
+        }
+      ],
+      "sampleAnswer": "Reaction condition X | IUPAC name of organic product\nUV light | 2-bromobutane",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline why quantitative and qualitative analyses are BOTH important in determining water quality.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the need for both analysis types"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Qualitative analysis allows the identification of a pollutant present in the water. Quantitative analysis allows for the amount of the pollutant present to be determined.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "23",
+      "section": "II",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify TWO changes that can be made to the procedure to ensure more accurate results.",
+      "stimulus": "A student attempted to determine the % w/w of sulfate in a sample of solid fertiliser. They used the procedure described below. 1. Weigh a clean, dry beaker. 2. Add fertiliser to the beaker and weigh again. 3. Add 250 mL of distilled water and stir thoroughly. 4. Add 20 mL of 0.1 mol L⁻¹ BaCl₂ solution. 5. Filter out the BaSO₄ precipitate, using distilled water to ensure all of the solid is transferred from the beaker to the filter paper. 6. Put the filter paper and precipitate onto a weighed watch glass and leave them to dry for 20 minutes in the sun. 7. Weigh the watch glass, the filter paper and the precipitate. 8. Calculate the % w/w.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies TWO appropriate changes with justifications of both related to accuracy"
+        },
+        {
+          "marks": "2",
+          "text": "Justifies ONE appropriate change OR Identifies TWO appropriate changes"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Filter out any insoluble components before step 4, or else these will contribute to the mass of the precipitate. Weigh the filter paper, or else the mass of the precipitate will be inaccurate.",
+      "answersCouldInclude": [
+        "Dry to constant mass (step 6) else water will contribute to the mass of precipitate.",
+        "Rinse the precipitate with distilled water during step 5 to prevent soluble salts from crystallising on the precipitate.",
+        "Add more BaCl₂ solution to the filtrate after step 5 to ensure all sulfate has precipitated.",
+        "Use finer filter paper and a Buchner funnel, to ensure solid is captured."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Calculate the mass of chloroethene produced, using the molar masses provided. Include a relevant chemical equation in your answer.",
+      "stimulus": "65.0 g of ethyne gas reacts with an excess of gaseous hydrogen chloride to produce chloroethene. The molar masses of the compounds in the reaction are provided. Compound | Molar mass\nEthyne | 26.04\nHydrogen chloride | 36.46\nChloroethene | 62.50",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Calculates the correct mass of chloroethene AND provides a correct chemical equation"
+        },
+        {
+          "marks": "2",
+          "text": "Provides the main steps of the calculation OR Provides some steps of the calculation AND a correct chemical equation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "C₂H₂ + HCl → C₂H₃Cl\nMoles of C₂H₂ = 65.0 / 26.04 = 2.50 mol\nn C₂H₃Cl = nC₂H₂ = 2.50 mol\nm C₂H₃Cl = 2.50 × 62.50 = 156.25 g = 156 g",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Use the data in the table to calculate the percentage yield of the ester.",
+      "stimulus": "A student produced the ester propyl butanoate in the school laboratory, by refluxing 0.267 mol of propan-1-ol and 0.298 mol of butanoic acid with a catalyst. Product | Volume produced (mL) | Density (g mL⁻¹) | Molar mass (g mol⁻¹)\npropyl butanoate | 12.2 | 0.873 | 130.2",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides the correct calculations, with correct significant figures"
+        },
+        {
+          "marks": "2",
+          "text": "Provides substantially correct calculations OR Provides the correct calculations with incorrect significant figures"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Mass of ester = 12.2 × 0.873 = 10.65 g\nMoles of ester = 10.65 / 130.2 = 0.0818 moles\nFrom the data provided, butanoic acid was in excess, propan-1-ol was limiting, so the theoretical yield is 0.267 moles.\nActual yield = 0.0818 / 0.267 × 100% = 30.6% (3 significant figures)",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "26(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Describe the trend in the relative strengths of the haloethanoic acids.",
+      "stimulus": "A hydrogen atom on the methyl group of ethanoic acid can be replaced with a single halogen atom. A general formula for these haloethanoic acids is shown. X– CH₂COOH (X = F, Cl, Br or I) The pKa values of the four haloethanoic acids are given in the table. Acid | X | pKa\nFluoroethanoic acid | F | 2.6\nChloroethanoic acid | Cl | 2.9\nBromoethanoic acid | Br | 2.9\nIodoethanoic acid | I | 3.2",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Correctly describes the trend between acid strength and the identity of the halogen X"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "From the graph, as the halogen changes going down the group, the strength of the haloethanoic acid decreases.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "27(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline an environmental implication for a use of a named hydrocarbon mixture that is obtained from crude oil.",
+      "stimulus": "Mixtures of hydrocarbons can be obtained from crude oil by the process of fractional distillation. Examples include petrol, diesel and natural gas.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the use AND environmental impact of a named hydrocarbon mixture"
+        },
+        {
+          "marks": "1",
+          "text": "Outlines the use OR environmental impact of a named hydrocarbon mixture"
+        }
+      ],
+      "sampleAnswer": "Combustion of petrol used in vehicle engines produces CO₂. This leads to increased levels of CO₂ in the atmosphere which contributes to climate change.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "28(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "With reference to intermolecular forces, explain the difference in the physical properties of the two polymers.",
+      "stimulus": "Kevlar and polystyrene are two common polymers. A section of their structures is shown. [Figure: Kevlar is drawn as a repeating unit (subscript n) of benzene rings joined by amide groups, –CO–NH–, with N–H hydrogens shown. Polystyrene is drawn as a repeating unit (subscript n) of a carbon chain with benzene rings attached.] Kevlar chains are hard to pull apart, whereas polystyrene chains are not.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the intermolecular forces in both polystyrene and Kevlar and relates these forces to the physical properties of the polymers"
+        },
+        {
+          "marks": "2",
+          "text": "Identifies the correct intermolecular forces in both polystyrene and Kevlar"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Polystyrene only has dispersion forces between individual chains. Kevlar has hydrogen bonding between individual chains, as well as dispersion forces. As H-bonds are stronger than dispersion forces for similarly sized molecules, it is harder to pull apart Kevlar polymer chains as compared to polystyrene.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "29",
+      "section": "II",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the impact of the addition of argon, an inert gas, on the temperature of the system.",
+      "stimulus": "Consider the following reaction. 2NO₂(g) ⇌ N₂O₄(g)     ΔH = −57.2 kJ mol⁻¹ A sealed reaction vessel of fixed volume contains a mixture of NO₂ and N₂O₄ gases at equilibrium.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough explanation of the impact on the temperature of this system"
+        },
+        {
+          "marks": "3",
+          "text": "Provides an explanation that shows a sound understanding of equilibrium systems"
+        },
+        {
+          "marks": "2",
+          "text": "Provides a description of an impact on the system"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Addition of argon gas does not change the amount of NO₂ or N₂O₄ present. As the volume of the system remains consistent, the concentrations of NO₂ and N₂O₄ are unchanged. Therefore Q = Keq and the system remains at equilibrium. Accordingly, the temperature remains constant.",
+      "answersCouldInclude": [
+        "The rates of the forward and reverse reaction remain equal, and the system remains at equilibrium.",
+        "The system is undisturbed and remains at equilibrium, in accordance with Le Châtelier’s Principle.",
+        "The partial pressures of NO₂ and N₂O₄ are unchanged."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "30(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify a suitable precaution when using phosgene.",
+      "stimulus": "Phosgene is used in industry as a starting material to synthesise useful polymers. Phosgene (Cl₂CO) is a gas at room temperature and is highly toxic.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Justifies a named precaution"
+        },
+        {
+          "marks": "1",
+          "text": "Provides any relevant information"
+        }
+      ],
+      "sampleAnswer": "Phosgene is dangerous to the environment because it is toxic. Therefore, it is important to ensure it does not leak from the reaction vessel, which requires constant monitoring.",
+      "answersCouldInclude": [
+        "Regular maintenance of reaction vessels",
+        "Sufficient training of industry staff",
+        "Correct PPE for all staff",
+        "Ensuring gas pressures stay below safe limits"
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "30(b)",
+      "section": "II",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain why an excess of carbon monoxide and a catalyst are used in the industrial synthesis of phosgene.",
+      "stimulus": "Phosgene is used in industry as a starting material to synthesise useful polymers. Phosgene (Cl₂CO) is a gas at room temperature and is highly toxic. Phosgene is synthesised by the reaction of carbon monoxide (CO) and chlorine (Cl₂) in the gas phase. Cl₂(g) + CO(g) ⇌ Cl₂CO(g)",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the use of a catalyst AND Explains the use of a large excess of CO"
+        },
+        {
+          "marks": "2",
+          "text": "Describes how BOTH features affect the reaction but does NOT link cause and effect OR Explains how one feature affects the reaction"
+        },
+        {
+          "marks": "1",
+          "text": "Provides any relevant information"
+        }
+      ],
+      "sampleAnswer": "The use of a catalyst saves time and money because it increases the rate of reaction by lowering the activation energy. The use of a large excess of CO causes the equilibrium to shift to the products side, therefore improving the yield of phosgene.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "31(a)",
+      "section": "II",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Use the chemical equation for the combustion of hydrazine to show that the molecular formula for hydrazine is N₂H₄.",
+      "stimulus": "Hydrazine is a compound of hydrogen and nitrogen. The complete combustion of 1.0 L of gaseous hydrazine requires 3.0 L of oxygen, producing 2.0 L of nitrogen dioxide gas and 2.0 L of water vapour. All volumes are measured at 400°C.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Confirms the molecular formula using a substantially correct chemical equation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides a partially correct chemical equation OR Provides some relevant reasoning"
+        }
+      ],
+      "sampleAnswer": "Stoichiometry implies that a hydrazine molecule contains 2 nitrogen atoms and 4 hydrogen atoms. [Equation: NₓHᵧ(g) + 3O₂(g) → 2NO₂(g) + 2H₂O(g), with '2 N atoms' labelled beneath 2NO₂(g) and '4 H atoms' labelled beneath 2H₂O(g).]",
+      "answersCouldInclude": [
+        "Given the volumes, the stoichiometry of the reaction is:",
+        "[Equation: 1NₓHᵧ(g) + 3O₂(g) → 2NO₂(g) + 2H₂O(g)]",
+        "This only balances if x = 2, y = 4",
+        "∴ N₂H₄ is correct."
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "31(b)",
+      "section": "II",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Use a relevant chemical equation to calculate the pH of a 0.20 mol L⁻¹ solution of N₂H₅⁺ using the following data:\n• the Kb of hydrazine is 1.7 × 10⁻⁶ at 25°C\n• N₂H₅⁺ is the conjugate acid of N₂H₄.",
+      "stimulus": "Hydrazine is a compound of hydrogen and nitrogen. The complete combustion of 1.0 L of gaseous hydrazine requires 3.0 L of oxygen, producing 2.0 L of nitrogen dioxide gas and 2.0 L of water vapour. All volumes are measured at 400°C. The relationship between the acid equilibrium constant (Ka) and the corresponding conjugate base equilibrium constant (Kb) is shown. Ka × Kb = Kw",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Correctly calculates the pH ; Provides a correct chemical equation"
+        },
+        {
+          "marks": "3",
+          "text": "Provides the main steps of the calculation"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some steps of the calculation OR Provides a correct chemical equation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Hydrazinium ion, N₂H₅⁺, reacts with water to produce an acidic solution in the following way:\nN₂H₅⁺(aq) + H₂O(l) ⇌ H₃O⁺(aq) + N₂H₄(aq)\n[ICE table: R row N₂H₅⁺(aq) 0.20, H₂O(l) –, H₃O⁺(aq) 0, N₂H₄(aq) 0; C row −x, –, +x, +x; E row (0.20 − x), –, x, x]\nKa = Kw / Kb = 1.0 × 10⁻¹⁴ / 1.7 × 10⁻⁶ = 5.88 × 10⁻⁹\nAssume equilibrium concentration of N₂H₅⁺ = 0.20 mol L⁻¹ (ie, x is very small)\nKa = [H₃O⁺][N₂H₄] / [N₂H₅⁺] = 5.88 × 10⁻⁹\nx² / 0.20 = 5.88 × 10⁻⁹\nx = √(5.88 × 10⁻⁹ × 0.20)\nx = 3.43 × 10⁻⁵ = [H₃O⁺]\npH = −log₁₀(3.43 × 10⁻⁵) = 4.46",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Which precipitate(s), if any, will form? Justify your answer with appropriate calculations.",
+      "stimulus": "The following three solids were added together to 1 litre of water: • 0.006 mol Mg(NO₃)₂ • 0.010 mol NaOH • 0.002 mol Na₂CO₃.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Identifies the correct precipitate, with justification using correct calculations"
+        },
+        {
+          "marks": "4",
+          "text": "Identifies the correct precipitate, with justification using substantially correct calculations OR Identifies the order of precipitation supported by substantially correct calculations"
+        },
+        {
+          "marks": "3",
+          "text": "Identifies the correct precipitate, supported by some relevant calculations OR Identifies the incorrect precipitate(s), supported by substantially correct calculations"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of solubility constants and/or solubility products"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "[Mg²⁺] = 6 × 10⁻³   [OH⁻] = 1 × 10⁻²   [CO₃²⁻] = 2 × 10⁻³\n[Mg²⁺][OH⁻]² = 6 × 10⁻⁷   Ksp = 5.61 × 10⁻¹²\n[Mg²⁺][CO₃²⁻] = 1.2 × 10⁻⁵   Ksp = 6.82 × 10⁻⁶\nMg(OH)₂ is a lot less soluble than MgCO₃.\nMg(OH)₂ will precipitate. The Mg²⁺ is in excess. Its concentration will drop to approximately 6 × 10⁻³ − (1 × 10⁻²) / 2 = 1 × 10⁻³.\n[Mg²⁺][CO₃²⁻] becomes 2 × 10⁻⁶ which is less than Ksp.\nMgCO₃ won’t precipitate.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "33",
+      "section": "II",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Determine the brand of the chalk sample. Include a relevant chemical equation in your answer.",
+      "stimulus": "Chalk is predominantly calcium carbonate. Different brands of chalk vary in their calcium carbonate composition. The table shows the composition of three different brands of chalk. Brand X | Brand Y | Brand Z\nCaCO₃ (%) | 85.5 | 83.9 | 82.4\nThe following procedure was used to determine the calcium carbonate composition of a chalk sample. • A sample of chalk was crushed in a mortar and pestle. • A 3.00 g sample of the crushed chalk was placed in a conical flask. • 100.0 mL of 0.550 mol L⁻¹ HCl(aq) was added to the sample and left to react completely, resulting in a clear solution. • Four 20 mL aliquots of this mixture were then titrated with 0.10 mol L⁻¹ KOH. The results of the titrations are recorded. Burette volume (mL) | Trial 1 | Trial 2 | Trial 3 | Trial 4\nFinal | 7.80 | 14.90 | 22.10 | 29.25\nInitial | 0.00 | 7.80 | 14.90 | 22.10\nTotal used | 7.80 | 7.10 | 7.20 | 7.15",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Correctly identifies the brand ; Provides all correct calculations ; Provides a balanced chemical equation including states"
+        },
+        {
+          "marks": "6",
+          "text": "Provides substantially correct calculations ; Provides a balanced chemical equation"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides the main steps in the calculation ; Provides a balanced chemical equation"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some steps in the calculation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Exclude the outlier.\nAverage volume KOH used excluding Trial 1 = (7.10 + 7.20 + 7.15) / 3 = 0.00715 L\nHCl(aq) + KOH(aq) → KCl(aq) + H₂O(l)\nmoles KOH = 0.10 × 0.00715 = 0.000715 mol KOH\nRatio HCl : KOH = 1 : 1 ∴ 0.000715 mol HCl for each sample\n∴ 0.000715 × 5 = 0.003575 mol total in sampled solution\nInitial nHCl = 0.550 × 0.1000 = 0.0550 mol HCl\nnHCl that reacted with CaCO₃ = 0.0550 − 0.003575 = 0.051425 mol HCl\n2HCl(aq) + CaCO₃(s) → CaCl₂(aq) + H₂O(l) + CO₂(g)\nRatio HCl : CaCO₃ = 2 : 1 ∴ 0.051425 / 2 = 0.0257125 mol CaCO₃\nMass CaCO₃ = 0.0257125 × MM CaCO₃ (100.09) = 2.5735641 g\n% CaCO₃ = 2.5735641 / 3.00 × 100 = 85.7854% ≈ 85.8%\nChalk sample has to be Brand X.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "34(b)",
+      "section": "II",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain why the pH of the final solution never reached 13.",
+      "stimulus": "A 0.010 L aliquot of an acid was titrated with 0.10 mol L⁻¹ NaOH, resulting in the following titration curve. [Graph titled 'pH vs Volume of base added': vertical axis pH, 0.0 to 14.0; horizontal axis NaOH (L), 0 to 0.060.] The concentration of the NaOH was 0.10 mol L⁻¹.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides a valid explanation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Some of the hydroxide was neutralised by the acid. The 10 mL of acid also diluted the NaOH. So the NaOH concentration of the mixture will be less than 0.1 mol L⁻¹ and the pH will be less than 13.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "35",
+      "section": "II",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "How do collision theory and Le Chatelier’s principle account for the colour change to pink when the solution is cooled? Refer to the energy profile diagram in your answer.",
+      "stimulus": "A purple solution at 25°C contains a mixture of two different cobalt(II) complexes which are at equilibrium. CoCl₄²⁻(aq) + 6H₂O(l) ⇌ Co(H₂O)₆²⁺(aq) + 4Cl⁻(aq) (blue) (pink) The results of heating and cooling a sample of this solution are given in the table. Temperature (°C) | 80 | 0\nColour of solution | blue | pink\nThe energy profile diagram for this reaction is shown. [Energy profile diagram: vertical axis labelled Enthalpy, horizontal axis labelled Reaction coordinate. The Reactants level is higher than the Products level. Ea1 is marked from the Reactants level up to the peak of the curve; Ea2 is marked from the peak down to the Products level.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Shows how both Le Chatelier’s principle AND collision theory account for the colour change, with reference to the energy profile"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of how both collision theory AND Le Chatelier’s principle account for the colour change"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how collision theory OR Le Chatelier’s principle accounts for the colour change"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of collision theory OR Le Chatelier’s principle"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The energy profile diagram shows that the forward reaction is exothermic. Le Chatelier’s principle considers heat as a ‘substance’ that the system seeks to replace when lost. As this system is cooled, it responds in a way as to minimise the disturbance. Consequently, the forward reaction is favoured so the solution turns pink. Collision theory considers the proportion of molecules above a particular activation energy. Decreasing the temperature slows the rates of both forward and reverse reactions, due to a drop in the average kinetic energy of all particles. However, the rate of the reverse reaction decreases more than the forward reaction. This is due to a greater proportion of particles falling below the relatively higher activation energy of the reverse reaction, Ea2, as shown in the reaction profile. Since the forward reaction is faster, [CoCl₄²⁻] will decrease, and [Co(H₂O)₆²⁺] will increase, and the colour changes to pink.",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "36",
+      "section": "II",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "For each of the following instrumental techniques, predict the expected features of the spectra produced. Refer to the structural features of the molecule in your answer.\n• Infrared (IR) (Ignore any absorptions due to C—C or C—H)\n• Carbon-13 NMR\n• Proton NMR\n• Mass spectroscopy",
+      "stimulus": "Use the data sheet provided and the information in the table to answer this question. ¹H NMR chemical shift data\nType of proton | Common functional groups | δ (ppm)\n—CH₃, —CH₂—, —CH— | hydrocarbons | 0.7–2.1\nCH₃—CO—, CH₂—CO—, CH₂—CO | aldehydes, ketones, carboxylic acids or esters | 2.1–4.5\n—CH₂—OH or —CH₂—NH | alcohols or amines | 0.5–4.8\n—COOH | carboxylic acid | 9.0–13.0\nConsider the molecule shown. [Skeletal structural formula: a carboxylic acid, HO–C(=O)– bonded to a two-carbon chain ending in a terminal CH₃ group (propanoic acid, CH₃CH₂COOH).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Predicts the expected spectroscopic observations of ALL four techniques showing an extensive understanding of the relationship between molecular features and spectroscopic outcomes for these techniques"
+        },
+        {
+          "marks": "6",
+          "text": "Predicts the expected spectroscopic observations of ALL four techniques showing a thorough understanding of the relationship between molecular features and spectroscopic outcomes for these techniques"
+        },
+        {
+          "marks": "4–5",
+          "text": "Predicts the expected spectroscopic outcomes of most techniques showing a sound understanding of the relationship between molecular features and spectroscopic outcomes for these techniques"
+        },
+        {
+          "marks": "2–3",
+          "text": "Relates the expected spectroscopic outcomes of some techniques showing a basic understanding of the relationship between molecular features and spectroscopic outcomes for these techniques"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "IR",
+        "Strong broad OH signal at approximately 2750 cm−1",
+        "Strong sharp CO signal at approximately 1700 cm−1",
+        "¹³C NMR",
+        "3 chemical environments (either outright stated or through inference)",
+        "1 signal at 5−40 ppm (CH₃)",
+        "1 signal at 20−50 ppm (CH₂)",
+        "1 signal at 160−185 ppm (acid CO)",
+        "¹H NMR",
+        "3 chemical environments (either outright stated or through inference)",
+        "1 signal at 0.7−2.1 ppm (CH₃), triplet splitting pattern, integration of 3",
+        "1 signal at 2.1−4.5 ppm (CH₂), quartet splitting pattern, integration of 2",
+        "1 signal at 9.0−13.0 ppm (COOH), singlet, integration of 1",
+        "MS",
+        "Molecular ion at 74 m/z"
+      ],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    },
+    {
+      "number": "37",
+      "section": "II",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Determine the structure of compound A. Justify your answer using all the data given.",
+      "stimulus": "Compound A has the molecular formula C₅H₁₀. The information below shows some chemical reactions beginning with this compound. • Compound A reacts with H⁺/ H₂O to produce compounds B and C. • Compound B does not react with H⁺/ Cr₂O₇²⁻. • Compound C reacts with H⁺/ Cr₂O₇²⁻ to produce compound D. • Compound D does not react with Na₂CO₃(aq).",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Correctly determines the structure of compound A ; Correctly justifies the structure using all the data provided"
+        },
+        {
+          "marks": "3",
+          "text": "Correctly determines the structure of compound A AND justifies the structure using some of the data provided OR Correctly interprets all of the data provided"
+        },
+        {
+          "marks": "2",
+          "text": "Correctly interprets some of the data provided"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Compounds B and C are alkanols. Compound B cannot be oxidised – so B must be a tertiary alkanol, therefore there must be branching. Compound C can be oxidised but not to a carboxylic acid (no reaction with carbonate) – so the oxidation product is a ketone, so compound C is a secondary alkanol. To explain the alkanols produced above, the C=C in compound A is not in the terminal position. Therefore compound A is 2-methylbut-2-ene (C₅H₁₀).",
+      "answersCouldInclude": [],
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–37\nAllow about 2 hours and 25 minutes for this section"
+    }
+  ]
+}

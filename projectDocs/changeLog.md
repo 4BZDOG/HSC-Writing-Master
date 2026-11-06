@@ -1,5 +1,36 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-06 (The 2025 HSC paper as past questions in 13 courses)
+
+- **Added (DATA_VERSION 2.43.0).** 247 past HSC questions from the 2025 papers, so the question generator calibrates
+  against NESA's latest stems, stimuli and marking guides (`utils/pastPaperCalibration.ts` reads the shipped
+  `isPastHSC` questions nearest first): Legal Studies 14, Economics 15, Modern History 43, Ancient History 72,
+  Chemistry 19, Physics 21, Earth and Environmental Science 18, Community and Family Studies 17, Society and Culture
+  10, English Studies 8, English EAL/D 6, English Extension 1 2, History Extension 2. The 2026 papers are not yet
+  published, so 2025 is each course's most recent year.
+  - Every part was extracted word for word with its guideline and checked with `scripts/verifyPastPaperExtract.mts`
+    (bands read from the PDF table with pdfplumber), then with `check_past_questions.py` against the guideline tables;
+    its remaining reports are Unicode formulae, the checker reading a two-paper course or a shared option table as
+    the wrong one, and the three deliberate edits below.
+  - Where the course follows a newer syllabus than the paper (all but CAFS and Society and Culture), a part ships
+    only on a dot point that covers it; the rest are skipped and listed (e.g. Legal Studies' Global Environmental
+    Protection and Indigenous Peoples options, Ancient History's Sennacherib and Tiberius Gracchus).
+  - NESA's sample answer is the full-mark exemplar wherever the guidelines print one (all of Physics and Earth and
+    Environmental Science, most of Chemistry, CAFS and the short-answer parts); AI writes the lower marks and the rest,
+    reviewed against `_unverified` lists. Corrections on review: Legal Studies 27(b) no longer says the Family Law Act
+    presumes equal shared parental responsibility (repealed from May 2024); EAL/D Module B stanza numbering in "I, Too";
+    Modern History's Vietnamese famine toll and the Agent Orange link hedged; CAFS fertility regulation hedged.
+  - Third-party copyright texts printed as stimuli (English Section I texts, the English Extension 1 and History
+    Extension extracts) are a citation and a link to NESA's paper, not the text. Prescribed-text lists are left out.
+  - Three NESA ladder rows reworded to open with a third-person verb, as the app requires: CAFS 32(c)
+    "Demonstrate" → "Demonstrates" (twice), Earth and Environmental Science 26(b) "Some relevant information" →
+    "Provides some relevant information", Physics 23(a) "An appropriate step is performed" → "Performs an
+    appropriate step". Physics 34(b) keeps NESA's printed 2.942 × 10⁸ m, with the correct 10¹¹ in its feedback.
+- **Added.** `.claude/skills/build-course-data/tools/build_past.py` builds a year's past questions from a verified
+  extract and a writer's file (dot point, verb, outcomes, terms, notes, exemplars), with the content checks
+  `apply_patch.mts` makes less the two past questions are exempt from, and refuses duplicate ids. The extracts are
+  in `data/referencePapers/<course>-2025-paper-and-guidelines.json`.
+
 ## [Unreleased] - 2026-11-06 (First load: Supabase and the modal dialogs leave the eager graph)
 
 - **Changed.** The Supabase client is no longer created at import. `services/supabaseClient.ts` exports

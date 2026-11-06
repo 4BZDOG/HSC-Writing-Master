@@ -605,7 +605,68 @@
               {
                 "id": "dp-sac-12-2-2-4",
                 "description": "Assess the role and value of social and cultural research in the examination of contemporary societies and cultures",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-9",
+                    "question": "Explain the value of research in understanding societies and cultures. Support your response with a contemporary example.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H6",
+                      "H7"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains what research adds to understanding, not only that research is useful: it builds a more complete and accurate picture, and a mix of methods collects different kinds of information.",
+                      "The contemporary example has to be worked into the explanation. Tamoko is used to show what research preserves and how it builds empathy, so the example earns its place.",
+                      "The middle row needs a real explanation of value. Listing methods, or saying research is important, does not reach the 3-mark row."
+                    ],
+                    "commonStudentErrors": [
+                      "Defines research in general terms (finding things out) and never says what it contributes to understanding societies and cultures.",
+                      "Gives an example of a cultural practice without linking it to research, so the example describes a culture but does not show the value of studying it.",
+                      "Lists research methods such as surveys and interviews without explaining what each one reveals about a society."
+                    ],
+                    "keywords": [
+                      "social and cultural research",
+                      "primary and secondary research",
+                      "qualitative and quantitative research",
+                      "research methods",
+                      "contemporary societies and cultures",
+                      "contemporary example",
+                      "cultural practices"
+                    ],
+                    "markingCriteria": "4 marks: Provides a detailed explanation of the value of research in understanding societies and cultures; Effectively integrates a contemporary example\n3 marks: Provides an explanation of the value of research in understanding societies and cultures; Integrates a contemporary example\n2 marks: Demonstrates some understanding of the value of research in understanding societies and/or cultures\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-9-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Research is valuable in expanding our knowledge and understanding, as it helps form a more complete and accurate picture of contemporary societies and cultures. A combination of different research methods, such as primary, secondary, qualitative and quantitative, allows for different types of information to be collected. For example, unique cultural practices such as tamoko (Māori face tattooing) can be more widely understood and collectively preserved because of research. In-depth knowledge of this practice also builds empathy with, and appreciation of, the diverse beliefs and values of Māori culture.",
+                        "feedback": "Meets the top row: it explains how research builds a more complete picture and how mixed methods collect different information, and it uses tamoko to show what research preserves and how it builds empathy.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-9-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Research is valuable because it gives people knowledge about societies and cultures. Surveys and interviews are methods that collect information about how people live today.",
+                        "feedback": "Meets the 2-mark row: shows some understanding of the value of research, but names no contemporary example and does not explain how the methods build that knowledge. Integrating a real example would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-9-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Research is used to study societies and cultures.",
+                        "feedback": "Meets the 1-mark row: provides some relevant information about research, but does not explain its value or use an example. Explaining one way research adds to understanding would lift it to 2 marks.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "9",
+                    "hscSection": "Section I — Social and Cultural Continuity and Change"
+                  }
+                ]
               }
             ]
           },
@@ -683,7 +744,69 @@
               {
                 "id": "dp-sac-12-2-5-4",
                 "description": "Students will explore BOTH continuity AND change in the selected country through a detailed study of ONE of the following aspects: beliefs, values and lifestyles; education; family life and population changes; gender roles and the status of men and women; the legal system and political processes",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-10",
+                    "question": "Discuss the effects of globalisation in ONE country you have studied. Refer to ONE of the following aspects:\n• Beliefs, values and lifestyles\n• Education\n• Family life and population changes\n• Gender roles and the status of men and women\n• The legal system and political processes.",
+                    "totalMarks": 8,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "H1",
+                      "H5"
+                    ],
+                    "markerNotes": [
+                      "The top answer stays on ONE aspect, family life and population changes, and treats it as both continuity and change, using specific evidence from one country rather than general claims about globalisation.",
+                      "Discuss needs both sides. The strongest answer shows the gains of globalisation (more gender equality, greater diversity) and its tensions (divided families, falling fertility), then weighs them.",
+                      "Use the aspect's features as the organising points, so each paragraph moves the discussion forward instead of listing examples."
+                    ],
+                    "commonStudentErrors": [
+                      "Writes about globalisation in general, or across several countries, instead of the ONE country studied.",
+                      "Names no aspect at all, or drifts into education or the legal system without addressing the aspect chosen.",
+                      "Describes changes in the country without saying whether they are positive or negative, so there is no discussion of effects."
+                    ],
+                    "keywords": [
+                      "globalisation",
+                      "family life and population changes",
+                      "continuity and change",
+                      "westernisation",
+                      "individualism and gender equality",
+                      "cultural diversity",
+                      "population decline",
+                      "traditional society and culture"
+                    ],
+                    "markingCriteria": "8 marks: Provides a comprehensive discussion of the effects of globalisation in ONE country; Integrates detailed and relevant references to ONE aspect\n6-7 marks: Provides a thorough discussion of the effects of globalisation in ONE country; Integrates relevant reference(s) to ONE aspect\n4-5 marks: Provides a sound discussion of the effects of globalisation in ONE country; Integrates reference(s) to ONE aspect\n2-3 marks: Provides some discussion of the effects of globalisation in ONE country; May refer to ONE aspect\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-10-1",
+                        "source": "AI",
+                        "mark": 8,
+                        "answer": "Globalisation has changed family life and population patterns in South Korea, producing both gains and tensions. Western ideals of individualism and gender equality have challenged the patrilineal, kinship-oriented family. Pressure from international feminist movements led the Republic of Korea to abolish the hojuje system of family registration in favour of individual registration, which expanded women’s rights within families. Yet these changes have also weakened the traditional expectation that the family remains a single, unified unit.\n\nMigration and tourism have reshaped a society that was once monocultural. About one in ten marriages is now cross-cultural. Some families have been divided into gireogi (wild geese) arrangements, in which children and one parent live overseas while the other remains in Korea, which threatens the continuity of family life.\n\nThe most significant consequence is population decline. South Korea’s fertility rate of 0.68 babies per woman in 2024 is one of the lowest in the world. Higher education for women, the spread of Western capitalist values and female empowerment through social media activism, such as the 4B movement, have all contributed to fewer births. On balance, globalisation has made Korean families more equal and more open, but it has also reduced family size and placed continuity under strain.",
+                        "feedback": "Meets the top row: a comprehensive discussion of globalisation’s effects on one country, with detailed references to family life and population change, weighing gains against tensions. The answer is organised around one aspect and uses specific, relevant evidence.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-10-2",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Globalisation has changed family life in South Korea by challenging traditional structures. Western ideals of individualism and gender equality spread through media and contact with other countries, and pressure from international feminist movements led to changes in family law. The hojuje system, which registered families through the male line, was replaced by individual registration. These changes gave women more equal standing within families. However, the changes have also weakened the traditional family, and some families now experience strain as a result. Overall, globalisation has had both positive and negative effects on family life.",
+                        "feedback": "Meets the 4–5 mark row: a sound discussion of globalisation’s effects on family life in one country, referring to one aspect. The evidence is one law and the strain is asserted without an example, and population change is absent, so it does not integrate detailed references.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-10-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Globalisation has changed family life in South Korea. Families are less traditional now, and people move overseas more often.",
+                        "feedback": "Meets the 2–3 mark row: provides some discussion of globalisation and refers to family life. It names no specific change, gives no evidence and makes no judgement of the effects, so it sits below the 4-mark row.",
+                        "band": 2
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "10",
+                    "hscSection": "Section I — Social and Cultural Continuity and Change"
+                  }
+                ]
               },
               {
                 "id": "dp-sac-12-2-5-9",
@@ -819,7 +942,71 @@
               {
                 "id": "dp-sac-12-3-4-2",
                 "description": "The consumption of the popular culture (the consumers of the popular culture and the nature of its consumption; the relationship of heroes and mythology to media and consumption; how globalisation and technologies have influenced consumption; the relationship of access and consumption to age, class, ethnicity, gender, location, sexuality; how consumption and ownership of paraphernalia influence a sense of identity)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-11b",
+                    "question": "To what extent has ethnicity and location influenced the consumption of ONE popular culture?",
+                    "totalMarks": 15,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "H1",
+                      "H3"
+                    ],
+                    "markerNotes": [
+                      "The top answer reaches a judgement on the extent, and says which factor is more influential and why. Ethnicity works through identity and meaning, location through access, and the answer separates the two.",
+                      "Use the technology point to test location. Streaming has changed access, so a claim that location is declining needs evidence of how and where.",
+                      "The judgement has to be argued from criteria. The middle row describes both factors but does not weigh one against the other."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes hip hop's history or lyrics without answering 'to what extent' or saying how strongly ethnicity and location shape consumption.",
+                      "Treats location only as a physical place and ignores how communication technologies and streaming change access.",
+                      "Asserts that ethnicity shapes consumption without an example of a group whose consumption is shaped by its ethnicity."
+                    ],
+                    "keywords": [
+                      "consumption",
+                      "ethnicity",
+                      "location",
+                      "access and consumption",
+                      "consumers of popular culture",
+                      "globalisation and technologies",
+                      "identity",
+                      "popular culture"
+                    ],
+                    "markingCriteria": "13-15 marks: Provides comprehensive judgements about the extent ethnicity and location influence the consumption of ONE popular culture; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples; Presents a sustained, logical and cohesive response; Effectively applies relevant course concepts and language\n10-12 marks: Provides thorough judgements about the extent ethnicity and location influence the consumption of ONE popular culture; Supports the response with detailed and accurate information and integrates appropriate examples; Presents a logical and cohesive response; Applies relevant course concepts and language\n7-9 marks: Provides a judgement(s) about the extent ethnicity and/or location influence the consumption of ONE popular culture; Supports the response with relevant information and uses example(s); Presents an organised response using course concepts and language\n4-6 marks: Demonstrates some understanding of ethnicity and/or location and/or consumption of ONE popular culture; Includes course concepts and/or language; Refers to an example(s)\n1-3 marks: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-11b-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Ethnicity and location have significantly influenced the consumption of hip hop, but their influence differs in kind and has changed over time. Ethnicity shapes the meaning audiences find in the music, while location has shaped who can access it. Two criteria are used to judge the extent of influence: how strongly each factor shapes access to hip hop, and how far each shapes the meaning consumers take from it. Measured this way, ethnicity remains the more durable influence, because communication technologies have weakened the role of location in access.\n\nAn individual’s ethnicity can shape their engagement with hip hop, as it creates parasocial connections between cultural identity and the beliefs, values and attitudes communicated in the music. For example, some Aboriginal and Torres Strait Islander artists have achieved strong popularity among Aboriginal youth in remote communities in Arnhem Land. Listeners in these communities draw strength, solidarity and cultural pride from the themes of the music, so consumption becomes a way of reinforcing identity rather than only entertainment. Ethnicity does not determine consumption alone, however. Listeners of other backgrounds consume hip hop for its rhythm and storytelling, which shows that ethnicity matters most where the music speaks directly to a group’s lived experience.\n\nLocation can both facilitate and restrict access to hip hop. Historically, urban locations were the focal point of its creation and consumption. Hip hop emerged in the 1970s in the Bronx, New York, where African American and Latino communities facing socioeconomic disadvantage used it to express their struggles. In these settings, location determined who made the music and who could take part in its live culture, such as block parties and local dance scenes. Geography therefore set the early limits on consumption, and it did so through the social conditions of particular places.\n\nCommunication technologies and globalisation have since mitigated these geographical barriers. Web-based downloads and streaming platforms allow a listener in a remote community to consume music created anywhere in the world. Because access now depends more on connectivity and cost than on living in a city, location has become a weaker influence than it once was. Location still matters in a different form, since connectivity is uneven and remote communities may have limited internet access. The influence of location is therefore conditional on access, while the influence of ethnicity operates through identity.\n\nOverall, ethnicity has influenced the consumption of hip hop to a significant extent, because it shapes identity and the meaning audiences attach to the music. Location has influenced consumption to a more limited and declining extent, as technology has reduced its role in access while leaving differences in connectivity. The two factors interact, as the Arnhem Land example shows, where place and identity reinforce each other. On balance, ethnicity is the more influential factor, although location remains a constraint for communities without reliable connections.",
+                        "feedback": "Meets the top row (13–15): a comprehensive judgement on the extent of influence, with criteria stated and tested, a breadth of accurate examples, and a sustained, logical structure that applies course concepts such as identity and technologies.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-11b-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Ethnicity and location have influenced the consumption of hip hop, mainly through identity and access. Ethnicity can strongly shape how people engage with hip hop, because the music communicates beliefs and values that listeners connect with their cultural identity. Some Aboriginal artists have achieved strong popularity among young people in remote communities, who take cultural pride from the music. Location also matters. Hip hop began in the Bronx, where it reflected local struggles, and early participation was largely limited to people who lived there.\n\nHowever, communication technologies have reduced the importance of location. Streaming platforms allow people in remote areas to listen to music created anywhere, so access depends less on where a person lives. Consumption of hip hop is therefore shaped more by ethnicity than by location, although connectivity still varies between regions. Overall, both factors have had a substantial influence, with ethnicity the more important of the two.",
+                        "feedback": "Meets the 7–9 row: a judgement on the extent of influence, supported by relevant examples and course concepts. The judgement is asserted in the last sentence rather than argued from criteria, and location is developed in one sentence, so it does not reach the 10–12 band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-11b-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Hip hop is popular with many young people from different backgrounds. Ethnicity can affect whether people listen to hip hop, and where people live may affect what music they can access. Some Indigenous artists are popular with their own communities.",
+                        "feedback": "Meets the 1–3 row: provides some relevant information about hip hop, ethnicity and location. It makes no judgement about the extent of influence and develops no example, so it cannot reach the 7–9 band.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding relevant to the question\n• apply course concepts and language appropriate to the Depth Study\n• analyse relationships within and between social and cultural groups\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "11(b)",
+                    "hscSection": "Section II — Depth Studies",
+                    "bandCeiling": 6
+                  }
+                ]
               },
               {
                 "id": "dp-sac-12-3-4-3",
@@ -829,7 +1016,68 @@
               {
                 "id": "dp-sac-12-3-4-4",
                 "description": "The different perceptions of the popular culture (groups that accept and reject the popular culture; changing perceptions and the value of the popular culture to groups in society; how the popular culture constructs or deconstructs gender)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-11a",
+                    "question": "Why is the construction or deconstruction of gender important in the evolution of ONE popular culture? Support your response with a relevant example.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H1",
+                      "H5"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains why gender matters to the evolution of the culture: the culture keeps its global acceptance by changing with social attitudes, so deconstructing gender keeps it relevant. It does not only describe changes in gender roles.",
+                      "The example has to show construction or deconstruction in action, such as female surfers presented as athletes rather than as decoration. Naming the sport is not enough.",
+                      "Keep construction and deconstruction distinct: construction is the culture shaping gender roles, deconstruction is challenging them."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes gender roles in the popular culture without saying why gender matters to its evolution.",
+                      "Names a famous participant as the example without saying how the culture constructs or deconstructs gender in that case.",
+                      "Treats any change in the culture as deconstruction of gender, without showing that a stereotype is being challenged."
+                    ],
+                    "keywords": [
+                      "construction of gender",
+                      "deconstruction of gender",
+                      "popular culture",
+                      "gender stereotypes",
+                      "social change",
+                      "commercialisation",
+                      "representation"
+                    ],
+                    "markingCriteria": "5 marks: Demonstrates a thorough understanding of why the construction or deconstruction of gender is important in the evolution of ONE popular culture; Effectively integrates a relevant example\n4 marks: Demonstrates a sound understanding of why the construction or deconstruction of gender is important in the evolution of ONE popular culture; Integrates a relevant example\n3 marks: Demonstrates some understanding of why the construction or deconstruction of gender is important in the evolution of ONE popular culture; Makes reference to a relevant example\n2 marks: Demonstrates a limited understanding of gender and/or popular culture\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-11a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "To maintain global acceptance, surfing has constantly evolved in response to changing societal attitudes, especially regarding gender. Surfing began as a male-dominated sport associated with territoriality, masculinity and competitiveness that was reinforced through paraphernalia.\n\nHowever, the rise of female surfers has challenged traditional views of gender, while deconstructing sexualised representations of women within surfing culture. Stereotypical images of female surfers are now depicted as athletes who possess skill and strength without compromising femininity. The longevity of surfing is reliant upon the ongoing deconstruction of gender, reflecting contemporary values. This evolution ensures the inclusion of women in the commercialisation of surfing.",
+                        "feedback": "Meets the top row: a thorough explanation of why the deconstruction of gender is important to surfing’s evolution, with the female surfer example integrated into the argument about global acceptance and commercialisation.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-11a-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Gender is important to surfing’s evolution because women have begun to compete and be seen in the sport. This has changed how people view surfing, so it attracts a wider audience. For example, female surfers now appear in competitions and media coverage.",
+                        "feedback": "Meets the 3-mark row: some understanding that changing gender roles matter to surfing, with reference to female surfers. The 'why' is asserted rather than developed, and the example is not analysed for how it challenges gender stereotypes. Explaining that would lift it to 4 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-11a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Surfing is a popular sport in Australia.",
+                        "feedback": "Meets the 1-mark row: provides some relevant information about surfing, but does not address gender or how the culture evolves. Naming one way gender shapes surfing would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "11(a)",
+                    "hscSection": "Section II — Depth Studies"
+                  }
+                ]
               },
               {
                 "id": "dp-sac-12-3-4-5",
@@ -924,7 +1172,69 @@
               {
                 "id": "dp-sac-12-4-3-2",
                 "description": "The nature and role of shared values and understanding within belief systems and ideologies and how this creates meaning, purpose and an identity for individuals and groups",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-12a",
+                    "question": "How is meaning created for adherents within belief systems and ideologies? Support your response with a relevant example.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H2",
+                      "H1"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains the mechanism: shared values, customs and rituals produce a sense of collective identity, belonging and purpose. It does not list religious practices without connecting them to meaning.",
+                      "The example must show how adherents create meaning together. A ritual is strong evidence only when the answer says what it does for the group.",
+                      "Keep the answer on adherents. The history of a belief system is background, not an answer to how meaning is created for those who hold it."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes what a belief system teaches (its doctrine) and never explains how adherents come to find meaning in it.",
+                      "Gives an example of a religious practice with no link to meaning, belonging or identity.",
+                      "Uses 'meaning' in the sense of a dictionary definition, such as what a symbol stands for, rather than what it gives adherents."
+                    ],
+                    "keywords": [
+                      "meaning",
+                      "adherents",
+                      "shared values",
+                      "customs",
+                      "rituals",
+                      "worldview",
+                      "collective identity",
+                      "belief systems and ideologies"
+                    ],
+                    "markingCriteria": "5 marks: Demonstrates a thorough understanding of how meaning is created for adherents within belief systems and ideologies; Effectively integrates a relevant example\n4 marks: Demonstrates a sound understanding of how meaning is created for adherents within belief systems and ideologies; Integrates a relevant example\n3 marks: Demonstrates some understanding of how meaning is created for adherents within belief systems and ideologies; Makes reference to a relevant example\n2 marks: Demonstrates a limited understanding of adherents and/or belief systems and/or ideologies\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-12a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Meaning is created within belief systems and ideologies through shared values, customs, rituals and common worldviews. This generates a sense of collective identity, belonging and purpose.\n\nFor example, a sense of shared meaning is created within Islam when adherents all demonstrate the Five Pillars – the declaration of faith (shahada), prayer (salah), alms-giving (zakat), fasting (sawm) and pilgrimage (hajj). These constitute basic norms and understanding of Islamic practices worldwide. They bring together the Islamic community, regardless of ethnic diversity, location and variance in rituals, because they are the visible signs of the Muslim way of life and of the adherents’ unity across micro, meso and macro levels of society.",
+                        "feedback": "Meets the top row: a thorough explanation of how shared values and rituals create meaning for adherents, with the Five Pillars integrated as an example that links practice to identity across the micro, meso and macro levels.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-12a-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Meaning is created for adherents through shared rituals, which give people a sense of belonging. For example, Christians take part in communion at church services, which brings the congregation together.",
+                        "feedback": "Meets the 3-mark row: some understanding of how meaning is created, with reference to a relevant example. The example names a practice but does not explain what it says about meaning beyond belonging, so it is not integrated.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-12a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Religions have many followers around the world.",
+                        "feedback": "Meets the 1-mark row: provides some relevant information about belief systems, but does not explain how meaning is created for adherents.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "12(a)",
+                    "hscSection": "Section II — Depth Studies"
+                  }
+                ]
               },
               {
                 "id": "dp-sac-12-4-3-3",
@@ -965,7 +1275,70 @@
               {
                 "id": "dp-sac-12-4-4-4",
                 "description": "The relationship of the belief system or ideology to wider society (acceptance and rejection of the philosophy at the micro, meso and macro levels; the relationship of the belief system or ideology to ethical issues in society; the relationship of the belief system or ideology to peace and conflict in the world)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-12b",
+                    "question": "Evaluate the impact of secularisation on the acceptance or rejection of ONE belief system or ideology.",
+                    "totalMarks": 15,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "H3",
+                      "H1"
+                    ],
+                    "markerNotes": [
+                      "The top answer sets its criteria before judging the impact, then tests evidence for both acceptance and rejection of the ONE belief system, rather than arguing one side only.",
+                      "Secularisation must be treated as a process with consequences. The strongest answers show the mechanism (secular values align with humanist values) and then test it at micro, meso and macro levels.",
+                      "Evaluate means reaching a judgement on the impact. A conclusion that secularisation is 'important' without weighing acceptance against rejection stays in the lower bands."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes humanism or secularisation in general without naming the ONE belief system or ideology being evaluated.",
+                      "Writes about the decline of religion in Australia without linking it to acceptance or rejection of a particular belief system or ideology.",
+                      "Gives a list of arguments for and against but never states a verdict on the extent of the impact."
+                    ],
+                    "keywords": [
+                      "secularisation",
+                      "acceptance and rejection",
+                      "humanism",
+                      "modernisation",
+                      "belief system or ideology",
+                      "wider society",
+                      "social policy",
+                      "macro level"
+                    ],
+                    "markingCriteria": "13-15 marks: Provides a comprehensive evaluation of the impact of secularisation on the acceptance or rejection of ONE belief system or ideology; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples; Presents a sustained, logical and cohesive response; Effectively applies relevant course concepts and language\n10-12 marks: Provides a thorough evaluation of the impact of secularisation on the acceptance or rejection of ONE belief system or ideology; Supports the response with detailed and accurate information and integrates appropriate examples; Presents a logical and cohesive response; Applies relevant course concepts and language\n7-9 marks: Provides an evaluation of the impact of secularisation on the acceptance or rejection of ONE belief system or ideology; Supports the response with relevant information and uses example(s); Presents an organised response using course concepts and language\n4-6 marks: Demonstrates some understanding of secularisation and/or acceptance or rejection of ONE belief system or ideology; Includes course concepts and/or language; Refers to an example(s)\n1-3 marks: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-12b-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Secularisation has had a substantial positive impact on the acceptance of humanism in Australia, although its impact on rejection is more mixed. Two criteria are used to evaluate this impact: whether secularisation has widened the social space in which humanism is accepted, and whether it has provoked rejection of humanism at the micro, meso and macro levels. Secularisation is an outcome of modernisation, as scientific knowledge and technological advances have reduced the influence of traditional religion in many spheres of social life, while ideologies have gained acceptance.\n\nAt the micro level, secular values of individualism and personal empowerment align closely with humanist values, so acceptance of humanism becomes a natural fit for many individuals. As fewer Australians identify with a religion, humanism is increasingly chosen as a worldview. The growing number of Australians choosing ‘No religion’ in the 2021 Census is evidence of this shift, and it has prompted calls for humanism to be recognised as a census option in future.\n\nAt the macro level, secularisation has allowed humanism to gain influence in public life. Organisations such as Humanists Australia have become key agents in social and political debates, including reconciliation and LGBTQIA+ rights. Their advocacy has ensured greater representation for groups that were previously marginalised, which in turn makes humanist principles more visible and accepted in public policy.\n\nSecularisation has also produced rejection of humanism. Many religious communities perceive humanism as a challenge to their core beliefs, particularly where humanist ethics offer moral reasoning in place of religious authority. In these communities, humanism may be seen as a threat to religious identity rather than a worldview to be accepted. The impact of secularisation on rejection is therefore strongest where religion remains central to community life, and weaker in the wider population.\n\nA more recent challenge is artificial intelligence (AI). Humanists believe AI will devalue people’s capacity to exercise empathy and moral reasoning in fields such as medicine, economics and politics. This challenges the humanist belief in human judgement, and it shows that the effects of secularisation are not one-directional. Technological change can create new resistance to humanism even as secularisation has opened space for it.\n\nOn balance, secularisation has had a substantial impact on the acceptance of humanism in Australia, particularly at the micro and macro levels, because it has shifted the values and institutions through which people form their worldviews. Its impact on rejection is more limited and depends on the strength of religious identity in particular communities. The most significant constraint is now technological and ethical challenge rather than secularisation itself. The impact is therefore considerable but conditional, and humanism’s acceptance is likely to grow while its contested status in some communities continues.",
+                        "feedback": "Meets the top row (13–15): a comprehensive evaluation with criteria stated and applied at micro, meso and macro levels, accurate examples, and a sustained, logical structure that weighs acceptance against rejection and reaches a verdict.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-12b-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Secularisation has had a considerable impact on the acceptance of humanism in Australia, although it has also produced some rejection. Secularisation is an outcome of modernisation, as scientific knowledge and technology have reduced the influence of traditional religion. Secular values such as individualism and empowerment align closely with humanist values, so many Australians find humanism a natural fit. The growth of ‘No religion’ in the census shows this shift, and humanism has gained influence in policy debates through organisations such as Humanists Australia.\n\nRejection is less widespread but real. Religious communities may see humanism as a challenge to their core beliefs, and some people reject its ethics. The growth of artificial intelligence has also created a new challenge, because humanists argue it devalues human empathy and moral reasoning. Overall, secularisation has increased the acceptance of humanism more than it has produced rejection, although the impact is still developing.",
+                        "feedback": "Meets the 7–9 row: an evaluation with a judgement, relevant examples and organised use of course concepts. The rejection side is brief and asserted rather than developed, and the judgement is not tied to explicit criteria, so it stays out of the 10–12 band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-12b-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Secularisation has made more Australians choose ‘No religion’, which may help humanism become more accepted. Some people reject humanism, but it still has supporters. Humanists Australia is one group that supports humanist views.",
+                        "feedback": "Meets the 1–3 row: provides some relevant information about secularisation and humanism. It makes no evaluation of the impact, and the rejection point is not developed, so it does not reach the 4–6 band.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding relevant to the question\n• apply course concepts and language appropriate to the Depth Study\n• analyse relationships within and between social and cultural groups\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "12(b)",
+                    "hscSection": "Section II — Depth Studies"
+                  }
+                ]
               },
               {
                 "id": "dp-sac-12-4-4-5",
@@ -1023,7 +1396,69 @@
               {
                 "id": "dp-sac-12-5-1-3",
                 "description": "Related depth study concepts (social mobility; social class; socioeconomic status; life course; ‘race’ and ethnicity; social differentiation; equality; human rights; prejudice and discrimination)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-13a",
+                    "question": "Why is social mobility important in achieving equality? Support your response with a relevant example.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H1",
+                      "H3"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains the link: social mobility gives marginalised people access to socially valued resources, which is what equality requires. The example shows that link at work, not only that a group improved.",
+                      "The example must show movement between or within social classes. A story about disadvantage with no movement earns the example mark but not the explanation.",
+                      "Tie the answer to equality. Saying people became wealthier does not show why social mobility matters for equality unless access to resources changes."
+                    ],
+                    "commonStudentErrors": [
+                      "Defines social mobility but never explains why it matters for equality.",
+                      "Describes disadvantage in a group without showing any movement between social classes.",
+                      "Treats equality as equal income, without linking it to socially valued resources such as education, employment and health care."
+                    ],
+                    "keywords": [
+                      "social mobility",
+                      "equality",
+                      "socially valued resources",
+                      "social class",
+                      "socioeconomic status",
+                      "intergenerational disadvantage",
+                      "marginalised groups",
+                      "life course"
+                    ],
+                    "markingCriteria": "5 marks: Demonstrates a thorough understanding of why social mobility is important in achieving equality; Effectively integrates a relevant example\n4 marks: Demonstrates a sound understanding of why social mobility is important in achieving equality; Integrates a relevant example\n3 marks: Demonstrates some understanding of why social mobility is important in achieving equality; Makes reference to a relevant example\n2 marks: Demonstrates a limited understanding of social mobility and/or equality\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-13a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Social mobility is the movement of people within or between social classes. Upward social mobility allows for improved access to socially valued resources (SVRs) and a more equal society. For example, the dalits in India have historically experienced intergenerational disadvantage, prejudice and stereotyping, which has limited their chances to improve their socioeconomic status. Macro level policies aimed at achieving equality, such as the official abolition of the caste system and enforcing quotas in parliament, have been the foundations of upward social mobility for this social group. When social mobility is facilitated, marginalised groups become empowered and their access to SVRs improves, resulting in a more equal society.",
+                        "feedback": "Meets the top row: a thorough explanation of why social mobility is important to equality, with the dalit example integrated to show how upward mobility improves access to socially valued resources.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-13a-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Social mobility is the movement of people between social classes, and it matters for equality because it lets people gain access to resources they were previously denied. For example, in Australia, children from low-income families who gain university places can move into better-paid careers.",
+                        "feedback": "Meets the 3-mark row: explains why social mobility matters, with a relevant example. The explanation is brief, and the example is general rather than tied to a specific group or policy, so the example is not integrated.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-13a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Social mobility means moving between social classes.",
+                        "feedback": "Meets the 1-mark row: provides some relevant information by defining social mobility. It does not explain why it matters for equality, which is the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "13(a)",
+                    "hscSection": "Section II — Depth Studies"
+                  }
+                ]
               }
             ]
           },
@@ -1106,7 +1541,70 @@
               {
                 "id": "dp-sac-12-5-4-6",
                 "description": "Emerging social exclusion resulting from limited access to modern technologies and communications, and its implications",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-13b",
+                    "question": "Evaluate the impact of socioeconomic status on access to technology for ONE group.",
+                    "totalMarks": 15,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "H3",
+                      "H5"
+                    ],
+                    "markerNotes": [
+                      "The top answer evaluates by naming criteria (whether low income restricts access, and whether that becomes exclusion), weighing the evidence, and giving weight to the mitigating role of community services.",
+                      "Follow the chain through the services. The impact comes from socially valued resources moving online, so the answer should show how that move turns unequal access into exclusion.",
+                      "Stay on ONE group. Moving between groups weakens the evaluation even when each point is accurate."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the digital divide in general without naming a group or linking socioeconomic status to that group.",
+                      "Lists the costs of technology but does not show how lack of access produces exclusion from education, employment, housing or health care.",
+                      "Gives a one-sided account with no mitigating factors, such as community programs or public libraries, so the verdict is not balanced."
+                    ],
+                    "keywords": [
+                      "socioeconomic status",
+                      "access to technology",
+                      "digital exclusion",
+                      "social exclusion",
+                      "life chances",
+                      "socially valued resources",
+                      "communication technologies",
+                      "homelessness"
+                    ],
+                    "markingCriteria": "13-15 marks: Provides a comprehensive evaluation of the impact of socioeconomic status on access to technology for ONE group; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples; Presents a sustained, logical and cohesive response; Effectively applies relevant course concepts and language\n10-12 marks: Provides a thorough evaluation of the impact of socioeconomic status on access to technology for ONE group; Supports the response with detailed and accurate information and integrates appropriate examples; Presents a logical and cohesive response; Applies relevant course concepts and language\n7-9 marks: Provides an evaluation of the impact of socioeconomic status on access to technology for ONE group; Supports the response with relevant information and uses example(s); Presents an organised response using course concepts and language\n4-6 marks: Demonstrates some understanding of socioeconomic status and/or access to technology for ONE group; Includes course concepts and/or language; Refers to an example(s)\n1-3 marks: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-13b-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Socioeconomic status has a strong impact on access to technology for people experiencing homelessness in urban Australia, although community support softens this impact. Two criteria are used: whether low socioeconomic status restricts this group’s access to technology, and whether that restriction becomes social exclusion from socially valued resources. Measured against both, the impact is substantial, though not absolute.\n\nFinancial constraint directly limits access. Mobile phones are often the only form of modern technology people experiencing homelessness can use, since those without stable housing cannot maintain a home internet connection. Limited finances also make it difficult to buy phone credit, so even a phone can become an unreliable connection. Without a reliable connection, people cannot easily look for housing or employment, or keep track of support payments.\n\nThe shift to digital services magnifies that limitation. Modernisation and globalisation have made internet access increasingly necessary for participation in society. Government and community support services have moved online, reducing face-to-face contact and creating what is known as ‘digital exclusion’. A person who cannot complete a job application or apply for housing online may be excluded from the services designed to support them.\n\nThe impact extends to life chances. Access to education, employment and health care now depends on technology, so unequal access restricts the participation of people experiencing homelessness in society. At the macro level, the affordability of mobile and internet services remains a barrier, which keeps this group at risk of being further excluded from support services. The impact is therefore structural as well as individual, because it shapes whether institutions can reach the people who most need them.\n\nThe impact is not entirely determined by socioeconomic status. Community organisations, public libraries and outreach services can provide free access and help people learn to use technology, which reduces the effect of low income. Where such programs exist, socioeconomic status matters less. However, these services depend on funding and are not available everywhere, so they reduce rather than remove the underlying barrier.\n\nOn balance, socioeconomic status has a strong and significant impact on access to technology for people experiencing homelessness. Financial constraint directly limits connection, and the shift to digital services magnifies that limitation. Community support can soften the effect but cannot remove it. Low income therefore translates into social exclusion most severely where technology is required to reach the services people need most.",
+                        "feedback": "Meets the top row (13–15): a comprehensive evaluation with criteria stated and tested, accurate and detailed information, mitigating factors weighed, and a sustained, logical verdict that applies technologies and socially valued resources.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-13b-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Socioeconomic status has a strong impact on access to technology for people experiencing homelessness, because low income limits their ability to own or pay for devices and connections. Mobile phones are often the only technology this group can access, and buying phone credit can be difficult. Without stable housing, people cannot easily maintain internet connections, so access to information about housing, jobs and support is restricted.\n\nGovernment and community services are increasingly online, which means digital exclusion grows as face-to-face contact declines. A person who cannot complete an online application may miss out on support. Community organisations and libraries can soften this impact by providing free access, but they depend on funding and are not available everywhere. Overall, socioeconomic status has a significant impact on access to technology for this group, although community support limits how far it becomes exclusion.",
+                        "feedback": "Meets the 7–9 row: a judgement on the impact of socioeconomic status, supported by relevant information and examples. The judgement is stated at the end rather than tested against criteria, and the link from digital exclusion to life chances is asserted rather than developed.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-13b-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "People experiencing homelessness often cannot afford phones or internet access. This means they may miss out on services that are now online. Some of them rely on mobile phones to stay in touch.",
+                        "feedback": "Meets the 1–3 row: provides some relevant information about socioeconomic status and access to technology. It makes no evaluation of the impact and does not show how exclusion follows, so it stays in the bottom band.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding relevant to the question\n• apply course concepts and language appropriate to the Depth Study\n• analyse relationships within and between social and cultural groups\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "13(b)",
+                    "hscSection": "Section II — Depth Studies"
+                  }
+                ]
               }
             ]
           },
@@ -1186,7 +1684,68 @@
               {
                 "id": "dp-sac-12-6-3-1",
                 "description": "Factors that influence conformity and obedience in individuals",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-14a",
+                    "question": "How is individual obedience influenced by authority and the environment? Support your response with a relevant example.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H1",
+                      "H3"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains the mechanism: authority gives legitimacy and the power to reward or punish, and the environment (status, proximity, setting) reinforces it. Both influences are named and linked to obedience.",
+                      "The example should show a feature of the environment, such as the exam hall, and explain why it makes obedience more likely. A setting that is described but not explained earns the example mark only.",
+                      "Use course terms accurately: obedience is compliance with an authority, while conformity is going along with a group. Keep them apart."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes what authority is (power, rules) without explaining how it changes an individual’s obedience.",
+                      "Discusses the environment as a place without saying how its features influence obedience.",
+                      "Confuses obedience with conformity, so the answer is about peer pressure rather than authority."
+                    ],
+                    "keywords": [
+                      "obedience",
+                      "authority",
+                      "legitimacy",
+                      "social influence",
+                      "conformity",
+                      "environment",
+                      "uniform"
+                    ],
+                    "markingCriteria": "5 marks: Demonstrates a thorough understanding of how individual obedience is influenced by authority and the environment; Effectively integrates a relevant example\n4 marks: Demonstrates a sound understanding of how individual obedience is influenced by authority and the environment; Integrates a relevant example\n3 marks: Demonstrates some understanding of how individual obedience is influenced by authority and the environment; Makes reference to a relevant example\n2 marks: Demonstrates a limited understanding of obedience and/or authority and/or the environment\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-14a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Authority influences an individual’s level of obedience through the legitimate use of power and involves the ability to enforce rules or decisions through a system of reward and/or punishment. Obedience to a person in a position of authority may increase if that person has a higher status, is in close proximity and if they are wearing a uniform, as this gives an impression of legitimacy (Bickman, 1974).\n\nCertain environments and settings can enhance obedience of individuals. For example, in an academic examination hall, tables and chairs are spaced out deliberately to minimise non-conformist behaviours, such as talking. Expectations associated with such exam conditions are reinforced by invigilators and therefore leads to individual obedience.",
+                        "feedback": "Meets the top row: a thorough explanation of how authority and the environment influence obedience, with the examination hall integrated as an example that links the setting to obedience.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-14a-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Individuals are more likely to obey people in authority who wear a uniform, because the uniform suggests legitimacy. For example, a person may follow instructions from a police officer at the scene of an accident.",
+                        "feedback": "Meets the 3-mark row: some understanding of how authority influences obedience, with a relevant example. The environment is not discussed, and the uniform point is not developed beyond legitimacy, so the example is not integrated.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-14a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Teachers are authority figures who tell students what to do.",
+                        "feedback": "Meets the 1-mark row: provides some relevant information about authority, but does not explain how authority or the environment influences obedience.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "14(a)",
+                    "hscSection": "Section II — Depth Studies"
+                  }
+                ]
               },
               {
                 "id": "dp-sac-12-6-3-2",
@@ -1257,7 +1816,71 @@
               {
                 "id": "dp-sac-12-6-4-7",
                 "description": "Perceptions of the group by the wider society and the implications of these perceptions",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-sac-hsc-2025-14b",
+                    "question": "To what extent is society’s perception of ONE group influenced by deviance and stereotyping?",
+                    "totalMarks": 15,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "H3",
+                      "H1"
+                    ],
+                    "markerNotes": [
+                      "The top answer makes a judgement on the extent of influence, separating deviance (visible acts) from stereotyping (generalising from acts), and tests each against counter-evidence such as the Paris 2024 result.",
+                      "Use the focus group's own features. The strongest answers connect perceptions to the group’s identity and to media agenda setting, rather than treating skaters as a generic deviant category.",
+                      "The judgement needs criteria. Saying that deviance 'matters' is not an evaluation of its extent."
+                    ],
+                    "commonStudentErrors": [
+                      "Treats deviance and stereotyping as the same thing and never separates the visible act from the generalised image.",
+                      "Discusses the group's behaviour only, without showing how society’s perception of the group is formed or changed.",
+                      "Uses a single incident as proof of the whole group, without addressing counter-evidence."
+                    ],
+                    "keywords": [
+                      "deviance",
+                      "stereotyping",
+                      "perception of the group",
+                      "non-conformity",
+                      "agenda setting",
+                      "social norms",
+                      "formal and informal deviance",
+                      "wider society"
+                    ],
+                    "markingCriteria": "13-15 marks: Provides comprehensive judgements about the extent society’s perception of ONE group is influenced by deviance and stereotyping; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples; Presents a sustained, logical and cohesive response; Effectively applies relevant course concepts and language\n10-12 marks: Provides thorough judgements about the extent society’s perception of ONE group is influenced by deviance and stereotyping; Supports the response with detailed and accurate information and integrates appropriate examples; Presents a logical and cohesive response; Applies relevant course concepts and language\n7-9 marks: Provides a judgement(s) about the extent society’s perception of ONE group is influenced by deviance and stereotyping; Supports the response with relevant information and uses example(s); Presents an organised response using course concepts and language\n4-6 marks: Demonstrates some understanding of society’s perception and/or deviance and/or stereotypes of ONE group; Includes course concepts and/or language; Refers to an example(s)\n1-3 marks: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-sac-hsc-2025-14b-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Deviance and stereotyping have a substantial influence on society’s perception of skateboarders, although that influence is not fixed. Two criteria are used to judge its extent: how far perceptions follow visible deviant behaviour, and whether stereotypes persist once that behaviour declines or contrary evidence appears. Measured against both, deviance shapes perceptions most strongly in the short term, while stereotyping has the more lasting influence.\n\nDeviance shapes perceptions through its visibility. Formal deviance, such as breaking laws, can immediately shape negative perceptions of a non-conformist group. Informal deviance, such as breaking unwritten social norms, contributes to the construction of stereotypes over time. Skaters who litter at a skate park, loiter, swear or spray graffiti create visible disorder, and wider society may perceive them as problematic and disruptive. Here the public responds to visible acts rather than to the group as a whole, which makes deviance a strong influence.\n\nStereotyping extends the effect beyond the few who act in these ways. Views of skaters may be formed from isolated incidents or from styles of clothing, and these generalisations create widespread distrust and contempt. Media agenda setting can reinforce such stereotypes, spreading negative images from the meso to the macro level. Stereotypes are often more influential than the behaviour itself, because they allow a whole group to be judged by a few incidents.\n\nHowever, perceptions can change when a group’s achievements become visible. Skateboarding was included in the Paris 2024 Olympic Games, and Australia celebrated the skill and athleticism of young female skaters whose discipline and dedication countered the typical deviant skater stereotype. National success of this kind raised the status of skateboarding and aligned it more closely with mainstream values. This shows that deviance and stereotyping can be reduced when public events give a different picture of the group.\n\nThe influence of positive images also depends on who controls representation. Sporting bodies and the media decide which activities are presented to the public, so a positive frame can replace an existing stereotype. Perceptions of skaters therefore depend partly on the group’s own behaviour and partly on the institutions that represent it.\n\nOn balance, deviance and stereotyping have a significant influence on society’s perception of skateboarders, particularly where disorder is visible and media coverage repeats negative images. The influence is conditional, however. Stereotyping is the more durable of the two, as it persists after the behaviour declines, whereas positive events such as Olympic success can shift perceptions when they are widely reported. The extent of influence is therefore substantial but changing, and society’s view of skaters is likely to become more favourable as achievements are highlighted.",
+                        "feedback": "Meets the top row (13–15): a comprehensive judgement on the extent of influence, with criteria stated and tested against counter-evidence, a breadth of accurate examples, and a sustained, logical structure that applies course concepts such as agenda setting and institutional power.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-14b-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Deviance and stereotyping have a substantial influence on how society perceives skateboarders, although the influence varies. Formal deviance, such as breaking laws, and informal deviance, such as breaking unwritten social norms, can create negative impressions. Skaters who litter at a skate park, loiter or swear are seen as disruptive, and the public may take these acts as typical of the group.\n\nStereotypes extend this effect beyond the people who act in these ways. Views can be formed from isolated incidents or from clothing styles, and media agenda setting can spread them from the meso to the macro level, creating distrust. However, the inclusion of skateboarding in the Paris 2024 Olympics showed the skill and dedication of young skaters, which countered the stereotype. Overall, stereotyping has a significant influence on perceptions of skateboarders, but positive public events can reduce it.",
+                        "feedback": "Meets the 7–9 row: a judgement on the extent of influence, with relevant examples and course concepts. The judgement is not argued against explicit criteria, and the Paris 2024 counter-evidence gets one sentence, so it does not reach the 10–12 band.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-sac-hsc-2025-14b-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Skateboarders are sometimes seen as a problem because some of them behave badly at skate parks. People may also judge skaters by the clothes they wear. Skateboarding was in the Olympics, which changed how some people see skaters.",
+                        "feedback": "Meets the 1–3 row: provides some relevant information about deviance, stereotyping and skateboarders. It reaches no judgement on the extent of influence, and the Olympic point is not explained, so it stays in the bottom band.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding relevant to the question\n• apply course concepts and language appropriate to the Depth Study\n• analyse relationships within and between social and cultural groups\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "14(b)",
+                    "hscSection": "Section II — Depth Studies",
+                    "bandCeiling": 6
+                  }
+                ]
               },
               {
                 "id": "dp-sac-12-6-4-8",

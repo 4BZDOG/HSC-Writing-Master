@@ -1,0 +1,407 @@
+{
+  "year": 2025,
+  "course": "Society and Culture",
+  "papers": [
+    "2025-hsc-society-and-culture.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–8",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "9",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the value of research in understanding societies and cultures. Support your response with a contemporary example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a detailed explanation of the value of research in understanding societies and cultures ; Effectively integrates a contemporary example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides an explanation of the value of research in understanding societies and cultures ; Integrates a contemporary example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the value of research in understanding societies and/or cultures"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Research is valuable in expanding our knowledge and understanding, as it helps form a more complete and accurate picture of contemporary societies and cultures. A combination of different research methods, such as primary, secondary, qualitative and quantitative, allows for different types of information to be collected. For example, unique cultural practices such as tamoko (Māori face tattooing) can be more widely understood and collectively preserved because of research. In-depth knowledge of this practice also builds empathy with, and appreciation of, the diverse beliefs and values of Māori culture.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "10",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss the effects of globalisation in ONE country you have studied. Refer to ONE of the following aspects:\n• Beliefs, values and lifestyles\n• Education\n• Family life and population changes\n• Gender roles and the status of men and women\n• The legal system and political processes.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Provides a comprehensive discussion of the effects of globalisation in ONE country ; Integrates detailed and relevant references to ONE aspect"
+        },
+        {
+          "marks": "6–7",
+          "text": "Provides a thorough discussion of the effects of globalisation in ONE country ; Integrates relevant reference(s) to ONE aspect"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides a sound discussion of the effects of globalisation in ONE country ; Integrates reference(s) to ONE aspect"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some discussion of the effects of globalisation in ONE country ; May refer to ONE aspect"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Globalisation is a process brought about by improved technologies and sharing of goods, capital, services, knowledge, leisure, sport, ideas and culture between countries. This has created a consciousness of the world as a single place but has not always had positive effects.",
+        "For example, globalisation has changed family life and population in the Republic of Korea (South Korea) in the following ways:",
+        "Increased individualism and greater gender equality within families – since the 2000s, modern ideals of individualism and gender equality from Western cultures, have driven changes in traditional kinship-orientated, patriarchal power structures within South Korean families. Amidst increasing pressure from international feminist movements, the Republic of Korea officially abolished the hojuje system of patrilineal family registration in favour of individual registration.",
+        "Shifts in cultural diversity – tourism and greater migrant worker flows into South Korea have affected this traditionally monocultural society. Now, 1 in 10 marriages are cross-cultural and have led to some gireogi (wild geese) family situations where the connection or migration to another country may threaten the continuity of family life.",
+        "Population decline – South Korea’s population continues to decline with one of the lowest fertility rates of 0.68 babies per woman in 2024. Global economic and cultural shifts have affected the population. Decreases in fertility rates have been attributed to higher levels of education for women, younger generations adopting Western capitalist values and female empowerment as captured through social media activism, such as the international 4B movement."
+      ]
+    },
+    {
+      "number": "11(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why is the construction or deconstruction of gender important in the evolution of ONE popular culture? Support your response with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a thorough understanding of why the construction or deconstruction of gender is important in the evolution of ONE popular culture ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of why the construction or deconstruction of gender is important in the evolution of ONE popular culture ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of why the construction or deconstruction of gender is important in the evolution of ONE popular culture ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of gender and/or popular culture"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "To maintain global acceptance, surfing has constantly evolved in response to changing societal attitudes, especially regarding gender. Surfing began as a male-dominated sport associated with territoriality, masculinity and competitiveness that was reinforced through paraphernalia.\n\nHowever, the rise of female surfers has challenged traditional views of gender, while deconstructing sexualised representations of women within surfing culture. Stereotypical images of female surfers are now depicted as athletes who possess skill and strength without compromising femininity. The longevity of surfing is reliant upon the ongoing deconstruction of gender, reflecting contemporary values. This evolution ensures the inclusion of women in the commercialisation of surfing.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent has ethnicity and location influenced the consumption of ONE popular culture?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides comprehensive judgements about the extent ethnicity and location influence the consumption of ONE popular culture ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides thorough judgements about the extent ethnicity and location influence the consumption of ONE popular culture ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a judgement(s) about the extent ethnicity and/or location influence the consumption of ONE popular culture ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of ethnicity and/or location and/or consumption of ONE popular culture ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Ethnicity and location have significantly influenced the consumption of hip hop, in the following ways:",
+        "An individual’s ethnicity can dramatically shape their engagement with hip hop music as they develop parasocial connections between their cultural identity and the beliefs, values and attitudes communicated in hip hop. For example, some Aboriginal and Torres Strait Islander artists have achieved immense popularity and success amongst Aboriginal youth in remote communities in Arnhem Land. The communities draw strength, solidarity and cultural pride from the themes contained in this music.",
+        "Location can simultaneously facilitate and restrict access to hip hop. Historically, urban locations were a focal point for the creation and consumption of hip hop, embodying the struggles of socioeconomically disadvantaged African American communities in New York City. However, communication technologies have mitigated geographical barriers between artists and consumers, allowing for greater consumption of hip hop via web-based downloads and streaming platforms."
+      ]
+    },
+    {
+      "number": "12(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How is meaning created for adherents within belief systems and ideologies? Support your response with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a thorough understanding of how meaning is created for adherents within belief systems and ideologies ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of how meaning is created for adherents within belief systems and ideologies ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of how meaning is created for adherents within belief systems and ideologies ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of adherents and/or belief systems and/or ideologies"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Meaning is created within belief systems and ideologies through shared values, customs, rituals and common worldviews. This generates a sense of collective identity, belonging and purpose.\n\nFor example, a sense of shared meaning is created within Islam when adherents all demonstrate the Five Pillars – the declaration of faith (shahada), prayer (salah), alms-giving (zakat), fasting (sawm) and pilgrimage (hajj). These constitute basic norms and understanding of Islamic practices worldwide. They bring together the Islamic community, regardless of ethnic diversity, location and variance in rituals, because they are the visible signs of the Muslim way of life and of the adherents’ unity across micro, meso and macro levels of society.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "12(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the impact of secularisation on the acceptance or rejection of ONE belief system or ideology.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive evaluation of the impact of secularisation on the acceptance or rejection of ONE belief system or ideology ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough evaluation of the impact of secularisation on the acceptance or rejection of ONE belief system or ideology ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an evaluation of the impact of secularisation on the acceptance or rejection of ONE belief system or ideology ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of secularisation and/or acceptance or rejection of ONE belief system or ideology ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Secularisation is one outcome of the modernisation process. The rise of scientific knowledge and technological advancements have shaped ideas about spiritual thinking. Through this process, the influence of traditional religion continues to decline in various spheres of social life, whilst ideologies gain increasing acceptance. Secularisation has had a profound impact on the global acceptance and adherence to humanistic ideologies. For example:",
+        "Secular values of individualism and empowerment directly align with humanist values, therefore acceptance of humanism becomes a natural fit for many individuals. Greater acceptance of humanism is evident in the increased number of Australians choosing ‘No religion’ in the 2021 Census, and as a result, the submission to include humanism as a choice in the future.",
+        "Secularisation has enabled humanism to gain widespread influence and acceptance at the macro level. The formation of organisations such as Humanists Australia have become key agents in political and social policy debates such as reconciliation and LGBTQIA+ rights. This has ensured greater representation and advocacy for previously marginalised groups.",
+        "The growth of artificial intelligence (AI) has negatively impacted the acceptance of humanism as it presents a challenge to several core beliefs. Humanists believe AI will devalue people’s capacity to exercise empathy and demonstrate moral reasoning when making decisions in such fields as medicine, economics and politics."
+      ]
+    },
+    {
+      "number": "13(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why is social mobility important in achieving equality? Support your response with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a thorough understanding of why social mobility is important in achieving equality ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of why social mobility is important in achieving equality ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of why social mobility is important in achieving equality ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of social mobility and/or equality"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Social mobility is the movement of people within or between social classes. Upward social mobility allows for improved access to socially valued resources (SVRs) and a more equal society. For example, the dalits in India have historically experienced intergenerational disadvantage, prejudice and stereotyping, which has limited their chances to improve their socioeconomic status. Macro level policies aimed at achieving equality, such as the official abolition of the caste system and enforcing quotas in parliament, have been the foundations of upward social mobility for this social group. When social mobility is facilitated, marginalised groups become empowered and their access to SVRs improves, resulting in a more equal society.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the impact of socioeconomic status on access to technology for ONE group.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive evaluation of the impact of socioeconomic status on access to technology for ONE group ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough evaluation of the impact of socioeconomic status on access to technology for ONE group ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an evaluation of the impact of socioeconomic status on access to technology for ONE group ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of socioeconomic status and/or access to technology for ONE group ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "The socioeconomic status of people experiencing homelessness in urban Australia means they may have limited access to technologies, resulting in further social exclusion.",
+        "Mobile phones are often the only form of modern technology people experiencing homelessness in Australia have access to. Since they are without housing, in insecure housing or between dwellings, this group often does not have access to alternative forms of digital information. In turn, access to other socially valued resources such as education, employment and health care is therefore extremely limited.",
+        "Due to modernisation and globalisation, internet access is increasingly required to function effectively in society. The digitisation of many government and community support services is seeing a reduction in face-to-face contact. This results in greater exclusion for lower socioeconomic groups, such people experiencing homelessness. This has become known as ‘digital exclusion’.",
+        "Continued unequal access to modern technologies severely limits the participation of homeless people in society, as they may be unable to complete a job application, apply for housing or receive updates about support payments.",
+        "People experiencing homelessness are at risk of being further excluded from support services if affordability of mobile and internet access is not addressed at a macro level. Up to 95% of those experiencing homelessness own a mobile phone, however their ability to stay connected is difficult due to their socioeconomic status. Limited finances contribute to difficulties purchasing credit for their phone."
+      ]
+    },
+    {
+      "number": "14(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How is individual obedience influenced by authority and the environment? Support your response with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a thorough understanding of how individual obedience is influenced by authority and the environment ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of how individual obedience is influenced by authority and the environment ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of how individual obedience is influenced by authority and the environment ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of obedience and/or authority and/or the environment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Authority influences an individual’s level of obedience through the legitimate use of power and involves the ability to enforce rules or decisions through a system of reward and/or punishment. Obedience to a person in a position of authority may increase if that person has a higher status, is in close proximity and if they are wearing a uniform, as this gives an impression of legitimacy (Bickman, 1974).\n\nCertain environments and settings can enhance obedience of individuals. For example, in an academic examination hall, tables and chairs are spaced out deliberately to minimise non-conformist behaviours, such as talking. Expectations associated with such exam conditions are reinforced by invigilators and therefore leads to individual obedience.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent is society’s perception of ONE group influenced by deviance and stereotyping?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides comprehensive judgements about the extent society’s perception of ONE group is influenced by deviance and stereotyping ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides thorough judgements about the extent society’s perception of ONE group is influenced by deviance and stereotyping ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides a judgement(s) about the extent society’s perception of ONE group is influenced by deviance and stereotyping ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of society’s perception and/or deviance and/or stereotypes of ONE group ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Deviance and stereotypes play a pivotal role in shaping perceptions of non-conformist groups. Deviance (non-conformity) refers to behaviours that challenge accepted social norms and ethical standards. Formal deviance, such as breaking laws, can immediately shape negative perceptions of non-conformist groups, whereas informal deviance, such as breaking unwritten social norms, can contribute to the construction of stereotypes. Media agenda-setting can further reinforce and spread negative stereotypes of one group from meso to macro levels.",
+        "Attitudes towards deviance are evident in social contexts such as skateboarding groups. Skaters who act in a deviant way may be perceived by wider society as problematic and disruptive. Anti-social behaviours by some skaters, such as littering at the skate park, loitering, swearing and graffitiing, create negative perceptions of this group.",
+        "Inaccurate stereotypes may be formed about skaters. Views may be based upon isolated incidents of non-conformist behaviours and styles of clothing. This can lead to widespread distrust and contempt towards the skaters and may be perpetuated in the media.",
+        "However, the inclusion of skateboarding in the Paris 2024 Olympics shifted public perceptions of skaters. Australia celebrated the skill and athleticism of a range of young female skaters whose discipline and dedication countered the typical deviant skater stereotype. National success at the Olympic Games has elevated the status of skateboarding, leading to greater alignment with mainstream values and culture."
+      ]
+    }
+  ]
+}

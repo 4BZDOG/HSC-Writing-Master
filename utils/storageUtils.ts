@@ -130,7 +130,10 @@ import {
 // 2.42.0: five new structure-only courses (not ticked in the first-run picker): Chemistry, Physics and Earth and
 // Environmental Science (2025 syllabuses, from NESA's page data), Community and Family Studies (amended 2022) and
 // Society and Culture (2013) (from NESA's syllabus documents). A browser that already synced is offered them once.
-export const DATA_VERSION = '2.42.0';
+// 2.43.0: the 2025 HSC paper as past questions in 13 courses (247 questions), so the question generator calibrates
+// against NESA's latest wording and ladders: Legal Studies, Economics, Modern and Ancient History, Chemistry, Physics,
+// Earth and Environmental Science, CAFS, Society and Culture, English Studies, EAL/D, Extension 1, History Extension.
+export const DATA_VERSION = '2.43.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

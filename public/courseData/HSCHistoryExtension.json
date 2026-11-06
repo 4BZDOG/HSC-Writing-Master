@@ -37,7 +37,73 @@
               {
                 "id": "dp-hx-12-constructing-history-key-questions-1-2",
                 "description": "Differing interpretations and perspectives of the aims and purposes of history",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-hx-hsc-2025-1",
+                    "question": "Evaluate Bongiorno’s interpretation of the aims and purposes of history. Use Source A and at least TWO other sources to support your argument.",
+                    "totalMarks": 25,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "HX-12-01",
+                      "HX-12-02",
+                      "HX-12-04"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers first state what Bongiorno's interpretation claims (history's public purpose, and the duty of rigour that follows from its misuse) and then test that claim. They evaluate the interpretation rather than summarising Source A.",
+                      "Source A and the other sources must do argumentative work. Each source is placed beside a claim and either supports it, qualifies it or complicates it, so the response integrates them rather than listing them.",
+                      "Evaluation needs a standard of judgement. A top answer asks what Bongiorno counts as legitimate use of history and whether rigour can supply the standard that his critique assumes.",
+                      "Historiographical awareness shows in naming the live debates (objectivity, presentism, relativism) and in explaining what each debate means for Bongiorno's position, not in a list of names."
+                    ],
+                    "commonStudentErrors": [
+                      "Summarises Source A at length and gives an evaluative verdict only in the conclusion.",
+                      "Lists other historians in one sentence each without saying what their view shows about Bongiorno's interpretation.",
+                      "Accepts Bongiorno's account of history's misuse without testing whether his examples show what he claims about the aims of history rather than about its abuse.",
+                      "Confuses the aims of history with the uses made of it, so the answer discusses who benefited from history rather than what the discipline is for."
+                    ],
+                    "keywords": [
+                      "historiography",
+                      "aims and purposes of history",
+                      "interpretation and perspective",
+                      "use and misuse of history",
+                      "objectivity",
+                      "presentism",
+                      "relativism",
+                      "public history"
+                    ],
+                    "markingCriteria": "21-25 marks: Provides an insightful evaluation of Bongiorno’s interpretation of the aims and purposes of history; Supports the response with sustained integration of Source A and at least TWO other relevant sources; Demonstrates extensive knowledge and insightful understanding of relevant historiographical issues; Constructs a comprehensive, logical and sustained response\n16-20 marks: Provides an effective evaluation of Bongiorno’s interpretation of the aims and purposes of history; Makes detailed references to Source A and at least TWO other relevant sources; Demonstrates thorough knowledge and understanding of relevant historiographical issues; Constructs a logical and sustained response\n11-15 marks: Provides some evaluation of Bongiorno’s interpretation and/or the aims and purposes of history; Makes references to Source A and at least TWO other relevant sources; Demonstrates sound knowledge and understanding of historiographical issues; Constructs a structured response\n6-10 marks: Provides a description of Bongiorno's interpretation and/or the aims and purposes of history; Makes limited references to Source A and at least ONE other source; Demonstrates limited knowledge and understanding of historiographical issues; Constructs a limited response\n1-5 marks: Provides isolated observations on the aims and purposes of history; Makes minimal references to Source A and/or at least ONE other source; Demonstrates minimal knowledge of historiographical issues",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-hx-hsc-2025-1-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Frank Bongiorno's interpretation in Source A is that the aims of history cannot be separated from its public responsibilities. He begins with the attractions of studying one's own place and group, then argues that the discipline has often served the powerful. Its assumptions, methodologies and temporalities, he argues, have helped justify colonialism, war, genocide and environmental destruction. From this he draws two purposes. Historians must be trained with the rigour expected of professions such as medicine or engineering, and they must contribute to the public life of a democracy in an era of myth and contempt for expertise. I argue that Bongiorno identifies the stakes of historical work convincingly, but that he treats the discipline's civic function as more settled than historiography allows, and that his remedy of rigour depends on a standard of judgement that is itself contested.\n\nThe strongest part of Source A is its account of misuse, which historians have long had to confront. Edward Said's Orientalism (1978) showed how Western scholarship produced a body of knowledge about the East that supported imperial rule. In Australia, Henry Reynolds's The Other Side of the Frontier (1981) argued that much national history had neglected frontier violence and Aboriginal resistance. The legal consequences of a historical assumption became visible in Mabo v Queensland (No 2) (1992), when the High Court rejected the doctrine of terra nullius, the idea that Australia belonged to no one when British settlement began in 1788. The temporalities that Bongiorno mentions have a similar history. The habit of placing some societies at an earlier stage of development cast them as less advanced, a judgement that colonial rule could then claim to correct. Bongiorno is right that historical claims can be mobilised to justify dispossession, and that historians answer for what their work is used to prove.\n\nBongiorno's account of purpose is less secure when history is treated as a public good to be defended. E. H. Carr, in What Is History? (1961), argued that the facts a historian selects are shaped by the questions of the present, so that history is an ongoing exchange between the historian and the past. Carr's account supports Bongiorno's view that history is never politically innocent, but it complicates his distinction between legitimate and illegitimate uses. If every historical account reflects present concerns, a critique of misuse needs a standard against which uses can be judged. Source A assumes that rigour supplies that standard. The question is whether a discipline whose questions are always partly political can supply it.\n\nRichard Evans, in In Defence of History (1997), gives that standard a firmer footing. Against postmodern relativism, he argues that the past can be known imperfectly but genuinely, because evidence can be tested and some interpretations are better supported than others. On this view Bongiorno's demand for rigour is not a retreat to older objectivity but a defence of the procedures that separate myth from evidence. Evans's argument strengthens Source A, but it also locates history's public value in its method rather than in its civic role. Source A does not explain how the public life Bongiorno wants can be kept free of the partisan uses it condemns.\n\nThe interpretation has a weakness of its own. Source A gives the study of one's own place a warning, yet the histories written to recover the voices of excluded groups, including Reynolds's, are the very work that serves Bongiorno's public purpose. Nor is the post-truth framing self-evident: misinformation about the past existed long before the present era, and the historian's authority has always rested on method more than on public trust. Bongiorno's interpretation is therefore most convincing as a call to hold historians to professional standards, and least convincing as a complete account of history's aims. Historians pursue several purposes: to establish what happened, to explain why it happened, and to contribute to public judgement. Bongiorno rightly insists that the third matters, but the first two are the foundation on which it stands.",
+                        "feedback": "Meets the 21-25 row. It evaluates Bongiorno's interpretation rather than describing it, integrates Source A with Carr, Evans, Said, Reynolds and the Mabo decision, and reaches a qualified judgement that his remedy of rigour rests on a contested standard. No case study is needed for this question.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-hx-hsc-2025-1-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Bongiorno's interpretation in Source A is that history has a public purpose and that historians must take responsibility for how their work is used. He argues that history has often served the powerful, and that its assumptions have supported colonialism, war and environmental destruction. He also argues that historians should be trained to a high standard and should take part in public debate, because this is needed to counter myth and the rejection of expertise. The interpretation is important and can be tested against other historians.\n\nThe point about misuse is supported by evidence. Reynolds's The Other Side of the Frontier shows that Australian histories often ignored frontier violence, so history helped make dispossession seem acceptable. The High Court's decision in Mabo in 1992 also showed how the idea of terra nullius had been used to justify taking Aboriginal land, and the court rejected it. These examples show that Bongiorno is right that history can be used to justify wrong actions.\n\nCarr's What Is History? suggests that historians always select facts based on their own concerns, so all history is affected by the present. This makes it harder to say which uses of history are misuses. Bongiorno seems to think rigour can solve this problem, but it is not clear that it can.\n\nEvans's In Defence of History argues that the past can be known through evidence and that some interpretations are better than others. This supports Bongiorno's call for rigour, because historians can test claims and public history can be more accurate. Bongiorno's argument is therefore fairly convincing, although it could be more balanced. Evans's approach would also help a reader decide whether a public use of history is honest, because a museum display, a documentary or a textbook can be checked against the same evidence as a scholarly book.\n\nOverall, the interpretation is persuasive because it identifies the dangers of history and asks historians to act responsibly. It is less convincing when it treats the civic role of history as its most important purpose, because historians also seek to understand the past accurately.",
+                        "feedback": "Meets the 11-15 row: it states Bongiorno's purposes, refers to Source A and to other sources, and gives a judgement. The evaluation is asserted ('fairly convincing, although it could be more balanced') rather than argued, Carr and Evans each get a sentence, and the Reynolds point makes a causal leap. To lift it, test a claim against a named source and say what that evidence shows about Bongiorno's case.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-hx-hsc-2025-1-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Bongiorno says history has a public purpose. He thinks history has been used by powerful people to support things like colonialism and war, so historians need to be careful about what they write. He also says historians should be trained properly and should take part in public debate. Reynolds's book is an example of a historian who wrote about the frontier in Australia, and it shows that history can be important. Overall, Bongiorno's view seems reasonable, and historians should think about how their work is used by others. This matters because people use history to make decisions about land, rights and the past.",
+                        "feedback": "Meets the 1-5 row: isolated observations on Bongiorno's view, one reference to Reynolds with no explanation, and no evaluation. To lift it, state the interpretation in one sentence, judge it against at least one other source, and say whether that source supports or challenges it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Source A: an extract from Frank Bongiorno, \"What is history for?\", Australian Historical Association Presidential Address 2024, History Australia, 2024. The extract is copyright and is not reproduced here; read it in the 2025 HSC History Extension paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-history-extension.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate knowledge and understanding of relevant issues of historiography\n• use relevant sources to support your argument\n• present a comprehensive, logical and sustained response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "1",
+                    "hscSection": "Section I 25 marks Allow about 1 hour for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-hx-12-constructing-history-key-questions-1-3",
@@ -84,7 +150,74 @@
               {
                 "id": "dp-hx-12-constructing-history-key-questions-3-1",
                 "description": "The differing methods of the producers of history",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-hx-hsc-2025-2",
+                    "question": "To what extent does the statement in Source B apply to the methods of historians in your case study? In your response, make explicit reference to at least ONE area of debate in your case study. Identify your case study at the beginning of your answer.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "HX-12-01",
+                      "HX-12-03",
+                      "HX-12-04"
+                    ],
+                    "markerNotes": [
+                      "Name the case study and the area of debate in the first lines, as the question requires, and let the judgement follow from them rather than arriving as a closing comment.",
+                      "Test the statement in Source B against specific methods (source criticism, corroboration across sources, reading a source for its purpose, reconstructing evidence where it is missing) and show where the statement holds for each method and where it fails.",
+                      "The area of debate should be historiographical: historians read the same evidence differently. Strong answers show how two positions rest on different methods or questions, and what that reveals about the limits of truth from analysis.",
+                      "Keep the case study's evidence specific (a named source, document or event). An answer that could be written about any case study has not engaged with the question."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the case study without naming an area of debate, or names a debate without setting out the historians who take the competing positions.",
+                      "Treats Source B as a claim about 'truth' in general and does not say what kind of truth the case study's methods can reach (facts, causes, motives or interpretations).",
+                      "Calls a method reliable or unreliable without a reason tied to the sources, for example calling written sources biased without saying who wrote them, for what purpose and when.",
+                      "Uses the case study only as an illustration of a point about method, so the answer is about historical method in general and the judgement does not apply to the case study."
+                    ],
+                    "keywords": [
+                      "methods of historians",
+                      "source criticism",
+                      "corroboration",
+                      "reliability of sources",
+                      "historiography",
+                      "areas of debate",
+                      "historical truth",
+                      "bias in sources"
+                    ],
+                    "markingCriteria": "21-25 marks: Provides an insightful judgement of the extent to which the statement in Source B applies to the methods of historians; Supports the response with explicit and sustained references to at least ONE area of debate in their chosen case study; Demonstrates extensive knowledge, and insightful understanding of relevant historiographical issues from the chosen area(s) of debate in their case study; Constructs a comprehensive, logical and sustained response\n16-20 marks: Provides an effective judgement of the extent to which the statement in Source B and the methods of historians; Supports the response with detailed references to at least ONE area of debate in their chosen case study; Demonstrates thorough knowledge and relevant understanding of historiographical issues from the chosen area(s) of debate in their case study; Constructs a logical and sustained response\n11-15 marks: Provides a relevant judgement with reference(s) to the statement in Source B and the methods of historians; Constructs a response with references to at least ONE area of debate in their chosen case study; Demonstrates sound knowledge and understanding of historiographical issues from the chosen area(s) of debate in their case study; Constructs a structured response\n6-10 marks: Provides a description of the statement in Source B and/or the methods of historians in relation to at least ONE area of debate from the chosen case study; Constructs a response with limited reference to at least ONE area of debate in their chosen case study; Demonstrates limited knowledge and/or understanding of relevant historiographical issues; Constructs a limited response\n1-5 marks: Provides isolated observations that may be relevant to Source B and/or the methods of historians; May refer to ONE area of debate in their chosen case study; Demonstrates minimal knowledge of historiographical issues",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-hx-hsc-2025-2-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "My case study is Athenian democracy, from the reforms of Cleisthenes in 508/7 BC to its suppression in the late fourth century BC. The area of debate I examine is how far ordinary citizens, rather than elites, shaped Athenian decisions. The statement in Source B is that historians are able to reach truth from their analysis. Applied to the methods used in this debate, the statement holds to a considerable extent for the methods that test individual facts. It holds much less for the methods that reconstruct the political life of the citizen body, where historians reach competing but defensible accounts rather than one truth.\n\nThe methods that most support the statement are source criticism and corroboration. Historians ask who produced a source, for what purpose, and whether other evidence confirms it. Athenian inscriptions and ostraka, the potsherds on which citizens scratched the names of men they wished to exile, can be checked against literary references and placed in their archaeological context. This kind of evidence lets historians establish particular facts with confidence, such as how the procedure of ostracism worked. In this sense analysis does produce reliable knowledge about the institutions of democracy.\n\nThe debate becomes harder once the evidence concerns the power of citizens. No full attendance records survive, so participation has to be inferred from procedures, from the rhetoric addressed to audiences, and from institutions that needed large numbers of citizens to act. Josiah Ober, in Mass and Elite in Democratic Athens (1989), argues that ordinary citizens exercised real political power through the Assembly and the law courts, and that elites depended on the consent of the citizen body. His case is strongest in the courts, where juries of several hundred citizens were chosen by lot. Ober reads the rhetoric of the orators alongside the institutions, treating the speeches as evidence of what politicians needed to say to win the citizen body's support. M. I. Finley's Democracy Ancient and Modern (1973) stressed the dependence of Athenian democracy on slavery and the exclusion of women and resident foreigners from citizenship. Those who emphasise these limits read the same institutions as evidence of a narrower political community. The two readings differ because they begin from different questions, not because one has misread the sources, so analysis yields defensible interpretations rather than a single truth.\n\nA further problem sits behind both readings. Thucydides states that the speeches in his history were reconstructed to convey the general sense of what was said, so the Funeral Oration attributed to Pericles is at least partly his own account of Athenian democracy. The Constitution of the Athenians, attributed to Aristotle, and the pamphlet of an anonymous oligarch hostile to democracy were also shaped by their authors' purposes. The citizen body itself was defined by law: Pericles' citizenship law of 451/450 BC restricted citizenship to those with two Athenian parents, so the category historians count depends on definitions the sources supply. Historians therefore analyse these texts as interpretations, and the analysis reaches the most probable reading of what Athenians believed.\n\nOverall, the statement applies to a considerable extent to the methods that verify facts, which allow historians to establish a reliable account of how the institutions worked. It applies much less to the question of whose voice shaped Athenian democracy, because the sources are few, mostly written by elites or for persuasion, and the debate turns on interpretive models as much as on evidence. Historians reach the best-supported account rather than truth in full, and the Athenian case shows that competing analyses of the same evidence can each be defensible.",
+                        "feedback": "Meets the 21-25 row. The case study, Athenian democracy, is identified in the first sentence; the area of debate (how far ordinary citizens rather than elites shaped Athenian decisions) runs through the answer; and the judgement is explicit: the statement holds for methods that verify facts and much less for reconstructing citizens' political role. The sample is on Athenian democracy.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-hx-hsc-2025-2-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "My case study is Athenian democracy. The area of debate is whether ordinary Athenians had real power, or whether a small group of wealthy and educated men controlled the democracy. Source B says historians can reach truth from their analysis. Historians do use their sources to find out what happened, but the sources for Athens are limited and were written by people who had their own opinions.\n\nHistorians use methods such as checking sources against each other. Inscriptions and ostraka can confirm that certain events happened, such as the ostracism of politicians. Decrees that were inscribed on stone can be compared with what the literary sources say about the Assembly and the courts, and historians look at when and why an author was writing. These methods show that analysis can produce reliable information about how the Assembly and courts worked, so the statement is partly true.\n\nHowever, the sources are a problem. Thucydides put speeches into the mouths of his speakers, including Pericles, and he admits they are not word for word. The Constitution of the Athenians may have been written by a student of Aristotle rather than by Aristotle himself. An oligarch also wrote against the democracy. Because most of the sources come from elites, historians have to be careful about what they claim about ordinary people.\n\nJosiah Ober argues that ordinary citizens had a lot of influence through the Assembly and the law courts. Others stress the exclusion of women, slaves and foreigners from the citizen body. Those who doubt Ober's view point out that individual leaders often proposed the decrees the Assembly passed, so the evidence can be read as elite direction. Both sides rely on the same speeches and decrees, which is why the debate turns on interpretation as much as on evidence. This debate shows that historians can disagree even when using the same sources, so analysis does not always give one truth.\n\nOverall the statement applies in some ways but not others. Historians can establish facts about the democracy, but it is harder to say how much ordinary people shaped decisions.",
+                        "feedback": "Meets the 11-15 row: the case study and area of debate are named, and the statement is judged in part. The methods are described in general terms, and Thucydides and Aristotle are raised without being used to test a claim. To lift it, name the historians who take the competing positions and show how their methods lead them to different conclusions. The sample is on Athenian democracy.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-hx-hsc-2025-2-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "My case study is Athenian democracy. Athens had a democracy where citizens voted in the Assembly. Some historians think ordinary people had a lot of power and others think rich people controlled things, so there is a debate. Historians use sources like Thucydides and inscriptions, but these sources can be biased. Historians check their evidence by comparing one source with another and by asking who wrote it. Source B says historians can find truth, which seems partly true because of this, but it is not always easy to do.",
+                        "feedback": "Meets the 1-5 row: the case study is named, but the observations are isolated and the judgement is one unsupported sentence. To lift it, name one method and one source from the case study, and say whether the statement holds for it. The sample is on Athenian democracy.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Source B: NESA could not reproduce this source in the paper for copyright reasons; the paper links to it: https://www.researchgate.net/publication/336256682_Becoming_a_Professional_Historian_A_Study_in_The_Sources_of_History_and_Methodology\n\nYour answer will be assessed on how well you:\n• demonstrate knowledge and understanding of an appropriate case study\n• engage with the historiography of the areas of debate selected for discussion\n• present a comprehensive, logical and sustained response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "2",
+                    "hscSection": "Section II 25 marks Allow about 1 hour for this section",
+                    "bandCeiling": 6
+                  }
+                ]
               },
               {
                 "id": "dp-hx-12-constructing-history-key-questions-3-2",

@@ -769,27 +769,468 @@
               {
                 "id": "dp-esd-12-narrative-and-human-experiences-1-1",
                 "description": "The ways personal, social, cultural or historical contexts shape meaning in texts",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-esd-hsc-2025-5",
+                    "question": "How does Fidge explore the impact of role models in her childhood?",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ESD-12-01",
+                      "ESD-12-02"
+                    ],
+                    "markerNotes": [
+                      "Top answers tie the impact to the writer's voice: the humour, and her own letter as an act of protest, show what the role model meant to her.",
+                      "Explaining impact means saying what the role model made possible for the writer, not only that she mattered.",
+                      "A strong answer uses the sister's polite letter as a contrast with Fidge's direct one, to show how the impact was personal."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing She-Ra's story without saying how it affected Fidge.",
+                      "Stating that role models matter in general, without evidence from Fidge's text.",
+                      "Missing the social context: the scarcity of strong women on television for girls in the 1990s."
+                    ],
+                    "keywords": [
+                      "role models",
+                      "impact",
+                      "childhood",
+                      "gender representation",
+                      "personal voice",
+                      "social context",
+                      "textual evidence",
+                      "protest"
+                    ],
+                    "markingCriteria": "5 marks: Explains in a highly effective manner how Fidge explores the impact of role models in her childhood, using detailed, well-chosen supporting evidence\n4 marks: Explains effectively how Fidge explores the impact of role models in her childhood, using well-chosen supporting evidence\n3 marks: Explains how Fidge explores the impact of role models in her childhood, with appropriate supporting evidence\n2 marks: Describes the impact of role models in her childhood\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-5-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Fidge explores the ‘monumental’ impact that her favourite superhero, She-Ra, had in childhood through a strong, personal voice. She states that ‘She-Ra was made for me and my sister’, demonstrating the importance of diverse gender representation of role models. When describing that they were ‘desperate to see… women doing anything remotely interesting’, Fidge uses humour to emphasise the importance of seeing role models on television in childhood that resonated with her desire to see ‘strong women’ being represented doing aspirational things. When She-Ra was taken off the air, Fidge and her sister protested by writing ‘letters to the station to express our disappointment’. Her letter is a small act of protest where she exclaims, ‘Put back She-Ra. Do it… NOW!!’ where the imperative voice demonstrates the impact of having a superhero role model as it gave the author ongoing confidence to communicate her opinion with the hope of making change.",
+                        "feedback": "This answer meets the top row: it explains how She-Ra's example and Fidge's own letter show the impact of a role model, with detailed and well-chosen evidence and attention to the writer's voice.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-5-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Fidge shows how She-Ra shaped her childhood. The superhero was a powerful woman in a world of helpless princesses, and Fidge and her older sister watched her together. When the channel took the show off air, they wrote letters to protest. Fidge also takes from the show the lesson that the good guys do not always win.",
+                        "feedback": "This answer meets the middle row: it explains the impact of She-Ra with appropriate evidence, but the explanation stays general and does not show how the writing makes that impact felt. Comparing the sister's polite letter with Fidge's direct one would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-5-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Fidge writes about a cartoon she watched as a child.",
+                        "feedback": "This answer sits in the bottom row: it gives relevant information about the extract but does not explain how Fidge explores the impact of role models. Explaining one effect of She-Ra on her would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 5 (magazine article extract): Deirdre Fidge, Holding Out for a Hero. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-studies.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• analyse, explain and assess the ways human experiences are represented in texts",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "5",
+                    "hscSection": "Section I — Texts and Human Experiences"
+                  }
+                ]
               },
               {
                 "id": "dp-esd-12-narrative-and-human-experiences-1-2",
                 "description": "The ways narrative represents ideas, information and perspectives in texts",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-esd-hsc-2025-1",
+                    "question": "What does Andrews learn about how visiting places connects people?",
+                    "totalMarks": 3,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "ESD-12-01",
+                      "ESD-12-05"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers state the idea Andrews reaches, that visiting builds connection across time, before they give any evidence.",
+                      "Evidence is what separates the bands: one specific moment from the extract, such as the chai and the yarn, supports the idea and earns the top row.",
+                      "A retelling of the India trip that never says what Andrews learns about connection stays in the bottom row, however accurate it is."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the trip to India without saying what Andrews learns about connection.",
+                      "Making a general claim about family and visiting with no reference to the extract.",
+                      "Quoting a long passage and leaving the reader to work out what it shows."
+                    ],
+                    "keywords": [
+                      "represents ideas",
+                      "perspectives",
+                      "human experiences",
+                      "family connections",
+                      "textual evidence",
+                      "personal perspective",
+                      "nonfiction extract"
+                    ],
+                    "markingCriteria": "3 marks: Demonstrates an effective understanding of what Andrews learns about how visiting places connects people, using appropriate supporting evidence\n2 marks: Demonstrates an understanding of what Andrews learns about how visiting places connects people, using some supporting evidence\n1 mark: Provides some relevant information about the text",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-1-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Andrews learns that visiting places allows people to have deeper connections to their families by creating memories. On her trip to India, Andrews and her father would visit her friends and family and be ‘offered chai and food and stay for a yarn’. Through these conversations, Andrews learnt a lot about her family. Furthermore, she says an important way to ‘transfer histories, family stories, values, lessons and ways of life’ is through visiting.",
+                        "feedback": "This answer meets the top row: it states what Andrews learns (visiting deepens family connection through shared memories) and supports it with two short quotations from the extract. A weaker answer would only describe the trip.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-1-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Andrews learns that visiting is a deliberate way to connect with family. On trips to India with her dad, she learns about him and her relatives, and visiting helps pass on family stories.",
+                        "feedback": "This answer meets the middle row: it shows understanding of what Andrews learns and gives some evidence, but the evidence is paraphrased and the link to memory is missing. Quoting one phrase from the extract and explaining what it shows would lift it to the top row.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-1-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Andrews visits relatives in India with her dad.",
+                        "feedback": "This answer sits in the bottom row: it gives relevant information about the trip but does not say what Andrews learns about connection. Stating that idea would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 1 (nonfiction extract): Shawana Andrews, from HEALTH: Spirit, Country and Culture (Personal Perspectives). The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-studies.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• analyse, explain and assess the ways human experiences are represented in texts",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "1",
+                    "hscSection": "Section I — Texts and Human Experiences"
+                  },
+                  {
+                    "id": "prompt-esd-hsc-2025-6",
+                    "question": "Analyse how the representation of particular lives in your prescribed text enriches your understanding of the endurance of the human spirit.\n\nIn your response, make close reference to your prescribed text.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "ESD-12-01",
+                      "ESD-12-02",
+                      "ESD-12-05"
+                    ],
+                    "markerNotes": [
+                      "Analysis here means explaining how a life is represented, through private acts, choices and their cost, and what that adds to the idea of endurance.",
+                      "The strongest answers test endurance against the ending of the text rather than treating it as simple heroism.",
+                      "Close reference to a specific moment does more than a plot summary; the answer should say how that moment is represented."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the events of a character's life in order instead of analysing how that life represents endurance.",
+                      "Treating endurance as heroic defiance and ignoring the costs and failures in the text.",
+                      "Presenting remembered lines as exact quotations when the wording has not been checked.",
+                      "Writing about endurance as a general theme without showing how particular lives represent it."
+                    ],
+                    "keywords": [
+                      "particular lives",
+                      "endurance",
+                      "human spirit",
+                      "representation",
+                      "textual references",
+                      "human experiences",
+                      "perspective",
+                      "context"
+                    ],
+                    "markingCriteria": "17-20 marks: Analyses skilfully how the representation of particular lives in their prescribed text enriches their understanding of the endurance of the human spirit; Presents a perceptive response supported by well-chosen textual references from the prescribed text; Writes a coherent and sustained response using language appropriate to audience, purpose and context\n13-16 marks: Analyses effectively how the representation of particular lives in their prescribed text enriches their understanding of the endurance of the human spirit; Presents a thoughtful response supported by relevant textual references from the prescribed text; Writes an organised response using language appropriate to audience, purpose and context\n9-12 marks: Explains how the representation of particular lives in their prescribed text enriches their understanding of the endurance of the human spirit; Presents a response supported by some textual references from the prescribed text; Writes a response using variable control of language appropriate to audience, purpose and context\n5-8 marks: Expresses limited understanding of how the representation of particular lives in their prescribed text enriches their understanding of the human spirit; Describes aspects of the prescribed text; Writes a response with limited control of language\n1-4 marks: Refers to the prescribed text in a minimal way; Attempts to compose a response",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-6-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Orwell does not ask the reader to admire endurance as an abstract ideal. In Nineteen Eighty-Four the human spirit becomes visible through particular lives, and those lives show that endurance is private, costly and easily mistaken for its opposite. Winston Smith, who alters old newspaper records in the Records Department of the Ministry of Truth, is the first life the novel makes visible. His decision to keep a diary is a small refusal of the Party's version of reality. He buys the book from a junk shop and writes in an alcove of his flat, where the telescreen cannot see him. The writing is hesitant and frightened, and Orwell makes that hesitation meaningful. Winston has been trained to distrust his own memory, so his effort to write one true sentence, that hope lies 'in the proles', shows how much endurance costs a mind the Party has tried to empty out.\n\nJulia extends the representation of endurance in a different direction. She works in the Fiction Department on a novel-writing machine, and her resistance is practical and physical rather than intellectual. Where Winston wants to understand the past, Julia wants to live in the present. Their affair takes place in a room with no telescreen, and it is marked by small, fragile acts, such as a scrap of paper reading 'I LOVE YOU' left on top of the work Winston is about to do. These moments make endurance concrete. They also reveal the Party's method, which relies not only on force but on the expectation that people will betray one another.\n\nThe novel's central test comes in the Ministry of Love. O'Brien holds up his fingers and asks Winston how many he is holding up, and Winston's refusal to say five is the last point at which his mind is entirely his own. The scene attacks the ground of perception rather than only the body, so endurance here means holding on to a fact the Party is determined to change. Orwell does not let the scene end in heroism. O'Brien tells Winston that the worst thing in the world varies from individual to individual, and in Room 101 Winston shouts that they should do it to Julia. Winston's particular life therefore shows that endurance has a breaking point, and that the self it protects may be exactly what the Party wants to remove.\n\nThe ending makes the argument harder to resolve. Winston sits in the Chestnut Tree Café with a glass of Victory Gin and gazes up at the enormous face. The narration says he has won 'the victory over himself' and that he loved Big Brother. Orwell turns the language of triumph against itself: the victory is the surrender of everything that made his endurance meaningful, which is his love for Julia and his belief in a past that was true. The representation of Winston's life asks the reader what endurance means when the spirit that endures is no longer the one that began to resist.\n\nThe minor lives strengthen the argument. Parsons, a loyal Party member, is arrested after his small daughter reports him for talking in his sleep, and in the cell he cries that he is guilty of course and seems proud of the child who betrayed him. He shows a different kind of endurance, that of a man who accepts the Party's terms so completely that he feels no need to resist. Set beside Winston, Parsons suggests that endurance can be hard to tell apart from submission.\n\nThrough these particular lives Orwell enriches the idea of endurance beyond heroism. Endurance in Nineteen Eighty-Four is the ability to keep hold of private memory and affection under pressure, and the novel's most unsettling achievement is to show how little of that remains once the pressure has done its work. The reader is left to judge whether a spirit that loves Big Brother has endured anything at all.",
+                        "feedback": "This answer meets the top row: it analyses how Winston's and Julia's particular acts make endurance concrete and show its cost, and each point is supported by well-chosen moments from the novel. It could go further by analysing how the narration produces the irony of the ending, which the final paragraph only gestures at.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-6-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "In Nineteen Eighty-Four, Orwell shows endurance through Winston Smith, who works in the Records Department of the Ministry of Truth, changing old newspaper articles so that the Party's version of events is always the correct one. He begins a diary, which is a way of keeping his own thoughts, and this shows that he has not accepted the Party's version of reality. His relationship with Julia gives him a life outside the Party. Julia's practical attitude contrasts with his need to understand the past, and this helps the reader see that endurance can take different forms. Their affair is discovered, and Winston is tortured by O'Brien, who insists that Winston should see five fingers when he sees four. This scene explains how the Party attacks what a person believes they can perceive, not only their body. Winston finally betrays Julia, shouting 'Do it to Julia!' Orwell's representation makes clear that endurance has limits. By the end Winston loves Big Brother, which suggests that the Party has defeated the human spirit in him. These lives show that endurance is difficult and can fail, and that this failure is part of what the novel says about people.",
+                        "feedback": "This answer meets the 9-12 row: it explains how Winston's life represents endurance and refers to the text, but it moves through events in order rather than analysing how the representation works. Analysing one moment in detail, such as the fingers scene or the closing line, would lift it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-6-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Nineteen Eighty-Four is about Winston, who lives under a government called the Party and works changing old newspaper records. He keeps a secret diary and has a relationship with Julia. They are caught and Winston is tortured until he betrays her. At the end he loves Big Brother. This shows that a person can be beaten by a powerful government.",
+                        "feedback": "This answer meets the 5-8 row: it describes the plot and gives a basic idea of the human spirit being defeated, but it does not show how the representation of Winston and Julia enriches that understanding. Explaining one way Orwell represents their lives, such as the diary, would lift it.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• analyse, explain and assess the ways human experiences are represented in texts\n• organise, develop and express ideas using language appropriate to audience, purpose and context",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "6",
+                    "hscSection": "Section II — Texts and Human Experiences"
+                  },
+                  {
+                    "id": "prompt-esd-hsc-2025-7",
+                    "question": "Select ONE text you have studied in a module this year. Explain how the key ideas in this text have had a significant impact on you and your understanding of the world.\n\nIn your response, make close reference to ONE text you have studied this year.\n\nIdentify the module you have chosen at the top of page 2 of your writing booklet.\n\nThe modules for study are listed below.",
+                    "totalMarks": 15,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "ESD-12-01",
+                      "ESD-12-05"
+                    ],
+                    "markerNotes": [
+                      "The strongest answers name one or two key ideas precisely and trace how the text makes each idea felt, which is what 'significant impact' asks for.",
+                      "Impact on the writer is convincing only when the answer shows what changed in their own understanding, not a generic claim that the book mattered.",
+                      "Close reference to ONE text should carry the argument; a summary of the plot does not."
+                    ],
+                    "commonStudentErrors": [
+                      "Retelling the plot of the text instead of explaining its key ideas.",
+                      "Claiming the text changed your life without saying how it changed what you understand.",
+                      "Bringing in a second text, which the question does not allow.",
+                      "Forgetting to identify the module at the top of page 2 of the writing booklet."
+                    ],
+                    "keywords": [
+                      "key ideas",
+                      "significant impact",
+                      "understanding of the world",
+                      "language shapes meaning",
+                      "truth and memory",
+                      "textual reference",
+                      "personal response",
+                      "ONE text"
+                    ],
+                    "markingCriteria": "13-15 marks: Explains effectively how key ideas in ONE text have had a significant impact on them and their understanding of the world; Makes detailed reference to ONE text studied in a module; Composes a coherent and fluent response, using language appropriate to audience, purpose and form\n10-12 marks: Explains how key ideas in ONE text have had a significant impact on them and their understanding of the world; Makes sound reference to ONE text studied in a module; Composes an organised and clear response, using language appropriate to audience, purpose and form\n7-9 marks: Describes how a key idea or ideas in ONE text have had a significant impact on them and their understanding of the world; Makes some reference to ONE text studied in a module; Composes a clear response, using language appropriate to audience, purpose and form\n4-6 marks: Expresses some understanding of a text; Demonstrates some control of language\n1-3 marks: Attempts to compose a response with minimal control of language",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-7-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Nineteen Eighty-Four changed the way I hear public language. Before I read it I thought propaganda was obvious: a poster with a stern face, or a slogan that anyone could spot. Orwell showed me that the more effective power works through ordinary words, and through the past. The key idea that has stayed with me is that whoever controls the past controls the present. Winston works in the Records Department, where he changes old newspaper articles so that the Party has always been right, and the originals are dropped down the memory hole. The Party does not need to hide the past when it can simply replace it. Since reading the novel I notice how quietly stories are corrected, and how rarely the first version is kept for anyone to check.\n\nNewspeak is the second idea, and it works on a different level. The Party shrinks the language so that people cannot easily name a thought that is against it. Orwell's point is that a smaller vocabulary means a smaller range of thought. Syme, a philologist compiling the Newspeak dictionary, talks about 'the destruction of words' with real enthusiasm, and then he simply disappears. I now ask what a political phrase is doing when I read it: whether it describes something, or whether it is built to close the argument. Orwell taught me to treat neutral-sounding words as choices.\n\nThe idea that affected me most personally is the struggle to keep one true memory. Winston remembers that Oceania was once at war with a different power, and the official record says it never changed. The fear in the novel is not only of the torturers. It is the fear of being the only person who knows what happened. Winston's diary is an attempt to hold on to a fact, and under torture even what he can see is made to bend. That made me see that the truth depends on whether people keep remembering it. A lie does not have to win an argument; it only has to outlast the people who could contradict it.\n\nReading Nineteen Eighty-Four has changed my understanding of both the world and myself. I am more suspicious of smooth language and more careful about what I accept without a source. I also understand that the most dangerous loss is not a freedom taken away in public, but the memory of what it was like to have it.",
+                        "feedback": "This answer meets the top row: it explains three key ideas (control of the past, Newspeak and memory), shows how each changed the writer's understanding, and keeps close reference to ONE text. Its one gap is that the closing paragraph restates the impact rather than extending it.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-7-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Nineteen Eighty-Four changed how I read the news. The key idea I keep coming back to is that whoever controls the past controls the present. Winston rewrites old newspaper articles so that the Party has always been right, and the originals are dropped down a memory hole. This made me notice how often stories are corrected quietly, and how rarely the first version is kept.\n\nOrwell also shows how language can limit thought. Newspeak is designed to make rebellious thoughts hard to express, because a smaller vocabulary leaves less room to think. I did not expect a novel about a totalitarian state to be about words, but now I notice political slogans that end an argument rather than make one.\n\nThe book also made me think about memory. Winston remembers the war differently from the official record, and the fear that he is the only one who remembers is what stays with me. It showed me that the truth can depend on whether anyone is still willing to remember it. That is the idea I took from the novel into the rest of my reading.",
+                        "feedback": "This answer meets the 7-9 row: it describes key ideas and their impact, with some reference to the text, and the response is clear. Explaining how the novel makes an idea felt, for example by linking the memory hole to the writer's reading of the news, would lift it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-7-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Nineteen Eighty-Four is about a man called Winston who is always being watched. The government changes the news and tells lies. It made me scared of governments.",
+                        "feedback": "This answer sits in the 1-3 row: it attempts a response with minimal control of language and little explanation of key ideas. Naming one specific idea, such as the rewriting of records, and how it affected the writer would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate understanding of the key ideas of the module that has been studied\n• demonstrate understanding of ways that language has shaped meaning in texts\n• organise, develop and express ideas using language appropriate to audience, purpose and form",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "7",
+                    "hscSection": "Section III — Elective Modules"
+                  }
+                ]
               },
               {
                 "id": "dp-esd-12-narrative-and-human-experiences-1-3",
                 "description": "The ways author’s shape and influence meaning in texts",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-esd-hsc-2025-2",
+                    "question": "Explain how Vanderbilt captures the experience of learning as an adult.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ESD-12-02",
+                      "ESD-12-05"
+                    ],
+                    "markerNotes": [
+                      "A top answer explains the effect of a technique, such as the mocking question from the children, and what that effect shows about adult learning.",
+                      "The claim that learning is harder for adults is the thesis; the evidence is chosen to support it, not retold for its own sake.",
+                      "Evidence chosen for its emotional effect, such as the admission about his pride, separates the top row from a description of events."
+                    ],
+                    "commonStudentErrors": [
+                      "Summarising the chess tournament anecdote without explaining how the writing shows learning as an adult is harder.",
+                      "Naming a technique, such as anecdote or tone, without saying what it achieves.",
+                      "Treating the children's mocking as the author's own view rather than an incident he reports."
+                    ],
+                    "keywords": [
+                      "author's craft",
+                      "anecdote",
+                      "tone",
+                      "textual evidence",
+                      "first-person perspective",
+                      "human experiences",
+                      "represents",
+                      "shaping meaning"
+                    ],
+                    "markingCriteria": "4 marks: Explains effectively how Vanderbilt captures the experience of learning as an adult, using well-chosen supporting evidence\n3 marks: Explains how Vanderbilt captures the experience of learning as an adult, using appropriate supporting evidence\n2 marks: Describes how Vanderbilt captures the experience of learning as an adult, using some supporting evidence\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-2-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Vanderbilt conveys the experience of learning as an adult as more challenging than learning as a child. This is shown through the anecdote of parents mocking him for learning chess with his daughter and seeing ‘kids doing the activity, and adults like me staring into their smartphones.’ The question ‘Why are adults learning chess?’ asked in a ‘mocking tone’ suggests that it is unusual for children to see adults learning new skills. Vanderbilt’s anxiety about learning is evident in his internal reflection ‘I was nervous, even though I really had nothing to lose, save my pride’, showing adults have a stronger fear of failure than children, making learning new skills more challenging.",
+                        "feedback": "This answer meets the top row: it explains how Vanderbilt presents learning as an adult as harder than learning as a child, and backs each point with well-chosen evidence such as the mocking tone and his admission that he was nervous.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-2-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Vanderbilt describes learning chess as an adult. He notices adults staring at their phones while children play, and he says he was nervous at first. He says the game felt like a gym for the brain.",
+                        "feedback": "This answer meets the middle row: it describes events from the extract and uses some evidence, but it does not explain how the writing makes learning as an adult feel difficult. Choosing one technique, such as the mocking tone, and saying what it shows would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-2-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Vanderbilt is an adult who learns to play chess.",
+                        "feedback": "This answer sits in the bottom row: it gives relevant information but does not explain how Vanderbilt captures the experience. Naming one technique and what it shows about adult learning would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 2 (feature article extract): Tom Vanderbilt, The joys of being an absolute beginner – for life. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-studies.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• analyse, explain and assess the ways human experiences are represented in texts",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "2",
+                    "hscSection": "Section I — Texts and Human Experiences"
+                  }
+                ]
               },
               {
                 "id": "dp-esd-12-narrative-and-human-experiences-1-4",
                 "description": "Use of inference and an understanding of symbolism to interpret ideas and information in texts",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-esd-hsc-2025-3",
+                    "question": "Explain how Thompson represents the experience of being at the beach.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ESD-12-01",
+                      "ESD-12-02"
+                    ],
+                    "markerNotes": [
+                      "The top rows explain how the sensory language builds the experience of the beach (heat, drowsiness, the surf) rather than listing images.",
+                      "Symbolic words such as 'oblivion' need a reading of what they suggest about the experience, not only a dictionary meaning.",
+                      "Quotations from the poem are short and chosen for effect; a block of the poem with no comment adds little to the answer."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing images such as the sun and the waves without saying what experience each one creates.",
+                      "Treating the speaker as a named character when the poem gives no name or age.",
+                      "Missing the shift from the speaker's own body to the people in the surf."
+                    ],
+                    "keywords": [
+                      "imagery",
+                      "sensory language",
+                      "metaphor",
+                      "symbolism",
+                      "represents experience",
+                      "tone",
+                      "textual evidence",
+                      "poetic devices"
+                    ],
+                    "markingCriteria": "4 marks: Explains effectively how Thompson represents the experience of being at the beach, using well-chosen supporting evidence\n3 marks: Explains how Thompson represents the experience of being at the beach, using appropriate supporting evidence\n2 marks: Describes how Thompson represents the experience of being at the beach, with some supporting evidence\n1 mark: Provides some relevant information about how Thompson represents the experience of being at the beach",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-3-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Thompson represents the experience of someone lying on the beach taking in their surroundings. ‘I spin/With nearing sleep’ metaphorically conveys the experience of the effects of the heat and surrendering to one’s senses. As the persona closes their eyes, they are ‘dissolved within’, emphasising the power of the vivid experience. Thompson further represents the sensory experience of the beach through descriptions of the ‘thundering waves’ as the sunbather ‘shield[s]’ their eyes from the bright sunlight. Also, they are aware of the ‘lads and girls/In dazzling colours’ who are enjoying themselves in the surf. The term ‘oblivion’ suggests that the immensity of this moment could be absorbed into nothingness.",
+                        "feedback": "This answer meets the top row: it explains how the metaphors and sensory detail make the beach experience immersive and then dissolving, and it supports each point with precise, well-chosen quotations.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-3-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The poem describes a person lying in the sun at the beach. They close their eyes and drift towards sleep. They hear waves and people walking past, and they see young people diving under the waves.",
+                        "feedback": "This answer meets the middle row: it describes what happens at the beach and uses some evidence, but it does not explain how the imagery creates the experience. Naming one image, such as the red-hazy void, and saying what it makes the reader feel would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-3-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The poem is about lying in the sun.",
+                        "feedback": "This answer sits in the bottom row: it gives relevant information about the poem but does not explain how Thompson represents the experience. Identifying one technique and its effect would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 3 (poem): John Thompson, The Sun Bather. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-studies.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• analyse, explain and assess the ways human experiences are represented in texts",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "3",
+                    "hscSection": "Section I — Texts and Human Experiences"
+                  }
+                ]
               },
               {
                 "id": "dp-esd-12-narrative-and-human-experiences-1-5",
                 "description": "The impact of structure, language and tone to convey ideas and perspectives in narratives",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-esd-hsc-2025-4",
+                    "question": "How does Pippos portray Lucky’s sense of hope for the future?",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ESD-12-02",
+                      "ESD-12-05"
+                    ],
+                    "markerNotes": [
+                      "Top answers explain what the 'diorama' metaphor does to Lucky's sense of the future, rather than naming the metaphor and moving on.",
+                      "The hidden rings and the planned marriage work as symbols of hope only when the answer says what they promise about the future.",
+                      "A strong answer reads the hedge in the text (\"if the economy improved\") alongside the optimism, because the question asks about a sense of hope, not certainty."
+                    ],
+                    "commonStudentErrors": [
+                      "Summarising the voyage and the wedding plans without saying how the writing expresses hope.",
+                      "Reporting Lucky's hope as certain and ignoring the uncertainty in the text.",
+                      "Writing about the ship only as a setting, not as the metaphor the question points to."
+                    ],
+                    "keywords": [
+                      "metaphor",
+                      "hope",
+                      "imagery",
+                      "symbolism",
+                      "narrative perspective",
+                      "setting",
+                      "textual evidence",
+                      "represents ideas"
+                    ],
+                    "markingCriteria": "4 marks: Explains effectively how Pippos portrays Lucky’s sense of hope for the future, using well-chosen supporting evidence\n3 marks: Explains how Pippos portrays Lucky’s sense of hope for the future, using appropriate supporting evidence\n2 marks: Describes how Pippos portrays Lucky’s sense of hope for the future, using some supporting evidence\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-4-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "Pippos portrays Lucky’s hope for the future through the metaphor of the ship as a ‘diorama of the world’, showing that Lucky feels like the whole world is open to him. Lucky imagines Valia at various times of day, ‘working or eating’, or ‘flicking up to distance a fly’, and Pippos states that for Lucky these are ‘pleasing scenarios’. Lucky has ‘two gold rings hidden’ which are symbolic of the love and promise of marriage and hope he feels for his future with Valia in Australia. Pippos describes Circular Quay as ‘heavy with activity’ and the ‘northern shore in repose’, the contrast between action and peace reflecting Lucky’s hope for his future success in both his business and his peaceful home with Valia.",
+                        "feedback": "This answer meets the top row: it explains how the 'diorama' metaphor and the hidden rings express Lucky's hope, and it supports each point with well-chosen evidence from the extract.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-4-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Lucky is sailing back to Australia and imagines his life with Valia. He plans to marry her in December and then work with her father. He has hidden two gold rings in his suitcase.",
+                        "feedback": "This answer meets the middle row: it describes Lucky's plans and gives some evidence, but it does not explain how the writing shows hope for the future. Explaining what the 'diorama' metaphor or the hidden rings suggests about that hope would lift it.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-4-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Lucky is sailing back to Australia and thinking about Valia.",
+                        "feedback": "This answer sits in the bottom row: it gives relevant information about the extract but does not explain how Pippos portrays hope. Identifying one technique and its effect would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Text 4 (prose fiction extract): Andrew Pippos, Lucky’s. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-studies.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate understanding of human experiences in texts\n• analyse, explain and assess the ways human experiences are represented in texts",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "4",
+                    "hscSection": "Section I — Texts and Human Experiences"
+                  }
+                ]
               }
             ]
           },
@@ -873,7 +1314,71 @@
               {
                 "id": "dp-esd-12-writing-for-purpose-2-2",
                 "description": "Compose a variety of texts that experiment with language, forms and features to represent attitudes, values and perspectives",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-esd-hsc-2025-8",
+                    "question": "Use the statement above as the basis of a piece of imaginative or reflective writing about visiting an important place.",
+                    "totalMarks": 15,
+                    "verb": "COMPOSE",
+                    "linkedOutcomes": [
+                      "ESD-12-04"
+                    ],
+                    "markerNotes": [
+                      "A top piece lets the statement shape the whole piece, so the place, the people and the reflection all show how visiting teaches family stories, values, history and ways of life.",
+                      "Control of language shows in concrete detail and in sentences of varied length, not in long words.",
+                      "A reflection that states the lesson in its last sentence reads as a summary; the stronger pieces let the reader reach it through the scene."
+                    ],
+                    "commonStudentErrors": [
+                      "Using the statement only as a title or a single sentence at the end, rather than as the basis of the whole piece.",
+                      "Writing a generic holiday story with no family history in it.",
+                      "Stating the moral in the last line rather than showing it through the visit.",
+                      "Shifting tense in the middle of a scene so the reader loses the sense of when things happen."
+                    ],
+                    "keywords": [
+                      "imaginative writing",
+                      "reflective writing",
+                      "the statement",
+                      "family stories",
+                      "values",
+                      "history",
+                      "ways of life",
+                      "control of language"
+                    ],
+                    "markingCriteria": "13-15 marks: Composes effectively an engaging piece of imaginative or reflective writing using the statement; Organises, develops and sustains ideas effectively based on the statement; Demonstrates effective control of language appropriate to audience, purpose and context\n10-12 marks: Composes competently an engaging piece of imaginative or reflective writing using the statement; Organises and develops ideas competently based on the statement; Demonstrates developed control of language appropriate to audience, purpose and context\n7-9 marks: Composes a piece of imaginative or reflective writing using the statement; Organises ideas based on the statement; Demonstrates control of language appropriate to audience, purpose and context\n4-6 marks: Composes a limited response with some relevance to the question; Demonstrates some control of language\n1-3 marks: Attempts to compose a response with minimal control of language",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-esd-hsc-2025-8-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "The gate still sticks in the same place. Dad lifts it by the top rail, the way he did when he was a boy, and the hinge gives its old complaint. Nobody has lived in the house since Nan moved to the coast, but the lemon tree is still there, pruned by someone who knew what they were doing.\n\nI had expected to feel nothing. I had seen the photographs and thought I already knew the place from them. But standing in the yard with a tin of Nan's biscuits in my hands, I understood that the place was telling me things the photographs could not. The step where she used to sit and shell peas has worn into a shallow dip. The copper she boiled the sheets in is gone, but there is a dark rectangle of concrete where it stood, and Dad walked straight to it.\n\nMrs Kovac from next door came out with a folding chair for Dad and a cup of tea for me, as if she had been expecting us for years. She talked for an hour. She told us about the flood that took the bridge and the bakery, and about the winter Nan fed three families from one pot of soup. Dad listened with both hands around his cup. I had never seen him so quiet. I wrote the names in the back of my notebook because I knew I would forget them.\n\nThat afternoon I learned things no family tree could show me. Nan's generosity was not just a story she told at Christmas; the neighbours still remembered it as a habit. The family history I had known was a set of dates on the back of photographs, but here it was a series of small decisions about who got fed and who stayed. The ways of life I thought were simply ours, the Sunday lunch and the long walk to the shops, belonged to a whole street that had got through a flood and a hard winter together.\n\nThe idea that visiting important places teaches family stories, values, history and ways of life sounded obvious when I first heard it. I understand it differently now. Dad did not drive four hours to see a gate that was no longer ours. He drove there to stand where his mother once stood, so that I could know where I come from.\n\nBefore we left, I picked a lemon from the tree and put it in my pocket. It is on my desk now. When I look at it I remember the dip in the step, the squeak of the gate and the way Mrs Kovac said Nan's name, as though she were still in the kitchen.",
+                        "feedback": "This answer meets the top row: the statement is the basis of the whole piece, the reflective voice is controlled, and the detail (the gate, the step, the lemon tree) sustains the development. Its one weakness is a slightly tidy final image, which does not stop it reaching the top row.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-8-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "We drove to Nan's old town on Saturday. Dad hadn't been back since he was a boy, so I didn't know what to expect. The house was smaller than I thought and the gate squeaked when we opened it. Dad stood in the yard for ages without saying anything. Then a neighbour called Mrs Kovac came out and talked to us. She told us stories about Nan, like how she fed three families from one pot of soup in winter, and how a flood took the bridge.\n\nI think visiting important places is a way to learn about family stories, values, history and ways of life. I learned that Nan was generous and that our family has always looked after people. The place made the stories real in a way that talking at home never did. Dad said it was the best day he had had in years.\n\nI want to go back and visit again, and maybe write it all down so I remember the people and the gate.",
+                        "feedback": "This answer meets the 7-9 row: it composes a piece based on the statement and organises some ideas around it, but the control of language is uneven and the family history stays general. Using one concrete image, and letting the lesson emerge without naming it, would lift it.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-esd-hsc-2025-8-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "We went to Nan's old house. It was old and the gate was broken. Dad was sad. A lady talked to us about Nan. Visiting important places is good for learning about family and history. I liked it.",
+                        "feedback": "This answer sits in the 1-3 row: it attempts a response with minimal control of language, and the statement is only loosely connected to the story. Developing one specific visit with a clear sense of the scene would lift it.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "‘Visiting important places is a way to learn about family stories, values, history and ways of life.’\n\nYour answer will be assessed on how well you:\n• organise, develop and sustain your ideas\n• control language appropriate to audience, purpose and context",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "8",
+                    "hscSection": "Section IV — Writing Skills",
+                    "bandCeiling": 5
+                  }
+                ]
               },
               {
                 "id": "dp-esd-12-writing-for-purpose-2-3",

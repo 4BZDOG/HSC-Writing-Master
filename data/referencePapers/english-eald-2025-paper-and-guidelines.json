@@ -1,0 +1,239 @@
+{
+  "year": 2025,
+  "course": "English EAL/D",
+  "papers": [
+    "2025-hsc-english-eald-paper-1.pdf",
+    "2025-hsc-english-eald-paper-2.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "4",
+      "reason": "Text 4 is a visual text (Felicita Sala, ‘A year in Fleurville’) printed only as an image on page 6, and Text 5 (a nonfiction extract) is not displayed in the paper (‘Due to copyright restrictions, this material cannot be displayed until permission has been obtained’). The part cannot be reproduced as text."
+    },
+    {
+      "number": "6",
+      "reason": "The writing stimulus is a photograph by Pier Luigi Dodi printed only as an image on page 10 of the question paper; the prompt cannot be understood or answered from text alone, so it is not reproduced."
+    },
+    {
+      "number": "Listening",
+      "reason": "Listening paper (15 marks, Questions 1–4, based on an audio excerpt of a podcast) is not a written-response paper and is not extracted."
+    }
+  ],
+  "questions": [
+    {
+      "number": "1",
+      "section": "Paper 1, Section I",
+      "sectionHeading": "Section I — Module A: Texts and Human Experiences\n30 marks\nPart A – 15 marks",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does Text 1 communicate the effects of having a positive outlook?",
+      "stimulus": "Text 1 (prose fiction): Yung Pueblo, clarity & connection. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-eald-paper-1.pdf",
+      "assessedOn": [
+        "demonstrate understanding of human experiences in texts",
+        "demonstrate understanding of the ways language shapes and expresses perceptions"
+      ],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how Text 1 communicates the effects of having a positive outlook, using well-selected supporting evidence"
+        },
+        {
+          "marks": "2",
+          "text": "Describes how Text 1 communicates the effects of having a positive outlook, using relevant supporting evidence"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Text 1 communicates the beneficial effects of having a positive outlook. The metaphor of ‘your mind becomes light’ reveals that positive thinking allows us to feel less mentally weighed down, as well as being ‘calm now’. Additionally, ‘your power is yours’ reveals the empowerment that comes from having a clear mindset.",
+      "answersCouldInclude": [],
+      "key": "p1-1"
+    },
+    {
+      "number": "2",
+      "section": "Paper 1, Section I",
+      "sectionHeading": "Section I — Module A: Texts and Human Experiences\n30 marks\nPart A – 15 marks",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does Text 2 represent the speaker’s freedom?",
+      "stimulus": "Text 2 (poem): Corinna Board, Of a feather. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-eald-paper-1.pdf",
+      "assessedOn": [
+        "demonstrate understanding of human experiences in texts",
+        "demonstrate understanding of the ways language shapes and expresses perceptions"
+      ],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how Text 2 represents the speaker’s freedom, using well-selected textual evidence"
+        },
+        {
+          "marks": "2",
+          "text": "Describes how Text 2 represents the speaker’s freedom, using relevant textual evidence"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Text 2 represents the speaker’s freedom through the symbolism of the birds. As she flies ‘out of the window’, she leaves behind the ‘worries that… weighed me down’ and escapes from her ordinary life. The metaphorical ‘I was ash, I was ink, I was smoke’ reveals the speaker is now weightless and free.",
+      "answersCouldInclude": [],
+      "key": "p1-2"
+    },
+    {
+      "number": "3",
+      "section": "Paper 1, Section I",
+      "sectionHeading": "Section I — Module A: Texts and Human Experiences\n30 marks\nPart A – 15 marks",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse how the composer uses language to represent Margaret Lightning’s morning routine.",
+      "stimulus": "Text 3 (fiction extract): Nardi Simpson, Song of the Crocodile. The text is copyright and is not reproduced here; read it in the 2025 HSC paper: https://www.nsw.gov.au/sites/default/files/noindex/2025-10/2025-hsc-english-eald-paper-1.pdf",
+      "assessedOn": [
+        "demonstrate understanding of human experiences in texts",
+        "demonstrate understanding of the ways language shapes and expresses perceptions"
+      ],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Effectively analyses how the composer uses language to represent Margaret Lightning’s morning routine, using well-selected textual evidence"
+        },
+        {
+          "marks": "3",
+          "text": "Analyses how the composer uses language to represent Margaret Lightning’s morning routine, using relevant textual evidence"
+        },
+        {
+          "marks": "2",
+          "text": "Describes how the composer uses language to represent Margaret Lightning’s morning routine, using some textual reference"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The composer uses language to represent Margaret Lightning’s morning routine as quiet and pleasant. The simile, ‘her nightgown’s hem floating like her own tail behind her’ reflects the calm way in which she begins her day. The repetition of ‘she hummed’ further develops her growing sense of peace. The contrast in her hum evolving from ‘timid’ to ‘robust’ emphasises her deepening sense of pleasure as she continues her day. The ending personification of ‘timid tune into robust phrase’ reinforces how Margaret Lightning starts her day through song, which energises her and brings her peace.",
+      "answersCouldInclude": [],
+      "key": "p1-3"
+    },
+    {
+      "number": "5",
+      "section": "Paper 1, Section I",
+      "sectionHeading": "Section I – Module A (continued)\nPart B – 15 marks",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How have the perspectives represented in your prescribed text shaped your understanding of courage?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate understanding of human experiences in texts",
+        "organise, develop and express ideas using language appropriate to audience, context and purpose"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Analyses skilfully how the perspectives represented in the prescribed text have shaped their understanding of courage ; Uses well-selected examples from the prescribed text in a discerning way ; Skilfully organises and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "10–12",
+          "text": "Analyses effectively how the perspectives represented in the prescribed text have shaped their understanding of courage ; Uses detailed examples from the prescribed text in an effective way ; Effectively organises and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "7–9",
+          "text": "Analyses how the perspective(s) represented in the prescribed text have shaped their understanding of courage ; Uses examples from the prescribed text in an adequate way ; Organises and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "4–6",
+          "text": "Explains the perspective(s) represented in the prescribed text ; Provides some examples from the prescribed text ; Attempts to organise and express ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "1–3",
+          "text": "Attempts to respond to the question ; Refers to the text in an elementary way ; Demonstrates minimal control of language and expression"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "key": "p1-5"
+    },
+    {
+      "number": "1",
+      "section": "Paper 2, Section I",
+      "sectionHeading": "Section I — Module B: Language, Identity and Culture\n20 marks",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How are the complications of embracing identity represented in your prescribed text? In your response, make detailed reference to your prescribed text.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate understanding of how language is used to express cultural identity",
+        "organise, develop and express ideas using language appropriate to audience, purpose and form"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Explains skilfully how the complications of embracing identity are represented in the prescribed text ; Demonstrates detailed textual knowledge and uses examples in a discerning way ; Skilfully organises and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "13–16",
+          "text": "Explains effectively how the complications of embracing identity are represented in the prescribed text ; Demonstrates detailed textual knowledge and uses examples in an effective way ; Effectively organises and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "9–12",
+          "text": "Explains how the complications of embracing identity are represented in the prescribed text ; Demonstrates sound textual knowledge and uses examples from the text in a competent way ; Adequately organises and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "5–8",
+          "text": "Describes how the complications of embracing identity are explored in the prescribed text ; Demonstrates some textual knowledge and provides some examples from the text ; Attempts to organise and express ideas"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides relevant information about the prescribed text ; Demonstrates limited textual knowledge ; Demonstrates limited ability to organise and express ideas"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "key": "p2-1"
+    },
+    {
+      "number": "2",
+      "section": "Paper 2, Section II",
+      "sectionHeading": "Section II — Module C: Close Study of Text\n20 marks",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How does your prescribed text use language forms and features to evoke empathy, and challenge you to see the world differently? In your response, make detailed reference to your prescribed text.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate understanding of a text’s distinctive qualities and how these shape meaning",
+        "organise, develop and express ideas using language appropriate to audience, purpose and form"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Explains skilfully how the prescribed text uses language forms and features to evoke empathy and challenge them to see the world differently ; Demonstrates highly developed skills in interpretation of the text ; Skilfully organises, develops and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "13–16",
+          "text": "Explains effectively how the prescribed text uses language forms and features to evoke empathy and challenge them to see the world differently ; Demonstrates well-developed skills in interpretation of the text ; Effectively organises, develops and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "9–12",
+          "text": "Explains how the prescribed text uses language forms and features to evoke empathy and challenge them to see the world differently ; Demonstrates satisfactory skills in interpretation of the text ; Adequately organises, develops and expresses ideas using language appropriate to audience, purpose and form"
+        },
+        {
+          "marks": "5–8",
+          "text": "Describes how the prescribed text explores empathy and/or challenges them to see the world differently ; Demonstrates some skills in interpretation of the text ; Attempts to organise, develop and express ideas"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides relevant information about the prescribed text ; Demonstrates limited skills in interpretation of the text ; Demonstrates limited ability to organise and express ideas"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [],
+      "key": "p2-2"
+    }
+  ],
+  "note": "Copyright stimulus texts replaced by citations and prescribed-text lists removed; the verified extract is the .verified.json beside this file."
+}

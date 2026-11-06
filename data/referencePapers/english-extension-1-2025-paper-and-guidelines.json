@@ -1,0 +1,88 @@
+{
+  "year": 2025,
+  "course": "English Extension 1",
+  "papers": [
+    "2025-hsc-english-extension-1.pdf",
+    "2025-hsc-english-ext-1-mg.pdf"
+  ],
+  "skipped": [],
+  "questions": [
+    {
+      "number": "1",
+      "section": "I",
+      "sectionHeading": "Section I — Common Module: Literary Worlds",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Read Text 1 on page 3.\nCompose a discursive response in which you extend the ideas in Text 1.\nIn your response, articulate your insights into how texts make meaning through the crafting of literary worlds.",
+      "stimulus": "Text 1: an extract from Ken Liu, The Paper Menagerie and Other Stories. The extract is copyright and is not reproduced here; read it on page 3 of the 2025 HSC English Extension 1 paper: https://www.nsw.gov.au/sites/default/files/noindex/2026-02/2025-hsc-english-extension-1.pdf",
+      "assessedOn": [
+        "demonstrate an understanding of the ideas and values of Literary Worlds and how they are shaped and reflected in texts",
+        "craft a sustained composition appropriate to the question, demonstrating control of the use of language"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a response that extends the ideas in Text 1 in sophisticated ways; Demonstrates sophisticated insights into how texts make meaning through the crafting of literary worlds; Demonstrates sophisticated control of language and discursive form"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides a response that extends the ideas in Text 1 in highly effective ways; Demonstrates highly effective insights into how texts make meaning through the crafting of literary worlds; Demonstrates highly effective control of language and discursive form"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides a response that extends the ideas in Text 1 in sound ways; Demonstrates sound insights into how texts make meaning through the crafting of literary worlds; Demonstrates sound control of language and discursive form"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a response that extends the ideas in Text 1 in limited ways; Demonstrates limited insights into how texts make meaning through the crafting of literary worlds; Demonstrates limited control of language and form"
+        },
+        {
+          "marks": "1–5",
+          "text": "Attempts to respond to the ideas in Text 1; Attempts to provide insights into how texts make meaning; Attempts to control language and form"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "2",
+      "section": "II",
+      "sectionHeading": "Section II — Electives",
+      "marks": 25,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Read Text 2.\nHow does Text 2 shape your understanding of the ways your texts ‘creatively break’ dominant assumptions in the elective you have studied?\nIn your response, make close reference to TWO prescribed texts from your elective and ONE other text of your own choosing.\nThe prescribed texts for Section II are listed on pages 5−9.",
+      "stimulus": "Text 2: an extract from Rebecca Solnit, Break the Story. The extract is copyright and is not reproduced here; read it in the 2025 HSC English Extension 1 paper: https://www.nsw.gov.au/sites/default/files/noindex/2026-02/2025-hsc-english-extension-1.pdf",
+      "assessedOn": [
+        "demonstrate an understanding of the ideas and values of Literary Worlds and how they are shaped and reflected in texts",
+        "craft a sustained composition appropriate to the question, demonstrating control of the use of language"
+      ],
+      "criteria": [
+        {
+          "marks": "21–25",
+          "text": "Provides a sophisticated argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a sophisticated ability to support their argument through close reference to two prescribed texts from their elective and one other text of their own choosing; Demonstrates a sophisticated control of language and form"
+        },
+        {
+          "marks": "16–20",
+          "text": "Provides a highly effective argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a highly effective ability to support their argument through close reference to two prescribed texts from their elective and one other text of their own choosing; Demonstrates a highly effective control of language and form"
+        },
+        {
+          "marks": "11–15",
+          "text": "Provides a sound argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a sound ability to support their argument through close reference to two prescribed texts from their elective and one other text of their own choosing; Demonstrates a sound control of language and form"
+        },
+        {
+          "marks": "6–10",
+          "text": "Provides a limited argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a limited ability to support their argument through close reference to texts; Demonstrates a limited control of language and form"
+        },
+        {
+          "marks": "1–5",
+          "text": "Attempts to respond to the question; Attempts to support an argument with reference to texts; Attempts to control language and form"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": []
+    }
+  ],
+  "note": "Stimulus texts replaced by citations (copyright); the verified verbatim extract is 2025-extract.verified.json."
+}
