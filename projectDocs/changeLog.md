@@ -1,5 +1,26 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-05 (Library saved only when it changes; scenario images and the held-back update fixed)
+
+- **Fixed.** The whole library was written to IndexedDB on every launch, and every backup check read the whole
+  daily backup record, with nothing changed. The auto-save now writes only a library that differs from the copy
+  last written (`lastPersistedRef`, `hooks/useSyllabusData.ts`). `createBackup` checks a small stamp in
+  `main_store` (the day key and time of its last write) instead of the backup itself (`utils/storageUtils.ts`).
+  The stamp is cleared when the backup it describes is deleted. The launch-time backup, one backup per hour per
+  day key, and the seven-backup retention are unchanged. No data change, so `DATA_VERSION` stays at 2.40.0. Tests:
+  `tests/unit/useSyllabusDataSaveSkip.test.tsx`, `tests/unit/createBackupStamp.test.ts`.
+- **Fixed.** A scenario image that could not be read from IndexedDB left "Loading image..." showing indefinitely,
+  and logged an unhandled rejection. `loadScenarioImage` returns null on failure, `useScenarioImage` clears its
+  loading state in a `finally` (and handles the rejection), and `ScenarioImageUploader` catches its read. Tests:
+  `tests/unit/scenarioImageLoadFailure.test.tsx` and a case in `tests/unit/scenarioImageStorage.test.ts`.
+- **Fixed.** "Update it" on a held-back course downloaded every shipped file again, moments after the sync had
+  fetched them. `syncShippedCourses` now also returns the map it fetched (`shipped`), and the offer applies that
+  map. Test: `tests/unit/heldBackUpdateReuse.test.tsx`.
+- **Fixed.** `build-course-data/author_brief.md` printed a verb-tier table that disagreed with
+  `data/commandTerms.ts` on 17 verbs (EXPLAIN and COMPARE as tier 4, APPLY as tier 3, ASSESS as tier 6, and so on)
+  and left out four verbs. Its canonical-verbs line is rebuilt from the code, with typical marks from each verb's
+  `markRange`. `tests/unit/authorBriefTiers.test.ts` asserts that each verb's tier and marks match the code.
+
 ## [Unreleased] - 2026-11-05 (Five new courses: Chemistry, Physics, Earth and Environmental Science, CAFS, Society and Culture)
 
 - **Added (DATA_VERSION 2.42.0).** Five structure-only courses, unticked in the first-run picker (teachers fill

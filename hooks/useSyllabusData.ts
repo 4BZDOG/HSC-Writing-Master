@@ -223,9 +223,13 @@ export const syncShippedCourses = async (
   complete: boolean;
   shippedIds: string[];
   heldBack: HeldBackCourse[];
+  /** Every shipped course fetched, so an offer's update applies them without downloading again. */
+  shipped: Map<string, Course>;
 }> => {
   try {
-    const pending = await fetchShippedCourses();
+    const shipped = await fetchShippedCourses();
+    // The loop below takes courses out of `pending`; `shipped` keeps them all for the offer.
+    const pending = new Map(shipped);
     const shippedIds = [...pending.keys()];
     const taken = new Set(saved.map((c) => c.id));
     const courses: Course[] = [];
@@ -268,10 +272,10 @@ export const syncShippedCourses = async (
     for (const next of pending.values()) {
       if (!offered?.has(next.id)) courses.push(stampShipped(next));
     }
-    return { courses: [...courses, ...backups], complete: true, shippedIds, heldBack };
+    return { courses: [...courses, ...backups], complete: true, shippedIds, heldBack, shipped };
   } catch (err) {
     console.warn('[Curriculum] Could not sync shipped courses; will retry on next load.', err);
-    return { courses: saved, complete: false, shippedIds: [], heldBack: [] };
+    return { courses: saved, complete: false, shippedIds: [], heldBack: [], shipped: new Map() };
   }
 };
 
@@ -403,6 +407,9 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
   // still works) is warned about at most once per session — enough to tell the
   // teacher the restore net has a hole, without nagging on every rollup.
   const backupWarnedRef = useRef(false);
+  // The library as IndexedDB last took it. Immer gives a changed library a new reference, so the
+  // auto-save writes only when the library is not this one (see the save effect).
+  const lastPersistedRef = useRef<Course[] | null>(null);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -461,25 +468,17 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
               // Offered, not forced: the copy holds the user's own changes. The
               // replacement is applied to the library as it is when they click.
               const ids = held.map((h) => h.id);
+              // The versions this sync already fetched: the update applies them without a second
+              // download, and they are the versions the offer's counts were worked out from.
+              const { shipped } = synced;
               const update = () => {
-                fetchShippedCourses()
-                  .then((shippedById) => {
-                    updateCourses((current) => replaceWithShipped(current, shippedById, ids));
-                    showToast(
-                      `Updated ${listNames(held.map((h) => h.name))}. Your earlier ${
-                        held.length === 1 ? 'copy is' : 'copies are'
-                      } kept as a backup in the Data vault.`,
-                      'success'
-                    );
-                  })
-                  // The offer is made once per data version, so a failed download
-                  // carries its own retry rather than sending the user away.
-                  .catch(() =>
-                    showToast('The update could not be downloaded.', 'error', {
-                      label: 'Try again',
-                      onClick: update,
-                    })
-                  );
+                updateCourses((current) => replaceWithShipped(current, shipped, ids));
+                showToast(
+                  `Updated ${listNames(held.map((h) => h.name))}. Your earlier ${
+                    held.length === 1 ? 'copy is' : 'copies are'
+                  } kept as a backup in the Data vault.`,
+                  'success'
+                );
               };
               // Offered, not forced: the copy holds the user's own changes. The
               // replacement is applied to the library as it is when they click.
@@ -488,6 +487,10 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
           }
           if (libraryReady) safeSetItem(STORAGE_KEYS.DATA_VERSION, DATA_VERSION);
         }
+        // A library read from IndexedDB is already there, so it is not written back on launch. A
+        // copy from the fallback store is written, which moves it into IndexedDB. Anything the
+        // migration changed is a new reference, so it is written too.
+        if (loadResult.source === 'IndexedDB') lastPersistedRef.current = loadResult.data;
         updateCourses(() => dataToLoad);
         setIsDiscoveryInProgress(false);
         setIsReady(true);
@@ -692,25 +695,31 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
   useEffect(() => {
     if (!isReady) return;
     const handler = setTimeout(async () => {
-      const status = await saveCoursesToDB(courses);
-      // In Supabase mode the badge reports the source of truth; the local save
-      // is just the offline cache, so don't let it overwrite 'Supabase' —
-      // unless the cache write actually failed, which is worth surfacing.
-      if (!isCurriculumRemote() || status === 'Error') {
-        setStorageStatus(status);
-      }
-      // A failed save means edits are no longer persisting — the header badge
-      // alone is easy to miss while typing, so raise (and later clear) an
-      // active toast on the transition, guarded so it fires once per change.
-      if (status === 'Error' && !saveFailedRef.current) {
-        saveFailedRef.current = true;
-        showToast(
-          'Your changes are not saving — storage may be full or blocked. Export your data to avoid losing work.',
-          'error'
-        );
-      } else if (status !== 'Error' && saveFailedRef.current) {
-        saveFailedRef.current = false;
-        showToast('Saving has recovered — your changes are being stored again.', 'success');
+      // A library IndexedDB already holds is not written again. The backup check below still runs,
+      // so the first launch of a day snapshots the library as it was loaded.
+      let status: StorageStatus = 'IndexedDB';
+      if (courses !== lastPersistedRef.current) {
+        status = await saveCoursesToDB(courses);
+        if (status === 'IndexedDB') lastPersistedRef.current = courses;
+        // In Supabase mode the badge reports the source of truth; the local save
+        // is just the offline cache, so don't let it overwrite 'Supabase' —
+        // unless the cache write actually failed, which is worth surfacing.
+        if (!isCurriculumRemote() || status === 'Error') {
+          setStorageStatus(status);
+        }
+        // A failed save means edits are no longer persisting — the header badge
+        // alone is easy to miss while typing, so raise (and later clear) an
+        // active toast on the transition, guarded so it fires once per change.
+        if (status === 'Error' && !saveFailedRef.current) {
+          saveFailedRef.current = true;
+          showToast(
+            'Your changes are not saving — storage may be full or blocked. Export your data to avoid losing work.',
+            'error'
+          );
+        } else if (status !== 'Error' && saveFailedRef.current) {
+          saveFailedRef.current = false;
+          showToast('Saving has recovered — your changes are being stored again.', 'success');
+        }
       }
       if (courses.length > 0 && status !== 'Error') {
         createBackup(courses)

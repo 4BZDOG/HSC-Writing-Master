@@ -46,9 +46,13 @@ const ScenarioImageUploader: React.FC<ScenarioImageUploaderProps> = ({
       setPreviewDataUrl(null);
       return;
     }
-    loadScenarioImage(promptId).then((row) => {
-      if (!cancelled) setPreviewDataUrl(row?.dataUrl ?? null);
-    });
+    loadScenarioImage(promptId)
+      .then((row) => {
+        if (!cancelled) setPreviewDataUrl(row?.dataUrl ?? null);
+      })
+      .catch(() => {
+        if (!cancelled) setPreviewDataUrl(null);
+      });
     return () => {
       cancelled = true;
     };
