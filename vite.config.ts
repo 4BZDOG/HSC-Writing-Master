@@ -384,9 +384,14 @@ export default defineConfig(({ mode }) => {
               return 'prompts';
             }
 
+            // The dialogs AppModals opens on demand, in one chunk of their own.
+            // AppModals itself is NOT in it: it is eager, and a 'modals' chunk
+            // that held it would be preloaded by every student. The dialogs are
+            // reached only through React.lazy, so this chunk loads on first open.
             if (
-              id.includes('/components/AppModals') ||
-              id.includes('/components/ManifestImportModal')
+              /\/components\/(?:CourseCreatorModal|SubTopicCreatorModal|ManualPromptModal|OutcomesEditorModal|DataManagerModal|RenameModal|TopicSyllabusImportModal|DotPointGeneratorModal|SyllabusImportModal|StarterQuestionsModal|TopicImportModal|QualityCheckModal|UserProfileModal|ManifestImportModal|ProgressReportModal)\.tsx$/.test(
+                id
+              )
             ) {
               return 'modals';
             }
