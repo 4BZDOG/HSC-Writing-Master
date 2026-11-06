@@ -1,12 +1,13 @@
 /**
  * Guard against a lazy feature chunk quietly rejoining the first load.
  *
- * Six feature bundles are deliberately kept out of a student's initial
+ * Eight feature bundles are deliberately kept out of a student's initial
  * download: the admin tooling, the PDF engine, html2canvas, the provider SDK,
- * and the direct-provider fallback. Their components are behind `React.lazy`
- * and their libraries behind dynamic `import()`, so the intent is in the source
- * — but whether it HOLDS is decided by Rollup, and Rollup will happily drag a
- * whole chunk into the eager graph over one shared module.
+ * the direct-provider fallback, the Supabase client and the modal dialogs. Their
+ * components are behind `React.lazy` and their libraries behind dynamic
+ * `import()`, so the intent is in the source — but whether it HOLDS is decided
+ * by Rollup, and Rollup will happily drag a whole chunk into the eager graph
+ * over one shared module.
  *
  * That is not hypothetical. It has happened twice:
  *
@@ -52,6 +53,16 @@ const MUST_STAY_LAZY = [
   ['html2canvas.esm', 'the PDF rasteriser, same path as pdf-engine'],
   ['gemini', 'the provider SDK, reached only through aiCore'],
   ['aiDirect', 'the direct-provider fallback and its SDK'],
+  // The Supabase client (~54 kB gzipped). services/supabaseClient.ts loads it
+  // with `import()` on first use, and a local-mode student never has a Supabase
+  // URL to use it with. A value import of the library from any module in the
+  // eager graph puts it back; a type-only import is erased and does not.
+  ['supabase', 'the Supabase client library — loaded only when a Supabase URL is configured'],
+  // The modal dialogs AppModals opens on demand. Each is behind React.lazy, so
+  // this chunk is fetched on the first open. A static import of one of them
+  // from an eager component, or an AppModals chunk assignment that pulls the
+  // shell in, would preload all of them on every first load.
+  ['modals', 'the dialogs AppModals opens on demand — nothing on the first screen'],
 ];
 
 /**
