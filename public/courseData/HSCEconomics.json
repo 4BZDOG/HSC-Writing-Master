@@ -1218,6 +1218,65 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-21b",
+                    "question": "Explain the limitations of using income as a single measure of quality of life.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ECO-12-01",
+                      "ECO-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward the answer that explains why income measures resources rather than wellbeing, and gives reasons such as unpaid work or the spread of income, rather than listing limitations.",
+                      "Two named indicators of wellbeing, such as educational attainment and life expectancy, earn credit when they are tied to the limitation of using income alone.",
+                      "The top rows need the explanation to show why a single measure is inaccurate, not only that income is one part of wellbeing."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing what GDP or income is instead of explaining why income is an incomplete measure of quality of life.",
+                      "Listing several limitations without explaining how each one weakens income as a measure."
+                    ],
+                    "keywords": [
+                      "quality of life",
+                      "limitations of GDP",
+                      "income distribution",
+                      "informal economy",
+                      "non-market sector",
+                      "environmental degradation",
+                      "wellbeing"
+                    ],
+                    "markingCriteria": "3 marks: Explains the limitations of using income as a single measure of quality of life\n2 marks: Describes some limitations of using income as a single measure of quality of life\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-21b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Income refers to the monetary rewards in return for economic resources of residents of an economy in a given period. Quality of life is a broader concept which refers to additional measures of wellbeing. Therefore, to get a more accurate view of quality of life, other indicators such as educational attainment indicative of literacy, and life expectancy which demonstrates health outcomes, should also be considered.",
+                        "feedback": "Meets the 3-mark row: explains that income measures resources rather than wellbeing, and supports the point with two named indicators, educational attainment and life expectancy.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-21b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Income leaves out much of what affects wellbeing, such as unpaid work at home and the informal economy. It also says nothing about how income is shared between households, so an average can hide large differences in how people live.",
+                        "feedback": "Meets the 2-mark row: describes two limitations, unpaid work and the spread of income, without explaining why each one weakens income as a measure of quality of life. Explaining how each limitation changes the picture of wellbeing would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-21b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Income does not show everything about how well people live.",
+                        "feedback": "Provides some relevant information: makes a general point about income and wellbeing without naming a limitation. Naming one specific limitation, such as the informal economy, and describing its effect would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -2277,6 +2336,58 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-23b",
+                    "question": "Outline ONE factor that may have changed the participation rate in this economy.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "ECO-12-01",
+                      "ECO-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward the outline that names one factor and explains how it changes the number of people in the labour force relative to the working-age population.",
+                      "Using the data in the stimulus, such as the fall in the participation rate from 66 to 62 per cent, earns credit when it is linked to the factor.",
+                      "Naming a factor without saying whether it raises or lowers participation earns only the lower row."
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the participation rate with the unemployment rate.",
+                      "Describing a factor without linking it to the participation rate."
+                    ],
+                    "keywords": [
+                      "labour force participation",
+                      "participation rate",
+                      "discouraged job seekers",
+                      "cyclical influences",
+                      "structural influences",
+                      "labour force",
+                      "working-age population"
+                    ],
+                    "markingCriteria": "2 marks: Outlines ONE factor that may have changed the participation rate in this economy\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-23b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "An increase in discouraged job seekers when they give up looking for work results in a smaller labour force and decreased participation rate.",
+                        "feedback": "Meets the 2-mark row: outlines one factor, an increase in discouraged job seekers who stop looking for work, and its effect of lowering the participation rate.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-23b-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Changes in the economy can affect how many people take part in the labour force.",
+                        "feedback": "Provides some relevant information: refers to the labour force but does not name a factor that changed the participation rate in this economy. Naming one factor, such as discouraged job seekers, and its effect on participation would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Use the information to answer parts (b)−(d). The following information refers to a hypothetical economy which has a Non-Accelerating Inflation Rate of Unemployment (NAIRU) of 5%. [Table: Year | Participation rate | Unemployment rate. Year 1 | 66% | 4.5%. Year 2 | 62% | 5.9%.]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(b)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -2624,6 +2735,108 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-23a",
+                    "question": "Outline why ONE specific group may experience higher than average unemployment in Australia.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "ECO-12-04",
+                      "ECO-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward the outline that names one specific group and gives a cause, such as lack of experience or job-specific skills, rather than only identifying the group.",
+                      "Giving the age range of the group, for example young people aged 15 to 24, earns credit as an example.",
+                      "The answer must say why this group faces higher than average unemployment, not describe unemployment in general."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a group without explaining why its unemployment is higher.",
+                      "Choosing a broad group, such as all workers, which does not answer the question."
+                    ],
+                    "keywords": [
+                      "unemployment",
+                      "labour force",
+                      "structural unemployment",
+                      "frictional unemployment",
+                      "labour market disadvantage",
+                      "work experience",
+                      "skills"
+                    ],
+                    "markingCriteria": "2 marks: Outlines why one specific group may experience higher than average unemployment in Australia\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-23a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "In Australia, young people (15–24 years old) tend to experience a higher unemployment rate than the national average due to their lack of experience and job-specific skills.",
+                        "feedback": "Meets the 2-mark row: names young people aged 15 to 24 and gives a reason, their lack of experience and job-specific skills.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-23a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Young people often have a higher unemployment rate than the average in Australia.",
+                        "feedback": "Provides some relevant information: names a group with higher than average unemployment but gives no reason. Giving one cause, such as limited work experience, would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(a)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-23c",
+                    "question": "Using the information provided on the previous page, outline a possible cause of the increase in unemployment present in the economy in Year 2.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "ECO-12-04",
+                      "ECO-12-08"
+                    ],
+                    "markerNotes": [
+                      "Reward the outline that names a cause and uses the Year 2 unemployment rate from the stimulus to support it.",
+                      "Comparing the 5.9 per cent rate with the 5 per cent NAIRU in the stimulus shows the use of data the outline needs.",
+                      "A cause given without reference to the information provided reaches only the lower row."
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the NAIRU with the actual unemployment rate.",
+                      "Describing cyclical unemployment without linking the cause to the Year 2 figures."
+                    ],
+                    "keywords": [
+                      "cyclical unemployment",
+                      "insufficient aggregate demand",
+                      "economic downturn",
+                      "unemployment rate",
+                      "causes of unemployment",
+                      "data interpretation"
+                    ],
+                    "markingCriteria": "2 marks: Outlines the possible cause of the increase in unemployment present in the economy in Year 2, using the information provided\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-23c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "The unemployment rate of 5.9% in Year 2, which is above the NAIRU of 5%, suggests the presence of cyclical unemployment. Cyclical unemployment arises when there is insufficient demand for goods and services, leading to fewer employment opportunities during economic slowdowns.",
+                        "feedback": "Meets the 2-mark row: uses the Year 2 unemployment rate of 5.9 per cent against the 5 per cent NAIRU to identify cyclical unemployment, and states that it arises from insufficient demand.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-23c-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Unemployment may have risen because the economy slowed down.",
+                        "feedback": "Provides some relevant information: gives a general cause but does not use the Year 2 figures or explain why a slowdown raises unemployment. Linking the 5.9 per cent rate to the 5 per cent NAIRU and explaining the cause as insufficient demand would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Use the information to answer parts (b)−(d). The following information refers to a hypothetical economy which has a Non-Accelerating Inflation Rate of Unemployment (NAIRU) of 5%. [Table: Year | Participation rate | Unemployment rate. Year 1 | 66% | 4.5%. Year 2 | 62% | 5.9%.]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(c)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -5039,6 +5252,71 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-26",
+                    "question": "Explain how the dimensions and trends of income inequality affect the Australian economy. In your answer, refer to the information provided.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "ECO-12-04",
+                      "ECO-12-08",
+                      "ECO-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward answers that use the earnings table as evidence of the dimensions of inequality, reading the figures rather than listing them.",
+                      "The top rows link at least two effects on the economy, such as consumption, productivity or the Federal Budget, to specific features of the data.",
+                      "The strongest answers weigh the costs of inequality against the argument that some inequality supports incentives, and reach a conclusion on the overall effect.",
+                      "The question asks about trends: a strong answer reads the widening gap through the working years from the printed table, and does not claim changes over time the stimulus does not show."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the table's figures without drawing any conclusion about the economy.",
+                      "Stating that inequality simply hurts the economy, with no mechanism.",
+                      "Ignoring the information provided, which the question asks students to refer to."
+                    ],
+                    "keywords": [
+                      "income inequality",
+                      "gender pay gap",
+                      "aggregate demand",
+                      "human capital",
+                      "progressive taxation",
+                      "transfer payments",
+                      "Federal Budget",
+                      "social cohesion"
+                    ],
+                    "markingCriteria": "17-20 marks: Demonstrates a clear and comprehensive understanding of how the dimensions and trends in income inequality affect the Australian economy; Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response; Integrates relevant economic terms, concepts, relationships and theories\n13-16 marks: Demonstrates a sound understanding of how the dimensions and trends in income inequality affect the Australian economy; Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response; Applies relevant economic terms, concepts, relationships and theories\n9-12 marks: Demonstrates a sound understanding of how the dimensions and trends in income inequality affect the Australian economy; OR; Demonstrates some understanding of the dimensions OR the trends in income inequality OR effects on the Australian economy; Uses own knowledge and understanding with the information provided, to develop a coherent response; Uses relevant economic terms, concepts and relationships\n5-8 marks: Demonstrates some understanding of income inequality in the Australian economy; Presents a generalised response; Uses some economic terms and/or concepts\n1-4 marks: Identifies some relevant information; Presents a limited response that uses some economic terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-26-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Income inequality is the uneven distribution of economic resources between individuals or groups, as the Productivity Commission defines it. The information shows that inequality has several dimensions, and the earnings table shows that they are closely tied to age and gender. Male median full-time weekly earnings rise from $600 for those aged 15 to 19 to $1500 for those aged 35 to 44, while female earnings rise from the same $600 to $1200. The gap is only $50 at ages 20 to 24, but it grows to $300 at ages 35 to 44 and to $382.7 at ages 55 to 59. The gap therefore widens through the working years, peaking at ages 55 to 59, rather than closing with experience, which likely reflects career breaks, part-time work and occupational segregation as well as differences in skills. Inequality also has an opportunity dimension, because access to well-paid work depends on education and networks that are not spread evenly across groups.\n\nThe effects on the Australian economy begin with household spending. Lower-income households spend a larger share of any extra income than high-income households, which save a larger share. When income is concentrated at the top, aggregate consumption is weaker than it would be if income were shared more evenly, and businesses that rely on household spending may cut back investment and hiring. Because one person's spending becomes another's income, this lower consumption has a multiplier effect, so the fall in national income can be larger than the initial change in spending. A second effect is on productivity. A person who cannot afford education, training or good health care is less likely to build the skills that raise productivity, so potential output is lower than it could be.\n\nInequality also affects access to the economy's opportunities. High-income households have a greater share of investment income, such as interest, rent, dividends and superannuation, so differences in income compound into differences in wealth over time. Low incomes make it harder to access housing, health care and education, which reduces participation in the workforce and the size of the labour force. These effects reduce the economy's capacity to grow sustainably.\n\nGovernment finances are the third channel. Progressive income taxation and transfer payments such as the Age Pension and family assistance redistribute income and reduce the gap, but they must be funded. The more the government spends on support payments, the less room there is in the Federal Budget for infrastructure, education or tax cuts. Spending on early childhood education and health can reduce inequality over the long run, but it takes years to affect earnings, so the budget trade-off is between present costs and future productivity. Greater inequality can also erode social cohesion, which raises the costs of poor health, crime and reduced trust in the institutions that support economic activity.\n\nThere is a counter-argument. Some inequality reflects differences in effort, skills and risk-taking, and it gives people incentives to study, work and invest. Excessive redistribution can weaken those incentives, especially where marginal tax rates are high. The most effective policy is therefore to address the causes of unequal outcomes, such as access to quality early childhood education and the gender pay gap, rather than only taxing success after it occurs. For example, affordable childcare may allow more women to work longer hours, which would narrow the gap and expand the labour force at the same time. Overall, the information suggests that the gap, which widens through the working years, weakens consumption, productivity and social stability, and that the policy response should focus on opportunity as well as redistribution.",
+                        "feedback": "Meets the 17-20 row: integrates the printed definition and table with effects on consumption, productivity, the Federal Budget and social cohesion, weighs the incentive argument, and reaches a judgement on which policy response addresses the causes.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-26-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Income inequality in Australia is shown by the way earnings differ across groups. The table shows that male median full-time weekly earnings are $1500 at ages 35 to 44, while female earnings are $1200, so the gender gap is visible in the working years. The gap is small for young workers but grows with age, which suggests that inequality is partly caused by career breaks and occupational differences.\n\nInequality affects the economy because lower-income households spend a larger share of their income. When income is concentrated among high-income households, which save more, total consumer spending is lower, and this reduces aggregate demand and business investment. Consumers with less income also have less capacity to absorb shocks, so downturns hit them harder. Inequality also affects productivity, because people who cannot afford education or training have fewer skills, which limits the economy's potential output.\n\nThe government responds with progressive taxes and transfer payments, such as the Age Pension, which redistribute income. Progressive taxes charge higher rates to higher earners. These payments reduce inequality, but they add to spending in the Federal Budget. Low-income households also find it harder to access housing and health care, which can reduce their productivity over time. Inequality can weaken social cohesion, which is a cost to the community as well as to the economy.\n\nOverall, inequality affects consumer spending, productivity and government finances in Australia, and the gender gap is therefore an economic issue as well as a social one, because it reduces the labour the economy can use.",
+                        "feedback": "Meets the 9-12 row: a sound understanding of how inequality affects the economy, with some use of the earnings table and economic terms. The analysis of the age pattern is brief and the incentive argument is not weighed, so explaining why the gap widens through the working years and weighing the costs against the benefits would lift it to 13-16.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-26-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Income inequality means some people in Australia earn much less than others. The information shows that men earn more than women at most ages, and that pay changes with age. The gap grows with age, so some groups have less income to spend on goods and services. This affects the economy because people with low incomes may spend less, and the government may need to spend more on welfare to support them.",
+                        "feedback": "Meets the 5-8 row: some understanding of income inequality in a generalised response, with few economic terms. Using the table to give the size of one gap and explaining one mechanism, such as lower consumption or productivity, would lift it to the 9-12 row.",
+                        "band": 3
+                      }
+                    ],
+                    "scenario": "Inequality is the uneven distribution of economic resources between individuals or different groups within a society. We care about inequality because income and wealth can be significant contributors to an individual’s wellbeing and because inequality can be detrimental to the ongoing advancement of our economy and society. Australian Government Productivity Commission, A snapshot of inequality in Australia Research paper, May 2024 Median full-time weekly earnings by age and gender, 2024 [Table: Age | Male | Female. 15–19 years | $600 | $600. 20–24 years | $900 | $850. 25–34 years | $1250 | $1126.6. 35–44 years | $1500 | $1200. 45–54 years | $1500 | $1200. 55–59 years | $1500 | $1117.3. 60–64 years | $1323.2 | $1080. 65 and over | $1290.2 | $1105.7.] Australian Bureau of Statistics, Characteristics of Employment Survey, Table 2, August 2024\n\nYour answer will be assessed on how well you:\n• demonstrate knowledge and understanding relevant to the question\n• use the information provided\n• apply relevant economic terms, concepts, relationships and theory\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section III 20 marks Attempt either Question 25 or Question 26 Allow about 35 minutes for this section",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -6540,6 +6818,70 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-27",
+                    "question": "Analyse the conflicts for government that may arise in pursuing Australia’s economic objectives. In your response, refer to THREE separate objectives.",
+                    "totalMarks": 20,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "ECO-12-02",
+                      "ECO-12-04",
+                      "ECO-12-06"
+                    ],
+                    "markerNotes": [
+                      "Reward the answer that analyses three separate conflicts, each linking two objectives through a mechanism, rather than describing the objectives one at a time.",
+                      "Top answers show that a conflict depends on conditions, such as whether the economy is near potential output, and explain how government could manage it.",
+                      "The conclusion should judge which conflict is hardest to manage, or how a policy mix can contain them, rather than repeat the body."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing each objective separately without showing a conflict between them.",
+                      "Stating that objectives conflict with no mechanism, such as a cash rate rise slowing demand.",
+                      "Treating one conflict as three by naming the objectives without analysing each pair."
+                    ],
+                    "keywords": [
+                      "economic objectives",
+                      "trade-off",
+                      "full employment",
+                      "price stability",
+                      "environmental sustainability",
+                      "policy mix",
+                      "inflation target",
+                      "Federal Budget"
+                    ],
+                    "markingCriteria": "17-20 marks: Demonstrates a clear and comprehensive understanding of the conflicts for governments that may arise in pursuing three of Australia’s economic objectives, supported by examples; Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theories; Provides a well-informed analysis of the conflicts that may arise in pursuing three of Australia’s economic objectives\n13-16 marks: Demonstrates a sound understanding of the conflicts that may arise in pursuing three of Australia’s economic objectives; Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theories; Provides some analysis of the conflicts that may arise in pursuing three of Australia’s economic objectives\n9-12 marks: Demonstrates some understanding of the conflicts that may arise in pursuing Australia’s economic objectives; Provides a coherent response that uses relevant economic terms, concepts, relationships; Provides a description of Australia’s economic objectives\n5-8 marks: Demonstrates some understanding of economic objectives; Presents a generalised response that uses some economic terms and concepts\n1-4 marks: Provides some relevant information; Presents a limited response that uses some economic terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-27-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Australian governments pursue several economic objectives at the same time, and pursuing one can make another harder to achieve. Three objectives that frequently conflict are full employment, price stability and environmental sustainability. Each conflict forces government to make trade-offs, because a policy that improves one objective may worsen another.\n\nThe first conflict is between full employment and price stability. Expansionary policy, such as a lower cash rate or higher government spending in the Federal Budget, increases aggregate demand and reduces unemployment. If the economy is already close to its potential output, the extra demand can push up prices. The trade-off is strongest near capacity, because firms then struggle to find extra workers and bid up wages and prices. The Reserve Bank's inflation target is 2 to 3 per cent over time, and the Monetary Policy Board must weigh the risk of higher unemployment against the risk of inflation. In 2022 and 2023, when inflation rose well above the target, the Reserve Bank raised the cash rate sharply. This slowed demand and reduced inflation, but it raised borrowing costs for households with mortgages and for businesses, which increased the risk of job losses.\n\nThe second conflict is between price stability and environmental sustainability. Policies that reduce emissions, such as a carbon price, raise the cost of producing energy and other goods. Firms usually pass some of these costs on to consumers, so the price level can rise in the short term. The Reserve Bank may then need to keep the cash rate higher than it otherwise would, which slows the economy. Over time, firms can reduce the price effect by improving energy efficiency and switching to lower-emission technology, so the conflict is sharpest in the short run. The government must therefore judge how quickly it can reduce emissions without creating inflation that erodes the purchasing power of households.\n\nThe third conflict is between environmental sustainability and full employment. Reducing emissions usually requires restructuring emissions-intensive industries, such as coal mining and coal-fired electricity generation. Workers in those industries, and the regional communities that depend on them, may lose jobs before new industries create employment, and the new work may require different skills. Unemployment can rise in those regions in the short run even though the long-run goal is achieved. The conflict is sharpest where an industry is concentrated in a few regions, because the local labour market cannot absorb displaced workers quickly. Government can ease this conflict with retraining programmes, transition support and investment in renewable energy, but these measures cost the budget and take time to work.\n\nThe government's options for managing these conflicts are limited. Monetary policy works through the cash rate and cannot target one industry or one region, so it cannot protect jobs in coal communities while the economy as a whole faces inflation. Fiscal policy can be targeted, but it involves policy lags, political considerations and the cost of higher government debt. A coordinated policy mix is therefore the most realistic approach: macroeconomic policy keeps demand close to potential output, while microeconomic and labour market policies manage the transition for particular industries and regions. Governments can soften these conflicts by phasing in change and targeting support, so the costs fall on different groups at different times. Overall, the government cannot always achieve all three objectives fully at the same time, and its choices determine who bears the costs of the trade-offs.",
+                        "feedback": "Meets the 17-20 row: analyses three separate conflicts, between full employment and price stability, between price stability and environmental sustainability, and between environmental sustainability and full employment, each through a mechanism, and judges how a policy mix can manage them.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-27-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Australian governments must balance several economic objectives, and pursuing one can make another harder to achieve. One conflict is between full employment and price stability. When demand is strong, unemployment falls, but prices can rise too quickly. The Reserve Bank has an inflation target of 2 to 3 per cent over time, so it may raise the cash rate to slow demand, which can increase unemployment. Firms may also find it harder to hire when the economy is strong, which pushes up wages.\n\nA second conflict is between price stability and environmental sustainability. Policies to cut emissions, such as a carbon price, raise production costs, and firms may pass these on to consumers, which pushes up prices. Higher energy prices affect households on low incomes most. The government has to weigh how fast it can act without causing inflation.\n\nA third conflict is between environmental sustainability and full employment. If emissions-intensive industries are reduced, workers may lose their jobs, especially in regional areas that depend on those industries. The government can use retraining programmes to help these workers, but retraining takes time and cost money, so unemployment in affected areas may persist for years.\n\nThe government must weigh these conflicts when it makes decisions. Monetary and fiscal policy both affect the whole economy, so they cannot easily target one industry, and they can push in opposite directions. Overall, the government cannot easily achieve all of its objectives at once.",
+                        "feedback": "Meets the 9-12 row: a coherent account of three conflicts with some use of economic terms, but each conflict is described rather than analysed and there is no judgement on how the government should prioritise. Explaining the mechanism in each conflict and weighing which matters most would lift it to 13-16.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-27-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Australia's government has several economic objectives, such as economic growth, full employment, price stability and environmental sustainability. These objectives can be hard to achieve together. For example, if the government wants more jobs it may need to spend more, which can push prices up. Policies to cut emissions can also raise prices. The government has to manage these trade-offs.",
+                        "feedback": "Meets the 5-8 row: some understanding of economic objectives in a generalised response, with some economic terms. Naming three objectives and explaining one conflict between them with a mechanism would lift it to the 9-12 row.",
+                        "band": 3
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding relevant to the question\n• apply relevant economic information, terms, concepts, relationships and theory\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section IV 20 marks Attempt either Question 27 or Question 28 Allow about 35 minutes for this section",
+                    "bandCeiling": 6
                   }
                 ]
               }
@@ -8385,6 +8727,57 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-24a",
+                    "question": "Outline the purpose of monetary policy in Australia.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "ECO-12-01",
+                      "ECO-12-02"
+                    ],
+                    "markerNotes": [
+                      "Reward the outline that states the RBA's aim, price stability and full employment, and that monetary policy works through the cost and availability of credit.",
+                      "A purpose must name the objective, not the tool: saying only that the RBA lowers the cash rate earns the lower row.",
+                      "Naming the RBA matters, because the question asks about monetary policy in Australia."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the tools of monetary policy instead of its purpose.",
+                      "Confusing monetary policy with fiscal policy, such as government spending or taxation."
+                    ],
+                    "keywords": [
+                      "monetary policy",
+                      "Reserve Bank of Australia",
+                      "price stability",
+                      "full employment",
+                      "cash rate",
+                      "inflation target",
+                      "demand-side policy"
+                    ],
+                    "markingCriteria": "2 marks: Outlines the purpose of monetary policy in Australia\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-24a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "Monetary policy is used by the RBA to influence the cost and availability of credit in the economy. It does so primarily by managing economic fluctuations and seeking to control price stability.",
+                        "feedback": "Meets the 2-mark row: outlines the purpose as influencing the cost and availability of credit to manage economic fluctuations and control price stability.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-24a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Monetary policy is used by the Reserve Bank to manage the economy.",
+                        "feedback": "Provides some relevant information: names the RBA and the economy but does not state the purpose. Naming an objective, such as price stability or full employment, would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24(a)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -8614,6 +9007,65 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-24b",
+                    "question": "Explain how the Reserve Bank of Australia (RBA) maintains the cash rate target.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ECO-12-02",
+                      "ECO-12-01"
+                    ],
+                    "markerNotes": [
+                      "Reward the explanation of the mechanism by which the RBA keeps market interest rates close to the cash rate target, not only the Board's decision to set it.",
+                      "The strongest answers name a tool, such as the interest rate corridor or market operations, and explain how banks' borrowing and lending decisions move the market rate.",
+                      "A correct answer names the Monetary Policy Board as the body that sets the target and the RBA's market operations as the means of keeping the rate there."
+                    ],
+                    "commonStudentErrors": [
+                      "Explaining how the Monetary Policy Board sets the target without explaining how the RBA keeps the market rate at that target.",
+                      "Describing the effects of the cash rate on the economy instead of how the RBA maintains the target."
+                    ],
+                    "keywords": [
+                      "cash rate target",
+                      "Monetary Policy Board",
+                      "Reserve Bank of Australia",
+                      "interest rates",
+                      "money market",
+                      "inflation target",
+                      "monetary policy"
+                    ],
+                    "markingCriteria": "3 marks: Explains how the RBA maintains the cash rate target\n2 marks: Demonstrates some understanding of how the RBA maintains the cash rate target\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-24b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The policy interest rate corridor establishes a price ceiling for lending rates and a price floor for deposit rates. This encourages inter-bank transactions where banks can borrow at lower rates than those charged by the RBA and lend at higher rates than those paid by the RBA. Consequently, the cash rates within the market gravitate towards the desired cash rate target.",
+                        "feedback": "Meets the 3-mark row: explains the mechanism of an interest rate corridor. Banks can borrow at rates below those the RBA charges and lend at rates above those it pays, so market rates move towards the target.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-24b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The Monetary Policy Board sets a cash rate target. The Reserve Bank then acts in the money market so that market interest rates stay close to that target.",
+                        "feedback": "Meets the 2-mark row: shows that the Board sets the target and that the Reserve Bank acts to keep market rates close to it, but does not explain the mechanism. Explaining how banks borrow and lend at the Reserve Bank's rates, and why this moves the market rate, would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-24b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The RBA uses interest rates to influence the economy.",
+                        "feedback": "Provides some relevant information: refers to interest rates but not to the cash rate target or how the RBA keeps it. Naming the cash rate target and one action the RBA takes would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24(b)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -8728,6 +9180,66 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-24c",
+                    "question": "Explain the impacts of a decrease in the cash rate on an economy.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ECO-12-03",
+                      "ECO-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward an explanation that traces at least two channels from the cash rate change to aggregate demand, output and employment.",
+                      "The best answers recognise that inflationary pressure is a possible consequence of the expansion, linking it to the RBA's price stability objective.",
+                      "Naming a channel without explaining how it moves the economy earns the lower rows."
+                    ],
+                    "commonStudentErrors": [
+                      "Saying that a lower cash rate reduces borrowing costs without following the effect through to spending or investment.",
+                      "Reversing the direction of the effect, such as saying a lower cash rate reduces household spending.",
+                      "Describing only the effect on borrowers and ignoring savers or the exchange rate."
+                    ],
+                    "keywords": [
+                      "cash rate",
+                      "saving and investment channel",
+                      "cash-flow channel",
+                      "asset price and wealth channel",
+                      "exchange rate channel",
+                      "aggregate demand",
+                      "inflationary pressures"
+                    ],
+                    "markingCriteria": "5 marks: Demonstrates a clear and comprehensive understanding of the impacts of a decrease in the cash rate on an economy\n4 marks: Demonstrates a sound understanding of the impacts of a decrease in the cash rate on an economy\n3 marks: Demonstrates some understanding of the impacts of a decrease in the cash rate on an economy\n2 marks: Provides some understanding of the cash rate in an economy\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-24c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "A decrease in the cash rate lowers borrowing costs and increases credit availability in the economy as changes in the cash rate flow on to the other interest rates in the economy. This allows households to borrow more or repay less on existing loans, leaving them with increased disposable income, enabling higher consumption. Businesses are also more likely to invest due to cheaper financing and this promotes long-term economic growth. As a result, increased aggregate demand and supply support higher output and employment. However, if increases in demand outpace the growth in supply capacity, it can lead to inflationary pressures over time.",
+                        "feedback": "Meets the 5-mark row: explains the impacts comprehensively, following cheaper borrowing through household disposable income, consumption and business investment to aggregate demand, output and employment, and notes the risk of inflationary pressure.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-24c-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "A lower cash rate makes borrowing cheaper, so households and businesses are more likely to borrow and spend. This raises aggregate demand and supports jobs. The effects take time to flow through, and their size depends on how much people borrow.",
+                        "feedback": "Meets the 3-mark row: explains one chain of effects, cheaper borrowing leading to more spending and higher aggregate demand, but does not cover business investment, the exchange rate or the risk of inflation. Adding a second channel and its effect on the economy would lift it to the 4-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-24c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A cut in the cash rate lowers interest rates in the economy.",
+                        "feedback": "Provides some relevant information: identifies the link between the cash rate and interest rates but does not follow the change through to the economy. Explaining one effect on spending or investment would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24(c)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -10436,6 +10948,67 @@
                         "band": 2
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-23d",
+                    "question": "Explain how TWO policy options could be implemented to reduce the NAIRU of this economy.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ECO-12-06",
+                      "ECO-12-07"
+                    ],
+                    "markerNotes": [
+                      "Reward two distinct policy options, each explained with a link to lower unemployment at the NAIRU.",
+                      "The NAIRU is the level of unemployment without cyclical unemployment, so options that reduce structural or frictional unemployment lower it.",
+                      "Options such as training programmes or better job matching earn credit only when the answer explains how each one works, not just what it is."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing two policies without explaining how each would reduce the NAIRU.",
+                      "Choosing a demand-side policy, such as a cut in the cash rate, which reduces cyclical rather than structural unemployment.",
+                      "Explaining the same policy twice in different words instead of two separate options."
+                    ],
+                    "keywords": [
+                      "labour market policy",
+                      "education and training",
+                      "labour mobility",
+                      "structural unemployment",
+                      "frictional unemployment",
+                      "workforce skills",
+                      "migration policy"
+                    ],
+                    "markingCriteria": "4 marks: Demonstrates a thorough understanding of how TWO policy options could be implemented to reduce the NAIRU of the economy\n3 marks: Demonstrates a sound understanding of how TWO policy options could be implemented to reduce the NAIRU of the economy\n2 marks: Demonstrates some understanding of the policy options to reduce unemployment\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-23d-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The NAIRU is the level of unemployment at which there is no cyclical unemployment. In order to reduce this, policies should aim to target structural or frictional unemployment. By improving occupational or geographical mobility of workers through reforms such as increasing training programmes and relocation assistance, the structurally unemployed can access a wider range of employment opportunities, making it easier for them to secure jobs that are available. Labour market policies that connect potential employees and employers more efficiently will reduce frictional unemployment and the NAIRU.",
+                        "feedback": "Meets the 4-mark row: explains the NAIRU as the level of unemployment without cyclical unemployment, then explains two options, training and better job matching or mobility, that reduce structural and frictional unemployment.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-23d-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Governments could fund more training so that workers gain the skills employers need. Reforms that improve labour mobility could also help workers move to jobs that are available.",
+                        "feedback": "Meets the 2-mark row: names two policy options, training and labour mobility, with some understanding of how each reduces unemployment. It does not explain how the options lower the NAIRU by reducing structural or frictional unemployment, which would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-23d-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Training programmes and labour market reform could help reduce unemployment.",
+                        "feedback": "Provides some relevant information: names policy options without explaining how either would be implemented or what it does to unemployment. Explaining one option and its effect on structural or frictional unemployment would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Use the information to answer parts (b)−(d). The following information refers to a hypothetical economy which has a Non-Accelerating Inflation Rate of Unemployment (NAIRU) of 5%. [Table: Year | Participation rate | Unemployment rate. Year 1 | 66% | 4.5%. Year 2 | 62% | 5.9%.]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23(d)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -12633,6 +13206,69 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-28",
+                    "question": "Analyse how different methods of protection affect firms and government in Australia.",
+                    "totalMarks": 20,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "ECO-12-03",
+                      "ECO-12-06"
+                    ],
+                    "markerNotes": [
+                      "Reward an answer that treats each method separately, showing its effect on firms and on government revenue or spending.",
+                      "Top answers distinguish tariffs, which raise revenue, from quotas, which generally do not, and from subsidies, which add to the budget cost.",
+                      "Strong answers weigh short-term gains for protected firms against the costs to consumers, downstream firms and exporters, and reach a judgement."
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that every method of protection raises government revenue.",
+                      "Describing the methods without explaining their effects on Australian firms or government.",
+                      "Treating protection as always beneficial or always harmful, with no weighing of costs and benefits."
+                    ],
+                    "keywords": [
+                      "tariffs",
+                      "quotas",
+                      "subsidies",
+                      "local content requirements",
+                      "trade protection",
+                      "import-competing industries",
+                      "WTO",
+                      "government revenue"
+                    ],
+                    "markingCriteria": "17-20 marks: Demonstrates a clear and comprehensive understanding of the effects of different methods of protection on firms and governments in Australia, supported by examples; Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theories; Provides a well-informed analysis of different methods of protection on firms and government in Australia\n13-16 marks: Demonstrates a sound understanding of the effects of different methods of protection on firms and governments in Australia; Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theories; Provides some analysis of different methods of protection on firms and government in Australia\n9-12 marks: Demonstrates some understanding of the effects of different methods of protection on firms and/or governments in Australia; Provides a coherent response that uses relevant economic terms, concepts and relationships; Provides a description of the different methods of protection\n5-8 marks: Demonstrates some understanding of protectionist methods; Presents a generalised response that uses some economic terms and/or concepts\n1-4 marks: Provides some relevant information; Provides a limited response that uses some economic terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-28-1",
+                        "source": "AI",
+                        "mark": 20,
+                        "answer": "Protection shields domestic firms from foreign competition. The main methods are tariffs, quotas, subsidies and local content requirements, and each affects Australian firms and government in different ways. Australia has moved away from broad protection since the 1970s and 1980s and now relies more on free trade agreements, although protection remains in some industries.\n\nA tariff is a tax on imports. It raises the price of imported goods, so domestic firms competing with imports can sell more and earn more revenue. Protected firms may hire more workers and invest, but they lose the pressure to become more efficient, and firms that use imported inputs face higher costs. For government, a tariff raises customs revenue, which helps the Federal Budget, but consumers pay higher prices. A tariff also changes the mix of domestic output, because downstream manufacturers that use the protected product as an input face higher costs. Foreign governments may also respond with their own tariffs, which harms the exporters that rely on those markets.\n\nA quota limits the quantity of a good that can be imported. Its effect on domestic firms is similar to a tariff, because limited supply pushes up domestic prices and reduces competition. The difference lies in government revenue. A quota does not raise revenue unless the government sells import licences, and the scarcity profit goes to the licence holders, often importers. Because a quota fixes the quantity rather than the price, domestic prices can rise by as much as, or more than, a tariff of similar effect, depending on how tightly the quota is set. Quotas can therefore protect domestic firms while leaving the government with administrative costs and no revenue.\n\nA subsidy is a payment to domestic producers that lowers their costs or allows them to sell at lower prices. Subsidies help domestic firms compete with cheaper imports and can support strategic or infant industries. However, subsidies are a direct cost to the Federal Budget, so they must be funded through higher taxes, borrowing or reduced spending elsewhere. They can also keep inefficient firms in business, and trading partners may argue at the WTO that subsidies are unfair. Export subsidies help exporters win overseas sales but are especially likely to draw complaints.\n\nLocal content requirements oblige firms to use a minimum share of domestic inputs or labour. They support local suppliers and employment, but they raise costs for firms that would otherwise buy cheaper imported inputs, which can reduce their competitiveness in export markets. For government, local content rules can increase employment and the tax base, but they require monitoring and enforcement and may provoke trade disputes. If the requirements are temporary, they may also build local skills that firms keep after the protection ends.\n\nOverall, protection tends to benefit protected firms and their workers in the short term, while consumers, downstream firms and exporters bear the costs. The effect on government depends on the method: tariffs earn revenue, while quotas usually do not and subsidies add directly to spending. Australia's free trade agreements, such as the Australia-China Free Trade Agreement and the Australia-United States Free Trade Agreement, reduce tariffs and open export markets, although they expose some domestic firms to more competition. For Australian firms, the net effect of protection depends on whether it helps them become competitive or only delays the adjustment, which is why temporary, targeted measures with a clear end date are generally preferred to permanent protection.",
+                        "feedback": "Meets the 17-20 row: analyses each method separately, showing its effect on protected firms, exporters and the budget, distinguishes revenue from cost for each method, and reaches a judgement on whether protection builds competitiveness or only delays adjustment.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-28-2",
+                        "source": "AI",
+                        "mark": 12,
+                        "answer": "Protection shields domestic firms from foreign competition, and Australia has used tariffs, quotas, subsidies and local content requirements. A tariff is a tax on imports. It makes imported goods more expensive, so domestic firms can sell more and earn more revenue, but consumers pay higher prices. The government collects revenue from the tariff, although foreign governments may retaliate with their own tariffs, which affects exporters.\n\nA quota limits how many imports can enter. It reduces competition for domestic firms in a similar way to a tariff, but the government gains no revenue unless it sells import licences, and the scarcity profit goes to the licence holders. Quotas can also give domestic producers more pricing power.\n\nA subsidy is a payment to domestic firms that lowers their costs, so they can compete with cheaper imports. The government pays for subsidies, which adds to spending in the Federal Budget and may need to be funded by higher taxes or borrowing. A subsidy can also encourage firms to stay in an industry without becoming more productive.\n\nLocal content requirements force firms to use domestic inputs or labour. This supports local employment, but firms that would otherwise buy cheaper imported inputs face higher costs, and consumers of the final product may pay more. Overall, each method protects domestic firms, but each affects government and consumers in a different way, and exporters bear costs that are easy to overlook.",
+                        "feedback": "Meets the 9-12 row: a coherent description of the four methods with some understanding of their effects on firms and government, using the correct terms. The analysis of exporters, efficiency and the judgement on costs and benefits is thin, so weighing these would lift it to 13-16.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-28-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Protection means helping local businesses against overseas competition. Governments use tariffs and subsidies to do this. Tariffs make imported goods dearer, so local firms can sell more, but consumers pay higher prices. Subsidies help firms, but they cost the government money from the budget. Local content rules can also raise prices for consumers.",
+                        "feedback": "Meets the 5-8 row: some understanding of protectionist methods in a generalised response, with a few economic terms. Explaining how one method affects a named group of firms and the government's revenue or spending would lift it to the 9-12 row.",
+                        "band": 3
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding relevant to the question\n• apply relevant economic information, terms, concepts, relationships and theory\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "28",
+                    "hscSection": "Section IV 20 marks Attempt either Question 27 or Question 28 Allow about 35 minutes for this section",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -14462,6 +15098,66 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-22b",
+                    "question": "Explain how the Reserve Bank could directly influence the value of the Australian currency to move from P1 to P.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "ECO-12-02",
+                      "ECO-12-03"
+                    ],
+                    "markerNotes": [
+                      "Reward the explanation that the RBA buys Australian dollars with foreign currency reserves, which raises demand and so the value of the dollar.",
+                      "The action must be linked to the move from P1 to P on the graph, showing that the currency appreciates.",
+                      "The strongest answers note that direct intervention is a tool for periods of significant market disorder, unlike the cash rate, which works indirectly."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the cash rate as the way the RBA changes the value of the dollar, when the question asks for a direct influence.",
+                      "Stating that the RBA trades in currency without saying whether it buys or sells, or what that does to demand."
+                    ],
+                    "keywords": [
+                      "foreign exchange market",
+                      "RBA intervention",
+                      "foreign currency reserves",
+                      "appreciation",
+                      "market disorder",
+                      "value of the Australian dollar",
+                      "direct intervention"
+                    ],
+                    "markingCriteria": "3 marks: Explains how the RBA could directly influence the value of Australian currency, to move from P1 to P\n2 marks: Outlines how the RBA could directly influence the value of the currency\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-22b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "The RBA could directly intervene in the foreign currency market, ‘dirtying the float.’ To cause an appreciation of the currency the RBA would purchase AUD in exchange for foreign currency reserves, and this results in an appreciation from P1 to P.",
+                        "feedback": "Meets the 3-mark row: explains how buying Australian dollars with foreign currency reserves raises demand and so causes the appreciation from P1 to P, through the RBA's direct intervention.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-22b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The RBA could buy Australian dollars in the foreign exchange market. This increases demand for the currency, so its value rises.",
+                        "feedback": "Meets the 2-mark row: outlines a direct intervention, buying Australian dollars, and its effect on demand. Explaining that the RBA pays with foreign currency reserves, and that the move from P1 to P is an appreciation, would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-22b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The RBA could trade in the currency market to change the dollar's value.",
+                        "feedback": "Provides some relevant information: refers to trading in the currency market but does not say whether the RBA buys or sells, or what that does to the value. Naming the action would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Use the following graph to answer parts (a) and (b). [Graph: Foreign exchange market for Australian dollars. Vertical axis: Price of AUD in terms of another currency. Horizontal axis: Quantity of currency traded. Upward-sloping supply curve S. Demand curve D meets S at price P and quantity Q. Demand curve D1, to the left of D, meets S at price P1 (below P) and quantity Q1 (left of Q).]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(b)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -14577,6 +15273,58 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-22a",
+                    "question": "Outline ONE global factor that could cause the movement from D to D1 in the graph.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "ECO-12-01",
+                      "ECO-12-03"
+                    ],
+                    "markerNotes": [
+                      "Reward the outline that names one global factor and states how it moves demand for the Australian dollar.",
+                      "A global factor such as overseas interest rates earns the top row when it is linked to the shift from D to D1, not only named.",
+                      "Using the graph labels to show the direction of the change makes the outline precise."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a domestic factor, such as Australian interest rates, when the question asks for a global factor.",
+                      "Naming a factor without saying how it changes demand for the Australian dollar."
+                    ],
+                    "keywords": [
+                      "floating exchange rate",
+                      "demand for the Australian dollar",
+                      "global factors",
+                      "interest rates",
+                      "foreign investment",
+                      "depreciation",
+                      "exchange rate"
+                    ],
+                    "markingCriteria": "2 marks: Outlines ONE global factor that could cause the exchange rate movement shown\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-22a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "One global factor could be the differential between Australian and global interest rates. If global interest rates rise above Australian rates, there will be a decrease in demand D to D1 for Australian dollars for investment. This causes the currency to depreciate.",
+                        "feedback": "Meets the 2-mark row: outlines a global factor, the differential between Australian and overseas interest rates, and shows how it shifts demand for the dollar from D to D1.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-22a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Changes in global interest rates could change the demand for the Australian dollar.",
+                        "feedback": "Provides some relevant information: names a global factor but does not say how it moves demand for the Australian dollar. Stating the direction of the shift, such as a fall in demand when overseas interest rates rise, would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Use the following graph to answer parts (a) and (b). [Graph: Foreign exchange market for Australian dollars. Vertical axis: Price of AUD in terms of another currency. Horizontal axis: Quantity of currency traded. Upward-sloping supply curve S. Demand curve D meets S at price P and quantity Q. Demand curve D1, to the left of D, meets S at price P1 (below P) and quantity Q1 (left of Q).]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(a)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -14691,6 +15439,66 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-22c",
+                    "question": "Discuss the effects of a depreciation of a currency on domestic businesses.",
+                    "totalMarks": 5,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "ECO-12-03",
+                      "ECO-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward answers that separate import-competing from export-oriented businesses and discuss both effects.",
+                      "Imported inputs becoming more expensive is a cost effect, and it must be weighed against the gains to exporters and import competitors.",
+                      "A stronger discussion shows which businesses gain or lose overall, depending on how far they rely on imports."
+                    ],
+                    "commonStudentErrors": [
+                      "Stating that a depreciation always helps domestic businesses without discussing the cost of imported inputs.",
+                      "Describing the causes of a depreciation instead of its effects on businesses.",
+                      "Treating all domestic businesses as equally exposed to a depreciation."
+                    ],
+                    "keywords": [
+                      "depreciation",
+                      "import-competing businesses",
+                      "export-oriented businesses",
+                      "imported inputs",
+                      "international competitiveness",
+                      "domestic production costs",
+                      "exchange rate movements"
+                    ],
+                    "markingCriteria": "5 marks: Provides a comprehensive discussion of the effects of a depreciation of a currency on the domestic businesses\n4 marks: Provides a sound discussion of the effects of a depreciation of a currency on the domestic businesses\n3 marks: Provides some discussion of the effects of a depreciation of a currency on the domestic businesses\n2 marks: Demonstrates some understanding of the effects of a depreciation of a currency\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-22c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "A depreciation of a currency would have various impacts on import-competing and export-oriented businesses. For example, imported inputs such as raw materials become more expensive for businesses. This raises domestic production costs and prices, making these businesses less competitive. A depreciation can also benefit import-competing businesses by decreasing competition for more expensive foreign goods, resulting in more sales and increased profitability. Export-oriented businesses benefit from depreciation as their products become cheaper for foreign buyers, and their international competitiveness improves.",
+                        "feedback": "Meets the 5-mark row: a comprehensive discussion covering both import-competing and export-oriented businesses, with the cost of imported inputs weighed against the gain in competitiveness, and a concrete example for each.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-22c-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "A depreciation makes imported inputs, such as machinery and raw materials, more expensive, which raises costs for businesses that rely on them. It also makes imported goods dearer, so import-competing businesses may gain sales. The overall effect therefore depends on how much each business relies on imports.",
+                        "feedback": "Meets the 3-mark row: gives some discussion of the cost effect on businesses that use imported inputs and the gain for import-competing businesses, but leaves out export-oriented businesses and gives no example. Discussing exporters and weighing the two effects would lift it to the 4-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-22c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A depreciation changes the prices of imports and exports, which affects businesses.",
+                        "feedback": "Provides some relevant information: states that prices change but does not say how businesses are affected. Explaining one effect, such as higher costs for imported inputs, would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22(c)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },
@@ -15044,6 +15852,66 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-eco-hsc-2025-21c",
+                    "question": "Discuss the impact of world economic development on environmental sustainability.",
+                    "totalMarks": 5,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "ECO-12-03",
+                      "ECO-12-04"
+                    ],
+                    "markerNotes": [
+                      "Reward the discussion that links rising incomes to more production, consumption and transport, and then weighs the environmental costs against the growing capacity to protect the environment.",
+                      "A discussion needs at least one counter-argument, such as rising awareness or international agreements, to reach the top rows.",
+                      "Specific examples earn credit only where they are accurate, and each should be tied to the impact on sustainability."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing environmental problems without linking them to economic development.",
+                      "Stating that development always harms the environment, with no consideration of its positive effects.",
+                      "Using economic development and economic growth as if they were the same thing."
+                    ],
+                    "keywords": [
+                      "economic development",
+                      "economic growth",
+                      "sustainable growth",
+                      "environmental sustainability",
+                      "non-renewable resources",
+                      "carbon emissions",
+                      "resource depletion"
+                    ],
+                    "markingCriteria": "5 marks: Provides a comprehensive discussion of the impact of world economic development on environmental sustainability\n4 marks: Provides a sound discussion of the impact of world economic development on environmental sustainability\n3 marks: Provides some discussion of the impact of world economic development on environmental sustainability\n2 marks: Provides some understanding of economic development and/or environmental sustainability\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-eco-hsc-2025-21c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Increasing world economic development will lead to increased trade as incomes and demand for goods and services rise. This will result in increased production and transport of goods and services which depletes non-renewable resources and creates carbon emissions leading to a negative impact on the environment. This can permanently damage environmental resources which is detrimental to environmental sustainability. However, increased communication has led to growing awareness of environmental issues, an outcome of which is the development of international agreements such as the Paris Climate Agreement with positive consequences for future environmental sustainability.",
+                        "feedback": "Meets the 5-mark row: a comprehensive discussion that traces the damage from increased trade and production, then weighs the positive effect of growing environmental awareness and international agreements such as the Paris Climate Agreement.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-21c-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Faster economic development means more production, more transport and greater use of fossil fuels and other resources. This raises pollution and carbon emissions, which damage the environment and so reduce sustainability. Protecting the environment becomes harder as countries grow, because the damage often happens before the benefits of growth are spent on cleaning it up.",
+                        "feedback": "Meets the 3-mark row: gives some discussion of how growth in production and transport damages the environment, but argues only one side and does not weigh the effects against any improvement. Adding a counter-argument, such as greater awareness of environmental issues and international agreements, would lift it to the 4-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-eco-hsc-2025-21c-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Economic development can cause pollution, which harms the environment.",
+                        "feedback": "Provides some relevant information: links development to pollution but does not discuss its impact on sustainability in any depth. Explaining one mechanism, such as the depletion of non-renewable resources, would lift it to the 3-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21(c)",
+                    "hscSection": "Section II 40 marks Attempt Questions 21–24 Allow about 1 hour and 15 minutes for this section"
                   }
                 ]
               },

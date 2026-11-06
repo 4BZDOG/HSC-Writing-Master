@@ -526,12 +526,114 @@
               {
                 "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-2",
                 "description": "Explain the role of Aboriginal and Torres Strait Islander traditional Custodians in mining processes",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-21b",
+                    "question": "Outline ONE way that traditional owners can be involved in a large-scale mining operation.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "EES-11-03",
+                      "EES-11-02"
+                    ],
+                    "markerNotes": [
+                      "Give one specific way traditional owners take part, placed at a stage of the operation such as planning, operation or rehabilitation.",
+                      "Say what the traditional owners do in that role. Stating that they are important or have a say does not outline a way of being involved."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the history or culture of the land rather than how traditional owners take part in the mine.",
+                      "Giving a general statement that traditional owners are important to the mine, with no role named."
+                    ],
+                    "keywords": [
+                      "traditional Custodians",
+                      "Aboriginal and Torres Strait Islander Peoples",
+                      "mining operation",
+                      "Country",
+                      "land councils",
+                      "cultural heritage",
+                      "rehabilitation"
+                    ],
+                    "markingCriteria": "2 marks: Outlines a way traditional owners can be involved in a large-scale mining operation\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-21b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "In the planning phase of a mining operation, traditional owners can be involved in surveying the proposed mining operation to assess and minimise the impact of mining on culture and heritage.",
+                        "feedback": "Meets the 2-mark row by outlining a way traditional owners can be involved in a large-scale mining operation. It places the involvement at the planning stage and says what the owners do there.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-21b-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Traditional owners can have a say about the mine.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. Having a say names no particular role, so it does not outline a way of being involved. Naming one stage, such as planning, and what the owners do there would meet the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21(b)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-3",
                 "description": "Use data to analyse the current and predicted economic impact of coal, oil, natural gas, copper, iron ore and aluminium on Australia",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-21a",
+                    "question": "Name ONE resource that can be extracted from a mine.",
+                    "totalMarks": 1,
+                    "verb": "IDENTIFY",
+                    "linkedOutcomes": [
+                      "EES-11-02"
+                    ],
+                    "markerNotes": [
+                      "Name one resource and stop. The mark is for the resource itself, so an explanation adds nothing.",
+                      "The resource must come out of the ground through a mine, such as a metal ore or a fuel, not a place, a process or a company."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a process such as digging or drilling instead of a resource.",
+                      "Naming the company or the site rather than the resource extracted from it."
+                    ],
+                    "keywords": [
+                      "mining",
+                      "mineral resource",
+                      "coal",
+                      "iron ore",
+                      "copper",
+                      "aluminium",
+                      "extraction",
+                      "economic impact"
+                    ],
+                    "markingCriteria": "1 mark: Names ONE resource extracted from a mine",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-21a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 1,
+                        "answer": "Coal",
+                        "feedback": "Meets the 1-mark row by naming one resource extracted from a mine. A single named resource is all this row asks for.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-21a-2",
+                        "source": "AI",
+                        "mark": 0,
+                        "answer": "Pit",
+                        "feedback": "Scores 0 because a pit is the place a mine is dug, not a resource extracted from it. Naming one mined resource, such as coal, would meet the 1-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21(a)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-11-australia-s-geological-and-energy-resources-2-4",
@@ -895,7 +997,68 @@
               {
                 "id": "dp-ees-12-working-scientifically-2-5",
                 "description": "Select appropriate materials and technologies to design a scientific investigation",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-25b",
+                    "question": "Write a valid method for an investigation to address the students’ aim.",
+                    "totalMarks": 4,
+                    "verb": "CONSTRUCT",
+                    "linkedOutcomes": [
+                      "EES-12WS-02"
+                    ],
+                    "markerNotes": [
+                      "A valid method names the variable being compared (the area), the variable measured (the weight of recyclable waste), and the controlled variables, and says how the data is gathered.",
+                      "Give the steps in order and repeat them, so someone else could carry the method out and the areas can be compared."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing collection steps without naming any variable.",
+                      "Measuring only one area, so the method cannot compare areas to address the aim.",
+                      "Writing a result or a conclusion instead of the method."
+                    ],
+                    "keywords": [
+                      "independent variable",
+                      "dependent variable",
+                      "controlled variable",
+                      "method",
+                      "valid",
+                      "repeat trials",
+                      "data collection",
+                      "sorting"
+                    ],
+                    "markingCriteria": "4 marks: Constructs a valid method to address the students’ aim; Method includes gathering data, a dependent, an independent and a controlled variable\n3 marks: Constructs a sound, logical method to address the students’ aim; Method includes reference to more than ONE variable\n2 marks: Outlines a way that waste can be collected, sorted or measured\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-25b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "1. Bins are to be collected from the office, outdoor seating and classrooms after lunch each day.\n2. The contents of each bin to be tipped on to separate plastic sheets and sorted into recyclable and non-recyclable waste.\n3. Each category of waste to be weighed and recorded in a table.\n4. Steps 1–3 to be repeated for 3 weeks.\n5. Averages to be collected for each area and compared.",
+                        "feedback": "Meets the 4-mark row by constructing a valid, numbered method that gathers data, compares areas, weighs each category of waste and repeats the steps for 3 weeks.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-25b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Collect the waste from each bin and sort it into recyclable and non-recyclable piles.",
+                        "feedback": "Meets the 2-mark row by outlining a way waste can be collected and sorted. It names no variables and no repeats, so it does not reach the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-25b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Look at what goes into the bins.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It gives no way to collect, sort or measure the waste.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "A student leadership team has decided to take action to manage its school’s waste.\nCurrently, the entire contents of the school’s bins are sent to landfill. A student drew a map of the school showing the location of the bins.\nThe team will perform a first-hand investigation and make recommendations to the school principal.\nThe aim of the investigation is to determine which areas of the school produce the greatest amount of recyclable waste.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25(b)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-working-scientifically-2-6",
@@ -911,7 +1074,59 @@
               {
                 "id": "dp-ees-12-working-scientifically-3-1",
                 "description": "Apply safe work practices and manage risks while conducting a scientific investigation",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-25a",
+                    "question": "Justify ONE safety measure the students should use when undertaking this practical investigation on waste.",
+                    "totalMarks": 2,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "EES-12WS-03",
+                      "EES-12WS-02"
+                    ],
+                    "markerNotes": [
+                      "Name one measure and give the reason it protects students from a hazard the investigation creates, such as handling waste.",
+                      "A reason that only restates the measure, such as \"gloves are safer\", does not justify it."
+                    ],
+                    "commonStudentErrors": [
+                      "Giving a measure with no reason, so the answer describes instead of justifies.",
+                      "Choosing a general school safety rule that has nothing to do with handling waste."
+                    ],
+                    "keywords": [
+                      "safe work practices",
+                      "risk",
+                      "hazard",
+                      "protective equipment",
+                      "hygiene",
+                      "risk management",
+                      "waste"
+                    ],
+                    "markingCriteria": "2 marks: Justifies a safety measure for the investigation\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-25a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "Students should wear gloves when handling waste and wash their hands thoroughly after the investigation as collecting waste poses the risk of getting sick.",
+                        "feedback": "Meets the 2-mark row by justifying a safety measure: gloves and hand washing, linked to the risk of becoming ill from collecting waste.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-25a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Students should wear gloves when handling the waste.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: a suitable measure is named. No hazard is linked to it, so it does not justify the measure and does not reach the 2-mark row.",
+                        "band": 4
+                      }
+                    ],
+                    "scenario": "A student leadership team has decided to take action to manage its school’s waste.\nCurrently, the entire contents of the school’s bins are sent to landfill. A student drew a map of the school showing the location of the bins.\nThe team will perform a first-hand investigation and make recommendations to the school principal.\nThe aim of the investigation is to determine which areas of the school produce the greatest amount of recyclable waste.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25(a)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-working-scientifically-3-2",
@@ -988,7 +1203,60 @@
               {
                 "id": "dp-ees-12-working-scientifically-5-5",
                 "description": "Interpret data and information to identify outliers, make predictions, explain results and draw conclusions",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-25c",
+                    "question": "As a result of the investigation, the school has approved recycling bins to reduce the school’s contribution to landfill. Justify ONE location in the school where the placement of a recycling bin would be effective. Refer to the map in your answer.",
+                    "totalMarks": 2,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "EES-12WS-05",
+                      "EES-12-04"
+                    ],
+                    "markerNotes": [
+                      "Name one location and tie it to something the map shows, such as where bins are or how an area is used, so the choice rests on evidence.",
+                      "Refer to the map by its features, such as the outdoor seating or the carpark, rather than naming a location without reference."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming a location with no reason for choosing it.",
+                      "Choosing the carpark, which the map shows is outside the school grounds.",
+                      "Justifying the location with a reason that is not on the map or in the investigation."
+                    ],
+                    "keywords": [
+                      "map",
+                      "bin location",
+                      "recyclable waste",
+                      "landfill",
+                      "evidence",
+                      "conclusion",
+                      "waste reduction"
+                    ],
+                    "markingCriteria": "2 marks: Justifies a location with reference to the map\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-25c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "A recycling bin should be added to the outdoor seating area. This is where students dispose of their lunch packaging. This will increase the recycling of lunch containers and recyclable drink cartons which will reduce the waste sent to landfill.",
+                        "feedback": "Meets the 2-mark row by justifying one location, the outdoor seating area, with a reason tied to where students dispose of their lunch packaging.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-25c-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A recycling bin should be added to the outdoor seating area.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It names a suitable location but gives no reason from the map, so it does not justify the choice.",
+                        "band": 4
+                      }
+                    ],
+                    "scenario": "A student leadership team has decided to take action to manage its school’s waste.\nCurrently, the entire contents of the school’s bins are sent to landfill. A student drew a map of the school showing the location of the bins.\nThe team will perform a first-hand investigation and make recommendations to the school principal.\nThe aim of the investigation is to determine which areas of the school produce the greatest amount of recyclable waste.\n[Map of the school showing location of bins. Labelled areas: Carpark (left, outside the school grounds); Hall (top, left of centre); Canteen (top right, beside the Hall); Office (left of centre, below the Hall); Outdoor seating (right of centre, below the Canteen, drawn with small table symbols); Oval (far right, oval shape); Classrooms (bottom centre-right). Black dots mark the location of current bins: two at the Canteen, four around the Office, three along the top and sides of the Classrooms, one at the right edge of the Outdoor seating, and one at the top left of the school near the Hall.]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25(c)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-working-scientifically-5-6",
@@ -1087,7 +1355,66 @@
               {
                 "id": "dp-ees-12-evolving-earth-1-6",
                 "description": "Use the laws of superposition, original horizontality, lateral continuity, cross-cutting relationships, faunal succession, inclusions and unconformity to determine the age of strata",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-22",
+                    "question": "Describe ONE method of determining the age of a rock layer, other than absolute (radiometric) dating.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EES-12-01"
+                    ],
+                    "markerNotes": [
+                      "Choose a relative method, not radiometric dating, and say how it places the layer in time, through its position or its fossils.",
+                      "The description needs the rule or the step, for example the order of the layers, not only the name of the method."
+                    ],
+                    "commonStudentErrors": [
+                      "Naming radiometric or carbon dating, which the question rules out.",
+                      "Naming superposition or index fossils without saying how they give the age of the layer."
+                    ],
+                    "keywords": [
+                      "relative dating",
+                      "law of superposition",
+                      "index fossil",
+                      "stratigraphic",
+                      "strata",
+                      "faunal succession",
+                      "geological timescale",
+                      "absolute dating"
+                    ],
+                    "markingCriteria": "3 marks: Describes ONE suitable method of dating a rock layer other than absolute dating\n2 marks: Outlines a suitable method of dating a rock layer\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-22-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "An index fossil is associated with a known, narrow time interval. If an index fossil is found in the rock layer, the age of the rock layer is the same as the index fossil.",
+                        "feedback": "Meets the 3-mark row by describing a relative dating method, an index fossil, and explaining how finding it in a layer gives the layer its age.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-22-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Superposition can be used to date rock layers, with older layers at the bottom.",
+                        "feedback": "Meets the 2-mark row by outlining a suitable relative method. It names the rule but does not explain how it gives the age of this layer, which the 3-mark row requires.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-22-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Rocks can be dated by looking at them.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It names no method, so it does not reach the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-evolving-earth-1-7",
@@ -1133,7 +1460,68 @@
               {
                 "id": "dp-ees-12-evolving-earth-2-3",
                 "description": "Describe the effects of the development of photosynthetic organisms on the biosphere, atmosphere, hydrosphere and geosphere",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-29",
+                    "question": "Contrast TWO effects of human activity and cyanobacteria on the atmosphere.",
+                    "totalMarks": 3,
+                    "verb": "CONTRAST",
+                    "linkedOutcomes": [
+                      "EES-12-01",
+                      "EES-12-03"
+                    ],
+                    "markerNotes": [
+                      "Give two differences, each setting one human effect against the matching cyanobacterial effect on the same gas or process.",
+                      "Name the gas in each contrast, such as oxygen or carbon dioxide, and whether it is added to or removed from the atmosphere."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the effects of humans and cyanobacteria separately with no contrast.",
+                      "Writing about cyanobacteria's effect on rocks, such as banded iron formations, rather than on the atmosphere.",
+                      "Stating that both change the atmosphere without saying which gas or in which direction."
+                    ],
+                    "keywords": [
+                      "cyanobacteria",
+                      "photosynthesis",
+                      "oxygen",
+                      "carbon dioxide",
+                      "atmosphere",
+                      "fossil fuels",
+                      "combustion",
+                      "Great Oxidation Event"
+                    ],
+                    "markingCriteria": "3 marks: Provides TWO differences between human and cyanobacterial effects on the atmosphere\n2 marks: Provides differences between human and cyanobacterial effects on the atmosphere OR provides ONE related difference\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-29-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Respiration is a human activity which removes O2 from the atmosphere and replaces it with CO2 whereas cyanobacteria have the opposite effect due to photosynthesis; removing CO2 and replacing it with O2. Human industrial activities have added CO2 to the atmosphere over centuries while cyanobacteria have been removing CO2 from the atmosphere over billions of years.",
+                        "feedback": "Meets the 3-mark row by giving two differences between human and cyanobacterial effects on the atmosphere, each naming the gas and the direction of change.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-29-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Burning fossil fuels adds carbon dioxide to the atmosphere, unlike cyanobacteria, which release oxygen.",
+                        "feedback": "Meets the 2-mark row by giving one related difference between human and cyanobacterial effects on the atmosphere. A second difference would meet the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-29-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Cyanobacteria and humans both change the atmosphere.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It names a shared effect but no difference, so it does not contrast anything.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "29",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-evolving-earth-2-4",
@@ -1282,7 +1670,68 @@
               {
                 "id": "dp-ees-12-natural-hazards-2-4",
                 "description": "Relate the frequency, depth and intensity of earthquakes to convergent, divergent and transform tectonic margins",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-33a",
+                    "question": "Explain why the focus of some earthquakes is deeper than others.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EES-12-02"
+                    ],
+                    "markerNotes": [
+                      "Link the depth of the focus to the plate boundary and to what happens to the crust there, such as subduction.",
+                      "Use the term focus (hypocentre) correctly and say whether the focus is shallow or deep in the case given."
+                    ],
+                    "commonStudentErrors": [
+                      "Confusing the focus with the epicentre, which is the point on the surface above the focus.",
+                      "Saying deeper earthquakes are stronger, which is a claim about intensity, not focus depth.",
+                      "Describing focus depths without explaining why they vary between earthquakes."
+                    ],
+                    "keywords": [
+                      "focus",
+                      "hypocentre",
+                      "subduction zone",
+                      "convergent boundary",
+                      "plate boundary",
+                      "shallow earthquake",
+                      "deep earthquake",
+                      "depth"
+                    ],
+                    "markingCriteria": "3 marks: Explains why an earthquake focus varies in depth\n2 marks: Explains why an earthquake focus is either shallow or deep OR Describes a cause of both shallow and deep earthquakes\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-33a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "At a subduction zone, near the plate boundary the earthquakes are shallow as the crust is close to the surface. As the crust is subducted deeper below the surface, the pressure consequently builds up deeper below the surface, leading to a deeper earthquake focus.",
+                        "feedback": "Meets the 3-mark row by explaining why the focus varies in depth at subduction zones, linking shallow and deep foci to how far the crust is subducted.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-33a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Deep earthquakes occur where the subducting plate sinks further into the mantle.",
+                        "feedback": "Meets the 2-mark row by explaining why a focus is deep. It does not explain why other foci are shallow, so the answer does not reach the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-33a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Earthquakes happen when rock breaks along a fault.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information about earthquakes. It does not address the depth of the focus.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "The ground shaking experienced by buildings during an earthquake is dependent on several factors including:\n• displacement and type of fault movement\n• depth of the focus (hypocentre)\n• type of ground the building is constructed upon\n• building design and construction.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "33(a)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-natural-hazards-2-5",
@@ -1307,7 +1756,68 @@
               {
                 "id": "dp-ees-12-natural-hazards-2-9",
                 "description": "Use examples of tsunamis to analyse their causes and associated hazards and disasters",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-26b",
+                    "question": "Explain why tsunamis may become disasters when they reach the shoreline. Make reference to both figures to support your answer.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EES-12-02"
+                    ],
+                    "markerNotes": [
+                      "Explain what happens to the wave as it enters shallow water, then link that change to harm on the shore, using both figures.",
+                      "Quote a value from Figure 2 in the answer, such as the wavelength at a stated depth, to show the quantitative reference the top row needs."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing features of a tsunami without explaining why it becomes dangerous at the shore.",
+                      "Reversing the Figure 2 trend, saying wavelength increases as the water becomes shallower.",
+                      "Saying tsunamis are dangerous because they are big, with no reference to either figure."
+                    ],
+                    "keywords": [
+                      "tsunami",
+                      "wavelength",
+                      "wave height",
+                      "shallow water",
+                      "displacement",
+                      "disaster",
+                      "shoreline",
+                      "infrastructure"
+                    ],
+                    "markingCriteria": "4 marks: Explains why tsunami events become disasters; Describes how tsunamis change as they approach the shore; Refers to Figure 1 and quantitatively to Figure 2\n3 marks: Describes how tsunamis change as they approach the shore; Identifies that tsunamis are only dangerous in shallow water or on shore; Makes clear reference to either Figure 1 or Figure 2\n2 marks: Outlines features of a tsunami; Makes an implicit reference to either figure\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-26b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "A tsunami is caused by the displacement of water in the ocean. The tsunami has a wavelength of 280 km in deep water, as shown by Figures 1 and 2. As the ocean floor shallows, the wavelength decreases and the wave height increases. The deep ocean tsunami may not even be noticeable on the surface hence it could not be classified as a disaster. As the wave is compressed into a higher wave near the shore it can cause damage to infrastructure and harm people, hence its classification as a disaster.",
+                        "feedback": "Meets the 4-mark row by explaining why tsunamis become disasters at the shore, describing how the wave changes, and referring to Figure 1 and to a value from Figure 2.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-26b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The waves shown approaching the coast grow taller as the water becomes shallower. A tsunami is a series of waves often caused by a sudden movement of the sea floor.",
+                        "feedback": "Meets the 2-mark row by outlining a feature of a tsunami and implicitly referring to Figure 1 without naming it. It does not explain why the change causes disaster or refer to Figure 2, so the 3-mark row is not reached.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-26b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Tsunamis are dangerous because they are very large waves.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It gives no feature of the wave and no reference to either figure.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Figure 1 and Figure 2 model the relative size of tsunami waves as they move closer to shore.\n[Figure 1, not to scale, labelled NOT TO SCALE, Shoreline, Ocean and Sea floor: a cross-section of the sea floor rising from deep ocean on the right to the shoreline on the left. A series of waves approaches the shore; the waves become taller and steeper as the water becomes shallower, with the largest curling wave at the shoreline.]\n[Figure 2: graph titled 'Effect of ocean floor depth on wavelength'. x-axis: Ocean floor depth (km), 0 to 8. y-axis: Wavelength (km), 0 to 300. Data points (×) approximately at (0.05 km, 10 km), (0.2 km, 50 km), (0.8 km, 100 km), (2 km, 150 km), (4 km, 210 km) and (7 km, 280 km), joined by a curve. Wavelength increases as ocean floor depth increases.]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "26(b)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-natural-hazards-2-10",
@@ -1333,7 +1843,66 @@
               {
                 "id": "dp-ees-12-natural-hazards-3-2",
                 "description": "Assess the effectiveness of current forecast modelling and warning technologies for predicting the impact of, and preparing for, tropical cyclones and east coast lows",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-32",
+                    "question": "Explain how ONE technology used to monitor meteorological activity can be used to predict short-term extreme weather events.",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EES-12-02"
+                    ],
+                    "markerNotes": [
+                      "Name the technology, say what it measures, then link that measurement to a forecast of a short-term event such as heavy rain or a storm.",
+                      "Choose an event with a short timescale, such as flash flooding or a severe storm, rather than a long-term hazard such as drought."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing a technology without linking it to any prediction.",
+                      "Naming drought or climate change, which are long-term, instead of a short-term extreme event.",
+                      "Explaining the physics of the technology in detail when the question asks how it predicts an event."
+                    ],
+                    "keywords": [
+                      "Doppler radar",
+                      "weather satellite",
+                      "meteorological monitoring",
+                      "short-term forecast",
+                      "flash flooding",
+                      "severe storms",
+                      "warning"
+                    ],
+                    "markingCriteria": "3 marks: Explains how a technology can be used to predict a short-term extreme weather event\n2 marks: Describes a technology used in weather prediction OR Outlines a technology used in weather prediction AND identifies a short-term extreme weather event\n1 mark: Outlines a technology used in weather prediction OR a short-term extreme weather event",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-32-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Doppler Radar can determine how far away a rain cloud is, how fast it is moving and how much rain is falling. If the rainfall is especially heavy, a prediction of areas at risk of flooding over the next few hours can be produced.",
+                        "feedback": "Meets the 3-mark row by explaining how Doppler radar's measure of rain and movement can predict flooding over the next few hours.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-32-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Doppler radar detects rain falling in storms and is used in weather forecasting.",
+                        "feedback": "Meets the 2-mark row by describing a technology used in weather prediction. It does not explain how the technology predicts a short-term extreme event, which the 3-mark row needs.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-32-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Weather satellites take images of clouds.",
+                        "feedback": "Meets the 1-mark row by outlining a technology used in weather prediction. It names no short-term extreme event and no prediction.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "32",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-natural-hazards-3-3",
@@ -1380,7 +1949,111 @@
               {
                 "id": "dp-ees-12-climate-science-1-3",
                 "description": "Describe the role of Atlantic meridional overturning circulation (AMOC) and thermohaline circulation in the regulation of global climate and the timescales in which these effects occur",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-35a",
+                    "question": "Use Graph 1 to outline the conditions in the North Atlantic Ocean under the present climate.",
+                    "totalMarks": 2,
+                    "verb": "OUTLINE",
+                    "linkedOutcomes": [
+                      "EES-12-03",
+                      "EES-12WS-05"
+                    ],
+                    "markerNotes": [
+                      "Read Graph 1 at the label \"Present climate\" and state two conditions, such as salinity and freshwater input, in the words the graph supports.",
+                      "Describe the level of each condition, such as high or moderate, from the graph's position, without giving a numerical value the graph does not show."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the curve as a whole instead of the position of the present climate.",
+                      "Using Graph 2 for the condition of the ocean, when Graph 2 shows the strength of the current.",
+                      "Giving a numerical value for salinity or density that the graph does not provide."
+                    ],
+                    "keywords": [
+                      "North Atlantic Deep Water",
+                      "overturning current",
+                      "salinity",
+                      "density",
+                      "freshwater input",
+                      "present climate",
+                      "graph interpretation"
+                    ],
+                    "markingCriteria": "2 marks: Identifies TWO present conditions in the North Atlantic Ocean\n1 mark: Identifies ONE condition",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-35a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "Relatively high density with a moderate amount of fresh water input.",
+                        "feedback": "Meets the 2-mark row by identifying two present conditions in the North Atlantic: relatively high density and a moderate amount of freshwater input.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-35a-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The water has a high density.",
+                        "feedback": "Meets the 1-mark row by identifying one present condition. A second condition, such as the amount of freshwater input, would meet the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "The North Atlantic Deep Water (NADW) overturning current forms in the North Atlantic Ocean as warm salty water cools and sinks. It is one of the main drivers of the Great Ocean Conveyor Belt and influences the climate of Europe.\nThe graphs show the relationships between salinity, freshwater input and the strength of the NADW overturning current.\n[Graph 1: y-axis 'Salinity of North Atlantic Ocean', Low density (bottom) to High density (top). x-axis 'Volume of freshwater input from melting sea ice', increasing to the right. A curve starts near the high-density end at the left and falls to the right, bending steeply down at the far right, with a downward arrow at the end of the curve. The label 'Present climate' sits on the upper part of the curve, near the high-density end and about midway along the freshwater axis.]\n[Graph 2: y-axis 'Strength of NADW overturning current', Cold in Europe (bottom) to Warm in Europe (top). x-axis 'Volume of freshwater input from melting sea ice', increasing to the right. Two solid curves: an upper curve that declines gradually and then drops steeply to the right, and a lower curve that declines slightly from left to right. KEY: dashed arrow = Rapid climate change. A dashed arrow on the left points up from the lower curve to the upper curve; a dashed arrow on the right points down from the upper curve to the lower curve.]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "35(a)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  },
+                  {
+                    "id": "prompt-ees-hsc-2025-35c",
+                    "question": "Variations to the NADW overturning current can change climate in Europe. Explain a likely flow-on effect of this change.",
+                    "totalMarks": 2,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EES-12-03"
+                    ],
+                    "markerNotes": [
+                      "Name one flow-on effect on the climate of Europe and explain the link from the change in the overturning current to that effect.",
+                      "A flow-on effect is a consequence of the change, such as colder temperatures in Europe; restating the change itself earns nothing."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the change to the current, such as it weakens, rather than its effect on climate.",
+                      "Giving an effect on Europe with no link to the overturning current.",
+                      "Stating the effect without explaining how the change causes it."
+                    ],
+                    "keywords": [
+                      "overturning current",
+                      "North Atlantic Deep Water",
+                      "Great Ocean Conveyor Belt",
+                      "thermohaline circulation",
+                      "flow-on effect",
+                      "climate of Europe",
+                      "heat transport"
+                    ],
+                    "markingCriteria": "2 marks: Explains a flow-on effect on climate caused by changes to overturning current\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-35c-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 2,
+                        "answer": "Cooling temperatures in Europe caused by a weakening of NADW overturning current can lead to an increase in ice cover and therefore increase habitats for animals such as polar bears.",
+                        "feedback": "Meets the 2-mark row by explaining a flow-on effect: cooler temperatures in Europe from a weaker current increase ice cover and so habitat for animals such as polar bears.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-35c-2",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Europe could become colder if the overturning current weakens.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information: it states a flow-on effect. It does not explain the link, so it does not reach the 2-mark row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "The North Atlantic Deep Water (NADW) overturning current forms in the North Atlantic Ocean as warm salty water cools and sinks. It is one of the main drivers of the Great Ocean Conveyor Belt and influences the climate of Europe.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "35(c)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-climate-science-1-4",
@@ -1405,7 +2078,69 @@
               {
                 "id": "dp-ees-12-climate-science-1-8",
                 "description": "Relate volcanic eruptions in the Deccan and Siberian Traps to changes in global climate",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-24",
+                    "question": "Compare EITHER the Deccan OR Siberian Traps eruptions with an eruption of Mt Pinatubo in driving natural climate change.",
+                    "totalMarks": 4,
+                    "verb": "COMPARE",
+                    "linkedOutcomes": [
+                      "EES-12-03",
+                      "EES-12-02"
+                    ],
+                    "markerNotes": [
+                      "Compare the two eruptions on the same points: the gases released, and the effect on climate and its timescale.",
+                      "Name the flood basalt (Deccan or Siberian Traps) with its gases and climate effect, rather than describing volcanoes in general."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing one eruption in detail and the other only briefly, so no comparison is made.",
+                      "Saying eruptions change the climate without naming the gases released or the climate effect.",
+                      "Writing about human emissions instead of the natural eruptions."
+                    ],
+                    "keywords": [
+                      "Deccan Traps",
+                      "Siberian Traps",
+                      "Mt Pinatubo",
+                      "flood basalt",
+                      "volcanic eruption",
+                      "SO₂",
+                      "CO₂",
+                      "global cooling",
+                      "natural climate change"
+                    ],
+                    "markingCriteria": "4 marks: Demonstrates a thorough understanding of the nature of the Deccan or Siberian Traps eruptions and a Pinatubo eruption; Provides similarities and/or differences between the eruptions and their impact on climate\n3 marks: Demonstrates sound understanding of the nature of Deccan or Siberian Traps eruptions and Pinatubo eruptions; Provides a similarity and/or difference in eruptions and their impact on climate\n2 marks: Demonstrates a basic understanding of the nature of the Deccan, Siberian Traps eruptions or Pinatubo eruptions; Identifies an impact on climate\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-24-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The Siberian Traps were formed by massive outpouring of lava over millions of years. These eruptions produced huge amounts of SO2 and CO2. Following the initial cooling caused by SO2, the amount of CO2 emissions created significant long-term warming. The size of the Pinatubo eruption was small in comparison and the most significant impact on climate from Pinatubo was a slight global cooling. Unlike the Siberian Trap eruptions, the impact on global warming caused by Pinatubo was small due to the limited release of CO2 in the eruption.",
+                        "feedback": "Meets the 4-mark row by demonstrating a thorough understanding of the Siberian Traps and Pinatubo eruptions and comparing them on the gases released and their climate impact.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-24-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "The Siberian Traps were large lava outpourings that released CO₂ into the atmosphere. Mt Pinatubo erupted in 1991 and caused some global cooling.",
+                        "feedback": "Meets the 2-mark row by showing a basic understanding of the Siberian Traps and Pinatubo and identifying an impact on climate for each. Neither eruption is compared with the other, so the answer does not reach the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-24-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Volcanic eruptions can change the climate by releasing gases.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It names no eruption and gives no specific climate impact.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-climate-science-1-9",
@@ -1548,7 +2283,68 @@
               {
                 "id": "dp-ees-12-climate-science-4-2",
                 "description": "Conduct a secondary-source investigation to suggest strategies individuals can use to reduce their carbon footprint",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-31a",
+                    "question": "Justify TWO actions that can be taken by an individual to minimise their impact on rising global temperatures.",
+                    "totalMarks": 3,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "EES-12-03",
+                      "EES-12-04"
+                    ],
+                    "markerNotes": [
+                      "Give two actions and, for each, say how it reduces fossil fuel use or emissions, so the justification is about warming.",
+                      "Mitigation reduces the cause of warming. An action that only copes with its effects is adaptation and does not answer the question."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing two actions without saying how each one reduces warming.",
+                      "Giving an adaptation, such as building a sea wall, when the question asks how to minimise impact on warming.",
+                      "Writing about what governments or companies should do rather than what an individual can do."
+                    ],
+                    "keywords": [
+                      "carbon footprint",
+                      "greenhouse gas emissions",
+                      "fossil fuels",
+                      "mitigation",
+                      "energy use",
+                      "transport",
+                      "individual action"
+                    ],
+                    "markingCriteria": "3 marks: Identifies TWO actions that can be taken by an individual to minimise their impact on rising global temperatures; Justifies the actions in terms of mitigating warming\n2 marks: Identifies ONE action that can be taken by an individual to minimise their impact on rising global temperatures; Justifies the action in terms of mitigating warming OR Outlines TWO appropriate actions\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-31a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Using solar panels in homes reduces the amount of energy drawn from fossil fuel sources. Walking instead of using cars for short trips such as to school or the shops, reduces the amount of fossil fuels consumed by cars. Any reduction in consumption of fossil fuels reduces the amount of carbon emissions entering the atmosphere, which will reduce an individual’s contribution to global warming.",
+                        "feedback": "Meets the 3-mark row by identifying two actions, solar panels and walking, and justifying each in terms of reducing fossil fuel use and carbon emissions.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-31a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Individuals can use less electricity at home and walk or ride bicycles for short trips to school.",
+                        "feedback": "Meets the 2-mark row by outlining two appropriate actions. Neither action is justified in terms of reducing warming, which the 3-mark row needs.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-31a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Individuals can help by being more environmentally friendly.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. No specific action is named, so it does not outline an action.",
+                        "band": 3
+                      }
+                    ],
+                    "scenario": "Individuals and scientific communities can help mitigate rising global temperatures.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(a)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-climate-science-4-3",
@@ -1563,12 +2359,137 @@
               {
                 "id": "dp-ees-12-climate-science-4-5",
                 "description": "Evaluate the effectiveness of geoengineering strategies to mitigate anthropogenic climate change",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-31b",
+                    "question": "Explain ONE advantage and ONE disadvantage of a geo-engineering strategy that could be used to mitigate rising global temperatures.",
+                    "totalMarks": 4,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "EES-12-03",
+                      "EES-12WS-05"
+                    ],
+                    "markerNotes": [
+                      "Name one specific geoengineering strategy, then explain one advantage and one disadvantage of it in terms of its effect on warming or the Earth system.",
+                      "Explain each point with a reason. Naming an advantage and a disadvantage without a reason stays in the lower rows."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the strategy without explaining its advantage or its disadvantage.",
+                      "Giving two advantages and no disadvantage.",
+                      "Using a strategy that cuts emissions at source, such as renewable energy, which is mitigation rather than geoengineering."
+                    ],
+                    "keywords": [
+                      "geoengineering",
+                      "solar radiation management",
+                      "albedo",
+                      "carbon dioxide removal",
+                      "side effects",
+                      "cost",
+                      "mitigation",
+                      "effectiveness"
+                    ],
+                    "markingCriteria": "4 marks: Explains ONE advantage and ONE disadvantage of a relevant geo-engineering strategy\n3 marks: Explains ONE advantage and/or disadvantage of a relevant geo-engineering strategy\n2 marks: Describes an advantage OR disadvantage of geo-engineering\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-31b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "The use of giant solar mirrors orbiting the Earth has the potential to reduce the amount of solar energy reaching the Earth by reflecting it back into space. This will help reduce global warming but is too expensive to be produced on a large enough scale to generate the necessary reduction in warming.",
+                        "feedback": "Meets the 4-mark row by explaining one advantage, reducing the solar energy that reaches the Earth, and one disadvantage, the cost and scale needed, of a relevant geo-engineering strategy.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-31b-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Reflective particles released into the upper atmosphere could reflect sunlight back into space and cool the planet.",
+                        "feedback": "Meets the 2-mark row by describing an advantage of geo-engineering. No disadvantage is given, so the answer does not reach the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-31b-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Geo-engineering uses large technologies to change the climate.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It names no strategy and gives no advantage or disadvantage.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "Individuals and scientific communities can help mitigate rising global temperatures.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(b)",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-climate-science-4-6",
                 "description": "Use examples of changing agricultural and land-use practices as mitigation and adaptation strategies",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-27",
+                    "question": "Evaluate the effectiveness of planting native trees in solving problems studied in the Earth and Environmental Science course. Support your answer with TWO specific, unrelated examples.\nExamples may include:\n• natural disasters\n• resource management problems\n• climate related problems\n• other environmental problems.",
+                    "totalMarks": 8,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "EES-12-03",
+                      "EES-12-04"
+                    ],
+                    "markerNotes": [
+                      "Use two unrelated problems, and for each explain the mechanism by which native trees address it, then judge how effective planting is for that problem.",
+                      "The judgement must be stated and supported by the examples, with at least one limit, such as the years trees need to store carbon or their need for water.",
+                      "A strong answer names the problem first and then links the tree process to it, instead of listing benefits of trees in general."
+                    ],
+                    "commonStudentErrors": [
+                      "Discussing one problem only, so the answer cannot reach the top rows.",
+                      "Listing benefits of trees without naming an environmental problem they solve.",
+                      "Giving a judgement, such as planting is effective, with no criteria or reason.",
+                      "Using a problem that is not from the course, such as a general pollution issue, to support the answer."
+                    ],
+                    "keywords": [
+                      "native trees",
+                      "carbon sink",
+                      "photosynthesis",
+                      "transpiration",
+                      "mitigation",
+                      "adaptation",
+                      "land use",
+                      "effectiveness"
+                    ],
+                    "markingCriteria": "8 marks: Demonstrates extensive knowledge and understanding of TWO problems to explain how planting native trees can solve identified problems; Makes clearly supported judgements based on criteria\n6-7 marks: Demonstrates thorough knowledge and understanding of TWO problems to explain how planting native trees can solve identified problems; Makes a supported judgement based on criteria\n4-5 marks: Demonstrates sound knowledge and understanding of how planting trees can solve problem(s); Makes a judgement\n2-3 marks: Demonstrates basic knowledge and understanding of the benefits of trees OR Outlines relevant environmental problem(s)\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-27-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 8,
+                        "answer": "Anthropogenic climate change is caused by activities such as burning coal to generate electricity, which introduces excess CO2 into the atmosphere. CO2 traps the Sun’s heat causing global warming. As native trees grow, they photosynthesise, capturing CO2 from the atmosphere and locking the carbon in their wood. Trees draw water from the soil by transpiration, which draws heat from surrounding air to evaporate water from the tree’s leaves. This cools the air around the tree, reducing local warmer temperatures. Mines produce large quantities of tailings, waste material which can escape causing dust pollution in the air and contaminating waterways. Tailings are stored in dams. During mine reclamation the tailings dam is covered in topsoil and trees are planted over the dam. Tree roots stabilise the soil, which contains the tailings by preventing erosion. Choosing native trees also provides habitat. Planting deep rooted native trees is very effective in combating climate change because they capture CO2, act as a carbon sink and lower local temperatures. Trees successfully contain mine tailings protecting the surrounding environment.",
+                        "feedback": "Meets the 8-mark row by explaining how native trees address two unrelated problems, climate change through carbon capture and mine tailings through root stabilisation, and by making a supported judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-27-2",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Planting native trees is effective against climate change. Trees take in CO₂ during photosynthesis and store carbon in their wood, which reduces the CO₂ in the atmosphere. Transpiration also draws heat from the surrounding air, which cools the local area. However, trees take many years to store a large amount of carbon, so planting is a slow response to rising temperatures.",
+                        "feedback": "Meets the 4–5 row by showing sound knowledge of how planting trees solves one problem, and by making a judgement. Only one problem is used, so the answer does not reach the 6–7 row; a second unrelated problem with a supported judgement would lift it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-27-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Native trees are good for the environment because they take in carbon dioxide and provide habitat for animals.",
+                        "feedback": "Meets the 2–3 row by showing basic knowledge of the benefits of trees. No environmental problem is named and no judgement is made, so it does not reach the 4–5 row.",
+                        "band": 3
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-climate-science-4-7",
@@ -1600,12 +2521,131 @@
               {
                 "id": "dp-ees-12-sustainability-1-3",
                 "description": "Conduct a secondary-source investigation to analyse the factors affecting the sustainability of a water resource, mining resource, forestry product and agricultural product",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-28",
+                    "question": "Assess the effect of TWO human activities on the sustainability of water resources.",
+                    "totalMarks": 5,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "EES-12-04"
+                    ],
+                    "markerNotes": [
+                      "Name two human activities and, for each, the effect on the water resource and how that effect limits its future use, which is the sustainability link.",
+                      "Add a judgement of how sustainable each activity is, with a reason, to move above description."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing two activities without saying what they do to the water resource.",
+                      "Giving the effect on water but not linking it to sustainability or future use.",
+                      "Discussing water pollution in general without naming a human activity."
+                    ],
+                    "keywords": [
+                      "sustainability",
+                      "water resource",
+                      "agricultural run-off",
+                      "overextraction",
+                      "water quality",
+                      "aquatic organisms",
+                      "future generations",
+                      "water storage"
+                    ],
+                    "markingCriteria": "5 marks: Assesses the effect of TWO human activities on water resources; Clearly links these activities to sustainability\n4 marks: Assesses the effect of TWO human activities on water resources; Implies a link to sustainability\n3 marks: Explains the effect of ONE human activity on a water resource; Implies a link to sustainability; Provides or implies a judgement OR Describes the effect of TWO human activities on water resources; Provides or implies a judgement\n2 marks: Outlines an effect humans have on a water resource\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-28-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "Sustainability involves meeting the needs of the present without compromising the ability of future generations to meet their needs. Pollution is a human activity that adds litter and chemicals to waterways, such as microplastics, agricultural run-off or oils from transport. This negatively impacts the sustainability of water as a resource as it blocks waterways and reduces water quality for aquatic organisms. The reduction in water quality makes the water unsafe for humans to use in the future. Off-creek water storage dams, where water is taken from rivers during high-flow with good quality and stored for future use is a very sustainable practice. This ensures water-flow and quality in rivers during times of drought, whilst meeting the needs of a community for access to water.",
+                        "feedback": "Meets the 5-mark row by assessing the effect of two human activities, pollution and off-creek water storage, and clearly linking each to the sustainability of water.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-28-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Agricultural run-off carries fertilisers and chemicals into rivers. This reduces water quality for aquatic organisms and people, so the practice is not sustainable because future users cannot rely on clean water.",
+                        "feedback": "Meets the 3-mark row by explaining the effect of one human activity on a water resource, implying a link to sustainability and giving a judgement. A second activity with its own effect and judgement would reach the 4–5 rows.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-28-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Water is an important resource that many people depend on.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information. It names no human activity and no effect on the water resource, so it does not outline an effect.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "28",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-sustainability-1-4",
                 "description": "Examine the sustainability and resilience of Aboriginal and Torres Strait Islander Peoples’ food systems",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ees-hsc-2025-23",
+                    "question": "Describe ONE resource management process used by Aboriginal and/or Torres Strait Islander Peoples.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "EES-12-04"
+                    ],
+                    "markerNotes": [
+                      "Name one traditional practice and describe how it is carried out, then show how it keeps the resource available for later use.",
+                      "Keep to one process. A list of practices with no description stays in the lower rows."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing a modern conservation program, such as a national park, rather than a traditional process.",
+                      "Naming a practice without saying how it manages the resource."
+                    ],
+                    "keywords": [
+                      "Aboriginal and Torres Strait Islander Peoples",
+                      "traditional resource management",
+                      "cultural burning",
+                      "food systems",
+                      "sustainability",
+                      "midden",
+                      "selective harvesting",
+                      "Country"
+                    ],
+                    "markingCriteria": "3 marks: Describes ONE resource management process used by Aboriginal and/or Torres Strait Islander peoples\n2 marks: Outlines a traditional resource management process\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ees-hsc-2025-23-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Midden building enables the management of food resources such as shellfish. A midden is a collection of refuse, such as shells and bones left as information for the next group to visit the place. The midden indicates what species have been eaten to allow populations to recover.",
+                        "feedback": "Meets the 3-mark row by describing a named traditional process, midden building, and how it manages a food resource so that populations can recover.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-23-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Cultural burning is a traditional way of managing the land and its resources.",
+                        "feedback": "Meets the 2-mark row by outlining a traditional resource management process. It does not describe how the practice is carried out or how it keeps resources available, which the 3-mark row needs.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-ees-hsc-2025-23-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Aboriginal Peoples have long managed the land.",
+                        "feedback": "Meets the 1-mark row by providing some relevant information about Aboriginal land management. It names no process, so it does not reach the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23",
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ees-12-sustainability-1-5",

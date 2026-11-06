@@ -185,12 +185,143 @@
               {
                 "id": "dp-ee1-12-literary-worlds-2-3",
                 "description": "Craft sustained arguments that synthesise a range of critical perspectives about a text’s cultural assumptions and values, informed by analysis of textual evidence",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ee1-hsc-2025-2",
+                    "question": "Read Text 2.\nHow does Text 2 shape your understanding of the ways your texts ‘creatively break’ dominant assumptions in the elective you have studied?\nIn your response, make close reference to TWO prescribed texts from your elective and ONE other text of your own choosing.\nThe prescribed texts for Section II are listed on pages 5−9.",
+                    "totalMarks": 25,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "EE1-12-02",
+                      "EE1-12-03",
+                      "EE1-12-04"
+                    ],
+                    "markerNotes": [
+                      "The top answers treat ‘creatively break’ as the key idea and show how Text 2 changes the reader’s understanding of breaking, from destruction to creation. They do not simply paraphrase Solnit’s argument.",
+                      "Close reference means a claim about how a named feature of each prescribed text (its structure, narrator, world or language) breaks an assumption, supported by a precise reference or a short quotation. Plot summary does not earn it.",
+                      "Strong answers test Text 2’s view against the texts: a break that only swaps one dominant story for another, or that leaves the reader no freer, shows the argument being weighed rather than accepted."
+                    ],
+                    "commonStudentErrors": [
+                      "Summarising the plot of each prescribed text and attaching a point about ‘breaking’ at the end, rather than arguing how the text breaks an assumption.",
+                      "Opening with a quotation from Text 2 and never returning to it, so the question of how Text 2 shapes the student’s understanding is never answered.",
+                      "Reading ‘creatively break’ as simply ‘challenge’ or ‘rebel against’, without showing how the text makes the break through form, structure or language.",
+                      "Choosing a third text with no link to the assumptions being broken, so the comparison becomes a list of examples rather than an argument."
+                    ],
+                    "keywords": [
+                      "literary worlds",
+                      "critical perspectives",
+                      "cultural assumptions and values",
+                      "textual evidence",
+                      "close reference",
+                      "textual form",
+                      "stylistic choices",
+                      "elective"
+                    ],
+                    "markingCriteria": "21-25 marks: Provides a sophisticated argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a sophisticated ability to support their argument through close reference to two prescribed texts from their elective and one other text of their own choosing; Demonstrates a sophisticated control of language and form\n16-20 marks: Provides a highly effective argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a highly effective ability to support their argument through close reference to two prescribed texts from their elective and one other text of their own choosing; Demonstrates a highly effective control of language and form\n11-15 marks: Provides a sound argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a sound ability to support their argument through close reference to two prescribed texts from their elective and one other text of their own choosing; Demonstrates a sound control of language and form\n6-10 marks: Provides a limited argument about how Text 2 shapes an understanding of the ways texts ‘creatively break’ dominant assumptions in the elective studied; Demonstrates a limited ability to support their argument through close reference to texts; Demonstrates a limited control of language and form\n1-5 marks: Attempts to respond to the question; Attempts to support an argument with reference to texts; Attempts to control language and form",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ee1-hsc-2025-2-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Text 2 opens with a claim about the air we breathe: ‘Stories surround us like air’. Rebecca Solnit asks the reader to become ‘their teller’ rather than the one who is told, and that request reshapes what it means to break a story. The break is no longer only a rejection of the dominant story; it becomes a method of attention, a way of making the assumptions beneath a story visible. Solnit insists that breaking is ‘a creative act as much as making’. In Elective 3, Reimagined Worlds, Ursula Le Guin’s The Left Hand of Darkness and Italo Calvino’s If on a Winter’s Night a Traveller break assumptions through world and through form. Margaret Atwood’s The Handmaid’s Tale shows that a dominant story can also be broken from within, by the person who lives inside it. Read through Solnit, these texts show that breaking is creative because it changes what the reader can see.\n\nThe Left Hand of Darkness (1969) imagines Gethen, a planet whose inhabitants have no fixed sex. Gethenians enter kemmer, a periodic phase in which they take on the sexual characteristics of one of the two sexes. Genly Ai, the envoy of the Ekumen who arrives on Gethen, carries the assumptions of his own culture about gender, and the novel makes those assumptions the object of study. Its world is built against the norm, so a reader who expects the familiar binary is placed in the position Genly occupies. Solnit’s claim that dominant stories are ‘the bars of someone else’s cage’ becomes concrete: Genly’s cage is his own certainty, and the novel shows the reader those bars from the inside. The break is creative because it gives the reader a new world in which the assumptions of home look strange.\n\nIf on a Winter’s Night a Traveller (1979) breaks the story in a different way: its form, rather than its world, is the object of the break. The novel addresses a second-person ‘you’, a reader who keeps beginning novels that are interrupted. Each opening promises a story and then withdraws it, so the reader is made to notice the stories underneath the one being read. This is Solnit’s instruction in practice, to ‘examine the stories that underlie the story’. Calvino does not abandon the novel; he exposes the conventions that make reading feel natural. The assumption he breaks is that a reader is a passive consumer of continuity, and the creative act belongs to the reader’s own attention.\n\nMargaret Atwood’s The Handmaid’s Tale (1985) shows the dominant story breaking from within. The Republic of Gilead presents its order as natural and permanent, and its narrator, Offred, must tell her story inside that order. The novel closes with a transcript of an academic talk given long after Gilead has ended, which presents her account as a recovered document that others will interpret. The regime’s story becomes one narrative among many. Solnit describes such stories as ‘way past their expiration date’, and the historical frame shows Gilead’s permanence to be an illusion. Breaking here is not a gesture of the reader alone; the regime’s own story cannot contain the testimony it tried to silence.\n\nSolnit’s optimism carries a risk: if every break is creative, the word loses its force. The three texts resist that reading. Gilead is itself a violent breaking and remaking of a society, and it shows that a story can be broken to build a worse one. Solnit therefore implies a criterion that the texts make explicit: a break is creative when it leaves the reader better able to see the assumptions that shape them, not merely more certain of their own. Le Guin’s Genly Ai learns this slowly, Calvino’s reader learns it through frustration, and the reader of Offred’s account learns it through the gap between the regime’s story and her own.\n\nText 2 shapes my understanding of ‘creatively break’ by making the break a matter of attention rather than rebellion. The novels I have examined break dominant assumptions through a world, a form and a frame, and each depends on a reader willing to see the story beneath the story. Solnit’s claim is persuasive, provided that the making is done by the reader as well as by the writer.",
+                        "feedback": "Meets the 21–25 row: it argues how Text 2 changes the understanding of ‘creatively break’, gives close reference to two prescribed texts from Elective 3, Reimagined Worlds (Le Guin’s The Left Hand of Darkness and Calvino’s If on a Winter’s Night a Traveller), and one other text of its own (Atwood’s The Handmaid’s Tale), and tests Solnit’s optimism rather than accepting it. The same structure works for any elective with two of its prescribed texts. The closing paragraph is brief; to go further it could weigh the three texts against each other rather than summarise them.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-ee1-hsc-2025-2-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Text 2 argues that stories shape us and that breaking them is a creative act. I think Solnit is right that dominant narratives are powerful and often need to be broken. In Elective 3, Reimagined Worlds, Le Guin’s The Left Hand of Darkness breaks assumptions about gender. The novel creates a planet where people do not have a fixed sex, and this makes the narrator, Genly Ai, realise his own assumptions. The reader sees those assumptions as strange too, which is a way of breaking them.\n\nCalvino’s If on a Winter’s Night a Traveller also breaks assumptions, but through form rather than setting. The reader is addressed as ‘you’, and the novel keeps starting new stories and stopping them. This makes the reader think about how stories work. Solnit says we should examine the stories underneath the story, and Calvino does this by showing the reader the structure of reading.\n\nMy own text is Margaret Atwood’s The Handmaid’s Tale. Here the dominant story is the regime’s version of the world, and the narrator, Offred, tells her own version. Her account shows that the regime’s story is not the only one. This connects to Solnit’s idea that some stories are ‘way past their expiration date’, because the regime presents itself as permanent but is told by a person who does not accept it.\n\nThese texts show that breaking can be creative because they make the reader see differently. However, breaking is not always good, and the texts also show destructive breaks. Overall, Text 2 helps me understand that breaking stories is important, and the three texts show different ways of doing this.",
+                        "feedback": "Meets the 11–15 row: a sound argument that Text 2 reframes breaking as creative, with one point on each of the three texts (Le Guin and Calvino from Elective 3, Reimagined Worlds, and Atwood as the student’s own text). To reach the 16–20 row, each paragraph needs a specific feature (a narrative device or structure) shown to shape the reader’s understanding, and the closing paragraph should weigh the argument rather than restate it.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ee1-hsc-2025-2-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Text 2 says that stories are everywhere and that some of them should be broken. I agree that stories are important. In The Left Hand of Darkness the characters have different ideas about gender, and this breaks what people think. Calvino also writes a book where the story keeps changing. The Handmaid’s Tale is another book where a society has rules that people break. These texts show that stories can be broken and that this is interesting for the reader.",
+                        "feedback": "Meets the 1–5 row: it attempts to respond to the question and names texts from Elective 3, Reimagined Worlds (Le Guin and Calvino) and Atwood, but the argument is one line per text and the references are general. To lift it, each text needs one specific claim about how a named feature breaks an assumption, linked back to what Text 2 says about breaking.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Text 2: an extract from Rebecca Solnit, Break the Story. The extract is copyright and is not reproduced here; read it in the 2025 HSC English Extension 1 paper: https://www.nsw.gov.au/sites/default/files/noindex/2026-02/2025-hsc-english-extension-1.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate an understanding of the ideas and values of Literary Worlds and how they are shaped and reflected in texts\n• craft a sustained composition appropriate to the question, demonstrating control of the use of language",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "2",
+                    "hscSection": "Section II — Electives 25 marks Allow about 1 hour for this section",
+                    "bandCeiling": 6
+                  }
+                ]
               },
               {
                 "id": "dp-ee1-12-literary-worlds-2-4",
                 "description": "Craft texts that reflect on stylistic and language choices to represent the complex relationship between texts, authors, readers and contexts",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-ee1-hsc-2025-1",
+                    "question": "Read Text 1 on page 3.\nCompose a discursive response in which you extend the ideas in Text 1.\nIn your response, articulate your insights into how texts make meaning through the crafting of literary worlds.",
+                    "totalMarks": 25,
+                    "verb": "COMPOSE",
+                    "linkedOutcomes": [
+                      "EE1-12-01",
+                      "EE1-12-02",
+                      "EE1-12-05"
+                    ],
+                    "markerNotes": [
+                      "The top answers extend Text 1 by taking one of its claims further, such as the idea that a literary world is a deliberate order, and show where Liu’s account needs qualifying. They do not restate his metaphors.",
+                      "Insight here is a claim about how a text makes meaning through its crafting (form, sequence, ending or language), illustrated with a concrete example. A general statement that literature matters does not earn it.",
+                      "Control of discursive form shows in a sustained voice and in paragraphs that each move the argument on. Headings, lists and bullets inside a composition weaken it."
+                    ],
+                    "commonStudentErrors": [
+                      "Restating Text 1’s metaphors and then agreeing with them, so the response adds no idea of its own.",
+                      "Writing about the author’s life or background rather than about how the literary world is crafted in the text.",
+                      "Using a general book example (‘a book shows a world’) without saying what the crafting in that book does.",
+                      "Quoting Text 1 at length so that most of the composition is borrowed words rather than the student’s own argument."
+                    ],
+                    "keywords": [
+                      "literary worlds",
+                      "discursive form",
+                      "textual form",
+                      "language features",
+                      "meaning",
+                      "author",
+                      "reader",
+                      "context"
+                    ],
+                    "markingCriteria": "21-25 marks: Provides a response that extends the ideas in Text 1 in sophisticated ways; Demonstrates sophisticated insights into how texts make meaning through the crafting of literary worlds; Demonstrates sophisticated control of language and discursive form\n16-20 marks: Provides a response that extends the ideas in Text 1 in highly effective ways; Demonstrates highly effective insights into how texts make meaning through the crafting of literary worlds; Demonstrates highly effective control of language and discursive form\n11-15 marks: Provides a response that extends the ideas in Text 1 in sound ways; Demonstrates sound insights into how texts make meaning through the crafting of literary worlds; Demonstrates sound control of language and discursive form\n6-10 marks: Provides a response that extends the ideas in Text 1 in limited ways; Demonstrates limited insights into how texts make meaning through the crafting of literary worlds; Demonstrates limited control of language and form\n1-5 marks: Attempts to respond to the ideas in Text 1; Attempts to provide insights into how texts make meaning; Attempts to control language and form",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-ee1-hsc-2025-1-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Ken Liu begins from a bold claim: that fiction prizes ‘the logic of metaphors’ over a reality that is ‘irreducibly random and senseless’. I want to extend that claim in a direction his passage only hints at. If stories make an ‘unfeeling, accidental universe’ tolerable, then a literary world is not a mirror held up to reality. It is an order laid over reality on purpose, and its power lies in the choices that build the order: what is selected and what is left out, how sentences are sequenced, and where the narrative chooses to stop. The metaphor persuades only as far as the crafting carries it.\n\nLiu’s more radical claim is that every act of communication is ‘a miracle of translation’. His passage follows a thought from neurons into muscle, from muscle into marks, from marks into light, and from light back into the visual cortex. At each stage the thought changes its medium and something is lost. Liu concedes as much when he writes of ‘whatever has been lost in translation’, yet he ends by insisting that ‘our minds managed to touch’. I want to suggest that the loss is not only a failure of communication. It is the space in which the reader works. The marks on the page supply the scaffolding; the literary world arrives only when a reader rebuilds it from their own memories, languages and fears. Liu’s prose performs this argument as well. The long sentence that carries a thought from neuron to visual cortex is itself a translation, and the reader must follow it clause by clause to reach the upside-down images the eye forms.\n\nThe logic of metaphor operates at the level of structure as well as image. A plot is a claim about how events relate: that one thing leads to another, and that the ending was implicit in the beginning. Liu’s passage is built the same way, moving from the sweeping claim of its opening to the quiet wonder of its last line. Writers who want to break that logic, by withholding closure or letting the sequence fold back on itself, do not abandon metaphor. They expose the causal order that metaphor has been hiding, and so turn a comfort into a question about how the world was made.\n\nJorge Luis Borges makes this point more sharply in ‘Pierre Menard, Author of the Quixote’. Menard does not imitate Cervantes’ novel from a distance; he sets out to write it again, and some of his passages match Cervantes’ word for word. The words are identical, yet the narrator insists the result is richer, because it was written in another century, by another mind, under other pressures. Meaning, on this account, is not held in the marks. It is produced when the marks are read in a new context, which is the translator’s insight that Liu brings to fiction.\n\nLiu’s optimism, that understanding lets minds touch and makes the universe seem ‘a bit kinder’, is not the only response a literary world can produce. Dystopian fiction builds worlds in which translation fails by design. In Nineteen Eighty-Four, Newspeak is meant to shrink the vocabulary until the thought it would need cannot be formed, so the gap between minds becomes impassable. Here the logic of metaphor works against the reader: the world presents its own order as the only possible one and dares the reader to see through it. The same crafting that makes a world tolerable can make it a cage. This is why Liu’s phrase ‘the narrative fallacy’ is useful. It names the tendency of stories to impose order, and the text decides whether that order consoles or constrains.\n\nLiu is right that stories give shape to randomness, and right that the miracle of communication happens in the reader. But the miracle is not guaranteed by the marks themselves. The writer chooses how much to leave untranslated, and the reader decides what to carry across. A text that makes its metaphors visible asks us to see how the logic was built; one that hides its scaffolding asks us to live inside it. Either way, the literary world is the place where two minds, imperfectly and briefly, touch.",
+                        "feedback": "Meets the 21–25 row: it extends Text 1 rather than restating it, takes Liu’s logic of metaphor into structure as well as image, reads Liu’s own prose as evidence, and tests his optimism against a dystopian example. The Borges paragraph states its point most briefly; a sharper claim there about how the reader’s context changes a text would strengthen an otherwise sustained argument.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-ee1-hsc-2025-1-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Liu argues that fiction matters because it gives shape to a universe that is otherwise random. His claim that stories are a logic of metaphors suggests that literature does not describe the world so much as make it livable. I want to extend this by thinking about what happens between the writer and the reader.\n\nLiu says that every act of communication is a kind of translation. A thought becomes electrical signals, then movement, then marks on paper, and the reader must translate those marks back into thought. Something is always lost along the way. I think this loss is useful, because the reader fills the gap with their own experiences. Two people reading the same novel will build slightly different worlds from the same words.\n\nA good example is a text that keeps its words but changes its meaning. When a story is read in a different period, readers bring new assumptions with them, so the same sentence can mean something new. This is why literary worlds are never fixed and why texts stay interesting.\n\nLiterary worlds can also show how people fail to understand each other. Some stories show characters who cannot put their feelings into words, and this makes the reader feel the distance between them. Liu’s optimism that minds can touch is not the only possibility, but it is a hopeful one, and I think it explains why people keep reading.\n\nIn the end, literary worlds are shaped by the writer’s choices and completed by the reader. Liu’s passage shows that the metaphor of translation can describe both the writer’s art and the reader’s response.",
+                        "feedback": "Meets the 11–15 row: it extends Text 1 in sound ways, with a clear idea that the reader completes the literary world. To reach the 16–20 row it needs a specific craft example from a real text in place of ‘a good example is a text that keeps its words’, and a counter-claim that is tested rather than asserted.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-ee1-hsc-2025-1-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Ken Liu says that all fiction is about metaphors and that stories help people deal with a random universe. I agree with him because stories help people understand things they cannot explain. Translation is also important in the text because it is hard to communicate and people might not understand each other. Readers make meaning because they read the words and think about them. So this is what I think about literary worlds and how they are made.",
+                        "feedback": "Meets the 1–5 row: it attempts a response to Text 1 and makes a general point about translation, but it does not develop insight into how a text makes meaning, and its control of discursive form is limited. To lift it, the response needs one claim about how a specific text is crafted, developed with an example, in a voice that argues rather than summarises.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Text 1: an extract from Ken Liu, The Paper Menagerie and Other Stories. The extract is copyright and is not reproduced here; read it on page 3 of the 2025 HSC English Extension 1 paper: https://www.nsw.gov.au/sites/default/files/noindex/2026-02/2025-hsc-english-extension-1.pdf\n\nYour answer will be assessed on how well you:\n• demonstrate an understanding of the ideas and values of Literary Worlds and how they are shaped and reflected in texts\n• craft a sustained composition appropriate to the question, demonstrating control of the use of language",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "1",
+                    "hscSection": "Section I — Common Module: Literary Worlds 25 marks Allow about 1 hour for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-ee1-12-literary-worlds-2-5",

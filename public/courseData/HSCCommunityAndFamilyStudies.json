@@ -659,7 +659,69 @@
               {
                 "id": "dp-cafs-12-1-1-3",
                 "description": "Describe the types of data that can be collected from individuals and groups",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-21",
+                    "question": "Describe the advantages and limitations of using quantitative data in a research project.",
+                    "totalMarks": 4,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "H4.1",
+                      "H4.2"
+                    ],
+                    "markerNotes": [
+                      "Describe each point in terms of the research, not only its label: say why numerical results are easy to compare, or why a number cannot show the reasons behind an answer.",
+                      "Advantages that earn credit link to the purpose of the research, such as numbers from a large sample can be compared and the research repeated, which supports reliability.",
+                      "Limitations should say what the data cannot show, such as depth or the reasons for responses, rather than that the data is weak."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing qualitative data, or the sources of data, when the question asks about quantitative data.",
+                      "Listing advantages and limitations as single words without describing how each one affects the research.",
+                      "Calling quantitative data more accurate or better without saying why."
+                    ],
+                    "keywords": [
+                      "quantitative data",
+                      "numerical data",
+                      "advantages and limitations",
+                      "sample size",
+                      "reliability",
+                      "qualitative data",
+                      "closed questions",
+                      "research project"
+                    ],
+                    "markingCriteria": "4 marks: Provides a sound description of the advantages and limitations of using quantitative data in a research project\n3 marks: Provides some description of the advantages and limitations of using quantitative data in a research project\n2 marks: Demonstrates a limited understanding of the advantage(s) and/or disadvantage(s) of quantitative data\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-21-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 4,
+                        "answer": "In a research project, the advantages of using quantitative data include:\n• Sample sizes can be collated and analysed easily by comparing numbers\n• Research can be repeated which increases reliability.\nThe limitations of using quantitative data include:\n• Data lacks in-depth answers\n• The why/reasons for answers are not included.",
+                        "feedback": "Meets the top row: describes an advantage (numbers can be collated and compared easily) and a limitation (the reasons for answers are missing), each in a sound sentence. The answer is brief and well matched to 4 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-21-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Quantitative data can be counted and compared easily. A limitation is that it does not show why people answered as they did.",
+                        "feedback": "Meets the 2-mark row: names an advantage and a limitation with limited understanding, and neither is developed. Explaining how the advantage helps the research would move it to the 3-mark row.",
+                        "band": 1
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-21-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Quantitative data uses numbers, such as counts from a survey.",
+                        "feedback": "Meets the 1-mark row: some relevant information about quantitative data, but no advantage or limitation is given. Naming one advantage would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-1-1-4",
@@ -689,7 +751,69 @@
               {
                 "id": "dp-cafs-12-1-1-9",
                 "description": "Describe each research methodology and evaluate the suitability of each for different research topics",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-26",
+                    "question": "A researcher has chosen to investigate the opinions of adults about changes to social media use by young people 16 years and under. Discuss the suitability of TWO research methods for this research topic.",
+                    "totalMarks": 6,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "H4.1",
+                      "H4.2"
+                    ],
+                    "markerNotes": [
+                      "Name two methods and judge how suitable each is for this topic, which asks for the opinions of adults and so calls for qualitative data.",
+                      "Weigh each method strengths against its limitations for this topic, not in general terms; an interview gathers depth but needs many interviews to represent adults.",
+                      "Discussion needs a point on each side for each method; a one-sided account of either method does not discuss it."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the two methods without judging how suitable they are for adults' opinions.",
+                      "Discussing research methods in general rather than their suitability for this topic.",
+                      "Choosing a closed survey and calling it suitable without considering how far it captures opinions."
+                    ],
+                    "keywords": [
+                      "research methods",
+                      "suitability",
+                      "qualitative data",
+                      "quantitative data",
+                      "interviews",
+                      "case study",
+                      "questionnaires",
+                      "research topic"
+                    ],
+                    "markingCriteria": "6 marks: Provides an extensive discussion of the suitability of TWO research methods for this research topic\n5 marks: Provides a thorough discussion of the suitability of TWO research methods for this research topic\n4 marks: Provides a sound discussion of the suitability of TWO research methods for this research topic\n3 marks: Demonstrates some understanding of research methods for this research topic\n2 marks: Provides some information of research methods and/or for this research topic\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-26-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 6,
+                        "answer": "This research topic is seeking subjective data to learn about adults’ opinions on the topic and must use methodologies that predominantly collect qualitative data. Interviews can collect a cross section of opinions, however a larger number of interviews will need to take place, otherwise this could create bias.\nA case study is a detailed and in-depth investigation. It is suitable for this topic as it allows a detailed picture to be formed concerning changes to social media for young people, making the why and how of research clearer. However, it is time-consuming as there are multiple steps, and the large amount of data collected can be difficult to compile and present.",
+                        "feedback": "Meets the top row: discusses the suitability of two methods for adults' opinions on this topic, with a strength and a limitation for each. The case study point links the method detail to the need for a clear picture of the issue.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-26-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Interviews can gather adults' opinions in depth, but a small number may not represent everyone's views.",
+                        "feedback": "Meets the 3-mark row: some understanding of one method and its suitability, with a single point and no second method. Adding a second method and its limits would move it to the 4-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-26-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "A survey could be used to ask adults about social media.",
+                        "feedback": "Meets the 1-mark row: some relevant information about a method, with no judgement of its suitability. Judging why a survey suits or does not suit opinions would lift it to the 3-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "26",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-1-1-10",
@@ -704,7 +828,70 @@
               {
                 "id": "dp-cafs-12-1-1-12",
                 "description": "Apply the research process to a chosen topic by: selecting a research focus; selecting appropriate sampling methods; proposing how the research will be conducted; creating a timeline for research goals; accessing relevant sources of secondary data; using suitable research methods to collect and record primary and secondary data; recording actions and proposing solutions to any research issues; presenting primary data in graphs, tables or written reports; comparing key findings from primary and secondary data; forming research-based conclusions and making recommendations; crediting sources of data by means of bibliography and appendix",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-24",
+                    "question": "Justify steps that would address the research issue presented in the diary.",
+                    "totalMarks": 5,
+                    "verb": "JUSTIFY",
+                    "linkedOutcomes": [
+                      "H4.1",
+                      "H4.2"
+                    ],
+                    "markerNotes": [
+                      "Identify the issue the diary reveals first, then justify each step by what it fixes; here the target group did not answer under the same conditions, so the results are unreliable.",
+                      "A justified step says what it fixes and why that makes the research more reliable, such as a set time for everyone and clear instructions.",
+                      "A step that repeats a problem from the diary without changing it does not address the issue."
+                    ],
+                    "commonStudentErrors": [
+                      "Proposing steps without saying why each one addresses the issue in the diary.",
+                      "Describing the problems in the diary rather than proposing solutions to them.",
+                      "Suggesting the researcher should do better without a specific change, such as a new time or clearer instructions."
+                    ],
+                    "keywords": [
+                      "research issue",
+                      "reliability",
+                      "research process",
+                      "sample bias",
+                      "consistency",
+                      "confidentiality",
+                      "ethical behaviour",
+                      "proposing solutions"
+                    ],
+                    "markingCriteria": "5 marks: Justifies steps to address the research issue presented in the diary\n4 marks: Justifies some steps to address the research issue presented in the diary\n3 marks: Provides some steps to address the research issue\n2 marks: Demonstrates a basic understanding of the issue and/or solutions\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-24-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "The whole target sample was not able to answer the questionnaire under the same or similar conditions, therefore the research method was unreliable. To solve this issue:\n• Set a new time for the whole target group to complete the questionnaire.\n• Deliver the instructions for the questionnaire, stating confidentiality to reassure participants.\nBy setting a new time, a clear process can be followed with enough time to read and answer the questions, give consent, and ensure the process can be repeated.",
+                        "feedback": "Meets the top row: justifies two steps, a new time and clear instructions with confidentiality, and ties each to the reliability of the research. The answer also explains why a set time lets the process be repeated.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-24-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Hold the questionnaire again at a set time, and give clear instructions to everyone.",
+                        "feedback": "Meets the 3-mark row: provides two steps that address the issue but gives no justification for either. Explaining why each step makes the results more reliable would lift it to the 4-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-24-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The questionnaire was poorly organised, so the researcher should plan it better.",
+                        "feedback": "Meets the 1-mark row: some relevant information about the issue, but the step is too general to address it. A specific step, such as a set time, would move it to the 3-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "A diary entry from a student’s Independent Research Project is shown.\nDiary entry 3\nA questionnaire was created for the IRP hypothesis ‘Artificial intelligence can better prepare school students for future careers’.\n- It was organised to hand out a paper questionnaire to our Year 12 cohort during a year meeting.\n- We ran out of copies.\n- The verbal instructions were unclear, and students were talking.\nThe disorganisation meant that some students didn’t finish the questionnaire or were really rushed. Also, the hospitality class was on an excursion.",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               }
             ]
           }
@@ -778,7 +965,69 @@
               {
                 "id": "dp-cafs-12-2-3-4",
                 "description": "Access to services (types of services, eg financial support, transport, accommodation and housing, health care, counselling, education, employment, legal aid; factors affecting access to services (characteristics of individuals within the group, eg age, gender, level of education, culture, type of disability, first language spoken, socioeconomic status; resources, eg time, money, energy, knowledge; aspects of the service, eg opening hours, confidentiality, location, staffing))",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-25",
+                    "question": "Explain how aspects of services can affect rural and remote families’ access to the services.",
+                    "totalMarks": 7,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H3.2",
+                      "H5.1"
+                    ],
+                    "markerNotes": [
+                      "Name one aspect of the service, such as opening hours, location, staffing or confidentiality, and explain how it limits access for rural and remote families.",
+                      "Connect each aspect to the family situation, such as farm work or long travel, so the explanation shows the effect rather than the feature.",
+                      "Explaining two aspects in depth separates a sound answer from one that only lists aspects."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing services in remote areas without naming an aspect of the service that affects access.",
+                      "Explaining the difficulties of rural life in general rather than how aspects of services affect access.",
+                      "Naming location or staffing as a problem without saying why it matters for the family."
+                    ],
+                    "keywords": [
+                      "rural and remote families",
+                      "access to services",
+                      "aspects of services",
+                      "opening hours",
+                      "location",
+                      "staffing",
+                      "confidentiality",
+                      "remoteness"
+                    ],
+                    "markingCriteria": "7 marks: Provides a comprehensive explanation of how aspects of services can affect rural and remote families’ access to services\n6 marks: Provides a thorough explanation of how aspects of services can affect rural and remote families’ access to services\n4-5 marks: Provides sound explanation of how aspects of services can affect rural and remote families’ access to services\n2-3 marks: Demonstrates some understanding of aspects of services and/or how they affect rural and remote families’ access to services\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-25-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 7,
+                        "answer": "Staffing – rural and remote areas are more likely to experience a skills shortage. For acute health issues such as crush farming injuries, there may not be trained or experienced staff. Online financial support services can be accessed when convenient, however if metropolitan based, they may lack knowledge of remote issues, such as drought specific rebates.\nConfidentiality – keeping personal matters private can be challenging due to the size of communities. In smaller communities, family members may be less likely to disclose sensitive but necessary health information to health services, for fear of judgement or shame, leading to worsening health condition.",
+                        "feedback": "Meets the top row: explains how staffing and confidentiality affect access for rural and remote families, with a clear reason for each. Both aspects are developed fully, which is what the top row asks for.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-25-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Rural families may find services are open only during business hours, which clashes with work on the farm. Travel to services can also be costly.",
+                        "feedback": "Meets the 4-5 row: a sound explanation of one aspect, with the second aspect named but not explained. Developing the travel point, such as the time and cost to the family, would lift it to the 6-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-25-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Services in the country are often far away, so families have to drive.",
+                        "feedback": "Meets the 2-3 row: some understanding of a feature of services and its effect, but the explanation is brief and the aspect is not named. Explaining why distance limits access, such as the time and fuel cost, would move it up.",
+                        "band": 2
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-2-3-5",
@@ -794,12 +1043,138 @@
               {
                 "id": "dp-cafs-12-2-4-1",
                 "description": "Addressing the groups’ issues of concern (government policy and legislation; organisations within the community that support the group; equity issues)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-23",
+                    "question": "Explain how a community organisation supports the rights of ONE of the following Category B groups.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H3.2",
+                      "H3.3"
+                    ],
+                    "markerNotes": [
+                      "Name one specific community organisation and say which right of the group it supports, such as access to basic health and hygiene.",
+                      "Explain the mechanism: how the organisation's service or action gives members of the group that right in practice.",
+                      "Stay with the one group chosen; a second group adds length without earning marks."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing the group needs or disadvantages without naming an organisation or explaining how it helps.",
+                      "Naming a government agency or an Act when the question asks about a community organisation.",
+                      "Listing several organisations without explaining how any one of them supports the group's rights."
+                    ],
+                    "keywords": [
+                      "community organisation",
+                      "rights",
+                      "Category B groups",
+                      "homeless people",
+                      "basic needs",
+                      "access to services",
+                      "advocacy",
+                      "wellbeing"
+                    ],
+                    "markingCriteria": "6 marks: Provides a thorough explanation of how a community organisation supports the rights of the group\n5 marks: Provides a sound explanation of how a community organisation supports the rights of the group\n4 marks: Provides an explanation of how a community organisation supports the rights of the group\n3 marks: Demonstrates some understanding of a way a community organisation has attempted to support the rights of the group\n2 marks: Provides some understanding of a community organisation and/or rights of the group\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-23-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 6,
+                        "answer": "Group: Homeless people\nOrange Sky is a community organisation that supports the rights of homeless people to access basic health and hygiene. Some homeless people are rough sleepers, using makeshift dwellings like tents, derelict buildings or cars and have limited access to shower and laundry facilities. This organisation has easily distinguishable orange vans containing shower and laundry facilities, that frequent known areas of rough sleepers. This means the members of this group can wash and feel clean, reducing risk of infection, and can have their clothes cleaned and dried.",
+                        "feedback": "Meets the top row: explains how a named organisation gives homeless people access to a basic right, with the reason its vans reach rough sleepers. The explanation stays on the question and links the service to the group wellbeing.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-23-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Orange Sky is a community organisation that gives homeless people access to showers and laundry, so they can keep clean.",
+                        "feedback": "Meets the 3-mark row: shows one way a named organisation supports the group, but does not explain how this supports a right. Explaining the effect on the group health would move it to the 4-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-23-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Community organisations help homeless people.",
+                        "feedback": "Meets the 1-mark row: some relevant information, but no organisation is named and no right is explained. Naming one organisation and what it provides would lift it to the 3-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "scenario": "[Category B groups, listed in two columns on the paper: Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander Peoples; People with disabilities; Lesbian, Gay, Bisexual, Transgender, Queer, Intersex, Asexual plus (LGBTQIA+) communities; Sole parents; Homeless people]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-2-4-2",
                 "description": "Examine government policy and legislation to determine its role in ensuring equity for each group",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-29",
+                    "question": "Answer the question in relation to ONE of the following Category B groups. To what extent does legislation ensure equity for the diverse members within this group? Use specific examples of legislation to support your answer.",
+                    "totalMarks": 8,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "H3.3",
+                      "H5.1"
+                    ],
+                    "markerNotes": [
+                      "Judge the extent: say how far the legislation delivers equity and where it falls short, then take a position rather than describing the Act.",
+                      "Diversity within the group is what the question tests; show that the legislation helps some members more than others, such as by type of disability.",
+                      "Name the legislation accurately and link each Act to a specific effect on equity, with an example of how it works in practice."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing what the legislation says without judging how far it ensures equity.",
+                      "Treating the group as one uniform group and ignoring the diversity within it.",
+                      "Listing several Acts without explaining what each one does for equity."
+                    ],
+                    "keywords": [
+                      "equity",
+                      "diversity",
+                      "legislation",
+                      "Disability Discrimination Act 1992",
+                      "reasonable adjustments",
+                      "psychosocial disability",
+                      "indirect discrimination",
+                      "judgement"
+                    ],
+                    "markingCriteria": "8 marks: Provides valid judgement on the extent to which legislation ensures equity for the diversity within one of the groups; Provides detailed examples\n6-7 marks: Provides judgement on the extent to which legislation ensures equity for the diversity within one of the groups; Provides relevant examples\n4-5 marks: Attempts to provide judgement on how legislation contributes to equity and/or diversity within one of the groups; Provides example(s)\n2-3 marks: Demonstrates some understanding of legislation in relation to equity and/or diversity within one of the groups\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-29-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 8,
+                        "answer": "Group: People with disabilities\nThe Disability Discrimination Act 1992 (DDA) makes it unlawful to discriminate against a person based on disability in many areas of life, including the workplace. The broad definition of a disability can impact the identification of and successful implementation of reasonable adjustments to support inclusion.\nFor those with a physical disability that can be seen visually, installing ramps can be understood and easily implemented without judgement, increasing equity of access. For those with a psychosocial disability or illness, the nature of the workplace adjustment such as flexible work arrangements may inadvertently lead colleagues to gossip, ask questions and speculate, which may lead to indirect discrimination. Therefore, the DDA may have some success in creating equity. However, there is still considerable inequity across the diversity of the group based on an individual’s disability category.",
+                        "feedback": "Meets the top row: makes a valid judgement that the Disability Discrimination Act creates some equity but leaves inequity across disability types, supported by detailed examples of ramps and psychosocial disability. The judgement is clear and is returned to in the final sentence.",
+                        "band": 5
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-29-2",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Legislation such as the Disability Discrimination Act 1992 makes it unlawful to discriminate against people with disability at work and in other areas. For example, an employer may need to make reasonable adjustments. This helps some people with disability, but not all of them, so the law is only partly effective.",
+                        "feedback": "Meets the 4-5 row: attempts a judgement on how the legislation contributes to equity, with an example. The judgement is stated but not supported, and the diversity within the group is not explored. Explaining why the law helps a physical disability more than a psychosocial one would move it up.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-29-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Legislation such as the Disability Discrimination Act 1992 protects people with disability from unfair treatment.",
+                        "feedback": "Meets the 2-3 row: some understanding of legislation and equity for the group, but no judgement and no example. Adding an example of how the Act works in practice would move it to the 4-5 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "[Category B groups, listed in two columns on the paper: Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander Peoples; People with disabilities; Lesbian, Gay, Bisexual, Transgender, Queer, Intersex, Asexual plus (LGBTQIA+) communities; Sole parents; Homeless people]",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "29",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-2-4-3",
@@ -902,7 +1277,69 @@
               {
                 "id": "dp-cafs-12-3-2-4",
                 "description": "Examine each influence to determine its effect on parenting and caring",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-27",
+                    "question": "Explain how culture, customs and traditions can influence parenting or caring. Support your answer with relevant examples.",
+                    "totalMarks": 8,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H2.1",
+                      "H3.1"
+                    ],
+                    "markerNotes": [
+                      "Treat culture, customs and traditions as three separate influences, and explain the effect of each on parenting or caring, not only what the word means.",
+                      "The strongest answers tie an influence to a parenting style or a caring role, and to its effect on the wellbeing or relationships of the child.",
+                      "Examples should show an effect; a list of festivals or foods without a link to parenting or caring stays descriptive."
+                    ],
+                    "commonStudentErrors": [
+                      "Defining culture, customs and traditions and stopping there, without explaining their effect on parenting or caring.",
+                      "Using one family example as if it applied to every family.",
+                      "Describing parenting styles without linking them to the cultural influence the question asks about."
+                    ],
+                    "keywords": [
+                      "culture",
+                      "customs",
+                      "traditions",
+                      "parenting styles",
+                      "caring",
+                      "cultural identity",
+                      "dependant",
+                      "sociocultural factors"
+                    ],
+                    "markingCriteria": "8 marks: Provides a thorough explanation of the effect of culture, customs and traditions on parenting or caring; Provides relevant examples\n6-7 marks: Provides a sound explanation of the impact of culture, customs and traditions on parenting or caring; Provides examples\n4-5 marks: Provides some explanation of culture, customs and traditions on parenting or caring; Provides an example(s)\n2-3 marks: Provides some information about culture and/or customs and/or traditions and/or parenting and/or caring\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-27-1",
+                        "source": "AI",
+                        "mark": 8,
+                        "answer": "Culture, customs and traditions shape the values that parents and carers pass on, so they affect how children are raised and how dependants are cared for. Cultural values about family roles influence parenting style. In some families, parents expect children to show respect to elders and to follow adults' decisions, so a parent may use a firm, directive approach, which resembles an authoritarian style. In other families, cultural values encourage children to contribute ideas, which supports a more democratic style that builds a child's confidence.\n\nCustoms set the routines of family life, and these routines strengthen bonds between family members. A family that shares meals or attends a weekly religious service together builds a sense of belonging, and children learn social norms through these routines. Traditions passed down through generations, such as language, dress and cooking, preserve cultural identity. A grandparent who teaches a grandchild their first language strengthens the relationship between the generations, although traditions can also create tension when they conflict with the expectations of school or the wider community.\n\nCulture also shapes caring. In many families, care for an ageing parent or grandparent is seen as a duty of the family, so relatives may provide care at home rather than use formal services. This affects how much support the carer seeks from outside, and it can add to the carer's own pressure when that duty is not shared.",
+                        "feedback": "Meets the top row: explains the effect of culture, customs and traditions on both parenting and caring, with a relevant example for each influence. The examples stay general, so a named practice from a particular community would make them stronger.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-27-2",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Culture affects parenting because parents pass on their values to their children. For example, a family with strong religious beliefs may attend services together, which teaches children about their faith. Traditions such as speaking a home language also shape how children see their identity, although the language may be harder to use at school.",
+                        "feedback": "Meets the 4-5 row: some explanation of how culture affects parenting, with an example. The traditions point is named but its effect is not fully explained, and customs and caring are missing. Explaining one influence in depth and adding caring would lift it to the 6-7 row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-27-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Culture means the shared beliefs of a group, and parents from different cultures may raise children differently.",
+                        "feedback": "Meets the 2-3 row: some information about culture and parenting, but no effect is explained and there is no example. Naming one influence and explaining how it changes what parents do would move it up.",
+                        "band": 2
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "27",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-3-2-5",
@@ -973,7 +1410,69 @@
               {
                 "id": "dp-cafs-12-3-3-2",
                 "description": "Explain how different types of support can assist parents and carers to: prepare for their roles; fulfil their responsibilities; maintain their own wellbeing",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-28",
+                    "question": "Explain how different types of support assist foster parents in satisfying their duty of care.",
+                    "totalMarks": 6,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H2.2",
+                      "H3.2"
+                    ],
+                    "markerNotes": [
+                      "Name at least two types of support, separate formal from informal, and explain how each helps the foster parent meet their duty of care, such as respite care giving a rest that keeps the child safe.",
+                      "Explain how the support works, not only what it is: a probity check, for example, is what makes informal help safe to use.",
+                      "Keep every explanation tied to duty of care, which is the focus of the question."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing types of support without explaining how any of them helps the foster parent meet their duty of care.",
+                      "Treating informal support, such as a neighbour, as ready to use without checks.",
+                      "Writing about the foster child's needs rather than the support that helps the foster parent."
+                    ],
+                    "keywords": [
+                      "foster parents",
+                      "duty of care",
+                      "formal support",
+                      "informal support",
+                      "respite care",
+                      "financial support",
+                      "probity checks",
+                      "wellbeing"
+                    ],
+                    "markingCriteria": "6 marks: Provides an extensive explanation of how different types of support assist foster carers in satisfying their duty of care\n5 marks: Provides a thorough explanation of how different types of support assist foster carers in satisfying their duty of care\n4 marks: Provides a sound explanation of how different types of support assist foster carers in satisfying their duty of care\n3 marks: Provides some explanation of how different types of support assist foster carers in satisfying their duty of care\n2 marks: Demonstrates some understanding of types of support and/or foster parents and/or duty of care\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-28-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 6,
+                        "answer": "Foster care can be emotionally rewarding as well as demanding. When accessing support, foster parents can pass on duty of care to trained respite carers. This offers foster parents the opportunity to take a well-deserved rest to recharge and rejuvenate, while ensuring that the children are in safe and caring hands. Foster parenting can be expensive, especially if some children have specific needs. Financial payments from formal support, such as Centrelink or from NDIS can help foster parents to fulfil their duty of care.\nAny informal type of support that has regular contact with a foster child requires probity checks completed by the foster agency assigned to the family. Once checked, friends or neighbours can assist by picking up the child from school, supervising, and keeping them safe until they finish work.",
+                        "feedback": "Meets the top row: explains how formal support (respite care and financial payments) and informal support (friends or neighbours, after checks) each help the foster parent meet duty of care. The explanation is sound throughout.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-28-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Respite care lets foster parents take a break, which helps them keep caring for the child safely. Financial support can also help with the costs of raising a child.",
+                        "feedback": "Meets the 3-mark row: some explanation of how formal support helps, with respite care linked to duty of care, but informal support is missing. Explaining how a friend or neighbour can help, and the checks needed, would lift it to the 4-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-28-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Foster parents can get help from friends and family.",
+                        "feedback": "Meets the 1-mark row: some relevant information about support, with no explanation of how it helps duty of care. Naming a type of support and how it helps would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "28",
+                    "hscSection": "Section I Part B 55 marks Attempt Questions 21–29 Allow about 1 hour and 40 minutes for this part"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-3-3-3",
@@ -1026,7 +1525,69 @@
               {
                 "id": "dp-cafs-12-4-2-1",
                 "description": "The government’s role (legislation relating to the protection and welfare of children (child protection; education, eg school attendance; safety, eg travel restraints, product safety standards); government agencies that implement and monitor these laws, eg NSW Commission for Children and Young People)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-30b",
+                    "question": "Explain how travel restraint legislation and government agencies protect the welfare of children when travelling in a vehicle. Provide examples to support your answer.",
+                    "totalMarks": 7,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H2.3",
+                      "H3.3"
+                    ],
+                    "markerNotes": [
+                      "Name the legislation, such as the Road Rules 2014, and at least one government agency, then explain what each does to protect children travelling by car.",
+                      "Make the examples specific: the type of restraint for each age or size, rather than the general statement that children must be restrained.",
+                      "Explain why the law protects the child, such as why a rearward-facing restraint protects an infant in a crash."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing car seats without naming any legislation or government agency.",
+                      "Naming an agency without explaining what it does to protect children when travelling.",
+                      "Describing general road rules that apply to all passengers instead of the protection of children."
+                    ],
+                    "keywords": [
+                      "travel restraints",
+                      "child restraints",
+                      "welfare of children",
+                      "Road Rules 2014",
+                      "government agencies",
+                      "legislation",
+                      "child safety",
+                      "examples"
+                    ],
+                    "markingCriteria": "7 marks: Provides a thorough explanation about travel restraint law(s) and government agencies that protect the welfare of children when travelling in a vehicle; Provides relevant examples\n6 marks: Demonstrates a sound understanding about travel restraint law(s) and government agencies that protect the welfare of children when travelling in a vehicle; Provides some relevant examples\n4-5 marks: Demonstrates some understanding about travel restraint law and/or government agencies that protect the welfare of children when travelling in a vehicle; Provides example(s)\n2-3 marks: Provides some information about travel restraints and/or government agencies\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-30b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 7,
+                        "answer": "All children must be safely fastened in the correct child car seat for their age and size/weight. This ensures that children are as physically safe as possible in road vehicles and are less likely to be injured/killed in the event of a car crash.\nRule 266 of Road Rules 2014 addresses the regulation of the wearing of seat belts. Eg a child up to 6 months should be secured in an approved rearward facing restraint, a child from 6 months to 4 years to be secured in rear/forward facing child restraint with inbuilt harness and a child from 7 years to 16 years may have a booster seat.\nThe Child Restraint Evaluation Program and the Authorised Restraint Fitting Stations are other NSW Government initiatives to offer support.",
+                        "feedback": "Meets the top row: explains the rules on child restraints and how each restraint fits the child age and size, with examples and the protective purpose of each. It also names government initiatives that support families.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-30b-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Children must use a child car seat that suits their age and size. For example, a baby is placed in a rearward facing restraint, which helps protect the head and neck in a crash.",
+                        "feedback": "Meets the 4-5 row: some understanding with an example of how a restraint protects a child, but no legislation or agency is named. Naming the Road Rules 2014 and one agency, and explaining their role, would lift it to the 6-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-30b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Children should be buckled into a car seat when travelling.",
+                        "feedback": "Meets the 2-3 row: some information about travel restraints, but no legislation, agency or example. Naming the rule that applies and giving one example would move it up.",
+                        "band": 2
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "30(b)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-4-2-2",
@@ -1108,7 +1669,69 @@
               {
                 "id": "dp-cafs-12-4-4-3",
                 "description": "Community support for adults and families (counselling for individuals and families; health services; women’s refuges; community support organisations, eg Centacare, St Vincent de Paul Society)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-30a",
+                    "question": "Describe the role of women’s refuges in supporting women and their families.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "H6.1",
+                      "H3.2"
+                    ],
+                    "markerNotes": [
+                      "Describe the role in more than one way, such as safe housing, protection from abuse and support for women and children, rather than one feature.",
+                      "Show the role in supporting the family as a whole, including children, not only the woman.",
+                      "Refer to features specific to refuges, such as confidential locations, to make the role clear."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing women's refuges as a place for women only, leaving out the children.",
+                      "Writing about the causes of domestic and family violence rather than the role of the refuge.",
+                      "Stopping at safe housing without describing any other support the refuge provides."
+                    ],
+                    "keywords": [
+                      "women's refuges",
+                      "domestic and family violence",
+                      "safe housing",
+                      "support services",
+                      "confidentiality",
+                      "wellbeing",
+                      "children",
+                      "community support"
+                    ],
+                    "markingCriteria": "3 marks: Provides a sound description about the role of women’s refuges in supporting women and their families\n2 marks: Demonstrates some understanding about women’s refuges in supporting women and their families\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-30a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Women’s refuges provide shelter and specialist support for women and children who are escaping domestic and family violence. The location and details of the refuge are confidential. As refuges provide safe and secure housing, and protection from physical and emotional abuse and/or financial coercive control, they preserve an individual’s rights to be respected and have a safe place to live and be treated fairly and equally.",
+                        "feedback": "Meets the top row: describes safe housing, protection and the confidential location of refuges, and links these to the rights of women and families to be treated fairly. The description is sound and concise.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-30a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Women's refuges give women and their children a safe place to stay when they leave a violent home.",
+                        "feedback": "Meets the 2-mark row: some understanding of the refuge role for women and children, but one feature only. Describing a second role, such as protection or support, would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-30a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Women’s refuges help women who are in danger.",
+                        "feedback": "Meets the 1-mark row: some relevant information, but no description of how the refuge helps the women or the family. Naming the safe housing it offers would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "30(a)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-4-4-4",
@@ -1124,7 +1747,71 @@
               {
                 "id": "dp-cafs-12-4-5-1",
                 "description": "Issues for the aged (government legislation and entitlements for the aged; community support for the aged; recognising the aged as a valuable community resource)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-30c",
+                    "question": "To what extent do government legislation and entitlements address current issues for the aged?",
+                    "totalMarks": 15,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "H3.3",
+                      "H3.4"
+                    ],
+                    "markerNotes": [
+                      "Judge the extent: say how far legislation and entitlements address current issues, name the issues they miss, and reach a position. A list of Acts without a verdict stays in the lower bands.",
+                      "Link each measure to the wellbeing of older people, such as how in-home support keeps an older person independent, not only to what the measure is for.",
+                      "Choose two or three current issues, such as housing needs or access to in-home care, and say exactly what each measure does about them."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing legislation and entitlements without a judgement on how far they address current issues.",
+                      "Listing Acts and payments without naming the current issue each one responds to.",
+                      "Writing about the aged as one group without linking any measure to their wellbeing."
+                    ],
+                    "keywords": [
+                      "government legislation",
+                      "entitlements",
+                      "current issues for the aged",
+                      "Aged Care Act 2024",
+                      "Age Pension",
+                      "Age Discrimination Act 2004",
+                      "Support at Home",
+                      "wellbeing"
+                    ],
+                    "markingCriteria": "13-15 marks: Demonstrates extensive knowledge and understanding about the relationship between current issues and government legislation and entitlements; Provides a well-informed judgement on the extent to which current issues support the aged; Provides clear links to the effect on the wellbeing of individuals; Presents a logical and cohesive response using relevant examples\n10-12 marks: Demonstrates thorough knowledge and understanding about the relationship between current issues and government legislation and entitlements; Provides a judgement on the extent to which current issues support the aged; Provides links to the effect on the wellbeing of individuals; Presents a cohesive response using relevant examples\n7-9 marks: Demonstrates sound knowledge about the relationship between current issues and government legislation and entitlements; Provides a link(s) between current issues and the aged; Communicates some information using examples\n4-6 marks: Provides some information about current issues and/or government legislation and/or entitlements and/or the aged; Provides example(s)\n1-3 marks: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-30c-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Government legislation and entitlements address many current issues for older people, but they do not resolve them all. Their main strength is that they set out the rights of the aged and provide income and in-home support. Their limitation is that they respond unevenly to issues that law cannot easily solve, such as housing costs and social isolation, so some older people's wellbeing is still at risk.\n\nThe Aged Care Act 2024 places the rights of older people at the centre of the aged care system. It aims to make the system simpler, with supported decision making, so that services are safe and of high quality. This responds to the serious failings identified by the Royal Commission into Aged Care Quality and Safety, whose final report in 2021 called for major change. The Act improves wellbeing by setting clear standards, but a standard on paper does not guarantee a suitable place in a facility for every older person who needs one.\n\nMany older people prefer to remain in their own homes, and the Support at Home Program is designed to help them do this. It can fund specialist services and home modifications, which allows an older person to stay healthy, happy and safe at home for longer. This addresses the issue of independence directly. Its effect depends on the availability of workers and on the older person's ability to navigate the system, so people with limited digital skills or family support may gain less from it.\n\nThe Age Discrimination Act 2004 makes it unlawful to treat a person unfairly because of their age, which targets ageism in employment, services and the community. This protects the wellbeing of older people who want to keep working or take part in community life. However, the law relies on individuals making complaints, and many older people may not do so, particularly if they depend on the person they would complain about.\n\nGovernment entitlements, especially the Age Pension, reduce financial hardship. For many older people the pension is a main source of income, and it helps with the costs of housing, food and health care. It supports wellbeing by reducing financial stress. Yet the pension does not solve the housing affordability problem that many older renters face, and no entitlement can by itself prevent loneliness or social isolation.\n\nOverall, government legislation and entitlements address current issues for the aged to a considerable extent, because they protect rights, support independent living and provide income. They do less well on issues such as housing costs and social isolation, which have a direct effect on wellbeing but depend on communities and families as much as on law. The extent of their success therefore depends on whether the services that legislation promises are actually delivered.",
+                        "feedback": "Meets the 13-15 row: extensive knowledge of the Aged Care Act 2024, the Support at Home Program, the Age Discrimination Act and the Age Pension, a judgement on the extent to which they address current issues, and clear links to wellbeing. The verdict is qualified by what the measures cannot do, which keeps it well informed.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-30c-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Government legislation and entitlements address some current issues for the aged. The Aged Care Act 2024 puts the rights of older people at the centre of care and aims to make services safe and of high quality, which supports their wellbeing. The Age Pension gives older people an income, which helps them meet everyday costs. The Age Discrimination Act 2004 also protects older people from unfair treatment because of age. Support at Home helps older people stay in their own homes, so they can remain independent for longer. However, many older people still struggle with housing costs, and the legislation does not directly address this. Loneliness is another issue that a payment cannot fix. Overall, legislation and entitlements help the aged to some extent, but they do not address every current issue.",
+                        "feedback": "Meets the 7-9 row: sound knowledge of how the Act, the pension and Support at Home relate to current issues, with examples. The verdict is stated in one sentence rather than argued, and the link to wellbeing is brief. Testing the verdict against housing and isolation, with the wellbeing effect of each, would lift it to the 10-12 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-30c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The government has laws about aged care, and older people get the Age Pension. These help older people with money and care, but some older people still have problems.",
+                        "feedback": "Meets the 1-3 row: some relevant information about legislation and entitlements, with no judgement and no link to the issues the question names. Naming one current issue and one measure that responds to it would lift it to the 4-6 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question\n• apply the skills of critical thinking and analysis\n• communicate ideas and information using relevant examples\n• present a logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "30(c)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section",
+                    "bandCeiling": 6
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-4-5-2",
@@ -1151,7 +1838,66 @@
               {
                 "id": "dp-cafs-12-5-1-2",
                 "description": "Describe both primitive and complex technologies",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-31a",
+                    "question": "Describe the differences between primitive and complex hardware technology.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "H3.4"
+                    ],
+                    "markerNotes": [
+                      "Compare the two types on at least two points, such as materials and design or functioning, rather than describing each one separately.",
+                      "A concrete example on each side, such as a stone washboard and a washing machine with self-regulating settings, shows the difference clearly."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing only one type of technology and leaving the other out.",
+                      "Calling primitive technology old or outdated without saying what makes it primitive.",
+                      "Using primitive and complex without any example of either."
+                    ],
+                    "keywords": [
+                      "primitive technology",
+                      "complex technology",
+                      "hardware technology",
+                      "simple materials",
+                      "design and function",
+                      "technology as hardware",
+                      "sophistication"
+                    ],
+                    "markingCriteria": "3 marks: Provides a sound description of the differences between primitive and complex hardware technology\n2 marks: Demonstrates some understanding of primitive and complex hardware technology\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-31a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Primitive hardware technology is made from simple materials such as wood and stone, like stone washboards. Complex hardware technology is more sophisticated in design and functioning, such as a washing machine with self-regulating settings.",
+                        "feedback": "Meets the top row: describes both types, with materials and design or function for each and a clear example. The comparison is sound.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-31a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Primitive technology is simple, like a stone washboard. Complex technology is more advanced.",
+                        "feedback": "Meets the 2-mark row: some understanding of both types with one example, but the difference is stated rather than described in materials or function. Describing what the complex example does differently would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-31a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Primitive technology is old and complex technology is new.",
+                        "feedback": "Meets the 1-mark row: some relevant information, but the difference is about age rather than how the technology works. Describing the materials or design of each would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(a)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-5-1-3",
@@ -1249,7 +1995,69 @@
               {
                 "id": "dp-cafs-12-5-4-9",
                 "description": "Evaluate the rights and responsibilities of employers and employees in adopting technology in the workplace",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-31b",
+                    "question": "Explain the rights and responsibilities of employees when adopting technology in the workplace. Provide examples to support your answer.",
+                    "totalMarks": 7,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H2.3",
+                      "H6.2"
+                    ],
+                    "markerNotes": [
+                      "Explain rights and responsibilities separately, and give each one a workplace example, such as a new system that comes with training.",
+                      "Responsibilities are actions the employee takes, such as using the technology safely and following protocols; a statement of duty without an action does not explain.",
+                      "Keep to the employee's rights and responsibilities, not the employer's, which is the focus of the question."
+                    ],
+                    "commonStudentErrors": [
+                      "Giving employee rights without any responsibilities, or the reverse.",
+                      "Describing the employer's rights and responsibilities instead of the employee's.",
+                      "Naming a right, such as training, without an example of how it applies when new technology is adopted."
+                    ],
+                    "keywords": [
+                      "employee rights",
+                      "employee responsibilities",
+                      "adopting technology",
+                      "training",
+                      "workplace safety",
+                      "fair treatment",
+                      "informed of change",
+                      "employer"
+                    ],
+                    "markingCriteria": "7 marks: Provides a thorough explanation of the rights and responsibilities of employees when adopting technology in the workplace; Provides relevant examples\n6 marks: Provides a sound explanation of the rights and responsibilities of employees when adopting technology in the workplace; Provides some relevant examples\n4-5 marks: Provides some explanation of the rights and responsibilities of employees when adopting technology in the workplace; Provides example(s)\n2-3 marks: Demonstrates some understanding of the rights and/or responsibilities of employees when using technology\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-31b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 7,
+                        "answer": "Employees have the right to be informed about how technology will impact their roles and to receive adequate training to implement the technology. Employees have the responsibility to adapt to new changes and to use the technology effectively.\nFor example, if a company wishes to implement a new computer operating system, the employee has the right to be adequately informed of its implementation date, so that they can be trained and prepared beforehand. Employees also have the responsibility to accept the new technology, implement it to the best of their ability, and to follow safety protocols to prevent breaches.",
+                        "feedback": "Meets the top row: explains the rights (to be informed and trained) and the responsibilities (to adapt, accept and use technology safely), with a workplace example of a new operating system. The example makes the explanation thorough.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-31b-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Employees have the right to training when a workplace introduces new technology. For example, a new software system should come with training. They also have a responsibility to use it properly.",
+                        "feedback": "Meets the 4-5 row: some explanation of one right and one responsibility, with an example. Developing a second right, such as fair treatment, and linking the responsibility to safety would lift it to the 6-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-31b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Employees have rights at work, such as training when technology is brought in.",
+                        "feedback": "Meets the 2-3 row: some understanding of an employee right in relation to technology, but no responsibility and no explanation. Adding an employee responsibility and an example would move it to the 4-5 row.",
+                        "band": 2
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(b)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section"
+                  }
+                ]
               }
             ]
           },
@@ -1270,7 +2078,71 @@
               {
                 "id": "dp-cafs-12-5-5-3",
                 "description": "Impact of emerging technologies (ethics; equity and access; health and safety; economic; environmental; education and learning)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-31c",
+                    "question": "Evaluate the impact of emerging technologies within the contexts of transport and medicine.",
+                    "totalMarks": 15,
+                    "verb": "EVALUATE",
+                    "linkedOutcomes": [
+                      "H3.4",
+                      "H2.2"
+                    ],
+                    "markerNotes": [
+                      "Evaluate against stated criteria, such as safety, access or ethics, and reach a verdict; a list of benefits and risks does not evaluate.",
+                      "Give both transport and medicine an example developed in depth, and show the effect on the wellbeing of individuals in each.",
+                      "Explain what determines the impact, such as regulation or cost, since this is what separates a judgement from a description."
+                    ],
+                    "commonStudentErrors": [
+                      "Listing benefits and risks of technology in general without applying them to transport and medicine.",
+                      "Giving a verdict without criteria, such as calling a technology good or bad overall.",
+                      "Describing the technology without linking its impact to the wellbeing of individuals.",
+                      "Writing about technology in the home or the workplace rather than transport and medicine."
+                    ],
+                    "keywords": [
+                      "emerging technologies",
+                      "autonomous vehicles",
+                      "telehealth",
+                      "ethics",
+                      "equity and access",
+                      "health and safety",
+                      "wellbeing",
+                      "regulation"
+                    ],
+                    "markingCriteria": "13-15 marks: Demonstrates extensive knowledge and understanding about the impact of emerging technologies within the context of transport and medicine; Provides a well-informed judgement on the impact of emerging technologies; Provides clear links to the effect on the wellbeing of individuals; Presents a logical and cohesive response using relevant examples\n10-12 marks: Demonstrates thorough knowledge and understanding about the impact of emerging technologies within the context of transport and medicine; Provides a judgement on the impact of emerging technologies; Provides links to the effect on the wellbeing of individuals; Communicates information using examples; Presents a cohesive response\n7-9 marks: Demonstrates sound knowledge about emerging technologies within the context of transport and medicine; Provides a link(s) between impact and emerging technologies; Communicates some information using examples\n4-6 marks: Provides some information about emerging technologies and/or transport and/or medicine; Provides example(s)\n1-3 marks: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-31c-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Emerging technologies in transport and medicine improve the wellbeing of many individuals, but the benefits are uneven and several ethical questions remain unresolved. Judged against the criteria of safety, equity and access, and ethics, the impact is strongest where a technology reduces risk or cost for many people at once, and weakest where it creates new risks that the law has not yet addressed.\n\nIn transport, autonomous vehicles are the clearest example. Their advanced sensors aim to reduce road accidents, which directly improves physical wellbeing by making travel safer for passengers, pedestrians and other drivers. They may also widen access for people who cannot drive, such as some people with disability and some older people, which supports independence and participation in community life. The ethical problems are serious, however. A vehicle may face a situation in which every option causes harm, and there is no agreed standard for how it should choose. The cost of the technology may also mean that its benefits go mainly to people who can afford new vehicles. Lighter and more fuel-efficient aircraft engines show a similar pattern: they reduce airline costs and can make cheaper flights available, which helps people on lower incomes travel, but greater access does not necessarily improve the wellbeing of every traveller.\n\nIn medicine, telehealth and new diagnostic tools expand access to care. Telehealth lets people in rural and remote areas consult a doctor without a long journey, which reduces the time, cost and fatigue of travel. The vaccines developed during the COVID-19 pandemic reduced severe illness and allowed people to return to their daily lives. Where they were free and easy to reach at pharmacies and general practices, they show how a technology can be shared fairly. Reproductive technologies such as IVF have given many people the chance of parenthood, but they raise difficult ethical questions. The fertility industry has been criticised for lacking consistent national regulation, which has allowed a single donor to father many donor-conceived children. This affects the wellbeing of those children and their families, and shows that the benefits depend on the regulation that accompanies a technology.\n\nOverall, emerging technologies in transport and medicine have a positive impact on the wellbeing of individuals, particularly where they make travel and care safer and more accessible. Their impact is less clear where ethical and equity questions remain open, such as the decisions an autonomous vehicle makes in a crash and the regulation of donor conception. The judgement is therefore favourable but conditional: the technology improves wellbeing when governments and industry manage its risks and share its benefits fairly.",
+                        "feedback": "Meets the 13-15 row: extensive knowledge of autonomous vehicles and medical technologies, a well-informed judgement against stated criteria, and clear links to the wellbeing of individuals in both contexts. The verdict is conditional and argued, which is what separates an evaluation from a list.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-31c-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Emerging technologies in transport and medicine have a mostly positive impact on individuals. Autonomous vehicles use sensors to reduce road accidents, which improves physical safety, and they may help people who cannot drive. Aircraft engines that burn less fuel can make cheaper flights available. However, autonomous vehicles raise ethical issues about how they should act in a crash, and the technology may be expensive, so not everyone benefits. In medicine, telehealth allows people in remote areas to see a doctor without travelling, which improves access to care. Reproductive technologies such as IVF bring benefits to families but also ethical concerns, because the fertility industry has been criticised for lacking consistent national regulation. Overall, these technologies improve wellbeing for many people, but the benefits are not shared equally and the ethical questions are not fully answered.",
+                        "feedback": "Meets the 7-9 row: sound knowledge of autonomous vehicles, telehealth and reproductive technologies, with an example for each and a link to wellbeing. The overall judgement is stated but not argued against criteria, and the equity point is brief. Testing the benefits against equity and ethics in more depth would lift it to the 10-12 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-31c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Driverless cars and telehealth are new technologies. They help people travel and see doctors, but some people may not be able to use them.",
+                        "feedback": "Meets the 1-3 row: some relevant information about two technologies, with no evaluation and little link to wellbeing. Naming a benefit and a risk for each context, and saying who is affected, would lift it to the 4-6 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question\n• apply the skills of critical thinking and analysis\n• communicate ideas and information using relevant examples\n• present a logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(c)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-5-5-4",
@@ -1348,7 +2220,73 @@
               {
                 "id": "dp-cafs-12-6-1-9",
                 "description": "Describe each work pattern and evaluate the suitability of each for different individuals across the life span",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-32c",
+                    "question": "To what extent do shift and part-time work support young people to manage multiple roles?",
+                    "totalMarks": 15,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "H5.2",
+                      "H2.2"
+                    ],
+                    "markerNotes": [
+                      "Judge the extent: say how far shift and part-time work support young people's multiple roles and under what conditions, then reach a verdict.",
+                      "Distinguish the two patterns: part-time work offers flexibility and entitlements, while shift work offers pay and social connection but can affect health.",
+                      "Link each pattern to the wellbeing of young people, such as how disrupted sleep affects study or caring."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing shift and part-time work without judging how far they support young people's multiple roles.",
+                      "Treating shift work and part-time work as the same pattern of work.",
+                      "Discussing the roles young people hold without linking any of them to shift or part-time work.",
+                      "Ignoring the health effects of shift work, such as sleep disturbance."
+                    ],
+                    "keywords": [
+                      "shift work",
+                      "part-time work",
+                      "multiple roles",
+                      "young people",
+                      "work and life balance",
+                      "flexibility",
+                      "pro rata entitlements",
+                      "sleep disturbance",
+                      "rostering"
+                    ],
+                    "markingCriteria": "13-15 marks: Demonstrates extensive knowledge and understanding about relationships between young people and shift/part-time work; Well informed judgement on the extent to which shift and part-time work support young people to manage multiple roles; Provides clear links to the effect on the wellbeing of young people; Presents a logical and cohesive response using relevant examples\n10-12 marks: Demonstrates thorough knowledge and understanding about relationships between young people and shift/part-time work; Provides a judgement on the extent to which shift and part-time work support young people to manage multiple roles; Provides links to the effect on the wellbeing of young people; Presents a cohesive response using relevant examples\n7-9 marks: Demonstrates sound knowledge about the relationship between young people and shift/part-time work; Provides a link(s) between shift and part-time work and managing multiple roles; Communicates some information using examples\n4-6 marks: Provides some information about young people and/or patterns of work and/or multiple role expectations; Provides example(s)\n1-3 marks: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-32c-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Shift and part-time work support many young people to manage multiple roles, but how far they do so depends on the hours, how predictable they are, and the young person's health. Young people often combine study at university or TAFE, paid work, caring for younger siblings or an ageing grandparent, sport, volunteering and their social life. A job that can be arranged around these commitments supports wellbeing; one that cannot adds to the strain.\n\nPart-time work offers the greatest flexibility. A young person can work a few hours a week around a timetable of lectures or classes, and entitlements such as leave are paid pro rata, so the work still carries workplace rights. Part-time roles in retail, hairdressing, landscaping and real estate allow young people to gain workplace skills without giving up their studies. However, part-time work is not always predictable. Employers may change rosters at short notice, which makes it hard to plan caring responsibilities or study, and fewer hours mean a lower income.\n\nShift work responds to a different need. It is performed outside the typical 9 to 5 working day, in roles such as hospitality, bar work, event promotion and music festivals. Evening and weekend shifts may attract extra pay, and they can suit a student whose classes are in the morning. Shift work also meets social needs, because young people working at a bar or festival are part of a peer group. The trade-off is that night and irregular hours can disturb sleep. Poor sleep affects concentration for study and can make it harder to look after younger siblings, so the roles that shift work is meant to support may compete with one another.\n\nThe support depends on the young person's circumstances. A young person caring for a grandparent may not be able to sustain evening shifts, while a young person with few other commitments may manage them easily. Those who can negotiate hours, swap shifts or choose a regular roster are better placed to balance their roles than those who must accept whatever the employer offers.\n\nOverall, shift and part-time work support young people to manage multiple roles to a considerable extent, particularly when hours are regular, pay is fair and the young person keeps some control over when they work. Part-time work is more likely to protect wellbeing because it is easier to plan around, while shift work can help a young person meet study and social needs at the cost of health if sleep is repeatedly disrupted. The support is therefore conditional rather than automatic.",
+                        "feedback": "Meets the 13-15 row: extensive knowledge of how shift and part-time work relate to young people, a well-informed judgement on the extent of support with its conditions, and clear links to the wellbeing of young people. The two patterns are distinguished throughout, which keeps the response logical and cohesive.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-32c-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Part-time work helps many young people manage multiple roles because it provides fewer hours and more flexibility. For example, a student can work a few shifts a week around university classes, and the entitlements are paid pro rata. Shift work, such as bar work or hospitality, suits young people who want to earn money and see friends, but night work can cause sleep problems, which affects study. Young people who care for others may find irregular shifts hard to manage. Overall, shift and part-time work support multiple roles for some young people but not all, depending on their circumstances.",
+                        "feedback": "Meets the 7-9 row: sound knowledge of how part-time and shift work relate to young people, with examples and a link to managing multiple roles. The verdict is stated but the conditions are not argued, and the wellbeing link is brief. Testing the verdict against the health effects and rostering would lift it to the 10-12 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-32c-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Shift work is work outside the usual hours. Part-time work means fewer hours. Some young people do both while studying.",
+                        "feedback": "Meets the 1-3 row: some relevant information about the two patterns, with no link to multiple roles or wellbeing and no judgement. Describing how one pattern helps a young person with study or caring would lift it to the 4-6 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question\n• apply the skills of critical thinking and analysis\n• communicate ideas and information using relevant examples\n• present a logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "32(c)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section",
+                    "bandCeiling": 6
+                  }
+                ]
               }
             ]
           },
@@ -1359,7 +2297,69 @@
               {
                 "id": "dp-cafs-12-6-2-1",
                 "description": "Social factors leading to changing work patterns (education/retraining; technology (computers; automation/robotics; research and development); employment/unemployment; perceptions of gender; family circumstances, including structural change; government policy; economics)",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-32b",
+                    "question": "Explain how economics and technology have led to changing work patterns. Provide examples to support your answer.",
+                    "totalMarks": 7,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "H3.4",
+                      "H5.2"
+                    ],
+                    "markerNotes": [
+                      "Explain both forces, economics and technology, and show how each leads to a specific change in work patterns, such as the move from permanent to casual or contract work.",
+                      "Examples should show cause and effect, such as automation reducing the number of casual retail jobs.",
+                      "Describing the work patterns alone does not explain them; the economic or technological cause has to be the focus."
+                    ],
+                    "commonStudentErrors": [
+                      "Describing part-time or casual work without explaining what economics or technology caused the change.",
+                      "Treating technology as only the internet and leaving out automation or research and development.",
+                      "Naming an economic term, such as recession, without showing how it changed the way people work."
+                    ],
+                    "keywords": [
+                      "changing work patterns",
+                      "automation",
+                      "research and development",
+                      "economic conditions",
+                      "casual work",
+                      "self-employment",
+                      "part-time work",
+                      "social factors"
+                    ],
+                    "markingCriteria": "7 marks: Provides a thorough explanation of how economics and technology have led to changing work patterns; Provides relevant examples\n6 marks: Provides a sound explanation of how economics and technology have led to changing work patterns; Provides some relevant examples\n4-5 marks: Provides some explanation of how economics and technology have led to changing work patterns; Provides example(s)\n2-3 marks: Demonstrates some understanding of economics and/or technology and/or changing work patterns\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-32b-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 7,
+                        "answer": "Technology such as advancements in the speed of the internet have led to competitive international job markets. Businesses can communicate 24 hours per day meaning that past full time permanent employment has led to the emergence of shift work and the flexibility of working remotely.\nAs the economy changes from high prosperity to a recession, work patterns change. When the economy is experiencing a high such as a boom, employees can confidently negotiate from full time work to flexible work patterns, such as working remotely or start businesses and becoming self-employed. Employees benefit from higher wages and flexibility, managing work life balance.",
+                        "feedback": "Meets the top row: explains how technology (faster internet and round-the-clock business communication) and the economy (boom and downturn) lead to shift, flexible and self-employed work, with examples. The explanation of each force is thorough.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-32b-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Automation can reduce the number of jobs in a workplace, and businesses may then rely more on casual staff. For example, self-service checkouts in supermarkets reduce the need for some casual cashiers.",
+                        "feedback": "Meets the 4-5 row: some explanation of how technology changes work, with an example. Economics is not explained, and the example does not show a change in work pattern. Explaining how an economic downturn leads to casual or contract work would lift it to the 6-mark row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-32b-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Economics and technology have changed the way people work.",
+                        "feedback": "Meets the 2-3 row: some understanding of economics and technology in relation to work, with no explanation and no example. Naming one technology and how it changes a job would move it to the 4-5 row.",
+                        "band": 2
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "32(b)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-6-2-2",
@@ -1380,7 +2380,68 @@
               {
                 "id": "dp-cafs-12-6-3-2",
                 "description": "Explain the importance of rights and responsibilities in the workplace",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-cafs-hsc-2025-32a",
+                    "question": "Describe the importance of rights and responsibilities in the workplace.",
+                    "totalMarks": 3,
+                    "verb": "DESCRIBE",
+                    "linkedOutcomes": [
+                      "H2.3",
+                      "H6.2"
+                    ],
+                    "markerNotes": [
+                      "Describe why rights and responsibilities matter in the workplace, not only what they are: say what they do for employers and employees.",
+                      "Show that rights rest on legislation and that responsibilities are met only when people follow the workplace processes."
+                    ],
+                    "commonStudentErrors": [
+                      "Defining rights and responsibilities without saying why they matter in the workplace.",
+                      "Describing the rights of one party, such as employees, without the responsibilities or the employer.",
+                      "Giving a list of rights with no example of how they apply at work."
+                    ],
+                    "keywords": [
+                      "rights",
+                      "responsibilities",
+                      "workplace",
+                      "standards of behaviour",
+                      "legislation",
+                      "fair treatment",
+                      "productive workplace",
+                      "entitlements"
+                    ],
+                    "markingCriteria": "3 marks: Provides a sound description of the importance of rights and responsibilities in the workplace\n2 marks: Demonstrates some understanding of rights and responsibilities in the workplace\n1 mark: Provides some relevant information",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-cafs-hsc-2025-32a-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Rights and responsibilities are important to set a clear standard of behaviour in the workplace. These are important for creating functional, fair and productive workplaces. Australian employees have rights which are entitlements that are set out by legislation. These set the moral obligations (responsibilities) of behaviour. Rights can only be met if collectively employees adjust their behaviour and take responsibility to follow the processes and procedures.",
+                        "feedback": "Meets the top row: describes the importance of rights and responsibilities for standards of behaviour and for fair, productive workplaces, and notes that rights rest on legislation. The answer is concise and complete for 3 marks.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-32a-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Rights and responsibilities set clear standards of behaviour at work. They help make workplaces fair.",
+                        "feedback": "Meets the 2-mark row: some understanding of rights and responsibilities and why they matter, but the importance is stated rather than described. Adding how legislation sets the rights would move it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-cafs-hsc-2025-32a-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Employees have rights at work.",
+                        "feedback": "Meets the 1-mark row: some relevant information, but no importance is described. Saying why rights matter at work would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "32(a)",
+                    "hscSection": "Section II 25 marks Attempt ONE question from Questions 30–32 Allow about 45 minutes for this section"
+                  }
+                ]
               },
               {
                 "id": "dp-cafs-12-6-3-3",

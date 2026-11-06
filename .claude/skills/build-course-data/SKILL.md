@@ -135,6 +135,20 @@ higher-tier verb); **brief answers are preferred** (the band maximum is the ceil
 for a question start "Hypothetical:"; no invented statistics, statutes, cases or dates; British/Australian
 English; NESA's command-term wording (`data/commandTerms.ts` matches NESA's glossary of key words).
 
+## 3b. Past HSC questions
+
+For a year's paper: extract each written-response part word for word (brief style in `docs/seed-data-playbook.md` §2),
+verify with `scripts/verifyPastPaperExtract.mts`, have a writer agent produce `writer.json` (dot point, verb, outcomes,
+keywords, notes, errors, samples; NESA's own sample answer is the full-mark exemplar), then
+
+```
+python3 .claude/skills/build-course-data/tools/build_past.py --course public/courseData/<File>.json \
+  --extract <year-extract.json> --writer <writer.json> --prefix <xx> [--write]
+```
+
+Without `--write` it only reports. Then run `tools/check_past_questions.py` against the year's PDFs. Replace
+third-party copyright stimulus texts with a citation and a link to NESA's paper; leave prescribed-text lists out.
+
 ## 4. Review (this is yours, not the agents')
 
 1. Read a random sample of questions from each job (stem tests the dot point, guide is a real ladder, the

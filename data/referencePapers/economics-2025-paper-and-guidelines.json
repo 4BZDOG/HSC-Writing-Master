@@ -1,0 +1,586 @@
+{
+  "year": 2025,
+  "course": "Economics",
+  "papers": [
+    "2025-hsc-economics.pdf",
+    "2025-hsc-economics-mg.pdf"
+  ],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "25",
+      "reason": "Stimulus is a bar-and-line chart, \"Australia’s current account balance\" (current account balance, net goods and services and net primary income, Sep 2016 to Sep 2024), with no printed data labels. The values cannot be transcribed faithfully as text, and the question refers to the chart as its information source."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE role of the Organisation for Economic Co-operation and Development (OECD) in the global economy. In your answer, refer to a specific example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the role of the OECD in the global economy, using an example"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "One role of the OECD is to conduct and publish research on a range of economic policy issues. An example of this research is a report on tourism trends and policies to build sustainable tourism.",
+      "answersCouldInclude": [
+        "Publishes regular reports on member country’s economic performance and prospects",
+        "Promotes policies for crisis affected countries, eg policy response to the COVID-19 pandemic to support the economic recovery",
+        "Advising governments on how to improve growth and standard of living",
+        "Advocating for ‘inclusive growth’",
+        "Determining global minimum tax rate."
+      ]
+    },
+    {
+      "number": "21(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the limitations of using income as a single measure of quality of life.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains the limitations of using income as a single measure of quality of life"
+        },
+        {
+          "marks": "2",
+          "text": "Describes some limitations of using income as a single measure of quality of life"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Income refers to the monetary rewards in return for economic resources of residents of an economy in a given period. Quality of life is a broader concept which refers to additional measures of wellbeing. Therefore, to get a more accurate view of quality of life, other indicators such as educational attainment indicative of literacy, and life expectancy which demonstrates health outcomes, should also be considered.",
+      "answersCouldInclude": [
+        "Impact of environmental damage",
+        "Inequality of income distribution",
+        "Statistical limitations: PPP, per capita measurements",
+        "Domestic work with no monetary value",
+        "Other wellbeing indicators, for example political freedoms, work−life balance."
+      ]
+    },
+    {
+      "number": "21(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss the impact of world economic development on environmental sustainability.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a comprehensive discussion of the impact of world economic development on environmental sustainability"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound discussion of the impact of world economic development on environmental sustainability"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some discussion of the impact of world economic development on environmental sustainability"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some understanding of economic development and/or environmental sustainability"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Increasing world economic development will lead to increased trade as incomes and demand for goods and services rise. This will result in increased production and transport of goods and services which depletes non-renewable resources and creates carbon emissions leading to a negative impact on the environment. This can permanently damage environmental resources which is detrimental to environmental sustainability. However, increased communication has led to growing awareness of environmental issues, an outcome of which is the development of international agreements such as the Paris Climate Agreement with positive consequences for future environmental sustainability.",
+      "answersCouldInclude": [
+        "Impact of technology to mitigate climate change",
+        "Global cooperation to improve environmental sustainability",
+        "Ecologically sustainable development",
+        "Kuznet curve for environment",
+        "Rising energy consumption – renewable and non-renewable",
+        "Industrialisation leading to pollution",
+        "Land use changes such as deforestation."
+      ]
+    },
+    {
+      "number": "22(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Outline ONE global factor that could cause the movement from D to D1 in the graph.",
+      "stimulus": "Use the following graph to answer parts (a) and (b). [Graph: Foreign exchange market for Australian dollars. Vertical axis: Price of AUD in terms of another currency. Horizontal axis: Quantity of currency traded. Upward-sloping supply curve S. Demand curve D meets S at price P and quantity Q. Demand curve D1, to the left of D, meets S at price P1 (below P) and quantity Q1 (left of Q).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines ONE global factor that could cause the exchange rate movement shown"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "One global factor could be the differential between Australian and global interest rates. If global interest rates rise above Australian rates, there will be a decrease in demand D to D1 for Australian dollars for investment. This causes the currency to depreciate.",
+      "answersCouldInclude": [
+        "Overseas interest rates rise",
+        "Commodity prices",
+        "International tastes and preferences change",
+        "Changing global economic conditions",
+        "Change in demand for exports."
+      ]
+    },
+    {
+      "number": "22(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how the Reserve Bank could directly influence the value of the Australian currency to move from P1 to P.",
+      "stimulus": "Use the following graph to answer parts (a) and (b). [Graph: Foreign exchange market for Australian dollars. Vertical axis: Price of AUD in terms of another currency. Horizontal axis: Quantity of currency traded. Upward-sloping supply curve S. Demand curve D meets S at price P and quantity Q. Demand curve D1, to the left of D, meets S at price P1 (below P) and quantity Q1 (left of Q).]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how the RBA could directly influence the value of Australian currency, to move from P1 to P"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines how the RBA could directly influence the value of the currency"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The RBA could directly intervene in the foreign currency market, ‘dirtying the float.’ To cause an appreciation of the currency the RBA would purchase AUD in exchange for foreign currency reserves, and this results in an appreciation from P1 to P.",
+      "answersCouldInclude": [
+        "Selling of foreign currency",
+        "Buying of Australian currency."
+      ]
+    },
+    {
+      "number": "22(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss the effects of a depreciation of a currency on domestic businesses.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a comprehensive discussion of the effects of a depreciation of a currency on the domestic businesses"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound discussion of the effects of a depreciation of a currency on the domestic businesses"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some discussion of the effects of a depreciation of a currency on the domestic businesses"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the effects of a depreciation of a currency"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A depreciation of a currency would have various impacts on import-competing and export-oriented businesses. For example, imported inputs such as raw materials become more expensive for businesses. This raises domestic production costs and prices, making these businesses less competitive. A depreciation can also benefit import-competing businesses by decreasing competition for more expensive foreign goods, resulting in more sales and increased profitability. Export-oriented businesses benefit from depreciation as their products become cheaper for foreign buyers, and their international competitiveness improves.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline why ONE specific group may experience higher than average unemployment in Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines why one specific group may experience higher than average unemployment in Australia"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "In Australia, young people (15–24 years old) tend to experience a higher unemployment rate than the national average due to their lack of experience and job-specific skills.",
+      "answersCouldInclude": [
+        "People born outside of Australia",
+        "Workers with low levels of educational attainment",
+        "People from regional areas",
+        "Older workers."
+      ]
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Outline ONE factor that may have changed the participation rate in this economy.",
+      "stimulus": "Use the information to answer parts (b)−(d). The following information refers to a hypothetical economy which has a Non-Accelerating Inflation Rate of Unemployment (NAIRU) of 5%. [Table: Year | Participation rate | Unemployment rate. Year 1 | 66% | 4.5%. Year 2 | 62% | 5.9%.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines ONE factor that may have changed the participation rate in this economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An increase in discouraged job seekers when they give up looking for work results in a smaller labour force and decreased participation rate.",
+      "answersCouldInclude": [
+        "Increased enrolment in higher education",
+        "Growth in the over 65 population",
+        "Technological changes such as automation",
+        "Structural changes in the economy",
+        "Changes in policies such as taxation, welfare payments, parental leave and retirement age",
+        "Discouraged workers",
+        "Economic downturns."
+      ]
+    },
+    {
+      "number": "23(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Using the information provided on the previous page, outline a possible cause of the increase in unemployment present in the economy in Year 2.",
+      "stimulus": "Use the information to answer parts (b)−(d). The following information refers to a hypothetical economy which has a Non-Accelerating Inflation Rate of Unemployment (NAIRU) of 5%. [Table: Year | Participation rate | Unemployment rate. Year 1 | 66% | 4.5%. Year 2 | 62% | 5.9%.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the possible cause of the increase in unemployment present in the economy in Year 2, using the information provided"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The unemployment rate of 5.9% in Year 2, which is above the NAIRU of 5%, suggests the presence of cyclical unemployment. Cyclical unemployment arises when there is insufficient demand for goods and services, leading to fewer employment opportunities during economic slowdowns.",
+      "answersCouldInclude": [
+        "Structural unemployment."
+      ]
+    },
+    {
+      "number": "23(d)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how TWO policy options could be implemented to reduce the NAIRU of this economy.",
+      "stimulus": "Use the information to answer parts (b)−(d). The following information refers to a hypothetical economy which has a Non-Accelerating Inflation Rate of Unemployment (NAIRU) of 5%. [Table: Year | Participation rate | Unemployment rate. Year 1 | 66% | 4.5%. Year 2 | 62% | 5.9%.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of how TWO policy options could be implemented to reduce the NAIRU of the economy"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of how TWO policy options could be implemented to reduce the NAIRU of the economy"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the policy options to reduce unemployment"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The NAIRU is the level of unemployment at which there is no cyclical unemployment. In order to reduce this, policies should aim to target structural or frictional unemployment. By improving occupational or geographical mobility of workers through reforms such as increasing training programmes and relocation assistance, the structurally unemployed can access a wider range of employment opportunities, making it easier for them to secure jobs that are available. Labour market policies that connect potential employees and employers more efficiently will reduce frictional unemployment and the NAIRU.",
+      "answersCouldInclude": [
+        "Remove barriers to work for the disabled",
+        "Supply side reforms",
+        "Education and training programs",
+        "Improve labour mobility",
+        "Improve efficiency of job placement agencies."
+      ]
+    },
+    {
+      "number": "24(a)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the purpose of monetary policy in Australia.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the purpose of monetary policy in Australia"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Monetary policy is used by the RBA to influence the cost and availability of credit in the economy. It does so primarily by managing economic fluctuations and seeking to control price stability.",
+      "answersCouldInclude": [
+        "Price stability including Australia’s currency",
+        "The maintenance of full employment in Australia",
+        "The promotion of the economic prosperity and welfare of the people of Australia."
+      ]
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the Reserve Bank of Australia (RBA) maintains the cash rate target.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Explains how the RBA maintains the cash rate target"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of how the RBA maintains the cash rate target"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The policy interest rate corridor establishes a price ceiling for lending rates and a price floor for deposit rates. This encourages inter-bank transactions where banks can borrow at lower rates than those charged by the RBA and lend at higher rates than those paid by the RBA. Consequently, the cash rates within the market gravitate towards the desired cash rate target.",
+      "answersCouldInclude": [
+        "Cash rate target/policy interest rate corridor",
+        "Exchange Settlement Account balances",
+        "Deposit and lending rates",
+        "Domestic market operations/open market operations",
+        "Ample Reserves system (2025)."
+      ]
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II\n40 marks\nAttempt Questions 21–24\nAllow about 1 hour and 15 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the impacts of a decrease in the cash rate on an economy.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a clear and comprehensive understanding of the impacts of a decrease in the cash rate on an economy"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the impacts of a decrease in the cash rate on an economy"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates some understanding of the impacts of a decrease in the cash rate on an economy"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some understanding of the cash rate in an economy"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A decrease in the cash rate lowers borrowing costs and increases credit availability in the economy as changes in the cash rate flow on to the other interest rates in the economy. This allows households to borrow more or repay less on existing loans, leaving them with increased disposable income, enabling higher consumption. Businesses are also more likely to invest due to cheaper financing and this promotes long-term economic growth. As a result, increased aggregate demand and supply support higher output and employment. However, if increases in demand outpace the growth in supply capacity, it can lead to inflationary pressures over time.",
+      "answersCouldInclude": [
+        "Cheaper borrowing costs",
+        "Increased access to credit",
+        "Higher disposable income and consumption",
+        "Business investment and expansion",
+        "Increased aggregate demand",
+        "Long-term economic growth",
+        "Inflationary pressures",
+        "Depreciation of currency."
+      ]
+    },
+    {
+      "number": "26",
+      "section": "III",
+      "sectionHeading": "Section III\n20 marks\nAttempt either Question 25 or Question 26\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how the dimensions and trends of income inequality affect the Australian economy. In your answer, refer to the information provided.",
+      "stimulus": "Inequality is the uneven distribution of economic resources between individuals or different groups within a society. We care about inequality because income and wealth can be significant contributors to an individual’s wellbeing and because inequality can be detrimental to the ongoing advancement of our economy and society. Australian Government Productivity Commission, A snapshot of inequality in Australia Research paper, May 2024 Median full-time weekly earnings by age and gender, 2024 [Table: Age | Male | Female. 15–19 years | $600 | $600. 20–24 years | $900 | $850. 25–34 years | $1250 | $1126.6. 35–44 years | $1500 | $1200. 45–54 years | $1500 | $1200. 55–59 years | $1500 | $1117.3. 60–64 years | $1323.2 | $1080. 65 and over | $1290.2 | $1105.7.] Australian Bureau of Statistics, Characteristics of Employment Survey, Table 2, August 2024",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "use the information provided",
+        "apply relevant economic terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Demonstrates a clear and comprehensive understanding of how the dimensions and trends in income inequality affect the Australian economy ; Synthesises own knowledge and understanding with the information provided, to develop a sustained, logical and cohesive response ; Integrates relevant economic terms, concepts, relationships and theories"
+        },
+        {
+          "marks": "13–16",
+          "text": "Demonstrates a sound understanding of how the dimensions and trends in income inequality affect the Australian economy ; Synthesises own knowledge and understanding with the information provided, to develop a logical and cohesive response ; Applies relevant economic terms, concepts, relationships and theories"
+        },
+        {
+          "marks": "9–12",
+          "text": "Demonstrates a sound understanding of how the dimensions and trends in income inequality affect the Australian economy ; OR ; Demonstrates some understanding of the dimensions OR the trends in income inequality OR effects on the Australian economy ; Uses own knowledge and understanding with the information provided, to develop a coherent response ; Uses relevant economic terms, concepts and relationships"
+        },
+        {
+          "marks": "5–8",
+          "text": "Demonstrates some understanding of income inequality in the Australian economy ; Presents a generalised response ; Uses some economic terms and/or concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Identifies some relevant information ; Presents a limited response that uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Dimensions and trends, according to gender, age, occupation, ethnic background, geographic location, mobility and family structure as they relate to causes/effects.",
+        "Sources of income as a percentage of household income/unequal distribution of earnings, access to employment",
+        "Taxation, tax cuts and exemptions, transfer payments and other assistance",
+        "Cost of living, globalisation, access to technology",
+        "Economic and social costs and benefits of inequality eg lower consumption, reduced business confidence, lower economic growth, poorer health and wellbeing, eroded social cohesion, difficulties managing finances, incentives to work and invest",
+        "Access to services: low incomes can make it difficult to access health, housing, education, and work",
+        "Investment income: high-income households have a greater share of investment income, such as interest, rent, dividends, royalties, and superannuation."
+      ]
+    },
+    {
+      "number": "27",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the conflicts for government that may arise in pursuing Australia’s economic objectives. In your response, refer to THREE separate objectives.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Demonstrates a clear and comprehensive understanding of the conflicts for governments that may arise in pursuing three of Australia’s economic objectives, supported by examples ; Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theories ; Provides a well-informed analysis of the conflicts that may arise in pursuing three of Australia’s economic objectives"
+        },
+        {
+          "marks": "13–16",
+          "text": "Demonstrates a sound understanding of the conflicts that may arise in pursuing three of Australia’s economic objectives ; Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theories ; Provides some analysis of the conflicts that may arise in pursuing three of Australia’s economic objectives"
+        },
+        {
+          "marks": "9–12",
+          "text": "Demonstrates some understanding of the conflicts that may arise in pursuing Australia’s economic objectives ; Provides a coherent response that uses relevant economic terms, concepts, relationships ; Provides a description of Australia’s economic objectives"
+        },
+        {
+          "marks": "5–8",
+          "text": "Demonstrates some understanding of economic objectives ; Presents a generalised response that uses some economic terms and concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides some relevant information ; Presents a limited response that uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Potential conflicts between objectives",
+        "economic growth and quality of life",
+        "full employment",
+        "price stability",
+        "external stability",
+        "environmental sustainability",
+        "distribution of income",
+        "Policy responses and their effects in dealing with economic objectives."
+      ]
+    },
+    {
+      "number": "28",
+      "section": "IV",
+      "sectionHeading": "Section IV\n20 marks\nAttempt either Question 27 or Question 28\nAllow about 35 minutes for this section",
+      "marks": 20,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse how different methods of protection affect firms and government in Australia.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply relevant economic information, terms, concepts, relationships and theory",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "17–20",
+          "text": "Demonstrates a clear and comprehensive understanding of the effects of different methods of protection on firms and governments in Australia, supported by examples ; Provides a sustained, logical and cohesive response that integrates relevant economic terms, concepts, relationships and theories ; Provides a well-informed analysis of different methods of protection on firms and government in Australia"
+        },
+        {
+          "marks": "13–16",
+          "text": "Demonstrates a sound understanding of the effects of different methods of protection on firms and governments in Australia ; Provides a logical and cohesive response that applies relevant economic terms, concepts, relationships and theories ; Provides some analysis of different methods of protection on firms and government in Australia"
+        },
+        {
+          "marks": "9–12",
+          "text": "Demonstrates some understanding of the effects of different methods of protection on firms and/or governments in Australia ; Provides a coherent response that uses relevant economic terms, concepts and relationships ; Provides a description of the different methods of protection"
+        },
+        {
+          "marks": "5–8",
+          "text": "Demonstrates some understanding of protectionist methods ; Presents a generalised response that uses some economic terms and/or concepts"
+        },
+        {
+          "marks": "1–4",
+          "text": "Provides some relevant information ; Provides a limited response that uses some economic terms"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Clear definitions of protectionist methods, such as tariffs, subsidies, quotas, local content rules and export incentives.",
+        "Effects of protectionist methods on Australian firms: increased domestic market share, protection of domestic employment, encouragement of local investment, capacity to compete internationally, higher production costs due to tariffs, reduced efficiency from lack of competition and potential retaliation affecting export markets.",
+        "Effects on the Australian government: increased tariff revenue, reduced unemployment in protected industries, protection of strategic sectors, fiscal pressures from subsidies and potential trade disputes or sanctions from international bodies.",
+        "Limitations of protectionist policies",
+        "Examples of Australia’s protectionist policies",
+        "Examples of global protectionist policies."
+      ]
+    }
+  ]
+}

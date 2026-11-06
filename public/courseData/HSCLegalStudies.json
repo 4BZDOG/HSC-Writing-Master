@@ -1003,6 +1003,71 @@
                       }
                     ],
                     "scenario": "A Year 11 class is preparing a report for a local council on community safety. The teacher asks students to describe the changes in crime that police and courts have had to respond to over the past two decades."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-24",
+                    "question": "Analyse how Australia’s criminal legal system operates to protect community interests. In your answer, refer to legal measures to combat both transnational and domestic crimes.",
+                    "totalMarks": 15,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LST-12-01",
+                      "LST-12-02",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer follows the system through its stages, from investigation to post-sentencing, and asks at each stage how it protects the community. A description of the stages without an analysis of how they protect community interests stays in the lower rows.",
+                      "Transnational crime needs its own measures: extradition, mutual assistance, INTERPOL and federal offences. An answer that covers only domestic crime cannot reach the top row, because the question asks for both.",
+                      "An evaluation of the system's limits, such as the difficulty of enforcing against offenders overseas or the limits of diversion for repeat offenders, separates a sustained analysis from a sound one."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the stages of the criminal process in order without explaining how any stage protects the community.",
+                      "Treats transnational crime as an overseas problem, without naming any measure Australia uses to combat it.",
+                      "Argues that punishment alone protects the community, and ignores rehabilitation, diversion and crime prevention."
+                    ],
+                    "keywords": [
+                      "criminal legal system",
+                      "community interests",
+                      "transnational crime",
+                      "domestic crime",
+                      "investigation",
+                      "adversarial system",
+                      "purposes of sentencing",
+                      "Children's Court",
+                      "legal measures"
+                    ],
+                    "markingCriteria": "13-15 marks: Demonstrates a comprehensive understanding of Australia’s criminal legal system; Provides an informed analysis of how Australia’s criminal legal system operates to protect community interests, with reference to legal measures to combat both transnational and domestic crimes; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n10-12 marks: Demonstrates a substantial understanding of Australia’s criminal legal system; Provides a sound analysis of how Australia’s criminal legal system operates to protect community interests, with reference to legal measures to combat both transnational and domestic crimes; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n7-9 marks: Demonstrates an understanding of Australia’s criminal legal system; Provides some analysis of how Australia’s criminal legal system operates to protect community interests, with reference to legal measures to combat transnational and/or domestic crimes; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n4-6 marks: Demonstrates a limited understanding of Australia’s criminal legal system; Makes general statements about the protection of community interests and/or legal measures; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-3 marks: Writes in general terms about criminal legal systems; May include reference to examples such as legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-24-1",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Australia's criminal legal system protects community interests by investigating and punishing crime, deterring offenders, protecting victims and upholding the rule of law. It works in stages, from investigation through pre-trial, trial and sentencing to post-sentencing, and it combats both domestic and transnational crime through a combination of state, federal and international measures.\n\nInvestigation is the first point of protection. The NSW Police Force has powers to arrest, search and question suspects under the Law Enforcement (Powers and Responsibilities) Act 2002 (NSW), and these powers are balanced by the rights of the accused, including the right to silence. Transnational crime is investigated through the Australian Federal Police and the Australian Criminal Intelligence Commission, which work with INTERPOL and foreign agencies. Offences such as people trafficking and cybercrime are in the Criminal Code Act 1995 (Cth), and money laundering is addressed through that Act and the Anti-Money Laundering and Counter-Terrorism Financing Act 2006 (Cth). Extradition under the Extradition Act 1988 (Cth) allows a person accused of an offence overseas to be sent for trial, which stops offenders escaping by leaving the country.\n\nBefore trial, bail decisions weigh the protection of the community against the presumption of innocence, so the system does not hold people in custody unnecessarily. At trial, the adversarial system tests the evidence before an impartial judge, and the prosecution must prove guilt beyond reasonable doubt. Juries in serious NSW matters bring community participation into the decision, which links the criminal law to community values.\n\nSentencing protects the community through punishment, deterrence, protection and rehabilitation. Under the Crimes (Sentencing Procedure) Act 1999 (NSW), judges sentence with these purposes in mind and weigh aggravating and mitigating factors. Diversion, such as youth justice conferencing for young offenders under the Young Offenders Act 1997 (NSW) and the Children's Court, aims to reduce reoffending by addressing the causes of crime. After sentencing, Corrective Services NSW classifies and places offenders in custody and supervises them on parole, which protects the community after release.\n\nThe system is not without limits. Transnational crime is hard to stop because offenders operate across jurisdictions, and extradition and mutual assistance depend on the co-operation of other countries. Some short custodial sentences may not reduce reoffending, which questions whether punishment alone protects the community. Overall, the criminal legal system protects community interests well in its investigation and trial processes, but its success in combating transnational crime and reducing reoffending depends on co-operation and diversion as well as on punishment.",
+                        "feedback": "Meets the 13-15 row by analysing how each stage of the system protects community interests, with reference to legislation and agencies for both domestic and transnational crime. Evaluating the limits of the system more fully, such as the difficulty of enforcing against offenders overseas, would make the judgement more sustained.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-24-2",
+                        "source": "AI",
+                        "mark": 9,
+                        "answer": "Australia's criminal legal system protects the community by investigating crime, prosecuting offenders and sentencing them. Police investigate crime under the Law Enforcement (Powers and Responsibilities) Act 2002 (NSW), and their powers to arrest and search help protect the public. The accused have rights, such as the right to silence, which limits what police can do.\n\nAt trial, the case is decided in court using the adversarial system. The prosecution must prove the case, and a jury may decide the facts for serious offences. Once the accused is convicted, a judge sentences the offender, and penalties include imprisonment and fines. Imprisonment protects the community by removing dangerous offenders from it.\n\nTransnational crime is also dealt with. Australia works with INTERPOL and can extradite people to other countries, and the Criminal Code Act 1995 (Cth) makes some international crimes illegal. These measures help to combat crimes that cross borders.\n\nDiversion and rehabilitation are also part of the system, particularly for young offenders in the Children's Court. These measures try to stop people reoffending. The system therefore protects the community through several stages, although it does not always stop crime.",
+                        "feedback": "Meets the 7-9 row by giving some analysis of how investigation, trial and sentencing protect the community, with some reference to both kinds of crime. Linking each stage to a specific Act or agency, and explaining how it protects the community, would lift it to the 10-12 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-24-3",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Australia has a criminal legal system with police, courts and prisons. Police investigate crime and arrest people who break the law. Courts decide whether a person is guilty and can impose punishments, which keeps the community safe from criminals. Crime can also cross borders, and Australia has laws to deal with this.",
+                        "feedback": "Meets the 1-3 row by writing in general terms about the criminal legal system and crime, with no analysis of how it protects community interests. Naming one stage and one agency, and explaining what each does, would lift it to the 4-6 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "24",
+                    "hscSection": "Section II – 30 marks. Part B – Crime, 15 marks. Attempt Question 24. Allow about 1 hour for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -4918,6 +4983,66 @@
                       }
                     ],
                     "scenario": "Hypothetical: a Year 11 student preparing a timeline for a human rights unit asks why the recognition of rights grew so quickly after 1945."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-21",
+                    "question": "How has the recognition of peace rights changed over time?",
+                    "totalMarks": 3,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top answer traces the change in order, from a duty on governments to avoid war under the UN Charter to a recognised right of peoples to peace, rather than listing peace rights as a category.",
+                      "Showing that recognition has not always produced action, as the top answer does, separates the top row from an answer that only states the change.",
+                      "A 3-mark answer needs two or three linked sentences; a long list of instruments with no link between them adds nothing."
+                    ],
+                    "commonStudentErrors": [
+                      "Defines peace rights without saying how their recognition has changed over time.",
+                      "Lists instruments such as the UN Charter without explaining what each one added to the recognition of peace rights.",
+                      "Describes peace rights as a right that has always existed, which ignores the change the question asks about."
+                    ],
+                    "keywords": [
+                      "peace rights",
+                      "third generation rights",
+                      "UN Charter 1945",
+                      "Declaration on the Right of Peoples to Peace",
+                      "developing recognition of human rights",
+                      "collective rights",
+                      "right to live free from conflict"
+                    ],
+                    "markingCriteria": "3 marks: Demonstrates a sound understanding of how the recognition of peace rights has changed over time\n2 marks: Demonstrates some understanding of how peace rights changed over time\n1 mark: Provides some relevant information about peace rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-21-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 3,
+                        "answer": "Peace rights are the collective, third generation right to live free from conflict which has evolved over time. Under the UN Charter 1945, governments are required to take necessary action to avoid war. This responsibility has evolved into a more significant obligation to recognise and act to work towards maintaining peace for all peoples, as seen in the Declaration of Rights of People to Peace 1984. But this is not always achieved eg Gaza/Ukraine.",
+                        "feedback": "Meets the 3-mark row by tracing how peace rights changed, from the UN Charter's duty to avoid war to the 1984 Declaration, and by noting that recognition is not always matched by action. The answer links each step to the next, so the change is clear.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-21-2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Peace rights are collective rights to live free from conflict. The UN Charter asked governments to avoid war, but the United Nations later recognised a right of peoples to peace, so the idea has grown over time.",
+                        "feedback": "Meets the 2-mark row by identifying the shift from a duty on governments to a right held by peoples, but the change is stated rather than explained. Explaining why the recognition developed, or giving one example of the right in practice, would lift it to the 3-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-21-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Peace rights are rights to live free from conflict, and the United Nations has recognised them.",
+                        "feedback": "Meets the 1-mark row by giving relevant information about peace rights, with no account of how they have changed. Explaining one development over time would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "21",
+                    "hscSection": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section."
                   }
                 ]
               },
@@ -6032,6 +6157,68 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-23",
+                    "question": "How do legal measures protect human rights? Support your answer with an example.",
+                    "totalMarks": 7,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LST-12-01",
+                      "LST-12-02",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains how each source of law protects rights, then names the limits, such as Parliament's power to change statute law. Listing the sources without explaining how each one works stays in the lower rows.",
+                      "The example should show the legal process at work, such as a complaint under the Racial Discrimination Act moving through the Australian Human Rights Commission, not only the name of the Act.",
+                      "Seven marks rewards a clear, detailed explanation of two or three measures more than a survey of many."
+                    ],
+                    "commonStudentErrors": [
+                      "Says that laws protect human rights without naming which laws, or explaining how they protect a right.",
+                      "Assumes that international treaties are automatically enforceable in Australian courts, which they are not unless they are put into domestic law.",
+                      "Names an example such as the Racial Discrimination Act but does not say how it protects anyone."
+                    ],
+                    "keywords": [
+                      "legal measures",
+                      "human rights",
+                      "Australian Constitution",
+                      "statute law",
+                      "common law",
+                      "Racial Discrimination Act 1975 (Cth)",
+                      "Australian Human Rights Commission",
+                      "no federal bill of rights"
+                    ],
+                    "markingCriteria": "7 marks: Demonstrates a thorough understanding of human rights; Provides a clear and detailed explanation of how legal measures protect human rights; Integrates an example into the response\n5-6 marks: Demonstrates a sound understanding of human rights; Provides a clear explanation of how legal measures protect human rights; Uses an example in the response\n3-4 marks: Demonstrates some understanding of human rights; Provides some explanation of how legal measures protect human rights; Refers to an example\n2 marks: Makes general statements about legal measures and human rights; May refer to an example\n1 mark: Provides some relevant information about human rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-23-1",
+                        "source": "AI",
+                        "mark": 7,
+                        "answer": "Legal measures protect human rights in Australia mainly through the Constitution, statute law and common law. Australia has no federal bill of rights, so protection relies on a few express constitutional provisions, such as section 80, which requires trials on indictment for Commonwealth offences to be heard by a jury, and on Parliament and the courts. Statute law gives rights a clear form that can be enforced. The Racial Discrimination Act 1975 (Cth) makes racial discrimination unlawful, and a person who has been treated unfairly can complain to the Australian Human Rights Commission, which tries to resolve the matter by conciliation. If conciliation fails, the complaint can be taken to the federal courts. Common law protects rights through precedent, because a court can recognise a right and apply it to new facts. The limits matter, however. Parliament can amend or override a statute that protects a right, and the courts can act only when a case is brought before them. Legal measures therefore protect human rights effectively, but only as far as Parliament and the courts choose to enforce them.",
+                        "feedback": "Meets the top row by explaining how the Constitution, statute law and common law each protect rights, with the limits on that protection, and by integrating a specific complaint process as an example. Naming a case in which a court applied a right would make the common law point concrete.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-23-2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Australia protects human rights through the Constitution, statutes and common law. The Racial Discrimination Act 1975 (Cth) makes some forms of discrimination unlawful, so people can complain if they are treated unfairly because of race. Courts also protect rights by applying common law principles. Because Australia has no bill of rights, protection depends on Parliament and can be changed.",
+                        "feedback": "Meets the 3-4 row by naming the sources of protection and referring to an example, but the explanation of how each one protects rights stays brief. Explaining how a complaint moves through the Commission would lift it to the 5-6 row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-23-3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Legal measures such as laws and courts help protect human rights in Australia. For example, discrimination is against the law.",
+                        "feedback": "Meets the 2 row by making general statements about legal measures and human rights, with a brief reference to an example. Explaining how a specific law or body protects a right would lift it to the 3-4 row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "23",
+                    "hscSection": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section."
                   }
                 ]
               },
@@ -6916,6 +7103,67 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-22",
+                    "question": "Explain how the media influences changes in human rights. Include examples in your answer.",
+                    "totalMarks": 5,
+                    "verb": "EXPLAIN",
+                    "linkedOutcomes": [
+                      "LST-12-04",
+                      "LST-12-03"
+                    ],
+                    "markerNotes": [
+                      "The top answer explains a mechanism, that the media raises awareness, informs the public and prompts reform, and then limits it, since press freedom is not universal. Naming the media's role without explaining how it changes human rights stays in the middle rows.",
+                      "The example should be tied to the change it is said to have caused, not only to a story that was reported.",
+                      "The limits of the media, such as censorship or one-sided reporting, separate a sound answer from a thorough one."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes what the media does, such as reporting news, without saying how that reporting changes human rights.",
+                      "Gives a general example of a human rights issue but does not say what the media did about it or what change followed.",
+                      "Treats the media as always positive for human rights, without noting censorship or sensationalised reporting."
+                    ],
+                    "keywords": [
+                      "media",
+                      "promoting human rights",
+                      "raising awareness",
+                      "advocacy",
+                      "press freedom",
+                      "censorship",
+                      "accountability",
+                      "law reform"
+                    ],
+                    "markingCriteria": "5 marks: Provides a thorough explanation of how the media influences changes in human rights; Integrates relevant examples\n4 marks: Provides a sound explanation of how the media influences changes in human rights; Refers to relevant examples\n3 marks: Provides some explanation of how the media influences changes in human rights; May use an example\n2 marks: Makes general statements about how the media influences changes in human rights\n1 mark: Provides some relevant information about human rights",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-22-1",
+                        "source": "HSC_EXEMPLAR",
+                        "mark": 5,
+                        "answer": "The media has a key role in influencing change in human rights because it provides a platform for raising awareness and advocating for action on issues of community concern. Whilst press freedom is a generally widely accepted right in democracies, it is not universally protected. For example, some countries impose media censorship on the reporting of issues. The media also has a significant responsibility to inform the public about human rights violations and inadequacies of existing laws eg treatment of asylum seekers. In this way, the media influences change in human rights. It acts as an important mechanism for ensuring accountability and transparency of law-making bodies and prompts the reform process eg Four Corners 2024 ‘Closure of Don Dale detention centre in the NT’.",
+                        "feedback": "Meets the 5-mark row by explaining how the media raises awareness, informs the public and prompts reform, and by limiting this with the point that press freedom is not universal. The example is tied to a reported issue and a reform, which meets the examples row.",
+                        "band": 3
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-22-2",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "The media can change human rights by drawing attention to problems that governments might otherwise ignore. Reporting on the treatment of asylum seekers can push the public and parliaments to look at the laws involved.",
+                        "feedback": "Meets the 3-mark row by giving some explanation of how media attention can prompt change, with a general example. Explaining the step from coverage to a change in law or policy, and naming one specific report, would lift it to the 4-mark row.",
+                        "band": 2
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-22-3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "The media reports on human rights issues, so people learn about them.",
+                        "feedback": "Meets the 1-mark row by giving relevant information about the media and human rights, with no explanation of how the media influences change. Linking one reported issue to a change in the law would lift it to the 2-mark row.",
+                        "band": 1
+                      }
+                    ],
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "22",
+                    "hscSection": "Section II – 30 marks. Part A – Human Rights, 15 marks. Attempt Questions 21–23. Allow about 1 hour for this section."
                   }
                 ]
               },
@@ -7154,6 +7402,71 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-25b",
+                    "question": "Assess the interrelationship between changing community values and the achievement of just outcomes for consumers. In your answer, you must refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-04",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer assesses how the change in values has changed the law, and then how far the law now delivers just outcomes, rather than describing the two separately.",
+                      "A contemporary issue must be integrated into the argument, such as online scams or digital markets, and used to test the interrelationship, not only mentioned.",
+                      "Saying that values have changed is not enough. The answer should show a specific value, such as expectations of fairness and transparency in online markets, and how the law has responded or failed to respond."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the history of consumer law without connecting any change in community values to outcomes for consumers.",
+                      "Mentions a contemporary issue in a closing sentence, without using it to test whether the law achieves just outcomes.",
+                      "Assumes that every change in the law produces just outcomes, without assessing who still misses out."
+                    ],
+                    "keywords": [
+                      "changing community values",
+                      "just outcomes",
+                      "consumer protection",
+                      "Australian Consumer Law",
+                      "online shopping",
+                      "digital marketplaces",
+                      "scams",
+                      "unfair contract terms",
+                      "contemporary issue"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of community values and just outcomes relating to consumer law; Makes an informed judgement about the interrelationship between changing community values and achievement of just outcomes for consumers; Integrates relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of community values and just outcomes relating to consumer law; Makes a sound judgement about the interrelationship between changing community values and achievement of just outcomes for consumers; Uses relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of community values and just outcomes relating to consumer law; Makes some judgement about the interrelationship between changing community values and achievement of just outcomes for consumers; Makes some reference to examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of community values and just outcomes relating to consumer law; Makes statements about the interrelationship between changing community values and achievement of just outcomes for consumers; Makes limited reference to examples such as legislation, cases, media, international instruments and documents AND may refer to a contemporary issue; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law relating to consumers; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-25b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Changing community values have shaped consumer law in Australia, and the law's ability to deliver just outcomes depends on how well it keeps pace with those values. The interrelationship is strong but uneven. Values such as fairness, transparency and a fair go have driven reform, but the law still struggles to achieve just outcomes for consumers facing online scams and digital markets.\n\nConsumer protection began as a response to the imbalance between businesses and individual buyers. In Australia, the community's expectation that products should be safe and honestly described led to the Trade Practices Act 1974 (Cth) and, from 1 January 2011, the Australian Consumer Law. Consumer protection has also been recognised internationally, and Australian law reflects the expectation that governments should protect buyers from unfair practices. These developments show values moving from buyer beware towards a shared expectation that businesses should not exploit buyers.\n\nThe law has responded to changing values in specific ways. Unfair terms in standard form contracts were addressed because consumers were expected to accept terms they could not negotiate. The national law applies the same guarantees whether a purchase is made in a shop or online, reflecting a community expectation that a purchase from a distance should carry the same protection. The result is a closer match between what the community expects and what the law provides, which is the first half of the interrelationship.\n\nJust outcomes, however, depend on whether consumers can use these protections. Many consumers do not know their rights, and the cost of pursuing a remedy can exceed the loss. Just outcomes are also limited where the harm is spread thinly over many buyers, because no single consumer has enough at stake to bring a case. Where the law has changed in line with values but consumers cannot reach remedies, the community's expectation of fairness is not realised.\n\nOnline scams and digital marketplaces are the clearest contemporary issue. Scams are often run from overseas through social media, email or fake online stores, and there is a growing community expectation that businesses and platforms should take responsibility for the traders they host. The law has responded in part, through ACCC warnings and the Scamwatch service, but the challenge of tracing offenders across borders limits how far the outcome can be just. A consumer who loses money to a scam may recover nothing, even where the change in values is clear.\n\nThe interrelationship is therefore strong in the direction of law reform but weaker in the achievement of outcomes. When community values change, parliaments respond with new protections, and this has improved the law. The gap arises because outcomes depend on enforcement, access to justice and the reach of the law across borders. Where values demand accountability from platforms and sellers that are hard to regulate, the law may lag behind expectations, and just outcomes for individual consumers remain uncertain.\n\nOverall, changing community values have improved consumer law, and the law now reflects a stronger expectation of fairness than it did before 2011. The achievement of just outcomes is less certain, because the same values that demand protection also expose gaps in enforcement, access and reach. The interrelationship is strong in producing reform, but less strong in delivering just outcomes for every consumer.",
+                        "feedback": "Meets the 21-25 row by linking the change in community values to the achievement of just outcomes, and by testing that link against online scams and digital marketplaces as a contemporary issue. Assessing more closely how the value of fairness competes with the cost of enforcement would make the judgement more informed.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-25b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Community values have changed consumer law. Expectations of fair treatment led to the Trade Practices Act 1974 (Cth), and later the Australian Consumer Law, which applies from 1 January 2011 and gives consumers guarantees and remedies. These changes show that the law responds to what the community expects.\n\nThe law does not always achieve just outcomes, though. Many consumers do not know their rights, and it can be costly to pursue a complaint against a business. A consumer who buys something faulty may have a right to a refund but may find it hard to get one.\n\nA contemporary issue is online shopping and scams. Consumers now buy from businesses overseas, and scammers use the internet to take money from people. Community values support protection against scams, but the law struggles to find and punish scammers outside Australia. The ACCC issues warnings through Scamwatch, which helps people, but it cannot stop every scam.\n\nThe interrelationship between values and outcomes is therefore present, but the law does not deliver just outcomes for all consumers. The law has responded to values, but the outcomes depend on whether consumers can use their rights.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the interrelationship, with reference to the Trade Practices Act, the Australian Consumer Law and online scams. Explaining how the changed values produced an outcome, rather than listing the changes, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-25b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Consumers today expect more protection than they did in the past, and the law has changed to give them more. The Australian Consumer Law protects consumers, and online shopping creates new problems such as scams. Consumers should know their rights.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about changing expectations and consumer law, without assessing their interrelationship. Connecting one change in values to one outcome for consumers would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -7312,6 +7625,71 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-25a",
+                    "question": "‘Non-compliance challenges the effectiveness of the law.’ To what extent is this statement accurate in relation to consumers?",
+                    "totalMarks": 25,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-06",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer makes a judgement on the statement, saying to what extent non-compliance challenges the law, and supports it with the framework, enforcement and specific kinds of non-compliance.",
+                      "A strong answer separates types of non-compliance: serious, detectable breaches are often pursued effectively, while scams and small, widespread breaches are harder to stop.",
+                      "The counter-argument that deterrence and recall powers keep the law effective is needed for the top rows, since the question asks for an extent, not a yes or no."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the Australian Consumer Law without judging whether non-compliance challenges its effectiveness.",
+                      "Says the law is ineffective because some businesses break it, without showing how the enforcement and remedies work.",
+                      "Treats consumers as passive, and overlooks that many do not complain because the cost of action outweighs the loss."
+                    ],
+                    "keywords": [
+                      "Australian Consumer Law",
+                      "consumer guarantees",
+                      "non-compliance",
+                      "ACCC",
+                      "NSW Fair Trading",
+                      "unfair contract terms",
+                      "product safety",
+                      "scams",
+                      "effectiveness of the law"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the law concerning consumers; Makes an informed judgement about the extent to which non-compliance challenges the effectiveness of the law; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the law concerning consumers; Makes a sound judgement about the extent to which non-compliance challenges the effectiveness of the law; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the law concerning consumers; Makes some judgement about the extent to which non-compliance challenges the effectiveness of the law; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the law concerning consumers; Makes statements about how non-compliance challenges the effectiveness of the law; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law concerning consumers; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-25a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The statement is accurate to a considerable extent. Australia has a comprehensive framework for consumer protection, but its effectiveness depends on compliance, and non-compliance weakens the protections that consumers are promised. The law works best where breaches are clear, enforced and met with real penalties, and works least well where consumers cannot detect a breach or cannot afford to pursue a remedy.\n\nThe core of the law is the Australian Consumer Law, which is set out in Schedule 2 to the Competition and Consumer Act 2010 (Cth) and has applied across Australia since 1 January 2011. It guarantees that goods are of acceptable quality, fit for purpose and match their description, and it prohibits misleading or deceptive conduct. The Australian Competition and Consumer Commission (ACCC) enforces the national law, while NSW Fair Trading handles many everyday complaints. Consumers can obtain remedies such as repair, replacement or refund, which shows the law works when businesses comply.\n\nNon-compliance challenges the effectiveness of the law in several ways. Businesses that make false claims about products gain an advantage over honest competitors, and consumers lose the ability to make informed choices. Unfair terms in standard form contracts, such as clauses that allow one party to change the contract without agreement, have been used to limit consumer rights, and a consumer may have to go to court before an unfair term is confirmed as void. Scams are a particular challenge. Many are run from overseas, so warnings and takedowns may be too slow to prevent losses, and penalties depend on the regulator being able to reach the offender.\n\nThe ACCC has brought civil penalty proceedings in the Federal Court against large companies for misleading conduct, which shows that deterrence can work when breaches are detected. However, enforcement depends on resources, and the regulator cannot act on every complaint. Many consumers never complain, because the cost, time and complexity of legal action outweigh the loss on a single purchase. The publicly reported cases therefore understate the non-compliance that goes undetected, and this gap is what makes non-compliance a real challenge to the law's effectiveness.\n\nThere is a strong argument that the law remains effective despite non-compliance. Breaches occur in every regulated market, and the existence of penalties, recall powers and private rights of action deters many businesses from breaching the law at all. The product safety regime allows the ACCC to order recalls and ban unsafe goods, which responds quickly to serious risks. Non-legal measures also support compliance. Consumer organisations such as CHOICE test products and publish warnings, and industry codes encourage businesses to meet standards before they are required to.\n\nThe effectiveness of the law depends on the type of non-compliance. For clear, serious breaches such as false claims about safety, the law is generally effective, because the regulator can act and penalties are significant. For high-volume, low-value breaches and for scams, the law is less effective, because detection and recovery are difficult. Online marketplaces that sell goods from overseas sellers are a contemporary issue that tests the reach of the law, because a seller outside Australia may breach consumer guarantees without being easily pursued.\n\nOverall, non-compliance challenges the effectiveness of consumer law but does not defeat it. The framework and the remedies are strong, and the law is most effective against serious, detectable breaches. It is weakest in detecting and enforcing against cross-border scams and small-scale conduct that affects many consumers. The statement is therefore accurate to a considerable extent, and the gap could be narrowed by more enforcement resources, faster action against scams and simpler ways for consumers to claim their remedies.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement that non-compliance challenges the law to a considerable extent while the framework stays strong, and by integrating the Australian Consumer Law, ACCC enforcement and scams as examples. Weighing the evidence on enforcement against the difficulty of detection more explicitly would sharpen the judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-25a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "The statement is partly accurate. Consumer law in Australia is set out mainly in the Australian Consumer Law, which gives consumers guarantees and remedies, and it is enforced by the ACCC and state fair trading agencies. Where a business breaches the law, for example by making misleading claims about a product, a consumer can complain or take action, and this shows that the law can be effective.\n\nHowever, non-compliance is still a problem. Some businesses make misleading claims, and some consumers do not know what their rights are, so the law does not always protect them. Unfair contract terms are another example. A term can be unfair without the consumer realising, and the consumer may not be able to challenge it.\n\nScams are also hard to stop. They are often run from overseas, so the ACCC can issue warnings but cannot always stop the scammers. The law therefore works in some situations and not in others.\n\nOverall, the statement is accurate to some extent, because non-compliance affects how well consumer law works. The framework still gives consumers important protections, but the law is less effective when breaches are hidden or cross-border.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the extent to which non-compliance challenges the law, with some reference to the Australian Consumer Law and the ACCC. Explaining why enforcement fails for scams, and using a specific case, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-25a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Consumer law in Australia protects consumers from unfair treatment by businesses. The Australian Consumer Law applies across the country and the ACCC enforces it. Some businesses break the law, so consumers are not always protected.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about consumer law, without judging whether non-compliance challenges its effectiveness. A clear position on the statement, with one specific example, would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "25(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -9627,6 +10005,71 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-27b",
+                    "question": "Assess the interrelationship between changing community values and the achievement of just outcomes for families. In your answer, you must refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-04",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer shows how a specific change in the concept of family, such as the recognition of de facto couples or same-sex marriage, has changed the legal outcomes for families, and then assesses whether those outcomes are just.",
+                      "The contemporary issue must test the relationship, for example by asking whether the law's understanding of family now protects members who fall outside it.",
+                      "Kinship care and the Aboriginal and Torres Strait Islander concept of family show that community values differ between groups, and an answer that recognises this is more sustained."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists changes in the concept of family without connecting them to outcomes for family members.",
+                      "Presents the change to same-sex marriage as a change in values alone, without showing the legal change it produced.",
+                      "Treats the best interests principle as always achieving just outcomes, without considering families harmed by the process."
+                    ],
+                    "keywords": [
+                      "evolving concept of family",
+                      "changing community values",
+                      "de facto relationships",
+                      "same-sex marriage",
+                      "Family Law Act 1975 (Cth)",
+                      "best interests of the child",
+                      "kinship",
+                      "family violence",
+                      "contemporary issue"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of community values and just outcomes relating to family law; Makes an informed judgement about interrelationship between changing community values and achievement of just outcomes for families; Integrates relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of community values and just outcomes relating to family law; Makes a sound judgement about the interrelationship between changing community values and achievement of just outcomes for families; Uses relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of community values and just outcomes relating to family law; Makes some judgement about the interrelationship between changing community values and achievement of just outcomes for families; Makes some reference to examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of community values and just outcomes relating to family law; Makes statements about the interrelationship between changing community values and achievement of just outcomes for families; Makes limited reference to examples such as legislation, cases, media, international instruments and documents AND may refer to a contemporary issue; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law relating to families; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-27b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Changing community values about the family have reshaped family law in Australia, and the interrelationship with just outcomes is real but uneven. The law now recognises a wider range of families than it once did, which has increased fairness for many people. However, the same law can still leave some family members without protection, particularly where violence or separation is involved.\n\nThe concept of family has changed considerably. Community acceptance of de facto relationships led to the Family Law Act 1975 (Cth) being extended to de facto couples, so that couples who had never married could seek property settlement and parenting orders. The Marriage Amendment (Definition and Religious Freedoms) Act 2017 (Cth) changed the definition of marriage to allow same-sex couples to marry, reflecting a major shift in community values. These changes show the law moving from a single model of the family towards one that recognises the relationships people actually form.\n\nThose changes have improved just outcomes for many families. A de facto partner who contributed to a relationship can now seek a property settlement, and a same-sex couple can marry and have the relationship recognised in the same way as other couples. Since the Family Law Amendment Act 2023 took effect in May 2024, the Act no longer presumes equal shared parental responsibility: parenting orders turn on the best interests of the child, so a parent's relationship with a child is considered on its merits rather than by the parents' marital status. The law therefore reflects values of equality and fairness more closely than before.\n\nJust outcomes are not guaranteed, however. Family violence remains a serious problem, and a family member who is controlled or harmed in a relationship that the law does not recognise, or who fears the process, may not get the protection the community expects. Kinship care and family structures for Aboriginal and Torres Strait Islander Peoples show a different concept of family. Legal forms built around the nuclear family do not always reflect kinship obligations, and this can produce outcomes that fail some communities.\n\nA contemporary issue is technology-facilitated family violence, in which a partner uses phones, social media or tracking to control or threaten a family member. The community now expects the law to protect against this, and state orders such as apprehended domestic violence orders can restrict electronic contact. Yet the evidence is digital, the abuse can cross state and national borders, and courts must apply the best interests principle while the family may still be in danger. This tests whether the law's changing understanding of family is matched by effective outcomes.\n\nThe interrelationship is therefore strong where values have led to recognition, and weaker where recognition has not translated into protection. The law's changing concept of family has increased fairness for couples and parents. But the best interests principle, applied to families affected by violence, can produce outcomes that the community would not regard as just, if a child remains at risk because a court has relied on contact arrangements.\n\nOverall, changing community values have reshaped family law towards greater recognition and equality, and this has improved outcomes for many families. The achievement of just outcomes is less certain where violence, kinship and digital abuse fall outside the model of family the law was built around. The relationship between changing values and just outcomes is therefore close in the recognition of families, but less close in protecting every family member.",
+                        "feedback": "Meets the 21-25 row by linking a specific change in the concept of family, such as de facto recognition and same-sex marriage, to outcomes for families, and by testing the link against technology-facilitated family violence. A sharper treatment of kinship and Aboriginal and Torres Strait Islander family structures would deepen the assessment.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-27b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Changing community values have changed the concept of family in Australian law. The Family Law Act 1975 (Cth) now covers de facto couples, and the Marriage Amendment (Definition and Religious Freedoms) Act 2017 (Cth) allowed same-sex couples to marry. These changes show that the law has responded to what the community accepts as a family.\n\nThese changes help achieve just outcomes. A de facto partner can seek a property settlement, and same-sex couples have the same rights as other married couples. Children are also protected by the best interests principle, which applies to all families.\n\nHowever, the law does not always produce just outcomes. Family violence affects many families, and some people do not get the protection they need. Aboriginal and Torres Strait Islander families may have kinship arrangements that the law does not always recognise.\n\nOverall, changing values have led to a fairer law, but the relationship between values and outcomes is not perfect. The law has become fairer, but protection for every family member is not yet achieved.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the interrelationship, with reference to the de facto and same-sex marriage changes and to family violence. Explaining how the change in values produced a specific outcome, rather than stating both, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-27b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "The concept of family in Australia has changed, and the law now recognises de facto couples and same-sex marriage. These changes help families. Some families still face problems with the law.",
+                        "feedback": "Meets the 1-5 row by describing changes to family law in general terms, without assessing how they relate to just outcomes. Connecting one change in values to one outcome for families would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "27(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -9855,6 +10298,71 @@
                       }
                     ],
                     "scenario": "Hypothetical: Some commentators argue that governments should stay out of private family life, while others argue that the law must intervene where family members are at risk of harm. Supporters of formal rules say they give clarity about the rights and obligations of couples."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-27a",
+                    "question": "‘Non-compliance challenges the effectiveness of the law.’ To what extent is this statement accurate in relation to families?",
+                    "totalMarks": 25,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-06",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer makes a judgement on whether non-compliance with orders and protections limits the law, and separates parenting orders, child support and family violence orders, which have different enforcement problems.",
+                      "A strong answer treats the best interests principle and family dispute resolution as the law's responses, then shows where they fail when a party does not comply.",
+                      "Examples should name the specific legal tool, such as an apprehended domestic violence order or a parenting order, and show how a breach is treated."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes family law in general, such as the Family Law Act, without judging whether non-compliance challenges its effectiveness.",
+                      "Treats all family law orders as equally enforced, without distinguishing child support, parenting orders and family violence orders.",
+                      "Assumes the best interests principle always works, without considering what happens when a parent does not comply."
+                    ],
+                    "keywords": [
+                      "family law",
+                      "Family Law Act 1975 (Cth)",
+                      "parenting orders",
+                      "child support",
+                      "apprehended domestic violence order",
+                      "non-compliance",
+                      "enforcement",
+                      "best interests of the child",
+                      "family dispute resolution"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the law concerning families; Makes an informed judgement about the extent to which non-compliance challenges the effectiveness of the law; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the law concerning families; Makes a sound judgement about the extent to which non-compliance challenges the effectiveness of the law; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the law concerning families; Makes some judgement about the extent to which non-compliance challenges the effectiveness of the law; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the law concerning families; Makes statements about how non-compliance challenges the effectiveness of the law; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law concerning families; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-27a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The statement is accurate to a considerable extent, although its force varies across the family law system. Family law provides strong legal tools to protect children and family members, but those tools depend on compliance by the people they bind. Where a parent or former partner refuses to comply with a court order, the protection that the law promises is weakened, and enforcement is often slow or incomplete.\n\nThe Family Law Act 1975 (Cth) is the central statute. It requires courts to decide parenting matters according to the best interests of the child, and it requires most parties to attempt family dispute resolution before they go to court, with exceptions where there is family violence. Courts can make parenting orders about where children live and spend time, and the Child Support (Assessment) Act 1989 (Cth) sets how much a parent must pay. The law also protects family members from violence through state law. In New South Wales, the Crimes (Domestic and Personal Violence) Act 2007 (NSW) allows a court to make an apprehended domestic violence order, and breaching one is a criminal offence.\n\nNon-compliance challenges the effectiveness of these tools in several ways. A parent who does not pay child support, or who withholds a child from the other parent in breach of a parenting order, may face enforcement that takes months, and the child may be harmed in the meantime. Breach of an apprehended domestic violence order is a criminal offence, yet victims may still be harmed before police can act, and some breaches are not reported. Enforcement depends on the victim making a complaint, and many victims do not do so because of fear, financial dependence or distrust of the process.\n\nThe law does respond to non-compliance. Courts can vary or enforce parenting orders and can make orders to remedy a breach, including compensation for costs caused by it. Child support can be recovered through the Services Australia child support system, which can act against a parent's income or other assets. Criminal penalties for breach of an apprehended domestic violence order send a clear message that breach is serious, and this deters some offenders.\n\nNevertheless, the law's effectiveness is not defeated by non-compliance, because many orders are complied with voluntarily and the system's design supports compliance. Family dispute resolution encourages parents to agree on arrangements rather than contest them, and the best interests principle keeps children's needs at the centre of decisions. The fact that breach is punishable gives the orders weight. Non-compliance affects a minority of cases, but the cases that fail are often the ones where the harm is greatest, which means the challenge to effectiveness is serious even if it is not widespread.\n\nA contemporary issue is technology-facilitated abuse, in which a former partner uses phones, social media or tracking devices to monitor or threaten a family member. Such conduct can breach an apprehended domestic violence order, but the evidence is often digital and cross-jurisdictional, and police and courts may struggle to gather it quickly. This shows that the law's effectiveness depends on whether enforcement keeps pace with changing methods of non-compliance.\n\nOverall, non-compliance challenges the effectiveness of family law, but the law can still deliver protection in most cases. Child support and parenting orders have enforcement mechanisms that work, though slowly, while family violence orders are effective only when breaches are reported and acted on. The statement is accurate to a considerable extent in relation to families, and the gap would narrow with faster enforcement, better access to evidence and greater support for victims to report breaches.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement that non-compliance challenges family law to a considerable extent, and by integrating the Family Law Act, child support and apprehended domestic violence orders as examples. Assessing the enforcement evidence more directly, such as how often breaches are reported, would sharpen the judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-27a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "The statement is partly accurate. The Family Law Act 1975 (Cth) gives courts power to make orders about children and property, and it requires the best interests of the child to be the main consideration. Courts can also make parenting orders and child support orders, and these protect families when people follow them.\n\nHowever, not everyone follows family law orders. A parent may fail to pay child support or may refuse to let a child spend time with the other parent. These breaches are a problem because they can harm children and make it hard for the other parent to get on with their life. Courts can respond, but enforcement can be slow.\n\nFamily violence is a serious example. The Crimes (Domestic and Personal Violence) Act 2007 (NSW) allows an apprehended domestic violence order to be made, and breaching the order is an offence. Many victims do not report breaches, so the law can only protect them if they come forward. Some people also find the process difficult to access, which means the law is less effective for them.\n\nOverall, non-compliance does challenge the law, but the law still provides important protections for families. The statement is therefore accurate to some extent, because the effectiveness of family law depends on compliance, and where that fails, families are not protected.",
+                        "feedback": "Meets the 11-15 row by making some judgement about whether non-compliance challenges family law, with some reference to the Family Law Act and to family violence orders. Explaining why enforcement fails in specific cases, rather than describing the orders, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-27a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Family law in Australia is mainly in the Family Law Act 1975. It covers parenting, property and child support. Some people do not follow court orders, which means the law may not always work.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about family law without judging whether non-compliance challenges its effectiveness. Stating a position on the statement and naming one enforcement tool would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "27(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -12249,6 +12757,71 @@
                       }
                     ],
                     "scenario": "Hypothetical: A federal parliamentary committee is considering a bill that would require governments to report on progress in providing adequate housing. It asks whether Australian law should recognise housing as an enforceable right."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-29a",
+                    "question": "‘Non-compliance challenges the effectiveness of the law.’ To what extent is this statement accurate in relation to shelter?",
+                    "totalMarks": 25,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-06",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer separates the obligations of government, such as providing social housing, from obligations between landlords and tenants, and assesses non-compliance for each.",
+                      "The answer should explain why the right to housing is hard to enforce in Australia, since the International Covenant on Economic, Social and Cultural Rights is not directly enforceable in domestic courts.",
+                      "Examples should show enforcement in practice, such as a tribunal order under tenancy law, rather than only naming the right."
+                    ],
+                    "commonStudentErrors": [
+                      "Assumes that Australia's international commitment to housing is enforceable in Australian courts.",
+                      "Treats housing as a purely private matter between landlord and tenant, without considering government obligations.",
+                      "Gives a general account of homelessness without connecting it to the effectiveness of the law."
+                    ],
+                    "keywords": [
+                      "right to adequate housing",
+                      "ICESCR",
+                      "obligation to provide shelter",
+                      "Residential Tenancies Act 2010 (NSW)",
+                      "NCAT",
+                      "social housing",
+                      "homelessness",
+                      "non-compliance",
+                      "enforceability"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the law concerning shelter; Makes an informed judgement about the extent to which non-compliance challenges the effectiveness of the law; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the law concerning shelter; Makes a sound judgement about the extent to which non-compliance challenges the effectiveness of the law; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the law concerning shelter; Makes some judgement about the extent to which non-compliance challenges the effectiveness of the law; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the law concerning shelter; Makes statements about how non-compliance challenges the effectiveness of the law; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law concerning shelter; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-29a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The statement is partly accurate. Australia accepts an obligation to protect shelter, but the obligation is largely political rather than legally enforceable, and non-compliance has its greatest effect where government duties are involved. Private obligations between landlords and tenants are more effectively enforced, so the answer depends on which obligation is in question.\n\nThe right to adequate housing is recognised in the International Covenant on Economic, Social and Cultural Rights, which Australia has ratified. The Covenant requires states to take steps to progressively realise the right, but it does not give individuals a right to a home that can be enforced directly in Australian courts. Domestic courts can apply the Covenant only where Parliament has incorporated it into law, and Australia has no federal bill of rights to do so. The obligation to provide shelter in Australia therefore rests on statute, policy and funding decisions by governments.\n\nGovernment obligations are where non-compliance is most visible. Social housing waiting lists are long, and governments decide how much they fund public and community housing. Where a government does not meet a commitment to provide housing, the affected person has limited legal remedies, because the decision is political and courts are reluctant to order a government to build homes. Non-compliance with the obligation therefore challenges the law's effectiveness, in the sense that the protection is only as strong as the next budget.\n\nThe law is more effective between private parties. The Residential Tenancies Act 2010 (NSW) sets out the rights and responsibilities of landlords and tenants, including obligations to keep premises in good repair and limits on how a tenant can be removed. Disputes are heard by the NSW Civil and Administrative Tribunal, which can make orders for repairs, compensation or termination. Landlord non-compliance, such as failing to repair or unlawfully locking out a tenant, is therefore met with a process that can produce an enforceable order. Anti-discrimination law also applies to housing, so a landlord who refuses to rent to a person because of race or disability can be challenged.\n\nThere is a strong argument that the law is effective enough. Tenancy and discrimination laws give tenants a remedy, and specialist homelessness services and the state's social housing system show that government obligations are at least recognised in policy. Non-compliance by landlords affects a minority of tenancies, and the tribunal can address it, while the existence of legal remedies deters many landlords from breaching the law. The shortcomings may therefore lie in resourcing rather than in the legal framework itself.\n\nRental affordability and insecurity are a contemporary issue that tests the law's effectiveness. Many tenants face rent increases they cannot afford, and a tenant who complains about conditions may fear eviction. The law provides some protection against retaliatory action, but a tenant with little bargaining power may still accept poor conditions rather than challenge them. Where non-compliance by a landlord goes unreported, or where the supply of rental housing is too low to give tenants real choice, the effectiveness of the law is limited.\n\nOverall, the statement is accurate to some extent. The law is weakest where government is the duty-holder, because the right to adequate housing is not directly enforceable and funding decisions are political. The law is strongest where private parties owe each other obligations, because the tribunal can make enforceable orders. The statement is therefore partly accurate, and the gap is most significant in social housing policy rather than in tenancy law.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement that non-compliance challenges the law to some extent, distinguishing government obligations from tenancy obligations, and integrating the ICESCR, the Residential Tenancies Act and NCAT as examples. Tightening the analysis of why the law is weakest in social housing policy would sharpen the judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-29a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "The statement is partly accurate. Australia has agreed to recognise a right to adequate housing under the International Covenant on Economic, Social and Cultural Rights, and the government must take steps towards it. However, the Covenant is not directly enforceable in Australian courts, so the obligation depends on government policy and funding.\n\nWhere governments fail to provide housing, individuals have limited legal remedies. Social housing waiting lists can be long, and courts will not usually order governments to build homes. This shows that non-compliance with the obligation challenges the law's effectiveness.\n\nTenancy law works better. The Residential Tenancies Act 2010 (NSW) sets out the rights of landlords and tenants, and the NSW Civil and Administrative Tribunal can make orders for repairs or compensation. A tenant who is not given proper repairs can take action. This means the law is effective for private obligations.\n\nOverall, the statement is accurate to some extent. The law is weak where governments have the duty, but tenancy law gives tenants some protection, which means non-compliance affects shelter in different ways.",
+                        "feedback": "Meets the 11-15 row by making some judgement about whether non-compliance challenges the law in relation to shelter, with reference to the Residential Tenancies Act. Explaining why the right to housing is hard to enforce against government, rather than only stating it, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-29a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Australia has laws about housing, including the Residential Tenancies Act 2010 (NSW). Landlords must follow the law and tenants have rights. Sometimes people do not get housing, so the law may not work for everyone.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about housing law, without judging the effect of non-compliance. Stating a position on the statement and naming one enforcement body would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "29(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -12841,6 +13414,70 @@
                       }
                     ],
                     "scenario": "Hypothetical: A landlord offers a standard-form agreement to a young couple who urgently need housing. The agreement includes a clause that says the tenants must not make any repairs and must pay for any damage, whether or not they caused it."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-29b",
+                    "question": "Assess the interrelationship between changing community values and the achievement of just outcomes for people seeking and providing shelter. In your answer, you must refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-04",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer assesses both groups in the question, those seeking shelter and those providing it, and shows how changing values have shifted the balance of rights between them.",
+                      "A contemporary issue such as housing affordability or insecure tenancy must be used to test whether the outcomes are just, not only mentioned.",
+                      "Naming the Residential Tenancies Act is not enough. The answer should explain a specific right or responsibility and whether it currently produces a fair result."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes the rights and responsibilities of landlords and tenants without linking them to changing community values.",
+                      "Argues that tenants are always disadvantaged, without considering the rights landlords have and their own position.",
+                      "Makes housing affordability the contemporary issue but does not connect it to the interrelationship the question asks about."
+                    ],
+                    "keywords": [
+                      "residential tenancy agreement",
+                      "rights and responsibilities",
+                      "landlords and tenants",
+                      "security of tenure",
+                      "changing community values",
+                      "just outcomes",
+                      "housing affordability",
+                      "NCAT"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of community values and just outcomes relating to the law concerning shelter; Makes an informed judgement about the interrelationship between changing community values and achievement of just outcomes for people seeking and providing shelter; Integrates relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of community values and just outcomes relating to the law concerning shelter; Makes a sound judgement about the interrelationship between changing community values and achievement of just outcomes for people seeking and providing shelter; Uses relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of community values and just outcomes relating to the law concerning shelter; Makes some judgement about the interrelationship between changing community values and achievement of just outcomes for people seeking and providing shelter; Makes some reference to examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of community values and just outcomes relating to the law concerning shelter; Makes statements about the interrelationship between changing community values and achievement of just outcomes concerning shelter; Makes limited reference to examples such as legislation, cases, media, international instruments and documents AND may refer to a contemporary issue; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law relating to shelter; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-29b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Changing community values have shifted the balance between people seeking shelter and people providing it, and the achievement of just outcomes depends on whether the law has kept pace. The relationship is positive in some respects, as tenants now have more protection than before. However, affordability and security of tenure remain difficult, and the community's expectation of fairness is not always met in practice.\n\nThe residential tenancy relationship was once governed largely by the agreement between landlord and tenant, which left the tenant with little bargaining power. Community values about the home as a place of security and dignity have changed this. The Residential Tenancies Act 2010 (NSW) sets minimum rights and responsibilities that cannot be contracted out of. These include the obligation to keep premises in reasonable repair, limits on rent increases and on bonds, and a requirement that a landlord obtain an order from a tribunal before a tenant can be removed. These provisions reflect a community expectation that a tenant should not be treated as disposable.\n\nThose changes have improved outcomes for tenants and, in a different way, for landlords. A tenant has clearer rights to repairs and a remedy through the tribunal, which supports a fair result. Landlords benefit from a clear process for resolving disputes and for ending tenancies lawfully, which gives them certainty when a tenant does not pay. Both groups are protected by the same framework, and the balance is fairer than in an unregulated market where a landlord could simply end a tenancy.\n\nJust outcomes are harder to achieve in practice. Security of tenure is limited, since a tenancy can end when a fixed term expires or on notice, and a family with children may face disruption and the cost of moving. Tenants on low incomes may be unable to pay the bond and rent in advance, which limits their access to shelter. The community expects fair housing, but the law's protections are of limited use where few rentals are available, and a tenant may face fees to have a dispute heard.\n\nHousing affordability is a contemporary issue that tests the relationship between values and outcomes. Rising rents and limited supply mean that many people seeking shelter have few realistic options, and some landlords may find it hard to meet the costs of maintaining their property. The law can set rules about rent increases and repairs, but it cannot create housing. A community value of fair housing may therefore conflict with the economic reality of supply, and the just outcome the law promises is hard to deliver for people on low incomes.\n\nThe interrelationship is clear. Changing values have produced a more regulated and fairer tenancy system, which helps people providing and seeking shelter alike. But the achievement of just outcomes depends on factors the law can only partly control, including supply, affordability and the ability of tenants to use the tribunal. The law has moved in the direction the community values, while outcomes remain uneven across income groups.\n\nOverall, changing community values have strengthened the rights of people seeking shelter and clarified the duties of those who provide it, and this has moved tenancy law towards just outcomes. Housing affordability and insecure tenancy show, however, that legal protection is not enough on its own. The relationship between values and outcomes is strong in the rules, but weaker in the experience of tenants and landlords on low incomes.",
+                        "feedback": "Meets the 21-25 row by linking changing values about housing to the balance of rights for both people seeking and providing shelter, and by testing that link against housing affordability. Showing more clearly where access to the tribunal limits just outcomes would sharpen the assessment.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-29b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Changing community values have shaped tenancy law. The Residential Tenancies Act 2010 (NSW) sets minimum rights for tenants and landlords, which cannot be removed by agreement. This shows the law has responded to the expectation that tenants should be treated fairly, and that landlords have clear responsibilities.\n\nThe law helps achieve just outcomes for both groups. A tenant can ask for repairs, and a landlord can end a tenancy lawfully through the tribunal. These rules give both groups a clear process.\n\nHowever, outcomes are not always just. Housing affordability is a contemporary issue, because rent can rise faster than people's incomes, and many people struggle to find a home they can afford. The law can regulate rent increases but cannot create housing. Tenants with little money may not be able to pay the bond and rent in advance, and they may not use the tribunal.\n\nThe interrelationship between changing values and just outcomes is therefore present, but incomplete. The law reflects the value of fair treatment, but it does not guarantee housing for everyone who needs it.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the interrelationship, with reference to the Residential Tenancies Act and housing affordability. Explaining how a specific right produces a just outcome, rather than listing the rights, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-29b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Tenancy law in NSW has changed over time to protect tenants and landlords. The Residential Tenancies Act 2010 (NSW) sets out their rights, and housing affordability is a problem for many people today.",
+                        "feedback": "Meets the 1-5 row by describing tenancy law in general terms, without assessing the interrelationship between values and outcomes. Linking one change in values to one outcome for tenants or landlords would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "29(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -14835,6 +15472,71 @@
                       }
                     ],
                     "scenario": "Hypothetical scenario: A parliamentary committee is reviewing how peace is maintained in the Asia-Pacific region. Submissions argue that threats now include cyber attacks and climate-related displacement, as well as traditional wars between states."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-31b",
+                    "question": "Assess the interrelationship between changing community values and the achievement of just outcomes in promoting peace and resolving conflict. In your answer, you must refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-04",
+                      "LST-12-05",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer shows how the community's expectation of peace has changed, for example from a focus on state security to human security and the protection of civilians, and assesses whether the law's responses produce just outcomes.",
+                      "The contemporary issue, such as the conflict in Ukraine or Gaza, must test the relationship between values and outcomes, not only be named.",
+                      "Responsibility to Protect is a strong example of a changed value, but the answer should show its limits, such as the need for Security Council action."
+                    ],
+                    "commonStudentErrors": [
+                      "Describes peacekeeping and diplomacy without connecting them to changes in community values about peace.",
+                      "Assumes that a peace agreement or intervention automatically gives a just outcome, without assessing who benefits.",
+                      "Uses Responsibility to Protect as an example without explaining how it changed expectations about intervention."
+                    ],
+                    "keywords": [
+                      "evolving need for peace",
+                      "changing community values",
+                      "just outcomes",
+                      "peacebuilding",
+                      "peacekeeping",
+                      "conflict resolution",
+                      "Responsibility to Protect",
+                      "human security",
+                      "contemporary issue"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of community values and just outcomes relating to the law concerning world order; Makes an informed judgement about the interrelationship between changing community values and achievement of just outcomes in promoting peace and resolving conflict; Integrates relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of community values and just outcomes relating to the law concerning world order; Makes a sound judgement about the interrelationship between changing community values and achievement of just outcomes in promoting peace and resolving conflict; Uses relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of community values and just outcomes relating to the law concerning world order; Makes some judgement about the interrelationship between changing community values and achievement of just outcomes in promoting peace and resolving conflict; Makes some reference to examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of community values and just outcomes relating to the law concerning world order; Makes statements about the interrelationship between changing community values and achievement of just outcomes concerning world order; Makes limited reference to examples such as legislation, cases, media, international instruments and documents AND may refer to a contemporary issue; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law relating to world order; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-31b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "Changing community values about peace have reshaped the law's response to conflict, and the achievement of just outcomes depends on whether that response protects people as well as states. The interrelationship is real: the community now expects action to protect civilians, but the law's tools remain limited by consent and by the veto. Just outcomes are therefore achieved in some conflicts and not in others.\n\nThe community's understanding of peace has shifted from preventing war between states towards human security, which includes protection from violence, displacement and deprivation. This has changed the law. The Responsibility to Protect principle, endorsed by world leaders at the 2005 World Summit, holds that states have a responsibility to protect their populations from genocide, war crimes, ethnic cleansing and crimes against humanity, and that the international community should act if they fail to do so. The principle reflects a value that peace requires the protection of people, not only the absence of war between states.\n\nPeacebuilding and peacekeeping are the law's practical responses. Peacekeeping operations, authorised by the Security Council, monitor ceasefires and protect civilians, and Australia's involvement in the Australian-led International Force for East Timor in 1999 showed how an intervention could help a new state reach stability. Tribunals can also deliver outcomes that are fair to victims, as the International Criminal Tribunal for the former Yugoslavia showed by prosecuting individuals for war crimes. These responses produce outcomes a community regards as just because they protect people and hold offenders to account.\n\nJust outcomes are less certain where the law's tools depend on consent or on the Security Council. Responsibility to Protect requires Security Council action in many cases, so a permanent member's veto can prevent the protection the principle promises. Peace agreements can also leave victims without justice, because a settlement that ends fighting may allow perpetrators to escape accountability. The community's expectation of peace is therefore not always matched by outcomes that are just for those who suffered most.\n\nThe conflicts in Ukraine and Gaza are contemporary issues that test the relationship. Civilians in both conflicts have faced death, displacement and destruction, and the community expects the law to protect them. Responses have included sanctions, humanitarian aid and proceedings in international courts, yet outcomes for civilians remain uncertain while fighting continues and while the Security Council is divided. The gap between community expectation and outcome shows how strongly the law's effectiveness depends on political will.\n\nThe interrelationship is strong in its normative effect and weaker in its practical effect. Changing values have expanded the law's concern beyond state security to the protection of people, and this has produced real outcomes in some conflicts, such as East Timor. But just outcomes depend on the willingness of states and the Council to act, and where the powerful disagree, the values that drive the law do not translate into protection for the people who need it.\n\nOverall, changing community values about peace have transformed the law's response to conflict, moving it towards the protection of people and accountability for crimes. The achievement of just outcomes is uneven, however, because the same consent-based system that gives the law its legitimacy also limits its response. The relationship between changing values and just outcomes in promoting peace is therefore strong in principle and inconsistent in practice.",
+                        "feedback": "Meets the 21-25 row by linking the shift from state security to human security to outcomes for civilians, and by testing that link against the conflicts in Ukraine and Gaza. Explaining more precisely how the veto shapes the outcome for civilians would deepen the assessment.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-31b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Changing community values have shaped the law of peace. The expectation that peace means more than the absence of war between states has led to the Responsibility to Protect, which was endorsed at the 2005 World Summit. This principle says the international community should act when a state fails to protect its population from serious crimes.\n\nThe law has helped achieve just outcomes in some conflicts. Peacekeeping has helped stabilise countries, and Australia took part in the operation in East Timor in 1999. The International Criminal Tribunal for the former Yugoslavia also prosecuted people for war crimes, which gave victims a sense of justice.\n\nHowever, outcomes are not always just. The Security Council can block action, so the Responsibility to Protect cannot always be applied. A contemporary issue is the conflict in Ukraine, where civilians have suffered, and the Council has been unable to agree on a response. Peace agreements can also leave victims without justice.\n\nThe interrelationship between values and outcomes is therefore present, but it does not always lead to just outcomes. Values have expanded the law, but the law is limited by politics.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the interrelationship, with reference to Responsibility to Protect and the Ukraine conflict. Explaining how a changed value produced a specific outcome, rather than listing both, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-31b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "The community now expects international law to protect civilians in war, and the United Nations has a principle called Responsibility to Protect. Conflicts such as the one in Ukraine show that the law does not always work, so outcomes can be unfair.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about peace and international law, without assessing the interrelationship between values and outcomes. Connecting one change in values to one outcome for civilians would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -16729,6 +17431,71 @@
                       }
                     ],
                     "scenario": "Hypothetical scenario: A group of states has agreed to a treaty that requires independent inspections of industrial sites. One state refuses inspection and says that its sovereignty protects its territory. The other states are considering whether any enforcement action can be taken."
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-31a",
+                    "question": "‘Non-compliance challenges the effectiveness of the law.’ To what extent is this statement accurate in relation to world order?",
+                    "totalMarks": 25,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-05",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer judges how far non-compliance challenges world order, using specific cases of non-compliance, and separates compliance by states from enforcement by international bodies.",
+                      "State sovereignty must be explained as a reason non-compliance is hard to address: international courts act with consent, and the Security Council is limited by the veto.",
+                      "A strong answer shows the other side, such as tribunals and sanctions that have changed behaviour, so that the judgement is balanced."
+                    ],
+                    "commonStudentErrors": [
+                      "Says that the United Nations is powerless, without explaining the tools it has and the limits on using them.",
+                      "Treats international law as if it worked like domestic law, without explaining that enforcement depends on consent and on the Security Council.",
+                      "Uses one example of non-compliance without considering whether states generally comply with international law."
+                    ],
+                    "keywords": [
+                      "state sovereignty",
+                      "international law",
+                      "non-compliance",
+                      "Security Council",
+                      "veto",
+                      "International Court of Justice",
+                      "sanctions",
+                      "international humanitarian law",
+                      "effectiveness of the law"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the law concerning world order; Makes an informed judgement about the extent to which non-compliance challenges the effectiveness of the law; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the law concerning world order; Makes a sound judgement about the extent to which non-compliance challenges the effectiveness of the law; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the law concerning world order; Makes some judgement about the extent to which non-compliance challenges the effectiveness of the law; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the law concerning world order; Makes statements about how non-compliance challenges the effectiveness of the law; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law concerning world order; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-31a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The statement is accurate to a considerable extent. International law relies largely on the consent of states, and where a powerful state chooses not to comply, the means of enforcing world order are limited. However, the system still achieves compliance in many cases, through diplomacy, sanctions and tribunals, and non-compliance does not defeat the law's purpose of keeping the peace.\n\nThe core of world order is the Charter of the United Nations of 1945, which prohibits the threat or use of force in Article 2(4) and gives the Security Council primary responsibility for maintaining international peace and security. The Security Council can impose sanctions and authorise force under Chapter VII. The International Court of Justice settles disputes between states that consent to its jurisdiction, and the International Criminal Court, established by the Rome Statute of 1998, prosecutes individuals for genocide, crimes against humanity and war crimes. Australia is a founding member of the United Nations and a party to the Rome Statute, so it participates in this system.\n\nNon-compliance challenges the law most clearly when a permanent member of the Security Council is involved. Russia's invasion of Ukraine in February 2022 breached Article 2(4), and Russia vetoed a Security Council resolution condemning it, so the Council could not act directly. The General Assembly then called for Russia's withdrawal, but a General Assembly resolution is a recommendation and is not binding in the way that a Security Council decision is. Similarly, in Nicaragua v United States (1986), the International Court of Justice found that the United States had breached international law, but the United States refused to accept the judgment, which showed that a court can declare a breach without enforcing it.\n\nThe law does produce compliance in many cases. Sanctions have pressured states to change their conduct, as with the Security Council's response to Iraq's invasion of Kuwait in 1990, which led to a coalition authorised to liberate Kuwait. The International Criminal Tribunal for the former Yugoslavia, established in 1993, prosecuted senior officials, including Slobodan Milošević, for war crimes and crimes against humanity, which shows that individuals can be held accountable even where states are reluctant to act. The Geneva Conventions and international humanitarian law also limit the conduct of armed forces, and most states comply with them most of the time.\n\nState sovereignty is at the centre of the problem. A state's claim that a matter is within its domestic jurisdiction can block action, and the veto means that the most powerful states can shield themselves or their allies from Council action. Yet sovereignty also underpins the law, because states agree to be bound by treaties and can withdraw only by the rules in those treaties. The tension between sovereignty and enforcement is therefore the main reason that non-compliance affects the system's effectiveness.\n\nA contemporary issue is the conflict in Gaza since October 2023, where allegations of breaches of international humanitarian law have been brought before the International Court of Justice and the International Criminal Court. These proceedings test whether international law can constrain a state engaged in armed conflict, and their outcome will show whether tribunals can influence conduct in practice. Their effectiveness depends on whether states that are parties to the court's processes, and the Security Council, support enforcement.\n\nOverall, non-compliance challenges the effectiveness of world order, but the law is not defeated by it. The strongest challenge comes where a permanent member of the Security Council breaches the Charter, because the veto blocks enforcement. The system's tribunals and sanctions achieve compliance in other cases. The statement is accurate to a considerable extent, and the gap is narrowest where there is broad consent among states and the Security Council is united.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement that non-compliance challenges world order to a considerable extent, using Russia's invasion of Ukraine, the veto and Nicaragua v United States as examples. Weighing the effect of sanctions and tribunals more closely against the veto would sharpen the judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-31a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "The statement is partly accurate. The United Nations Charter prohibits the use of force, and the Security Council can impose sanctions or authorise action to keep the peace. The International Court of Justice and the International Criminal Court also deal with breaches of international law. These mechanisms show that the law can work.\n\nHowever, non-compliance is a major problem. Russia's invasion of Ukraine in 2022 breached the Charter, and because Russia is a permanent member of the Security Council, it could veto a resolution against it. This shows how the veto can stop enforcement. States also rely on state sovereignty, so they may refuse to accept the decisions of international courts. The International Court of Justice found that the United States had breached international law in Nicaragua v United States, but the decision was not enforced.\n\nThe law still achieves some compliance. Sanctions can change state behaviour, and the International Criminal Tribunal for the former Yugoslavia prosecuted individuals for war crimes.\n\nOverall, the statement is accurate to some extent, because non-compliance by powerful states limits the law. However, the law still helps keep the peace in many situations.",
+                        "feedback": "Meets the 11-15 row by making some judgement about the statement, with reference to Russia's invasion of Ukraine and the Security Council. Explaining why the veto blocks enforcement, and what sovereignty contributes to that, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-31a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "International law includes the Charter of the United Nations, which bans the use of force between countries. Some countries break these rules, so international law does not always stop conflict. The Security Council and courts try to enforce it.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about international law and conflict, without judging the effect of non-compliance. Stating a position on the statement and naming one enforcement body would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "31(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -17447,6 +18214,71 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-30b",
+                    "question": "Assess the interrelationship between changing community values and the achievement of just outcomes in the workplace. In your answer, you must refer to at least ONE contemporary issue.",
+                    "totalMarks": 25,
+                    "verb": "ASSESS",
+                    "linkedOutcomes": [
+                      "LST-12-03",
+                      "LST-12-04",
+                      "LST-12-06"
+                    ],
+                    "markerNotes": [
+                      "The top answer shows how changes in workforce values, such as expectations about flexibility and family responsibilities, have changed workplace law, and then assesses whether the outcomes are just for employers and employees.",
+                      "The contemporary issue, such as platform work, must test the relationship. A top answer asks whether the classification rules still deliver fair outcomes for workers in new kinds of work.",
+                      "International standards, such as the ILO conventions, can show how community values about workers' rights have spread, but the answer should link them to Australian outcomes."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists changes to the workplace, such as more flexible work, without relating them to changing community values.",
+                      "Assumes that every change in the law gives workers just outcomes, without assessing who is still excluded.",
+                      "Describes gig work as a problem without explaining how classification rules affect outcomes for those workers."
+                    ],
+                    "keywords": [
+                      "changing community values",
+                      "just outcomes",
+                      "labour market",
+                      "employee rights",
+                      "flexible work",
+                      "carer's leave",
+                      "gig economy",
+                      "independent contractors",
+                      "ILO conventions"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of community values and just outcomes relating to workplace laws; Makes an informed judgement about the interrelationship between changing community values and achievement of just outcomes concerning the workplace; Integrates relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of community values and just outcomes relating to workplace laws; Makes a sound judgement about the interrelationship between changing community values and achievement of just outcomes concerning the workplace; Uses relevant examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of community values and just outcomes relating to workplace laws; Makes some judgement about the interrelationship between changing community values and achievement of just outcomes concerning the workplace; Makes some reference to examples such as legislation, cases, media, international instruments and documents AND at least ONE contemporary issue; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of community values and just outcomes relating to workplace laws; Makes statements about the interrelationship between changing community values and achievement of just outcomes concerning the workplace; Makes limited reference to examples such as legislation, cases, media, international instruments and documents AND may refer to a contemporary issue; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law relating to the workplace; May include reference to examples such as legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-30b-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The interrelationship between changing community values and just outcomes in the workplace is close but incomplete. Values about fairness, family life and safety have changed workplace law, and the law now gives many workers stronger rights than before. However, new forms of work and the uneven reach of protections mean that just outcomes are not yet achieved for every worker.\n\nCommunity values about work have changed considerably. The expectation that employees should have time for family and health has led to leave entitlements that go beyond annual leave, including personal and carer's leave under the National Employment Standards in the Fair Work Act 2009 (Cth). Similarly, the recognition that people with caring responsibilities face disadvantage has led to protection against discrimination, which the Sex Discrimination Act 1984 (Cth) provides. These changes show the law moving from a model of employment built around the full-time worker towards one that reflects a more diverse workforce.\n\nThese changes have improved outcomes. A worker who needs to care for a sick child can take leave, and a parent can request flexible working arrangements, which the National Employment Standards allow employees to request. Anti-discrimination law gives workers a remedy if they are dismissed or treated less favourably because of their family responsibilities or another protected attribute. Minimum wages and modern awards ensure that workers receive a floor of fairness, which reflects the community's expectation that work should provide a decent living.\n\nJust outcomes are less certain for workers outside the traditional employment relationship. Gig and platform workers may be classified as independent contractors, which means they are not covered by minimum wages, leave or unfair dismissal protections, even where the platform sets their rates and controls their work. The community expects fairness for these workers, but the classification test is uncertain, and a worker must bring a claim to test it. Those who cannot afford to do so may receive no remedy.\n\nPlatform work is the contemporary issue. Delivery and ride-share drivers often work under algorithms that allocate tasks and set pay, and the community increasingly expects that a business which controls work should carry responsibility for it. Recent reforms have extended some minimum standards to certain platform workers, but whether these standards reach all platform workers remains contested. This tests whether the value of fair pay is matched by an outcome in which workers actually receive it.\n\nThe interrelationship is strong where values have led to statutory rights and enforceable remedies, and weaker where the category of worker sits outside the protections. Parliament responds to changing values, but the achievement of just outcomes depends on whether the classification of work keeps pace with how work is done. A law that reflects the value of fair treatment will not produce just outcomes if the worker is not recognised as an employee at all.\n\nOverall, changing community values have improved workplace outcomes, expanding leave, flexibility and anti-discrimination protection. The achievement of just outcomes is incomplete, however, because the law's categories do not always reflect new forms of work. The relationship between changing values and just outcomes is strong for traditional employees and less strong for workers in the gig economy.",
+                        "feedback": "Meets the 21-25 row by linking changing values about family life and work to leave and anti-discrimination protections, and by testing that link against gig work as a contemporary issue. Explaining more fully how the classification test shapes outcomes would deepen the assessment.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-30b-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "Changing community values have shaped workplace law. Expectations about family life have led to leave entitlements, such as carer's leave, and to the right to request flexible work under the Fair Work Act 2009 (Cth). Anti-discrimination law also protects workers from being treated less favourably for family responsibilities. These changes reflect the value of fairness at work.\n\nThese changes help achieve just outcomes. A worker can take leave to care for a family member, and an employee who is treated unfairly for family reasons can make a complaint. Minimum wages set a floor for pay.\n\nHowever, outcomes are not always just. Gig workers are often classified as contractors, so they may not get minimum wages or leave, even though they work for one company. A contemporary issue is delivery and ride-share work, where workers may be controlled by apps but not recognised as employees.\n\nThe interrelationship is therefore clear but incomplete. Values have improved workplace rights, but the law has not yet delivered just outcomes for every worker, particularly those in new forms of work.",
+                        "feedback": "Meets the 11-15 row by making some judgement on the interrelationship, with reference to carer's leave and gig work. Explaining how a changed value produced a particular outcome, rather than listing both, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-30b-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Workplace law has changed to give workers more leave and protection from discrimination. Some workers, such as delivery drivers, may not be covered by these rights, so outcomes are not always fair.",
+                        "feedback": "Meets the 1-5 row by describing changes in workplace law in general terms, without assessing the interrelationship with just outcomes. Connecting one change in values to one outcome for workers would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "30(b)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
@@ -17619,6 +18451,71 @@
                         "band": 1
                       }
                     ]
+                  },
+                  {
+                    "id": "prompt-lst-hsc-2025-30a",
+                    "question": "‘Non-compliance challenges the effectiveness of the law.’ To what extent is this statement accurate in relation to the workplace?",
+                    "totalMarks": 25,
+                    "verb": "DISCUSS",
+                    "linkedOutcomes": [
+                      "LST-12-02",
+                      "LST-12-06",
+                      "LST-12-07"
+                    ],
+                    "markerNotes": [
+                      "The top answer weighs the framework against the evidence of non-compliance, for example sham contracting and underpayment, and reaches a clear judgement on how far non-compliance limits the law.",
+                      "Enforcement agencies are named and their powers explained, for example the Fair Work Ombudsman's power to investigate and bring proceedings, rather than only saying that breaches occur.",
+                      "A top answer recognises that workplace law is strong on paper and that its effectiveness depends on whether workers, particularly vulnerable workers, can use it."
+                    ],
+                    "commonStudentErrors": [
+                      "Lists the workplace laws without judging whether non-compliance challenges their effectiveness.",
+                      "Treats all workplaces as similar, without noting that non-compliance is most common among vulnerable and casual workers.",
+                      "Describes sham contracting as a single problem without explaining how the law defines and prohibits it."
+                    ],
+                    "keywords": [
+                      "Fair Work Act 2009 (Cth)",
+                      "Fair Work Commission",
+                      "Fair Work Ombudsman",
+                      "National Employment Standards",
+                      "sham contracting",
+                      "underpayment",
+                      "Work Health and Safety Act 2011 (NSW)",
+                      "non-compliance",
+                      "effectiveness of the law"
+                    ],
+                    "markingCriteria": "21-25 marks: Demonstrates extensive understanding of the law concerning workplaces; Makes an informed judgement about the extent to which non-compliance challenges the effectiveness of the law; Integrates relevant examples such as legislation, cases, media, international instruments and documents; Presents a sustained, logical and cohesive response to the question using relevant legal terminology and concepts\n16-20 marks: Demonstrates substantial understanding of the law concerning workplaces; Makes a sound judgement about the extent to which non-compliance challenges the effectiveness of the law; Uses relevant examples such as legislation, cases, media, international instruments and documents; Presents a logical and cohesive response to the question using relevant legal terminology and concepts\n11-15 marks: Demonstrates an understanding of the law concerning workplaces; Makes some judgement about the extent to which non-compliance challenges the effectiveness of the law; Makes some reference to examples such as legislation, cases, media, international instruments and documents; Presents a structured response to the question using relevant legal terminology and concepts\n6-10 marks: Demonstrates limited understanding of the law concerning workplaces; Makes statements about how non-compliance challenges the effectiveness of the law; Makes limited reference to examples such as legislation, cases, media, international instruments and documents; Uses some relevant legal terminology\n1-5 marks: Writes in general terms about the law concerning workplaces; May include reference to legislation, cases, media, international instruments and documents; May refer to general legal terms",
+                    "sampleAnswers": [
+                      {
+                        "id": "sa-lst-hsc-2025-30a-1",
+                        "source": "AI",
+                        "mark": 25,
+                        "answer": "The statement is accurate to a considerable extent. Australian workplace law is comprehensive, but its effectiveness depends on employers complying with it and on workers being able to enforce their rights. Non-compliance, including underpayment, sham contracting and unsafe work, undermines minimum standards, and the law is least effective where workers are vulnerable and least able to act.\n\nThe core of workplace law is the Fair Work Act 2009 (Cth), which sets the National Employment Standards, modern awards, minimum wages and unfair dismissal protections. The Fair Work Commission sets minimum wages each year and resolves disputes, and the Fair Work Ombudsman investigates breaches and can bring proceedings in court. Work health and safety is governed by the Work Health and Safety Act 2011 (NSW) and its national counterpart, which require employers to eliminate or minimise risks to workers. Together these laws give workers clear minimum standards and a range of remedies, which shows that the law can be effective when employers comply.\n\nNon-compliance challenges the effectiveness of the law in several ways. Sham contracting, in which an employer describes an employee as an independent contractor to avoid paying entitlements, is prohibited under the Fair Work Act, yet it persists because the worker may not know the arrangement is unlawful. Underpayment of wages, particularly in hospitality, cleaning and retail, has been a repeated finding of the Fair Work Ombudsman, and many underpaid workers do not complain for fear of losing their job. Unsafe work is also a problem. Where penalties are small compared with the profit from cutting safety corners, the deterrent effect of the law is reduced.\n\nThe law does respond to non-compliance. The Fair Work Ombudsman can investigate, issue compliance notices, enter premises and commence proceedings for civil penalties in the Federal Court. Courts have ordered significant penalties against employers that underpaid workers, and an employer ordered to back-pay workers faces reputational as well as financial consequences. Under work health and safety law, regulators such as SafeWork NSW can prosecute employers for breaches that put workers at risk, and the Work Health and Safety Act 2011 (NSW) provides for imprisonment for the most serious offences.\n\nThere is a strong argument that the law remains effective despite non-compliance. The existence of civil penalties, compliance notices and criminal liability deters many employers from breaching the law at all. Many employers comply voluntarily, and the minimum standards become a reference point that workers and employers use to resolve disputes informally. Non-compliance in some industries reflects weak enforcement capacity rather than a flaw in the law's design, and the framework can work when it is properly funded and used.\n\nThe rise of platform and gig work is a contemporary issue that tests the law's reach. Some workers are classified as independent contractors, which means they are not covered by minimum wages or leave entitlements, even where the platform sets their rates and controls their work. Courts apply a multi-factor test to decide whether a worker is an employee, and this uncertainty allows some businesses to avoid their obligations. Where classification is contested, the law is only as effective as the worker's ability to bring a claim.\n\nOverall, non-compliance challenges the effectiveness of workplace law but does not defeat it. The framework and the penalties are strong, and the law is most effective where employers are identified and sanctioned. It is weakest where vulnerable workers cannot afford to complain and where classification uncertainty allows employers to avoid obligations. The statement is accurate to a considerable extent, and the gap is best narrowed by greater enforcement capacity and clearer tests for employee status.",
+                        "feedback": "Meets the 21-25 row by making an informed judgement that non-compliance challenges workplace law to a considerable extent, and by integrating the Fair Work Act, the Fair Work Ombudsman and sham contracting as examples. Weighing the enforcement evidence against the difficulty of classification more explicitly would sharpen the judgement.",
+                        "band": 6
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-30a-2",
+                        "source": "AI",
+                        "mark": 15,
+                        "answer": "The statement is partly accurate. Workplace law in Australia is set out mainly in the Fair Work Act 2009 (Cth), which provides minimum entitlements such as the National Employment Standards and minimum wages. The Fair Work Ombudsman can investigate breaches and bring proceedings, and the Work Health and Safety Act 2011 (NSW) requires employers to keep workers safe. These laws give workers protection and show that the law can be effective.\n\nHowever, non-compliance is common. Some employers pay workers less than the minimum, and sham contracting, in which a worker is described as a contractor, is used to avoid paying entitlements. Workers may not complain because they fear losing their job, so the law is not always used.\n\nUnsafe work is also a problem. Some employers do not manage risks properly, and penalties may not be high enough to deter them. The regulators do act, but they cannot be everywhere.\n\nOverall, the statement is accurate to some extent, because non-compliance affects how well workplace law works. The law still gives workers important rights, but it is less effective for vulnerable workers and in industries where breaches are hidden.",
+                        "feedback": "Meets the 11-15 row by making some judgement on the statement, with reference to the Fair Work Act and to underpayment. Explaining why enforcement fails for vulnerable workers, using a specific mechanism, would lift it to the 16-20 row.",
+                        "band": 4
+                      },
+                      {
+                        "id": "sa-lst-hsc-2025-30a-3",
+                        "source": "AI",
+                        "mark": 5,
+                        "answer": "Workplace law in Australia includes the Fair Work Act 2009 (Cth), which sets minimum conditions for workers. Some employers break the law and do not pay workers properly, so the law may not always protect workers.",
+                        "feedback": "Meets the 1-5 row by writing in general terms about workplace law, without judging whether non-compliance challenges its effectiveness. A clear position on the statement, with one specific enforcement body, would lift it to the 6-10 row.",
+                        "band": 2
+                      }
+                    ],
+                    "scenario": "Your answer will be assessed on how well you:\n• demonstrate knowledge and understanding of legal issues relevant to the question\n• communicate using relevant legal terminology and concepts\n• refer to relevant examples such as legislation, cases, media, international instruments and documents\n• present a sustained, logical and cohesive response",
+                    "isPastHSC": true,
+                    "hscYear": 2025,
+                    "hscQuestionNumber": "30(a)",
+                    "hscSection": "Section III — Options, 50 marks. Attempt TWO questions from Questions 25–31, each from a different Option. Allow about 1 hour and 30 minutes for this section.",
+                    "bandCeiling": 6
                   }
                 ]
               },
