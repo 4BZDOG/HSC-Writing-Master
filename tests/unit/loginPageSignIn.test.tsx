@@ -16,9 +16,9 @@ import userEvent from '@testing-library/user-event';
 const loginMock = vi.fn();
 const loginAsGuestMock = vi.fn();
 
-vi.mock('../../services/supabaseClient', () => ({
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
+vi.mock('../../services/supabaseConfig', () => ({
   isSupabaseConfigured: false,
-  supabase: null,
   fetchAllRows: vi.fn(),
 }));
 

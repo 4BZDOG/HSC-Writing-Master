@@ -21,8 +21,7 @@ const updateMock = vi.fn();
 const rpcMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  isSupabaseConfigured: true,
-  supabase: {
+  getSupabase: async () => ({
     auth: {
       signInWithOAuth: (...args: unknown[]) => signInWithOAuthMock(...args),
       getSession: (...args: unknown[]) => getSessionMock(...args),
@@ -35,14 +34,16 @@ vi.mock('../../services/supabaseClient', () => ({
       select: () => ({ eq: () => ({ maybeSingle: () => maybeSingleMock() }) }),
       update: (payload: unknown) => ({ eq: () => updateMock(payload) }),
     }),
-  },
+  }),
+}));
+vi.mock('../../services/supabaseConfig', () => ({
+  isSupabaseConfigured: true,
   fetchAllRows: vi.fn(),
 }));
 
 import { authService } from '../../services/authService';
 
 const sessionUser = { id: 'user-1', email: 'student@school.nsw.edu.au' };
-
 
 /**
  * `import.meta.env` is declared readonly for the app, and rightly so — nothing
@@ -144,13 +145,11 @@ describe('handleOAuthCallback', () => {
     window.history.replaceState({}, '', '/?code=pkce-abc123');
     getSessionMock.mockResolvedValue({ data: { session: null } });
 
-    onAuthStateChangeMock.mockImplementation(
-      (cb: (event: string, session: unknown) => void) => {
-        // Simulate supabase-js completing the exchange a tick later.
-        setTimeout(() => cb('SIGNED_IN', { user: sessionUser }), 10);
-        return { data: { subscription: { unsubscribe: vi.fn() } } };
-      }
-    );
+    onAuthStateChangeMock.mockImplementation((cb: (event: string, session: unknown) => void) => {
+      // Simulate supabase-js completing the exchange a tick later.
+      setTimeout(() => cb('SIGNED_IN', { user: sessionUser }), 10);
+      return { data: { subscription: { unsubscribe: vi.fn() } } };
+    });
 
     const user = await authService.handleOAuthCallback();
     expect(user).not.toBeNull();

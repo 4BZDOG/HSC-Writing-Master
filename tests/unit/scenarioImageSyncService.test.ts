@@ -20,11 +20,7 @@ let mockSupabase: { storage: { from: typeof fromMock } } | null = {
   storage: { from: fromMock },
 };
 
-vi.mock('../../services/supabaseClient', () => ({
-  get supabase() {
-    return mockSupabase;
-  },
-}));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => mockSupabase }));
 
 const mockLoadScenarioImage = vi.fn();
 const mockSaveScenarioImage = vi.fn();

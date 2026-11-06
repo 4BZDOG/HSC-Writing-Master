@@ -14,7 +14,7 @@ import type { Plan, PremiumFeatureKey } from '../../services/entitlements';
  * prompt to sell a plan the caption never mentioned.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 let minPlans: Partial<Record<PremiumFeatureKey, Plan>> = {};
 

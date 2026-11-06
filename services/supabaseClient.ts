@@ -1,63 +1,32 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import type { SupabaseClient } from '@supabase/supabase-js';
+import { isSupabaseConfigured, SUPABASE_ANON_KEY, SUPABASE_URL } from './supabaseConfig';
 
 /**
- * Gated Supabase client.
+ * The Supabase client, created the first time anything asks for it.
  *
- * The app works fully without Supabase: when the env vars are absent,
- * `isSupabaseConfigured` is false and the rest of the app falls back to the
- * existing local mock behaviour. Set both to opt in:
+ * `@supabase/supabase-js` is a dynamic import here, so the library is a chunk
+ * of its own and stays out of the first load. Without Supabase configured this
+ * resolves to null without loading anything, which is what the old eager
+ * `supabase` export gave when the env vars were absent:
  *
- *   VITE_SUPABASE_URL       — https://<project>.supabase.co
- *   VITE_SUPABASE_ANON_KEY  — the project's anon (public) key
+ *   const supabase = await getSupabase();
+ *   if (!supabase) return …;
  *
- * The anon key is designed to be public; Row-Level Security (see
- * supabase/schema.sql) is what actually protects the data.
+ * The promise is cached, so the library loads once however many callers ask.
  */
-const url = import.meta.env.VITE_SUPABASE_URL;
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+let client: Promise<SupabaseClient> | null = null;
 
-export const isSupabaseConfigured = Boolean(url && anonKey);
-
-export const supabase: SupabaseClient | null = isSupabaseConfigured
-  ? createClient(url as string, anonKey as string)
-  : null;
-
-// ----------------------------------------------------------------------------
-// Paging helper
-// ----------------------------------------------------------------------------
-
-/** Structural slice of a PostgREST query builder that fetchAllRows needs. */
-interface PageableQuery {
-  order(column: string): PageableQuery;
-  range(
-    from: number,
-    to: number
-  ): PromiseLike<{ data: unknown[] | null; error: { message: string } | null }>;
-}
-
-const PAGE_SIZE = 1000;
-
-/**
- * Fetch every row of a query, paging past PostgREST's response cap (Supabase's
- * "Max rows" API setting, 1000 by default). Without this, any table that grows
- * beyond the cap is silently truncated. `buildQuery` must return a FRESH query
- * on each call (ranges are stateful on the builder); rows are ordered by `id`
- * so pages are stable — unordered paging can skip or repeat rows.
- */
-export const fetchAllRows = async <T>(
-  buildQuery: () => PageableQuery,
-  label: string,
-  pageSize: number = PAGE_SIZE
-): Promise<T[]> => {
-  const rows: T[] = [];
-  for (let from = 0; ; from += pageSize) {
-    const { data, error } = await buildQuery()
-      .order('id')
-      .range(from, from + pageSize - 1);
-    if (error) throw new Error(`${label}: ${error.message}`);
-    const page = (data ?? []) as T[];
-    rows.push(...page);
-    if (page.length < pageSize) break;
+export const getSupabase = (): Promise<SupabaseClient | null> => {
+  if (!isSupabaseConfigured) return Promise.resolve(null);
+  if (!client) {
+    client = import('@supabase/supabase-js')
+      .then(({ createClient }) => createClient(SUPABASE_URL as string, SUPABASE_ANON_KEY as string))
+      .catch((error: unknown) => {
+        // A failed chunk fetch (offline, a deploy in progress) must not poison
+        // every later call. The next caller tries again.
+        client = null;
+        throw error;
+      });
   }
-  return rows;
+  return client;
 };

@@ -16,7 +16,7 @@ const limitMock = vi.fn();
 const isRemoteMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  supabase: {
+  getSupabase: async () => ({
     auth: { getUser: (...a: unknown[]) => getUserMock(...a) },
     rpc: (name: string, args: unknown) => rpcMock(name, args),
     from: (table: string) => {
@@ -38,7 +38,7 @@ vi.mock('../../services/supabaseClient', () => ({
         },
       };
     },
-  },
+  }),
 }));
 vi.mock('../../services/curriculumService', () => ({
   isCurriculumRemote: () => isRemoteMock(),

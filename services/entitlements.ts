@@ -12,6 +12,7 @@ import { dailyResetPhrase, dailyResetTime } from '../utils/dailyReset';
 import { canUseAiGeneration } from '../utils/permissions';
 import type { User } from '../types';
 import type { UserRole } from '../types';
+import { getSupabase } from './supabaseClient';
 
 const resolveUser = (user?: User | null): User | null =>
   user !== undefined ? user : authService.getCurrentUser();
@@ -674,7 +675,7 @@ export const syncFreeEvalCount = (used: number, limit?: number): void => {
  */
 export const refreshFreeEvalCount = async (): Promise<void> => {
   try {
-    const { supabase } = await import('./supabaseClient');
+    const supabase = await getSupabase();
     if (!supabase) return;
     const { data, error } = await supabase.rpc('get_evaluation_status');
     if (error || !data || typeof data !== 'object') return;
@@ -767,7 +768,7 @@ export const SCHOOL_CONTACT_EMAIL: string = import.meta.env.VITE_SCHOOL_CONTACT_
 const getAuthHeaders = async (): Promise<Record<string, string>> => {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   try {
-    const { supabase } = await import('./supabaseClient');
+    const supabase = await getSupabase();
     if (supabase) {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;
@@ -994,7 +995,7 @@ export const isMissingColumnError = (
 
 export const fetchBillingLookup = async (): Promise<BillingLookup> => {
   try {
-    const { supabase } = await import('./supabaseClient');
+    const supabase = await getSupabase();
     // No billing backend at all: nobody can hold a subscription, which is an
     // answer rather than a failure.
     if (!supabase) return { status: 'none' };
@@ -1157,7 +1158,7 @@ export interface MySchoolSeats {
  */
 export const fetchMySchoolSeats = async (): Promise<MySchoolSeats | null> => {
   try {
-    const { supabase } = await import('./supabaseClient');
+    const supabase = await getSupabase();
     if (!supabase) return null;
     const { data, error } = await supabase.rpc('my_school_seats');
     if (error || !data || typeof data !== 'object') return null;

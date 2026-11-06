@@ -84,6 +84,7 @@ export {
 };
 
 import { resolveTarget } from './aiConfig';
+import { getSupabase } from './supabaseClient';
 
 // Resolves a logical role to the active provider + model, spread onto each
 // request as `{ model, provider }`. The proxy routes by `provider`; defaults to
@@ -2158,8 +2159,8 @@ export const fetchSyllabusPage = async (url: string): Promise<SyllabusPage> => {
     const headers: Record<string, string> = { 'Content-Type': 'application/json' };
     // Attach auth token if available (same pattern as aiCore's buildProxyHeaders)
     try {
-      const { supabase, isSupabaseConfigured } = await import('./supabaseClient');
-      if (isSupabaseConfigured && supabase) {
+      const supabase = await getSupabase();
+      if (supabase) {
         const { data } = await supabase.auth.getSession();
         const token = data.session?.access_token;
         if (token) headers.Authorization = `Bearer ${token}`;

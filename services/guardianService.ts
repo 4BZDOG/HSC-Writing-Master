@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { isSupabaseConfigured } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 import {
   PLAN_LABELS,
   STRIPE_PRICE_IDS,
@@ -164,17 +165,18 @@ export const guardianCodeForRpcMessage = (message: string): GuardianErrorCode =>
 };
 
 /** Is the online guardian path available in this build? */
-export const guardianAvailable = (): boolean => isSupabaseConfigured && supabase !== null;
+export const guardianAvailable = (): boolean => isSupabaseConfigured;
 
-const requireClient = (): SupabaseClient => {
-  if (!isSupabaseConfigured || !supabase) {
+const requireClient = async (): Promise<SupabaseClient> => {
+  const client = await getSupabase();
+  if (!client) {
     throw new GuardianError('unavailable', guardianErrorMessage('unavailable'));
   }
-  return supabase;
+  return client;
 };
 
 const callRpc = async <T>(fn: string, params: Record<string, unknown> = {}): Promise<T> => {
-  const client = requireClient();
+  const client = await requireClient();
   const { data, error } = await client.rpc(fn, params);
   if (error) {
     const code = guardianCodeForRpcMessage(error.message ?? '');
@@ -202,7 +204,7 @@ const LIVE_STATUSES = ['active', 'trialing', 'past_due'];
  * this read. It is how billing stays reachable after a link is removed.
  */
 export const listPaidSubscriptions = async (): Promise<PaidSubscription[]> => {
-  const client = requireClient();
+  const client = await requireClient();
   const { data: session } = await client.auth.getSession();
   const payerId = session.session?.user?.id;
   if (!payerId) return [];

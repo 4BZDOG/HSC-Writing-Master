@@ -19,8 +19,7 @@ import type { User } from '../../types';
 let profileRow: unknown = null;
 let profileError: unknown = null;
 vi.mock('../../services/supabaseClient', () => ({
-  isSupabaseConfigured: true,
-  supabase: {
+  getSupabase: async () => ({
     from: () => ({
       select: () => ({
         eq: () => ({
@@ -28,8 +27,9 @@ vi.mock('../../services/supabaseClient', () => ({
         }),
       }),
     }),
-  },
+  }),
 }));
+vi.mock('../../services/supabaseConfig', () => ({ isSupabaseConfigured: true }));
 
 import { applySchoolPlan } from '../../services/authService';
 import { getUserPlan, isFeatureLocked } from '../../services/entitlements';

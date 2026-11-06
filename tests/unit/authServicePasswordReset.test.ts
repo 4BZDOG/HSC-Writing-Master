@@ -24,8 +24,7 @@ const maybeSingleMock = vi.fn();
 const updateMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  isSupabaseConfigured: true,
-  supabase: {
+  getSupabase: async () => ({
     auth: {
       resetPasswordForEmail: (...args: unknown[]) => resetPasswordForEmailMock(...args),
       updateUser: (...args: unknown[]) => updateUserMock(...args),
@@ -37,7 +36,10 @@ vi.mock('../../services/supabaseClient', () => ({
       select: () => ({ eq: () => ({ maybeSingle: () => maybeSingleMock() }) }),
       update: (payload: unknown) => ({ eq: () => updateMock(payload) }),
     }),
-  },
+  }),
+}));
+vi.mock('../../services/supabaseConfig', () => ({
+  isSupabaseConfigured: true,
   fetchAllRows: vi.fn(),
 }));
 
@@ -65,9 +67,7 @@ describe('requestPasswordReset', () => {
     await authService.requestPasswordReset('student@example.com');
     const [email, options] = resetPasswordForEmailMock.mock.calls[0];
     expect(email).toBe('student@example.com');
-    expect(options.redirectTo).toBe(
-      `${window.location.origin}/${PASSWORD_RESET_QUERY}`
-    );
+    expect(options.redirectTo).toBe(`${window.location.origin}/${PASSWORD_RESET_QUERY}`);
   });
 
   it('trims the address', async () => {

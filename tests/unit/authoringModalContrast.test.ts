@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 import colors from 'tailwindcss/colors';
 import { toastConfig } from '../../components/Toast';
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 /**
  * The authoring modals (prompt generator, manual prompt, sub-topic and topic

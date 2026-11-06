@@ -8,7 +8,7 @@
  * is in `outcomeFromResponse`: an answer that names a Stripe subscription, or no
  * clear answer at all, must never read as "safe to approve again".
  */
-import { supabase } from './supabaseClient';
+import { getSupabase } from './supabaseClient';
 import type { InvoiceRequestSummary } from './billingOverviewService';
 
 const apiBase = import.meta.env.VITE_API_BASE_URL ?? '';
@@ -92,6 +92,7 @@ export const outcomeFromResponse = (
 const authHeaders = async (): Promise<Record<string, string>> => {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
   try {
+    const supabase = await getSupabase();
     if (supabase) {
       const { data } = await supabase.auth.getSession();
       const token = data.session?.access_token;

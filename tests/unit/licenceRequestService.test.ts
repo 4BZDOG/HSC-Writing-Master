@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 import {
   fetchMyLicenceRequests,
@@ -242,10 +242,10 @@ describe('fetchMyLicenceRequests', () => {
   it('reads only the signed-in person’s own rows, newest first, and maps them', async () => {
     const query = chain({ data: [serverRow], error: null });
     vi.doMock('../../services/supabaseClient', () => ({
-      supabase: {
+      getSupabase: async () => ({
         auth: { getSession: async () => ({ data: { session: { user: { id: 'user-1' } } } }) },
         from: vi.fn(() => query),
-      },
+      }),
     }));
     vi.resetModules();
     const { fetchMyLicenceRequests: fetchWithClient } =

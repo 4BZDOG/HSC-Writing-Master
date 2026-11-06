@@ -17,9 +17,9 @@ import userEvent from '@testing-library/user-event';
 const requestPasswordResetMock = vi.fn();
 const completePasswordResetMock = vi.fn();
 
-vi.mock('../../services/supabaseClient', () => ({
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => ({}) }));
+vi.mock('../../services/supabaseConfig', () => ({
   isSupabaseConfigured: true,
-  supabase: {},
   fetchAllRows: vi.fn(),
 }));
 

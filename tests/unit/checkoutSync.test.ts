@@ -11,9 +11,7 @@ vi.mock('../../services/authService', () => ({
   authService: { getCurrentUser: () => null },
 }));
 
-vi.mock('../../services/supabaseClient', () => ({
-  supabase: null,
-}));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 import {
   checkoutSessionIdFrom,

@@ -15,7 +15,7 @@ import type { User } from '../../types';
  * and has no feature key of its own, so the limit borrowed `fullFeedback`.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 vi.mock('../../services/authService', () => ({
   authService: {

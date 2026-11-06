@@ -9,7 +9,7 @@ import type { User } from '../../types';
  * asks nothing when it should not, and leaves nothing attached after unmount.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 import { usePlanFreshness } from '../../hooks/usePlanFreshness';
 import { PLAN_FRESHNESS_INTERVAL_MS } from '../../utils/planFreshness';

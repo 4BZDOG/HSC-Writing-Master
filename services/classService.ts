@@ -1,4 +1,4 @@
-import { supabase } from './supabaseClient';
+import { getSupabase } from './supabaseClient';
 
 /**
  * Class record-keeping — the write half of schema §19.
@@ -25,9 +25,10 @@ import { supabase } from './supabaseClient';
  *     you the owner, managing your roll is your job.
  */
 
-const requireClient = () => {
-  if (!supabase) throw new Error('Supabase is not configured.');
-  return supabase;
+const requireClient = async () => {
+  const client = await getSupabase();
+  if (!client) throw new Error('Supabase is not configured.');
+  return client;
 };
 
 /** A member's role within one class. Mirrors the check in `enrol_in_class`. */
@@ -49,7 +50,9 @@ export interface ClassMember {
  * username blind.
  */
 export const fetchClassMembers = async (classId: string): Promise<ClassMember[]> => {
-  const { data, error } = await requireClient().rpc('list_class_members', {
+  const { data, error } = await (
+    await requireClient()
+  ).rpc('list_class_members', {
     p_class_id: classId,
   });
   if (error) throw new Error(`Could not load the class roll: ${error.message}`);
@@ -69,7 +72,9 @@ export const createClass = async (
   ownerUsername: string,
   year: number | null
 ): Promise<void> => {
-  const { error } = await requireClient().rpc('create_class', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('create_class', {
     p_school_name: schoolName,
     p_name: name,
     p_owner: ownerUsername,
@@ -90,7 +95,9 @@ export const enrolInClass = async (
   username: string,
   role: ClassRole = 'student'
 ): Promise<void> => {
-  const { error } = await requireClient().rpc('enrol_in_class', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('enrol_in_class', {
     p_class_id: classId,
     p_username: username,
     p_role: role,
@@ -112,7 +119,9 @@ export const enrolInClass = async (
  * delete would look like it had worked.
  */
 export const removeFromClass = async (classId: string, username: string): Promise<void> => {
-  const { error } = await requireClient().rpc('remove_from_class', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('remove_from_class', {
     p_class_id: classId,
     p_username: username,
   });

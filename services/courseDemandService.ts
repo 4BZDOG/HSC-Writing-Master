@@ -14,7 +14,8 @@
  * app runs offline-first, and a local-only session must not see an error for a
  * feature that simply has no backend to reach.
  */
-import { supabase } from './supabaseClient';
+import { isSupabaseConfigured } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 
 /** What the server says came of a request. */
 export interface CourseRequestResult {
@@ -50,9 +51,10 @@ export class CourseDemandUnavailableError extends Error {
   }
 }
 
-const requireClient = () => {
-  if (!supabase) throw new CourseDemandUnavailableError();
-  return supabase;
+const requireClient = async () => {
+  const client = await getSupabase();
+  if (!client) throw new CourseDemandUnavailableError();
+  return client;
 };
 
 /**
@@ -66,7 +68,8 @@ const requireClient = () => {
  * open is worse than not drawing it: the user has done the work before finding
  * out. Pass the role so guests are excluded up front.
  */
-export const isCourseDemandAvailable = (role?: string): boolean => !!supabase && role !== 'guest';
+export const isCourseDemandAvailable = (role?: string): boolean =>
+  isSupabaseConfigured && role !== 'guest';
 
 /**
  * PostgREST's shape for "that function isn't in this database" — schema §21 has
@@ -83,7 +86,9 @@ const isMissingRpc = (error: { code?: string; message?: string }): boolean =>
  * note rather than inflating the count.
  */
 export const requestCourse = async (name: string, note?: string): Promise<CourseRequestResult> => {
-  const { data, error } = await requireClient().rpc('log_course_request', {
+  const { data, error } = await (
+    await requireClient()
+  ).rpc('log_course_request', {
     // Trimmed here as well as server-side: the RPC's length check counts what
     // it is sent, so trailing whitespace from a paste should not be what
     // pushes a legitimate name over the limit.
@@ -107,7 +112,9 @@ export const requestCourse = async (name: string, note?: string): Promise<Course
  * a queue — off by default so the list stays a to-do.
  */
 export const fetchCourseDemand = async (includeClosed = false): Promise<CourseDemandRow[]> => {
-  const { data, error } = await requireClient().rpc('list_course_requests', {
+  const { data, error } = await (
+    await requireClient()
+  ).rpc('list_course_requests', {
     p_include_closed: includeClosed,
   });
   if (error) throw new Error(`Could not load course demand: ${error.message}`);
@@ -120,7 +127,9 @@ export const setCourseRequestStatus = async (
   status: CourseRequestStatus,
   notes?: string
 ): Promise<void> => {
-  const { error } = await requireClient().rpc('set_course_request_status', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('set_course_request_status', {
     p_id: id,
     p_status: status,
     p_notes: notes?.trim() ? notes.trim() : null,

@@ -19,7 +19,8 @@
  * makes, and `requestQualityScreen` below asks the server to produce and store
  * it instead. See that function for why.
  */
-import { supabase, fetchAllRows } from './supabaseClient';
+import { fetchAllRows } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 import {
   Prompt,
   SampleAnswer,
@@ -67,8 +68,9 @@ export const requestQualityScreen = async (
   kind: 'prompt' | 'sample_answer',
   id: string
 ): Promise<QualityScreen | undefined> => {
-  if (!supabase) return undefined;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return undefined;
     const { data } = await supabase.auth.getSession();
     const token = data.session?.access_token;
     if (!token) return undefined;
@@ -275,13 +277,14 @@ export const dotPointToRow = (
 
 // --- Orchestration (resolves ids + writes via Supabase) ----------------------
 
-const requireClient = () => {
-  if (!supabase) throw new Error('Supabase is not configured.');
-  return supabase;
+const requireClient = async () => {
+  const client = await getSupabase();
+  if (!client) throw new Error('Supabase is not configured.');
+  return client;
 };
 
 const currentUserId = async (): Promise<string> => {
-  const { data, error } = await requireClient().auth.getUser();
+  const { data, error } = await (await requireClient()).auth.getUser();
   if (error || !data.user) throw new Error('You must be signed in to contribute content.');
   return data.user.id;
 };
@@ -333,7 +336,7 @@ const resolveRowId = async (
   // Not `created_at`: only `courses` and `prompts` have that column — `topics`,
   // `sub_topics` and `dot_points` do not, so ordering by it would turn a
   // duplicate-row bug into a hard failure on every curriculum lookup.
-  const { data, error } = await requireClient()
+  const { data, error } = await (await requireClient())
     .from(table)
     .select('id')
     .or(filter)
@@ -368,7 +371,9 @@ export const updateCourseStatus = async (
 ): Promise<void> => {
   const rowId = await resolveCourseRowId(courseAppId);
   if (!rowId) throw new Error('That course is not in the shared library yet.');
-  const { error } = await requireClient()
+  const { error } = await (
+    await requireClient()
+  )
     .from('courses')
     .update({ status: status === 'published' ? 'approved' : 'private' })
     .eq('id', rowId);
@@ -424,7 +429,7 @@ export const resolvePromptRowIds = async (appIds: string[]): Promise<Map<string,
   }
   if (ids.length === 0) return out;
 
-  const client = requireClient();
+  const client = await requireClient();
   const wanted = new Set(ids);
   const rows: PromptIdRow[] = [];
 
@@ -481,7 +486,7 @@ const upsertOwned = async (
   table: 'prompts' | 'sample_answers' | 'topics' | 'sub_topics' | 'dot_points',
   row: OwnedInsertRow
 ): Promise<string> => {
-  const client = requireClient();
+  const client = await requireClient();
   const { data: existing } = await client
     .from(table)
     .select('id')
@@ -590,7 +595,10 @@ export type SubmittableTable =
 
 /** Move one of the user's own rows into the review queue (private -> pending). */
 export const submitToLibrary = async (table: SubmittableTable, rowId: string): Promise<void> => {
-  const { error } = await requireClient().from(table).update({ status: 'pending' }).eq('id', rowId);
+  const { error } = await (await requireClient())
+    .from(table)
+    .update({ status: 'pending' })
+    .eq('id', rowId);
   if (error) throw new Error(`Failed to submit for review: ${error.message}`);
 };
 
@@ -600,7 +608,7 @@ const callModerationRpc = async (
   fn: 'approve_prompt' | 'reject_prompt' | 'approve_sample_answer' | 'reject_sample_answer',
   rowId: string
 ): Promise<void> => {
-  const { error } = await requireClient().rpc(fn, { p_id: rowId });
+  const { error } = await (await requireClient()).rpc(fn, { p_id: rowId });
   if (error) throw new Error(`${fn} failed: ${error.message}`);
 };
 
@@ -622,7 +630,9 @@ export const moderateStructure = async (
   id: string,
   status: 'approved' | 'rejected'
 ): Promise<void> => {
-  const { error } = await requireClient().rpc('set_structure_status', {
+  const { error } = await (
+    await requireClient()
+  ).rpc('set_structure_status', {
     p_kind: kind,
     p_id: id,
     p_status: status,
@@ -749,7 +759,7 @@ export const toQueueItems = (
  * author and to reviewers, so for an admin/teacher this is the full queue.
  */
 export const fetchModerationQueue = async (): Promise<ModerationItem[]> => {
-  const client = requireClient();
+  const client = await requireClient();
   const label = 'Failed to load review queue';
   const pendingStructure = async (
     table: 'topics' | 'sub_topics' | 'dot_points',

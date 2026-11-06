@@ -11,7 +11,7 @@ import type { User } from '../../types';
 
 const lookup = vi.fn();
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 vi.mock('../../services/authService', () => ({
   authService: {

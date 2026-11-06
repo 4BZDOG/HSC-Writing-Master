@@ -9,7 +9,7 @@ import type { User } from '../../types';
  * customer id and would fail for anyone else.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 const fetchMySchoolSeatsMock = vi.fn();
 const createPortalUrlMock = vi.fn();

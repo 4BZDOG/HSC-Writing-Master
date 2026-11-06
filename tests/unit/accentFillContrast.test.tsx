@@ -6,7 +6,7 @@ import { join, resolve } from 'node:path';
 import colors from 'tailwindcss/colors';
 import { PlusLockChip } from '../../components/UpgradeModal';
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 /**
  * A fill and its ink are one decision, and the two halves were drawn by

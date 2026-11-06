@@ -13,7 +13,8 @@ import type { User } from '../../types';
  * holds no plan, was told "You are on Free" beside Compare plans.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null, isSupabaseConfigured: false }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
+vi.mock('../../services/supabaseConfig', () => ({ isSupabaseConfigured: false }));
 vi.mock('../../services/authService', () => ({
   authService: { getCurrentUser: () => null, updateUser: vi.fn() },
 }));

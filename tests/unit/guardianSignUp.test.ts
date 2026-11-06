@@ -10,8 +10,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 const signUpMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  isSupabaseConfigured: true,
-  supabase: {
+  getSupabase: async () => ({
     auth: {
       signUp: (...args: unknown[]) => signUpMock(...args),
       signInWithPassword: vi.fn(),
@@ -23,7 +22,10 @@ vi.mock('../../services/supabaseClient', () => ({
       select: () => ({ eq: () => ({ maybeSingle: async () => ({ data: null, error: null }) }) }),
       update: () => ({ eq: async () => ({ error: null }) }),
     }),
-  },
+  }),
+}));
+vi.mock('../../services/supabaseConfig', () => ({
+  isSupabaseConfigured: true,
   fetchAllRows: vi.fn(),
 }));
 

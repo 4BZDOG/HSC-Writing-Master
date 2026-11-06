@@ -1,6 +1,7 @@
 import type { GenerateContentResponse } from './aiResponseTypes';
 import { safeSetItem, safeGetItem, STORAGE_KEYS } from '../utils/storageUtils';
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { isSupabaseConfigured } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 import { getRuntimeKeyOverride } from './runtimeKeys';
 import { observeQuota, notifyAiNotice } from './quotaNotifier';
 import { markModelQuotaDead, getGeminiFreeTierFallback, getOverloadFallback } from './aiConfig';
@@ -860,11 +861,17 @@ export const generateContentWithRetry = async (
 // content-type header is sent and the proxy's auth gate is correspondingly off.
 const buildProxyHeaders = async (): Promise<Record<string, string>> => {
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-  if (isSupabaseConfigured && supabase) {
+  // In mock mode this branch is skipped with no await at all, so a local
+  // student's request goes out on exactly the same tick as before, and the
+  // client library is never loaded.
+  if (isSupabaseConfigured) {
     try {
-      const { data } = await supabase.auth.getSession();
-      const token = data.session?.access_token;
-      if (token) headers.Authorization = `Bearer ${token}`;
+      const supabase = await getSupabase();
+      if (supabase) {
+        const { data } = await supabase.auth.getSession();
+        const token = data.session?.access_token;
+        if (token) headers.Authorization = `Bearer ${token}`;
+      }
     } catch {
       /* no session available — send unauthenticated and let the server decide */
     }

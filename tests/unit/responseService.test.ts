@@ -14,7 +14,7 @@ const isRemoteMock = vi.fn();
 const rpcMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  supabase: {
+  getSupabase: async () => ({
     auth: { getUser: (...a: unknown[]) => getUserMock(...a) },
     rpc: (name: string, args: unknown) => rpcMock(name, args),
     from: (table: string) => ({
@@ -30,7 +30,7 @@ vi.mock('../../services/supabaseClient', () => ({
         eq: () => ({ eq: () => updateEqEqMock(payload) }),
       }),
     }),
-  },
+  }),
 }));
 vi.mock('../../services/curriculumService', () => ({
   isCurriculumRemote: () => isRemoteMock(),
@@ -208,7 +208,6 @@ describe('saveResponseFeedback', () => {
   });
 });
 
-
 /**
  * The class-scope argument (schema §19) has one property worth pinning: it must
  * be OMITTED, not sent as null, when no class is selected. PostgREST resolves
@@ -305,7 +304,6 @@ describe('class-scoped analytics arguments', () => {
   });
 });
 
-
 describe('fetchMyAttempts', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -341,9 +339,7 @@ describe('fetchMyAttempts', () => {
       ])
     );
     selectEqInMock.mockResolvedValue({
-      data: [
-        { prompt_id: 'row-1', overall_mark: 4, overall_band: 3, updated_at: '2026-05-01' },
-      ],
+      data: [{ prompt_id: 'row-1', overall_mark: 4, overall_band: 3, updated_at: '2026-05-01' }],
       error: null,
     });
 
@@ -364,7 +360,6 @@ describe('fetchMyAttempts', () => {
     await expect(fetchMyAttempts(['p1'])).resolves.toEqual(new Map());
   });
 });
-
 
 describe('the attempt cache', () => {
   beforeEach(() => {

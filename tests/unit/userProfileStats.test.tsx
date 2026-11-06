@@ -11,7 +11,7 @@ import type { OwnAttempt } from '../../utils/profileHistory';
  * mocked; nothing here reaches Supabase.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 vi.mock('../../services/authService', () => ({
   authService: { getCurrentUser: () => null, updateUser: vi.fn() },
 }));

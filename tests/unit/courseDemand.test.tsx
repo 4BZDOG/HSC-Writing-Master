@@ -19,7 +19,11 @@ import { canCreateCurriculum, canCurateContent } from '../../utils/permissions';
 const rpcMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  supabase: { rpc: (...args: unknown[]) => rpcMock(...args) },
+  getSupabase: async () => ({ rpc: (...args: unknown[]) => rpcMock(...args) }),
+}));
+vi.mock('../../services/supabaseConfig', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../../services/supabaseConfig')>()),
+  isSupabaseConfigured: true,
 }));
 
 import CourseRequestModal from '../../components/CourseRequestModal';

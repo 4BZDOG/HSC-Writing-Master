@@ -1,6 +1,6 @@
 import type { User, UserAgreement, UserRole } from '../types';
 import { authService } from './authService';
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { getSupabase } from './supabaseClient';
 import { safeSetItem, STORAGE_KEYS } from '../utils/storageUtils';
 import {
   AGREEMENT_VERSION,
@@ -127,8 +127,9 @@ export const changesSince = (previousVersion: string | undefined): AgreementChan
  * nothing but the durable copy.
  */
 const patchProfileSoft = async (fields: Record<string, string | null>): Promise<void> => {
-  if (!isSupabaseConfigured || !supabase) return;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return;
     const { data } = await supabase.auth.getUser();
     if (!data.user) return;
     await supabase.from('profiles').update(fields).eq('id', data.user.id);
@@ -196,8 +197,9 @@ export interface AcceptanceRow {
  * an empty table that reads as "nobody has accepted".
  */
 export const fetchAcceptanceReport = async (): Promise<AcceptanceRow[] | null> => {
-  if (!isSupabaseConfigured || !supabase) return null;
   try {
+    const supabase = await getSupabase();
+    if (!supabase) return null;
     const { data, error } = await supabase.rpc('agreement_acceptance_report', {
       p_version: AGREEMENT_VERSION,
     });

@@ -19,7 +19,7 @@ import type { User } from '../../types';
  * it: the plan comparison, which is where staff actually arrive.
  */
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 const createCheckoutUrlMock = vi.fn();
 let priceIds = { plus_monthly: 'price_m', plus_yearly: 'price_y', school: 'price_school' };

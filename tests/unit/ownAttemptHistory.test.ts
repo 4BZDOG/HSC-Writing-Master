@@ -18,7 +18,7 @@ const eqMock = vi.fn();
 const orderMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  supabase: {
+  getSupabase: async () => ({
     auth: { getUser: (...a: unknown[]) => getUserMock(...a) },
     from: (table: string) => {
       fromMock(table);
@@ -39,7 +39,7 @@ vi.mock('../../services/supabaseClient', () => ({
         },
       };
     },
-  },
+  }),
 }));
 vi.mock('../../services/curriculumService', () => ({
   isCurriculumRemote: () => isRemoteMock(),

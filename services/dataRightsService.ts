@@ -1,6 +1,7 @@
 import type { User } from '../types';
 import { authService } from './authService';
-import { supabase, isSupabaseConfigured } from './supabaseClient';
+import { isSupabaseConfigured } from './supabaseConfig';
+import { getSupabase } from './supabaseClient';
 import { postBillingJson } from './entitlements';
 import { deleteUserProfile } from '../utils/storageUtils';
 import { AGREEMENT_VERSION, LEGAL_CONFIG } from '../data/legalContent';
@@ -66,8 +67,10 @@ export const buildDataExport = async (user: User): Promise<DataExport> => {
   const responses: ExportedResponse[] = [];
   let responsesAvailable = false;
 
-  if (isSupabaseConfigured && supabase && user.role !== 'guest') {
+  if (isSupabaseConfigured && user.role !== 'guest') {
     try {
+      const supabase = await getSupabase();
+      if (!supabase) throw new Error('Supabase is not configured.');
       const { data: sessionData } = await supabase.auth.getSession();
       const userId = sessionData.session?.user?.id;
       if (userId) {
@@ -188,7 +191,16 @@ export const deleteMyAccount = async (user: User): Promise<DeletionResult> => {
     };
   }
 
-  if (isSupabaseConfigured && supabase) {
+  if (isSupabaseConfigured) {
+    // The client is fetched BEFORE billing is ended: if the library cannot load,
+    // nothing has been cancelled and nothing deleted, and the person can retry.
+    const supabase = await getSupabase().catch(() => null);
+    if (!supabase) {
+      return {
+        ok: false,
+        message: 'Could not reach the server. Please check your connection and try again.',
+      };
+    }
     const billing = await endBillingBeforeDeletion();
     if (billing.ok === false) return billing;
 

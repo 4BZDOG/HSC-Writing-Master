@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import type { User } from '../../types';
 
-vi.mock('../../services/supabaseClient', () => ({ supabase: null }));
+vi.mock('../../services/supabaseClient', () => ({ getSupabase: async () => null }));
 
 let invoicing = false;
 let priceIds = { plus_monthly: 'price_m', plus_yearly: 'price_y', school: 'price_school' };

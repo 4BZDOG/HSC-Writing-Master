@@ -15,9 +15,7 @@ vi.mock('../../services/supabaseClient', async (importOriginal) => {
   const actual = await importOriginal<typeof import('../../services/supabaseClient')>();
   return {
     ...actual,
-    get supabase() {
-      return client.supabase;
-    },
+    getSupabase: async () => client.supabase,
   };
 });
 

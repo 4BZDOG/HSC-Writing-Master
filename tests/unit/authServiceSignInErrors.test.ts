@@ -12,15 +12,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const signInWithPasswordMock = vi.fn();
 
 vi.mock('../../services/supabaseClient', () => ({
-  isSupabaseConfigured: true,
-  supabase: {
+  getSupabase: async () => ({
     auth: {
       signInWithPassword: (...args: unknown[]) => signInWithPasswordMock(...args),
       getSession: vi.fn(),
       getUser: vi.fn(),
       signOut: vi.fn().mockResolvedValue({ error: null }),
     },
-  },
+  }),
+}));
+vi.mock('../../services/supabaseConfig', () => ({
+  isSupabaseConfigured: true,
   fetchAllRows: vi.fn(),
 }));
 
