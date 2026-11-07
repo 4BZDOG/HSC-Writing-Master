@@ -1,5 +1,22 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-07 (Community and Family Studies: three more HSC papers and every dot point covered)
+
+- **Added (DATA_VERSION 2.44.0).** Community and Family Studies goes from 17 questions to 375, and from 193 empty dot
+  points to none.
+  - **Past HSC questions.** Every written-response part of the 2022, 2023 and 2024 papers (56 questions) joins the 2025
+    paper, built with `build_past.py` from verified extracts. NESA's sample answer is the full-mark sample wherever the
+    guideline prints one. One ladder row (2024 Q22, 2 marks) was reworded from "Demonstrate" to "Demonstrates" so every
+    row opens with a third-person verb; the extract's `edits` records it. `check_past_questions.py` reports only that
+    row and the two 2025 rows reworded the same way.
+  - **New questions.** 302 app-written questions, two per dot point: 170 for the Preliminary course and 132 for the HSC
+    course, including the three options. Each has a "Hypothetical:" scenario, an HSC-style ladder and three samples,
+    and passed `apply_patch.mts` with no errors or warnings. Review corrected a local-group question whose top row asked
+    for "global levels", a Family Law Act answer that put child support under that Act, and two answers that called
+    invented figures "ABS-style".
+- **Reference papers.** `data/referencePapers/community-and-family-studies-2022/2023/2024-paper-and-guidelines.json`
+  hold the extracts. The README's table had a blank line that cut its last row off; it is one table again.
+
 ## [Unreleased] - 2026-11-07 (E2E legs run in Playwright's own image)
 
 - **Changed.** Every E2E leg in `.github/workflows/build.yml` runs in `mcr.microsoft.com/playwright:v<version>-noble`,
