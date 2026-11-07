@@ -22988,7 +22988,118 @@
               {
                 "id": "dp-bio-12-diseases-2-16",
                 "description": "Explain procedures that can be employed to limit transmission of infectious diseases in humans",
-                "prompts": []
+                "prompts": [
+                  {
+                    "id": "prompt-bio-12-diseases-2-16-n0",
+                    "question": "Explain how two procedures limit the transmission of a respiratory virus between students.",
+                    "verb": "EXPLAIN",
+                    "totalMarks": 3,
+                    "scenario": "Hypothetical: A school is concerned about a respiratory virus spreading between students in classrooms. Students often share desks, touch shared surfaces and cough during lessons.",
+                    "markingCriteria": "3 marks: Explains two procedures and how each interrupts a stage of the transmission of the virus\n2 marks: Explains one procedure that limits transmission, with some reasoning\n1 mark: Identifies a procedure for limiting transmission without explaining how it works",
+                    "keywords": [
+                      "procedures",
+                      "transmission",
+                      "respiratory virus",
+                      "students",
+                      "handwashing",
+                      "droplets"
+                    ],
+                    "linkedOutcomes": [
+                      "BI-12-02"
+                    ],
+                    "markerNotes": [
+                      "Strong answers name the point in the transmission pathway that each procedure interrupts, such as the hands, surfaces or respiratory droplets.",
+                      "Credit a specific detail, such as washing with soap for at least 20 seconds, rather than a general instruction to be clean.",
+                      "Credit two different procedures; two versions of handwashing address the same point in the pathway."
+                    ],
+                    "commonStudentErrors": [
+                      "States that antibiotics stop a viral respiratory infection from spreading.",
+                      "Names a procedure, such as washing hands, without explaining how it reduces transmission.",
+                      "Says that covering coughs kills the virus rather than trapping droplets."
+                    ],
+                    "sampleAnswers": [
+                      {
+                        "id": "prompt-bio-12-diseases-2-16-n0-s1",
+                        "source": "AI",
+                        "mark": 3,
+                        "answer": "Handwashing with soap for at least 20 seconds removes or inactivates virus particles on the hands, so fewer are transferred to shared surfaces, desks or the face. Covering coughs and sneezes with a tissue or the inner elbow traps respiratory droplets before they spread through the air and onto surfaces, which reduces the number of virus particles reaching other students. Both are respiratory virus procedures that interrupt transmission at different points.",
+                        "feedback": "Meets the 3-mark row: two procedures are explained, and each is linked to interrupting a specific stage of transmission.",
+                        "band": 3
+                      },
+                      {
+                        "id": "prompt-bio-12-diseases-2-16-n0-s2",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Handwashing with soap removes viruses from the hands, so fewer are passed on to shared surfaces.",
+                        "feedback": "Meets the 2-mark row: explains one procedure with some reasoning, but no second procedure is given.",
+                        "band": 2
+                      },
+                      {
+                        "id": "prompt-bio-12-diseases-2-16-n0-s3",
+                        "source": "AI",
+                        "mark": 1,
+                        "answer": "Students should cover their coughs.",
+                        "feedback": "Meets the 1-mark row: identifies a procedure without explaining how it limits transmission.",
+                        "band": 1
+                      }
+                    ]
+                  },
+                  {
+                    "id": "prompt-bio-12-diseases-2-16-n0-n1",
+                    "question": "Assess how well vaccination and isolation of infected people would limit the outbreak in this town.",
+                    "verb": "ASSESS",
+                    "totalMarks": 6,
+                    "scenario": "Hypothetical: A town has 2,000 residents. Of these, 1,800 (90%) are vaccinated against measles, and the other 200 are unvaccinated. An outbreak begins when a visitor who has measles attends a gathering in the town.",
+                    "markingCriteria": "6 marks: Assesses the effectiveness of vaccination and isolation against the scenario data, reaching a supported judgement on which measure would do most to end the outbreak\n5 marks: Assesses both measures with sound reasoning linked to the coverage and transmission data in the scenario\n4 marks: Discusses both measures with some reasoning about how each limits transmission\n3 marks: Identifies relevant strengths or limits of one measure, with a limited link to the scenario\n2 marks: Identifies one relevant point about vaccination without development\n1 mark: Identifies a relevant measure without any reasoning about its effectiveness",
+                    "keywords": [
+                      "vaccination",
+                      "isolation",
+                      "transmission",
+                      "herd immunity",
+                      "measles",
+                      "outbreak"
+                    ],
+                    "linkedOutcomes": [
+                      "BI-12-02"
+                    ],
+                    "markerNotes": [
+                      "Strong answers use the scenario numbers, such as 90% coverage and 200 unvaccinated people, rather than only general statements.",
+                      "Credit recognition that measles spreads before the rash appears, which limits how far isolation alone can work.",
+                      "Penalise any claim that isolation alone ends a measles outbreak."
+                    ],
+                    "commonStudentErrors": [
+                      "Says 90% coverage is enough to stop measles spreading, ignoring the herd immunity level.",
+                      "Treats isolation as fully effective without considering people who are infectious before symptoms appear.",
+                      "Describes measles as a bacterial disease that antibiotics would treat."
+                    ],
+                    "sampleAnswers": [
+                      {
+                        "id": "prompt-bio-12-diseases-2-16-n0-n1-s1",
+                        "source": "AI",
+                        "mark": 6,
+                        "answer": "Vaccination is the more effective long-term measure. Measles is highly contagious, and high coverage protects people who cannot be vaccinated through herd immunity. However, 90% coverage is below the roughly 95% level usually needed to stop transmission, so the 200 unvaccinated people leave gaps through which the outbreak can continue. Isolation of infected people is useful but limited, because measles spreads through the air and people are infectious for several days before the rash appears, so many cases are not identified in time. Isolating confirmed cases does reduce transmission to their contacts and should be combined with contact tracing and post-exposure vaccination. The 200 unvaccinated residents are the main source of risk in this town. Overall, vaccinating the remaining unvaccinated people would do most to end the outbreak, with isolation as a supporting measure.",
+                        "feedback": "Meets the 6-mark row: both measures are assessed against the coverage and transmission data, with a supported judgement on which would do most to end the outbreak.",
+                        "band": 5
+                      },
+                      {
+                        "id": "prompt-bio-12-diseases-2-16-n0-n1-s2",
+                        "source": "AI",
+                        "mark": 4,
+                        "answer": "Vaccination protects people through herd immunity, but 90% coverage is below the level needed to stop measles spreading. Isolating infected people helps, but measles is infectious before the rash appears, so isolation alone is limited.",
+                        "feedback": "Meets the 4-mark row: both measures are discussed with some reasoning about transmission, but the judgement on the outbreak is not developed.",
+                        "band": 4
+                      },
+                      {
+                        "id": "prompt-bio-12-diseases-2-16-n0-n1-s3",
+                        "source": "AI",
+                        "mark": 2,
+                        "answer": "Vaccination is good because it stops people getting measles.",
+                        "feedback": "Meets the 2-mark row: identifies a relevant point about vaccination without linking it to isolation or the scenario data.",
+                        "band": 2
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           },
