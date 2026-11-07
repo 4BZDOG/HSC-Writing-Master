@@ -13,7 +13,11 @@ course_file, nesa_path, out = sys.argv[1:4]
 per = int(sys.argv[sys.argv.index('--per-job') + 1]) if '--per-job' in sys.argv else 9
 c = json.load(open(os.path.join(REPO, 'public/courseData', course_file)))
 c = c[0] if isinstance(c, list) else c
-outs = {fa['title']: fa['outcomes'] for fa in json.load(open(nesa_path))}
+# a course can repeat a focus area's title across years (Biology's "Working scientifically" in Year 11 and 12), so
+# outcomes are keyed by year and title; a focus area without a year still matches by title alone
+_fas = json.load(open(nesa_path))
+outs = {(fa.get('year'), fa['title']): fa['outcomes'] for fa in _fas}
+outs.update({(None, fa['title']): fa['outcomes'] for fa in _fas if (None, fa['title']) not in outs})
 os.makedirs(out, exist_ok=True)
 jobs, carry = [], []
 for t in c['topics']:
@@ -24,7 +28,7 @@ for t in c['topics']:
         for dp in st['dotPoints']:
             if not dp['prompts']:
                 todo.append({'dpId': dp['id'], 'year': year, 'course': c['name'], 'topic': t['name'], 'subTopic': st['name'],
-                             'description': dp['description'], 'focusAreaOutcomes': outs.get(t['name'], [])})
+                             'description': dp['description'], 'focusAreaOutcomes': outs.get((t.get('year', 'year12'), t['name']), outs.get((None, t['name']), []))})
     while todo:
         take = min(per, len(todo))
         if len(todo) - take < 4: take = len(todo)

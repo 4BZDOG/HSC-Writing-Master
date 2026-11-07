@@ -1,5 +1,30 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-07 (Biology: the 2022 HSC paper and the course filled in)
+
+- **Added (DATA_VERSION 2.47.0).** Biology goes from 61 questions to 503, and from 227 empty dot points to 10.
+  - **Past HSC questions.** The written-response parts of the 2022 paper (18 questions), built with `build_past.py`
+    from a verified extract with NESA's sample answer as every full-mark sample. The paper was set on the 2017
+    syllabus, so each part maps only to a current dot point that covers it. 21(b), answered by completing a key
+    diagram, is skipped with the drawing parts.
+  - **New questions.** 424 app-written questions, two per dot point: 230 for Year 11 and 194 for Year 12. Six science
+    reviews checked every statement and calculation. The errors fixed were: root pressure lifting water up a tall tree
+    at night; low oxygen solubility blamed for deaths at dawn; a misread pH rate table; selection on the wrong sand
+    colour; amoxicillin said to target ribosomes; selection bias called information bias; a falling allele frequency
+    said to remove variants; and infants under 6 months counted for influenza vaccine. About 40 answers were tightened
+    where they overclaimed (for example "proves" where the data are only "consistent with"). Answers about Aboriginal
+    knowledge were made specific to a people or region rather than generalised.
+  - **Not covered.** Ten Year 12 Biotechnology dot points (gene therapy ethics, diagnostic biotechnologies,
+    bioinformatics, genetically modified organisms and related items) have no app-written questions: a safety system
+    stopped the authoring run for that batch. They can be authored by hand or in a fresh session.
+- **Fixed (tooling).** `make_jobs.py` keyed focus-area outcomes by title alone, so Biology's two "Working
+  scientifically" focus areas collided and Year 12 jobs got Year 11 outcomes; it now keys by year and title.
+  `apply_patch.mts` flagged any word containing "todo" as a placeholder ("Diprotodon"); it now uses word boundaries.
+  `build_past.py` re-runs removed every id beginning `prompt-<prefix>-hsc-<year>-`, which also caught the app-written
+  questions `apply_patch.mts` names after a past question on the same dot point (`…-28b-n1`); it now removes only its
+  own ids. The 2022 section heading now matches the other years' format.
+- **Reference papers.** `data/referencePapers/biology-2022-paper-and-guidelines.json` holds the extract.
+
 ## [Unreleased] - 2026-11-07 (Business Studies: the Preliminary course filled in)
 
 - **Added (DATA_VERSION 2.46.0).** Business Studies goes from 441 questions to 695. Its 127 Year 11 dot points (Nature

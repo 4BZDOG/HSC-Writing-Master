@@ -73,8 +73,11 @@ def scenario(q):
 
 # drop questions this builder made before for this year, so a re-run replaces them
 prefix_id = f'prompt-{a.prefix}-hsc-{year}-'
+# only this builder's own ids: the slug never holds a hyphen, so an app-written question that apply_patch named after
+# a past question on the same dot point ("prompt-bio-hsc-2022-28b-n1") is kept, not deleted with it
+own = re.compile(re.escape(prefix_id) + r'[a-z0-9]+')
 for d in dps.values():
-    d['prompts'] = [p for p in d['prompts'] if not p['id'].startswith(prefix_id)]
+    d['prompts'] = [p for p in d['prompts'] if not own.fullmatch(p['id'])]
 
 for q in ext['questions']:
     num = q['number']
