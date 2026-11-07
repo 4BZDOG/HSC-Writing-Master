@@ -1,5 +1,17 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-07 (E2E legs run in Playwright's own image)
+
+- **Changed.** Every E2E leg in `.github/workflows/build.yml` runs in `mcr.microsoft.com/playwright:v<version>-noble`,
+  where `<version>` is the Playwright version `package-lock.json` pins (1.58.2 today). The browsers and their system
+  libraries come from the image, so the per-leg `install-deps` apt step and the browser cache are gone. On a slow
+  runner mirror the WebKit legs had spent 45 to 50 minutes in that step, against about ten minutes of tests. The
+  `ubuntu-24.04` pin stays. Leg names, the **E2E Tests** gate, `scripts/e2eMatrix.mjs` and the specs that run are
+  unchanged.
+- **Fixed.** `tests/e2e/past-hsc-navigator.spec.ts` failed on the main-only Mobile Chrome leg, which kept the
+  **E2E Tests** gate red on `main` and skipped production deploys. On a phone-width screen the past-HSC chip wraps, so
+  `innerText` reads "HSC\n2024 · Q21(a)"; the check now allows any whitespace between "HSC" and the year.
+
 ## [Unreleased] - 2026-11-06 (The 2025 HSC paper as past questions in 13 courses)
 
 - **Added (DATA_VERSION 2.43.0).** 247 past HSC questions from the 2025 papers, so the question generator calibrates

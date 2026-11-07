@@ -133,9 +133,10 @@ test.describe('past HSC navigator filter', () => {
     const onTexts = await questionsOn.allInnerTexts();
     expect(onTexts.length).toBeGreaterThan(0);
     // Every question the filter lists carries a past-HSC chip for the chosen year.
+    // On a phone the chip wraps, so innerText can put a line break after "HSC".
     for (const text of onTexts) {
       expect(text, `question without a ${YEAR} past-HSC chip: ${text}`).toMatch(
-        new RegExp(`HSC ${YEAR}\\b`)
+        new RegExp(`HSC\\s+${YEAR}\\b`)
       );
     }
     await closePicker(page);

@@ -235,6 +235,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
+      playwright: ${{ steps.pw.outputs.version }}
     steps:
       - uses: actions/checkout@v4
 
@@ -246,6 +247,14 @@ jobs:
         id: matrix
         run: echo "matrix=$(node scripts/e2eMatrix.mjs "${{ github.event_name }}")" >> "$GITHUB_OUTPUT"
 
+      # The Playwright version the lockfile pins. `npm ci` installs exactly this
+      # entry, so reading it here gives the version every e2e leg's container
+      # must match. A job's container image is fixed before any step runs, which
+      # is why it is read here and not from node_modules.
+      - name: Read the pinned Playwright version
+        id: pw
+        run: echo "version=$(node -p "require('./package-lock.json').packages['node_modules/@playwright/test'].version")" >> "$GITHUB_OUTPUT"
+
   e2e:
     name: E2E ${{ matrix.name }}
     # Pinned, not `ubuntu-latest`. That label is moving to Ubuntu 26.04, which
@@ -254,6 +263,21 @@ jobs:
     # "libicudata.so.74: cannot open shared object file". Move this forward
     # with a Playwright release that supports the newer image.
     runs-on: ubuntu-24.04
+    # The browsers come from Playwright's own image rather than from
+    # `playwright install`. The version is the one package-lock.json pins (see
+    # e2e-plan), so a Playwright upgrade moves the image with it. The image has
+    # each browser's system libraries baked in at build time. The old step
+    # apt-installed about sixty packages for WebKit (GStreamer, GTK 4, fonts) on
+    # every leg, and on a slow runner mirror the WebKit legs spent 45 to 50
+    # minutes in it while the tests took about ten. Nothing is fetched from apt
+    # now, so the browser cache is not needed either. The image is Ubuntu 24.04
+    # (noble), the release pinned above, so WebKit runs on the userland it was
+    # tested on.
+    container:
+      image: mcr.microsoft.com/playwright:v${{ needs.e2e-plan.outputs.playwright }}-noble
+      # Playwright's guidance for its image: share the host's IPC namespace, or
+      # Chromium can run out of shared memory and crash mid-run.
+      options: --ipc=host
     needs: e2e-plan
     # Not `needs: lint`. It used to be, so a failing lint stopped a full E2E run
     # being spent on it — but lint takes ~2 minutes and the E2E legs are the
@@ -275,33 +299,15 @@ jobs:
 
       - run: npm ci --legacy-peer-deps
 
-      # The Playwright version as actually installed, so the cache key below
-      # changes exactly when the browser build it pins would.
-      - name: Resolve Playwright version
-        id: pw
-        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
-
-      # One engine per leg, so a leg downloads (and caches) only the browser it
-      # will launch. They were ~1.3GB unpacked for all of them, fetched from
-      # scratch on every run before a test could start; now Chromium is one
-      # entry, WebKit another, Firefox a third, and a Chromium leg never waits
-      # for the WebKit download. The shared libraries live outside the cached
-      # directory, so a cache hit still installs those. The key names the runner
-      # image (`ImageOS`, e.g. ubuntu24): a browser built for one Ubuntu must
-      # never be restored onto another, where its shared libraries are missing.
-      - name: Cache Playwright browser
-        id: pw-cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: pw-${{ runner.os }}-${{ env.ImageOS }}-${{ steps.pw.outputs.version }}-${{ matrix.engine }}
-
-      - name: Install Playwright browser
+      # The image was chosen from package-lock.json in e2e-plan. This checks that
+      # the install agrees with it, so a mismatch fails here with its reason
+      # rather than as a missing browser partway through the run.
+      - name: Check the image matches the installed Playwright
         run: |
-          if [ "${{ steps.pw-cache.outputs.cache-hit }}" = "true" ]; then
-            npx playwright install-deps ${{ matrix.engine }}
-          else
-            npx playwright install --with-deps ${{ matrix.engine }}
+          installed="$(node -p "require('@playwright/test/package.json').version")"
+          if [ "$installed" != "${{ needs.e2e-plan.outputs.playwright }}" ]; then
+            echo "::error::Installed Playwright is $installed, but the container is v${{ needs.e2e-plan.outputs.playwright }}"
+            exit 1
           fi
 
       # `--project` and `--shard` pick this leg's slice. PW_SERVERS keeps the
