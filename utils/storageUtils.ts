@@ -139,7 +139,9 @@ import {
 // so every Preliminary and HSC dot point has at least one (330 questions, from 10).
 // 2.46.0: Business Studies Preliminary filled in: 254 new questions so every Year 11 dot point has two (695
 // questions, from 441).
-export const DATA_VERSION = '2.46.0';
+// 2.47.0: Biology filled in: the 2022 HSC paper as past questions (18), and app-written questions for every
+// Year 11 dot point and all but ten Year 12 dot points.
+export const DATA_VERSION = '2.47.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
