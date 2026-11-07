@@ -20,6 +20,9 @@
 - **Fixed (tooling).** `make_jobs.py` keyed focus-area outcomes by title alone, so Biology's two "Working
   scientifically" focus areas collided and Year 12 jobs got Year 11 outcomes; it now keys by year and title.
   `apply_patch.mts` flagged any word containing "todo" as a placeholder ("Diprotodon"); it now uses word boundaries.
+  `build_past.py` re-runs removed every id beginning `prompt-<prefix>-hsc-<year>-`, which also caught the app-written
+  questions `apply_patch.mts` names after a past question on the same dot point (`…-28b-n1`); it now removes only its
+  own ids. The 2022 section heading now matches the other years' format.
 - **Reference papers.** `data/referencePapers/biology-2022-paper-and-guidelines.json` holds the extract.
 
 ## [Unreleased] - 2026-11-07 (Business Studies: the Preliminary course filled in)
