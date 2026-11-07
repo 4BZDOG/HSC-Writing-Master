@@ -135,7 +135,9 @@ import {
 // Earth and Environmental Science, CAFS, Society and Culture, English Studies, EAL/D, Extension 1, History Extension.
 // 2.44.0: Community and Family Studies filled in: the 2022–2024 HSC papers as past questions (56), and 302 new
 // questions so every Year 11 and Year 12 dot point has at least one (375 questions, from 17).
-export const DATA_VERSION = '2.44.0';
+// 2.45.0: Society and Culture filled in: the 2022–2024 HSC papers as past questions (30), and 290 new questions
+// so every Preliminary and HSC dot point has at least one (330 questions, from 10).
+export const DATA_VERSION = '2.45.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

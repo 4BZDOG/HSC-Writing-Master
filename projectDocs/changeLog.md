@@ -1,5 +1,21 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-07 (Society and Culture: three more HSC papers and every dot point covered)
+
+- **Added (DATA_VERSION 2.45.0).** Society and Culture goes from 10 questions to 330, and from 167 empty dot points
+  to none.
+  - **Past HSC questions.** Every written-response part of the 2022, 2023 and 2024 papers (30 questions) joins the 2025
+    paper, built with `build_past.py` from verified extracts. NESA's sample answer is the full-mark sample wherever the
+    guideline prints one (16 parts). `check_past_questions.py` reports nothing across all four years. Review hedged a
+    2021 Census claim and corrected Hebrew to "an official language" of Israel.
+  - **New questions.** 290 app-written questions, two per dot point: 120 for the Preliminary course and 170 for the HSC
+    course, including all four depth studies. Each has a "Hypothetical:" scenario, an HSC-style ladder and three
+    samples, and passes `apply_patch.mts` and `must_use_check` with nothing reported.
+- **Fixed.** A Personal Interest Project dot point ended with "(see page 21)", a page reference to the syllabus
+  document that means nothing in the app; it is gone.
+- **Reference papers.** `data/referencePapers/society-and-culture-2022/2023/2024-paper-and-guidelines.json` hold the
+  extracts.
+
 ## [Unreleased] - 2026-11-07 (Community and Family Studies: three more HSC papers and every dot point covered)
 
 - **Added (DATA_VERSION 2.44.0).** Community and Family Studies goes from 17 questions to 375, and from 193 empty dot

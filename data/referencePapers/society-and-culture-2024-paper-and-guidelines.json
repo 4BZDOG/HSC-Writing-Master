@@ -1,0 +1,419 @@
+{
+  "year": 2024,
+  "course": "Society and Culture",
+  "papers": ["2024-hsc-society-and-culture.pdf"],
+  "skipped": [
+    {
+      "number": "1–8",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "9",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Justify TWO ways the researcher can improve the validity of their research.",
+      "stimulus": "A researcher investigated changes in Australia’s multicultural identity over time. They immediately designed and distributed a single question poll to 100 people aged 15 to 25 years old. Based on the results, the researcher concluded that Australia’s multicultural identity has strengthened over time. [Figure: Poll question: \"1. Rate the impact of ethnicity on your personal identity\" with answer options Minimal, Moderate, Extreme. Poll results: a pie chart with three segments labelled Extreme impact 17%, Moderate impact 62%, Minimal impact 21%.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a detailed justification of TWO ways the researcher can improve the validity of the research ; Effectively integrates reference to the stimulus"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a justification of TWO ways the researcher can improve the validity of the research ; Integrates reference to the stimulus"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of the ways the researcher can improve the validity of the research"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "A single poll is insufficient for a complex research investigation into national identity. A questionnaire with a range of open and closed questions should be used to gather data on a larger scale, making it more representative of the population. The poll question itself assumes that ethnicity affects personal identity. The question should be re-written without influencing answers and include the option for ‘no impact’. There may also be room for comments. Participants should be given the opportunity to elaborate on their responses, as qualitative evidence may support the quantitative data gathered.",
+      "answersCouldInclude": [
+        "Increasing sample size",
+        "Expanding age range",
+        "Collecting responses at different points in time",
+        "Using additional research methods to support the inquiry",
+        "Planning and piloting a questionnaire before distribution"
+      ]
+    },
+    {
+      "number": "10",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "In what ways has modernisation influenced progress in ONE country?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Demonstrates a high level understanding of the ways modernisation has influenced progress in ONE country ; Integrates detailed and relevant references to ONE country"
+        },
+        {
+          "marks": "6–7",
+          "text": "Demonstrates a thorough understanding of the ways modernisation has influenced progress in ONE country ; Integrates relevant reference(s) to ONE country"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound understanding of the ways modernisation has influenced progress in ONE country ; Integrates reference(s) to ONE country"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates some understanding of the ways modernisation has influenced progress in ONE country ; Makes reference to ONE country"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Modernisation is a dynamic social change process resulting from the diffusion and adoption of characteristics of more advanced societies. It involves social transformation where society advances technologically, while also updating cultural life.",
+        "Modernisation has influenced progress in Mexico in the following ways. It has:",
+        "exacerbated income inequality which has negatively influenced progress. While certain areas and industries have prospered, rural regions and some groups in the population have not benefited from the progress associated with modernisation.",
+        "facilitated urbanisation due to the prospects of employment and access to facilities in cities. Projects such as the Mexico City-Toluca intercity train and improvements in transportation networks have enhanced connectivity and mobility. However, rapid urbanisation has led to the growth of informal settlements (‘colonias populares’) on the outskirts of cities, which lack basic infrastructure, sanitation, and access to essential services.",
+        "led to advancements in women’s rights and gender equality in the public sphere. The leaders of the two major political parties are women; half of all national parliament seats and half of the government’s cabinet positions are held by women. However, at a micro level women continue to experience high rates of domestic violence and restrictions on their reproductive freedom."
+      ]
+    },
+    {
+      "number": "11(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare the roles of official and unofficial censorship in controlling popular culture. Support your answer with a micro level example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed comparison of the roles of official and unofficial censorship in controlling popular culture ; Effectively integrates a relevant micro level example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a comparison of the roles of official and unofficial censorship in controlling popular culture ; Integrates a relevant micro level example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some comparison of the roles of official and unofficial censorship in controlling popular culture ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of censorship and/or popular culture"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Both official and unofficial censorship control young people’s access to young adult fiction. Official censorship can limit access to popular cultures through bans and restrictions. For example, young readers can be denied access to Harry Potter books due to official age ratings or because libraries control individuals’ access to stock based on official content ratings. Similarly, parents often unofficially censor popular cultures that their children have access to. However, at the micro level, the role of unofficial censorship is minimised as children may share Harry Potter books and discuss them with peers at school, despite parental concerns about supernatural and age-appropriate content.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the interaction between mythology and paraphernalia in the perpetuation of ONE popular culture.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive analysis of the interaction between mythology and paraphernalia in the perpetuation of ONE popular culture ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough analysis of the interaction between mythology and paraphernalia in the perpetuation of ONE popular culture ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an analysis of the interaction between mythology and paraphernalia in the perpetuation of ONE popular culture ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of mythology and/or paraphernalia in ONE popular culture ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Mythology refers to a set of stories that arise from historical truths or fictional beliefs about the beginning of a popular culture. It also refers to the values that sustain consumer interaction and engagement.",
+        "Mythology is used to create familiarity between elements of a popular culture and society’s interest, in order to increase revenue and perpetuate the popular culture. Paraphernalia refers to items associated with popular culture that also support its consumption and therefore perpetuates the popular culture.",
+        "Mythological themes in Star Trek have led to the development of paraphernalia that keeps fans engaged with the science fiction genre and increases rates of consumption. The myths of quest and exploration are complemented by the sale of replica starships. This interaction promotes continued consumption.",
+        "Paraphernalia such as figurines and magazines allow fans to physically engage with archetypal characters such as Spock and Captain Kirk, who fit the stereotypes of a wise mentor and charismatic leader. When the idea of mythical heroes interacts with the production of paraphernalia, consumption in the science fiction genre is increased.",
+        "Star Trek cosplay allows fans to embody certain mythological personas. The purchase of costumes reinforces a collective consumer identity that perpetuates the popular culture.",
+        "Star Trek conventions perpetuate consumption of the popular culture as the converging of consumers in an organised setting facilitates the real time interaction of mythology and paraphernalia."
+      ]
+    },
+    {
+      "number": "12(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the influence of communication technologies on the expression of beliefs at the meso level of society. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed explanation of the influence of communication technologies on the expression of beliefs at the meso level of society ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an explanation of the influence of communication technologies on the expression of beliefs at the meso level of society ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of the influence of communication technologies on the expression of beliefs ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of communication technologies and/or expression of beliefs"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Communication technologies can directly influence the expression of beliefs at the meso level through the transmission of information across media. Totalitarianism, a political ideology and a form of government, seeks to control all aspects of citizens’ lives. In the contemporary context, totalitarian societies heavily censor communication technologies. Local media outlets disseminate propaganda and news stories that promote national interests and values. However, community groups have utilised communication technologies at the meso level to voice dissent against government order. Local online forums have been used to communicate plans for demonstrations. Additionally, encrypted apps are being used to exchange ideas.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "12(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the relationship between unique language and identity within ONE belief system or ideology.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive analysis of the relationship between unique language and identity within ONE belief system or ideology ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough analysis of the relationship between unique language and identity within ONE belief system or ideology ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an analysis of the relationship between unique language and identity within ONE belief system or ideology ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of unique language and/or identity in ONE belief system or ideology ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Hinduism, one of the world’s oldest religions, encompasses a wide range of philosophies, beliefs, rituals and traditions. The relationship between language and identity within Hinduism provides a framework for adherents. The implication of this is that all adherents have shared values, beliefs and customs. For example:",
+        "Sanskrit is the oldest sacred language, and has underlying significance in Hinduism. It is considered the language of the gods, and many Hindu rituals, mantras and texts are recited in Sanskrit, contributing to a sense of shared identity among Hindus.",
+        "different sacred texts containing language specific to Hinduism reflect different identities within the belief system. The Vedas is the oldest and most authoritative text in Hinduism and is written in Sanskrit; however, newer texts, such as The Kural and Bhagavad Gita, are written in different dialects which reflect Tamil and Gujarati cultural identities. Hence the philosophy of the belief system is preserved regardless of geographical location.",
+        "identities as manifested through rituals, traditions and cultural practices. Since Hinduism is practised across a vast and linguistically diverse subcontinent; festivals and rituals are often expressed in the languages of specific regions. However, the core meaning of festivals, such as Diwali, remains consistent, thus fostering a collective identity and connection among all Hindus."
+      ]
+    },
+    {
+      "number": "13(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare the concepts of ‘race’ and ethnicity. Support your answer with a macro level example of social exclusion.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed comparison of ‘race’ and ethnicity ; Effectively integrates a relevant macro level example of social exclusion"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a comparison of ‘race’ and ethnicity ; Integrates a relevant macro level example of social exclusion"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some comparison of ‘race’ and ethnicity ; Makes reference to a relevant example of social exclusion"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of ‘race’ and/or ethnicity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Both concepts of ‘race’ and ethnicity can be considered social constructs, and play a role in how individuals identify themselves and others. However, ‘race’ and ethnicity differ in several ways. Traditionally, ‘race’ is derived from biological differences, whereas a person may claim multiple ethnicities. Categorising people by ‘race’ has negative connotations due to historical, large scale exploitative actions of the past, such as colonialism and slavery. Ethnicity refers to the cultural expression and identification of people of different geographical areas, including their customs, history, language, and religion. For example, differences in ethnicity was a catalyst for the Rwandan genocide in 1994, where the Tutsi ethnic minority were systematically excluded and targeted.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the implications of power and stereotyping on the life course of ONE group within ONE country.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive assessment of the implications of power and stereotyping on the life course of ONE group within ONE country ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough assessment of the implications of power and stereotyping on the life course of ONE group within ONE country ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an assessment of the implications of power and stereotyping on the life course of ONE group within ONE country ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of power and/or stereotyping on the life course of ONE group within ONE country ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "New Zealand’s history of colonisation has significantly influenced stereotyping of the Māori people. These stereotypes and resulting power relations have implications for their life course, evidenced through:",
+        "limited social mobility progression through life stages. For example, overall lower levels of educational achievement and higher school dropout rates.",
+        "issues maintaining physical and mental health, as well as wairua (the soul), leading to shorter life expectancy and higher rates of chronic illnesses.",
+        "lack of recognition of the rich diversity within and between Māori communities. Stereotyping limits Māori power in enacting traditions and customs at key phases in the life course.",
+        "However, the power of Māori leaders has helped challenge negative stereotypes, assisting the group in progressing through the expected life course. For example:",
+        "the Korowai Oranga (Māori Health Strategy) aimed at improving the health and well-being of Māori communities through recognising the importance of cultural identity.",
+        "the development of culturally responsive curricula, support for Māori-focused education paths like Kōhanga Reo (early childhood education) and Wharekura (secondary schools), and scholarship programs for Māori students.",
+        "the Treaty of Waitangi Settlements working towards financial compensation, return of culturally significant land, and formal apologies for past breaches of the Treaty."
+      ]
+    },
+    {
+      "number": "14(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the social costs and benefits of nonconformity at the micro level of society. Support your response with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a detailed explanation of the social costs and benefits of nonconformity at the micro level of society ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an explanation of the social costs and benefits of nonconformity at the micro level of society ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of the social costs and benefits of nonconformity ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of the social costs and/or benefits of nonconformity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Nonconformity can carry significant social costs, such as isolation and professional risks, because it disrupts norms and group cohesion. Individuals who do not conform may be socially excluded. For example, a teenager who refuses to identify with their peers’ values and behaviours may be excluded from social gatherings, just as an employee who challenges an established dress code might be seen as unprofessional and overlooked for promotion. However, nonconformity can also benefit individuals and peer groups as it can catalyse positive change. For example, an individual who speaks out against harmful behaviours at parties might inspire others to rethink these practices.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the role of social cognition and gender in influencing conformity within ONE group.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive analysis of the role of social cognition and gender in influencing conformity within ONE group ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough analysis of the role of social cognition and gender in influencing conformity within ONE group ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an analysis of the role of social cognition and gender in influencing conformity within ONE group ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding of social cognition and/or gender within ONE group ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "The social cognition that allows individuals to understand the nature of nonconformist behaviours within the drag community, and the collective practice of challenging gender norms, promotes conformity within the subcultural group.",
+        "Drag subcultures use social cognition to redefine gender norms for the individual and the group. This is experienced by members performing in established drag communities and aspiring newcomers who use the media and TV shows to understand gender practices.",
+        "Gender expression in drag often involves adherence to performative or subverted gender traits, reinforcing the subculture’s standards.",
+        "Performers engage in cognitive processes that re-evaluate traditional gender roles and lead to productive fluidity and cohesion within the community.",
+        "Social cognition within drag communities often leads to collective decision-making about what is valued in gender performance, thus shaping conformity to certain styles or aesthetics. For example, presenting an exaggerated hourglass figure through padding and corsetry. Performers who do not conform to these body standards might face criticism or exclusion.",
+        "In competitions, drag performers are often judged based on their adherence to certain standards of femininity, performance, and fashion. This can encourage conformity as performers aim to meet these criteria to win titles and recognition."
+      ]
+    }
+  ]
+}
