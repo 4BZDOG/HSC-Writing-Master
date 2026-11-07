@@ -103,9 +103,12 @@ const checkPrompt = (p: any, where: string, strict: boolean) => {
       if (miss.length) err(where, `full-mark answer lacks must-use terms: ${miss.join('; ')}`);
     }
   }
+  // Count words as tests/unit/seedAnswerBandAndGuides.test.ts does (split on whitespace), so a figure such as
+  // "$180,000" is one word here too; the token regex would split it in two and pass a patch the test rejects.
+  const lengthOf = (x: string) => x.trim().split(/\s+/).filter(Boolean).length;
   const byMark = [...sa].sort((x: any, y: any) => y.mark - x.mark);
   for (let i = 1; i < byMark.length; i++)
-    if (wordsOf(byMark[i].answer).length > wordsOf(byMark[i - 1].answer).length)
+    if (lengthOf(byMark[i].answer) > lengthOf(byMark[i - 1].answer))
       err(
         where,
         `${byMark[i].mark}-mark sample is longer than the ${byMark[i - 1].mark}-mark sample`

@@ -12,6 +12,10 @@
     real businesses named. One author had covered 1 of its 9 dot points and was sent back to finish.
   - **Fixed.** An existing Year 12 human resources answer (`prompt-bs-146-n1`) lacked the term "human resource
     management" that its dot point requires; `must_use_check` now reports nothing outside NESA's own past questions.
+  - **Fixed (tooling).** `apply_patch.mts` counted sample lengths with its token regex, which splits "$180,000" in
+    two, while `seedAnswerBandAndGuides.test.ts` splits on whitespace. A 2-mark sample full of figures therefore passed
+    the validator but failed the test (`prompt-bs-11-3-6-19-n0`, now shortened). The validator now counts as the test
+    does.
 
 ## [Unreleased] - 2026-11-07 (Society and Culture: three more HSC papers and every dot point covered)
 
