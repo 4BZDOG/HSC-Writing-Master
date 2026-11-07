@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-07 (Business Studies: the Preliminary course filled in)
+
+- **Added (DATA_VERSION 2.46.0).** Business Studies goes from 441 questions to 695. Its 127 Year 11 dot points (Nature
+  of business, Business management, Business planning) had none; each now has two, a 3–4 mark question and a 5–6 mark
+  question, with a "Hypothetical:" scenario, an HSC-style ladder and three samples. Every batch passes
+  `apply_patch.mts` with no errors or warnings. The HSC course already carries the 2020–2025 papers as past questions,
+  so no papers were added.
+  - **Review.** Every calculation answer (cash flow, balance sheet, income statement, break-even, contribution,
+    forecasting, loan cost) was checked by hand, as were the ABS employee bands for small and medium businesses and the
+    real businesses named. One author had covered 1 of its 9 dot points and was sent back to finish.
+  - **Fixed.** An existing Year 12 human resources answer (`prompt-bs-146-n1`) lacked the term "human resource
+    management" that its dot point requires; `must_use_check` now reports nothing outside NESA's own past questions.
+
 ## [Unreleased] - 2026-11-07 (Society and Culture: three more HSC papers and every dot point covered)
 
 - **Added (DATA_VERSION 2.45.0).** Society and Culture goes from 10 questions to 330, and from 167 empty dot points
