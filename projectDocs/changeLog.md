@@ -1,5 +1,31 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-07 (Legal Studies: every dot point covered)
+
+- **Added (DATA_VERSION 2.49.0).** Legal Studies goes from 341 questions to 607. It also goes from 133 empty dot
+  points to none: all 119 in Year 11 were empty, plus the 14 Legal themes and skills dot points in Year 12. Each gains
+  two app-written questions with a "Hypothetical:" scenario, an HSC-style ladder and three samples. Every batch passes
+  `apply_patch.mts` and `must_use_check` with nothing reported.
+  - **Review.** Three legal accuracy reviews checked that every statute, case, treaty, court and body is real,
+    correctly named, in the right jurisdiction and current. Errors fixed:
+    - two weeks' notice was presented as lawful after 20 years' service (the Fair Work Act requires four weeks), so
+      the scenario now sits in a fictional country;
+    - regulations were said to be made by a minister (in NSW, the Governor makes them);
+    - a murder answer took "intention to hurt" as its mental element, when murder requires an intention to kill or to
+      cause grievous bodily harm, and anything less points to manslaughter;
+    - NCAT was said to keep matters private, when its hearings and decisions are generally public;
+    - an existing NSW support-person requirement in police questioning was presented as a future reform;
+    - lost income was classed as a personal barrier rather than a financial one.
+
+    About 20 answers were made more precise. Examples: the land rights claim process now names the Registrar, the
+    Minister and the Land and Environment Court; the right to negotiate now includes the National Native Title Tribunal
+    step; doli incapax is distinguished from evolving capacity; and a referendum is said to need a double majority.
+
+- **Fixed (tooling).** `make_jobs.py` now matches focus-area titles regardless of case, spacing and "(core)" /
+  "(option)" labels. Some Legal Studies jobs had gone out with no outcomes because NESA writes "Case study 2: ONE
+  group in society" where the course has "One group". Where NESA lists no outcomes (Legal themes and skills), the jobs
+  carried the course outcomes for that year.
+
 ## [Unreleased] - 2026-11-07 (Economics: every dot point covered)
 
 - **Added (DATA_VERSION 2.48.0).** Economics goes from 277 questions to 567, and from 145 empty dot points (all 134 in

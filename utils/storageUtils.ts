@@ -143,7 +143,9 @@ import {
 // Year 11 dot point and all but ten Year 12 dot points.
 // 2.48.0: Economics filled in: 290 new questions so every Year 11 and Year 12 dot point has at least one (567
 // questions, from 277).
-export const DATA_VERSION = '2.48.0';
+// 2.49.0: Legal Studies filled in: 266 new questions so every Year 11 and Year 12 dot point has at least one (607
+// questions, from 341).
+export const DATA_VERSION = '2.49.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
