@@ -15,9 +15,17 @@ c = json.load(open(os.path.join(REPO, 'public/courseData', course_file)))
 c = c[0] if isinstance(c, list) else c
 # a course can repeat a focus area's title across years (Biology's "Working scientifically" in Year 11 and 12), so
 # outcomes are keyed by year and title; a focus area without a year still matches by title alone
+# titles are compared loosely: case, spacing (including non-breaking spaces) and the "(core)" / "(option)" and
+# "Option:" labels differ between NESA's page data and the course ("Case study 2: ONE group" against "One group")
+def _key(title):
+    s = re.sub(r'\s+', ' ', title.replace('\xa0', ' ')).strip().casefold()
+    s = re.sub(r'^option:\s*', '', s)
+    return re.sub(r'\s*\((core|option)\)$', '', s)
+
+
 _fas = json.load(open(nesa_path))
-outs = {(fa.get('year'), fa['title']): fa['outcomes'] for fa in _fas}
-outs.update({(None, fa['title']): fa['outcomes'] for fa in _fas if (None, fa['title']) not in outs})
+outs = {(fa.get('year'), _key(fa['title'])): fa['outcomes'] for fa in _fas}
+outs.update({(None, _key(fa['title'])): fa['outcomes'] for fa in _fas if (None, _key(fa['title'])) not in outs})
 os.makedirs(out, exist_ok=True)
 jobs, carry = [], []
 for t in c['topics']:
@@ -28,7 +36,7 @@ for t in c['topics']:
         for dp in st['dotPoints']:
             if not dp['prompts']:
                 todo.append({'dpId': dp['id'], 'year': year, 'course': c['name'], 'topic': t['name'], 'subTopic': st['name'],
-                             'description': dp['description'], 'focusAreaOutcomes': outs.get((t.get('year', 'year12'), t['name']), outs.get((None, t['name']), []))})
+                             'description': dp['description'], 'focusAreaOutcomes': outs.get((t.get('year', 'year12'), _key(t['name'])), outs.get((None, _key(t['name'])), []))})
     while todo:
         take = min(per, len(todo))
         if len(todo) - take < 4: take = len(todo)
