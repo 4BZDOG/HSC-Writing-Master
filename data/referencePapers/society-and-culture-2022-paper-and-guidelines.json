@@ -1,0 +1,409 @@
+{
+  "year": 2022,
+  "course": "Society and Culture",
+  "papers": ["2022-hsc-society-and-culture.pdf"],
+  "skipped": [
+    {
+      "number": "1–8",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "9",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Distinguish between evolutionary change and transformative change. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Clearly shows differences between evolutionary social change and transformative social change ; Presents a coherent response that uses a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines evolutionary social change and transformative social change ; May use an example"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to social change ; May mention an example"
+        }
+      ],
+      "sampleAnswer": "Evolutionary change is a process of change that slowly alters the institutions, or social roles in a society, whereas transformative change is profound, permanent and broad-based social change that completely alters existing structures in society. Evolutionary change can take decades or centuries, for example the pursuit of gender equality. However, transformative change may occur more quickly, such as the 1967 Referendum that led to constitutional change in Australia.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "10",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 9,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the suitability of ONE social theory in explaining continuity in a country you have studied. Refer to ONE of the following aspects of the country:\n• Beliefs, values and lifestyles\n• Education\n• Family life and population changes\n• Gender roles and the status of men and women\n• The legal system and political processes.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "9",
+          "text": "Makes informed judgement(s) about the suitability of a social theory in explaining continuity for ONE aspect in ONE country ; Effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–8",
+          "text": "Makes judgement(s) about the suitability of a social theory in explaining continuity for ONE aspect in ONE country ; Integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "5–6",
+          "text": "Attempts to make judgement(s) about the suitability of a social theory in explaining continuity for ONE aspect in ONE country ; Supports the response with example(s) ; Presents an organised response using course concepts"
+        },
+        {
+          "marks": "3–4",
+          "text": "Describes a social theory and/or social continuity ; May use example(s) ; Includes course concepts"
+        },
+        {
+          "marks": "1–2",
+          "text": "Shows limited understanding of a social theory and/or social continuity ; May use course concepts"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Functionalist theory is highly effective in explaining social continuity because it focuses on how institutions work to achieve a dynamic equilibrium within society. This balance comes from the interactions between persons, groups and networked communities performing roles which fulfil the needs of society in order to maintain its smooth functioning. The strength of this theory is that it helps us to understand social order and continuity, as every institution enforces the beliefs, values, and lifestyles of the society.",
+        "In India, for example functionalist theory:",
+        "Aptly accounts for the existence of the caste system over many centuries, prescribing numerous aspects of Hindu religious and social life. The clear roles of each caste contribute to the maintenance of social order and stability.",
+        "Highlights the importance of specialised roles and duties in maintaining social hierarchies. The Brahmins are leaders, educators and wise men; the Shudra perform labouring and agricultural duties; and the Dalits are responsible for sanitation and disposal of waste.",
+        "Draws attention to the significance of each caste adhering to the Hindu beliefs, values, and lifestyles, such as patriarchal attitudes and the continued emphasis on male status.",
+        "Is inadequate in addressing reasons for adopting technology, however it does address continual adjustments in society associated with technology in the forms of increased social mobility and affluence of the middle class."
+      ]
+    },
+    {
+      "number": "11(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How do heroes influence the consumption of ONE popular culture? Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough explanation of how heroes influence the consumption of ONE popular culture ; Presents a cohesive response that effectively integrates relevant example(s) ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of how heroes influence the consumption of ONE popular culture ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of how heroes influence the consumption of ONE popular culture ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines heroes and/or consumption and/or popular culture ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to heroes or consumption or popular culture ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Heroes in anime directly influence global consumption because they popularise values and beliefs. Heroes are synonymous with fighting evil, defending the innocent and transforming identity. Each hero has special powers that inspire consumers and transcend cultural barriers, therefore increasing global consumption through clever marketing and paraphernalia.\n\nFor example, the female anime hero Sailor Moon was deliberately created without a feminist agenda, portraying both strength and femininity through her wide eyes. She represented the values of intelligence, persistence and physical weakness in a ‘pretty soldier’ animation. These characteristics resonated with younger and older audiences, therefore perpetuating consumption. The global anime market is expected to grow at an annual growth rate of 9.5% from 2021 to 2028 and worth $67.5 billion by 2028.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse the relationship between ONE popular culture and social change.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a thorough analysis of the relationship between ONE popular culture and social change ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a sound analysis of the relationship between ONE popular culture and social change ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some analysis of the relationship between ONE popular culture and social change ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes ONE popular culture and social change ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of popular culture and/or social change ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Korean pop (K-pop) is a music genre that has grown in popularity through social media and international music platforms. Changes in social perceptions of this competitive music industry, significant government support and television stations that actively recruit new K-pop stars have contributed to social change. For example:",
+        "K-pop has redefined gender roles through the popularisation and adoption of lyrics and heroes that challenge conservative values and beliefs. The band SHINee, with androgynous singer Amber, is a catalyst for the redefining gender movement. Through Amber’s gender-neutral clothing, short haircut and lyrics, she reconstructs traditional notions of gender.",
+        "K-pop has influenced the consumption of paraphernalia such as cosmetics. Male K-pop stars embrace make-up as part of their identity and it is now seen as an integral feature of this music genre. South Korea buys four times more male cosmetics than any other country in the world, challenging the older generation’s gender stereotypes and expressing contemporary social values.",
+        "Fans of K-pop are increasingly global and represent minority groups including Black, Latino and LGBTQI+ who connect via online platforms and social media. This sense of connection and shared experience is reinforced by many K-pop artists, like the group BTS, who tend to write progressive lyrics that focus on self-love and social consciousness.",
+        "K-pop groups and their fans are able to mobilise quickly, engaging in online activism. They have supported human rights campaigns and education programs. Through Facebook, Twitter and YouTube hashtag campaigns, the BTS ARMY (fan group) raised over $1 million for Black Lives Matter, matching BTS’s own $1 million donation."
+      ]
+    },
+    {
+      "number": "12(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How are values and ways of perceiving the world expressed by ideologies? Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough explanation of how values and ways of perceiving the world are expressed by ideologies ; Presents a cohesive response that effectively integrates relevant example(s) ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of how values and ways of perceiving the world are expressed by ideologies ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of how values and ways of perceiving the world are expressed by ideologies ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines ideologies and/or values and/or ways of perceiving the world ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to ideologies or values ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Ideologies such as environmentalism and Confucianism are large systems of ideas, values and beliefs created and shared by people. Ideologies and their value systems shape how people think and perceive what the world needs for stability.\n\nEnvironmentalism expresses the values of conservation, preservation and protection through focusing on the relationship between social progress and sustainability. For example, environmentalists seek to protect fragile environments such as ancient forests from development and exploitation.\n\nConfucianism is an ancient Chinese ideology that strongly values respect, loyalty and obedience. The system of ethics inherent in Confucianism informs adherents’ ways of perceiving the world to strengthen family relationships and social cohesion through the acknowledgement of hierarchy and preservation of social order.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "12(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent has the significance of rituals, symbols and customs changed over time in ONE belief system or ideology?",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes well-informed judgements about the significance of rituals, symbols and customs over time within ONE belief system or ideology ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgements about the significance of rituals, symbols and customs over time within ONE belief system or ideology ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement(s) about the significance of rituals, symbols and customs over time within ONE belief system or ideology ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes rituals and/or symbols and/or customs over time within ONE belief systems or ideology ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of a belief system or ideology ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Shinto is the indigenous belief system of Japan with a focus on kami, the way of the gods. The belief in kami is seen in the relationship between the environment, the seasons and the Japanese people. After World War II the belief in kami unified the people with the desire for peace and harmony. Rituals, symbols and customs have created cultural continuity.",
+        "Shintoism has survived throughout the social changes in Japanese history and is still the centre of rituals and community festivals today. Traditional purification rituals involving water are held twice a year and at times of national disasters to purge the entire country from sins and impurities. This is crucial in building national unity and maintaining peace. Modern Shintoists believe that the maintenance of these rituals will meet the needs of Japanese people in their daily life.",
+        "A well-known symbol of Shinto is the torii gate that stands at the entrance of a Shinto shrine. Torii gates are significant as they divide the sacred area from the secular area. Other symbols usually nearby are a pair of sacred stone animals such as Korean dogs or Chinese lions that serve to protect the sacred buildings from evil. Today these symbols are used for ornamental purposes on ceremonial occasions. The significance of these symbols has been emphasised and commercialised over time through international tourism and social media. This has popularised Shintoism.",
+        "The custom of presenting food offerings is integral to Shintoism because it reflects the reverence of adherents toward the kami. Adherents offer rice, sake wine, rice cakes, fish, seaweed, vegetables, salt and water. Over time the custom of food offerings has changed from cooked to uncooked food and from entertaining kami to that of giving thanks.",
+        "So significant is Shinto to Japanese society that it underpins both the personal and political system resulting in unity and harmony."
+      ]
+    },
+    {
+      "number": "13(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can access to socially valued resources influence an individual’s life chances? Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough explanation of how access to socially valued resources can influence an individual’s life chances ; Presents a cohesive response that effectively integrates relevant example(s) ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of how the access to socially valued resources can influence an individual’s life chances ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of how access to socially valued resources can influence an individual’s life chances ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines socially valued resources and/or life chances ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to socially valued resources or life chances ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Socially valued resources (SVRs) are those considered essential for individuals and groups to participate fully and equally in society. ‘Life chances’ refers to opportunities for groups such as youth, women and religious or ethnic minorities to advance in society in relation to educational attainment, good health, financial reward and social mobility. Access to SVRs increases one’s life chances.\n\nFor example, lack of access to adequate housing for youth can influence an individual’s life chances as it may mean they become trapped in the poverty cycle. One third of homeless people in Australia are under 18 years old. They are more likely to become homeless because they often experience challenges in gaining access to long-term accommodation, have lower incomes and are greatly affected by the shortage of affordable housing in Australia. This can impact access to employment and future opportunities, therefore limiting life chances and may perpetuate an intergenerational poverty cycle.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse how the perceptions held towards ONE group influence the prejudice and discrimination faced by that group.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a thorough analysis of how the perceptions held towards one group influence prejudice and discrimination faced by that group. ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a sound analysis of how the perceptions held towards one group influence prejudice and discrimination faced by that group. ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides some analysis of how the perceptions held towards one group influence prejudice and discrimination faced by that group. ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes perceptions of ONE group and prejudice and/or discrimination ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of ONE group and/or prejudice and/or discrimination ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Approximately 180 000 people in Kyrgyzstan live with disability and they are deeply stigmatised. Perceptions of people with disabilities are perpetuated through inaccurate stereotypes such as being inferior and deformed. These perceptions stemmed largely from Soviet-era policies that kept people with disabilities at home and ‘invisible.’ As a result, this group continue to experience social exclusion and endure prejudice and discrimination daily.",
+        "For example:",
+        "‘Invisibility’ of people living with disability, has meant slow progress towards equality and the attainment of human rights. Whilst Kyrgyzstan is publicly committed to fully integrating people living with disabilities into the community, as required by article 19 of the UN Convention on the Rights of Persons with Disabilities, in the capital Bishkek, most buildings lack ramps, accessible toilets and other infrastructure. Provincial cities lag behind the capital in their ‘disability friendly’ facilities.",
+        "The perception of ‘inferiority’ has meant that access to socially valued resources, such as health, housing, education and employment, is not prioritised for people living with disability. Women and children living with disability suffer extremely high levels of discrimination, violence, extreme poverty and poor health.",
+        "Even the perception of parents of children with disability has led to prejudice, discrimination and restricted social mobility. Parents are not viewed as a powerful self-advocacy group with enough traction to change government policy and practice, because they are seen as recipients rather than partners in social, medical and educational spheres. Family support is limited and inclusive education is underdeveloped.",
+        "According to UNICEF, medical interventions to ‘fix’ impairments, rather than a social model of inclusion, still prevails in Kyrgyzstan and influences those caring for children with disabilities. Human Rights Watch (HRW) reported in 2020 that children were segregated within institutions, according to their disability."
+      ]
+    },
+    {
+      "number": "14(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can values determine the boundaries between appropriate and inappropriate behaviours? Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough explanation of how values determine the boundaries between appropriate and inappropriate behaviours ; Presents a cohesive response that effectively integrates relevant example(s) ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of how values determine the boundaries between appropriate and inappropriate behaviours ; Presents a logical response that applies relevant example(s) ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of how values determine boundaries between appropriate and inappropriate behaviours ; Presents an organised response that uses example(s) ; Uses relevant course concepts and language"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines values and/or appropriate and/or inappropriate behaviours ; Refers to example(s) ; Refers to course concepts and/or language"
+        },
+        {
+          "marks": "1",
+          "text": "Refers to values or behaviours ; May use an example or course concept"
+        }
+      ],
+      "sampleAnswer": "Values are deeply held ideas and beliefs that guide our thinking, language and behaviour. It is only when values are challenged through nonconformity, that the boundary between what is considered appropriate and what is not appropriate, becomes apparent.\n\nFor example, homosexuality in Australia was once considered to be deviant. Homosexuality challenged traditional Judeo-Christian values and highlighted a social boundary that determined such a ‘lifestyle’ was not acceptable.\n\nIn contemporary Australia, values have changed, indicating a shift from a heteronormative society to a more pluralist society where numerous views, behaviours and approaches to gender and sexuality are accepted. In fact, it has become not just inappropriate but illegal to discriminate against homosexuality.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the effects of positive and negative interactions between ONE group and the wider society.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Makes well-informed judgements about the effects of positive and negative interactions between ONE group and wider society ; Supports the response with a wide range of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Makes judgements about the effects of positive and negative interactions between ONE group and wider society ; Supports the response with detailed and accurate information and integrates examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Attempts to make a judgement(s) about the effects of positive and negative interactions between ONE group and wider society ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Describes the positive and/or negative interactions between ONE group and wider society ; May use example(s) ; Includes course concepts and/or language"
+        },
+        {
+          "marks": "1–3",
+          "text": "Shows a limited understanding of ONE group’s interactions with society ; May use course concepts and/or language"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Patriots Australia was established in 1993 as a motorcycle club for serving and former members of the Australian defence forces. Members follow the Australian Defence Force’s rules, guidelines and code of conduct. Patriots are interested in riding and sharing their experiences, and advocating for issues unique to the veteran community.",
+        "Some positive interactions include:",
+        "Members being thanked in the street for their service. This contributes to group cohesion, acknowledging the values of the military and seeking to maintain camaraderie and support for servicemen and servicewomen. Widely viewed as a positive social group, the Patriots have branched out, with chapters across Australia, New Zealand, the United States and Canada.",
+        "Advocating and raising awareness for the unique experiences and welfare concerns of serving and veteran military personnel. Patriots Australia links with a range of other groups and government organisations, like the Defence Force Welfare Association, to build a network of support and fundraise for mental health, tackling issues such as depression and suicide that proportionately affect the veteran community. Due to this positive interaction, membership has an increased appeal among young veterans and returning servicemen to socialise with like-minded individuals.",
+        "Some negative interactions include:",
+        "Being perceived as a ‘bikie gang’. This has resulted in inaccurate stereotypes, because bikie gangs are illegal and create a sense of fear in wider society. However the Patriots are a legal motorcycle club but have been prevented from entering some clubs and other establishments.",
+        "Misinterpretation of the Patriot logo which is comprised of a skull and swords. Widespread meaning of a skull symbol is death, yet the Patriots use it to symbolise sacrifice of their ‘brothers in arms’."
+      ]
+    }
+  ]
+}

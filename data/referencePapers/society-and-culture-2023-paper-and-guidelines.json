@@ -1,0 +1,408 @@
+{
+  "year": 2023,
+  "course": "Society and Culture",
+  "papers": ["2023-hsc-society-and-culture.pdf"],
+  "skipped": [
+    {
+      "number": "1–8",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    }
+  ],
+  "questions": [
+    {
+      "number": "9",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the effect of westernisation on cultural continuity. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough explanation of the effect of westernisation on cultural continuity ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of the effect of westernisation on cultural continuity ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some explanation of the effect of westernisation on cultural continuity ; Makes reference to an example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of westernisation and/or continuity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Westernisation can affect the ability of a society to preserve its own cultural traditions and prevent carrying forward the customary ways of daily life.\n\nFor example, traditional aspects of collectivist Japanese culture, such as identity, beliefs and values, continue to influence social norms and structures. However due to constant exposure to individualist Western ideas about choice and empowerment, family structures are slowly changing, with more young people choosing a career over marriage and children.\n\nCultural diffusion through globalisation, tourism, and technology has affected the continuity of material aspects of Japanese culture such as food, fashion and music because they can easily be consumed, adopted and imported from the ‘West’.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "10",
+      "section": "I",
+      "sectionHeading": "Section I — Social and Cultural Continuity and Change",
+      "marks": 7,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "To what extent has resistance to social change influenced progress in ONE country?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Makes a well-informed judgement about resistance to social change influencing progress in ONE country ; Integrates a detailed reference to ONE country"
+        },
+        {
+          "marks": "5–6",
+          "text": "Makes a judgement about resistance to social change influencing progress in ONE country ; Integrates reference to ONE country"
+        },
+        {
+          "marks": "3–4",
+          "text": "Demonstrates a sound understanding about resistance to social change influencing progress in ONE country ; Makes reference to ONE country"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates some understanding of resistance to social change and/or progress"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Resistance to social change is common when individuals and groups benefit from maintaining the status quo. Iran, under strict Islamic rule since 1979, has resisted global trends towards gender equality. Government censorship in education and professions demonstrates widespread resistance to modernisation, leading to significant emigration of skilled professionals and hindering economic progress. Despite this, segments of Iranian society, including youth and women, persistently protest outdated government policies. In response to increased enforcement by the ‘morality police’ regarding gender roles and dress codes, powerful demonstrations have emerged. Women have burned hijabs, danced and cut their hair — a symbol of progress and freedom that the government actively opposes.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify the use of content analysis when researching trends in popular culture. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough justification of the use of content analysis when researching trends in popular culture ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound justification of the use of content analysis when researching trends in popular culture ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some justification of the use of content analysis when researching trends in popular culture ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of content analysis and/or popular culture"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Content analysis is appropriate for researching trends in popular culture because it yields both qualitative and quantitative data. It is reliable and accurately captures the prevalence of contemporary issues.\n\nBehaviours such as misogyny and sexism can be detected in multiple social media platforms through systemically analysing the nature of content and the frequency of consumers’ exposure to these themes. Trending themes can be detected through tallying the number of likes, hashtags, and comments related to anti-feminist posts.\n\nStudies could be replicated using the same content analysis coding sheet across multiple platforms to ensure reliability in determining the capacity of social media to influence consumer perceptions about gender equality.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "12(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify the use of interviews when researching a contemporary issue in a belief system or ideology. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough justification of the use of interviews when researching a contemporary issue in a belief system or ideology ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound justification of the use of interviews when researching a contemporary issue in a belief system or ideology ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some justification of the use of interviews when researching a contemporary issue in a belief system or ideology ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of the use of interviews and/or belief system or ideology"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Interviews allow participants to share their expertise, experience or viewpoint about climate change. Although the qualitative data collected is not necessarily representative of the broader population, conducting a variety of interviews with individuals (from similar or diverse backgrounds) can reveal different perspectives.\n\nWhile an interview with an environmentalist such as Greta Thunberg or Tim Flannery may be time consuming, the expert knowledge and deep explanation they provide can increase awareness of the need for effective environmental management.\n\nThe results of the interview can be used to better understand and communicate the core beliefs and values of environmentalism and what actions can be taken to achieve ecological sustainability.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "13(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify the use of data analysis when researching social inclusion. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough justification of the use of data analysis when researching social inclusion ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound justification of the use of data analysis when researching social inclusion ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some justification of the use of data analysis when researching social inclusion ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of data analysis and/or social inclusion"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The utilisation of data analysis as a research approach for investigating access to health care, a socially valued resource, is justified as it enables the identification of trends and facilitates the formulation of recommendations to enhance its accessibility for a larger population.\n\nFor example, data from the Census, Australian Institute of Health and Welfare (AIHW) and community surveys can be analysed and used to improve the nature and location of health services for isolated rural families.\n\nDetecting trends in data assists institutions to make informed decisions. Enhanced social inclusion for isolated rural families would mean being in closer proximity to appropriate medical services and having a higher number of doctors per 100 people.\n\nEvaluation data can then be analysed to measure the efficiency of such health provisions.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "14(a)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Justify the use of observation when researching a contemporary issue related to nonconformity. Support your answer with a relevant example.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough justification of the use of observation when researching a contemporary issue related to nonconformity ; Effectively integrates a relevant example"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound justification of the use of observation when researching a contemporary issue related to nonconformity ; Integrates a relevant example"
+        },
+        {
+          "marks": "3",
+          "text": "Provides some justification of the use of observation when researching a contemporary issue related to nonconformity ; Makes reference to a relevant example"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates a limited understanding of observation and/or nonconformity"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Observation allows for the systematic measurement of identified behaviours in a social research situation although, it does not address the reasons, values, motivations and beliefs associated with these behaviours.\n\nFor example, a Sydney football club’s supporters have been reported by the media to engage in illegal and highly dangerous acts at football matches. By tallying the frequency of anti-social behaviours such as lighting flares, damaging stadiums and disrupting games, trends in observation data could predict whether these behaviours are likely to detrimentally affect future competitions.\n\nHowever, the researcher may become ethically compromised during the observation of deviant behaviours because they may be seen as complicit.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "11(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the significance of both conflict and continuity in the development of ONE popular culture.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive assessment of the significance of both conflict and continuity in the development of ONE popular culture ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough assessment of the significance of both conflict and continuity in the development of ONE popular culture ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an assessment of the significance of conflict and/or continuity in the development of ONE popular culture ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding about the significance of conflict and/or continuity in ONE popular culture ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "The enduring conflict between skateboarding culture and wider society, fuelled by the rejection from stakeholders like families and local communities, holds immense significance in shaping its development. This clash has not only disrupted the path of skateboarding but has also sparked a cultural rebellion intertwined with punk ideologies. Furthermore, the continuous presence of innovation within this conflict has propelled the evolution of skateboarding as a profound cultural phenomenon.",
+        "For example:",
+        "Skateboarding culture represents a youth activity that embraces anti-establishment values. In the 1950s, skateboarding was a way for surfers to ride when the conditions in the ocean were not ideal. The California-based Z-Boys broke into houses and drained pools then rode in them, creating an association between skateboarding, trespassing and rebellion, contributing to development of skateboarding mythology",
+        "Consumers faced conflict as skateboarding became connected to the punk scene, which had a strong connection to drugs. In the 1980s, Tony Hawk, a skateboarding hero and anti-drug advocate, avoided the punk label. This resulted in a conflict between fellow hero, Christian Hosoi, and Hawk with two very different styles on and off the skate park",
+        "Continuous technological innovation has been extremely significant to skateboarding. In 1969, Larry Stephens invented the kicktail board. In 1972 Frank Nasworthy invented urethane wheels, and in 1976, the first artificially created skate park was inaugurated and parks emerged with new vertical ramps and kickers. Following this, mega-ramps, backyard skate parks and iPhone apps that automatically locate skate spots have made it even easier to skateboard without fear of trespassing or police pursuit. Significantly also, the continuity of innovation by skaters, such as different rider styles, tricks, and personal protective equipment has driven the development of the pop culture."
+      ]
+    },
+    {
+      "number": "12(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate the impact of both time and institutional power on adherents of ONE belief system or ideology.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive evaluation of the impact of both time and institutional power on adherents of ONE belief system of ideology ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough evaluation of the impact of both time and institutional power on adherents of ONE belief system of ideology ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an evaluation of the impact of time and/or institutional power on adherents of ONE belief system of ideology ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding about the impact of time and/or institutional power and/or adherents of ONE belief system or ideology ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "Australian Aboriginal spiritualities are the sacred beliefs that give meaning to all aspects of life for Aboriginal peoples. Institutional power, stemming from government agencies and legislation, has influenced the number of adherents to traditional religions over time.",
+        "Throughout Australian history, successive governments applied social policies and laws that adversely affected Aboriginal people and their freedom of spiritual expression. The declaration of terra nullius resulted in the beginning of the dispossession and disconnection between Aboriginal people, country and customary spiritual practices",
+        "According to the 2021 Census, 7887 people practised ‘Australian Aboriginal customary belief systems’. This has declined over time from 8076 in 2016. There has also been a growth in Aboriginal people claiming to have ‘no religion’",
+        "This gradual change could be linked to the long-term impact of colonialism and the introduction of Christianity. This is compounded by other processes that influence adherents, including secularisation and modernisation",
+        "However, emerging concern about the loss of Aboriginal languages and cultures has led to an increase in social interest in Aboriginal spiritualties",
+        "Aboriginal spirituality is closely tied to sovereignty over ancestral lands. The Uluru Statement of the Heart (2017) calls for constitutional change and structural reform to society for greater recognition of Aboriginal beliefs and values. This appeal to institutional power aims to enhance Aboriginal people’s spiritual freedom and expression."
+      ]
+    },
+    {
+      "number": "13(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the influence of both authority and social differentiation on the future of ONE group.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive assessment of the influence of both authority and social differentiation on the future of ONE group ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough assessment of the influence of both authority and social differentiation on the future of ONE group ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an assessment of the influence of authority and/or social differentiation on the future of ONE group ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding about the influence of authority and/or social differentiation in ONE group ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "It is projected that the number of Australians aged 85 years and over will increase to more than 1.5 million by 2058. The perception of this group by younger Australians can lead to prejudice and discrimination. The influence of this continued attitude results in unequal access to socially valued resources which exacerbates social differentiation. As the population of older people increases, the Federal Government has the greatest authority to influence the future of this group.",
+        "Housing – One of the most prominent issues facing older Australians is access to affordable housing. In 2019, 48,000 older Australians were waiting for home care or residential aged-care packages. The Federal Government is positioned to influence levels of social differentiation within this group by committing $26.1 million to older First Nations Australians and those in diverse communities and regional areas",
+        "Employment – Older Australians, particularly those from a non-English speaking background, are at risk of experiencing age discrimination in the workforce. This social differentiation can limit opportunities to work, resulting in financial insecurity and a lack of social connections",
+        "Justice system – The recently appointed Aged Care Complaints Commissioner has the power to ensure complaints are properly dealt with, target systemic issues to reduce negative experiences and influence positive outcomes for older Australians in the near future",
+        "Health care – The Federal Government will mandate the number (amount of time) of minutes of individual care that older Australians in aged care facilities receive to ensure equity amongst older Australians and significantly improve health outcomes regardless of social differences."
+      ]
+    },
+    {
+      "number": "14(b)",
+      "section": "II",
+      "sectionHeading": "Section II — Depth Studies",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Assess the significance of both worldview and self-concept in the development of ONE subcultural group.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding relevant to the question",
+        "apply course concepts and language appropriate to the Depth Study",
+        "analyse relationships within and between social and cultural groups",
+        "present a sustained, logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Provides a comprehensive assessment of the significance of both worldview and self-concept in the development of ONE subcultural group ; Supports the response with a breadth of detailed and accurate information and effectively integrates appropriate examples ; Presents a sustained, logical and cohesive response ; Effectively applies relevant course concepts and language"
+        },
+        {
+          "marks": "10–12",
+          "text": "Provides a thorough assessment of the significance of both worldview and self-concept in the development of ONE subcultural group ; Supports the response with detailed and accurate information and integrates appropriate examples ; Presents a logical and cohesive response ; Applies relevant course concepts and language"
+        },
+        {
+          "marks": "7–9",
+          "text": "Provides an assessment of the significance of worldview and/or self-concept in the development of ONE subcultural group ; Supports the response with relevant information and uses example(s) ; Presents an organised response using course concepts and language"
+        },
+        {
+          "marks": "4–6",
+          "text": "Demonstrates some understanding about the significance of worldview and/or self-concept in ONE subcultural group ; Includes course concepts and/or language ; Refers to an example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "For the Freemasons, worldview and self-concept are inextricably linked. Both were significant to the inception of the group and have influenced its continuing development.",
+        "Due to a decline in demand for stone masonry in the 19th Century, the group broadened its membership base to include non-skilled members. While all members are bound by certain obligations, the non-skilled and lower ranking members are not entitled to the same privileges, such as the right to vote and hold office, within the social hierarchy. Membership to the group is by invitation only, strengthening the value of self-concept",
+        "Integral to the Freemason worldview is skill level and privilege. The higher the skill level, the greater the privilege. The status of any Freemason can be identified by his skill level, which represents time and commitment dedicated to Freemason knowledge. Compliance with these group norms has ensured the longevity of the group and helped maintain social cohesion. Sanctions are applied for deviance from this system",
+        "Freemasons believe there is no one more important than yourself. However, self-concept is enhanced through the group’s innate sense of brotherhood, and a mason’s graduation through the group’s hierarchy towards ‘master mason’. This contributes to the ongoing development of group values and simultaneously develops members’ own self-concept",
+        "Personal introspection is a crucial aspect of being a ‘master mason’, and Freemasonry provides great support to each Brother's inner and personal development, connecting their worldview and self-concept."
+      ]
+    }
+  ]
+}
