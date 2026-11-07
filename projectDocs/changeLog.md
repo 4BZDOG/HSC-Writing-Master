@@ -1,5 +1,23 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-07 (Economics: every dot point covered)
+
+- **Added (DATA_VERSION 2.48.0).** Economics goes from 277 questions to 567, and from 145 empty dot points (all 134 in
+  Year 11 and 11 in Year 12) to none. Each empty dot point gains two app-written questions, a 3–4 mark question and
+  a 5–6 mark question, with a "Hypothetical:" scenario, an HSC-style ladder and three samples. Every batch passes
+  `apply_patch.mts` and `must_use_check` with nothing reported. The course follows the new syllabus, so no older
+  papers were added; its 2025 past questions stay.
+  - **Review.** Three accuracy reviews recomputed every figure, including elasticities, multipliers, mortgage
+    repayments, budget balances and unemployment rates. They also checked the theory and every real-world reference.
+    Errors fixed:
+    - unit cost said to rise "faster" than a 50 per cent rise in output, when it rose 37.5 per cent;
+    - a $5 billion budget surplus said to bring borrowing to zero, when the government repays $5 billion;
+    - a rise in the unemployment rate put down to the larger labour force, when unemployment grew far faster than
+      the labour force.
+
+    Ten answers that overclaimed were tightened, among them a handbag "proved" to be a Veblen good while income was
+    also rising, and one firm's new machine treated as shifting the economy's PPF.
+
 ## [Unreleased] - 2026-11-07 (Biology: the 2022 HSC paper and the course filled in)
 
 - **Added (DATA_VERSION 2.47.0).** Biology goes from 61 questions to 503, and from 227 empty dot points to 10.

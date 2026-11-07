@@ -141,7 +141,9 @@ import {
 // questions, from 441).
 // 2.47.0: Biology filled in: the 2022 HSC paper as past questions (18), and app-written questions for every
 // Year 11 dot point and all but ten Year 12 dot points.
-export const DATA_VERSION = '2.47.0';
+// 2.48.0: Economics filled in: 290 new questions so every Year 11 and Year 12 dot point has at least one (567
+// questions, from 277).
+export const DATA_VERSION = '2.48.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
