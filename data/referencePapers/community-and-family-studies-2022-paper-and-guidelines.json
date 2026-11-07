@@ -1,0 +1,698 @@
+{
+  "year": 2022,
+  "course": "Community and Family Studies",
+  "papers": ["2022-hsc-community-and-family-studies.pdf"],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I Part A is multiple choice; not extracted."
+    }
+  ],
+  "questions": [
+    {
+      "number": "21",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Why is it important to plan before starting research?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Clearly explains in general terms the importance of planning as a part of the research process"
+        },
+        {
+          "marks": "2",
+          "text": "Provides information about planning for research"
+        },
+        {
+          "marks": "1",
+          "text": "Provides one relevant point"
+        }
+      ],
+      "sampleAnswer": "Planning for research is important as it allows the researcher to formulate a research proposal, which would include creating a timeline which allows the researcher to effectively manage their time and choosing the most suitable types of data to be collected for the chosen topic.\nPlanning also allows for resources such as time and energy to be managed and selecting appropriate sampling methods to assist in obtaining reliable and valid data.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how a researcher can ensure the privacy of their participants when conducting research about a sensitive topic.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough description about how to ensure privacy when conducting research on a sensitive topic ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a sound description about how to ensure privacy when conducting research on a sensitive topic ; Provides an example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about privacy and/or conducting research and/or a sensitive topic"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Privacy is particularly important when researching sensitive topics such as death, divorce and domestic violence. The researcher would be able to keep the respondent’s names anonymous or change them where requested and seek permission to record interviews when the interviewee’s safety is at risk such as discussing violence. The researcher can shred personal data or information to ensure anonymity of the respondent and store data appropriately by password protected software to ensure information is not revealed to others.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How can socioeconomic status affect parents’ ability to fulfil their roles?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates thorough knowledge and understanding about socioeconomic status and the roles of parents ; Provides links between the impact of socioeconomic status and the roles of parents ; Provides relevant examples"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates sound knowledge and understanding about socioeconomic status and the role(s) of parents ; Provides a link(s) between the impact of socioeconomic status and the role(s) of parents ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about socioeconomic status and/or the roles of parents"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Socioeconomic status relates to the employment status and level of income of parents. Socioeconomic status can be high or low and can impact the roles that a parent fulfils including building positive relationships, promoting the wellbeing and satisfying the specific needs of the dependant.\nFor example, a parent with high socioeconomic status could provide access to nutritious food, safe and secure housing and opportunities to participate in extracurricular activities, thus satisfying their dependant’s adequate standard of living and health needs. A parent with a high socioeconomic status may also work long hours to secure a greater income. As a result, this may limit their time spent with the dependent thus reducing the ability to build a positive relationship.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(a)",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the characteristics that may affect a student’s access to counselling services.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a thorough explanation of a student’s characteristics that may affect their access to counselling services ; Provides relevant examples"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a sound explanation of a student’s characteristics that may affect their access to counselling services ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about a student’s characteristics that may affect their access to counselling services"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Characteristics such as age, socioeconomic status and level of education may affect a student’s access to counselling. Due to their age, an older student may have the ability to drive to face-to-face counselling and parental consent may not be required making it easier to access the service.\nCounselling can be an expensive service. The student may manage employment along with study commitments and this could limit income potential, thus negatively affecting their ability to access this service.\nCounselling services can be promoted in an educational institution to support student wellbeing. This would increase level of knowledge about counselling services that exist, such as headspace, which are easy to access via phone, face to face or online.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "How would a student use resources to enhance their education?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates thorough knowledge and understanding about resources used to enhance education ; Provides an explanation about the resources and how they enhance a student’s education ; Provides relevant examples"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates sound knowledge and understanding about resources used to enhance education ; Attempts to provide an explanation about the resources and how they enhance a student’s education ; Provides examples"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about resources and how they enhance education"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Resources such as time, money and knowledge would support the student to enhance their education. They would need to balance commitments such as school, TAFE or university with employment and leisure activities by prioritising time in order to enhance education.\nStudents could use money to access resources, both human and non-human. To enhance their learning they could hire tutors to clarify learning and buy textbooks, computers or online resources that help them to learn content in a variety of ways. Students could use the knowledge of others, including teachers or other student experts who could help them to further understand content.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "25",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss the suitability of using a case study when conducting research about the acceptance of single parents in the community.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates thorough knowledge and understanding about the suitability of using a case study ; Provides discussion of the suitability of using a case study when conducting research about the acceptance of single parents in the community"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates sound knowledge and understanding about the suitability of using a case. ; Provides some discussion of the suitability of a case study when conducting research about the acceptance of single parents in the community"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about the suitability of using case studies and/or conducting research about the acceptance of single parents in the community"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "A case study could be investigating how the acceptance of single parents has changed over time.\nWhen conducting research, a case study would be suitable as it provides an in-depth understanding of a topic, provides data based on real life experiences and situations and allows a picture to be formed, making the why and how of the research clearer. Case study can be current and relevant to contemporary society.\nA case study may not be suitable as they can be subjective, researchers may unintentionally become involved and as a result, bias can occur. Case studies are time consuming. A case study may be restrictive due to this being limited to one single parents’ perspective and experience, it is not a true representation of a population leading to the data being unreliable.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the importance of selecting an appropriate sample group and size when conducting research.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates thorough knowledge and understanding about sample group and size when conducting research ; Clearly explains the selection of an appropriate sample group and size when conducting research ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides sound knowledge and understanding about sample group and size when conducting research ; Provides some explanation of an appropriate sample group and size when conducting research ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about the selection of an appropriate sample group and/or size and/or conducting research"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "When an appropriate sample group and size are selected, the reliability and validity of research increase.\nWhen selecting a sample group, the researcher should ensure that it comprises the population which accurately reflects what is intended to be measured by the research question. For example, a researcher wanted to investigate how many hours female youth use their mobile phone each week, however, they selected a sample group of middle-aged men. This would not be appropriate as this does not represent the intended population and would therefore make the research invalid.\nA larger sample size may improve reliability, which refers to the consistency of measurement. This is because the greater numbers of individuals in the sample will allow for results to be repeated and yield the same results over time. This also increases the accuracy of the data and therefore the research is valid. For example, when a large sample size such as 1000 participants is chosen over a small sample size of 20 people, reliability is ensured.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "27",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss how the responsibilities of a parent affect their relationship with their dependant(s).",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates thorough knowledge and understanding about the responsibilities of parents ; Provides a detailed discussion about how the responsibilities of a parent affect their relationship with their dependant(s) ; Provides relevant example(s)"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates sound knowledge and understanding about the responsibilities of parents ; Provides a discussion about how the responsibilities of a parent affect their relationship with their dependant(s) ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some relevant information about the responsibilities of a parent and/or relationships with their dependant(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Parents undertake many responsibilities including setting limits, discipline and duty of care. Setting clear limits and boundaries for their dependant such as the amount of screen time, bedtimes and curfews is more likely to foster respect between the parent and dependant as expectations are clear. This is therefore more likely to build a positive relationship.\nWhen action and consequence are clearly explained, the dependant is more likely to adhere to expectations and follow rules. A lack of discipline can impede the development of a positive relationship between the parent and dependant as the dependant may feel that their inappropriate actions go unrecognised and without consequence.\nParents who prioritise other commitments over their child may neglect their child and as such, not fulfil their duty of care which would therefore not build a positive relationship.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Answer the question in relation to ONE Category B group you have studied. Analyse the contribution the group makes within the wider community.",
+      "stimulus": "[Category B groups, listed in two columns on the paper: Aged; Culturally and Linguistically Diverse communities; Aboriginal and Torres Strait Islander peoples; Rural and remote families; Gay, Lesbian, Bisexual, Transgender, Intersex communities; Sole parents; Homeless people]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Demonstrates extensive knowledge and understanding about the contribution the group makes within the wider community ; Provides an extensive analysis of the contribution the group makes within the wider community ; Provides relevant examples"
+        },
+        {
+          "marks": "6–7",
+          "text": "Demonstrates thorough knowledge and understanding about the contribution the group makes within the wider community ; Provides a thorough analysis of the contribution the group makes within the wider community ; Provides examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates sound knowledge and understanding about the contribution the group makes within the wider community ; Provides a link between the contribution and the wider community ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides basic information about the group and/or its contribution within the wider community"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "The aged population comprises individuals over the age of 65 some of which are retired.\nMany aged people volunteer for community organisations such as Meals on Wheels and St Vincent de Paul. As they don’t get paid for their service, these organisations use their funds to meet the needs of the vulnerable in the community e.g. providing food for the homeless and delivering pre-cooked meals to those in need. They also present a social opportunity to those who live alone.\nAged people who are retired or phasing into retirement can provide free childcare/babysitting of grandchildren. This benefits the parents to be able to return to work and earn an income. It also benefits the grandchildren to develop a bond with their grandparents. The community also benefits with the parents contributing to the workforce and economy.\nAged people can share their knowledge with younger members of the community through volunteer mentoring programs such as Country Women’s Association and Surf Lifesaving. This instils confidence into the younger generation to take on new challenges and contribute to the community.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29",
+      "section": "Section I Part B",
+      "sectionHeading": "Section I Part B\n55 marks\nAttempt Questions 21–29\nAllow about 1 hour and 40 minutes for this part",
+      "marks": 8,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "A 16-year-old has recently begun caring for their father who has had a stroke. Assess the formal support services available to this person in preparing to become a young carer.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "8",
+          "text": "Provides an extensive assessment of the formal support services available to a young person preparing to become a carer ; Provides relevant examples"
+        },
+        {
+          "marks": "6–7",
+          "text": "Provides a thorough assessment of the formal support services available to a young person preparing to become a carer ; Provides examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Provides an understanding of the formal support services available to a young person preparing to become a carer ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about preparations for becoming a young carer and/or support services available"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "When preparing to become a young carer, the 16-year-old will need to organise their finances. They may access Centrelink to apply for a Carer Allowance. This would be beneficial as it allows them to pay bills to ensure an adequate standard of living for themself and their father, now that their father is no longer able to earn an income. These finances will also allow them to spend quality time with their father, rather than having a part-time job.\nThe young carer will also need to change their health behaviours. As a 16-year-old, their physical health would be a priority as they now need to meet the physical demands of being a carer. A community nurse may provide essential medical and education support to enhance their knowledge and skills. The carer’s physical and emotional health would be enhanced by accessing a formal support service such as Carer Gateway to find appropriate respite care, which will allow them to have time for themself with the comfort that their father is being looked after.\nThe carer may also need to modify the physical environment. After having a stroke, their father may need access to railings and handrails in the shower for support. They could access the Commonwealth Home Support Program (CHSP) which could provide the necessary modifications to the home. This would result in the carer having peace of mind when their father is at home by himself, while they are attending school.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(a)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "What is the meaning and purpose of adolescent rites of passage?",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough description about the meaning and purpose of adolescent rites of passage ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a sound description about the meaning and purpose of adolescent rites of passage ; Provides an example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about the meaning and/or purpose of adolescent rites of passage"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "A rite of passage acknowledges and celebrates significant milestones of an adolescent’s transition into the adult world. A rite of passage marks a change in status as an individual moves through adolescence. The purpose of this rite of passage is to celebrate and acknowledge through a ceremony such as an 18th birthday, a school graduation or obtaining a driver’s licence. Once an adolescent has reached the age of 18, they will be legally recognised as an adult.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(b)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how the housing needs of the aged can be assisted by community support services.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates thorough knowledge and understanding about how the housing needs of the aged can be assisted by community support services ; Provides a thorough explanation of how the housing needs of the aged can be assisted by community support services ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates sound knowledge and understanding about how the housing needs of the aged can be assisted by community support services ; Provides a sound explanation of how the housing needs of the aged can be assisted by community support services ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about community support for the aged and/or the housing needs of the aged"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Aged people can reside in their own home, downsize to smaller accommodation such as a villa, move to a retirement village or move to an aged care facility. Support within the community can be provided by organisations such as Aged and Community Services Australia (ACSA), Assistance with Care and Housing for the Aged (ACHA) and Commonwealth Homes Support Program (CHSP) which can assist aged individuals with this transition when required.\nACSA provide quality, affordable housing and care services which support older Australians. This allows capable individuals to remain in their own home living independently or in a retirement village. ACHA supports lower income aged individuals by providing subsidised housing. This then allows aged people to meet their other financial commitments. CHSP provide modifications to the home such as ramps and railings to promote independent living. This will result in individuals being able to remain in their own home for longer.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "30(c)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Evaluate how effectively community organisations implement government legislation and initiatives for individuals and families in contemporary society.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question",
+        "apply the skills of critical thinking and analysis",
+        "communicate ideas and information using relevant examples",
+        "present a logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge and understanding of community organisations, government legislation and initiatives in contemporary society ; Provides clear and valid evaluation about how community organisations effectively implement government legislation and initiatives for individuals and families ; Provides clear links to the effect on the wellbeing of individuals and families ; Communicates ideas and information using relevant examples ; Presents a logical and cohesive answer"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates thorough knowledge and understanding of community organisations, government legislation and initiatives in contemporary society ; Provides some evaluation about how community organisations effectively implement government legislation and initiatives for individuals and families ; Provides a link(s) to the effect on the wellbeing of individuals and families ; Communicates information using relevant examples ; Presents a cohesive answer"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates sound knowledge and understanding of community organisations, government legislation and initiatives in contemporary society ; Provides a link to how community organisations effectively implement government legislation and initiatives for individuals and/or families ; Communicates some information using examples"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides basic information of community organisations and/or government legislation and/or initiatives for individuals and/or families in a contemporary society ; Provides example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides relevant information about community organisations and/or government legislation and/or initiatives and/or individuals and/or families in a contemporary society"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "A contemporary society comprises individuals and families such as same-sex couples, surrogates, LGBTIQA, adoptive, sole-parents, multicultural families, step-parenting and families/individuals at risk of domestic violence.",
+        "The interaction with and lobbying of the government by these community organisations has resulted in changes to various pieces of legislation which in turn has provided individuals and families with equality.",
+        "Examples of changes to legislation and initiatives by the government:",
+        "Education Act",
+        "Family Law Act",
+        "Anti-Discrimination Act",
+        "Children and Young persons (Care and Protection) Act",
+        "Aged Care Act",
+        "NSW ART (Assisted Reproductive Technologies) Act 2007",
+        "Fair Work Act",
+        "Surrogacy Act 2010",
+        "Child Support (Registration and Collection) Act",
+        "Child Support (Assessment) Act",
+        "Adoption Act 2000",
+        "Marriage Act 2017",
+        "Escaping Violence Payment",
+        "Respect Campaign for Violence against Women",
+        "Family Home Guarantee – support for single parents with eligible dependants to assist with purchasing a family home.",
+        "Organisations that support individuals and families may include:",
+        "Schools and OOSH",
+        "DCJ",
+        "Police",
+        "Social Workers",
+        "Red Cross",
+        "Doctors",
+        "Women’s Refuge/Shelters",
+        "PCYC",
+        "PFLAG (Parents and Friends of Lesbian and Gays)",
+        "Parents Without Partners – support single parents",
+        "Reachout Australia – support blended families",
+        "Raising Children Network – support step-parents, blended families and single parents",
+        "Mediation/Counsellors - Relationships Australia – support victims of domestic violence and families experiencing conflict",
+        "The Salvation Army",
+        "Anglicare",
+        "Mission Australia",
+        "White Ribbon Australia – support victims of domestic violence",
+        "Headspace",
+        "Mardi Gras"
+      ]
+    },
+    {
+      "number": "31(a)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how a person’s age can affect their use of technology.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough description about how a person’s age can affect their use of technology ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a sound description about how a person’s age can affect their use of technology ; Provides an example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about how a person’s age can affect their use of technology"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Age can limit or enable access to technology. As a young person, technology is now frequently utilised and readily available at school, making access incredibly easy. Young people today have grown up in a world where technology surrounds them, making it increasingly acceptable to utilise for various purposes such as communication and education.\nAn elderly person such as a retiree may find it difficult to access technology such as a phone or laptop due to the cost. Elderly people have not grown up in a world that is immersed in technology and may resist its use and/or lack confidence in their abilities to utilise it.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(b)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how communication technologies have benefited society.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates thorough knowledge and understanding about how communication technologies have benefited society ; Provides a thorough explanation of how communication technologies have benefited society ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates sound knowledge and understanding about how communication technologies have benefited society ; Provides a sound explanation of how communication technologies have benefited society ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information and/or how the communication technologies have benefited society"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Communication technologies such as smartphones, computers, email and social media have resulted in social betterment. This relates to the improvement of an individual’s social connection. As the result of emerging technologies such as messaging platforms including Zoom, WhatsApp and Messenger, it has been made possible for individuals to maintain relationships and connect with others locally, interstate and internationally.\nDuring COVID-19 lockdown, students were able to use platforms such as Zoom and Microsoft Teams to maintain connections with their teachers and classmates in an education setting. Without these technologies it would not have been possible and students may have lost focus and motivation. Likewise, young people heavily rely on social media applications such as Snapchat to communicate and feel included within their friendship circles and therefore improve their own social standing.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(c)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Discuss issues related to the development of information and communication technologies.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question",
+        "apply the skills of critical thinking and analysis",
+        "communicate ideas and information using relevant examples",
+        "present a logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge and understanding about issues related to the development of information and communication technologies ; Provides a clear and valid discussion about how the issues relate to the development of information and communication technologies ; Provide clear links to the effect on wellbeing of individuals ; Communicates ideas and information using relevant examples ; Presents a logical and cohesive answer"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates thorough knowledge and understanding about issues related to the development of information and communication technologies ; Provides some discussion about how the issues relate to the development of information and communication technologies ; Provides a link(s) to the effect on wellbeing of individuals ; Communicates information using relevant examples ; Presents a cohesive answer"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates sound knowledge and understanding of issues related to the development of information and communication technologies ; Provides a link to the issues and the development of information and communication technologies ; Communicates some information using examples"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides basic information about the issues and/or information and communication technologies ; Provides example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides relevant information about information and communication technologies and/or development of technology"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "The development of information and communication technologies has allowed for advancements in technology and therefore increased security and privacy.",
+        "It has also however, created the potential for counterproductive technologies to be developed causing issues with copyright, security and the accuracy of information.",
+        "Issues related to information and communication technologies may include:",
+        "Privacy and safety (home security cameras, breach of privacy for individuals, the tracking of individuals and devices using satellite data linked to communication technologies)",
+        "These devices can make an individual feel safe and protected which has a positive impact on emotional wellbeing.",
+        "Security of information (internet banking, hacking and spam emails, viruses, identity and data theft, credit card fraud, not sharing passwords, logging out of public computers, developing a strong password)",
+        "Keeping information secure and not sharing passwords on bank accounts improves security and decreases the chances of hacking which has a positive impact on economic wellbeing",
+        "Accuracy of information (input validation, access controls, data backup, credibility/accuracy of websites, any individual can upload inaccurate information online)",
+        "False information related to fad diets can lead to unsafe health practices which can have negative impacts on physical wellbeing.",
+        "Information overload (determining important and unnecessary information, individuals are frequently spammed with marketing emails and text messages, social media advertising and algorithms tracking browsing data)",
+        "Artists not receiving acknowledgement of their material can negatively impact economic wellbeing.",
+        "Copyright (breaches to copyright online, duplication of original information and plagiarism occurs despite copyright legislation existing for data, music, visual and moving images. Programs such as Turnitin address this issue).",
+        "Being bombarded with too much information can lead to an individual feeling anxious thus having a negative impact on emotional and physical wellbeing."
+      ]
+    },
+    {
+      "number": "32(a)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe how workplace culture can contribute to efficient work practices.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Provides a thorough description about how workplace culture contributes to efficient work practices ; Provides relevant examples"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a sound description about how workplace culture contributes to efficient work practices ; Provides an example(s)"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about workplace culture and/or efficient work practices"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Workplace culture includes facilities such as a prayer room, kitchen and childcare. Efficient work practices refers to high productivity with minimal effort and can include high staff retention, greater work satisfaction and improved staff morale. A positive workplace culture enhances efficiency in the workplace and promotes productivity and decreases absenteeism.\nThe provision of a prayer room supports an individual’s religious commitments and therefore results in the employee working more efficiently due to less time away from the workplace and more time to commit to tasks. They may also feel more supported in the workplace and experience work satisfaction, therefore being more motivated to perform. Similarly, a kitchen in the workplace provides opportunities for social interaction and collaboration alongside a place to make healthy meals, increasing workplace satisfaction.\nThe provision of childcare allows for an employee to decrease their travel time to an alternative childcare provider and can be an incentive for a parent to return to the workplace, therefore retaining qualified staff.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(b)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the difference between rights and responsibilities for employees in the workplace.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Demonstrates thorough knowledge and understanding about rights and responsibilities of employees in the workplace ; Provides a thorough explanation about the difference between rights and responsibilities for employees in the workplace ; Provides relevant examples"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates sound knowledge and understanding about rights and responsibilities for employees in the workplace ; Provides a sound explanation about the difference between rights and responsibilities for employees in the workplace ; Provides example(s)"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some information about rights and/or responsibilities for employees in the workplace ; Provides an example(s)"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "Rights and responsibilities for employees are important as they ensure safety, efficient work practices, employee wellbeing and job satisfaction. Rights are something that an employee is entitled to. These may include the right to be paid according to the hours worked aligned to the award. This is important as it would encourage the employee to efficiently carry out their responsibilities. Another right of an individual in the workplace is to be free from discrimination. This is important as it allows an employee to feel safe, valued and respected by their colleagues and employer.\nIn comparison, responsibilities are a duty or an obligation that an employee must fulfil. These include complying with the reasonable instruction of an employer to ensure the smooth operation of the workplace and is significant for employee safety. Another responsibility of an employee is to display a reasonable work ethic, including being punctual and wearing the appropriate uniform. This is beneficial as it allows for workplace cohesion and productivity.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32(c)",
+      "section": "Section II",
+      "sectionHeading": "Section II\n25 marks\nAttempt ONE question from Questions 30–32\nAllow about 45 minutes for this section",
+      "marks": 15,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Analyse how youth employment issues can affect a young person’s employment opportunities.",
+      "stimulus": "",
+      "assessedOn": [
+        "demonstrate knowledge and understanding of societal influences on wellbeing relevant to the question",
+        "apply the skills of critical thinking and analysis",
+        "communicate ideas and information using relevant examples",
+        "present a logical and cohesive response"
+      ],
+      "criteria": [
+        {
+          "marks": "13–15",
+          "text": "Demonstrates extensive knowledge and understanding about youth employment issues ; Provides a clear and valid analysis about how youth employment issues can affect a young person’s employment opportunities ; Provides clear links to the effect on the wellbeing of young people ; Communicates ideas and information using relevant examples ; Presents a logical and cohesive answer"
+        },
+        {
+          "marks": "10–12",
+          "text": "Demonstrates thorough knowledge and understanding about youth employment issues ; Provides some analysis about how youth employment issues can affect a young person’s employment opportunities ; Provides a link(s) to the effect on the wellbeing of young people ; Communicates information using relevant examples ; Presents a cohesive answer"
+        },
+        {
+          "marks": "7–9",
+          "text": "Demonstrates sound knowledge and understanding about youth employment issue(s) ; Provides a link to how youth employment issue(s) can affect a young person’s employment opportunities ; Communicates some information using examples"
+        },
+        {
+          "marks": "4–6",
+          "text": "Provides basic information about employment opportunities and/or youth employment and/or issues that impact on youth employment ; Provides example(s)"
+        },
+        {
+          "marks": "1–3",
+          "text": "Provides relevant information about employment opportunities and/or youth employment"
+        }
+      ],
+      "sampleAnswer": "",
+      "answersCouldInclude": [
+        "A young person could optimise their employment opportunities by:",
+        "Recognising that youth comprise a large percentage of unemployment and as such, value the importance of study and enhancing their employability skills",
+        "Participating in VET courses to gain accreditation via nationally recognised qualifications",
+        "Understanding the value of work",
+        "Recognising the skills that work provides to assist with managing multiple roles",
+        "Networking via mentors to assist with obtaining employment in their industry.",
+        "Issues that impact youth employment include:",
+        "Personal management skills required in the workplace (developing their communication skills, organisation, problem solving, planning and decision making skills)",
+        "Steps taken to prepare and plan for a career (completing the HSC, participating in work experience, attending tertiary study such as TAFE or University, resume building and interview skills/practice)",
+        "Predominant patterns of work of young people (casual, part-time, full-time, volunteer)",
+        "Rights and responsibilities of young people in the workplace (young people can be taken advantage of in the workplace and as such, could research the award/enterprise agreement in accordance with their rate of pay, minimum number of hours worked, leave entitlements)."
+      ]
+    }
+  ]
+}

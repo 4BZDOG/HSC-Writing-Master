@@ -133,7 +133,9 @@ import {
 // 2.43.0: the 2025 HSC paper as past questions in 13 courses (247 questions), so the question generator calibrates
 // against NESA's latest wording and ladders: Legal Studies, Economics, Modern and Ancient History, Chemistry, Physics,
 // Earth and Environmental Science, CAFS, Society and Culture, English Studies, EAL/D, Extension 1, History Extension.
-export const DATA_VERSION = '2.43.0';
+// 2.44.0: Community and Family Studies filled in: the 2022–2024 HSC papers as past questions (56), and 302 new
+// questions so every Year 11 and Year 12 dot point has at least one (375 questions, from 17).
+export const DATA_VERSION = '2.44.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
