@@ -87,7 +87,7 @@ const checkPrompt = (p: any, where: string, strict: boolean) => {
   const texts = new Set<string>();
   for (const s of sa) {
     const a = String(s.answer ?? '');
-    if (a.trim().length < 3 || /lorem|TBD|TODO|\.\.\.$/i.test(a))
+    if (a.trim().length < 3 || /\blorem\b|\bTBD\b|\bTODO\b|\.\.\.$/i.test(a))
       err(where, `bad answer text at mark ${s.mark}`);
     if (texts.has(a)) err(where, 'duplicate answer text');
     texts.add(a);

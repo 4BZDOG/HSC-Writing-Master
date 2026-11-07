@@ -1,0 +1,545 @@
+{
+  "year": 2022,
+  "course": "Biology",
+  "papers": ["2022-hsc-biology.pdf", "2022-hsc-biology-mg.pdf (marking guidelines)"],
+  "skipped": [
+    {
+      "number": "1–20",
+      "reason": "Section I multiple-choice; not extracted (brief)."
+    },
+    {
+      "number": "24(a)",
+      "reason": "Requires drawing a graph of the table data with labelled axes, plotted points and a line of best fit; a drawn answer."
+    },
+    {
+      "number": "30",
+      "reason": "Requires interpreting two shaded world maps (Map 1 mosquito distribution, Map 2 malaria case distribution); the shaded regions cannot be transcribed faithfully as text."
+    },
+    {
+      "number": "31(b)(i)",
+      "reason": "Requires constructing a flow chart of EGFR protein synthesis in the answer space; a drawn answer."
+    },
+    {
+      "number": "21(b)",
+      "reason": "answered by completing a key diagram (writing pathogen names into its boxes)"
+    }
+  ],
+  "questions": [
+    {
+      "number": "21(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline ONE way that a pathogen can pass from person to person.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines ONE way that a pathogen can pass between hosts"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Viral particles emitted by one person can be transferred directly through the air and inhaled by another person.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "22",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Eggplant fruit comes in three colours: dark purple, white and violet. A genetic cross between the dark purple and white eggplants will always result in the violet phenotype. What phenotypic ratio would you expect to see when two violet offspring are crossed? Show your working.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides the correct phenotypic ratio of the offspring ; Provides correct parental genotypes and suitable working"
+        },
+        {
+          "marks": "2",
+          "text": "Provides the correct phenotypic ratio of the offspring ; Provides some suitable working OR Identifies correct parental genotypes ; Provides suitable working OR Provides appropriate parental genotypes ; Provides suitable working and relevant phenotypic ratio"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Both colours are dominant due to blending/both being expressed.\nDark purple = PP\nWhite =WW\nViolet = PW\n[Punnett square: P and W across the top and down the side; PP, PW / PW, WW.]\nPhenotypic ratio\nDark purple : Violet : White\n1 : 2 : 1",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the process of artificial pollination.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the process of artificial pollination"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "This process involves the transfer of pollen from the anther of one target plant to the stigma of another targeted plant.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "23(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain a possible outcome of the use of artificial pollination on subsequent populations.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Explains an outcome of the use of artificial pollination"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "If the pollen from one plant is used to artificially pollinate a large number of plants, this will lead to a large number of offspring that are similar. Over time, if this is repeated in subsequent generations this will reduce the genetic diversity of the population.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Outline the trend shown in the data.",
+      "stimulus": "Birth defects in humans can be caused by chromosomal abnormalities. [Table: Maternal age (years) | Prevalence of chromosomal abnormalities (per 1000 births). 20 | 1.5. 30 | 3. 35 | 8. 40 | 22. 45 | 38.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Outlines the main features of the trend"
+        },
+        {
+          "marks": "1",
+          "text": "Identifies a trend"
+        }
+      ],
+      "sampleAnswer": "As maternal age increases, the prevalence of chromosomal abnormalities increases. After the age of 30, there is a rapid increase in prevalence – it is increasing at an increasing rate.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "24(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain the cause of a type of chromosomal mutation.",
+      "stimulus": "Birth defects in humans can be caused by chromosomal abnormalities.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Identifies a type of chromosomal mutation ; Explains the cause of the mutation"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines the cause of a chromosomal mutation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information about a chromosomal mutation"
+        }
+      ],
+      "sampleAnswer": "One type of chromosomal mutation is a numerical abnormality. This is where there are more or fewer chromosomes than the normal diploid cell. These abnormalities can be caused during meiosis due to non-disjunction. Non-disjunction means that a pair of homologous chromosomes fails to separate/segregate during meiosis so that some of the gametes have one chromosome too many and some of the gametes have one chromosome too few.",
+      "answersCouldInclude": [
+        "Chromosomal alterations such as deletions, duplications, inversions or translocations."
+      ]
+    },
+    {
+      "number": "25",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 6,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Compare the ways in which genetic variation can arise from asexual and sexual reproduction.",
+      "stimulus": "Offspring are rarely identical to their parents.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides similarity and differences in the ways genetic variation can arise in offspring derived from asexual reproduction and sexual reproduction ; Differentiates between mitosis in asexual reproduction and meiosis in sexual reproduction ; Demonstrates a comprehensive understanding of the sources of variation in the offspring of sexual reproduction"
+        },
+        {
+          "marks": "5",
+          "text": "Provides a similarity and difference(s) in the ways genetic variation can arise in offspring derived from asexual reproduction and sexual reproduction ; Differentiates between mitosis in asexual reproduction and meiosis in sexual reproduction ; Demonstrates a clear understanding of the sources of variation in the offspring of sexual reproduction"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a similarity and/or differences in the ways genetic variation can arise in offspring derived from asexual reproduction and sexual reproduction ; Outlines processes in meiosis that contribute to variation in sexual reproduction"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a similarity and/or difference(s) about genetic variation in offspring derived from asexual reproduction and sexual reproduction"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some information about the variation in offspring derived from asexual reproduction and/or sexual reproduction"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Mutation during DNA replication is a source of genetic variation that can arise in offspring of both asexual reproduction and sexual reproduction.\nAsexual reproduction is achieved by cells of one organism dividing by mitosis and differentiating into a new organism with the same genetic code as the parent. The most likely cause of genetic variation among the offspring would be mutations that occur due to environmental factors or miscopying of the chromosomes during mitosis.\nVariation in the offspring resulting from sexual reproduction also can be due to mutations during DNA replication. However, sexual reproduction leads to much more genetic variation in offspring due to the production of gametes by meiosis. Random assignment of chromosomes of each homologous pair to the gametes and the possible recombination of alleles from crossing over of genetic material between homologous pairs of chromosomes lead to each gamete having a unique set of alleles. In addition, the chance that any one gamete from one individual has of combining with another gamete from a second individual at fertilisation leads to infinite variation in the offspring of sexual reproduction.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "26",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 5,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "A scientist wants to test the effectiveness of Jelly Bush honey using agar plates. Design a safe procedure that the scientist could use in a laboratory to investigate the effectiveness of Jelly Bush honey as a pharmaceutical to inhibit bacterial growth.",
+      "stimulus": "Jelly Bush honey has been used by Aboriginal Peoples to treat cuts, sores and burns. Recent studies have shown that Jelly Bush honey has a very high level of methylglyoxal which is known to help fight infection.",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Provides a logical procedure to test the effectiveness of Jelly Bush honey as an inhibitor of bacterial growth ; Provides independent variable, dependent variable, variables kept constant and the use of a control ; Includes appropriate safety considerations ; Includes repetition"
+        },
+        {
+          "marks": "4",
+          "text": "Provides a logical procedure to test the effectiveness of Jelly Bush honey as an inhibitor of bacterial growth ; Provides most of the features of a safe valid investigation such as – independent variable, dependent variable, variables kept constant and the use of control ; – includes repetition"
+        },
+        {
+          "marks": "3",
+          "text": "Provides a procedure to test the effectiveness of Jelly Bush honey as an inhibitor of bacterial growth ; Provides some features of a valid investigation"
+        },
+        {
+          "marks": "2",
+          "text": "Provides some features of a relevant investigation"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "1. Select appropriate safety equipment including gloves and safety clothing.\n2. Prepare three nutrient agar plates, using sterile techniques. Seal one plate and label as control.\n3. Inoculate the remaining plates with bacteria to cover the agar surface.\n4. Place a sterile paper disc soaked in distilled water in the middle of an agar plate. Seal and label as Water.\n5. Place a sterile paper disc soaked in Jelly Bush honey in the middle of an agar plate. Seal and label as Honey.\n6. Incubate the plates at 25°C for 48 hours.\n7. Remove from incubator but do not open any of the plates after incubation.\n8. Observe the control plate to check for any contaminating bacteria.\n9. For each agar plate, measure the zone of inhibition from edge to edge.\n10. Repeat the experiment three more times and calculate an average.",
+      "answersCouldInclude": [
+        "Direct application of honey",
+        "Incorporation of honey into agar plates",
+        "Concentration of methylglyoxal."
+      ]
+    },
+    {
+      "number": "27",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 6,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Evaluate the success of these campaigns in reducing the incidence of cervical cancer in Australian women. Include reference to the data in your answer.",
+      "stimulus": "The incidence of cervical cancer in the Australian population is shown in the graph from 1985−2015. Public health campaigns commenced during this period to reduce the incidence of cervical cancer. This included a national screening program to detect pre-cancerous cells and a vaccination program against human papillomavirus (HPV) which causes most cervical cancers. [Line graph titled by its axes: vertical axis 'Incidence of cervical cancer per 100 000 women' from 6 to 16; horizontal axis 'Year' from 1985 to 2015. Values read from the graph are approximate: about 14.7 in 1985, about 13.5 in 1990, about 13 in 1994, about 8.8 in 1997, about 8 in 2000, and between about 6.8 and 7.5 from 2002 onward, ending at about 6.9 in 2015. Annotations: arrow at 1991 'National screening program for women aged 20–69 years'; arrow at 2007 'HPV vaccine program for girls'; arrow at 2013 'HPV vaccine program for boys'. Source line: Adapted from National Cancer Control Indicators, https://ncci.canceraustralia.gov.au/ With permission from Cancer Australia.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "6",
+          "text": "Provides an extensive evaluation of the success of the campaigns on the incidence of cervical cancer based on a detailed analysis of the stimulus ; Provides a well-informed judgement as to the success of the campaigns"
+        },
+        {
+          "marks": "5",
+          "text": "Provides a thorough evaluation of the success of campaigns on the incidence of cervical cancer based on an analysis of the data ; Provides an informed judgement as to the success of the campaigns"
+        },
+        {
+          "marks": "4",
+          "text": "Provides an evaluation of the success of campaigns on the incidence of cervical cancer with reference to the data ; Provides a judgement"
+        },
+        {
+          "marks": "2–3",
+          "text": "Provides some points about the effect of the campaign(s) on the incidence of disease ; Makes link(s) to the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The national screening program that started in 1991 is followed by a large drop in the incidence of the disease, to about half, and therefore appears to have been effective in preventing the disease. However, it is not possible from these numbers to imply that the program was the cause of the drop as other factors may have changed concurrently. Also, incidence was dropping before 1991 and this decrease may have continued without the program.\nBecause human papillomavirus (HPV) causes most cervical cancers, vaccinating young girls against HPV could be an effective strategy for disease prevention in addition to screening. A program that includes vaccination of the whole population including boys will reduce the circulating viral load and is expected to add to the effectiveness. However, the data do not show a reduction in the incidence of cervical cancer since the beginning of these vaccination programs. This could be because the screening program is already very effective, or because the vaccines are delivered to young, school aged students and cervical cancer is likely to develop over several years and become evident in older women. Although it is expected that the incidence will reduce as a greater proportion of the total population is vaccinated, the effectiveness of each campaign separately cannot be assessed from these data.\nThe data show it is likely that public health programs are effective for preventing disease but they need to be continued for many years as well as studied separately before the effects can be properly assessed.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 1,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Identify which of the models above is currently accepted.",
+      "stimulus": "Soon after the discovery of the structure of DNA, scientists began investigating how DNA replicated. Three models were proposed. [Figure 'Proposed models of DNA replication', adapted from Figure 14.12 (OpenStax/Rice University, CC BY 4.0). Each model starts with two parallel bars for the original double-stranded DNA, shaded dark grey for 'Original', with arrows to two daughter molecules. Model 1: one daughter molecule is entirely Original and the other is entirely New (light grey). Model 2: each daughter molecule has one Original strand and one New strand. Model 3: each daughter molecule has both strands made of alternating Original and New segments. KEY: dark grey = Original; light grey = New.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "1",
+          "text": "Identifies the correct model"
+        }
+      ],
+      "sampleAnswer": "Model 2",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Describe the process of DNA replication.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Provides a description of DNA replication"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines some steps in DNA replication"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "An enzyme unzips the DNA, creating a replication fork. On each strand, an enzyme attaches to the original DNA nucleotides and uses them as a template. It ‘reads’ the bases, and adds complementary nucleotides. Another enzyme ‘glues’ the nucleotides together, forming a new, double stranded section of DNA.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "28(c)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Outline the ways in which the DNA of prokaryotes and eukaryotes differ.",
+      "stimulus": "",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Outlines differences in DNA in prokaryotic and eukaryotic cells"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a difference in DNA in prokaryotic and eukaryotic cells OR Identifies differences in DNA in prokaryotic and eukaryotic cells"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "There are many differences such as prokaryotic DNA is a circular molecule found in the cytoplasm, carrying a small number of genes and not tightly coiled around histone proteins. In contrast, eukaryotic DNA is a linear molecule found in the nucleus carrying a large number of genes and tightly coiled around histone and other proteins.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(a)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 2,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain ONE reason why cotton yield changed between 2002 and 2013.",
+      "stimulus": "Bt cotton has been genetically engineered to produce an insecticide that kills cotton bollworm. It was introduced to a cotton-producing nation in 2002. The graphs show trends of national cotton yield, % Bt cotton grown, total insecticide use, insecticide use to control bollworms and insecticide use to control another insect pest (hemiptera). [Graph 1: 'Cotton yield' (thick grey line, right axis 0 to 600 kg/ha) and '% Bt cotton grown' (thin line, left axis 0 to 100) against Year, 2002 to 2013. Approximate readings: cotton yield about 325 kg/ha in 2002, about 560 kg/ha in 2007, about 500 kg/ha in 2009 and about 560 kg/ha in 2013. % Bt cotton grown about 0% in 2002, about 5% in 2004, about 11% in 2005, about 34% in 2006, about 66% in 2007, about 80% in 2008, about 90% in 2010 and about 94% in 2013. Graph 2: 'Tonnes of insecticide' (0 to 12 000) against Year, 2002 to 2013, with three lines. Total insecticide use (dashed): about 6 700 t in 2002, about 10 000 t in 2003, about 4 600 t in 2006 and about 11 200 t in 2013. Bollworm insecticide (dotted): about 4 500 t in 2002, about 6 500 t in 2003, about 2 800 t in 2005, about 500 t in 2008 and about 150 t from 2011 onward. Hemipteran insecticide (solid): about 2 000 t in 2002, about 2 300 t in 2006, about 3 700 t in 2007, about 5 800 t in 2009, about 7 200 t in 2010 and about 11 000 t in 2013. Values are approximate, read from the graphs.] Adapted from The Failure of GMO Cotton in India by Professor Andrew Paul Gutierrez, Independent Science News, September 9, 2020. Reproduced with permission by The Bioscience Resource Project",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "2",
+          "text": "Provides cause and effect for the increase in cotton yield"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "As the percentage of Bt cotton grown increased, so did the cotton yield. Bt cotton reduces insect attack, increasing yield.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "29(b)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 5,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "To what extent do the data support the use of Bt cotton as a method of disease control in cotton?",
+      "stimulus": "Bt cotton has been genetically engineered to produce an insecticide that kills cotton bollworm. It was introduced to a cotton-producing nation in 2002. The graphs show trends of national cotton yield, % Bt cotton grown, total insecticide use, insecticide use to control bollworms and insecticide use to control another insect pest (hemiptera). [Graph 1: 'Cotton yield' (thick grey line, right axis 0 to 600 kg/ha) and '% Bt cotton grown' (thin line, left axis 0 to 100) against Year, 2002 to 2013. Approximate readings: cotton yield about 325 kg/ha in 2002, about 560 kg/ha in 2007, about 500 kg/ha in 2009 and about 560 kg/ha in 2013. % Bt cotton grown about 0% in 2002, about 5% in 2004, about 11% in 2005, about 34% in 2006, about 66% in 2007, about 80% in 2008, about 90% in 2010 and about 94% in 2013. Graph 2: 'Tonnes of insecticide' (0 to 12 000) against Year, 2002 to 2013, with three lines. Total insecticide use (dashed): about 6 700 t in 2002, about 10 000 t in 2003, about 4 600 t in 2006 and about 11 200 t in 2013. Bollworm insecticide (dotted): about 4 500 t in 2002, about 6 500 t in 2003, about 2 800 t in 2005, about 500 t in 2008 and about 150 t from 2011 onward. Hemipteran insecticide (solid): about 2 000 t in 2002, about 2 300 t in 2006, about 3 700 t in 2007, about 5 800 t in 2009, about 7 200 t in 2010 and about 11 000 t in 2013. Values are approximate, read from the graphs.] Adapted from The Failure of GMO Cotton in India by Professor Andrew Paul Gutierrez, Independent Science News, September 9, 2020. Reproduced with permission by The Bioscience Resource Project",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "5",
+          "text": "Demonstrates a thorough understanding of the links between the use of Bt cotton, insecticides, disease control and natural selection ; Provides a comprehensive analysis of the data ; Interprets inter-relationships between the use of genetically engineered crops and insecticides for disease control ; Makes an informed judgement based on the data"
+        },
+        {
+          "marks": "4",
+          "text": "Demonstrates a sound understanding of the use of Bt cotton, insecticides, disease control and/or selective pressures ; Provides an analysis of the data ; Provides a suitable judgement based on the data"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates an understanding of the use of Bt cotton and disease control ; Outlines the benefit(s) and limitation(s) of using Bt cotton for disease control ; Supports answer with reference to the data"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines a benefit or a limitation of the use of Bt cotton for disease control AND Provides link(s) to the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The introduction of Bt cotton initially resulted in less insect damage and disease and a saving in application of insecticides.\nAs Bt cotton was introduced, the amount of insecticides applied to kill bollworm decreased, eventually to zero, suggesting that Bt cotton was effectively controlling disease due to bollworm. However, the data show that once most of the cotton crops grown were Bt cotton, insecticide use to kill hemiptera increased markedly to a higher level than before Bt cotton was introduced. These increased amounts of insecticides were needed to maintain high yields.\nA conclusion that can be drawn is that Bt toxin killed bollworms but did not kill hemiptera. Removal of bollworms provided a survival advantage for hemiptera which became the dominant pest. Therefore, a new cause of disease in cotton was dominant and the benefit of Bt cotton for disease control was temporary.\nThe data show that use of a genetically engineered crop such as Bt cotton can control disease due to one pest, but removal of that pest opens the way for other pests to survive and reproduce so that disease in the crop persists due to insects. It can be concluded that Bt cotton only has short-term benefits and needs to be complemented by use of pesticides.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(a)(i)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Evaluate the method used in this epidemiological study.",
+      "stimulus": "Studies have shown that lung cancer can be linked to environmental causes. In one historical study across 29 health districts in Japan, non-smoking married women aged 40 and above were followed up for 14 years (1966−79) and annual mortality rates for lung cancer were assessed according to the smoking habits of their husbands. They were compared to women who smoked. The results are shown. [Table: Group | Number of women | Lung cancer mortality rate (per 100 000). Non-smoker women with non-smoker husbands | 21 895 | 8.7. Non-smoker women with smoker husbands | 69 645 | 15.5. Women who smoke | 17 366 | 32.8. Source: © Bulletin of the World Health Organisation.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Demonstrates a thorough understanding of the features of the methodology used ; Provides a suitable judgement"
+        },
+        {
+          "marks": "3",
+          "text": "Demonstrates a sound understanding of the features of the methodology used ; Provides a suitable judgement"
+        },
+        {
+          "marks": "2",
+          "text": "Demonstrates an understanding of the methodology used"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "The study used large numbers of women matched for exposure to cigarette smoke in three categories and followed these women for 14 years. The numbers of women and the time period are adequate for a valid study. However, follow up over subsequent years would allow for data that are even more definitive.\nThe categories of women assume that they spend similar periods of time with a smoker, and that each smoker smokes a similar amount. However, in reality, the time exposure and the volume of smoke they are exposed to may vary greatly. This may compromise the data but the large cohort of women should average out this effect, so overall the method appears valid.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(a)(ii)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 3,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Justify conclusions that could be drawn from the results of the study.",
+      "stimulus": "Studies have shown that lung cancer can be linked to environmental causes. In one historical study across 29 health districts in Japan, non-smoking married women aged 40 and above were followed up for 14 years (1966−79) and annual mortality rates for lung cancer were assessed according to the smoking habits of their husbands. They were compared to women who smoked. The results are shown. [Table: Group | Number of women | Lung cancer mortality rate (per 100 000). Non-smoker women with non-smoker husbands | 21 895 | 8.7. Non-smoker women with smoker husbands | 69 645 | 15.5. Women who smoke | 17 366 | 32.8. Source: © Bulletin of the World Health Organisation.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "3",
+          "text": "Justifies suitable conclusions from the data"
+        },
+        {
+          "marks": "2",
+          "text": "Justifies a suitable conclusion from the data OR Provides conclusions from the data"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Exposure to smoke either passively or actively increases the risk of dying from lung cancer, as seen by nearly double the number of deaths between non-smoker women with non-smoker husbands (8.7/100 000) compared to women with smoker husbands (15.5/100 000) or smoking women (32.8/100 000). Lung cancer can be caused by factors other than exposure to cigarette smoke as shown by the mortality rate of women who have not been exposed being 8.7/100 000.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "31(b)(ii)",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 4,
+      "kind": "text",
+      "needsStimulus": false,
+      "stem": "Explain how a mutation in the EGFR gene could result in changes in protein structure and function to increase the risk of lung cancer.",
+      "stimulus": "Lung cancer can be linked to genetic causes. One of the genes frequently studied in lung cancer tissue is the Epidermal Growth Factor Receptor (EGFR) gene. It codes for EGFR protein, which is composed of one polypeptide chain. The structure of the EGFR protein includes a receptor and an enzyme component. The function of the protein is to help the cell to regulate cell division. EGFR mutations are present in about 32% of cases of Non-Small Cell Lung Cancer (the most common type of lung cancer).",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "4",
+          "text": "Explains a link between mutation, EGFR protein structure and the regulation of cell division ; Links cancer to uncontrolled cell division"
+        },
+        {
+          "marks": "3",
+          "text": "Describes a link between EGFR mutation and protein structure ; Links cancer to uncontrolled cell division OR Describes a link between DNA, mutation and EGFR protein structure and function"
+        },
+        {
+          "marks": "2",
+          "text": "Outlines an effect of mutation on the EGFR protein OR Identifies an effect of mutation on EGFR and links it to uncontrolled cell division"
+        },
+        {
+          "marks": "1",
+          "text": "Provides relevant information"
+        }
+      ],
+      "sampleAnswer": "A mutation of the EGFR gene is a change in its DNA base sequence/codons. If this change is in a coding region of the gene it can result in a change to the amino acid sequence of the polypeptide. This may alter the folding and properties of the protein and may affect its function. For example if there is a change in the enzyme region of the protein this may alter the active site and therefore enzyme activity leading to changes that could alter the rate of DNA replication and cell division.\nLung cancer is the result of uncontrolled cell division. Since the EGFR protein is associated with controlling cell division, mutations in the EGFR gene may lead to uncontrolled cell division and therefore cancer.",
+      "answersCouldInclude": []
+    },
+    {
+      "number": "32",
+      "section": "II",
+      "sectionHeading": "Section II Answer Booklet\n80 marks\nAttempt Questions 21–32\nAllow about 2 hours and 25 minutes for this section",
+      "marks": 7,
+      "kind": "visual",
+      "needsStimulus": true,
+      "stem": "Explain how mutation, natural selection, genetic drift and gene flow could have led to these differences in the gene pools of populations with differing ancestry.",
+      "stimulus": "Researchers have identified a gene that determines the inflammatory response of lung cells to infection with a virus. An allele of this gene is associated with increased inflammation and increased chance of death from the virus. The table shows the percentage presence of the allele in people with different ancestries. [Table: Ancestry | Percentage of population with the allele. South Asian | 60.3. European | 15.1. African | 2.4. East Asian | 1.8.]",
+      "assessedOn": [],
+      "criteria": [
+        {
+          "marks": "7",
+          "text": "Demonstrates extensive knowledge and understanding of processes that could lead to differences in the gene pools of different populations, including mutation, gene flow, genetic drift and natural selection ; Provides thorough explanations of processes that could result in differences in the gene pools of different populations ; Uses the stimulus to support the explanations"
+        },
+        {
+          "marks": "6",
+          "text": "Demonstrates a thorough understanding of processes that could lead to differences in the gene pools of different populations including mutation, gene flow, genetic drift and natural selection ; Provides explanations of processes that could result in differences in the gene pools of different populations ; Refers to the stimulus to support the answer"
+        },
+        {
+          "marks": "4–5",
+          "text": "Demonstrates a sound understanding of processes that could lead to differences in the gene pools of the different populations ; Provides explanations of processes that could result in a difference in gene pools"
+        },
+        {
+          "marks": "2–3",
+          "text": "Demonstrates an understanding of difference(s) in the gene pools of different populations AND/OR Provides an outline of a process that could affect a gene pool"
+        },
+        {
+          "marks": "1",
+          "text": "Provides some relevant information"
+        }
+      ],
+      "sampleAnswer": "Mutation is likely to be the underlying cause of the allele. It is unlikely that the large differences in allele frequency would be caused by mutation alone, unless it could be shown that environmental mutagens such as chemicals differed in different populations, being most prevalent in South Asia where 60% of people carry the allele.\nNatural selection occurs when individuals with certain genotypes are more likely than individuals with other genotypes to survive and reproduce, and thus to pass on their alleles to the next generation. If a population was challenged with the relevant virus and it caused severe lung inflammation, natural selection could reduce the frequency of the allele, such as is seen in Africans and East Asians.\nIf mixing of the populations was rare, then the different frequencies may be maintained by limited gene flow. Lack of migration leads to limited mixing of populations across the wide geographic areas.\nFinally, allele frequencies can change over time in a population due to chance events. This is known as genetic drift. This occurs particularly in small populations where the chance of certain individuals mating and producing offspring can change the gene frequency in the next generation, depending on the individuals that breed. In large geographic areas, the effects of chance would be averaged.",
+      "answersCouldInclude": []
+    }
+  ]
+}
