@@ -45,6 +45,11 @@ interface EvaluateSurface {
 
 interface WorkspaceRightPanelProps {
   isFocusMode: boolean;
+  /** Focus Mode on a wide window: the writing card's floor, so it takes the
+   *  height the question leaves (see `focusWritingCardMinHeight`). */
+  focusMinHeight?: string;
+  /** The column's root, so the workspace can bring the writing card into view. */
+  columnRef?: React.Ref<HTMLDivElement>;
   editorHeight?: string; // Kept for interface compatibility but ignored
   userAnswer: string;
   setUserAnswer: (val: string) => void;
@@ -91,6 +96,8 @@ interface WorkspaceRightPanelProps {
 
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   isFocusMode,
+  focusMinHeight,
+  columnRef,
   userAnswer,
   setUserAnswer,
   debouncedUserAnswer,
@@ -464,6 +471,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
   return (
     <div
+      ref={columnRef}
       className={`${
         isFocusMode
           ? 'col-span-1 max-w-5xl mx-auto w-full'
@@ -489,6 +497,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             disabled={isEvaluating}
             placeholder={`Write your ${commandTermInfo.term} answer here.`}
             className="flex-grow"
+            focusMinHeight={focusMinHeight}
             keywords={currentPrompt.keywords}
             verb={currentPrompt.verb}
             bandCeiling={currentPrompt.bandCeiling}
