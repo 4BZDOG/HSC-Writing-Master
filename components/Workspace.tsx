@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useRef, useState, useEffect, useId } from 'react';
 import type { ShowToast } from '../hooks/useToast';
 import {
   Course,
@@ -41,6 +41,16 @@ import { freeTierLimits } from '../services/planPolicy';
 import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 import type { AppGeminiHandlers, AppModalHandlers } from '../hooks/appHandlerTypes';
 import { READING_SIZE_DEFAULT } from '../utils/readingSize';
+import FocusSplitter from './FocusSplitter';
+import {
+  FOCUS_FILL_MIN_WIDTH,
+  FOCUS_PROMPT_MAX_CSS,
+  FOCUS_PROMPT_MIN,
+  focusWritingCardMinHeight,
+  maxFocusPromptHeight,
+  readFocusPromptHeight,
+  writeFocusPromptHeight,
+} from '../utils/focusLayout';
 
 const useKeyboardShortcuts = (shortcuts: { [key: string]: (e: KeyboardEvent) => void }) => {
   useEffect(() => {
@@ -232,6 +242,60 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // exemplars. Every zoom control in the workspace writes to this value, so
   // there is a single setting rather than three that drift apart.
   const [promptFontSize, setPromptFontSize] = useState(READING_SIZE_DEFAULT);
+
+  // Focus Mode layout. The question card's height is the student's choice (the
+  // splitter), or `null` to fit its content. Remembered per browser, and only
+  // read in Focus Mode on a wide window: on a phone the page just scrolls.
+  const [focusPromptHeight, setFocusPromptHeight] = useState<number | null>(() =>
+    readFocusPromptHeight()
+  );
+  const [focusPromptPx, setFocusPromptPx] = useState(0);
+  const [isWideWindow, setIsWideWindow] = useState(() =>
+    typeof window === 'undefined' ? true : window.innerWidth >= FOCUS_FILL_MIN_WIDTH
+  );
+  const focusPromptRegionId = useId();
+  const focusPromptRef = useRef<HTMLDivElement>(null);
+  const writingColumnRef = useRef<HTMLDivElement>(null);
+  const focusFills = isFocusMode && isWideWindow;
+
+  useEffect(() => {
+    writeFocusPromptHeight(focusPromptHeight);
+  }, [focusPromptHeight]);
+
+  useEffect(() => {
+    const update = () => setIsWideWindow(window.innerWidth >= FOCUS_FILL_MIN_WIDTH);
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  // The splitter's value when the question is left to fit its own content: the
+  // card's rendered height, so the handle starts where the card actually is.
+  useEffect(() => {
+    const el = focusPromptRef.current;
+    if (!focusFills || !el) return;
+    const measure = () => setFocusPromptPx(el.offsetHeight);
+    measure();
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(measure);
+    observer?.observe(el);
+    window.addEventListener('resize', measure);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', measure);
+    };
+  }, [focusFills]);
+
+  // Entering Focus Mode from a scrolled page would open it with the writer out
+  // of view. Bring the writing card on screen: on a phone it sits under the
+  // question, so its top is what the student needs.
+  useEffect(() => {
+    if (!isFocusMode) return;
+    const frame = requestAnimationFrame(() =>
+      writingColumnRef.current?.scrollIntoView({
+        block: isWideWindow ? 'nearest' : 'start',
+      })
+    );
+    return () => cancelAnimationFrame(frame);
+  }, [isFocusMode]);
 
   // Layout Sync State. Headers and footers are matched in both directions so
   // the chrome lines up, but the CARD height is one-way: the question prompt
@@ -698,7 +762,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
   return (
     <div
-      className="flex flex-col h-full gap-4"
+      className={`flex flex-col ${isFocusMode ? 'flex-1 min-h-0' : 'h-full gap-4'}`}
       style={
         workspaceBandRgb ? ({ '--band-rgb': workspaceBandRgb } as React.CSSProperties) : undefined
       }
@@ -719,7 +783,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
         // between `none` and a 12-column track list, so `transition-all` animated
         // nothing useful here — it only kept the composited cards in motion while
         // Focus Mode added or removed whole columns, leaving stale paint behind.
-        className={`grid grid-cols-1 ${isFocusMode ? 'w-full' : 'xl:grid-cols-12 xl:grid-rows-[auto,1fr]'} gap-6 flex-1 min-h-0`}
+        className={
+          isFocusMode
+            ? 'flex flex-col w-full flex-1 min-h-0'
+            : 'grid grid-cols-1 xl:grid-cols-12 xl:grid-rows-[auto,1fr] gap-6 flex-1 min-h-0'
+        }
       >
         {!isFocusMode && (
           <div
@@ -762,7 +830,11 @@ const Workspace: React.FC<WorkspaceProps> = ({
         )}
 
         {isFocusMode && (
-          <div className="animate-fade-in max-w-5xl mx-auto w-full mb-4">
+          <div
+            ref={focusPromptRef}
+            id={focusPromptRegionId}
+            className="animate-fade-in flex-none max-w-5xl mx-auto w-full mb-6 sm:mb-0"
+          >
             <PromptDisplay
               prompt={currentPrompt}
               syllabus={syllabusPlacement}
@@ -789,6 +861,17 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onHeaderResize={setPromptHeaderHeight}
               minHeaderHeight={syncedHeader}
               condensed
+              focusFrame={
+                focusFills
+                  ? {
+                      height:
+                        focusPromptHeight === null
+                          ? undefined
+                          : `min(${focusPromptHeight}px, ${FOCUS_PROMPT_MAX_CSS})`,
+                      maxHeight: FOCUS_PROMPT_MAX_CSS,
+                    }
+                  : undefined
+              }
               breadcrumb={crumbs.map((c) => c.label)}
               examMode={isExamMode}
               showToast={showToast}
@@ -796,8 +879,21 @@ const Workspace: React.FC<WorkspaceProps> = ({
           </div>
         )}
 
+        {focusFills && (
+          <FocusSplitter
+            valueNow={focusPromptPx}
+            min={FOCUS_PROMPT_MIN}
+            max={maxFocusPromptHeight(window.innerHeight)}
+            controlsId={focusPromptRegionId}
+            onResize={setFocusPromptHeight}
+            onReset={() => setFocusPromptHeight(null)}
+          />
+        )}
+
         <WorkspaceRightPanel
           isFocusMode={isFocusMode}
+          focusMinHeight={focusFills ? focusWritingCardMinHeight(focusPromptPx) : undefined}
+          columnRef={writingColumnRef}
           showToast={showToast}
           userAnswer={userAnswer}
           setUserAnswer={setUserAnswer}

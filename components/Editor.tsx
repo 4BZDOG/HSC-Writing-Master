@@ -71,6 +71,10 @@ interface EditorProps {
    *  student opened before writing — see utils/supportEngagement.ts. */
   promptId?: string;
   isFocusMode?: boolean;
+  /** Focus Mode on a wide window: the card's height, from what the question
+   *  leaves of the window, so the card fills the screen and a long draft scrolls
+   *  inside the well rather than pushing the page down. */
+  focusMinHeight?: string;
   onToggleFocusMode?: () => void;
   progress?: number; // 0 to 1 scale representing completeness/quality
   /** The live draft-readiness signal (see utils/draftReadiness.ts). Optional so
@@ -312,6 +316,7 @@ const Editor = forwardRef<
       verb,
       promptId,
       isFocusMode,
+      focusMinHeight,
       onToggleFocusMode,
       progress = 0,
       readiness,
@@ -741,13 +746,17 @@ const Editor = forwardRef<
         // side by side (Focus Mode, one column), where nothing pins it to the
         // question. A long saved draft cannot stretch the page during the
         // first paint either way.
-        style={
-          {
-            minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : `${FREE_CARD_FLOOR}px`,
-            maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : freeCardMaxHeight,
-            '--band-rgb': getBandRgb(verbTier),
-          } as React.CSSProperties
-        }
+        style={{
+          ...(focusMinHeight
+            ? { minHeight: focusMinHeight, maxHeight: focusMinHeight }
+            : {
+                minHeight: minTotalHeight
+                  ? cappedCardHeight(minTotalHeight)
+                  : `${FREE_CARD_FLOOR}px`,
+                maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : freeCardMaxHeight,
+              }),
+          ...({ '--band-rgb': getBandRgb(verbTier) } as React.CSSProperties),
+        }}
       >
         <div ref={contentWrapRef} className="flex flex-col flex-1 min-h-0">
           {/* Header */}

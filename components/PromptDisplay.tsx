@@ -19,7 +19,9 @@ import {
   RefreshCw,
   AlertTriangle,
   BookOpen,
+  ChevronDown,
   ChevronRight,
+  ChevronUp,
   Link2,
   Wand2,
   Award,
@@ -77,6 +79,7 @@ import { TERM_CHIP_RESTING } from '../utils/termChrome';
 import { withIndefiniteArticle } from '../utils/grammar';
 import { canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 import { capOutcomeLinks } from '../utils/outcomeCodes';
+import { readFocusScenarioOpen, writeFocusScenarioOpen } from '../utils/focusLayout';
 
 interface PromptDisplayProps {
   prompt: Prompt;
@@ -106,6 +109,9 @@ interface PromptDisplayProps {
       placeholder and empty outcomes footer so the writing surface stays high
       on screen. Sections with real content still render. */
   condensed?: boolean;
+  /** Focus Mode only: the card's height bounds, set by the splitter. Ignored
+   *  unless `condensed`, where the card is a flex item of the focus column. */
+  focusFrame?: { height?: string; maxHeight: string };
   breadcrumb?: string[];
   /** The syllabus above this question. The filler list of terms marks the ones
    *  the question names itself, so it says the same thing as the Syllabus Terms
@@ -417,6 +423,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   minFooterHeight,
   minTotalHeight,
   condensed = false,
+  focusFrame,
   breadcrumb,
   syllabus,
   examMode = false,
@@ -426,6 +433,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   const [editQuestionText, setEditQuestionText] = useState(prompt.question);
   const [isEditingScenario, setIsEditingScenario] = useState(false);
   const [editScenarioText, setEditScenarioText] = useState(prompt.scenario || '');
+  // Focus Mode starts with the scenario folded away so the writing area gets the
+  // height; the student's last choice is remembered. The full card keeps it open.
+  const [scenarioOpen, setScenarioOpen] = useState(() =>
+    condensed ? readFocusScenarioOpen() : true
+  );
+  const scenarioRegionId = useId();
   const questionTextareaRef = useRef<HTMLTextAreaElement>(null);
   const scenarioTextareaRef = useRef<HTMLTextAreaElement>(null);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
@@ -481,6 +494,15 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // 390px, which is ~30 characters a line. A scenario with an image keeps the box:
   // the carousel is laid inside it.
   const scenarioIsPlainText = !!prompt.scenario && !prompt.scenarioImage;
+  // In Focus Mode the scenario folds to one line: its label, a truncated
+  // preview and a toggle. It opens for an edit or an image upload, which need
+  // the full box.
+  const hasScenario = !!prompt.scenario || !!prompt.scenarioImage;
+  const scenarioCollapsed =
+    condensed && hasScenario && !scenarioOpen && !isEditingScenario && !isUploadingImage;
+  const scenarioPreview = prompt.scenario
+    ? prompt.scenario.replace(/\s+/g, ' ').trim()
+    : 'Includes an image';
   const pastHsc = useMemo(() => getPastHscLabel(prompt), [prompt]);
   // A past paper's scenario is drawn in the parts the paper prints it in.
   const pastHscScenario = useMemo(
@@ -633,6 +655,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
         {
           minHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
           maxHeight: minTotalHeight ? cappedCardHeight(minTotalHeight) : undefined,
+          // Focus Mode sizes the card from the splitter instead of the writing
+          // card beside it, so the writing area can take whatever is left.
+          ...(condensed && focusFrame
+            ? { height: focusFrame.height, maxHeight: focusFrame.maxHeight }
+            : {}),
           '--band-rgb': getBandRgb(verbInfo.tier),
         } as React.CSSProperties
       }
@@ -911,9 +938,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             // Below `sm` the sides come in to the header's 16px gutter, so the question
             // and the scenario line up with the icon, and the scenario has the width
             // to read at (see the scenario's own classes).
-            className={`${condensed ? 'p-6 max-sm:px-4 sm:p-8' : 'p-6 max-sm:px-4 sm:p-8 pb-4 sm:pb-4'} ${
+            className={`${condensed ? 'py-4 px-6 max-sm:px-4 sm:px-8' : 'p-6 max-sm:px-4 sm:p-8 pb-4 sm:pb-4'} ${
               showScenarioSection ? '' : 'my-auto'
-            } relative z-10 flex flex-col gap-6 sm:gap-8`}
+            } relative z-10 flex flex-col ${condensed ? 'gap-4' : 'gap-6 sm:gap-8'}`}
           >
             {/* Provenance editor — opened from the header chip. */}
             {isEditingProvenance && canCurate && !examMode && (
@@ -1021,7 +1048,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
             {/* Scenario Section - "The Context" (see `showScenarioSection`) */}
             {showScenarioSection && (
               <div className="relative group/scenario">
-                <div className="flex items-center justify-between mb-4">
+                <div
+                  className={`flex items-center ${scenarioCollapsed ? 'gap-3' : 'justify-between mb-4'}`}
+                >
                   {/* `-400` in the dark theme, not `-500`. Measured on the
                       question card's own surface: `slate-500` reads 3.73:1
                       against a 4.5 floor there. It survived this long because
@@ -1029,11 +1058,39 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       scenario, and the contrast sweep's first question has
                       none — see `openQuestionWithOutcomes`. The light partner
                       is unchanged; it was already clearing the floor. */}
-                  <h3 className="text-sm font-bold text-slate-400 light:text-slate-600 flex items-center gap-2">
+                  <h3
+                    className={`${scenarioCollapsed ? 'shrink-0' : ''} text-sm font-bold text-slate-400 light:text-slate-600 flex items-center gap-2`}
+                  >
                     <BookOpen className="w-3.5 h-3.5" />{' '}
                     {pastHscScenario ? 'From the paper' : 'Context scenario'}
                   </h3>
-                  {canCurate && !isEditingScenario && (
+                  {scenarioCollapsed && (
+                    <p className="min-w-0 flex-1 truncate text-sm font-serif italic text-[rgb(var(--color-text-secondary))] light:text-slate-700">
+                      {scenarioPreview}
+                    </p>
+                  )}
+                  {condensed && hasScenario && !isEditingScenario && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const next = !scenarioOpen;
+                        setScenarioOpen(next);
+                        writeFocusScenarioOpen(next);
+                      }}
+                      aria-expanded={!scenarioCollapsed}
+                      aria-controls={scenarioRegionId}
+                      aria-label={`${scenarioCollapsed ? 'Show' : 'Hide'} context scenario`}
+                      className="ml-auto shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[rgb(var(--color-text-secondary))] border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-500 hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                    >
+                      {scenarioCollapsed ? (
+                        <ChevronDown className="w-3.5 h-3.5" aria-hidden="true" />
+                      ) : (
+                        <ChevronUp className="w-3.5 h-3.5" aria-hidden="true" />
+                      )}
+                      {scenarioCollapsed ? 'Show' : 'Hide'}
+                    </button>
+                  )}
+                  {canCurate && !isEditingScenario && !scenarioCollapsed && (
                     <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
                       {canGenerate && (
                         <button
@@ -1077,55 +1134,57 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   )}
                 </div>
 
-                {isUploadingImage && canCurate && !isEditingScenario && (
-                  <div className="mb-4">
-                    <ScenarioImageUploader
-                      promptId={prompt.id}
-                      existingImage={prompt.scenarioImage}
-                      onImageChange={(ref) => onUpdatePrompt({ scenarioImage: ref })}
-                      showToast={showToast}
-                    />
-                  </div>
-                )}
+                {!scenarioCollapsed && (
+                  <div id={scenarioRegionId}>
+                    {isUploadingImage && canCurate && !isEditingScenario && (
+                      <div className="mb-4">
+                        <ScenarioImageUploader
+                          promptId={prompt.id}
+                          existingImage={prompt.scenarioImage}
+                          onImageChange={(ref) => onUpdatePrompt({ scenarioImage: ref })}
+                          showToast={showToast}
+                        />
+                      </div>
+                    )}
 
-                {isEditingScenario ? (
-                  <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-2xl border border-white/10 band-surface">
-                    <div className="px-2 pt-2">
-                      <MathSymbolToolbar
-                        textareaRef={scenarioTextareaRef}
-                        value={editScenarioText}
-                        onChange={setEditScenarioText}
-                      />
-                    </div>
-                    <textarea
-                      ref={scenarioTextareaRef}
-                      value={editScenarioText}
-                      onChange={(e) => setEditScenarioText(e.target.value)}
-                      className="w-full bg-transparent border-none p-4 font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 resize-none font-serif leading-relaxed"
-                      style={{ fontSize: `${fontSize}px` }}
-                      rows={4}
-                    />
-                    <div className="flex justify-end gap-2 px-2 pb-2">
-                      <button
-                        onClick={() => {
-                          setEditScenarioText(prompt.scenario || '');
-                          setIsEditingScenario(false);
-                        }}
-                        className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        onClick={handleSaveScenario}
-                        className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-sm hover:scale-105 active:scale-[0.98] transition-all"
-                      >
-                        <Save className="w-3.5 h-3.5" /> Save Scenario
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div
-                    className={`
+                    {isEditingScenario ? (
+                      <div className="animate-fade-in space-y-3 p-2 bg-[rgb(var(--color-bg-surface-inset))] rounded-2xl border border-white/10 band-surface">
+                        <div className="px-2 pt-2">
+                          <MathSymbolToolbar
+                            textareaRef={scenarioTextareaRef}
+                            value={editScenarioText}
+                            onChange={setEditScenarioText}
+                          />
+                        </div>
+                        <textarea
+                          ref={scenarioTextareaRef}
+                          value={editScenarioText}
+                          onChange={(e) => setEditScenarioText(e.target.value)}
+                          className="w-full bg-transparent border-none p-4 font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 resize-none font-serif leading-relaxed"
+                          style={{ fontSize: `${fontSize}px` }}
+                          rows={4}
+                        />
+                        <div className="flex justify-end gap-2 px-2 pb-2">
+                          <button
+                            onClick={() => {
+                              setEditScenarioText(prompt.scenario || '');
+                              setIsEditingScenario(false);
+                            }}
+                            className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={handleSaveScenario}
+                            className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 flex items-center gap-2 shadow-sm hover:scale-105 active:scale-[0.98] transition-all"
+                          >
+                            <Save className="w-3.5 h-3.5" /> Save Scenario
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        className={`
                            relative p-6 rounded-2xl transition-all duration-300
                            ${
                              scenarioIsPlainText
@@ -1138,87 +1197,89 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                                : 'bg-transparent border-dashed border border-slate-700/50 light:border-slate-500'
                            }
                        `}
-                  >
-                    {pastHscScenario ? (
-                      // A past paper's stimulus image is drawn inside the paper's
-                      // own layout, where the stimulus sits, not on a second slide.
-                      <PastHscScenario
-                        parts={pastHscScenario}
-                        image={prompt.scenarioImage}
-                        keywords={prompt.keywords}
-                        verb={prompt.verb}
-                        fontSize={fontSize}
-                      />
-                    ) : prompt.scenarioImage ? (
-                      <ScenarioCarousel
-                        scenarioText={prompt.scenario}
-                        scenarioImage={prompt.scenarioImage}
-                        keywords={prompt.keywords}
-                        verb={prompt.verb}
-                        fontSize={fontSize}
-                      />
-                    ) : prompt.scenario ? (
-                      <div className="relative">
-                        {/* Decorative Quote Icon. Hidden below `sm`: its gutter is what took
+                      >
+                        {pastHscScenario ? (
+                          // A past paper's stimulus image is drawn inside the paper's
+                          // own layout, where the stimulus sits, not on a second slide.
+                          <PastHscScenario
+                            parts={pastHscScenario}
+                            image={prompt.scenarioImage}
+                            keywords={prompt.keywords}
+                            verb={prompt.verb}
+                            fontSize={fontSize}
+                          />
+                        ) : prompt.scenarioImage ? (
+                          <ScenarioCarousel
+                            scenarioText={prompt.scenario}
+                            scenarioImage={prompt.scenarioImage}
+                            keywords={prompt.keywords}
+                            verb={prompt.verb}
+                            fontSize={fontSize}
+                          />
+                        ) : prompt.scenario ? (
+                          <div className="relative">
+                            {/* Decorative Quote Icon. Hidden below `sm`: its gutter is what took
                             the text's width, and the thin rule on the paragraph carries
                             the quotation there instead. */}
-                        <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180 max-sm:hidden" />
-                        <p
-                          className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words max-sm:pl-2.5 max-sm:pr-0 max-sm:border-l-2 max-sm:border-white/20 light:max-sm:border-slate-300"
-                          style={{ fontSize: `${fontSize}px` }}
-                        >
-                          {renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb)}
-                        </p>
-                      </div>
-                    ) : (
-                      /* Compact empty state — a single row, so a scenario-less
+                            <Quote className="absolute -top-3 -left-2 w-6 h-6 text-slate-500/20 light:text-slate-500/30 transform rotate-180 max-sm:hidden" />
+                            <p
+                              className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words max-sm:pl-2.5 max-sm:pr-0 max-sm:border-l-2 max-sm:border-white/20 light:max-sm:border-slate-300"
+                              style={{ fontSize: `${fontSize}px` }}
+                            >
+                              {renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb)}
+                            </p>
+                          </div>
+                        ) : (
+                          /* Compact empty state — a single row, so a scenario-less
                        question doesn't push the writing surface down screen. */
-                      <div className="flex flex-wrap items-center justify-center py-2 text-center gap-x-4 gap-y-2">
-                        <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
-                          No scenario provided.
-                        </p>
-                        {canGenerate && (
-                          <button
-                            onClick={studioAction(onGenerateScenario)}
-                            disabled={isGeneratingScenario}
-                            title={studioTitle('Generate Context')}
-                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 hover:scale-105 ${
-                              studioChrome ||
-                              'bg-indigo-500/10 light:bg-indigo-100 text-indigo-400 light:text-indigo-700 border border-indigo-500/20 light:border-indigo-500 hover:bg-indigo-500/20 light:hover:bg-indigo-200'
-                            }`}
-                          >
-                            <Sparkles className="w-3.5 h-3.5" /> Generate Context
-                            {studioLocked && <PlusLockChip feature="aiContentStudio" />}
-                          </button>
+                          <div className="flex flex-wrap items-center justify-center py-2 text-center gap-x-4 gap-y-2">
+                            <p className="text-xs text-slate-600 dark:text-slate-400 font-medium">
+                              No scenario provided.
+                            </p>
+                            {canGenerate && (
+                              <button
+                                onClick={studioAction(onGenerateScenario)}
+                                disabled={isGeneratingScenario}
+                                title={studioTitle('Generate Context')}
+                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 hover:scale-105 ${
+                                  studioChrome ||
+                                  'bg-indigo-500/10 light:bg-indigo-100 text-indigo-400 light:text-indigo-700 border border-indigo-500/20 light:border-indigo-500 hover:bg-indigo-500/20 light:hover:bg-indigo-200'
+                                }`}
+                              >
+                                <Sparkles className="w-3.5 h-3.5" /> Generate Context
+                                {studioLocked && <PlusLockChip feature="aiContentStudio" />}
+                              </button>
+                            )}
+                          </div>
                         )}
-                      </div>
-                    )}
-                    <AiBusyOverlay
-                      show={isGeneratingScenario}
-                      rounded="rounded-2xl"
-                      z="z-10"
-                      maxWidth="max-w-xs"
-                    >
-                      {/* The same wait card as every other AI request. It was a bare
+                        <AiBusyOverlay
+                          show={isGeneratingScenario}
+                          rounded="rounded-2xl"
+                          z="z-10"
+                          maxWidth="max-w-xs"
+                        >
+                          {/* The same wait card as every other AI request. It was a bare
                           spinner here because the card did not fit a box this small;
                           it now sizes itself to the veil (index.css, `.ai-wait-stage`). */}
-                      <LoadingIndicator
-                        task="generation"
-                        message="Writing a scenario"
-                        messages={[
-                          'Reading the question',
-                          'Choosing a setting for it',
-                          'Writing the scenario',
-                        ]}
-                        duration={8}
-                      />
-                    </AiBusyOverlay>
-                  </div>
-                )}
+                          <LoadingIndicator
+                            task="generation"
+                            message="Writing a scenario"
+                            messages={[
+                              'Reading the question',
+                              'Choosing a setting for it',
+                              'Writing the scenario',
+                            ]}
+                            duration={8}
+                          />
+                        </AiBusyOverlay>
+                      </div>
+                    )}
 
-                {generateScenarioError && (
-                  <div className="mt-3 text-xs text-red-400 flex items-center gap-2 bg-red-500/10 p-3 rounded-xl border border-red-500/20 animate-fade-in">
-                    <AlertTriangle className="w-3.5 h-3.5" /> {generateScenarioError}
+                    {generateScenarioError && (
+                      <div className="mt-3 text-xs text-red-400 flex items-center gap-2 bg-red-500/10 p-3 rounded-xl border border-red-500/20 animate-fade-in">
+                        <AlertTriangle className="w-3.5 h-3.5" /> {generateScenarioError}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
