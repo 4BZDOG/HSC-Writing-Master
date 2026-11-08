@@ -157,7 +157,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               close button always stays on screen. */}
           <div className="flex items-center gap-2 sm:gap-3 relative z-10 shrink-0">
             <div
-              className="t-label flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-white/15 text-white border border-white/60"
+              className="t-label flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-black/25 text-white border border-white/60"
               title="This marked response has been auto-saved to your library"
             >
               <Check className="w-4 h-4" />
