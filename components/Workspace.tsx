@@ -14,6 +14,7 @@ import {
 } from '../types';
 import PromptDisplay from './PromptDisplay';
 import ReferenceMaterials, { MarkingGuidePanel, SyllabusTermsPanel } from './ReferenceMaterials';
+import ExamConditionsPlacard from './ExamConditionsPlacard';
 import { Lock } from 'lucide-react';
 import CommandTermGuideModal from './CommandTermGuideModal';
 import Breadcrumb from './Breadcrumb';
@@ -224,8 +225,10 @@ const Workspace: React.FC<WorkspaceProps> = ({
     [currentTopic?.name, currentSubTopic?.name, currentDotPoint?.description]
   );
 
-  // In Exam Mode the reference materials (syllabus terms, marking guide, grade
-  // standards) are hidden — a student sitting an exam can't see the marking key.
+  // In Exam Mode the reference materials (syllabus terms, marking guide) are put
+  // away — a student sitting an exam can't see the marking key. The rail's place
+  // holds an explanation instead (see ExamConditionsPlacard), and the prompt keeps
+  // its Coach width so the two headers line up in both modes.
   const isExamMode = writingMode === 'exam';
 
   // Focus Mode is for writing, and for a teacher or admin too: the creation and
@@ -790,9 +793,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
         }
       >
         {!isFocusMode && (
-          <div
-            className={`${isExamMode ? 'xl:col-span-4' : 'xl:col-span-5'} xl:col-start-1 xl:row-start-1`}
-          >
+          <div className="xl:col-span-5 xl:col-start-1 xl:row-start-1">
             <PromptDisplay
               prompt={currentPrompt}
               syllabus={syllabusPlacement}
@@ -939,39 +940,41 @@ const Workspace: React.FC<WorkspaceProps> = ({
         />
 
         {!isFocusMode && (
-          <div
-            className={`xl:col-span-5 xl:col-start-1 xl:row-start-2 self-start ${isExamMode ? 'hidden' : ''}`}
-          >
-            <ReferenceMaterials
-              prompt={currentPrompt}
-              topic={currentTopic}
-              dotPointText={currentDotPoint?.description}
-              subTopicName={currentSubTopic?.name}
-              userRole={userRole}
-              onKeywordsChange={(kw) =>
-                syllabusHandlers.updateCourses((d) =>
-                  findAndUpdateItem(d, statePath, (p) => (p.keywords = kw))
-                )
-              }
-              onMarkingCriteriaChange={(mc) =>
-                syllabusHandlers.updateCourses((d) =>
-                  findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
-                )
-              }
-              isEnriching={isEnriching}
-              onRegenerateKeywords={geminiHandlers.handleRegenerateKeywords}
-              isRegeneratingKeywords={geminiHandlers.isRegeneratingKeywords}
-              regenerateError={geminiHandlers.regenerateKeywordsError}
-              onSuggestKeywords={geminiHandlers.handleSuggestKeywords}
-              isSuggestingKeywords={geminiHandlers.isSuggestingKeywords}
-              suggestError={geminiHandlers.suggestKeywordsError}
-              userAnswer={userAnswer}
-              onAddWord={(word) =>
-                window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))
-              }
-              courseOutcomes={courseOutcomes}
-              breadcrumb={crumbs.map((c) => c.label)}
-            />
+          <div className="xl:col-span-5 xl:col-start-1 xl:row-start-2 self-start">
+            {isExamMode ? (
+              <ExamConditionsPlacard onBackToCoach={() => onWritingModeChange('coach')} />
+            ) : (
+              <ReferenceMaterials
+                prompt={currentPrompt}
+                topic={currentTopic}
+                dotPointText={currentDotPoint?.description}
+                subTopicName={currentSubTopic?.name}
+                userRole={userRole}
+                onKeywordsChange={(kw) =>
+                  syllabusHandlers.updateCourses((d) =>
+                    findAndUpdateItem(d, statePath, (p) => (p.keywords = kw))
+                  )
+                }
+                onMarkingCriteriaChange={(mc) =>
+                  syllabusHandlers.updateCourses((d) =>
+                    findAndUpdateItem(d, statePath, (p) => (p.markingCriteria = mc))
+                  )
+                }
+                isEnriching={isEnriching}
+                onRegenerateKeywords={geminiHandlers.handleRegenerateKeywords}
+                isRegeneratingKeywords={geminiHandlers.isRegeneratingKeywords}
+                regenerateError={geminiHandlers.regenerateKeywordsError}
+                onSuggestKeywords={geminiHandlers.handleSuggestKeywords}
+                isSuggestingKeywords={geminiHandlers.isSuggestingKeywords}
+                suggestError={geminiHandlers.suggestKeywordsError}
+                userAnswer={userAnswer}
+                onAddWord={(word) =>
+                  window.dispatchEvent(new CustomEvent('insert-text', { detail: word }))
+                }
+                courseOutcomes={courseOutcomes}
+                breadcrumb={crumbs.map((c) => c.label)}
+              />
+            )}
           </div>
         )}
 

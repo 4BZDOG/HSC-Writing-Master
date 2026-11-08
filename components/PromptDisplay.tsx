@@ -608,6 +608,30 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     };
   }, [onTotalHeightChange, prompt.question, prompt.scenario, fontSize]);
 
+  // Exam Mode only: a scenario longer than the card scrolls inside its body, and
+  // nothing else says so. Watch the body while the exam is on, and show a fade
+  // at its foot only while there is more below. Coach Mode is left as it was.
+  const [moreBelow, setMoreBelow] = useState(false);
+  useEffect(() => {
+    const el = bodyRef.current;
+    if (!examMode || !el) {
+      setMoreBelow(false);
+      return;
+    }
+    const update = () => setMoreBelow(el.scrollHeight - el.scrollTop - el.clientHeight > 4);
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    const observer = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+    observer?.observe(el);
+    // The content, not only the box: expanding the scenario grows the content
+    // while the box stays the same size, and that is the change that matters.
+    if (bodyContentRef.current) observer?.observe(bodyContentRef.current);
+    return () => {
+      el.removeEventListener('scroll', update);
+      observer?.disconnect();
+    };
+  }, [examMode, prompt.question, prompt.scenario, fontSize, scenarioCollapsed]);
+
   const handleSaveQuestion = () => {
     if (editQuestionText.trim() !== prompt.question) {
       onUpdatePrompt({ question: editQuestionText.trim() });
@@ -1355,6 +1379,17 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           </div>
         </div>
 
+        {/* The foot of the scroll region, shown only under exam conditions and only
+          while the scenario runs on below it. It takes no room of its own (the
+          negative margin lays it over the last line of the body), so the card's
+          height and the writing area beside it do not move when it appears. */}
+        {examMode && moreBelow && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none relative z-20 h-10 -mt-10 bg-gradient-to-t from-[rgb(var(--color-bg-surface))] light:from-white to-transparent"
+          />
+        )}
+
         {/* Outcomes Footer - "The Evidence". A sibling of the scroll region, not
           a child of it, so the brief button, the outcome chips and the flag stay
           pinned to the bottom instead of scrolling out of reach when a long
@@ -1408,7 +1443,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </button>
               ) : (
                 <div className="flex-1 min-w-0">
-                  {!examMode && (
+                  {examMode ? (
+                    <span className="inline-flex items-center gap-2 min-h-9 text-xs text-[rgb(var(--color-text-muted))] italic font-medium">
+                      Something wrong with this question?
+                    </span>
+                  ) : (
                     // No `opacity`: a muted tone says "nothing to see" and stays
                     // readable for whoever needs to read it.
                     <span className="inline-flex items-center gap-2 min-h-9 text-xs text-[rgb(var(--color-text-muted))] italic font-medium">

@@ -310,16 +310,12 @@ describe('no white ink is left on an amber or accent fill', () => {
  * the reason it is not changed here. The check below also fails when an entry
  * stops having such a fill, so an entry cannot outlive the defect it names.
  *
- * Both entries are red-500 with white ink, which is 3.8:1. They are owned by
- * another piece of work this round and are a one-token follow-up there
- * (`hover:bg-red-600` / `bg-red-600`); the staff tools and the authoring modals
- * are already on the step that clears.
+ * The entry is red-500 with white ink, which is 3.8:1. It is owned by another
+ * piece of work and is a one-token follow-up there (`hover:bg-red-600`); the
+ * staff tools, the authoring modals and the exam-mode toggle are already on the
+ * step that clears.
  */
 const GREEN_FAMILY_EXEMPT = new Map<string, string>([
-  [
-    'components/Editor.tsx',
-    'the exam-mode toggle paints bg-red-500 with white (3.8:1); Editor.tsx is out of scope here',
-  ],
   [
     'components/PromptSelector.tsx',
     'the discard control hovers to red-500 with white (3.8:1); PromptSelector.tsx is out of scope here',

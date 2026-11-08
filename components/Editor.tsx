@@ -56,6 +56,7 @@ import {
 } from '../utils/cardChrome';
 import HowToAnswer from './HowToAnswer';
 import { READING_SIZE_DEFAULT, canStepReadingSize, stepReadingSize } from '../utils/readingSize';
+import { EXAM_BOOKLET_BORDER } from '../utils/panelStyles';
 
 interface EditorProps {
   value: string;
@@ -420,7 +421,8 @@ const Editor = forwardRef<
           background: 'linear-gradient(135deg, #334155 0%, #1e293b 55%, #0f172a 100%)',
           veil: 0,
           glow: 'shadow-slate-950/40',
-          border: 'border-slate-600/50 light:border-slate-300',
+          // The exam booklet edge, shared with the timer and the conditions placard.
+          border: EXAM_BOOKLET_BORDER,
           mesh: '%23ffffff',
           energy: 'none',
           iconColor: 'text-white',
@@ -801,7 +803,7 @@ const Editor = forwardRef<
                     <div
                       className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:row-start-2`}
                     >
-                      <span className="t-label leading-none bg-red-500/90 px-2 py-1 rounded-lg border border-white/20 flex items-center gap-1 shadow-sm">
+                      <span className="t-label leading-none bg-red-600 px-2 py-1 rounded-lg border border-white/20 flex items-center gap-1 shadow-sm">
                         <GraduationCap className="w-3 h-3" /> Exam
                       </span>
                       <p className={CARD_HEADER_META}>No assistance</p>
@@ -895,7 +897,7 @@ const Editor = forwardRef<
                           aria-pressed={isExamMode}
                           aria-label="Exam mode"
                           title="Exam Mode — HSC exam simulation: no assistance, timed"
-                          className={`relative t-label px-2.5 h-6 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-500 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`relative t-label px-2.5 h-6 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-600 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Exam</span>
