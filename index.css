@@ -474,6 +474,23 @@ body.ai-busy .aurora {
   --editor-margin-ink: 50%;
 }
 
+/*
+ * A ruled sheet whose text sits on a card's own gutter (px-6 / sm:px-8) rather
+ * than the writing well's (px-5 / sm:px-7). Only the margin's position moves; the
+ * rules, the margin line and the baseline are all `.editor-ruling`'s, so this is
+ * a sibling of the same maths, not a second copy of it. Used with the class
+ * `editor-ruling` on the same element, and declared after it so it wins.
+ */
+.ruled-sheet {
+  --editor-margin-x: calc(1.5rem - 6px);
+}
+
+@media (min-width: 640px) {
+  .ruled-sheet {
+    --editor-margin-x: calc(2rem - 6px);
+  }
+}
+
 .editor-ruling::before {
   content: '';
   position: absolute;

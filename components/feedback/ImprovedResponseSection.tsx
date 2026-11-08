@@ -127,23 +127,34 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
 
         {revisedText ? (
           <>
-            <div className="px-6 sm:px-8 pt-6 pb-5">
+            <div className="px-6 sm:px-8 pt-6">
               <p className="t-label mb-3 text-slate-600 dark:text-slate-400">
                 {atCeiling
                   ? 'You already have full marks. This is the marker’s version, to compare with yours.'
                   : "Your answer with the marker's edits made"}
               </p>
-              {/* The rewrite fills the report's card, like the commentary above it.
-                  It was once held to the reading column's 40rem measure, but the
-                  product owner ruled that a card with text stopping short reads as
-                  unfinished. See DesignSpec §4, "Measure". */}
-              <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-800 dark:text-slate-200">
-                {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
-              </div>
+            </div>
+
+            {/* The rewrite on a ruled sheet, the way the writing area holds the
+                student's own words: the same rules and margin, at the card's gutter.
+                It fills the report's card, like the commentary above it.
+                It was once held to the reading column's 40rem measure, but the
+                product owner ruled that a card with text stopping short reads as
+                unfinished. See DesignSpec §4, "Measure". */}
+            <div
+              className="editor-ruling ruled-sheet relative isolate overflow-hidden bg-[rgb(var(--color-bg-surface-inset))] px-6 sm:px-8 pt-8 pb-8 font-serif text-[17px] leading-[1.8] text-slate-800 dark:text-slate-200"
+              style={
+                {
+                  '--editor-fs': '17px',
+                  '--editor-margin': getBandHex(1),
+                } as React.CSSProperties
+              }
+            >
+              {renderFormattedText(revisedText, prompt.keywords, prompt.verb)}
             </div>
 
             {keyChanges.length > 0 && (
-              <div className="px-6 sm:px-8 pb-6">
+              <div className="px-6 sm:px-8 pt-5 pb-6">
                 <p className="t-label mb-2 text-slate-600 dark:text-slate-400">What changed</p>
                 <ul className="space-y-2">
                   {keyChanges.map((change, i) => (

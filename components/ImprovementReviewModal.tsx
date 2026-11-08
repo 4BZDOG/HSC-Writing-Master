@@ -6,6 +6,7 @@ import {
   stripHtmlTags,
   cleanMarkdown,
   getBandConfig,
+  getBandHex,
   getBandRgb,
   getBandDeepInkRgb,
   KEYWORD_CHIP_CLASS,
@@ -13,6 +14,14 @@ import {
   renderHighlightedText,
   textContainsKeyword,
 } from '../utils/renderUtils';
+import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
+import {
+  CARD_HEADER_BOX,
+  CARD_HEADER_ICON,
+  CARD_HEADER_META,
+  CARD_HEADER_TITLE,
+  cardHeaderWash,
+} from '../utils/cardChrome';
 import {
   Copy,
   ArrowRight,
@@ -27,6 +36,7 @@ import {
   SkipBack,
   SkipForward,
   ChevronsRight,
+  Sparkles,
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -118,6 +128,16 @@ const OP_CLASS: Record<DiffSegment['op'], string> = {
 const RING_CLASS =
   'ring-2 ring-offset-1 ring-offset-transparent animate-edit-focus motion-reduce:animate-none ring-[rgb(var(--band-ink-deep-rgb))] dark:ring-[rgb(var(--band-rgb))]';
 
+/**
+ * The student's text on a sheet ruled like the writing area (`.editor-ruling`,
+ * the same rules, margin line and baseline as the editor's). The sheet takes the
+ * writing well's ground, so the response reads as the page it was written on.
+ * The rules are measured from `--editor-fs`, which the frame sets from the reading
+ * size, so A−/A+ re-rules the sheet. The text inside must be 1.8 leading to meet them.
+ */
+const RULED_SHEET =
+  'editor-ruling relative isolate overflow-hidden rounded-xl border border-slate-500 dark:border-white/40 bg-[rgb(var(--color-bg-surface-inset))] px-5 sm:px-7 pt-8 pb-8';
+
 /** A syllabus term the revision has not reached yet, in the replay. */
 const UNLIT_TERM_CLASS =
   'inline-block px-2 py-0.5 rounded-lg text-xs font-semibold border border-dashed border-slate-500 dark:border-white/40 text-slate-600 dark:text-slate-400 transition-colors duration-500 motion-reduce:transition-none';
@@ -208,7 +228,7 @@ const DiffText: React.FC<{
 }) => {
   return (
     <p
-      className="font-serif leading-[1.9] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
+      className="font-serif leading-[1.8] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
       style={{ fontSize: `${fontSize}px` }}
     >
       {segments.map((segment, index) => {
@@ -407,6 +427,23 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const bandStyle = {
     '--band-rgb': getBandRgb(targetBand),
     '--band-ink-deep-rgb': getBandDeepInkRgb(targetBand),
+  } as React.CSSProperties;
+  // The band the student's own answer sat in, from its mark. Each score in the
+  // header wears its own band, so the step from one to the other reads as a
+  // step between two bands rather than one colour and a number.
+  const originalBand =
+    originalMark === undefined
+      ? undefined
+      : getBandForMark(
+          originalMark,
+          originalPrompt.totalMarks,
+          getCommandTermInfo(originalPrompt.verb).tier
+        );
+  // The page's margin is Band 1's red on every writing surface (the editor's
+  // exam-booklet rule), so the response reads as the same paper here.
+  const ruledSheetVars = {
+    '--editor-fs': `${fontSize}px`,
+    '--editor-margin': getBandHex(1),
   } as React.CSSProperties;
 
   useEscapeKey(isOpen, onClose);
@@ -817,7 +854,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         aria-labelledby={titleId}
         aria-describedby={descId}
         style={bandStyle}
-        className="clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg w-full max-w-6xl xl:max-w-[min(94vw,1500px)] border border-slate-500 dark:border-white/40 animate-fade-in-up motion-reduce:animate-none overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]"
+        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg ${bandConfig.glow} w-full max-w-6xl xl:max-w-[min(94vw,1500px)] border-2 ${bandConfig.border} animate-fade-in-up motion-reduce:animate-none overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* The band this revision reaches, as one rule across the top — the
@@ -833,72 +870,87 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           />
         </div>
 
-        <header className="px-5 sm:px-8 pt-5 pb-4 flex items-start justify-between gap-4 shrink-0">
-          <div className="min-w-0">
-            <h2
-              id={titleId}
-              className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight"
-            >
-              {/* The gain is usually one mark, but not always — a student already
-                  in the question's top band is lifted to full marks. */}
-              {unchanged
-                ? 'Your answer, unchanged'
-                : gained === 1
-                  ? 'Your answer, one mark higher'
-                  : gained > 1
-                    ? `Your answer, ${gained} marks higher`
-                    : 'Your answer, improved'}
-            </h2>
-            <p
-              id={descId}
-              // On a phone every line above the page is a line of the student's
-              // answer not shown, and the legend over the text says the same thing.
-              // It stays as the dialog's description for a screen reader.
-              className="sr-only sm:not-sr-only sm:mt-1.5 text-sm text-slate-600 dark:text-slate-400 leading-relaxed max-w-2xl"
-            >
-              {unchanged
-                ? 'The marker left it as you wrote it.'
-                : hasOriginal
-                  ? 'The marker’s edits, drawn on your own writing.'
-                  : 'The marker’s version of this answer.'}
-            </p>
+        {/* The card's header, drawn in the target band: the band's ink as the
+            ground, a frosted tile, and the verdict as the all-caps hero. The score
+            sits in the strip with each mark in its own band, the same pair of
+            colours the rail and the page use for those bands. */}
+        <header
+          className={`${CARD_HEADER_BOX} justify-between gap-4 shrink-0`}
+          style={{ background: cardHeaderWash(targetBand) }}
+        >
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0 relative z-10">
+            <div className={`${CARD_HEADER_ICON} max-sm:hidden`} aria-hidden="true">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div className="min-w-0">
+              <h2 id={titleId} className={CARD_HEADER_TITLE}>
+                {/* The gain is usually one mark, but not always — a student already
+                    in the question's top band is lifted to full marks. The words
+                    are set in capitals by the title's own style, not typed so. */}
+                {unchanged
+                  ? 'Your answer, unchanged'
+                  : gained === 1
+                    ? 'Your answer, one mark higher'
+                    : gained > 1
+                      ? `Your answer, ${gained} marks higher`
+                      : 'Your answer, improved'}
+              </h2>
+              <p
+                id={descId}
+                // On a phone every line above the page is a line of the student's
+                // answer not shown, and the legend over the text says the same thing.
+                // It stays as the dialog's description for a screen reader.
+                className={`sr-only sm:not-sr-only sm:mt-1.5 max-w-2xl ${CARD_HEADER_META}`}
+              >
+                {unchanged
+                  ? 'The marker left it as you wrote it.'
+                  : hasOriginal
+                    ? 'The marker’s edits, drawn on your own writing.'
+                    : 'The marker’s version of this answer.'}
+              </p>
+            </div>
           </div>
 
-          <div className="flex items-start gap-3 sm:gap-5 shrink-0">
+          <div className="flex items-start gap-3 sm:gap-4 shrink-0 relative z-10">
             {/* The mark it moved, said once and large enough to be the point. The
                 title names the gain, so this line gives the figure and the band
-                and nothing else. The chip it replaces put "3 → 4/4" at 12px inside
-                a gradient. */}
+                and nothing else. Each mark is a chip in its own band's solid, with
+                the ink the band-solid class sets, so no white sits on a band. */}
             {!unchanged && targetMark !== undefined && (
               <div className="text-right">
-                <p className="flex items-baseline justify-end gap-1.5 tabular-nums leading-none">
-                  {originalMark !== undefined && (
+                <p className="flex items-center justify-end gap-1.5 tabular-nums leading-none text-white">
+                  {originalMark !== undefined && originalBand !== undefined && (
                     <>
-                      <span className="text-lg font-semibold text-slate-600 dark:text-slate-400">
+                      <span
+                        className="band-solid inline-flex items-center justify-center min-w-[2rem] h-8 px-1.5 rounded-lg text-base font-bold ring-1 ring-inset ring-white/60"
+                        style={{ '--band-rgb': getBandRgb(originalBand) } as React.CSSProperties}
+                      >
                         {originalMark}
                       </span>
                       <span className="sr-only"> to </span>
-                      <span aria-hidden="true" className="text-slate-600 dark:text-slate-400">
-                        →
-                      </span>
+                      <ArrowRight className="w-4 h-4 text-white shrink-0" aria-hidden="true" />
                     </>
                   )}
-                  <span className={`text-3xl font-black ${bandConfig.text}`}>{shownMark}</span>
-                  <span className="text-sm font-semibold text-slate-600 dark:text-slate-400">
+                  <span
+                    data-mark-figure="target"
+                    className="band-solid inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-lg text-xl font-black ring-1 ring-inset ring-white/60"
+                    style={bandStyle}
+                  >
+                    {shownMark}
+                  </span>
+                  <span className="text-sm font-semibold text-white ml-0.5">
                     <span aria-hidden="true">/</span>
                     <span className="sr-only"> out of </span>
                     {originalPrompt.totalMarks}
                   </span>
                 </p>
-                <p className="t-label mt-1.5 text-slate-600 dark:text-slate-400 whitespace-nowrap">
-                  Band {targetBand}
-                </p>
+                <p className={`${CARD_HEADER_META} mt-1.5 whitespace-nowrap`}>Band {targetBand}</p>
               </div>
             )}
             <button
               onClick={onClose}
               aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-900 dark:can-hover:hover:text-white can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors flex items-center justify-center touch-manipulation"
+              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg text-white can-hover:hover:bg-white/15 transition-colors flex items-center justify-center touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             >
               <X className="w-5 h-5" />
             </button>
@@ -922,37 +974,48 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 </p>
               </div>
               <dl className="grid grid-cols-3 gap-2 md:flex md:flex-wrap md:justify-end shrink-0">
+                {/* The figures are the page's ink, not the diff's colours: emerald and
+                    rose belong to the marks on the text, and each added or cut tile
+                    carries a key swatch in its mark's own colours to say so. */}
                 {[
                   {
                     key: 'kept',
                     label: kept.label,
                     value: kept.figure,
-                    tone: 'text-slate-900 dark:text-white',
+                    swatch: '',
                   },
                   {
                     key: 'added',
                     label: 'words added',
                     value: stats.added === 0 ? '0' : `+${stats.added}`,
-                    tone: 'text-emerald-700 dark:text-emerald-300',
+                    swatch:
+                      'bg-emerald-200/80 dark:bg-emerald-500/15 ring-1 ring-inset ring-emerald-600/60 dark:ring-emerald-400/60',
                   },
                   {
                     key: 'cut',
                     label: 'words cut',
                     value: stats.removed === 0 ? '0' : `−${stats.removed}`,
-                    tone: 'text-rose-700 dark:text-rose-300',
+                    swatch:
+                      'bg-rose-200/80 dark:bg-rose-500/10 ring-1 ring-inset ring-rose-600/70 dark:ring-rose-400/70',
                   },
                 ].map((tile, i) => (
                   <div
                     key={tile.key}
-                    className="flex flex-col-reverse gap-0.5 px-3 py-2 md:px-3.5 md:min-w-[7.5rem] report-tile rounded-xl border border-slate-500 dark:border-white/40 bg-white dark:bg-white/[0.04] animate-fade-in-up-sm motion-reduce:animate-none"
+                    className="flex flex-col-reverse gap-0.5 px-3 py-2 md:px-3.5 md:min-w-[7.5rem] report-tile rounded-xl border border-slate-500 dark:border-white/40 bg-[rgb(var(--color-bg-surface))] dark:bg-white/[0.04] animate-fade-in-up-sm motion-reduce:animate-none"
                     style={{ animationDelay: `${120 + i * 90}ms`, animationFillMode: 'both' }}
                   >
                     {/* The label comes first in the source, as a `dl` requires; the
                         column is reversed so the figure reads first on screen. */}
-                    <dt className="t-label text-slate-600 dark:text-slate-400">{tile.label}</dt>
-                    <dd
-                      className={`text-lg md:text-xl font-bold tabular-nums leading-tight m-0 ${tile.tone}`}
-                    >
+                    <dt className="t-label flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
+                      {!!tile.swatch && (
+                        <span
+                          aria-hidden="true"
+                          className={`inline-block w-2.5 h-2.5 rounded-full shrink-0 ${tile.swatch}`}
+                        />
+                      )}
+                      {tile.label}
+                    </dt>
+                    <dd className="text-lg md:text-xl font-bold tabular-nums leading-tight m-0 text-slate-900 dark:text-white">
                       {tile.value}
                     </dd>
                   </div>
@@ -1003,8 +1066,8 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   aria-pressed={view === v.id}
                   className={`t-label inline-flex items-center min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap touch-manipulation ${
                     view === v.id
-                      ? 'bg-white dark:bg-white/15 text-slate-900 dark:text-white shadow-sm ring-1 ring-inset ring-slate-500 dark:ring-white/50'
-                      : 'text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-200'
+                      ? 'band-solid shadow-sm'
+                      : 'text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-200 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10'
                   }`}
                 >
                   {v.label}
@@ -1205,19 +1268,21 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                         {words} words
                       </span>
                     </div>
-                    <div className="px-5 sm:px-6 py-6">
-                      {/* The revised column owns the jump targets: it is the
-                          side a student is being asked to write. */}
-                      <DiffText
-                        segments={runs}
-                        side={isRevised ? 'revised' : 'original'}
-                        fontSize={fontSize}
-                        activeRange={isRevised ? (revisedRanges[focusEdit] ?? null) : null}
-                        registerMark={isRevised ? registerMark : undefined}
-                        onPreview={isRevised ? setPreview : undefined}
-                        keywords={originalPrompt.keywords}
-                        verb={originalPrompt.verb}
-                      />
+                    <div className="px-4 sm:px-5 py-5">
+                      <div className={RULED_SHEET} style={ruledSheetVars}>
+                        {/* The revised column owns the jump targets: it is the
+                            side a student is being asked to write. */}
+                        <DiffText
+                          segments={runs}
+                          side={isRevised ? 'revised' : 'original'}
+                          fontSize={fontSize}
+                          activeRange={isRevised ? (revisedRanges[focusEdit] ?? null) : null}
+                          registerMark={isRevised ? registerMark : undefined}
+                          onPreview={isRevised ? setPreview : undefined}
+                          keywords={originalPrompt.keywords}
+                          verb={originalPrompt.verb}
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -1235,28 +1300,36 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     <span>everything unmarked is your own writing</span>
                   </p>
                 )}
-                {comparing && view === 'marked' ? (
-                  <DiffText
-                    segments={segments}
-                    fontSize={fontSize}
-                    activeRange={activeRange}
-                    editNumbers={editNumbers}
-                    editOf={segmentEdit}
-                    replayStep={shownStep}
-                    registerMark={registerMark}
-                    onSelectEdit={goTo}
-                    onPreview={setPreview}
-                    keywords={originalPrompt.keywords}
-                    verb={originalPrompt.verb}
-                  />
-                ) : (
-                  <p
-                    className="font-serif leading-[1.9] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
-                    style={{ fontSize: `${fontSize}px` }}
-                  >
-                    {renderFormattedText(revisedText, originalPrompt.keywords, originalPrompt.verb)}
-                  </p>
-                )}
+                {/* The response on a ruled sheet, the way the writing area holds it:
+                    the student's words sit on the same lines as the editor's. */}
+                <div className={RULED_SHEET} style={ruledSheetVars}>
+                  {comparing && view === 'marked' ? (
+                    <DiffText
+                      segments={segments}
+                      fontSize={fontSize}
+                      activeRange={activeRange}
+                      editNumbers={editNumbers}
+                      editOf={segmentEdit}
+                      replayStep={shownStep}
+                      registerMark={registerMark}
+                      onSelectEdit={goTo}
+                      onPreview={setPreview}
+                      keywords={originalPrompt.keywords}
+                      verb={originalPrompt.verb}
+                    />
+                  ) : (
+                    <p
+                      className="font-serif leading-[1.8] whitespace-pre-wrap text-slate-800 dark:text-slate-200"
+                      style={{ fontSize: `${fontSize}px` }}
+                    >
+                      {renderFormattedText(
+                        revisedText,
+                        originalPrompt.keywords,
+                        originalPrompt.verb
+                      )}
+                    </p>
+                  )}
+                </div>
               </div>
             )}
           </div>

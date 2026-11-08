@@ -8,7 +8,12 @@ import {
   KEYWORD_HIGHLIGHT_CLASS,
 } from '../../utils/renderUtils';
 import { LADDER_SOLID } from '../../utils/ladderChrome';
-import { FEEDBACK_CARD, FEEDBACK_HEADING, FEEDBACK_TILE } from './feedbackChrome';
+import {
+  FEEDBACK_CARD,
+  FEEDBACK_HEADING,
+  FEEDBACK_SECTION_HEADING,
+  FEEDBACK_TILE,
+} from './feedbackChrome';
 
 export const MetricCard = ({
   label,
@@ -164,7 +169,7 @@ export const SectionHeading: React.FC<{
     <div className={`${FEEDBACK_TILE} ${toneBg ?? 'bg-slate-100 dark:bg-white/10'} ${tone}`}>
       <Icon className="w-3.5 h-3.5" />
     </div>
-    <h3 className={FEEDBACK_HEADING}>{label}</h3>
+    <h3 className={FEEDBACK_SECTION_HEADING}>{label}</h3>
     {children}
   </div>
 );

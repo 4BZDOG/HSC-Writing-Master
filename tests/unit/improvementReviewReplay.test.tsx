@@ -389,7 +389,8 @@ describe('watching the marker’s edits', () => {
     );
     renderModal(threeEdits);
     // The figure the header sets large: the target mark, not the "from" one.
-    const figure = () => screen.getByRole('dialog').querySelector('.text-3xl')?.textContent;
+    const figure = () =>
+      screen.getByRole('dialog').querySelector('[data-mark-figure="target"]')?.textContent;
 
     startReplay();
     // The student's own score until the last edit is on the page.
@@ -462,7 +463,9 @@ describe('reduced motion', () => {
     startReplay();
     fireEvent.click(screen.getByRole('button', { name: 'Skip to the end' }));
 
-    expect(screen.getByRole('dialog').querySelector('.text-3xl')?.textContent).toBe('5');
+    expect(
+      screen.getByRole('dialog').querySelector('[data-mark-figure="target"]')?.textContent
+    ).toBe('5');
   });
 
   it('is off for the motion-reduce variants on every transition the page adds', () => {
