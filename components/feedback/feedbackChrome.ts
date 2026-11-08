@@ -25,6 +25,19 @@ export const FEEDBACK_CARD =
 export const FEEDBACK_HEADING =
   'font-bold text-base leading-snug tracking-tight text-slate-900 dark:text-white';
 
+/**
+ * A report section's heading ("Improved response", "Marker's commentary"), in the
+ * display voice at a section's size: the `t-display` face and italic caps the
+ * hero title wears, at 14-15px rather than the hero's 18-24px. The modal title is
+ * still the loudest thing on the page; these divide it into named parts.
+ *
+ * Only `SectionHeading` wears this. `FEEDBACK_HEADING` stays sentence case: it
+ * also sets the "Band N goal" heading, and the workspace rail's panel names are
+ * documented as the same voice as it, so changing it would move both.
+ */
+export const FEEDBACK_SECTION_HEADING =
+  't-display uppercase italic text-sm sm:text-[15px] leading-snug tracking-[0.08em] text-slate-900 dark:text-white';
+
 /** The icon tile beside a heading. Its colour is the section's tone, passed in. */
 export const FEEDBACK_TILE = 'p-1.5 rounded-lg shrink-0 ring-1 ring-inset ring-current';
 

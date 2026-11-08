@@ -7,7 +7,14 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { X, FileCheck, ArrowUpCircle, Check } from 'lucide-react';
 import { isFeatureLocked } from '../services/entitlements';
-import { stripHtmlTags, getBandRgb, getBandDeepInkRgb } from '../utils/renderUtils';
+import { stripHtmlTags, getBandConfig, getBandRgb, getBandDeepInkRgb } from '../utils/renderUtils';
+import {
+  CARD_HEADER_BOX,
+  CARD_HEADER_ICON,
+  CARD_HEADER_META,
+  CARD_HEADER_TITLE,
+  cardHeaderWash,
+} from '../utils/cardChrome';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { ladderBandVars } from './LadderRow';
 import { presentableRewrite } from './feedback/rewriteText';
@@ -63,6 +70,8 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   const modalBandTier = getCommandTermInfo(prompt.verb).tier;
   const modalBandRgb = getBandRgb(modalBandTier);
   const modalBandDeepRgb = getBandDeepInkRgb(modalBandTier);
+  // The frame takes the workspace cards' own 2px band edge and glow.
+  const modalBand = getBandConfig(modalBandTier);
 
   // Escape closes the feedback like every other modal surface — but never
   // mid-improvement, so the regeneration can't be abandoned half-rendered.
@@ -110,7 +119,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
       className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
     >
       <div
-        className="clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg border border-slate-500 dark:border-white/40 band-surface-primary flex flex-col relative animate-fade-in-up overflow-hidden"
+        className={`clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg ${modalBand.glow} border-2 ${modalBand.border} flex flex-col relative animate-fade-in-up overflow-hidden`}
         style={
           {
             '--band-rgb': modalBandRgb,
@@ -118,23 +127,26 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
           } as React.CSSProperties
         }
       >
-        <div className="px-4 sm:px-8 py-4 sm:py-5 border-b border-white/40 light:border-slate-500 band-header-strip bg-[rgb(var(--color-bg-surface-elevated))] flex justify-between items-center gap-3 shrink-0 z-20 relative overflow-hidden">
+        {/* The card header, in the question's band: the same strip, frosted tile
+            and all-caps hero as the workspace cards, so the report reads as the
+            marked answer's own page. The strip's ground is the band's ink, and the
+            white on it is the one pairing the cards already hold to AA. */}
+        <div
+          className={`${CARD_HEADER_BOX} gap-3 z-20 relative overflow-hidden`}
+          style={{ background: cardHeaderWash(modalBandTier) }}
+        >
           <MeshOverlay opacity="opacity-[0.03]" />
 
           <div className="flex items-center gap-3 sm:gap-4 relative z-10 min-w-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 shrink-0 rounded-2xl bg-indigo-500/10 light:bg-indigo-100 flex items-center justify-center border border-indigo-500/20 light:border-indigo-500 dark:border-indigo-300/70 text-indigo-400 light:text-indigo-600 shadow-inner">
-              <FileCheck className="w-5 h-5 sm:w-6 sm:h-6" />
+            <div className={`${CARD_HEADER_ICON} max-sm:hidden`} aria-hidden="true">
+              <FileCheck className="w-5 h-5" />
             </div>
             <div className="min-w-0">
-              <h2 className="text-lg sm:text-xl font-black text-[rgb(var(--color-text-primary))] light:text-slate-900 tracking-normal italic leading-none whitespace-nowrap">
-                Marking Feedback
-              </h2>
+              <h2 className={CARD_HEADER_TITLE}>Marking Feedback</h2>
               <div className="flex items-center gap-2 mt-1.5">
-                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-700 whitespace-nowrap">
-                  {prompt.verb}
-                </span>
-                <span className="w-1 h-1 rounded-full bg-white/20 light:bg-slate-300"></span>
-                <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-700 whitespace-nowrap">
+                <span className={`${CARD_HEADER_META} whitespace-nowrap`}>{prompt.verb}</span>
+                <span className="w-1 h-1 rounded-full bg-white/70" aria-hidden="true"></span>
+                <span className={`${CARD_HEADER_META} whitespace-nowrap`}>
                   {prompt.totalMarks} Marks
                 </span>
               </div>
@@ -145,7 +157,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               close button always stays on screen. */}
           <div className="flex items-center gap-2 sm:gap-3 relative z-10 shrink-0">
             <div
-              className="t-label flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-emerald-500/10 light:bg-emerald-50 text-emerald-500 light:text-emerald-700 border border-emerald-500/60 light:border-emerald-600"
+              className="t-label flex items-center gap-2 p-2.5 sm:px-5 sm:py-2.5 rounded-xl bg-white/15 text-white border border-white/60"
               title="This marked response has been auto-saved to your library"
             >
               <Check className="w-4 h-4" />
@@ -157,12 +169,12 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               <span className="md:hidden sr-only">Auto-saved to your library</span>
             </div>
 
-            <div className="w-px h-8 bg-white/10 light:bg-slate-500 sm:mx-2"></div>
+            <div className="w-px h-8 bg-white/30 sm:mx-2"></div>
 
             <button
               onClick={onClose}
               aria-label="Close feedback"
-              className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 flex items-center justify-center p-2.5 rounded-xl hover:bg-[rgb(var(--color-bg-surface-inset))] light:hover:bg-slate-200 text-[rgb(var(--color-text-muted))] light:text-slate-500 hover:text-[rgb(var(--color-text-primary))] light:hover:text-slate-900 transition-colors"
+              className="min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 flex items-center justify-center p-2.5 rounded-xl text-white hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 transition-colors"
               title="Close Feedback"
             >
               <X className="w-5 h-5" />
