@@ -475,11 +475,10 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       className={`${
         isFocusMode
           ? 'col-span-1 max-w-5xl mx-auto w-full'
-          : isExamMode
-            ? // Exam Mode hides the whole left reference rail, so the writing
-              // column takes the width the rail is no longer using.
-              'xl:col-span-8 xl:col-start-5 xl:row-start-1 xl:row-span-2'
-            : 'xl:col-span-7 xl:col-start-6 xl:row-start-1 xl:row-span-2'
+          : // The same columns in every mode: Exam Mode swaps the rail for its
+            // conditions placard rather than widening this card, so the headers
+            // of the two cards stay level.
+            'xl:col-span-7 xl:col-start-6 xl:row-start-1 xl:row-span-2'
       } flex flex-col gap-6 pt-0 self-start`}
     >
       {/* `self-start` on the column and no flex-1 here: this panel shares a

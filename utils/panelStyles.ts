@@ -51,3 +51,27 @@ export const PANEL_HEADER_CLOSED = 'hover:bg-slate-100 dark:hover:bg-white/[0.02
  * natural stack clears puts every panel on the same whole pixel.
  */
 export const PANEL_ROW_MIN_H = 'min-h-[3.8125rem]';
+
+/**
+ * Exam Mode's booklet edge: the one neutral boundary every exam surface wears, the
+ * writing card, the timer placard and the exam conditions placard beside the
+ * prompt. A band hue here would hint at scoring, and a light slate-300 edge measured
+ * 1.5:1 on the page (the 3:1 floor is for region boundaries).
+ *
+ * Measured with the WCAG relative-luminance formula, on the rendered pixels:
+ * - dark ground (#0a0f1a, and the card surface beside it): slate-500 is 3.7 to 4.0:1.
+ * - light ground (slate-200): slate-500 is 3.9:1 on the bare page, but the writing
+ *   card's shadow darkens the ground beside it to about 3.0:1, too close to the floor.
+ *   slate-600 holds 4.8:1 through that shadow, so the light edge steps up one tone.
+ */
+export const EXAM_BOOKLET_BORDER = 'border-slate-500 light:border-slate-600';
+
+/** The same edge as a full 2px border, for the panels that are not the writing card. */
+export const EXAM_BOOKLET_EDGE = `border-2 ${EXAM_BOOKLET_BORDER}`;
+
+/**
+ * The panel surface of `PANEL_SURFACE` with the exam booklet edge in place of its
+ * 1px band-less slate-400 edge. Everything else is the shared panel recipe, so the
+ * exam placards keep the rail's radius, fill and shadow.
+ */
+export const EXAM_PANEL_SURFACE = `clip-stable rounded-panel ${EXAM_BOOKLET_EDGE} bg-white/60 dark:bg-[rgb(var(--color-bg-surface))]/30 light:bg-white shadow-sm overflow-hidden transition-all duration-300`;

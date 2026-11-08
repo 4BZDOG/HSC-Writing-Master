@@ -25,6 +25,8 @@ import {
   PANEL_HEADER_OPEN,
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
+  EXAM_BOOKLET_BORDER,
+  EXAM_PANEL_SURFACE,
 } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { TERM_CHIP_HOVER, TERM_CHIP_RESTING } from '../utils/termChrome';
@@ -366,8 +368,12 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // `shadow-xl` and a near-black fill, which made the live stats read as a
     // separate device bolted under the workspace rather than the first of the
     // reference panels.
+    //
+    // Under exam conditions it is the exam booklet's own edge instead, and not
+    // the band-tinted surface: the writing card it belongs to is neutral, and a
+    // band-coloured border on the timer read as a different object beside it.
     return (
-      <div className={`${PANEL_SURFACE} band-surface`}>
+      <div className={isExamMode ? EXAM_PANEL_SURFACE : `${PANEL_SURFACE} band-surface`}>
         {/* The divider only earns its place when something sits below it —
             collapsed, it doubled up with the card's own bottom border. */}
         {/* The header row. Its tone follows the disclosure exactly as every other
@@ -471,11 +477,19 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             />
           )}
 
-          <div className="flex items-center gap-2 px-3 py-1 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10">
+          <div
+            className={`flex items-center gap-2 px-3 py-1 sm:py-0 border-t sm:border-t-0 sm:border-l ${
+              isExamMode ? EXAM_BOOKLET_BORDER : 'border-slate-300 dark:border-white/10'
+            }`}
+          >
             {/* On a phone the two controls are one segmented strip of 44px cells,
                 so the touch targets are the size of the thumb and the strip is
                 no taller than they are. */}
-            <div className="relative z-10 flex gap-1 max-sm:gap-0 bg-slate-100 dark:bg-white/5 p-1 max-sm:p-0 max-sm:overflow-hidden rounded-xl border border-slate-300 dark:border-white/10">
+            <div
+              className={`relative z-10 flex gap-1 max-sm:gap-0 bg-slate-100 dark:bg-white/5 p-1 max-sm:p-0 max-sm:overflow-hidden rounded-xl border ${
+                isExamMode ? EXAM_BOOKLET_BORDER : 'border-slate-300 dark:border-white/10'
+              }`}
+            >
               <button
                 onClick={() => {
                   const next = !isTimerActive;
