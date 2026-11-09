@@ -1465,8 +1465,8 @@
                   "id": "sa-se-hsc-2025-16c-3",
                   "source": "AI",
                   "mark": 2,
-                  "answer": "Privacy by design means thinking about privacy at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage.",
-                  "feedback": "Meets the 2-mark row by outlining one feature of privacy by design, that it is proactive and built in from the start. To reach 3, describe how this would work in the weather app, such as deleting a user's location data once the forecast has been delivered.",
+                  "answer": "Privacy by design means thinking about privacy right at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage of building the software itself, including what data is collected and whether it is needed at all.",
+                  "feedback": "Meets the 2-mark row: it outlines one feature of privacy by design, that it is a proactive approach taken from the start. It does not describe how this would work in the weather app, so it stays short of the 3-mark row. Describing how the app would apply it, such as deleting a user's location data once the forecast has been delivered, would lift it.",
                   "band": 2
                 },
                 {
@@ -2421,8 +2421,8 @@
                   "id": "sa-se-hsc-2025-20-3",
                   "source": "AI",
                   "mark": 2,
-                  "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit before they expire.",
-                  "feedback": "Meets the 2-mark row by identifying two features of session management, stored session data and an expiry time. To reach 3, describe how these affect execution, such as how large stored session data slows the program or how ending old sessions frees memory.",
+                  "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit, after which they expire and the data is removed. Sessions can also end when the user logs out or closes the browser.",
+                  "feedback": "Meets the 2-mark row: it identifies some features of session management, stored visit data, a time limit and logging out. It does not say how these features affect the efficiency of code execution, so it stays short of the 3-mark row. Explaining how large stored session data slows the program would lift it.",
                   "band": 2
                 },
                 {

@@ -7705,8 +7705,8 @@
                         "id": "sa-se-hsc-2025-16c-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Privacy by design means thinking about privacy at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage.",
-                        "feedback": "Meets the 2-mark row by outlining one feature of privacy by design, that it is proactive and built in from the start. To reach 3, describe how this would work in the weather app, such as deleting a user's location data once the forecast has been delivered.",
+                        "answer": "Privacy by design means thinking about privacy right at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage of building the software itself, including what data is collected and whether it is needed at all.",
+                        "feedback": "Meets the 2-mark row: it outlines one feature of privacy by design, that it is a proactive approach taken from the start. It does not describe how this would work in the weather app, so it stays short of the 3-mark row. Describing how the app would apply it, such as deleting a user's location data once the forecast has been delivered, would lift it.",
                         "band": 2
                       },
                       {
@@ -8661,8 +8661,8 @@
                         "id": "sa-se-hsc-2025-20-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit before they expire.",
-                        "feedback": "Meets the 2-mark row by identifying two features of session management, stored session data and an expiry time. To reach 3, describe how these affect execution, such as how large stored session data slows the program or how ending old sessions frees memory.",
+                        "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit, after which they expire and the data is removed. Sessions can also end when the user logs out or closes the browser.",
+                        "feedback": "Meets the 2-mark row: it identifies some features of session management, stored visit data, a time limit and logging out. It does not say how these features affect the efficiency of code execution, so it stays short of the 3-mark row. Explaining how large stored session data slows the program would lift it.",
                         "band": 2
                       },
                       {
@@ -10927,8 +10927,8 @@
                         "id": "sa-se-hsc-2025-18-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The streaming service can use data mining on past viewing figures to find when the Sunday broadcast will have the most viewers. This means it can add server capacity before the event starts.",
-                        "feedback": "Meets the 2-mark row by outlining how data mining of past viewing figures can predict peak demand so that capacity is added. To reach 3, explain why this prevents the problem, such as how the extra capacity stops the stream buffering or cutting out for viewers.",
+                        "answer": "The streaming service can use data mining on past viewing figures to find when the Sunday broadcast will have the most viewers. Metadata about each stream, such as its format and length, can help the service plan how much capacity the broadcast needs. This means it can add server capacity before the event starts.",
+                        "feedback": "Meets the 2-mark row: it outlines how data mining of past viewing figures can predict peak demand, and how capacity can be added before the event. It does not explain how the extra capacity prevents buffering or cut-outs for viewers, so it stays short of the 3-mark row. Explaining why the added capacity prevents the problem would lift it.",
                         "band": 2
                       },
                       {
@@ -11487,8 +11487,8 @@
                         "id": "sa-se-hsc-2025-23b-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Server-side programming runs on the web server and connects to the database. For example, the menu is updated by reading the current meal availability from the database and sending it to the page.",
-                        "feedback": "Meets the 2-mark row by outlining that server-side code connects to the database, with the menu as a scenario example. To reach 3, explain why the server is needed, such as the stored order and stock information having to be read from the database and sent to the page.",
+                        "answer": "Server-side programming runs on the web server and connects to the database. For example, the menu is updated by reading the current meal availability from the database and sending it to the page. The same code can also record a customer's subscription changes in the database, which the account pages then display.",
+                        "feedback": "Meets the 2-mark row: it outlines that server-side code connects to the database, with the menu and subscription changes as scenario examples. It does not explain why a server is needed for these features, so it stays short of the 3-mark row. Explaining why stored order and stock information must be read on the server would lift it.",
                         "band": 2
                       },
                       {
@@ -14065,8 +14065,8 @@
                         "id": "sa-se-hsc-2025-21-4",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "```\nSELECT Category, Status, COUNT(*)\nFROM Issues\nWHERE Status = 'Pending'\nGROUP BY Category, Status\n```",
-                        "feedback": "Meets the 2-mark row by counting jobs by category and status with a correct GROUP BY, but the WHERE clause keeps only Pending jobs. To reach 3, include Escalated as well and sort the results from highest to lowest, which covers most of the requirements.",
+                        "answer": "```\nSELECT Category, Status, COUNT(*) AS Jobs\nFROM Issues AS i\nWHERE i.Status = 'Pending'\nGROUP BY Category, Status\n```",
+                        "feedback": "Meets the 2-mark row: the query counts jobs by category and status with a correct 'GROUP BY Category, Status'. Its WHERE clause keeps only Pending jobs, so the escalated jobs are not counted, and the results are not sorted from highest to lowest. Including Escalated jobs and adding 'ORDER BY Jobs DESC' would cover most of the requirements.",
                         "band": 2
                       },
                       {
@@ -17639,8 +17639,8 @@
                         "id": "sa-se-hsc-2025-15b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Breakpoints and debugging output statements can be used to find the logic errors in the game code.",
-                        "feedback": "Meets the 2-mark row by identifying TWO relevant tools, breakpoints and debugging output statements, without explaining how either works. To reach 3 marks, outline both: a breakpoint halts execution so the variables can be checked, and an output statement shows which section of code has been reached.",
+                        "answer": "Breakpoints and debugging output statements are two tools that can be used to find the logic errors in the game code. A programmer could use either one while testing the game during its development.",
+                        "feedback": "Meets the 2-mark row by identifying TWO relevant tools, Breakpoints and debugging output statements, and saying when they would be used. It does not outline how either one works, so it stays short of the 3-mark row. Explaining that a breakpoint halts execution so the variables can be checked would lift it.",
                         "band": 2
                       },
                       {
@@ -20124,8 +20124,8 @@
                         "id": "sa-se-hsc-2025-24-4",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "The alerts will warn workers in real time when they stand too close to machinery, so they are less likely to be injured. The supervisors can also see which workers are not wearing their PPE, so they can act on it quickly.",
-                        "feedback": "Meets the 3-mark row by outlining two ways the system affects workers, real-time alerts and PPE checks, both tied to the scenario. To reach 4, outline a negative effect as well, such as the privacy concerns of wearables that keep tracking workers.",
+                        "answer": "The alerts will warn workers in real time when they stand too close to operating machinery, so they are less likely to be injured. Workers who are told straight away about a risk can move away from it before an accident happens. The supervisors can also see which workers are not wearing their PPE, so they can act on it quickly, and the system can detect entry into restricted zones in the same way.",
+                        "feedback": "Meets the 3-mark row: it outlines some positive ways the system affects workers, including real-time alerts, PPE checks and restricted-zone detection, all tied to the scenario. It does not yet outline a negative effect on workers, so it stays short of the 4-mark row. Adding a negative effect, such as the privacy concerns of wearables that keep tracking workers, would lift it.",
                         "band": 3
                       },
                       {
@@ -20375,8 +20375,8 @@
                         "id": "sa-se-hsc-2025-25-3",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "The virtual assistant uses a neural network, which is made of connected nodes with weightings that decide how strongly each input affects the result. One benefit is that customers with lost luggage can be sent to the right department more quickly.",
-                        "feedback": "Meets the 3-mark row by outlining a feature of the neural network, connected nodes with weightings, and one positive impact, faster routing of lost-luggage queries. To reach 4, outline how the network supports the assistant in the scenario and add one negative impact as well.",
+                        "answer": "The virtual assistant uses a neural network, which is made of connected nodes arranged in input, hidden and output layers. Each connection has a weighting that decides how strongly an input affects the result. One benefit is that customers with lost luggage can be sent to the right department more quickly, because the network has learned which words in a query point to that department. The network can also reduce the time customers wait, since they do not need to be passed between staff before reaching the right team.",
+                        "feedback": "Meets the 3-mark row: it outlines features of the neural network, its layers and weightings, and one positive impact, faster routing of lost-luggage queries. It does not outline a negative impact, so it stays short of the 4-mark row. Adding one negative impact, such as the assistant being unable to help with unusual queries, would lift it.",
                         "band": 2
                       },
                       {
