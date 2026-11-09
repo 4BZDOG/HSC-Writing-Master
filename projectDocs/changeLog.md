@@ -1,6 +1,6 @@
 # HSC AI Evaluator - Change Log
 
-## [Unreleased] - 2026-11-09 (Past HSC papers: figures)
+## [Unreleased] - 2026-11-09 (Past HSC papers: the figures they print)
 
 - **Added (data).** Fifteen figures the papers print, as `scenarioImage`, on 21 past HSC questions that only described
   them in words: Economics 2025 22(a)–(b) (foreign exchange graph), 23(b)–(d) (labour market table) and 26 (earnings
@@ -9,6 +9,11 @@
   1938 Entartete Kunst queue); Society and Culture 2024 9 (poll and pie chart). Cropped from NESA's PDFs at 200 dpi,
   each under 200 KB; the text description stays in the scenario for the marker. Parts NESA prints as text only, and
   Software Engineering 2025 26 (online exam, no printed figure), are left without an image.
+- **Added (data).** Twenty-one more figures on 24 parts of the 2025 science papers, where the scenario held only a
+  bracketed description: Physics 22, 23(a)–(b), 25(b), 26(a), 28, 29(a)–(b), 30(b), 34(a)–(b), 35 and 36; Chemistry
+  24(b), 25, 26(b), 28(b), 33, 34(b), 35 and 36; Earth and Environmental Science 25(c), 26(b) and 35(a). Chemistry
+  34(b)'s description now also gives approximate values read off the titration curve. Parts that print only equations
+  or text are left without an image.
 
 ## [Unreleased] - 2026-11-07 (Legal Studies: every dot point covered)
 
