@@ -1159,7 +1159,12 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                         className="w-3.5 h-3.5 text-[rgb(var(--band-ink-deep-rgb))] dark:text-[rgb(var(--band-rgb))]"
                         aria-hidden="true"
                       />
-                      <span>Watch the marker’s edits</span>
+                      {/* One line on a phone: the short label is what shows, and the full
+                          one stays the button's accessible name. */}
+                      <span aria-hidden="true" className="sm:hidden">
+                        Watch the edits
+                      </span>
+                      <span className="max-sm:sr-only">Watch the marker’s edits</span>
                     </>
                   ) : playingNow ? (
                     <Pause className="w-3.5 h-3.5" aria-hidden="true" />
