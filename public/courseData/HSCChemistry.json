@@ -1514,8 +1514,8 @@
                         "id": "sa-chem-hsc-2025-35-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Cooling removes heat, so the system shifts to replace it. The forward reaction is exothermic, so the equilibrium moves forward, forming more pink Co(H₂O)₆²⁺ and the solution turns pink.",
-                        "feedback": "Meets the 3-mark row with a sound Le Chatelier’s principle explanation, but no collision theory and no reference to the energy profile. Adding the activation energies and the rate change would meet the 4 and 5 rows.",
+                        "answer": "Cooling removes heat from the system, so the equilibrium shifts in the direction that produces heat to replace it. The forward reaction is exothermic, so it releases heat, and the equilibrium moves forward. This forms more Co(H₂O)₆²⁺, which is pink, and the solution turns pink. The new equilibrium contains more of the pink complex and less of the blue CoCl₄²⁻ ion. The reverse reaction is endothermic, so it is disfavoured when the solution is cooled.",
+                        "feedback": "Meets the 3-mark row with a sound Le Chatelier’s principle explanation, “The forward reaction is exothermic”, but there is no collision theory and no reference to the energy profile. Adding collision theory would lift it to the 4-mark row, and referring to the activation energies on the energy profile would lift it to the 5-mark row.",
                         "band": 2
                       },
                       {
@@ -1727,8 +1727,8 @@
                         "id": "sa-chem-hsc-2025-32-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "[Mg²⁺][OH⁻]² = 0.006 × (0.010)² = 6 × 10⁻⁷, which is greater than Ksp = 5.61 × 10⁻¹², so Mg(OH)₂ will precipitate.",
-                        "feedback": "Meets the 3-mark row by identifying the correct precipitate with some relevant calculation. It does not test MgCO₃ or account for the Mg²⁺ removed, so those checks would meet the 4 and 5 rows.",
+                        "answer": "The NaOH gives [OH⁻] = 0.010 mol L⁻¹, and the Mg(NO₃)₂ gives [Mg²⁺] = 0.006 mol L⁻¹ in 1 L. [Mg²⁺][OH⁻]² = 0.006 × (0.010)² = 6 × 10⁻⁷, which is greater than Ksp = 5.61 × 10⁻¹², so Mg(OH)₂ will precipitate.",
+                        "feedback": "Meets the 3-mark row by identifying the correct precipitate, “so Mg(OH)₂ will precipitate”, with one ion product check against Ksp. It does not test MgCO₃, so the calculation does not yet show an order of precipitation. Checking MgCO₃ against its Ksp, with the Mg²⁺ still in solution, would lift it to the 4- and 5-mark rows.",
                         "band": 3
                       },
                       {
@@ -1967,8 +1967,8 @@
                         "id": "sa-chem-hsc-2025-31b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "N₂H₅⁺(aq) + H₂O(l) ⇌ H₃O⁺(aq) + N₂H₄(aq)\nKa = Kw × Kb = 1.0 × 10⁻¹⁴ × 1.7 × 10⁻⁶ = 1.7 × 10⁻²⁰",
-                        "feedback": "Meets the 2-mark row with a correct equation and some steps, but Ka is found by multiplying Kw and Kb instead of dividing. The calculation stops before [H₃O⁺] and pH; correcting Ka to Kw / Kb and finishing the pH would meet the higher rows.",
+                        "answer": "N₂H₅⁺(aq) + H₂O(l) ⇌ H₃O⁺(aq) + N₂H₄(aq)\nAt equilibrium the N₂H₅⁺ concentration is 0.20 − x, with x mol L⁻¹ each of H₃O⁺ and N₂H₄ formed. Water is left out of the Ka expression.\nKa = Kw × Kb = 1.0 × 10⁻¹⁴ × 1.7 × 10⁻⁶ = 1.7 × 10⁻²⁰",
+                        "feedback": "Meets the 2-mark row with a correct equation and some steps, but “Ka = Kw × Kb” is wrong, as Ka is found by dividing Kw by Kb. The calculation stops before [H₃O⁺] and pH. Correcting Ka to Kw / Kb and finishing the pH would meet the higher rows.",
                         "band": 1
                       },
                       {
