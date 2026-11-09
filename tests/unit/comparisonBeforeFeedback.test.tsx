@@ -93,15 +93,16 @@ describe('the comparison shown before the feedback summary', () => {
 
   /**
    * One primary action per footer. Here the primary is the way forward, so the
-   * band's solid fill goes to "See my full feedback", and "Use this version"
-   * sits beside it as a secondary action.
+   * band's flat ground (`BAND_GROUND`, the marking feedback's primary) goes to
+   * "See my full feedback", and "Use this version" sits beside it as a secondary action.
    */
   it('makes the way forward the one primary action in the footer', () => {
     renderReview({ continueLabel: 'See my full feedback' });
 
     const forward = screen.getByText('See my full feedback').closest('button')!;
     const apply = screen.getByText('Use this version').closest('button')!;
-    expect(forward.className).toContain('band-solid');
-    expect(apply.className).not.toContain('band-solid');
+    expect(forward.className).toContain('bg-[rgb(var(--band-rgb))]');
+    expect(forward.className).not.toContain('band-solid');
+    expect(apply.className).not.toContain('bg-[rgb(var(--band-rgb))]');
   });
 });

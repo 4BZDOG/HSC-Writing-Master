@@ -40,7 +40,7 @@ import {
   FEEDBACK_HEADING,
   FEEDBACK_TILE,
   FOOTNOTE,
-  INK_BUTTON,
+  SECONDARY_ACTION,
 } from './feedback/feedbackChrome';
 
 interface EvaluationDisplayProps {
@@ -145,8 +145,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     el.scrollTo({ left: el.scrollWidth, behavior: reduce ? 'auto' : 'smooth' });
   }, [trailKey]);
 
-  // The export controls live in the placard, so they are drawn in its ink: the band's
-  // solid fill takes dark ink, and a white button on it would be white on the band.
+  // The export controls live in the placard, drawn as the report's neutral secondary
+  // actions. The placard is a calm card now, not a band-filled slab, so a band-ink
+  // button would read as a second colour competing with the mark.
   const exportActions = (
     <>
       <div className="relative flex" ref={pdfMenuRef}>
@@ -155,7 +156,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           disabled={isExporting}
           aria-busy={isExporting}
           title={pdfLocked ? describeAccess('pdfExport').explanation : undefined}
-          className="min-h-11 sm:min-h-0 px-5 py-3 rounded-l-2xl text-xs font-bold shadow-sm transition-all border border-r-0 border-slate-950/80 bg-white/25 hover:bg-white/35 text-slate-950 flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          className={`${SECONDARY_ACTION} rounded-r-none`}
         >
           {isExporting ? (
             <>
@@ -187,9 +188,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           aria-label="PDF export options"
           aria-expanded={showPdfOptions}
           title="Paper size, copies and what to include"
-          className={`min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 px-3 rounded-r-2xl text-slate-950 border border-slate-950/80 transition-all disabled:opacity-60 disabled:cursor-not-allowed ${
-            showPdfOptions ? 'bg-white/35' : 'bg-white/25 hover:bg-white/35'
-          }`}
+          className={`${SECONDARY_ACTION} rounded-l-none border-l-0 px-3.5 ${showPdfOptions ? 'bg-surface-inset' : ''}`}
         >
           <Settings2 className="w-4 h-4" aria-hidden="true" />
         </button>
@@ -202,7 +201,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         />
       </div>
       {onSaveToSamples && (
-        <button onClick={onSaveToSamples} className={INK_BUTTON}>
+        <button onClick={onSaveToSamples} className={SECONDARY_ACTION}>
           <Save className="w-4 h-4" aria-hidden="true" /> Save result
         </button>
       )}
