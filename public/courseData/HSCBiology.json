@@ -6662,8 +6662,8 @@
                         "id": "sa-bio-hsc-2022-28c-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Prokaryotic DNA is a circular molecule, while eukaryotic DNA is linear.",
-                        "feedback": "Meets the 2-mark row by outlining one difference in the shape of the DNA. The 3-mark row needs more than one, such as location in the cell or the proteins the DNA is bound to.",
+                        "answer": "Prokaryotic DNA is usually a single circular chromosome, while eukaryotic DNA is linear. A circular molecule has no free ends, whereas a linear molecule has two exposed ends.",
+                        "feedback": "Meets the 2-mark row by outlining one difference in the shape of the DNA: “Prokaryotic DNA is usually a single circular chromosome”. The 3-mark row needs more than one difference, such as location in the cell or the proteins the DNA is bound to. Adding a second difference of that kind would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -11799,8 +11799,8 @@
                         "id": "sa-bio-hsc-2023-29b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Plants have a thick waxy cuticle and sunken stomata, which both help them keep water.",
-                        "feedback": "Meets the 2-mark row by identifying two adaptations, 'a thick waxy cuticle and sunken stomata', without explaining how either maintains water balance. Explaining how the cuticle acts as a barrier to evaporation would lift it.",
+                        "answer": "Plants have a thick waxy cuticle on the leaf and sunken stomata, which are pores set in pits in the epidermis. Both help them keep water.",
+                        "feedback": "Meets the 2-mark row by identifying two adaptations, “a thick waxy cuticle” and “sunken stomata”, without explaining how either maintains water balance. Explaining how the cuticle acts as a barrier to evaporation would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -15062,8 +15062,8 @@
                         "id": "sa-bio-hsc-2024-34-2",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Bt corn is a genetically modified crop that can increase food supply, but its seeds must be bought each season, which can disadvantage small farmers. Selective breeding of dairy cows has increased milk yield, but it has also been linked with lower fertility in the cows.",
-                        "feedback": "Meets the 3–4 mark row by providing a sound discussion of impacts of two biotechnologies, since 'can increase food supply' names a benefit and 'lower fertility in the cows' names a concern. It does not explain why the seed costs raise an ethical concern for farmers, and explaining that would lift it to the 5–6 mark row.",
+                        "answer": "Bt corn is a genetically modified crop that can increase food supply. It produces a toxin from the soil bacterium *Bacillus thuringiensis* that is harmful to some insect pests, so farmers may need to spray fewer pesticides. However, its seeds must be bought each season, which can disadvantage small farmers. Selective breeding of dairy cows has increased milk yield, but it has also been linked with lower fertility in the cows. Breeding for a few high-yield lines can also narrow the genetic variety of dairy herds.",
+                        "feedback": "Meets the 3–4 mark row by giving a sound discussion of impacts of both biotechnologies: “can increase food supply” is a benefit and “lower fertility in the cows” is a concern. It does not explain why the seed costs raise an ethical concern for farmers, or who is affected by the narrower genetic variety. Explaining either of these would lift it to the 5–6 mark row.",
                         "band": 3
                       },
                       {
@@ -16599,8 +16599,8 @@
                         "id": "sa-bio-hsc-2023-26b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Clean clothing reduces the transmission of malaria, because fewer mosquitoes landed on the clean clothing.",
-                        "feedback": "Meets the 2-mark row by giving a relevant conclusion, 'Clean clothing reduces the transmission of malaria', with limited justification, since 'fewer mosquitoes landed on the clean clothing' has no figures from the table. Using the total or average landings for each group from the table would lift it.",
+                        "answer": "Clean clothing reduces the transmission of malaria, because fewer mosquitoes landed on it. Infected mosquitoes that land on clothing can transmit malaria, so fewer landings means less risk.",
+                        "feedback": "Meets the 2-mark row by giving a relevant conclusion, “Clean clothing reduces the transmission of malaria”, with limited justification, since “fewer mosquitoes landed on it” has no figures from the table. Using the total or average landings for each group from the table would lift it to the 3-mark row.",
                         "band": 4
                       },
                       {
@@ -19711,8 +19711,8 @@
                         "id": "sa-bio-hsc-2023-25a-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Huntington's disease is autosomal dominant, so an affected person could have the genotype HH or Hh, and H is affected.",
-                        "feedback": "Meets the 2-mark row by identifying the possible genotypes, 'could have the genotype HH or Hh', for an affected individual under autosomal dominant inheritance. It does not use H's children to choose between them, so it does not reach the 3-mark row; using her unaffected children J and L to show that she carries the normal allele would lift it.",
+                        "answer": "Huntington's disease is autosomal dominant, so an affected person could have the genotype HH or Hh. Only hh is unaffected, because one dominant allele is enough to cause the disease.",
+                        "feedback": "Meets the 2-mark row by identifying the possible genotypes, “could have the genotype HH or Hh”, for an affected individual under autosomal dominant inheritance. It does not use H’s children to choose between them, so it does not reach the 3-mark row. Using her unaffected children J and L to show that she carries the normal allele would lift it.",
                         "band": 4
                       },
                       {
@@ -19841,8 +19841,8 @@
                         "id": "sa-bio-hsc-2025-31a-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The trait is recessive because the parents are unaffected but a child is affected. Recessive traits need two copies of the allele.",
-                        "feedback": "Meets the 2-mark row by demonstrating some understanding of the type of inheritance, with 'The trait is recessive'. It does not say autosomal or name the individuals (8, 9 and 17) that show the pattern, so adding both would lift it.",
+                        "answer": "The trait is recessive because the parents are unaffected but a child is affected. Recessive traits need two copies of the allele. An unaffected parent can carry one copy of the allele, and a child who inherits one copy from each parent is affected.",
+                        "feedback": "Meets the 2-mark row by showing some understanding of the type of inheritance: “The trait is recessive”. It does not say autosomal or name the individuals (8, 9 and 17) that show the pattern. Adding both would lift it to the 3-mark row.",
                         "band": 4
                       },
                       {
@@ -19976,8 +19976,8 @@
                         "id": "sa-bio-hsc-2023-35b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The mutation changes a T–A base pair to a C–G pair, so one codon could read differently. This could change one amino acid in the protein.",
-                        "feedback": "Meets the 2-mark row by identifying a way the mutation could alter the DNA sequence and the amino acid sequence, 'This could change one amino acid in the protein'. It does not explain how the changed amino acid alters the protein's shape or function; explaining that link would lift it.",
+                        "answer": "The mutation changes a T–A base pair to a C–G pair on one strand, so one codon could read differently. Only the daughter molecule carrying the new pair has the changed sequence, so only some copies of the gene are altered. This could change one amino acid in the protein, depending on the codon.",
+                        "feedback": "Meets the 2-mark row by identifying a way the mutation could alter the DNA sequence and the amino acid sequence: “one codon could read differently”. It does not explain how the changed amino acid alters the protein’s shape or function, so explaining that link would lift it to the 3-mark row.",
                         "band": 1
                       },
                       {
@@ -20041,8 +20041,8 @@
                         "id": "sa-bio-hsc-2024-28b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Deleting three nucleotides removes one amino acid from the protein, which is phenylalanine.",
-                        "feedback": "Meets the 2-mark row by demonstrating some understanding of the effects of a deletion, since 'Deleting three nucleotides removes one amino acid from the protein' states the effect but not why only one is lost. Explaining why the three nucleotides span two codons, and why isoleucine is still coded for, would lift it to the 3-mark row.",
+                        "answer": "Each group of three mRNA nucleotides codes for one amino acid. The three deleted nucleotides are C, U and U. Deleting three nucleotides removes one amino acid from the protein, which is phenylalanine.",
+                        "feedback": "Meets the 2-mark row by showing some understanding of how mRNA codes for amino acids: “Each group of three mRNA nucleotides codes for one amino acid”. It names the deleted nucleotides and the lost phenylalanine, but does not explain why only one amino acid is lost. Explaining why the three nucleotides span two codons, and why isoleucine is still coded for, would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -20107,8 +20107,8 @@
                         "id": "sa-bio-hsc-2022-31bii-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A mutation changes the DNA base sequence of the EGFR gene. If this changes the amino acid sequence, the protein's shape and its enzyme activity may be altered.",
-                        "feedback": "Meets the 2-mark row by outlining an effect of the mutation on the EGFR protein. It does not link the change to uncontrolled cell division, which the 4-mark row requires.",
+                        "answer": "A mutation changes the DNA base sequence of the EGFR gene. If this changes a codon, the polypeptide may have a different amino acid at that position. This can change how the chain folds, so the protein’s shape and the activity of its enzyme part may be altered.",
+                        "feedback": "Meets the 2-mark row by outlining an effect of the mutation on the EGFR protein: “can change how the chain folds”. It does not link the altered protein to uncontrolled cell division, which the 3-mark row needs.",
                         "band": 2
                       },
                       {
@@ -21471,8 +21471,8 @@
                         "id": "sa-bio-hsc-2022-27-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Incidence fell from about 13 per 100 000 women in 1994 to about 8 by 2000, a period that follows the screening program, which suggests the program may have been effective. However, the graph cannot show that the program caused the fall, and there is no clear drop after the vaccination programs began.",
-                        "feedback": "Meets the 3-mark row by making a point about the screening program and linking it to the data, with a tentative judgement. It does not weigh the vaccination programs separately or note that the decline began before 1991.",
+                        "answer": "Incidence fell from about 13 per 100 000 women in 1994 to about 8 by 2000, a period that follows the screening program, which suggests the program may have been effective. The largest fall is between 1994 and 1997, after screening began in 1991, because screening finds abnormal cells early so they can be treated before they become cancer. After the vaccination programs began, incidence stays between about 6.8 and 7.5, so there is no big change. Overall the screening program may have been successful.",
+                        "feedback": "Meets the 3-mark row by making points about the screening and vaccination programs, linking them to the graph, and giving a tentative judgement: “may have been successful”. It describes the data rather than evaluating it: it does not note that incidence was already falling before 1991, that the graph cannot show the program caused the fall, or why the vaccination programs show no change yet. Weighing these points to reach a supported judgement would lift it to the 4-mark row.",
                         "band": 3
                       },
                       {
@@ -23862,8 +23862,8 @@
                         "id": "sa-bio-hsc-2024-27-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Raw milk had many more outbreaks than pasteurised milk, and the number fell after 1945. Pasteur showed that heating kills microbes, so pasteurising milk would reduce the outbreaks from it.",
-                        "feedback": "Meets the 3-mark row by demonstrating some understanding of Pasteur's work with reference to trends, since 'Pasteur showed that heating kills microbes' links his work to pasteurisation. 'the number fell after 1945' gives no data values, and quoting values such as about 50 outbreaks in 1925 falling to under 5 from 1950 would lift it.",
+                        "answer": "Raw milk had many more outbreaks than pasteurised milk, and outbreaks from raw milk rose to a peak around 1915 before falling sharply after 1945. Pasteur showed that heating kills microbes, so pasteurising milk would reduce the outbreaks from it. He also disproved spontaneous generation, which showed that microbes come from other microbes and could be in milk. Outbreaks from pasteurised milk were few throughout the period.",
+                        "feedback": "Meets the 3-mark row by showing some understanding of Pasteur’s work with reference to trends: “Pasteur showed that heating kills microbes”. The trends are described without data values, and the link from heating to fewer outbreaks is not explained in detail. Quoting values such as the peak around 1915 and the fall after 1945 would lift it to the 4-mark row.",
                         "band": 2
                       },
                       {
@@ -24302,8 +24302,8 @@
                         "id": "sa-bio-hsc-2022-31ai-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The study followed large groups of women for 14 years and compared them by their husbands' smoking and by whether they smoked themselves.",
-                        "feedback": "Meets the 2-mark row by showing an understanding of the design. It describes the method without judging it, so it does not evaluate its validity.",
+                        "answer": "The study followed large groups of women for 14 years, from 1966 to 1979, and compared them by their husbands’ smoking and by whether they smoked themselves. Annual lung cancer mortality rates were recorded for each group, and the women were drawn from 29 health districts in Japan.",
+                        "feedback": "Meets the 2-mark row by describing the design: “followed large groups of women for 14 years”. It describes the method without judging it, so it does not evaluate its validity. Naming a feature as a strength or a limitation, such as the size of the groups or the assumed smoke exposure, would lift it to the 3-mark row.",
                         "band": 4
                       },
                       {
@@ -25596,8 +25596,8 @@
                         "id": "sa-bio-hsc-2022-25-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Asexual reproduction produces offspring that are genetically identical to the parent, apart from any mutations. Sexual reproduction produces offspring that differ from each other and from their parents because of meiosis and fertilisation.",
-                        "feedback": "Meets the 3-mark row by making a similarity and a difference between the methods. It does not describe the meiosis processes that create the variation, so it does not reach the 4-mark row.",
+                        "answer": "Asexual reproduction produces offspring that are genetically identical to the parent, apart from any mutations. In these offspring, mutations during DNA replication are the only source of new alleles. Sexual reproduction produces offspring that differ from each other and from their parents because of meiosis and fertilisation. Each offspring receives a different combination of alleles from its two parents. This means sexual reproduction usually gives more variation than asexual reproduction.",
+                        "feedback": "Meets the 3-mark row by making a similarity and a difference between the two methods: “genetically identical to the parent, apart from any mutations”. It does not describe the meiosis processes that create the variation, such as crossing over, so it does not reach the 4-mark row. Outlining those processes would lift it.",
                         "band": 2
                       },
                       {
@@ -25734,8 +25734,8 @@
                         "id": "sa-bio-hsc-2023-33-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Humans and fungi both reproduce sexually, and both use meiosis.",
-                        "feedback": "Meets the 2-mark row by giving a similarity, 'both reproduce sexually', but 'both use meiosis' is listed without saying what meiosis produces in each. Linking the process to its outcome, as meiosis producing gametes in humans and spores in fungi, and adding a difference would lift it.",
+                        "answer": "Humans and fungi both reproduce sexually, and both use meiosis in their life cycles. Both life cycles pass through a diploid zygote stage, which forms when two haploid nuclei fuse.",
+                        "feedback": "Meets the 2-mark row by giving similarities: “both use meiosis in their life cycles”. Neither process is linked to what it produces, and no difference is given, so it does not reach the 3-mark row. Linking meiosis to the gametes in humans and the spores in fungi, and adding a difference, would lift it.",
                         "band": 1
                       },
                       {
@@ -26330,8 +26330,8 @@
                         "id": "sa-bio-hsc-2025-34b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "In the small population, gene flow brings in a new allele, which can change the allele frequency quickly. The graph shows this in the small population.",
-                        "feedback": "Meets the 2-mark row by describing an effect of gene flow on the gene pool of the small population, 'gene flow brings in a new allele, which can change the allele frequency quickly'. It says nothing about the large population and makes no judgement, so comparing the effect on both populations and judging its impact would lift it.",
+                        "answer": "In the small population of 20, gene flow brings in a new allele, which can change the allele frequency quickly. In the graph, one introduced allele falls to about 0 by generation 10, while another rises to 1.0 by about generation 15 and stays there. Some introduced alleles reach a frequency of 1.0 by about generation 35, so the gene pool changes a great deal over time.",
+                        "feedback": "Meets the 2-mark row by describing an effect of gene flow on the small population: “gene flow brings in a new allele”. It says nothing about the large population and makes no judgement. Comparing the effect on both populations would lift it to the 3-mark row, and judging its impact would lift it to the 4-mark row.",
                         "band": 4
                       },
                       {
@@ -26398,8 +26398,8 @@
                         "id": "sa-bio-hsc-2022-32-2",
                         "source": "AI",
                         "mark": 4,
-                        "answer": "Natural selection could lower the allele's frequency if people carrying it were more likely to die from the virus before reproducing. Genetic drift could also change the frequency by chance in a small population. Limited gene flow would keep the frequencies different between populations.",
-                        "feedback": "Meets the 4-mark row by explaining three processes in terms of the gene pool. It does not explain how mutation supplies the allele and does not use the table's figures, so it does not reach the 6-mark row.",
+                        "answer": "Natural selection could lower the allele’s frequency if people carrying it were more likely to die from the virus before reproducing. The allele increases inflammation, so carriers may pass on fewer copies over generations. Genetic drift could also change the frequency by chance in a small population, as the individuals who happen to breed determine the next generation’s alleles. Limited gene flow would keep the frequencies different between populations over time, because few carriers would move between them and mix their alleles into the gene pool.",
+                        "feedback": "Meets the 4-mark row by explaining three processes, natural selection, genetic drift and gene flow, in terms of the gene pool: “could lower the allele’s frequency”. It does not explain how mutation supplies the allele and does not use the table’s figures, so it does not reach the 6-mark row. Adding both would lift it.",
                         "band": 3
                       },
                       {
@@ -26814,8 +26814,8 @@
                         "id": "sa-bio-hsc-2024-26-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Wheat rust is a fungal disease that affects crops and causes problems for farmers.",
-                        "feedback": "Meets the 2-mark row by demonstrating some understanding of a plant disease, since 'Wheat rust is a fungal disease' names it and says what kind it is. 'affects crops and causes problems for farmers' is too vague to show any effect on the plant or a directional effect on production, so describing its symptoms and whether it lowers yield or quality would lift it.",
+                        "answer": "Wheat rust is a fungal disease that affects crops and causes problems for farmers. Its spores are carried by wind, so it spreads between paddocks.",
+                        "feedback": "Meets the 2-mark row by demonstrating some understanding of a plant disease: “Wheat rust is a fungal disease”. Its effect on agriculture is still vague, “causes problems for farmers”, with no effect on yield or quality, so it does not reach the 3-mark row. Describing its symptoms and whether it lowers yield or quality would lift it.",
                         "band": 1
                       },
                       {
@@ -28225,8 +28225,8 @@
                         "id": "sa-bio-hsc-2023-34-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Selective breeding reduces biodiversity because only cattle with desired traits are allowed to breed, so the gene pool gets smaller. Artificial insemination also reduces biodiversity because one bull can father many calves. Biotechnologies therefore generally decrease the biodiversity of cattle.",
-                        "feedback": "Meets the 3-mark row by showing an understanding of how selective breeding and artificial insemination reduce biodiversity, as 'one bull can father many calves' shows. It does not refer to the table's examples or judge the other three biotechnologies, so its effect on biodiversity is generalised; judging hybridisation, transgenic organisms and cloning using the table's examples would lift it.",
+                        "answer": "Selective breeding reduces biodiversity because only cattle with desired traits are allowed to breed, so the gene pool gets smaller and the alleles of other animals are lost from it. Artificial insemination also reduces biodiversity because one bull can father many calves, so a small number of bulls contributes a large share of the gene pool. These two methods therefore reduce the biodiversity of cattle.",
+                        "feedback": "Meets the 3-mark row by showing how selective breeding and artificial insemination reduce biodiversity: “one bull can father many calves”. It does not refer to the table’s examples or judge the other three biotechnologies. Using the table’s examples to test the wider effect of those biotechnologies would lift it to the 4-mark row.",
                         "band": 4
                       },
                       {
@@ -28350,8 +28350,8 @@
                         "id": "sa-bio-hsc-2022-29b-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Bt cotton helped control bollworm. Bollworm insecticide use fell from about 4 500 tonnes in 2002 to about 150 tonnes from 2011, while about 94% of cotton was Bt by 2013. However, insecticide use against hemiptera rose from about 2 000 tonnes in 2002 to about 11 000 tonnes in 2013, so Bt cotton does not control all pests.",
-                        "feedback": "Meets the 3-mark row by stating a benefit and a limitation, each supported by data. It does not explain why the limitation occurs, and it gives no judgement on how far the data support Bt cotton as disease control.",
+                        "answer": "Bollworm insecticide use fell from about 4 500 tonnes in 2002 to about 150 tonnes from 2011, while the share of Bt cotton grown rose from 0% in 2002 to about 94% in 2013. Cotton yield rose from about 325 kg/ha in 2002 to about 560 kg/ha in 2013. However, insecticide use against hemiptera rose from about 2 000 tonnes in 2002 to about 11 000 tonnes in 2013, and total insecticide use was about 11 200 tonnes in 2013. So Bt cotton controls bollworm but does not control all pests.",
+                        "feedback": "Meets the 3-mark row by outlining a benefit and a limitation of Bt cotton, each supported by data: “insecticide use against hemiptera rose”. It does not explain why the limitation occurs, and it gives no judgement on how far the data support Bt cotton as disease control. Explaining why other pests increase and judging the data would lift it to the 4-mark row.",
                         "band": 3
                       },
                       {
@@ -29172,8 +29172,8 @@
                         "id": "sa-bio-hsc-2023-31-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Genetic engineering is when scientists change genes. It can be used to make insulin for people with diabetes.",
-                        "feedback": "Meets the 2-mark row by identifying a genetic technology, 'Genetic engineering', and its use, 'make insulin for people with diabetes', but gives no steps. Describing how a gene is cut out and inserted into a plasmid or host would lift it.",
+                        "answer": "Recombinant DNA technology is a genetic engineering method in which genes from one organism are transferred into another. It is used to make insulin for people with diabetes.",
+                        "feedback": "Meets the 2-mark row by identifying a genetic technology and its use: “It is used to make insulin for people with diabetes”. It gives no steps, such as cutting out the gene with restriction enzymes, and does not say how the insulin gene is inserted into a host. Describing those steps would lift it to the 3-mark row.",
                         "band": 1
                       },
                       {

@@ -1,5 +1,25 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-09 (Past HSC papers: mid-band exemplars a student can learn from)
+
+- **Fixed (data).** 147 AI-written mid-band exemplars on past HSC questions were far too thin for the mark they
+  claimed: a 3/6 answer of 16–27 words beside a 160-word full-mark answer, a 4/7 of 24 words, a 9/15 of 44. A student
+  comparing them learnt that a mid-band answer is two sentences. Every exemplar whose mark is at least half the total
+  and whose length was under half of `fullWords × mark ÷ total` is rewritten to about 0.7–0.9 of that figure, by
+  building on the original answer's points. Each still meets its own row and shows the gap the row above names (it
+  describes rather than explains, uses the source thinly, weighs one side). Feedback is rewritten to match and quotes
+  only words in the answer. NESA's own exemplars are untouched.
+  - **By course:** CAFS 49, Biology 20, Ancient History 20, Business Studies 12, Society and Culture 9, Enterprise
+    Computing 8, Software Engineering 8, EES 7, Physics 6, Chemistry 3, Geography 2, Legal Studies 2, Modern History 1.
+  - **Review.** Spot checks against the papers and sources. Two science answers read above their mark (Biology 2022
+    Q27 3/6 already weighed causation; Physics 2025 Q36 5/8 settled escape speed) and were pulled back; a 2/4 SQL
+    answer lost a sort that made it a 3; an unsourced modern-slavery compliance claim was softened.
+  - **Still to check by a teacher:** the Geography 20-mark answers (their facts rest on the AI full-mark answers), the
+    Ancient History 2025 Q4 12-mark answer (portable XRF and CT scanning of the casts) and Hatshepsut's defacement
+    attributed, hedged, to Thutmose III.
+  - **Not done:** the same thin mid-band pattern runs through the app-written questions (about 3,400 of 5,000 by the
+    same test). That is a separate pass.
+
 ## [Unreleased] - 2026-11-09 (Past HSC papers: the figures they print)
 
 - **Added (data).** Fifteen figures the papers print, as `scenarioImage`, on 21 past HSC questions that only described
