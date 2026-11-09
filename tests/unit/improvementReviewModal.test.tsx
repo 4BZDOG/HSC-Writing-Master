@@ -168,7 +168,8 @@ describe('ImprovementReviewModal', () => {
     const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
     expect(within(dialog).getByText('4')).toBeTruthy();
     expect(within(dialog).getByText('5')).toBeTruthy();
-    expect(screen.getByText('Band 4')).toBeTruthy();
+    // The band line names both bands: where the student was, and where the rewrite reaches.
+    expect(screen.getByText(/→ Band 4$/)).toBeTruthy();
   });
 
   /**
@@ -414,18 +415,21 @@ describe('ImprovementReviewModal', () => {
 
   /**
    * White text on a band's solid fill failed AA on most of the bands (2.15:1 on
-   * yellow, under 4:1 on purple), so the ink comes from `band-solid`, which sets
-   * the band as the fill and its own near-black ink, with the band itself
-   * handed down on the frame as `--band-rgb`.
+   * yellow, under 4:1 on purple), so the ink is the band's dark ink on its flat
+   * ground (`PRIMARY_ACTION` on `BAND_GROUND`, the marking feedback's own primary),
+   * with the band itself handed down on the frame as `--band-rgb`. The small active
+   * edit marker keeps `band-solid`: a mark, not a control's ground.
    */
-  it('paints the primary action and the active edit marker in the band, not in white', () => {
+  it('paints the primary action on the band’s flat ground, and the active edit marker in the band', () => {
     renderModal({
       originalAnswer: THREE_EDITS_ORIGINAL,
       improvedAnswer: THREE_EDITS_REVISED,
     });
 
     const apply = screen.getByText('Use this version').closest('button')!;
-    expect(apply.className).toContain('band-solid');
+    expect(apply.className).toContain('bg-[rgb(var(--band-rgb))]');
+    expect(apply.className).toContain('text-slate-950');
+    expect(apply.className).not.toContain('band-solid');
     expect(apply.className).not.toMatch(/text-white/);
 
     const activeMarker = screen.getByLabelText('Edit 1');
@@ -538,7 +542,8 @@ describe('ImprovementReviewModal', () => {
     renderModal({ improvedAnswer: ORIGINAL });
 
     const back = screen.getByText('Back to feedback').closest('button')!;
-    expect(back.className).toContain('band-solid');
+    expect(back.className).toContain('bg-[rgb(var(--band-rgb))]');
+    expect(back.className).not.toContain('band-solid');
   });
 
   describe('copying the rewrite', () => {

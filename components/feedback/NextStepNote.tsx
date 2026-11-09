@@ -1,20 +1,12 @@
 import React, { useId } from 'react';
 import { Lightbulb } from 'lucide-react';
-import { renderFormattedText } from '../../utils/renderUtils';
+import { getBandConfig, renderFormattedText } from '../../utils/renderUtils';
 import { Prompt } from '../../types';
-import {
-  LADDER_BODY,
-  LADDER_EDGE_SHUT,
-  LADDER_FILL,
-  LADDER_NOTE,
-  LADDER_NOTE_GLYPH,
-  LADDER_NOTE_LABEL,
-  LADDER_ROW,
-} from '../../utils/ladderChrome';
 import { ladderBandVars } from '../LadderRow';
+import { FEEDBACK_CARD_NEUTRAL } from './feedbackChrome';
 
 interface NextStepNoteProps {
-  /** The band the response was marked in, which the note's band fill is drawn in. */
+  /** The band the response was marked in. It sets the accent rule and the bulb's ink. */
   band: number;
   /** The marker's one tip: the single thing to do next. */
   tip: string;
@@ -25,30 +17,33 @@ interface NextStepNoteProps {
 /**
  * "Your next step": the marker's one tip, set directly under the question.
  *
- * It was the Coach's Tip, a solid card in the middle of the report, and the rewrite
- * that acts on it sat four screens below. The tip is the one thing to do next, so it
- * takes the top of the report and is written as a note on the band's own fill: the
- * ladder's vocabulary, not a card of its own.
+ * The tip is the one thing to do next, so it takes the top of the report. It sits on a
+ * neutral card, the same paper as the rest of the report, and the band is carried by a
+ * thin rule down its left edge and by the bulb's ink. The card is not tinted: a tip is
+ * advice, not a verdict, and a pink card read as one.
  */
 const NextStepNote: React.FC<NextStepNoteProps> = ({ band, tip, prompt, className = '' }) => {
   const labelId = useId();
+  const ink = getBandConfig(band).text;
   return (
     <section
       aria-labelledby={labelId}
       style={ladderBandVars(band)}
-      className={`${LADDER_ROW} ${LADDER_EDGE_SHUT} ${LADDER_FILL} ${className}`}
+      className={`${FEEDBACK_CARD_NEUTRAL} relative overflow-hidden py-4 pl-6 pr-5 sm:py-5 ${className}`}
     >
-      <div className={LADDER_BODY}>
-        <div className={LADDER_NOTE}>
-          <Lightbulb className={LADDER_NOTE_GLYPH} aria-hidden="true" />
-          <div className="min-w-0">
-            <p id={labelId} className={LADDER_NOTE_LABEL}>
-              Your next step
-            </p>
-            <p className="mt-1 text-sm font-semibold leading-relaxed text-slate-800 dark:text-slate-100">
-              {renderFormattedText(tip, prompt.keywords, prompt.verb)}
-            </p>
-          </div>
+      <span
+        aria-hidden="true"
+        className="absolute inset-y-0 left-0 w-[3px] bg-[rgb(var(--band-rgb))]"
+      />
+      <div className="flex items-start gap-3">
+        <Lightbulb className={`w-5 h-5 mt-0.5 shrink-0 ${ink} band-ink`} aria-hidden="true" />
+        <div className="min-w-0">
+          <p id={labelId} className="t-label text-slate-600 dark:text-slate-400">
+            Your next step
+          </p>
+          <p className="mt-1 text-sm font-semibold leading-relaxed text-slate-800 dark:text-slate-100">
+            {renderFormattedText(tip, prompt.keywords, prompt.verb)}
+          </p>
         </div>
       </div>
     </section>

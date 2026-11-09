@@ -109,13 +109,16 @@ describe('the report below full marks', () => {
     expect(screen.getByText(/Named a second/)).toBeTruthy();
   });
 
-  it('draws the placard on the flat band, in its ink, with no white text on it', () => {
+  it('draws the placard as a calm card: a band wash and edge, the mark in the band ink, no white text', () => {
     const { container } = renderReport(base());
 
     const placard = container.querySelector('[data-report="placard"] > div') as HTMLElement;
-    // The ground is the band's own colour, read from the --band-rgb the placard sets.
-    expect(placard.className).toContain('--band-rgb');
-    expect(placard.className).toContain('text-slate-950');
+    // The card is paper with the band as a wash and an edge (`band-placard`), not a band-filled
+    // slab. The band is read from the --band-rgb the placard sets.
+    expect(placard.className).toContain('band-placard');
+    expect(placard.className).toContain('bg-surface');
+    expect(placard.className).not.toContain('bg-[rgb(var(--band-rgb))]');
+    expect(placard.style.getPropertyValue('--band-rgb')).not.toBe('');
     expect(placard.innerHTML).not.toMatch(/\btext-white\b/);
   });
 

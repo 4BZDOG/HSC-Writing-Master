@@ -18,6 +18,14 @@
 export const FEEDBACK_CARD =
   'rounded-panel bg-surface border border-slate-500 report-card dark:border-white/40 shadow-sm';
 
+/** A report card whose fill stays neutral in both themes: the evidence, growth and
+ *  criteria cards. `FEEDBACK_CARD` carries the band's wash in the light theme, which
+ *  reads as a verdict on what the student did well or badly; these cards say what
+ *  happened, so their paper is white and their edge does the separating (3:1 or more).
+ *  Painted on the desk. */
+export const FEEDBACK_CARD_NEUTRAL =
+  'rounded-panel bg-surface border border-slate-500 dark:border-white/40 shadow-sm';
+
 /** A section heading. Sentence case and bold, in primary ink: the caps and italics
  *  of `.t-section` are a boundary marker, and a report with seven of them read as
  *  seven boundaries at once. The tone a section carries lives in its icon tile.

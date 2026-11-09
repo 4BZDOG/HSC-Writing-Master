@@ -1238,6 +1238,60 @@ a:focus-visible,
  * Nothing here moves. The one transition is the panel's own `transition-all`, which
  * the reduced-motion rule above already neutralises.
  */
+/*
+ * The marking report's calm surfaces. A band colours what it identifies, a wash, an
+ * edge, an ink or a rule, and the saturated fill (`band-solid`) is kept for the small
+ * marks and the one primary action. Each class reads `--band-rgb` from its ancestor,
+ * the placard, a criterion row or the modal frame, so no colour is written at a call
+ * site. The light theme takes the band's deep ink (`--band-ink-deep-rgb`) for an edge
+ * or text that has to read on white, which the band's own -500 does not hold to 3:1.
+ */
+.band-placard {
+  /* 0.75, not the 0.55 first drafted: at 0.55 the red edge measured 2.45:1 against the dark
+     desk, under the 3:1 floor for a region boundary. 0.75 clears it on every band. */
+  border: 1px solid rgb(var(--band-rgb) / 0.75);
+  background-image: linear-gradient(
+    160deg,
+    rgb(var(--band-rgb) / 0.16) 0%,
+    rgb(var(--band-rgb) / 0.06) 100%
+  );
+}
+.band-tint {
+  background-color: rgb(var(--band-rgb) / 0.14);
+}
+:root[data-theme='light'] .band-placard {
+  border-color: rgb(var(--band-ink-deep-rgb) / 0.85);
+  background-image: linear-gradient(
+    160deg,
+    rgb(var(--band-rgb) / 0.07) 0%,
+    rgb(var(--band-rgb) / 0.07) 100%
+  );
+}
+:root[data-theme='light'] .band-tint {
+  background-color: rgb(var(--band-rgb) / 0.1);
+}
+/* A 3px rule on a band's own header ground. The band itself is the ground's hue, so the rule
+   is lifted toward white to read on it, and it stays the band's colour. */
+.band-rule-lift {
+  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 60%, white);
+}
+/* A band's ink on a card, as text or an outline. The dark theme takes its ink from the
+   utilities `getBandConfig` sets (the -300 tint); this sets the light theme's deep ink. */
+:root[data-theme='light'] .band-ink {
+  color: rgb(var(--band-ink-deep-rgb));
+}
+/* A report modal's frame: its own band as a soft glow, not a saturated halo. The 2px band
+   border is set separately and stays the frame's hard edge. */
+:root .band-frame {
+  box-shadow:
+    0 18px 40px -26px rgb(var(--band-rgb) / 0.45),
+    0 10px 30px -12px rgb(0 0 0 / 0.5);
+}
+:root[data-theme='light'] .band-frame {
+  box-shadow:
+    0 18px 40px -26px rgb(var(--band-rgb) / 0.3),
+    0 10px 30px -12px rgb(15 23 42 / 0.18);
+}
 .band-solid {
   background-color: rgb(var(--band-rgb));
   background-image: linear-gradient(
@@ -2418,23 +2472,13 @@ a:focus-visible,
   );
 }
 
-/* A stat tile on a strip: the band's wash, with the same deep-ink edge. Light only. */
+/* A stat tile on a strip: paper, with the same deep-ink edge. Light only. The tile is neutral,
+   so the band reads from its edge and not from a tint across the figures. */
 :root[data-theme='light'] .report-tile {
   border-color: rgb(var(--band-ink-deep-rgb, 71 85 105) / 0.85);
-  background-image: linear-gradient(
-    rgb(var(--band-rgb, 100 116 139) / 0.1),
-    rgb(var(--band-rgb, 100 116 139) / 0.1)
-  );
 }
 
 /* A chip or segmented control whose edge must read on a white ground. Light only. */
 :root[data-theme='light'] .edge-ink {
   border-color: rgb(var(--band-ink-deep-rgb, 71 85 105) / 0.85);
-}
-
-/* A criteria row's gutter is the band's flat ground, not `band-solid`. The solid's bottom-right
-   shade takes the ink under 4.5:1 on band 6 (the "/6" total measured 4.41:1), and the flat band
-   measures 5.1:1 there. Scoped to the report's criteria rows, so the other ladders keep theirs. */
-.CriteriaRow .band-solid {
-  background-image: none;
 }

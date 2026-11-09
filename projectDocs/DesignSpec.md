@@ -111,7 +111,7 @@ BEHIND it, not on the token.** This is what makes a blanket find-and-replace
 the wrong tool — most white-alpha classes in this codebase are already correct:
 
 - **On a coloured gradient or a modal backdrop** — the editor header, the
-  score placard, the verb ribbon's tier tile, and the icon tile and band chip on
+  verb ribbon's tier tile, the marking report's header tiles, and the icon tile and band chip on
   its selected tier card, `bg-black/80` scrims. These are the same colour in both themes, so
   `bg-white/20` and `border-white/20` are right as written and must be left
   alone.
@@ -481,6 +481,32 @@ WebKit included) hold it:
   outgoing layer stays for the length of the fade (`RIBBON_INK_AURA_LEAVING`).
 - **Do not move what the reader is touching.** The strip is placed instantly when
   the ribbon opens, and is not re-centred under a tap on a card already in view.
+
+### The marking report: the band identifies the mark, it does not fill it
+
+The marking feedback is the payoff moment, after a student has been marked, so it
+must read as coaching and not as an alarm. A band colours what it identifies: a
+wash, an edge, an ink or a rule. The saturated fill (`band-solid`) is kept for the
+small marks and for the one primary action, and a large area takes a quiet tint or
+none. Every band colour is read from `--band-rgb` (`ladderBandVars`, or the modal
+frame) or from `getBandConfig` / `getBandRgb` / `getBandDeepInkRgb`; no literal.
+
+| Element | Treatment | Why |
+| --- | --- | --- |
+| Score placard | Dark: the card's paper with the band as a wash (16% to 6%) and a 1px edge at 75%; the mark in the band's light tint. Light: white with a 7% wash and the band's deep ink edge; the mark in deep ink. Export and its options: `SECONDARY_ACTION`. The progress fill is the band on a neutral track. | The mark is the statement, not the card. The dark edge is 75% because a 55% edge measured 2.45:1 against the desk, under the 3:1 region floor. |
+| Band chip | An outline in the band ink (`border-current`), not a filled pill. | A chip is a label; the outline names the band without a fill. |
+| Criteria rows | Each row a neutral card. Its mark gutter is a 14% (light 10%) tint of the row's band, with the mark in band ink. | The row says what happened; the tint is where the band shows, and each row keeps its own band. |
+| Strong evidence and areas for growth | Neutral white in the light theme (`FEEDBACK_CARD_NEUTRAL`), edged at 3:1 or more. The improved response and the marker's commentary keep the band wash. | A band wash on these lists read as a verdict on the student. |
+| Your next step | A neutral card, a 3px band rule down its left edge and the bulb in band ink. | Advice, not a verdict: the tip does not take a colour across the card. |
+| Use this version | The band the rewrite reaches (`rewriteTarget`, the same band as "one mark higher · Band N"), as `PRIMARY_ACTION` on `BAND_GROUND`, never the current result's band. No rewrite: "Back to my response" keeps the current band. | A Band 1 student is offered the Band 2 colour, and the button names where the rewrite leads. |
+| Modal frame | `band-frame`: a soft band-coloured glow, not a saturated halo. The 2px band border stays. | The frame is the container; its glow should not compete with the marks. |
+| Improve-your-answer header | Two frosted score tiles in the header's own language, each with a 3px rule in its own band along its foot. Under them one line names both bands: "Band 1 → Band 2". The rule on the header's own ground is the band lifted toward white (`band-rule-lift`), so it reads. Below `sm` the title is the short "One mark higher"; the full title is the heading's accessible name. | The header ground is the target band's own ink, so a solid chip of the same hue vanished on it. |
+| View tabs | The selected tab is a neutral raised segment (white in the light theme, `white/12` in the dark) with the band as a 2px rule along its foot. | The control's state is carried by the segment; the band is a small mark. |
+| Watch the marker's edits | One 1px border, the same height as the tabs from `sm`, with the Play icon in band ink. While the replay runs its controls sit in the toolbar's tray. | The group's border was drawn round the button too, so the control showed a doubled outline. |
+
+Pinned by `tests/unit/feedbackChrome.test.ts` (the contrast of every ink on a band
+and the 44px targets), `tests/unit/improvementReviewChrome.test.tsx` and
+`tests/e2e/light-theme.spec.ts` (every region and text floor, in both themes).
 
 ## 4. Typography
 

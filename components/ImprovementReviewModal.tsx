@@ -40,6 +40,7 @@ import {
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { BAND_GROUND, PRIMARY_ACTION } from './feedback/feedbackChrome';
 import {
   diffWords,
   groupEdits,
@@ -791,16 +792,20 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   // not.
   const secondaryButton =
     't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 border border-slate-500 dark:border-white/40 transition-colors touch-manipulation flex items-center justify-center gap-2';
-  const primaryButton =
-    't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-6 rounded-xl font-semibold band-solid can-hover:hover:brightness-110 active:brightness-95 transition-[filter] touch-manipulation flex items-center justify-center gap-2';
+  // The way forward: the target band's flat ground with its dark ink, the same primary as the
+  // marking feedback's footer (`PRIMARY_ACTION` on `BAND_GROUND`), so the two modals' primary
+  // buttons match. The band is the frame's `--band-rgb`.
+  const primaryButton = `${PRIMARY_ACTION} ${BAND_GROUND} flex-1 sm:flex-none`;
   const toolGroup =
     'flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-500 dark:border-white/40 bg-white dark:bg-black/20';
   const toolButton =
     'inline-flex items-center justify-center min-h-11 min-w-11 sm:min-h-0 sm:min-w-0 p-1.5 rounded-lg text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-100 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors touch-manipulation disabled:opacity-40';
   // The replay's start is a labelled control, not an icon: it is the one thing
   // on the toolbar a student has to find on purpose.
+  // One 1px border, as a secondary button: the group's own border is not drawn round it, so
+  // the control no longer shows a doubled outline. Its height is the view tabs' (`sm:h-9`).
   const replayStartButton =
-    't-label inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg border border-slate-500 dark:border-white/40 text-slate-800 dark:text-slate-100 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors touch-manipulation whitespace-nowrap';
+    't-label inline-flex items-center justify-center gap-2 flex-1 sm:flex-none min-h-11 sm:min-h-0 sm:h-9 px-3 py-1.5 rounded-lg border border-slate-500 dark:border-white/40 bg-white dark:bg-white/5 text-slate-800 dark:text-slate-100 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 transition-colors touch-manipulation whitespace-normal text-left sm:whitespace-nowrap';
 
   // ---- Layout -------------------------------------------------------------
   // Wide screens: the page in its own column, the margins either side of it. The
@@ -841,6 +846,24 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const railSurface =
     'bg-surface-inset dark:bg-white/[0.02] border-slate-500 dark:border-white/40 px-5 sm:px-6 py-6 flex flex-col gap-7';
 
+  // The verdict in words, in two lengths. The full title is the heading's name; the short
+  // one is what a phone shows, so the hero is one or two lines beside the scores. The gain
+  // is usually one mark, but a student already in the top band is lifted to full marks.
+  const fullTitle = unchanged
+    ? 'Your answer, unchanged'
+    : gained === 1
+      ? 'Your answer, one mark higher'
+      : gained > 1
+        ? `Your answer, ${gained} marks higher`
+        : 'Your answer, improved';
+  const shortTitle = unchanged
+    ? 'Unchanged'
+    : gained === 1
+      ? 'One mark higher'
+      : gained > 1
+        ? `${gained} marks higher`
+        : 'Improved';
+
   return createPortal(
     <div
       className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-improvement p-2 sm:p-4"
@@ -854,7 +877,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         aria-labelledby={titleId}
         aria-describedby={descId}
         style={bandStyle}
-        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg ${bandConfig.glow} w-full max-w-6xl xl:max-w-[min(94vw,1500px)] border-2 ${bandConfig.border} animate-fade-in-up motion-reduce:animate-none overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]`}
+        className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface band-frame w-full max-w-6xl xl:max-w-[min(94vw,1500px)] border-2 ${bandConfig.border} animate-fade-in-up motion-reduce:animate-none overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]`}
         onClick={(e) => e.stopPropagation()}
       >
         {/* The band this revision reaches, as one rule across the top — the
@@ -886,14 +909,14 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               <h2 id={titleId} className={CARD_HEADER_TITLE}>
                 {/* The gain is usually one mark, but not always — a student already
                     in the question's top band is lifted to full marks. The words
-                    are set in capitals by the title's own style, not typed so. */}
-                {unchanged
-                  ? 'Your answer, unchanged'
-                  : gained === 1
-                    ? 'Your answer, one mark higher'
-                    : gained > 1
-                      ? `Your answer, ${gained} marks higher`
-                      : 'Your answer, improved'}
+                    are set in capitals by the title's own style, not typed so.
+                    On a phone the short title is the visible one: the full title is
+                    the heading's name for a screen reader, and it is the desktop's
+                    visible title. */}
+                <span className="sm:hidden" aria-hidden="true">
+                  {shortTitle}
+                </span>
+                <span className="max-sm:sr-only">{fullTitle}</span>
               </h2>
               <p
                 id={descId}
@@ -921,11 +944,18 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 <p className="flex items-center justify-end gap-1.5 tabular-nums leading-none text-white">
                   {originalMark !== undefined && originalBand !== undefined && (
                     <>
+                      {/* Each score is a frosted tile in the header's own language, with a
+                          3px rule along its foot in its own band. The band still reads,
+                          without a solid fill on the header's ground. */}
                       <span
-                        className="band-solid inline-flex items-center justify-center min-w-[2rem] h-8 px-1.5 rounded-lg text-base font-bold ring-1 ring-inset ring-white/60"
+                        className="relative inline-flex items-center justify-center overflow-hidden min-w-[2rem] h-8 px-1.5 pb-0.5 rounded-lg text-base font-bold bg-white/15 ring-1 ring-inset ring-white/40"
                         style={{ '--band-rgb': getBandRgb(originalBand) } as React.CSSProperties}
                       >
                         {originalMark}
+                        <span
+                          aria-hidden="true"
+                          className="absolute inset-x-0 bottom-0 h-[3px] band-rule-lift"
+                        />
                       </span>
                       <span className="sr-only"> to </span>
                       <ArrowRight className="w-4 h-4 text-white shrink-0" aria-hidden="true" />
@@ -933,10 +963,14 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   )}
                   <span
                     data-mark-figure="target"
-                    className="band-solid inline-flex items-center justify-center min-w-[2.25rem] h-9 px-2 rounded-lg text-xl font-black ring-1 ring-inset ring-white/60"
+                    className="relative inline-flex items-center justify-center overflow-hidden min-w-[2.25rem] h-9 px-2 pb-0.5 rounded-lg text-xl font-black bg-white/25 ring-1 ring-inset ring-white/70"
                     style={bandStyle}
                   >
                     {shownMark}
+                    <span
+                      aria-hidden="true"
+                      className="absolute inset-x-0 bottom-0 h-[3px] band-rule-lift"
+                    />
                   </span>
                   <span className="text-sm font-semibold text-white ml-0.5">
                     <span aria-hidden="true">/</span>
@@ -944,7 +978,11 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     {originalPrompt.totalMarks}
                   </span>
                 </p>
-                <p className={`${CARD_HEADER_META} mt-1.5 whitespace-nowrap`}>Band {targetBand}</p>
+                <p className={`${CARD_HEADER_META} mt-1.5 whitespace-nowrap`}>
+                  {originalBand !== undefined
+                    ? `Band ${originalBand} → Band ${targetBand}`
+                    : `Band ${targetBand}`}
+                </p>
               </div>
             )}
             <button
@@ -1052,10 +1090,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           {liveText}
         </p>
 
-        <div className="px-5 sm:px-8 py-2.5 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-4 gap-y-2 shrink-0">
+        <div className="px-5 sm:px-8 py-2.5 border-b border-slate-500 dark:border-white/40 bg-surface-elevated dark:bg-white/[0.02] flex flex-wrap items-center gap-x-2 sm:gap-x-4 gap-y-2 shrink-0">
           {comparing && (
             <div
-              className="flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-500 bg-slate-200 dark:border-white/40 dark:bg-black/25"
+              className="flex w-full sm:w-auto sm:h-9 items-center gap-0.5 p-0.5 rounded-xl border border-slate-500 bg-slate-200 dark:border-white/40 dark:bg-black/25"
               role="group"
               aria-label="How to show the revision"
             >
@@ -1064,9 +1102,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   key={v.id}
                   onClick={() => chooseView(v.id)}
                   aria-pressed={view === v.id}
-                  className={`t-label inline-flex items-center min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap touch-manipulation ${
+                  className={`t-label relative inline-flex flex-1 sm:flex-none items-center justify-center min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap touch-manipulation ${
                     view === v.id
-                      ? 'band-solid shadow-sm'
+                      ? // A neutral raised segment; the band shows as a rule along its foot.
+                        "bg-white text-slate-900 ring-1 ring-slate-500 shadow-sm dark:bg-white/[0.12] dark:text-white dark:ring-white/25 after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:rounded-full after:bg-[rgb(var(--band-rgb))] after:content-['']"
                       : 'text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-200 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10'
                   }`}
                 >
@@ -1080,8 +1119,15 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
               is complete without it, and the controls are not on it until asked
               for. The start is the same control as Play, so focus stays on it. */}
           {replayAvailable && (
-            <div className="flex flex-wrap items-center gap-2 min-w-0">
-              <div className={toolGroup} role="group" aria-label="Watch the marker’s edits">
+            <div className="flex flex-wrap items-center gap-2 min-w-0 max-sm:flex-1">
+              {/* Before the replay starts the control is the button alone, with one border.
+                  Once it runs, its controls are a group in the toolbar's own tray. The
+                  wrapper is `contents` until then, so the button is the row's child. */}
+              <div
+                className={replayStep === null ? 'contents' : toolGroup}
+                role={replayStep === null ? undefined : 'group'}
+                aria-label={replayStep === null ? undefined : 'Watch the marker’s edits'}
+              >
                 {replayStep !== null && (
                   <button
                     type="button"
@@ -1110,10 +1156,15 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   {replayStep === null ? (
                     <>
                       <Play
-                        className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400"
+                        className="w-3.5 h-3.5 text-[rgb(var(--band-ink-deep-rgb))] dark:text-[rgb(var(--band-rgb))]"
                         aria-hidden="true"
                       />
-                      <span>Watch the marker’s edits</span>
+                      {/* One line on a phone: the short label is what shows, and the full
+                          one stays the button's accessible name. */}
+                      <span aria-hidden="true" className="sm:hidden">
+                        Watch the edits
+                      </span>
+                      <span className="max-sm:sr-only">Watch the marker’s edits</span>
                     </>
                   ) : playingNow ? (
                     <Pause className="w-3.5 h-3.5" aria-hidden="true" />
@@ -1183,8 +1234,12 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                 </button>
-                <span className="px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tabular-nums whitespace-nowrap">
-                  {cursor + 1}/{edits.length}
+                {/* Named, not a bare fraction: "Edit 1/2" says what the figure counts. */}
+                <span className="px-1.5 text-[11px] font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+                  Edit{' '}
+                  <span className="tabular-nums">
+                    {cursor + 1}/{edits.length}
+                  </span>
                 </span>
                 <button
                   onClick={() => goTo(cursor + 1)}
@@ -1198,7 +1253,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             {/* Not on a phone: the system text size and pinch-zoom do this job
                 there, and without it the stepper fits on the row beside the
                 words-kept figure instead of taking a row of its own. */}
-            <div className={`${toolGroup} hidden sm:flex`}>
+            <div className={`${toolGroup} hidden sm:flex`} role="group" aria-label="Text size">
               <button
                 onClick={() => setFontSize((s) => Math.max(13, s - 2))}
                 disabled={fontSize <= 13}
