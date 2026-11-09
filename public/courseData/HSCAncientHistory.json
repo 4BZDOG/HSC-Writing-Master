@@ -9586,7 +9586,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "3",
-                    "hscSection": "Section I — Cities of Vesuvius – Pompeii and Herculaneum"
+                    "hscSection": "Section I — Cities of Vesuvius – Pompeii and Herculaneum",
+                    "scenarioImage": {
+                      "id": "prompt-ah-hsc-2025-3",
+                      "alt": "Photograph of bronze fish hooks of varying sizes and a fork-shaped fitting from Pompeii, on a blue-grey background.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/ah-2025-3.png"
+                    }
                   }
                 ]
               },

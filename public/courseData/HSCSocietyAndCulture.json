@@ -9201,7 +9201,13 @@
                     "isPastHSC": true,
                     "hscYear": 2024,
                     "hscQuestionNumber": "9",
-                    "hscSection": "Section I — Social and Cultural Continuity and Change"
+                    "hscSection": "Section I — Social and Cultural Continuity and Change",
+                    "scenarioImage": {
+                      "id": "prompt-sac-hsc-2024-9",
+                      "alt": "Table of the poll question about the impact of ethnicity on personal identity, beside a pie chart of results: Extreme impact 17%, Moderate impact 62% and Minimal impact 21%.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/sac-2024-9.png"
+                    }
                   }
                 ]
               }
