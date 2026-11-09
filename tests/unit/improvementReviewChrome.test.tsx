@@ -63,18 +63,42 @@ describe('ImprovementReviewModal chrome', () => {
     expect(strip!.className).toContain('px-4');
   });
 
-  it('gives each score its own band: the from-mark and the to-mark are solid chips', () => {
+  // The score cluster is two frosted tiles, each with a 3px rule along its foot in its own
+  // band, so the band reads without a solid fill on the header's ground.
+  it('gives each score its own band: frosted tiles, each with its band as a rule', () => {
     renderModal();
     const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
 
     const fromBand = getBandForMark(4, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier);
-    const from = within(dialog).getByText('4', { selector: '.band-solid' });
+    const from = within(dialog).getByText('4', { selector: '[class*="bg-white/15"]' });
+    expect(from.className).not.toContain('band-solid');
     expect(from.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(fromBand));
+    expect(from.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
 
     const to = dialog.querySelector('[data-mark-figure="target"]') as HTMLElement;
-    expect(to.className).toContain('band-solid');
+    expect(to.className).toContain('bg-white/25');
+    expect(to.className).toContain('font-black');
     expect(to.textContent).toBe('5');
     expect(to.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(4));
+    expect(to.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
+  });
+
+  it('names both bands in one line under the score', () => {
+    renderModal();
+    const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
+
+    // The target band is the `targetBand` the caller passes (4 here); the from-band is
+    // derived from the student's own mark.
+    const fromBand = getBandForMark(4, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier);
+    expect(within(dialog).getByText(`Band ${fromBand} → Band 4`)).toBeTruthy();
+  });
+
+  it('shows a short title beside the scores on a phone, with the full title as the name', () => {
+    renderModal();
+
+    const title = screen.getByRole('heading', { name: 'Your answer, one mark higher' });
+    expect(title.textContent).toContain('One mark higher');
+    expect(within(title).getByText('One mark higher').className).toContain('sm:hidden');
   });
 
   it('keeps emerald and rose to the diff marks, not the stat figures', () => {
@@ -107,10 +131,11 @@ describe('ImprovementReviewModal chrome', () => {
 
     const selected = screen.getByRole('button', { name: 'Edits marked' });
     expect(selected.getAttribute('aria-pressed')).toBe('true');
-    expect(selected.className).toContain('band-solid');
-    expect(screen.getByRole('button', { name: 'Clean copy' }).className).not.toContain(
-      'band-solid'
-    );
+    // A neutral raised segment, with the band as a rule along its foot (`after:`), not a fill.
+    expect(selected.className).not.toContain('band-solid');
+    expect(selected.className).toContain('ring-1');
+    expect(selected.className).toContain('after:bg-[rgb(var(--band-rgb))]');
+    expect(screen.getByRole('button', { name: 'Clean copy' }).className).not.toContain('after:bg-');
   });
 });
 

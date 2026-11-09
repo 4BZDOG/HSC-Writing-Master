@@ -4,7 +4,7 @@ import { Prompt } from '../../types';
 import { renderFormattedText } from '../../utils/renderUtils';
 import { planLabelForFeature } from '../../services/entitlements';
 import { PlusLockChip, ContentLockOverlay } from '../UpgradeModal';
-import { FEEDBACK_CARD, GROWTH_BOX } from './feedbackChrome';
+import { FEEDBACK_CARD_NEUTRAL, GROWTH_BOX } from './feedbackChrome';
 import { SectionHeading } from './FeedbackPieces';
 
 interface StrengthsAndGrowthProps {
@@ -39,7 +39,7 @@ const StrengthsAndGrowth: React.FC<StrengthsAndGrowthProps> = ({
         tone="text-emerald-800 dark:text-emerald-400"
         toneBg="bg-emerald-100 dark:bg-emerald-500/15"
       />
-      <ul className={`${FEEDBACK_CARD} p-5 sm:p-6 space-y-3.5`}>
+      <ul className={`${FEEDBACK_CARD_NEUTRAL} p-5 sm:p-6 space-y-3.5`}>
         {strengths.map((s, i) => (
           <li
             key={i}
@@ -75,7 +75,7 @@ const StrengthsAndGrowth: React.FC<StrengthsAndGrowthProps> = ({
       </SectionHeading>
       {feedbackLocked && <ContentLockOverlay feature="fullFeedback" className="rounded-panel" />}
       <ul
-        className={`${FEEDBACK_CARD} p-5 sm:p-6 space-y-3.5 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
+        className={`${FEEDBACK_CARD_NEUTRAL} p-5 sm:p-6 space-y-3.5 ${feedbackLocked ? 'blur-sm select-none pointer-events-none' : ''}`}
       >
         {improvements.map((im, i) => (
           <li

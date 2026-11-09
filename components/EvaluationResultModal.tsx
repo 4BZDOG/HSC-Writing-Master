@@ -17,7 +17,7 @@ import {
 } from '../utils/cardChrome';
 import { getCommandTermInfo } from '../data/commandTerms';
 import { ladderBandVars } from './LadderRow';
-import { presentableRewrite } from './feedback/rewriteText';
+import { presentableRewrite, rewriteTarget } from './feedback/rewriteText';
 import { BAND_GROUND, PRIMARY_ACTION, SECONDARY_ACTION } from './feedback/feedbackChrome';
 
 interface EvaluationResultModalProps {
@@ -101,6 +101,16 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   // so the button is offered exactly when the report shows a rewrite to use.
   const rewrite = presentableRewrite(result.revisedAnswer, isFeatureLocked('answerUpgrades'));
   const canUse = !!rewrite.text && result.overallMark < prompt.totalMarks;
+  // "Use this version" is coloured by the band the rewrite reaches, not the band the
+  // student is in now: a Band 1 student is offered the Band 2 colour. The band comes from
+  // the same helper the report's "one mark higher · Band N" line reads (`rewriteTarget`).
+  const rewriteBand = rewriteTarget(
+    result.revisedAnswer,
+    result.overallMark,
+    prompt.totalMarks,
+    modalBandTier,
+    prompt.markingCriteria
+  ).band;
 
   // Taking the rewrite is leaving the feedback, not a toast on top of it: the draft is
   // replaced and the report closes, so the student is back at their own response.
@@ -119,7 +129,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
       className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
     >
       <div
-        className={`clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface shadow-lg ${modalBand.glow} border-2 ${modalBand.border} flex flex-col relative animate-fade-in-up overflow-hidden`}
+        className={`clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface band-frame border-2 ${modalBand.border} flex flex-col relative animate-fade-in-up overflow-hidden`}
         style={
           {
             '--band-rgb': modalBandRgb,
@@ -231,7 +241,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               disabled={isImproving}
               aria-describedby={replacesNoteId}
               className={`${PRIMARY_ACTION} ${BAND_GROUND} min-w-0 flex-1 sm:flex-none`}
-              style={ladderBandVars(result.overallBand)}
+              style={ladderBandVars(rewriteBand)}
             >
               <ArrowUpCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span className="flex flex-col items-start text-left leading-tight">
