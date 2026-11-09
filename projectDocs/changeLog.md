@@ -1,5 +1,15 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-09 (Past HSC papers: figures)
+
+- **Added (data).** Fifteen figures the papers print, as `scenarioImage`, on 21 past HSC questions that only described
+  them in words: Economics 2025 22(a)–(b) (foreign exchange graph), 23(b)–(d) (labour market table) and 26 (earnings
+  table); Biology 2022 24(b), 27, 28(a), 29(a)–(b), 31(a)(i)–(ii) and 32; Business Studies 2021 22(c) and 2023 22(c);
+  Geography 2025 21; Ancient History 2025 3 (Source B, the Pompeii fish hooks); Modern History 2025 4 (Source C, the
+  1938 Entartete Kunst queue); Society and Culture 2024 9 (poll and pie chart). Cropped from NESA's PDFs at 200 dpi,
+  each under 200 KB; the text description stays in the scenario for the marker. Parts NESA prints as text only, and
+  Software Engineering 2025 26 (online exam, no printed figure), are left without an image.
+
 ## [Unreleased] - 2026-11-07 (Legal Studies: every dot point covered)
 
 - **Added (DATA_VERSION 2.49.0).** Legal Studies goes from 341 questions to 607. It also goes from 133 empty dot
