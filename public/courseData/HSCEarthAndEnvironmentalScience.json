@@ -1039,8 +1039,8 @@
                         "id": "sa-ees-hsc-2025-25b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Collect the waste from each bin and sort it into recyclable and non-recyclable piles.",
-                        "feedback": "Meets the 2-mark row by outlining a way waste can be collected and sorted. It names no variables and no repeats, so it does not reach the 3-mark row.",
+                        "answer": "Collect the waste from each bin and sort it into recyclable and non-recyclable piles. Weigh the recyclable pile on a set of scales and write the mass in a table.",
+                        "feedback": "Meets the 2-mark row by outlining a way that waste can be collected, sorted and weighed: “Weigh the recyclable pile”. It names no variables, no repeats and no comparison between areas, so it does not reach the 3-mark row. Naming the areas as the independent variable, with the mass as the dependent variable, would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -1509,8 +1509,8 @@
                         "id": "sa-ees-hsc-2025-29-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Burning fossil fuels adds carbon dioxide to the atmosphere, unlike cyanobacteria, which release oxygen.",
-                        "feedback": "Meets the 2-mark row by giving one related difference between human and cyanobacterial effects on the atmosphere. A second difference would meet the 3-mark row.",
+                        "answer": "Burning fossil fuels adds carbon dioxide to the atmosphere, unlike cyanobacteria, which release oxygen through photosynthesis. The carbon in fossil fuels was stored underground for millions of years.",
+                        "feedback": "Meets the 2-mark row by giving one related difference: “adds carbon dioxide to the atmosphere, unlike cyanobacteria”. The reason given for the human effect is not a second difference. A second difference, such as the gas that cyanobacteria remove in photosynthesis, would meet the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -1718,8 +1718,8 @@
                         "id": "sa-ees-hsc-2025-33a-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Deep earthquakes occur where the subducting plate sinks further into the mantle.",
-                        "feedback": "Meets the 2-mark row by explaining why a focus is deep. It does not explain why other foci are shallow, so the answer does not reach the 3-mark row.",
+                        "answer": "Deep earthquakes occur where the subducting plate sinks further into the mantle, so the focus lies far below the surface, well away from the trench.",
+                        "feedback": "Meets the 2-mark row by explaining why a focus is deep: “the subducting plate sinks further into the mantle”. It does not explain why other foci are shallow, so it does not reach the 3-mark row. Explaining that shallow earthquakes form where the plate is still close to the surface would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -1896,8 +1896,8 @@
                         "id": "sa-ees-hsc-2025-32-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Doppler radar detects rain falling in storms and is used in weather forecasting.",
-                        "feedback": "Meets the 2-mark row by describing a technology used in weather prediction. It does not explain how the technology predicts a short-term extreme event, which the 3-mark row needs.",
+                        "answer": "Doppler radar sends out microwave pulses and detects those reflected by raindrops in storms. It is used in weather forecasting to show rainfall.",
+                        "feedback": "Meets the 2-mark row by describing a technology used in weather prediction: “Doppler radar sends out microwave pulses”. It does not explain how its data predicts a short-term extreme event, such as flooding from heavy rain, which the 3-mark row needs. Explaining how the rain and storm movement it measures can predict flooding would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -2343,8 +2343,8 @@
                         "id": "sa-ees-hsc-2025-31a-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Individuals can use less electricity at home and walk or ride bicycles for short trips to school.",
-                        "feedback": "Meets the 2-mark row by outlining two appropriate actions. Neither action is justified in terms of reducing warming, which the 3-mark row needs.",
+                        "answer": "Individuals can use less electricity at home, such as by switching off appliances at the wall and using LED lights. They can walk or ride bicycles for short trips to school instead of driving.",
+                        "feedback": "Meets the 2-mark row by outlining two appropriate actions, “ride bicycles for short trips”, with some detail on each. Neither action is justified in terms of reducing warming, which the 3-mark row needs. Explaining that less electricity and fewer car trips cut carbon emissions would lift it to the 3-mark row.",
                         "band": 4
                       },
                       {
@@ -2581,8 +2581,8 @@
                         "id": "sa-ees-hsc-2025-28-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Agricultural run-off carries fertilisers and chemicals into rivers. This reduces water quality for aquatic organisms and people, so the practice is not sustainable because future users cannot rely on clean water.",
-                        "feedback": "Meets the 3-mark row by explaining the effect of one human activity on a water resource, implying a link to sustainability and giving a judgement. A second activity with its own effect and judgement would reach the 4–5 rows.",
+                        "answer": "Agricultural run-off carries fertilisers and chemicals into rivers. These nutrients can cause algal blooms, and when the algae die and decay they use up oxygen, which harms fish and other aquatic organisms. This reduces water quality for people as well, so the practice is not sustainable in the long term because future users cannot rely on clean water.",
+                        "feedback": "Meets the 3-mark row by explaining the effect of one human activity on a water resource: “use up oxygen”. It implies a link to sustainability and gives a judgement. A second activity with its own effect and judgement would reach the 4-mark row.",
                         "band": 3
                       },
                       {
@@ -2645,8 +2645,8 @@
                         "id": "sa-ees-hsc-2025-23-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Cultural burning is a traditional way of managing the land and its resources.",
-                        "feedback": "Meets the 2-mark row by outlining a traditional resource management process. It does not describe how the practice is carried out or how it keeps resources available, which the 3-mark row needs.",
+                        "answer": "Cultural burning is a traditional way of managing the land and its resources. It is practised across Australia and has been used for many thousands of years.",
+                        "feedback": "Meets the 2-mark row by outlining a traditional resource management process: “Cultural burning is a traditional way of managing”. It does not describe how the practice is carried out or how it keeps resources available, which the 3-mark row needs. Describing what the fire does to the land and its plants and animals would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {

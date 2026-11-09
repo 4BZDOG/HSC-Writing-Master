@@ -1651,8 +1651,8 @@
                         "id": "sa-phy-hsc-2025-36-2",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "By conservation of momentum, the two pieces undergo equal and opposite velocity changes. Since ma's velocity changes by v, mb's changes by v in the opposite direction, so mb is left with zero velocity and begins to fall towards Earth. The orbital speed is √(GM/r), so ma's speed after the explosion is 2√(GM/r), which is greater than the escape speed √(2GM/r). Therefore ma escapes Earth's gravity and keeps moving away, while mb falls back towards the planet.",
-                        "feedback": "Meets the 4-5 mark row by describing a feature of each piece's motion and applying conservation of momentum with the orbital and escape speed formulae. It does not analyse the fall of mb in terms of energy, which the 6-7 row asks for, so adding conservation of energy for mb, from zero velocity towards Earth, would lift it.",
+                        "answer": "By conservation of momentum, the total momentum of the satellite is unchanged by the explosion. The changes in momentum of ma and mb are therefore equal and opposite. Since the two pieces have equal mass, the velocity change of ma, which is v, must be matched by a change of −v for mb, so mb is left with zero velocity relative to Earth.\nThe orbital speed before the explosion is v = √(GM/r). The speed of ma after the explosion is 2v, which is more than the speed needed for a circular orbit at that distance, so gravity cannot keep ma in its orbit and it moves further away from Earth.\nBecause mb starts from rest, gravity pulls it straight towards Earth. It speeds up as it falls, and its acceleration grows as it moves closer to Earth’s centre.",
+                        "feedback": "Meets the 4-5 mark row by describing a feature of the motion of each piece and applying conservation of momentum with the orbital speed formula, v = √(GM/r). It does not analyse whether ma escapes: comparing 2v with the escape speed, √(2GM/r) = √2 v, would settle it. It also does not apply conservation of energy to the fall of mb. Adding both would lift it to the 6-7 row.",
                         "band": 3
                       },
                       {
@@ -2477,8 +2477,8 @@
                         "id": "sa-phy-hsc-2025-35-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "As the magnet falls, it induces currents in the copper pipe, and these currents push back on the magnet.",
-                        "feedback": "Meets the 2-mark row by describing the magnet's motion and its interaction with the pipe. It does not link either to the balance reading, and relating the extra downward force on the pipe to the rise in the reading would lift it to the 3-mark row.",
+                        "answer": "As the magnet falls, the changing magnetic field induces currents in the copper pipe. These currents push back on the magnet, so it accelerates more slowly than it would in free fall. At first the magnet speeds up, then it reaches a steady speed while still inside the pipe.",
+                        "feedback": "Meets the 2-mark row by describing the magnet’s motion and its interaction with the pipe: “currents push back on the magnet”. It does not link either to the balance reading. Relating the extra downward force on the pipe to the rise in the reading would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -2865,8 +2865,8 @@
                         "id": "sa-phy-hsc-2025-25b-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Photon energy depends on frequency, so higher frequency light gives the ejected electrons more kinetic energy.",
-                        "feedback": "Meets the 2-mark row by relating the rise in frequency to photon energy, one aspect of the particle model. It does not link the kinetic energy to the stopping voltage or mention the work function, and adding Kmax = hf − ϕ with Kmax = qV₀ would lift it to the 3-mark row.",
+                        "answer": "In the photon model, light is made of discrete packets of energy called photons. The energy of each photon is E = hf, so higher frequency light has more energy per photon. When a photon strikes the potassium, it transfers its energy to a single electron, and the electron leaves the metal with more kinetic energy when the photon has more energy.",
+                        "feedback": "Meets the 2-mark row by relating the rise in frequency to photon energy, one aspect of the particle model: “energy of each photon is E = hf”. It does not link the kinetic energy to the stopping voltage or mention the work function. Adding KE = hf − ϕ, and that the stopping voltage measures this kinetic energy, would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -3291,8 +3291,8 @@
                         "id": "sa-phy-hsc-2025-27-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Schrödinger described electrons as waves, and their positions as probabilities rather than certain locations.",
-                        "feedback": "Meets the 2-mark row by outlining two features of Schrödinger's model. Neither feature is contrasted with the Rutherford or Bohr model, and contrasting them with Bohr's fixed orbits or Rutherford's particle orbits would lift it to the 3-mark row.",
+                        "answer": "Schrödinger described electrons as waves, with positions given as probabilities. An orbital is the region where an electron is likely to be found.",
+                        "feedback": "Meets the 2-mark row by outlining two features of Schrödinger’s model: “described electrons as waves”, and orbitals as regions of probability. Neither feature is contrasted with the Rutherford or Bohr model. Contrasting them with Bohr’s fixed orbits or Rutherford’s particle orbits would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
@@ -3367,8 +3367,8 @@
                         "id": "sa-phy-hsc-2025-33-2",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Particle accelerators collide particles at high energies, and the results have revealed quarks, leptons and force-carrying bosons. These discoveries fit the Standard Model, which groups all known fundamental particles into quarks, leptons and bosons.",
-                        "feedback": "Meets the 3-4 mark row by describing accelerator experiments and the particles they revealed, and linking them to the Standard Model. It does not analyse how theory and experiment shaped each other, such as the predicted Higgs boson or electroweak theory, and adding one such prediction tested by a collision experiment would lift it to the 5-mark row.",
+                        "answer": "Particle accelerators collide particles at high energies, and the collisions convert energy into mass. The results have revealed quarks, leptons and force-carrying bosons. In the late 1960s, electrons fired at protons showed that protons have internal structure. The Higgs boson, which is linked to the mass of particles, was found at CERN’s Large Hadron Collider in 2012. These discoveries fit the Standard Model, which groups all known fundamental particles into quarks, leptons and bosons.",
+                        "feedback": "Meets the 3-4 mark row by describing accelerator experiments and ideas about proton structure and the Higgs boson, and linking them to the Standard Model: “These discoveries fit the Standard Model”. It does not analyse how theory and experiment shaped each other. Adding one prediction that a collision experiment then tested would lift it to the 5-mark row.",
                         "band": 3
                       },
                       {
@@ -3465,8 +3465,8 @@
                         "id": "sa-phy-hsc-2025-21-2",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Test each source in turn in a magnetic field and observe the deflection of the radiation.",
-                        "feedback": "Meets the 2-mark row by outlining a method that could distinguish the sources, but no observation says which source is alpha and which is beta. Stating the direction of deflection for each source would lift it to the 3-mark row.",
+                        "answer": "Test each source in a magnetic field. Direct a narrow beam through the field and record where it strikes a detector, so the deflection of each source can be compared.",
+                        "feedback": "Meets the 2-mark row by outlining a method that could distinguish the sources: “Test each source in a magnetic field”. No observation says which source is alpha and which is beta, so neither source is identified. Stating the direction of deflection for each source would lift it to the 3-mark row.",
                         "band": 2
                       },
                       {
