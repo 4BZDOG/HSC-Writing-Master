@@ -35,7 +35,6 @@ import {
   getStructureGuide,
   getExpectedCharRange,
   getExpectedTerms,
-  getRecommendedTime,
   getTargetBand,
   getTierTargetBand,
   fitVerbsToLength,
@@ -43,6 +42,7 @@ import {
   getPromptTermInfo,
 } from '../data/commandTerms';
 import { generateId } from '../utils/idUtils';
+import { getQuestionSeconds } from '../utils/pastHscUtils';
 import { splitSyllabusTerms } from '../utils/syllabusTermSource';
 import { isWeakLoneTerm } from '../utils/syllabusTermGaps';
 import { guideLadderProblem } from '../utils/markingGuideLadder';
@@ -350,7 +350,7 @@ ${stimulusBlock}                    **Max Marks:** ${prompt.totalMarks}
                     **Band Discrimination:** ${termInfo.bandDiscrimination}
                     **Maximum Achievable Band:** Band ${maxBand}. The cognitive demand of '${prompt.verb}' caps performance here — an answer that perfectly satisfies a '${prompt.verb}' task cannot demonstrate the higher-order skills required beyond Band ${maxBand}. Do NOT award credit for skills the verb does not ask for.
                     **Expected Response for Full Marks (${prompt.totalMarks}/${prompt.totalMarks}):** ${getStructureGuide(prompt.totalMarks)} Use this to judge whether the response has the depth and length the marks demand — a response far shorter or thinner than this cannot reach the top marks, but do not reward padding either.
-                    **Expected Length:** ${fullMarkChars[0]}-${fullMarkChars[1]} characters for full marks, written in about ${Math.round(getRecommendedTime(prompt.totalMarks, termInfo) / 60)} minutes. Length shows how much a response had room to do, not how well it did it: a long response that does not answer the question still earns a low mark.
+                    **Expected Length:** ${fullMarkChars[0]}-${fullMarkChars[1]} characters for full marks, written in about ${Math.round(getQuestionSeconds(prompt, termInfo) / 60)} minutes. Length shows how much a response had room to do, not how well it did it: a long response that does not answer the question still earns a low mark.
                     **Expected Syllabus Terms:** ${termInfo.syllabusTerms[0]}-${termInfo.syllabusTerms[1]} relevant syllabus terms should be used.
 ${buildMarkerTermBlock(prompt, syllabus)}
 

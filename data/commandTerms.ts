@@ -1470,7 +1470,7 @@ export const getStructureGuide = (mark: number): string => {
 };
 
 /** The pace the HSC papers allow: 40 minutes for 20 marks, 75 for Business Studies' 40. */
-const HSC_MINUTES_PER_MARK = 1.8;
+export const HSC_MINUTES_PER_MARK = 1.8;
 
 /**
  * Recommended writing time (in seconds) for a question, derived from the verb's

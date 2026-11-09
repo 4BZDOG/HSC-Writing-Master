@@ -1,5 +1,19 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-09 (Past HSC papers: each part's own time)
+
+- **Fixed.** A past HSC card printed the paper's section heading verbatim, so a 3-mark Physics part read "Allow about 2
+  hours and 25 minutes for this section", as if that were its time. The exam line now shows the heading without the
+  allowance, then the part: "Question 29(b) · 3 marks · allow about 5 minutes". The time is the part's share of the
+  section allowance (allowance × marks ÷ the section's marks; whole minutes under 15, then the nearest 5), or the HSC
+  pace of 1.8 minutes a mark where the paper prints none (`pastHscTiming` in `utils/pastHscUtils.ts`).
+- **Changed.** The card's time chip, the writing timer and the marker's "written in about N minutes" read the same
+  figure for a past question (`getQuestionSeconds`), so no card quotes two times. App-written questions keep
+  `getRecommendedTime` unchanged.
+- **Fixed (data).** The run-on section headings in Chemistry, Earth and Environmental Science, CAFS, Economics, EAL/D
+  and the two Extensions are rewritten to the house form, e.g. "Section II (80 marks). Attempt Questions 21–37. Allow
+  about 2 hours and 25 minutes for this section." ("Answer Booklet" dropped; wording otherwise as printed).
+
 ## [Unreleased] - 2026-11-09 (Past HSC papers: mid-band exemplars a student can learn from)
 
 - **Fixed (data).** 147 AI-written mid-band exemplars on past HSC questions were far too thin for the mark they
