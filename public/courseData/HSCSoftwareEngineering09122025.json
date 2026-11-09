@@ -14065,8 +14065,8 @@
                         "id": "sa-se-hsc-2025-21-4",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "```\nSELECT Category, Status, COUNT(*) AS Jobs\nFROM Issues AS i\nWHERE i.Status = 'Pending'\nGROUP BY Category, Status\nORDER BY Jobs DESC, Category\n```",
-                        "feedback": "Meets the 2-mark row: the query counts jobs by category and status with a correct GROUP BY, and sorts them with 'ORDER BY Jobs DESC'. Its WHERE clause keeps only Pending jobs, so it does not count the escalated jobs. To reach 3 marks, include Escalated as well, which would cover most of the requirements.",
+                        "answer": "```\nSELECT Category, Status, COUNT(*) AS Jobs\nFROM Issues AS i\nWHERE i.Status = 'Pending'\nGROUP BY Category, Status\n```",
+                        "feedback": "Meets the 2-mark row: the query counts jobs by category and status with a correct 'GROUP BY Category, Status'. Its WHERE clause keeps only Pending jobs, so the escalated jobs are not counted, and the results are not sorted from highest to lowest. Including Escalated jobs and adding 'ORDER BY Jobs DESC' would cover most of the requirements.",
                         "band": 2
                       },
                       {
