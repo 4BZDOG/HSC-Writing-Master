@@ -338,7 +338,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "1",
-                    "hscSection": "Section I — Module A: Texts and Human Experiences 30 marks Part A – 15 marks"
+                    "hscSection": "Section I — Module A: Texts and Human Experiences (30 marks), Part A (15 marks)"
                   },
                   {
                     "id": "prompt-eald-hsc-2025-p12",
@@ -400,7 +400,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "2",
-                    "hscSection": "Section I — Module A: Texts and Human Experiences 30 marks Part A – 15 marks"
+                    "hscSection": "Section I — Module A: Texts and Human Experiences (30 marks), Part A (15 marks)"
                   },
                   {
                     "id": "prompt-eald-hsc-2025-p13",
@@ -462,7 +462,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "3",
-                    "hscSection": "Section I — Module A: Texts and Human Experiences 30 marks Part A – 15 marks"
+                    "hscSection": "Section I — Module A: Texts and Human Experiences (30 marks), Part A (15 marks)"
                   }
                 ]
               },
@@ -542,7 +542,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "5",
-                    "hscSection": "Section I – Module A (continued) Part B – 15 marks"
+                    "hscSection": "Section I – Module A (continued), Part B (15 marks)"
                   }
                 ]
               },
@@ -642,7 +642,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "1",
-                    "hscSection": "Section I — Module B: Language, Identity and Culture 20 marks"
+                    "hscSection": "Section I — Module B: Language, Identity and Culture (20 marks)"
                   }
                 ]
               },
@@ -763,7 +763,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "2",
-                    "hscSection": "Section II — Module C: Close Study of Text 20 marks"
+                    "hscSection": "Section II — Module C: Close Study of Text (20 marks)"
                   }
                 ]
               },

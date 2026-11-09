@@ -101,7 +101,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "1",
-                    "hscSection": "Section I 25 marks Allow about 1 hour for this section"
+                    "hscSection": "Section I (25 marks). Allow about 1 hour for this section."
                   }
                 ]
               },
@@ -214,7 +214,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "2",
-                    "hscSection": "Section II 25 marks Allow about 1 hour for this section",
+                    "hscSection": "Section II (25 marks). Allow about 1 hour for this section.",
                     "bandCeiling": 6
                   }
                 ]

@@ -1,4 +1,5 @@
-import { DotPoint, Prompt, SubTopic, Topic } from '../types';
+import { HSC_MINUTES_PER_MARK, getRecommendedTime } from '../data/commandTerms';
+import { CommandTermInfo, DotPoint, Prompt, SubTopic, Topic } from '../types';
 
 /**
  * Provenance label for a question lifted from a past NESA HSC examination.
@@ -219,4 +220,87 @@ export const writePastHscNavigatorState = (
   } catch {
     /* Private browsing, or a full quota. The filter still works for this visit. */
   }
+};
+
+/*
+ * The time a past HSC question carries.
+ *
+ * A paper prints one allowance per section ("Allow about 2 hours and 25 minutes
+ * for this section") over the marks that section is worth, so a 3-mark part of
+ * an 80-mark section read as 2h25m. The part's share of that allowance is the
+ * time to give it: M × marks ÷ S, where M is the allowance and S the section's
+ * marks. A part worth the whole section (or more) keeps the full allowance.
+ * Where the heading prints no allowance, the HSC pace stands in for it.
+ */
+
+const ALLOWANCE_SENTENCE = /\s*Allow about\b[^.]*\.?\s*$/i;
+const ALLOWANCE = /Allow about\s+(?:(\d+)\s+hours?)?(?:\s+and\s+)?(?:(\d+)\s+minutes?)?/i;
+const SECTION_MARKS = /(\d+)\s+marks?\b/i;
+
+/** Minutes the paper's "Allow about …" sentence gives, or null when there is none. */
+const printedAllowance = (heading: string): number | null => {
+  const match = ALLOWANCE.exec(heading);
+  if (!match) return null;
+  const hours = match[1] ? Number(match[1]) : 0;
+  const minutes = match[2] ? Number(match[2]) : 0;
+  return hours || minutes ? hours * 60 + minutes : null;
+};
+
+/**
+ * Whole minutes under 15, then the nearest 5: a short part is read as exact, and
+ * a longer one is not given a precision it cannot keep.
+ */
+const roundMinutes = (raw: number): number =>
+  raw < 15 ? Math.max(1, Math.round(raw)) : Math.round(raw / 5) * 5;
+
+export interface PastHscTiming {
+  /** The heading as the card shows it: the paper's section allowance left out. */
+  heading: string;
+  /** The time this question should take, or null when it has no marks. */
+  minutes: number | null;
+  /** True when the minutes come from the paper's own allowance, not the HSC pace. */
+  fromPaper: boolean;
+}
+
+export const pastHscTiming = (prompt: Pick<Prompt, 'hscSection' | 'totalMarks'>): PastHscTiming => {
+  const raw = (prompt.hscSection ?? '').trim();
+  const allowance = printedAllowance(raw);
+  const withoutAllowance = raw.replace(ALLOWANCE_SENTENCE, '').trim();
+  const heading =
+    allowance === null || !withoutAllowance
+      ? raw
+      : /[.)]$/.test(withoutAllowance)
+        ? withoutAllowance
+        : `${withoutAllowance}.`;
+
+  const total = prompt.totalMarks;
+  if (!(total > 0)) return { heading, minutes: null, fromPaper: false };
+
+  const sectionMarks = SECTION_MARKS.exec(raw);
+  if (allowance !== null && sectionMarks) {
+    const sectionTotal = Number(sectionMarks[1]);
+    if (sectionTotal > 0) {
+      const share = total < sectionTotal ? (allowance * total) / sectionTotal : allowance;
+      return { heading, minutes: roundMinutes(share), fromPaper: true };
+    }
+  }
+  return { heading, minutes: roundMinutes(HSC_MINUTES_PER_MARK * total), fromPaper: false };
+};
+
+/**
+ * The seconds a question should take, as every surface of a question states it.
+ * A past HSC question with marks uses its paper time (`pastHscTiming`); anything
+ * else keeps the verb's `getRecommendedTime`, which is not changed here. The
+ * card's chip, the writing timer and the marker's expected length all read this,
+ * so one past question never quotes two times.
+ */
+export const getQuestionSeconds = (
+  prompt: Pick<Prompt, 'isPastHSC' | 'hscSection' | 'totalMarks'>,
+  verbInfo: CommandTermInfo
+): number => {
+  if (prompt.isPastHSC) {
+    const { minutes } = pastHscTiming(prompt);
+    if (minutes !== null) return minutes * 60;
+  }
+  return getRecommendedTime(prompt.totalMarks, verbInfo);
 };

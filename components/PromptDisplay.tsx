@@ -43,12 +43,7 @@ import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTer
 import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
 import ScenarioCarousel from './ScenarioCarousel';
-import {
-  getCommandTermInfo,
-  getRecommendedTime,
-  getTargetBand,
-  getPromptTermInfo,
-} from '../data/commandTerms';
+import { getCommandTermInfo, getTargetBand, getPromptTermInfo } from '../data/commandTerms';
 import { cappedCardHeight, naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import {
@@ -67,7 +62,7 @@ import {
   CARD_HEADER_ZOOM,
   CARD_HEADER_ZOOM_BUTTON,
 } from '../utils/cardChrome';
-import { getPastHscLabel } from '../utils/pastHscUtils';
+import { getPastHscLabel, getQuestionSeconds } from '../utils/pastHscUtils';
 import PastHscExamLine from './PastHscExamLine';
 import PastHscScenario from './PastHscScenario';
 import { splitPastHscScenario } from '../utils/pastHscScenario';
@@ -532,10 +527,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   }, [prompt.keywords, prompt.question, prompt.scenario, syllabus]);
   const verbInfo = useMemo(() => getPromptTermInfo(prompt), [prompt.verb, prompt.bandCeiling]);
   // The suggested time the card states, from the one function the metrics strip
-  // and the verb guide use, so the three never quote different numbers.
+  // and the exam line use (a past paper's share of its section allowance), so
+  // the card never quotes two numbers for one question.
   const suggestedMinutes = useMemo(
-    () => Math.max(1, Math.round(getRecommendedTime(prompt.totalMarks, verbInfo) / 60)),
-    [prompt.totalMarks, verbInfo]
+    () => Math.max(1, Math.round(getQuestionSeconds(prompt, verbInfo) / 60)),
+    [prompt, verbInfo]
   );
   // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
