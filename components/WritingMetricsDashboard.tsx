@@ -1,11 +1,7 @@
 import React, { useState, useEffect, useId, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
-import {
-  getCommandTermInfo,
-  getRecommendedTime,
-  getExpectedTerms,
-  getPromptTermInfo,
-} from '../data/commandTerms';
+import { getCommandTermInfo, getExpectedTerms, getPromptTermInfo } from '../data/commandTerms';
+import { getQuestionSeconds } from '../utils/pastHscUtils';
 import { BandConfig } from '../utils/renderUtils';
 import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
@@ -230,8 +226,8 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
       [isKeyTerm]
     );
     const recommendedTime = useMemo(
-      () => getRecommendedTime(prompt.totalMarks, commandTermInfo),
-      [prompt.totalMarks, commandTermInfo]
+      () => getQuestionSeconds(prompt, commandTermInfo),
+      [prompt, commandTermInfo]
     );
     const expectedTerms = useMemo(
       () => getExpectedTerms(prompt.totalMarks, commandTermInfo),

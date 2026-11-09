@@ -248,7 +248,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "2",
-                    "hscSection": "Section II — Electives 25 marks Allow about 1 hour for this section",
+                    "hscSection": "Section II — Electives (25 marks). Allow about 1 hour for this section.",
                     "bandCeiling": 6
                   }
                 ]
@@ -319,7 +319,7 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "1",
-                    "hscSection": "Section I — Common Module: Literary Worlds 25 marks Allow about 1 hour for this section"
+                    "hscSection": "Section I — Common Module: Literary Worlds (25 marks). Allow about 1 hour for this section."
                   }
                 ]
               },
