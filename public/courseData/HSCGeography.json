@@ -17491,7 +17491,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "21",
-                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section."
+                    "hscSection": "Section II (45 marks). Allow about 1 hour and 20 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-geo-hsc-2025-21",
+                      "alt": "Diagram of the four pillars of sustainability (Social, Economic, Environmental and Cultural) branching from a box titled Pillars of sustainability.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/geo-2025-21.png"
+                    }
                   }
                 ]
               }

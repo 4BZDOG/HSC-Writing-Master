@@ -1254,7 +1254,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "25(c)",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-ees-hsc-2025-25c",
+                      "alt": "Hand-drawn map of the school showing the carpark, hall, office, canteen, outdoor seating, classrooms and oval, with the current bins marked as dots.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/ees-2025-25c.png"
+                    }
                   }
                 ]
               },
@@ -1815,7 +1821,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "26(b)",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-ees-hsc-2025-26b",
+                      "alt": "Figure 1 shows a tsunami wave approaching the shoreline over a sloping sea floor. Figure 2 is a graph of wavelength against ocean floor depth.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/ees-2025-26.png"
+                    }
                   }
                 ]
               },
@@ -2000,7 +2012,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "35(a)",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–35 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-ees-hsc-2025-35a",
+                      "alt": "Graph 1 plots salinity of the North Atlantic Ocean against volume of freshwater input, with the present climate marked on the curve.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/ees-2025-35a.png"
+                    }
                   },
                   {
                     "id": "prompt-ees-hsc-2025-35c",

@@ -6497,7 +6497,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "28(a)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-28a",
+                      "alt": "Diagram of three proposed models of DNA replication, each showing original and new DNA in two daughter molecules, with a key.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-28.png"
+                    }
                   },
                   {
                     "id": "prompt-bio-hsc-2022-28a-n1",
@@ -21482,7 +21488,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "27",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-27",
+                      "alt": "Line graph of cervical cancer incidence per 100 000 women in Australia from 1985 to 2015, with arrows marking the 1991 screening program, the 2007 HPV vaccine program for girls and the 2013 HPV vaccine program for boys.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-27.png"
+                    }
                   }
                 ]
               }
@@ -23681,7 +23693,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "24(b)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-24b",
+                      "alt": "Table of maternal age in years against the prevalence of chromosomal abnormalities per 1000 births, for ages 20 to 45.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-24.png"
+                    }
                   }
                 ]
               },
@@ -24161,7 +24179,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "31(a)(ii)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-31aii",
+                      "alt": "Table of group, number of women and lung cancer mortality rate per 100 000 for non-smoker women with non-smoker or smoker husbands and for women who smoke.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-31.png"
+                    }
                   }
                 ]
               },
@@ -24295,7 +24319,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "31(a)(i)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-31ai",
+                      "alt": "Table of group, number of women and lung cancer mortality rate per 100 000 for non-smoker women with non-smoker or smoker husbands and for women who smoke.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-31.png"
+                    }
                   }
                 ]
               },
@@ -26385,7 +26415,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "32",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-32",
+                      "alt": "Table of the percentage of each ancestry group (South Asian, European, African and East Asian) with the allele.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-32.png"
+                    }
                   }
                 ]
               },
@@ -28263,7 +28299,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "29(a)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-29a",
+                      "alt": "Two stacked graphs for 2002 to 2013: cotton yield with the percentage of Bt cotton grown, and tonnes of total, bollworm and hemipteran insecticide use.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-29.png"
+                    }
                   },
                   {
                     "id": "prompt-bio-hsc-2022-29b",
@@ -28325,7 +28367,13 @@
                     "isPastHSC": true,
                     "hscYear": 2022,
                     "hscQuestionNumber": "29(b)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bio-hsc-2022-29b",
+                      "alt": "Two stacked graphs for 2002 to 2013: cotton yield with the percentage of Bt cotton grown, and tonnes of total, bollworm and hemipteran insecticide use.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bio-2022-29.png"
+                    }
                   }
                 ]
               },

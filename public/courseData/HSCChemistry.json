@@ -617,7 +617,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "28(b)",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-28b",
+                      "alt": "Structures of the Kevlar and polystyrene polymers, each drawn as a repeating unit in brackets with subscript n.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-28.png"
+                    }
                   }
                 ]
               },
@@ -1531,7 +1537,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "35",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-35",
+                      "alt": "Table of solution colour at 80 and 0 degrees Celsius, above the energy profile diagram of the reaction with Ea1 and Ea2 marked.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-35.png"
+                    }
                   }
                 ]
               },
@@ -1914,7 +1926,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "26(b)",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-26b",
+                      "alt": "General formula X-CH2COOH for haloethanoic acids, above a table of the pKa values of the fluoro, chloro, bromo and iodo acids.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-26.png"
+                    }
                   }
                 ]
               },
@@ -2072,11 +2090,17 @@
                         "band": 2
                       }
                     ],
-                    "scenario": "A 0.010 L aliquot of an acid was titrated with 0.10 mol L⁻¹ NaOH, resulting in the following titration curve. [Graph titled 'pH vs Volume of base added': vertical axis pH, 0.0 to 14.0; horizontal axis NaOH (L), 0 to 0.060.] The concentration of the NaOH was 0.10 mol L⁻¹.",
+                    "scenario": "A 0.010 L aliquot of an acid was titrated with 0.10 mol L⁻¹ NaOH, resulting in the following titration curve. [Graph titled 'pH vs Volume of base added': vertical axis pH, 0.0 to 14.0; horizontal axis NaOH (L), 0 to 0.060. The curve starts at about pH 2.5 at 0 L, reaches about pH 4 at 0.007 L and about pH 5 at 0.022 L, rises steeply between about 0.023 L and 0.027 L to about pH 12, then levels off at about pH 12.7 from about 0.050 L.] The concentration of the NaOH was 0.10 mol L⁻¹.",
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "34(b)",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-34b",
+                      "alt": "Titration curve of pH against volume of NaOH added, from 0 to 0.060 L, rising steeply near 0.025 L.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-34.png"
+                    }
                   }
                 ]
               },
@@ -2153,7 +2177,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "33",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-33",
+                      "alt": "Table of CaCO3 percentages for brands X, Y and Z, above a table of burette readings for four titration trials.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-33.png"
+                    }
                   }
                 ]
               },
@@ -2420,7 +2450,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "24(b)",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-24b",
+                      "alt": "Table of molar masses of ethyne, hydrogen chloride and chloroethene.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-24.png"
+                    }
                   }
                 ]
               }
@@ -2654,7 +2690,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "25",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-25",
+                      "alt": "Table of the volume, density and molar mass of the product propyl butanoate.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-25.png"
+                    }
                   }
                 ]
               },
@@ -2912,7 +2954,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "36",
-                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section"
+                    "hscSection": "Section II Answer Booklet 80 marks Attempt Questions 21–37 Allow about 2 hours and 25 minutes for this section",
+                    "scenarioImage": {
+                      "id": "prompt-chem-hsc-2025-36",
+                      "alt": "Table of 1H NMR chemical shift data, with the skeletal structure of propanoic acid below it.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/chem-2025-36.png"
+                    }
                   }
                 ]
               }

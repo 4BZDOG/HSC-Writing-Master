@@ -3114,7 +3114,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "4",
-                    "hscSection": "Section I — Power and Authority in the Modern World 1919−1946"
+                    "hscSection": "Section I — Power and Authority in the Modern World 1919−1946",
+                    "scenarioImage": {
+                      "id": "prompt-mh-hsc-2025-4",
+                      "alt": "Black-and-white photograph of a queue of people outside the Entartete Kunst exhibition building in Hamburg in 1938, with the exhibition name on the wall above.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/mh-2025-4.png"
+                    }
                   }
                 ]
               },

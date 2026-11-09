@@ -30428,7 +30428,13 @@
                     "isPastHSC": true,
                     "hscYear": 2021,
                     "hscQuestionNumber": "22(c)",
-                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bs-hsc-2021-22c",
+                      "alt": "Table of gross profit, net profit and debt to equity ratios for the handbag business before the loan and forecast 12 months after it.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bs-2021-22c.png"
+                    }
                   }
                 ]
               },
@@ -37007,7 +37013,13 @@
                     "isPastHSC": true,
                     "hscYear": 2023,
                     "hscQuestionNumber": "22(c)",
-                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section."
+                    "hscSection": "Section II (40 marks). Allow about 1 hour and 15 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-bs-hsc-2023-22c",
+                      "alt": "Table of male and female labour force participation rates in Australia in 1981, 2001 and 2021.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/bs-2023-22c.png"
+                    }
                   }
                 ]
               },
