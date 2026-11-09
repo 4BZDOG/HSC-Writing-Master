@@ -615,7 +615,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "29(b)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-29b",
+                      "alt": "Vertical circular path of radius r, with the mass at a point on the left, the highest point B and the direction of motion marked.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-29.png"
+                    }
                   }
                 ]
               },
@@ -1442,7 +1448,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "28",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-28",
+                      "alt": "Two ramps, each inclined at 20 degrees and 2 m high, separated by 16 m, with a rider approaching the first ramp.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-28.png"
+                    }
                   }
                 ]
               },
@@ -1547,7 +1559,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "29(a)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-29a",
+                      "alt": "Vertical circular path of radius r, with the mass at a point on the left, the highest point B and the direction of motion marked.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-29.png"
+                    }
                   }
                 ]
               },
@@ -1650,7 +1668,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "36",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-36",
+                      "alt": "Figure 1 shows a satellite in a circular orbit around Earth with velocity v. Figure 2 shows the explosion point Y, with piece ma moving at 2v and piece mb at Y.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-36.png"
+                    }
                   }
                 ]
               },
@@ -1832,7 +1856,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "34(b)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-34b",
+                      "alt": "Model of circular orbits: Earth around the Sun with points P and Q, Jupiter on a larger orbit, and Io around Jupiter with point R.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-34.png"
+                    }
                   }
                 ]
               },
@@ -2085,7 +2115,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "23(b)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-23b",
+                      "alt": "Wire loop carrying 2 A from A to B, pivoting about an axis across a magnetic field between the S and N poles of a magnet.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-23.png"
+                    }
                   }
                 ]
               },
@@ -2153,7 +2189,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "23(a)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-23a",
+                      "alt": "Wire loop carrying 2 A from A to B, pivoting about an axis across a magnetic field between the S and N poles of a magnet.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-23.png"
+                    }
                   }
                 ]
               },
@@ -2253,7 +2295,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "26(a)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-26a",
+                      "alt": "Simple AC generator: a rectangular loop of 0.4 m by 0.3 m between N and S magnet poles, with slip rings, brushes and a voltmeter.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-26.png"
+                    }
                   }
                 ]
               },
@@ -2362,7 +2410,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "22",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-22",
+                      "alt": "Diagram of the AC system from a power station through transformer A, a transmission line and transformer B to a house.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-22.png"
+                    }
                   }
                 ]
               },
@@ -2440,7 +2494,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "35",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-35",
+                      "alt": "Copper pipe standing upright on an electronic balance reading 300 g, with a 50 g magnet above the top of the pipe.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-35.png"
+                    }
                   }
                 ]
               },
@@ -2557,7 +2617,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "34(a)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-34a",
+                      "alt": "Model of circular orbits: Earth around the Sun with points P and Q, Jupiter on a larger orbit, and Io around Jupiter with point R.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-34.png"
+                    }
                   }
                 ]
               }
@@ -2652,7 +2718,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "30(b)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-30b",
+                      "alt": "Electron gun directing electrons at two slits separated by d, with a screen 50 cm away showing an interference pattern with fringes A and B.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-30.png"
+                    }
                   }
                 ]
               },
@@ -2810,7 +2882,13 @@
                     "isPastHSC": true,
                     "hscYear": 2025,
                     "hscQuestionNumber": "25(b)",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section."
+                    "hscSection": "Section II (80 marks). Attempt Questions 21–36. Allow about 2 hours and 25 minutes for this section.",
+                    "scenarioImage": {
+                      "id": "prompt-phy-hsc-2025-25b",
+                      "alt": "Apparatus with a potassium electrode in an evacuated tube, with an ammeter and voltmeter, above a table of light frequency and stopping voltage.",
+                      "updatedAt": 0,
+                      "src": "courseData/images/phy-2025-25.png"
+                    }
                   }
                 ]
               },
