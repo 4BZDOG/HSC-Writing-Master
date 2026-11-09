@@ -7675,8 +7675,8 @@
                         "id": "sa-ec-hsc-2025-17b-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Advancements in hardware, such as faster processors and more memory, can improve how data is processed. Better communication media such as fibre optics also help.",
-                        "feedback": "Meets the 2-mark row by identifying advancements in hardware, faster processors, more memory and fibre optics, but not explaining how they affect the chain’s processing. To reach 3 marks, the answer must explain the effect, for example that faster processors let the chain analyse its branch data sooner.",
+                        "answer": "Advancements in hardware, such as faster processors and more memory, can improve how data is processed in the data warehouse. Faster processors let the chain process large amounts of sales data and demographic data from its branches, and more memory allows more data to be held at once for each query. Better communication media such as fibre optics also help, because data from the branches can be sent to the cloud more quickly and the warehouse can be updated more often.",
+                        "feedback": "Meets the 2-mark row: it identifies advancements in hardware and outlines how faster processors, more memory and fibre optics affect processing. It does not explain what the faster processing lets the chain do with its branch data, so it stays short of the 3-mark row. Explaining the business benefit, such as analysing branch sales sooner, would lift it.",
                         "band": 2
                       },
                       {
@@ -7743,8 +7743,8 @@
                         "id": "sa-ec-hsc-2025-23a-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Software that updates data automatically in real time has helped data analytics. Users can now see trends without building a new report each time.",
-                        "feedback": "Meets the 2-mark row by outlining ONE advancement, real-time updating, but without referring to the scenario. To reach 3 marks, the answer must describe how this advancement empowers analytics, for example by referring to the company’s move from spreadsheets to a dashboard.",
+                        "answer": "Software that updates data automatically in real time has helped data analytics. Users no longer need to build a new report each time the figures change, and they can see trends as they happen. This means that people who analyse performance data can work from current information rather than from older reports.",
+                        "feedback": "Meets the 2-mark row: it outlines one advancement in software, real-time updating, and its general effect on analytics. It does not refer to the scenario or describe how the advancement empowers the company's analysis, so it stays short of the 3-mark row. Referring to the company's move from spreadsheets to a dashboard would lift it.",
                         "band": 2
                       },
                       {
@@ -8883,8 +8883,8 @@
                         "id": "sa-ec-hsc-2025-23b-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The line graph of monthly productivity rises from 60 in January to 95 in July, so management can quickly see the peak and the fall after it.",
-                        "feedback": "Meets the 2-mark row by outlining one feature, the monthly productivity line graph, and what it shows about the peak. To reach 3 marks, it must describe how the visualisations as a whole affect the team's user experience or understanding, not just one graph.",
+                        "answer": "The monthly productivity line graph shows a score for each month, rising from 60 in January to 95 in July before falling to 82 by December. Because the graph is a line, management can see at a glance that productivity peaked mid-year and then declined. This affects the team's understanding of employee productivity, since they can tell when it changed. Managers can use this to ask what happened in July and August, when the score began to fall, although the graph does not show why it changed.",
+                        "feedback": "Meets the 2-mark row: it outlines one feature, the monthly productivity line graph, and how it helps management see the change in productivity. It does not describe how the dashboard as a whole affects the team's user experience, so it stays short of the 3-mark row. Describing the wider visualisations and their effect on the team would lift it.",
                         "band": 2
                       },
                       {
@@ -9548,8 +9548,8 @@
                         "id": "sa-ec-hsc-2025-22b-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "The company can give staff different access levels, so only people who need the data can see it. It can also use two-factor authentication to check who is logging in.",
-                        "feedback": "Meets the 2-mark row by outlining TWO methods, access levels and two-factor authentication, but not justifying either one. To reach 3 marks, the answer must justify each method, for example by explaining how it stops an unauthorised person reading customer claims.",
+                        "answer": "The company can give staff different access levels, so that supervisors see more data than entry level staff, and each role can be set up with the access it needs. It can also use two-factor authentication, which requires a second form of identification, such as a code sent to a phone, before a user logs in to the system.",
+                        "feedback": "Meets the 2-mark row: it outlines TWO methods, tiered access and two-factor authentication, and describes what each involves. Neither is justified by saying how it protects customer claims, so it stays short of the 3-mark row. Explaining how a second identification step stops an unauthorised person reading the data would lift it.",
                         "band": 4
                       },
                       {
@@ -13266,8 +13266,8 @@
                         "id": "sa-ec-hsc-2025-25-3",
                         "source": "AI",
                         "mark": 5,
-                        "answer": "Intelligent systems can help with all three categories of decision-making. Structured decisions follow fixed rules, so a system can make them automatically, and fraud prevention is an example where transactions can be checked for risks. Semi-structured decisions need some judgement, so the system provides information and a person makes the final call, as with loan applications where the system recommends approval. Unstructured decisions rely on expert judgement and have no fixed process, so the system only supports a doctor with diagnosis. Overall, intelligent systems make decisions faster and more accurate while people stay responsible for the final decision.",
-                        "feedback": "Meets the 4-5 row by showing an understanding of how intelligent systems assist each category and referring to the fraud prevention and loan application examples. To reach 6 marks, it must describe how the systems assist each category in an enterprise, with each stimulus example explained in more depth.",
+                        "answer": "Intelligent systems can help with all three categories of decision-making, although the amount of help differs. Structured decisions follow fixed rules, so a system can make them automatically. Fraud prevention in finance is an example, where the system checks each transaction against set rules and blocks those that appear risky. Scheduling in healthcare works in the same way, using existing staff rosters.\n\nSemi-structured decisions need some judgement, so the system provides information and a person makes the final call. In the loan applications example, the system can recommend approval based on the customer's data, but a staff member still reviews the recommendation because of the risk of bias or fraud. Demand forecasting in transportation works in a similar way, with the system predicting future needs for the people who plan the network.\n\nUnstructured decisions rely on expert judgement and have no fixed process, so the system only supports the decision. In the medical diagnosis example, the doctor's experience is still needed, and the system helps by analysing scans or patient data to give the doctor more information.\n\nOverall, intelligent systems make decisions faster and more accurate, while people remain responsible for the final decision in the semi-structured and unstructured cases.",
+                        "feedback": "Meets the 4-5 row: it shows an understanding of how intelligent systems assist each category and refers to stimulus examples, including fraud prevention, loan applications and diagnosis. The assistance is described in general terms, not in terms of how the systems help a business's decisions, so it stays below the 6-7 row. Describing how each system supports decisions in an enterprise would lift it.",
                         "band": 2
                       },
                       {
@@ -13817,8 +13817,8 @@
                         "id": "sa-ec-hsc-2025-16b-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "An expert system could find faults in the TV screens earlier than staff can, so fewer faulty sets reach customers.",
-                        "feedback": "Meets the 2-mark row by outlining one potential benefit, fewer faulty TVs, with no Industry 4.0 link. To reach 3 marks, the answer must outline more than one benefit of the expert system for the manufacturing process.",
+                        "answer": "An expert system could find faults in the TV screens earlier than staff can, so fewer faulty sets reach customers. It would test each screen's brightness and check the results against a set of rules, using data from the sensors on the production line. Problems could be caught before the set moves further down the line.",
+                        "feedback": "Meets the 2-mark row: it outlines one potential benefit, earlier detection of faulty screens, and how the system would find faults. It names no second benefit and does not link the benefit to Industry 4.0, so it stays short of the 3-mark row. Adding a second benefit, such as less downtime, would lift it.",
                         "band": 2
                       },
                       {
@@ -14241,8 +14241,8 @@
                         "id": "sa-ec-hsc-2025-16a-3",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "A computer at each workstation would record the results of the brightness test on every screen. The data would then be sent to a server.",
-                        "feedback": "Meets the 2-mark row by outlining one relevant hardware device, the workstation computer, with no sensor named. To reach 3 marks, the answer must outline hardware and include at least one sensor, such as a light sensor for screen brightness.",
+                        "answer": "A computer at each workstation would record the results of the brightness test on every screen, so that each set has a stored record. The computer would store these results in a database and show staff the outcome of each test on screen. The results would then be sent to a server, where they can be processed.",
+                        "feedback": "Meets the 2-mark row: it outlines one relevant hardware device, the workstation computer, and what it records. No sensor is named, so it stays short of the 3-mark row. Naming a light sensor that measures screen brightness would lift it.",
                         "band": 1
                       },
                       {
@@ -16849,8 +16849,8 @@
                         "id": "sa-ec-hsc-2025-24-3",
                         "source": "AI",
                         "mark": 3,
-                        "answer": "Freelance designers work on a contract basis for short projects. Offshore development uses teams in other countries, which can be cheaper. Both can give the food company access to designers with specialised skills.",
-                        "feedback": "Meets the 3-mark row by outlining some features of freelance work and offshore development, but not whether they help or hurt the food company. To reach 4 marks, the answer must outline advantages and disadvantages to the company for both options, such as cost savings of offshore teams against communication delays.",
+                        "answer": "Freelance designers work on a contract basis for short projects, and a company engages them directly for one design or a series of designs. The company must draw up a contract with each freelancer that sets out the design rights to be used. Offshore development uses teams in other countries, which may be engaged through a contractor or development firm. Both options can give the food company access to designers with specialised skills. Communication with offshore teams is usually online, and those teams may work at different times from the company's staff.",
+                        "feedback": "Meets the 3-mark row: it outlines features of freelance work and offshore development, including how each is engaged and how offshore teams communicate. The features are not yet weighed as advantages or disadvantages to the company, so it stays below the 4-mark row. Explaining one advantage and one disadvantage of each option, such as cost savings against communication delays, would lift it.",
                         "band": 2
                       },
                       {
