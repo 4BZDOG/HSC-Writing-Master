@@ -1,5 +1,30 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-09 (Marking feedback and improve-your-answer: calmer colour, a clearer header)
+
+- **Changed (feedback modal).** A low result painted the whole report in its band's alarm colour: on Band 1 a solid
+  red score slab, solid red criteria cells, a pink next-step card and a red primary button. The band now identifies
+  rather than shouts, in both themes:
+  - the score placard is the card's paper with a band wash and edge, the mark in band ink;
+  - criteria rows are neutral cards with a tinted gutter for the mark;
+  - "Your next step" is a neutral card with a band rule;
+  - the evidence, growth and criteria cards are neutral in light;
+  - Export PDF is a secondary button;
+  - the frame's glow is softer.
+- **Changed.** "Use this version" takes the band the rewrite reaches (`rewriteTarget`), so a Band 1 student is offered
+  the Band 2 colour, never a red button.
+- **Changed (improve-your-answer).**
+  - The score is two frosted tiles, each with a band rule, and a "Band 1 → Band 2" line (the lone "Band 2" under
+    "/3" was ambiguous, and the band-filled chips clashed with the header).
+  - The selected view tab is a neutral raised segment with a band underline.
+  - "Watch the marker's edits" loses its doubled outline.
+  - The edit pager reads "Edit 1/2" and the A−/A+ pair is a named "Text size" group.
+  - Phones get the short title "One mark higher", a two-row toolbar and "Watch the edits".
+  - Both modals' primary buttons are the flat band ground.
+- **Checked.** Region edges hold 3:1 (the dark placard edge is 75%: 55% measured 2.45:1). Full unit suite and the
+  light-theme, report-column, feedback-highlights, modal-scroll, no-clipped-text, accessibility, evaluation-flow and
+  workspace-chrome specs pass. DesignSpec updated.
+
 ## [Unreleased] - 2026-11-09 (Past HSC papers: each part's own time)
 
 - **Fixed.** A past HSC card printed the paper's section heading verbatim, so a 3-mark Physics part read "Allow about 2
