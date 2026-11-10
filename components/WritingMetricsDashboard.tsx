@@ -549,10 +549,12 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             <div className="p-4 sm:p-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2.5">
-                  <div className="flex items-center justify-between gap-3 px-0.5">
+                  {/* The row wraps, so on a phone the count drops under the heading rather
+                      than squeezing "Syllabus terms" onto two lines beside it. */}
+                  <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1.5 px-0.5">
                     <div className="flex items-center gap-3">
-                      <Sparkles className="w-4 h-4 text-slate-600 dark:text-slate-400" />
-                      <h4 className="t-section text-slate-600 dark:text-slate-400">
+                      <Sparkles className="w-4 h-4 shrink-0 text-slate-600 dark:text-slate-400" />
+                      <h4 className="t-section whitespace-nowrap text-slate-600 dark:text-slate-400">
                         Syllabus Terms
                       </h4>
                     </div>
