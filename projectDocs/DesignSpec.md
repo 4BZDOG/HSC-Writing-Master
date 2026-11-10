@@ -511,6 +511,20 @@ frame) or from `getBandConfig` / `getBandRgb` / `getBandDeepInkRgb`; no literal.
 | View tabs                            | The selected tab is a neutral raised segment (white in the light theme, `white/12` in the dark) with the **Improved** band as a 2px rule along its foot.                                                                                                                                           | The control's state is carried by the segment; the band is a small mark, and the mark is the forward action's colour.                                            |
 | Watch the marker's edits             | One 1px border, the same height as the tabs from `sm`, with the Play icon in the **Improved** band. While the replay runs its controls sit in the toolbar's tray. The replay's progress is a 4px rule along the header's foot, in the Improved band.                                               | The group's border was drawn round the button too, so the control showed a doubled outline. The progress is on the header's foot, not above its rounded corners. |
 
+### The panels beside the writing area
+
+- **A panel keeps its name.** The disclosure reads the same open or shut ("Draft check", "Terms and structure"),
+  in sentence case, with a chevron that points down and turns up. A label that changes to "Hide" loses the panel.
+- **A header names what is left.** Draft check says "To do: Length, Syllabus terms", not a fraction of a total that
+  moves as checks switch on. Its ring counts what is left, with a tick when nothing is.
+- **One number.** Progress is stated once per surface: the header's words and the footer's readiness meter. A panel
+  does not add a third figure worked out another way.
+- **Colour means status or level.** Emerald and amber mark a check clear or to do; a tier colour marks the tier.
+  Section icons and control edges that are neither are neutral.
+- **A verb's tip has one shape** (`data/commandTerms.ts`): the method as one instruction, an optional second step,
+  an optional lead-in ending in a colon with a word list or a quoted template, and one last line that opens with
+  "Don't". The card reads that shape (`utils/strategyTip.ts`), and `commandTermTips.test.ts` holds every verb to it.
+
 ### Levels in the post-marking windows
 
 After marking, a student sees two windows: the improve review and the marking
