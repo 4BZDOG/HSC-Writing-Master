@@ -2,7 +2,7 @@ import React, { useId } from 'react';
 import { Lightbulb } from 'lucide-react';
 import { getBandConfig, renderFormattedText } from '../../utils/renderUtils';
 import { Prompt } from '../../types';
-import { nextVars } from '../../utils/reportLevels';
+import { nextVars, ruleVars } from '../../utils/reportLevels';
 import { FEEDBACK_CARD_NEUTRAL } from './feedbackChrome';
 
 interface NextStepNoteProps {
@@ -31,13 +31,10 @@ const NextStepNote: React.FC<NextStepNoteProps> = ({ nextBand, tip, prompt, clas
   return (
     <section
       aria-labelledby={labelId}
-      style={nextVars(nextBand) as React.CSSProperties}
-      className={`${FEEDBACK_CARD_NEUTRAL} relative overflow-hidden py-4 pl-6 pr-5 sm:py-5 ${className}`}
+      style={{ ...nextVars(nextBand), ...ruleVars(nextBand) } as React.CSSProperties}
+      // The rule is the card's own left edge (`card-rule-left`), so it follows the corner.
+      className={`${FEEDBACK_CARD_NEUTRAL} card-rule-left relative overflow-hidden py-4 pl-6 pr-5 sm:py-5 ${className}`}
     >
-      <span
-        aria-hidden="true"
-        className="absolute inset-y-0 left-0 w-[3px] bg-[rgb(var(--next-rgb))]"
-      />
       <div className="flex items-start gap-3">
         <Lightbulb className={`w-5 h-5 mt-0.5 shrink-0 ${ink} next-ink`} aria-hidden="true" />
         <div className="min-w-0">

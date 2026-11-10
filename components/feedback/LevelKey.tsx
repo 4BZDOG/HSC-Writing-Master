@@ -68,7 +68,12 @@ const LevelKey: React.FC<LevelKeyProps> = ({
       aria-label={sentence}
       className={`flex items-start gap-2 sm:gap-3 shrink-0 max-sm:w-full max-sm:justify-between ${className}`}
     >
-      <LevelTile caption="You" mark={you.mark} band={you.band} footer={atFull ? `Band ${you.band} · top` : `Band ${you.band}`} />
+      <LevelTile
+        caption="You"
+        mark={you.mark}
+        band={you.band}
+        footer={atFull ? `Band ${you.band} · top` : `Band ${you.band}`}
+      />
       {atFull ? (
         <Trophy className="w-4 h-4 mt-6 text-white shrink-0" aria-hidden="true" />
       ) : (

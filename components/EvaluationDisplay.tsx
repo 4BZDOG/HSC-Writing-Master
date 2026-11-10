@@ -28,6 +28,7 @@ import {
 import { PlusLockChip } from './UpgradeModal';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
 import { useFeedbackView } from '../hooks/useFeedbackView';
+import { ruleVars } from '../utils/reportLevels';
 import { useFeedbackExport } from '../hooks/useFeedbackExport';
 import { BandGoalCard, HighlightKey, MetricCard, SectionHeading } from './feedback/FeedbackPieces';
 import CriteriaSection from './feedback/CriteriaSection';
@@ -336,11 +337,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               mark, and neither leaves the other short at the top of the report. */}
           <section>
             <SectionHeading icon={Quote} label="Marker's commentary" />
-            <div className={`relative overflow-hidden ${FEEDBACK_CARD} p-6 sm:p-8`}>
-              <div
-                className={`absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b ${youConfig.gradient}`}
-                aria-hidden="true"
-              />
+            {/* The You band's rule is the card's own left edge (`card-rule-left`). */}
+            <div
+              className={`relative overflow-hidden ${FEEDBACK_CARD} card-rule-left p-6 sm:p-8`}
+              style={ruleVars(levels.you.band) as React.CSSProperties}
+            >
               {/* Serif, because this is the one passage on the page written TO the
                   student — but at reading size. */}
               <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">

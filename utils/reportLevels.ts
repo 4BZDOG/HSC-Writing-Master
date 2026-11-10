@@ -100,3 +100,12 @@ export const levelFrameVars = (you: number, next: number): Record<string, string
   ...youVars(you),
   ...nextVars(next),
 });
+
+/**
+ * A card's accent rule in a level's colour (`.card-rule-left`, `.card-rule-top` in
+ * index.css): the rule itself, and the deep ink the light theme draws its edge in.
+ */
+export const ruleVars = (band: number): Record<string, string> => ({
+  '--rule-rgb': getBandRgb(band),
+  '--rule-ink-deep-rgb': getBandDeepInkRgb(band),
+});

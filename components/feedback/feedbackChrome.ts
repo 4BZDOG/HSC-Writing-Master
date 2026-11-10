@@ -91,7 +91,6 @@ export const NEXT_GROUND = 'bg-[rgb(var(--next-rgb))] text-slate-950';
 export const NEUTRAL_PRIMARY =
   'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-white';
 
-
 /**
  * The header strip of both post-marking windows. The same box as `CARD_HEADER_BOX`, but its
  * row wraps: the title and the window's actions share the first line, and the level key

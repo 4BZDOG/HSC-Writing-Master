@@ -1302,6 +1302,36 @@ a:focus-visible,
 :root[data-theme='light'] .next-ink {
   color: rgb(var(--next-ink-deep-rgb));
 }
+/*
+ * An accent rule along one side of a rounded report card ("Your next step", the marker's
+ * commentary, the improved response).
+ *
+ * The rule used to be a flat 3px bar laid inside the card. The card's rounded corner cut the
+ * bar's ends off at an angle, and the card's grey border ran on around the outside of it, so
+ * the corner showed two lines that did not agree. Now the rule is part of the card's own
+ * edge: that side of the border takes the rule's colour, and the rule's body is an inset
+ * shadow, which the browser draws along the card's own curve, tapering into the corners.
+ *
+ * The colour is `--rule-rgb`, set at the call site from the level the rule stands for. The
+ * light theme draws the 1px edge in the level's deep ink (`--rule-ink-deep-rgb`), which is
+ * what holds the 3:1 region floor on the pale desk; the 3px body stays the level's colour.
+ * The doubled `:root` outranks the border utilities and `.report-card` in both themes.
+ */
+:root:root .card-rule-left {
+  border-left-color: rgb(var(--rule-rgb));
+  box-shadow:
+    inset 3px 0 0 rgb(var(--rule-rgb)),
+    0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+:root:root .card-rule-top {
+  border-top-color: rgb(var(--rule-rgb));
+}
+:root:root[data-theme='light'] .card-rule-left {
+  border-left-color: rgb(var(--rule-ink-deep-rgb));
+}
+:root:root[data-theme='light'] .card-rule-top {
+  border-top-color: rgb(var(--rule-ink-deep-rgb));
+}
 /* A band's ink on a card, as text or an outline. The dark theme takes its ink from the
    utilities `getBandConfig` sets (the -300 tint); this sets the light theme's deep ink. */
 :root[data-theme='light'] .band-ink {

@@ -47,7 +47,9 @@ describe('LevelKey', () => {
     expect(improved.className).toContain('bg-white/25');
     expect(improved.className).toContain('font-black');
     expect(improved.style.getPropertyValue('--band-rgb')).toBe(
-      getBandRgb(reportLevels(prompt, 2, { revised: { text: 'x', mark: 3, keyChanges: [] } }).next!.band)
+      getBandRgb(
+        reportLevels(prompt, 2, { revised: { text: 'x', mark: 3, keyChanges: [] } }).next!.band
+      )
     );
   });
 

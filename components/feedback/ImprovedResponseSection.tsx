@@ -7,13 +7,8 @@ import { PlusLockChip } from '../UpgradeModal';
 import LoadingIndicator from '../LoadingIndicator';
 import AiBusyOverlay from '../AiBusyOverlay';
 
-import {
-  FEEDBACK_CARD,
-  NEXT_GROUND,
-  PRIMARY_ACTION,
-  SECONDARY_ACTION,
-} from './feedbackChrome';
-import { nextVars } from '../../utils/reportLevels';
+import { FEEDBACK_CARD, NEXT_GROUND, PRIMARY_ACTION, SECONDARY_ACTION } from './feedbackChrome';
+import { nextVars, ruleVars } from '../../utils/reportLevels';
 import { SectionHeading } from './FeedbackPieces';
 
 interface ImprovedResponseSectionProps {
@@ -112,9 +107,14 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
         {upgradesLocked && <PlusLockChip feature="answerUpgrades" />}
       </SectionHeading>
 
-      <div ref={cardRef} className={`${FEEDBACK_CARD} relative overflow-hidden`}>
-        {/* The card's top rule, in the Improved band. It is 3px like every accent rule in the
-            report, and the card's own overflow clip cuts it to the rounded corners. */}
+      <div
+        ref={cardRef}
+        className={`${FEEDBACK_CARD} card-rule-top relative overflow-hidden`}
+        style={ruleVars(exemplarBand) as React.CSSProperties}
+      >
+        {/* The card's top rule, in the Improved band: 3px like every accent rule in the
+            report. The card's top edge takes the same colour (`card-rule-top`), so the rule
+            and the edge read as one line that follows the rounded corners. */}
         <div className="h-[3px] bg-[rgb(var(--next-rgb))]" aria-hidden="true" />
 
         {/* The veil is inside the card and takes no radius of its own: the card's

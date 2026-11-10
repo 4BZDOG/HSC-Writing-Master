@@ -38,11 +38,7 @@ import {
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
-import {
-  NEXT_GROUND,
-  POST_MARKING_HEADER,
-  PRIMARY_ACTION,
-} from './feedback/feedbackChrome';
+import { NEXT_GROUND, POST_MARKING_HEADER, PRIMARY_ACTION } from './feedback/feedbackChrome';
 import {
   diffWords,
   groupEdits,
