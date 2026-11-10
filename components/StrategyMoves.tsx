@@ -3,7 +3,7 @@ import { AlertTriangle } from 'lucide-react';
 import { getBandConfig } from '../utils/renderUtils';
 import { ladderBandVars } from './LadderRow';
 import { PROSE_BLOCK, PROSE_FLOW } from '../utils/prose';
-import type { TipMove } from '../utils/strategyTip';
+import { displayStepText, type TipMove } from '../utils/strategyTip';
 import WordChip from './WordChip';
 
 /**
@@ -76,8 +76,11 @@ const scaleFor = (variant: StrategyMovesVariant) =>
  * Method, Words to use, Sentence shape and Watch for.
  *
  * The caller derives the parts with `splitMethodMoves` and `collectStrategyDetail`.
- * This renders the sections without a container, so the caller can put them in
- * whichever card it needs.
+ *
+ * The worked card lays them out in two columns from `md` up: Method and Words to
+ * use on the left, Sentence shape and Watch for on the right, with a rule between
+ * them. Below `md`, or when there is nothing for the right column, the parts stack
+ * in one column. The verb sheet keeps its single column, with no card around it.
  */
 const StrategyMoves: React.FC<StrategyMovesProps> = ({
   method,
@@ -92,106 +95,150 @@ const StrategyMoves: React.FC<StrategyMovesProps> = ({
   const bandStyle = ladderBandVars(band);
   const scale = scaleFor(variant);
   const { Heading } = scale;
+  const worked = variant === 'worked';
 
-  return (
-    <>
-      {method.length > 0 && (
-        <section className={sectionClass}>
-          <Heading className={scale.subheading}>Method</Heading>
-          <ol className="mt-3 flex flex-col">
-            {method.map((move, i) => {
-              const isLead = i === 0;
-              const isLast = i === method.length - 1;
-              return (
-                <li key={move.text} className="flex gap-3">
-                  <div className="flex shrink-0 flex-col items-center">
-                    <span
-                      style={bandStyle}
-                      className={`band-edge flex items-center justify-center rounded-full border font-mono font-bold tabular-nums ${config.text} ${
-                        isLead ? scale.badge.lead : scale.badge.step
-                      }`}
-                    >
-                      {i + 1}
-                    </span>
-                    {!isLast && (
-                      <span
-                        aria-hidden="true"
-                        className="my-1 w-px flex-1 bg-[rgb(var(--color-border-secondary))]"
-                      />
-                    )}
-                  </div>
-                  <p
-                    className={`min-w-0 font-serif ${scale.wrap} ${
-                      isLead ? scale.lead : scale.step
-                    } ${isLast ? '' : 'pb-4'}`}
+  // The rules between the parts. Light uses the border token, which is slate-500
+  // there, the card's own edge. Dark's token is pure white, brighter than the
+  // card's white/40 edge, so the rules step down to white/20.
+  const divider = 'divide-[rgb(var(--color-border-secondary))] dark:divide-white/20';
+  const edge = 'border-[rgb(var(--color-border-secondary))] dark:border-white/20';
+
+  const methodSection = method.length > 0 && (
+    <section key="method" className={sectionClass}>
+      <Heading className={scale.subheading}>Method</Heading>
+      {worked && method.length === 1 ? (
+        // One step is a sentence, not a numbered list of one. It stays a
+        // paragraph, so the text is still read as the method.
+        <p className={`mt-3 min-w-0 font-serif ${scale.wrap} ${scale.lead}`}>
+          {displayStepText(method[0].text)}
+        </p>
+      ) : (
+        <ol className="mt-3 flex flex-col">
+          {method.map((move, i) => {
+            const isLead = i === 0;
+            const isLast = i === method.length - 1;
+            return (
+              <li key={move.text} className="flex gap-3">
+                <div className="flex shrink-0 flex-col items-center">
+                  <span
+                    style={bandStyle}
+                    className={`band-edge flex items-center justify-center rounded-full border font-mono font-bold tabular-nums ${config.text} ${
+                      isLead ? scale.badge.lead : scale.badge.step
+                    }`}
                   >
-                    {move.text}
-                  </p>
-                </li>
-              );
-            })}
-          </ol>
-        </section>
-      )}
-
-      {terms.length > 0 && (
-        <section className={sectionClass}>
-          <Heading className={scale.subheading}>Words to use</Heading>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {terms.map((word) =>
-              onInsertWord ? (
-                <WordChip key={word} word={word} onInsert={onInsertWord} />
-              ) : (
-                <span
-                  key={word}
-                  className="t-label inline-flex items-center min-h-11 sm:min-h-8 px-3 rounded-full border border-[rgb(var(--color-border-primary))] text-[rgb(var(--color-text-primary))]"
+                    {i + 1}
+                  </span>
+                  {!isLast && (
+                    <span
+                      aria-hidden="true"
+                      className="my-1 w-px flex-1 bg-[rgb(var(--color-border-secondary))] dark:bg-white/20"
+                    />
+                  )}
+                </div>
+                <p
+                  className={`min-w-0 font-serif ${scale.wrap} ${
+                    isLead ? scale.lead : scale.step
+                  } ${isLast ? '' : 'pb-4'}`}
                 >
-                  {word}
-                </span>
-              )
-            )}
-          </div>
-        </section>
-      )}
-
-      {examples.length > 0 && (
-        <section className={sectionClass}>
-          <Heading className={scale.subheading}>Sentence shape</Heading>
-          <div className="mt-3 flex flex-col gap-3">
-            {examples.map((text) => (
-              <blockquote
-                key={text}
-                className={`border-l-2 border-[rgb(var(--color-border-primary))] pl-3 font-serif italic text-[rgb(var(--color-text-secondary))] ${scale.example}`}
-              >
-                {text}
-              </blockquote>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {watch.length > 0 && (
-        <section className={sectionClass}>
-          <Heading className={`${scale.subheading} flex items-center gap-2`}>
-            <AlertTriangle
-              aria-hidden="true"
-              className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400"
-            />
-            Watch for
-          </Heading>
-          <ul className="mt-3 flex flex-col gap-2">
-            {watch.map((move) => (
-              <li
-                key={move.text}
-                className={`font-serif text-[rgb(var(--color-text-secondary))] ${scale.watch}`}
-              >
-                {move.text}
+                  {displayStepText(move.text)}
+                </p>
               </li>
-            ))}
-          </ul>
-        </section>
+            );
+          })}
+        </ol>
       )}
-    </>
+    </section>
+  );
+
+  const wordsSection = terms.length > 0 && (
+    <section key="words" className={sectionClass}>
+      <Heading className={scale.subheading}>Words to use</Heading>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {terms.map((word) =>
+          onInsertWord ? (
+            <WordChip key={word} word={word} onInsert={onInsertWord} />
+          ) : (
+            <span
+              key={word}
+              className="t-label inline-flex items-center min-h-11 sm:min-h-8 px-3 rounded-full border border-[rgb(var(--color-border-primary))] text-[rgb(var(--color-text-primary))]"
+            >
+              {word}
+            </span>
+          )
+        )}
+      </div>
+    </section>
+  );
+
+  const shapeSection = examples.length > 0 && (
+    <section key="shape" className={sectionClass}>
+      <Heading className={scale.subheading}>Sentence shape</Heading>
+      <div className="mt-3 flex flex-col gap-3">
+        {examples.map((text) => (
+          <blockquote
+            key={text}
+            className={`border-l-2 border-[rgb(var(--color-border-primary))] pl-3 font-serif italic text-[rgb(var(--color-text-secondary))] ${scale.example}`}
+          >
+            {text}
+          </blockquote>
+        ))}
+      </div>
+    </section>
+  );
+
+  const watchSection = watch.length > 0 && (
+    <section key="watch" className={sectionClass}>
+      <Heading className={`${scale.subheading} flex items-center gap-2`}>
+        <AlertTriangle
+          aria-hidden="true"
+          className="h-3.5 w-3.5 shrink-0 text-amber-600 dark:text-amber-400"
+        />
+        Watch for
+      </Heading>
+      <ul className="mt-3 flex flex-col gap-2">
+        {watch.map((move) => (
+          <li
+            key={move.text}
+            className={`font-serif text-[rgb(var(--color-text-secondary))] ${scale.watch}`}
+          >
+            {move.text}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+
+  // The verb sheet is one column, as it always was.
+  if (!worked) {
+    return (
+      <>
+        {methodSection}
+        {wordsSection}
+        {shapeSection}
+        {watchSection}
+      </>
+    );
+  }
+
+  const left = [methodSection, wordsSection].filter(Boolean);
+  const right = [shapeSection, watchSection].filter(Boolean);
+
+  // Nothing for the right column: Method and its words take the full width,
+  // as one column with rules between the parts.
+  if (left.length === 0 || right.length === 0) {
+    return <div className={`divide-y ${divider}`}>{[...left, ...right]}</div>;
+  }
+
+  // Two columns from `md`. Below it the right column follows the left after a
+  // rule, and the left keeps a gap above that rule, so the stacked card reads the
+  // same as the single column it replaces.
+  return (
+    <div className="md:grid md:grid-cols-2">
+      <div className={`divide-y ${divider} pb-4 md:pb-0 md:pr-6 md:border-r ${edge}`}>{left}</div>
+      <div className={`divide-y ${divider} border-t pt-4 md:border-t-0 md:pt-0 md:pl-6 ${edge}`}>
+        {right}
+      </div>
+    </div>
   );
 };
 
