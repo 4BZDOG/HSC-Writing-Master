@@ -10,7 +10,6 @@ import {
   Play,
   Pause,
   RotateCcw,
-  BarChart3,
   Check,
   Sparkles,
   AlignLeft,
@@ -529,12 +528,10 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               >
                 {/* Named, not just a chevron — the panel starts collapsed, so
                     nothing else tells a student the term tracker is in here. */}
-                <span className="t-label whitespace-nowrap">
-                  {isCollapsed ? 'Terms & Structure' : 'Hide'}
-                </span>
+                <span className="t-label whitespace-nowrap">Terms and structure</span>
                 <PanelReadChip show={opened && isCollapsed} />
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-500 ${isCollapsed ? '-rotate-90' : ''}`}
+                  className={`w-4 h-4 transition-transform duration-500 motion-reduce:transition-none ${isCollapsed ? '' : 'rotate-180'}`}
                 />
               </span>
             )}
@@ -549,32 +546,12 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
           className={`grid transition-all duration-500 ease-in-out ${isCollapsed || isExamMode ? 'grid-rows-[0fr] opacity-0' : 'grid-rows-[1fr] opacity-100'}`}
         >
           <div className="overflow-hidden">
-            <div className="p-4 sm:p-5 space-y-5">
-              <div className="p-3.5 sm:p-4 rounded-2xl border border-slate-400 dark:border-white/20 bg-slate-50 dark:bg-black/30 shadow-inner">
-                <div className="flex items-center justify-between gap-4 mb-3 px-0.5">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <BarChart3 className="w-4 h-4 shrink-0 text-indigo-500 dark:text-indigo-400" />
-                    <span className="t-label sm:tracking-[0.3em] text-slate-600 dark:text-slate-400 truncate">
-                      Target Standard: {progressInfo.targetLabel}
-                    </span>
-                  </div>
-                  <span className="t-label font-mono text-slate-600 dark:text-slate-400 whitespace-nowrap">
-                    {Math.round(progressInfo.percentage)}% Capacity
-                  </span>
-                </div>
-                <div className="h-2.5 bg-slate-200 dark:bg-black/40 rounded-full overflow-hidden border border-slate-300/50 dark:border-white/10">
-                  <div
-                    className={`h-full bg-gradient-to-r ${progressInfo.currentBandColor.gradient} transition-all duration-1000 ease-out`}
-                    style={{ width: `${progressInfo.percentage}%` }}
-                  />
-                </div>
-              </div>
-
+            <div className="p-4 sm:p-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center justify-between gap-3 px-0.5">
                     <div className="flex items-center gap-3">
-                      <Sparkles className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+                      <Sparkles className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                       <h4 className="t-section text-slate-600 dark:text-slate-400">
                         Syllabus Terms
                       </h4>
@@ -588,7 +565,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                         }`}
                         title={
                           keywordStats.mustUseTotal > 0
-                            ? `${keywordStats.mustUseUsed} of ${keywordStats.mustUseTotal} terms the question names, and ${keywordStats.used.length} of ${prompt.keywords?.length || 0} in all (${expectedTerms}+ expected for this verb/marks)`
+                            ? `${keywordStats.mustUseUsed} of ${keywordStats.mustUseTotal} key terms the question names, and ${keywordStats.used.length - keywordStats.mustUseUsed} of ${(prompt.keywords?.length || 0) - keywordStats.mustUseTotal} supporting (${expectedTerms}+ expected for this verb/marks)`
                             : `Terms detected (${expectedTerms}+ expected for this verb/marks)`
                         }
                       >
@@ -597,7 +574,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                             above makes the same call the same way. */}
                         {keywordStats.mustUseTotal > 0 &&
                         keywordStats.mustUseTotal < (prompt.keywords?.length || 0)
-                          ? `${keywordStats.mustUseUsed}/${keywordStats.mustUseTotal} key · ${keywordStats.used.length - keywordStats.mustUseUsed}/${(prompt.keywords?.length || 0) - keywordStats.mustUseTotal} more`
+                          ? `${keywordStats.mustUseUsed}/${keywordStats.mustUseTotal} key · ${keywordStats.used.length - keywordStats.mustUseUsed}/${(prompt.keywords?.length || 0) - keywordStats.mustUseTotal} supporting`
                           : `${keywordStats.used.length}/${prompt.keywords?.length || 0}`}
                       </span>
                     )}
@@ -623,7 +600,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                       />
                     ))}
                     {prompt.keywords?.length === 0 && (
-                      <span className="text-[10px] text-slate-600 dark:text-slate-400 italic">
+                      <span className="text-xs text-slate-600 dark:text-slate-400 italic">
                         No terms defined
                       </span>
                     )}
@@ -632,7 +609,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
                 <div className="flex flex-col gap-2.5">
                   <div className="flex items-center gap-3 px-0.5">
-                    <AlignLeft className="w-4 h-4 text-sky-500 dark:text-sky-400" />
+                    <AlignLeft className="w-4 h-4 text-slate-600 dark:text-slate-400" />
                     <h4 className="t-section text-slate-600 dark:text-slate-400">Structure</h4>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
@@ -645,7 +622,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                       value={analysis.wordCount > 0 ? analysis.sentenceCount : '—'}
                     />
                     <StructureTile
-                      label="Avg Words"
+                      label="Words per sentence"
                       value={analysis.wordCount > 0 ? analysis.avgWordsPerSentence : '—'}
                       alert={analysis.avgWordsPerSentence > 30}
                       title={
@@ -655,7 +632,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                       }
                     />
                   </div>
-                  <p className="text-[10px] font-medium text-slate-600 dark:text-slate-400 px-0.5">
+                  <p className="text-xs font-medium text-slate-600 dark:text-slate-400 px-0.5">
                     {analysis.wordCount === 0
                       ? 'Structure updates live as you write.'
                       : analysis.longestSentenceWords > 45
