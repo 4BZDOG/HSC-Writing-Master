@@ -558,7 +558,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
                     </div>
                     {(prompt.keywords?.length || 0) > 0 && (
                       <span
-                        className={`t-label px-2 py-0.5 rounded-full border ${
+                        className={`t-label whitespace-nowrap px-2 py-0.5 rounded-full border ${
                           keywordStats.missed.length === 0
                             ? `${progressInfo.currentBandColor.bg} ${progressInfo.currentBandColor.text} ${progressInfo.currentBandColor.border}`
                             : 'text-slate-600 dark:text-slate-400 border-slate-300 dark:border-white/10'
