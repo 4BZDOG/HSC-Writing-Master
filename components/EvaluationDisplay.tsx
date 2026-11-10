@@ -28,6 +28,7 @@ import {
 import { PlusLockChip } from './UpgradeModal';
 import { AI_MARKING_DISCLAIMER } from '../data/legalContent';
 import { useFeedbackView } from '../hooks/useFeedbackView';
+import { ruleVars } from '../utils/reportLevels';
 import { useFeedbackExport } from '../hooks/useFeedbackExport';
 import { BandGoalCard, HighlightKey, MetricCard, SectionHeading } from './feedback/FeedbackPieces';
 import CriteriaSection from './feedback/CriteriaSection';
@@ -85,7 +86,6 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   userName,
   showToast,
 }) => {
-  const bandConfig = getBandConfig(result.overallBand);
   const reportRef = useRef<HTMLDivElement>(null);
 
   // Plus-gated controls stay visible in a locked (amber) state; a click opens
@@ -99,8 +99,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     upgradesLocked,
     revisedText,
     keyChanges,
+    levels,
     maxBand,
-    nextLevel,
     exemplarMark,
     exemplarBand,
     exemplarConfig,
@@ -108,6 +108,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     keywordsUsedCount,
     syllabusTrail,
   } = view;
+  // The band of the mark the student got: the window's colour, and the placard's,
+  // the criteria's and the metric tiles'. Taken from the levels, never worked out here.
+  const youConfig = getBandConfig(levels.you.band);
 
   const {
     isExporting,
@@ -247,10 +250,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </nav>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="t-label px-2.5 py-1 rounded-lg band-chip edge-ink bg-slate-100 dark:bg-white/10 dark:ring-1 dark:ring-inset dark:ring-white/40 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg border border-slate-500 dark:border-white/40 bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300">
             {prompt.verb}
           </span>
-          <span className="t-label px-2.5 py-1 rounded-lg band-chip edge-ink bg-slate-100 dark:bg-white/10 dark:ring-1 dark:ring-inset dark:ring-white/40 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg border border-slate-500 dark:border-white/40 bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300">
             {prompt.totalMarks} Marks
           </span>
         </div>
@@ -277,10 +280,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           data-report="placard"
         >
           <ScorePlacard
-            band={result.overallBand}
+            band={levels.you.band}
             mark={result.overallMark}
             total={prompt.totalMarks}
-            atCeiling={atCeiling || result.overallBand >= maxBand}
+            atCeiling={atCeiling || levels.you.band >= maxBand}
             actions={exportActions}
           />
           <p className={`${FOOTNOTE} px-1`}>{AI_MARKING_DISCLAIMER}</p>
@@ -292,7 +295,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           data-report="reading"
         >
           {result.quickTip && (
-            <NextStepNote band={result.overallBand} tip={result.quickTip} prompt={prompt} />
+            <NextStepNote
+              nextBand={(levels.next ?? levels.top).band}
+              tip={result.quickTip}
+              prompt={prompt}
+            />
           )}
           <ImprovedResponseSection
             revisedText={revisedText}
@@ -330,11 +337,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               mark, and neither leaves the other short at the top of the report. */}
           <section>
             <SectionHeading icon={Quote} label="Marker's commentary" />
-            <div className={`relative overflow-hidden ${FEEDBACK_CARD} p-6 sm:p-8`}>
-              <div
-                className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
-                aria-hidden="true"
-              />
+            {/* The You band's rule is the card's own left edge (`card-rule-left`). */}
+            <div
+              className={`relative overflow-hidden ${FEEDBACK_CARD} card-rule-left p-6 sm:p-8`}
+              style={ruleVars(levels.you.band) as React.CSSProperties}
+            >
               {/* Serif, because this is the one passage on the page written TO the
                   student — but at reading size. */}
               <div className="font-serif text-base sm:text-[17px] leading-relaxed text-slate-700 dark:text-slate-300 pl-3">
@@ -350,7 +357,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           data-report="figures"
         >
           <BandGoalCard
-            currentBand={result.overallBand}
+            currentBand={levels.you.band}
             maxBand={maxBand}
             marksToFull={marksToFull}
             capNote={
@@ -370,14 +377,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               value={wordCount}
               subtext="Words"
               icon={FileText}
-              theme={bandConfig}
+              theme={youConfig}
             />
             <MetricCard
               label="Key terms"
               value={keywordsUsedCount}
               subtext={`of ${prompt.keywords?.length || 0}`}
               icon={Hash}
-              theme={bandConfig}
+              theme={youConfig}
             />
           </div>
         </div>
@@ -393,7 +400,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         <CriteriaSection
           className="xl:col-span-2"
           criteria={result.criteria}
-          band={result.overallBand}
+          band={levels.you.band}
           prompt={prompt}
           feedbackLocked={feedbackLocked}
         />

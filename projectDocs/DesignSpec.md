@@ -491,18 +491,53 @@ small marks and for the one primary action, and a large area takes a quiet tint 
 none. Every band colour is read from `--band-rgb` (`ladderBandVars`, or the modal
 frame) or from `getBandConfig` / `getBandRgb` / `getBandDeepInkRgb`; no literal.
 
-| Element | Treatment | Why |
-| --- | --- | --- |
-| Score placard | Dark: the card's paper with the band as a wash (16% to 6%) and a 1px edge at 75%; the mark in the band's light tint. Light: white with a 7% wash and the band's deep ink edge; the mark in deep ink. Export and its options: `SECONDARY_ACTION`. The progress fill is the band on a neutral track. | The mark is the statement, not the card. The dark edge is 75% because a 55% edge measured 2.45:1 against the desk, under the 3:1 region floor. |
-| Band chip | An outline in the band ink (`border-current`), not a filled pill. | A chip is a label; the outline names the band without a fill. |
-| Criteria rows | Each row a neutral card. Its mark gutter is a 14% (light 10%) tint of the row's band, with the mark in band ink. | The row says what happened; the tint is where the band shows, and each row keeps its own band. |
-| Strong evidence and areas for growth | Neutral white in the light theme (`FEEDBACK_CARD_NEUTRAL`), edged at 3:1 or more. The improved response and the marker's commentary keep the band wash. | A band wash on these lists read as a verdict on the student. |
-| Your next step | A neutral card, a 3px band rule down its left edge and the bulb in band ink. | Advice, not a verdict: the tip does not take a colour across the card. |
-| Use this version | The band the rewrite reaches (`rewriteTarget`, the same band as "one mark higher · Band N"), as `PRIMARY_ACTION` on `BAND_GROUND`, never the current result's band. No rewrite: "Back to my response" keeps the current band. | A Band 1 student is offered the Band 2 colour, and the button names where the rewrite leads. |
-| Modal frame | `band-frame`: a soft band-coloured glow, not a saturated halo. The 2px band border stays. | The frame is the container; its glow should not compete with the marks. |
-| Improve-your-answer header | Two frosted score tiles in the header's own language, each with a 3px rule in its own band along its foot. Under them one line names both bands: "Band 1 → Band 2". The rule on the header's own ground is the band lifted toward white (`band-rule-lift`), so it reads. Below `sm` the title is the short "One mark higher"; the full title is the heading's accessible name. | The header ground is the target band's own ink, so a solid chip of the same hue vanished on it. |
-| View tabs | The selected tab is a neutral raised segment (white in the light theme, `white/12` in the dark) with the band as a 2px rule along its foot. | The control's state is carried by the segment; the band is a small mark. |
-| Watch the marker's edits | One 1px border, the same height as the tabs from `sm`, with the Play icon in band ink. While the replay runs its controls sit in the toolbar's tray. | The group's border was drawn round the button too, so the control showed a doubled outline. |
+| Element                              | Treatment                                                                                                                                                                                                                                                                                          | Why                                                                                                                                                              |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Score placard                        | Dark: the card's paper with the band as a wash (16% to 6%) and a 1px edge at 75%; the mark in the band's light tint. Light: white with a 7% wash and the band's deep ink edge; the mark in deep ink. Export and its options: `SECONDARY_ACTION`. The progress fill is the band on a neutral track. | The mark is the statement, not the card. The dark edge is 75% because a 55% edge measured 2.45:1 against the desk, under the 3:1 region floor.                   |
+| Band chip                            | An outline in the band ink (`border-current`), not a filled pill.                                                                                                                                                                                                                                  | A chip is a label; the outline names the band without a fill.                                                                                                    |
+| Criteria rows                        | Each row a neutral card. Its mark gutter is a 14% (light 10%) tint of the row's band, with the mark in band ink.                                                                                                                                                                                   | The row says what happened; the tint is where the band shows, and each row keeps its own band.                                                                   |
+| Strong evidence and areas for growth | Neutral: both heading tiles are slate, the strengths keep their emerald ticks, and the growth boxes are neutral slate squares (3:1 or more on the card). Edged at 3:1 or more (`FEEDBACK_CARD_NEUTRAL`).                                                                                           | Emerald and rose are band colours on this screen (Band 4 and Band 1), so a list that is not a verdict must not take them.                                        |
+| Your next step                       | A neutral card, a 4px trim down its left edge (`card-rule-left`) and the bulb in the **Improved** band (`--next-rgb`).                                                                                                                                                                             | The tip is the step to the next level: the colour says where it leads, and the card does not take a colour.                                                      |
+| Improved response                    | The heading tile, the 4px top rule (`card-rule-top`), the "3/8 · Band 2" chip (`NEXT_GROUND`) in the **Improved** band. The section rescopes `--band-rgb` to the Improved band, so its card's light-theme edge and wash are the Improved band too.                                                 | The rewrite is the improvement, so it takes the Improved band.                                                                                                   |
+| Use this version                     | `PRIMARY_ACTION` on `NEXT_GROUND`: the **Improved** band, the band the rewrite reaches. "Back to my response" is neutral (`SECONDARY_ACTION`), or `NEUTRAL_PRIMARY` when it is the only action.                                                                                                    | A Band 1 student is offered the Band 2 colour, and the button names where the rewrite leads.                                                                     |
+| Modal frame                          | `band-frame`: the **You** band, a soft glow, not a saturated halo. The 2px band border stays. The frame also carries the Improved band as `--next-rgb`.                                                                                                                                            | The frame is the container, and it says where the student is.                                                                                                    |
+| Level key (both windows' headers)    | `LevelKey`: three chips, each filled with its own band at full strength (`BAND_GROUND`, the report's ink on a band) and ringed in white: YOU, IMPROVED (or NEXT) and TOP, with "Band N" beneath. Below `sm` it takes its own row under the title.                                                  | One statement of the three levels, in the same place in both windows.                                                                                            |
+| View tabs                            | The selected tab is a neutral raised segment (white in the light theme, `white/12` in the dark) with the **Improved** band as a 2px rule along its foot.                                                                                                                                           | The control's state is carried by the segment; the band is a small mark, and the mark is the forward action's colour.                                            |
+| Watch the marker's edits             | One 1px border, the same height as the tabs from `sm`, with the Play icon in the **Improved** band. While the replay runs its controls sit in the toolbar's tray. The replay's progress is a 4px rule along the header's foot, in the Improved band.                                               | The group's border was drawn round the button too, so the control showed a doubled outline. The progress is on the header's foot, not above its rounded corners. |
+
+### Levels in the post-marking windows
+
+After marking, a student sees two windows: the improve review and the marking
+feedback. Every band colour in either window means exactly one of three levels,
+and the same grammar holds in both themes:
+
+1. **You**: the band of the mark the student got. It colours the **window**: the
+   2px frame border, the glow and the header strip of both windows, and the things
+   that state the result (the score placard, the criteria marks, the commentary rule,
+   the metric tiles).
+2. **Improved**: the band the rewrite reaches, or, with no rewrite to show, the next
+   level. It colours only what IS the improvement or the step towards it: the
+   "Improved response" section, the "Your next step" rule and bulb, the primary
+   forward actions ("Use this version", "See my full feedback"), and, in the review,
+   the working accents of the edit view (the selected tab, the Play icon, the replay
+   progress, the focused edit's ring, the active edit and its number, the bullets).
+3. **Top**: the highest band the question can award (the verb's ceiling). It is an
+   indicator only: the third tile of the level key and the "Band N goal" card. Nothing
+   else takes this colour.
+
+An accent trim on a rounded surface is the surface's own edge (`card-rule-left`,
+`card-rule-top` in `index.css`, coloured by `ruleVars` or the surface's `--band-rgb`),
+never a flat bar laid inside it: a bar is cut off at an angle by the corner and leaves the
+surface's border running round outside it. The trim is 4px everywhere it appears: these
+report cards, the syllabus navigator bar, the verb brief, an open exemplar on a phone and
+the sample commentary.
+
+Everything else is neutral. The levels are worked out once, by `reportLevels`
+(`utils/reportLevels.ts`), from `promptBandForMark`, so the two windows cannot name
+different bands for the same mark. The frame's variables are `levelFrameVars`
+(`--band-rgb` and `--band-ink-deep-rgb` for You, `--next-rgb` and
+`--next-ink-deep-rgb` for Improved). Full marks has no Improved level: the key is one
+tile, "Band N · top", and an improvement that reaches the top shows two tiles.
 
 Pinned by `tests/unit/feedbackChrome.test.ts` (the contrast of every ink on a band
 and the 44px targets), `tests/unit/improvementReviewChrome.test.tsx` and

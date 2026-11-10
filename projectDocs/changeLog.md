@@ -1,5 +1,36 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-10 (Post-marking windows: one colour grammar, You, Improved and Top)
+
+- **Changed.** The improve review and the marking feedback used three band colours with no stated meaning, and the
+  two windows disagreed about the frame. On an 8-mark Analyse question marked 2/8, the feedback frame was green (the
+  verb's tier), the placard red (the result) and the rewrite orange, while the improve window's frame was orange.
+  Every band colour in both windows now means exactly one of three levels, in both themes:
+  - **You**, the band of the mark: the window's border, glow and header in both windows, the placard, the criteria
+    marks, the commentary trim and the metric tiles.
+  - **Improved**, the band the rewrite reaches (or the next level when there is no rewrite to show): the improved
+    response, the next-step trim and bulb, the forward buttons, and the improve window's working accents (selected
+    tab, Play icon, replay progress, focused edit, active edit, bullets).
+  - **Top**, the highest band the question can award: an indicator only (the key's third chip and the goal card).
+- **Added.** A level key in the header of both windows (`LevelKey`): `You 2 → Improved 3 ··· Top 8`, each chip filled
+  with its own band and labelled "Band N". Two chips when the rewrite reaches the top, one at full marks, "Next" in
+  place of "Improved" when there is no rewrite. On a phone it takes its own row.
+- **Fixed.** The two windows worked out bands with different code, so they could name different bands for one mark
+  on a ranged marking guide or under a band ceiling. `reportLevels` (`utils/reportLevels.ts`) is now the one source,
+  from `promptBandForMark`.
+- **Fixed (borders).**
+  - The improve window's progress strip sat above its header, so the header's rounded corners started 4px low and
+    a dark crescent showed at both top corners. The progress is now a rule along the header's foot.
+  - An accent trim on a rounded surface was a flat bar cut off by the corner, with the border running round outside
+    it. A trim is now the surface's own edge and follows the curve (`card-rule-left`, `card-rule-top`), at one
+    thickness, 4px: the next-step and commentary cards, the improved response and the syllabus navigator bar (was
+    6px).
+  - The light theme tinted the improved response's card in the You band; it takes the Improved band.
+- **Changed.** "Strong evidence" and "Areas for growth" heading tiles and the growth checkboxes are neutral (their
+  emerald and rose read as Band 4 and Band 1 here); the verb and marks chips above the question are neutral.
+- **Checked.** Scenario screenshots at 1/3, 3/6 (same band), 7/8 (rewrite reaches the top) and 2/8, both themes, 1440
+  and 390px, and corners at 2x. DesignSpec has a new "Levels in the post-marking windows" section.
+
 ## [Unreleased] - 2026-11-09 (Marking feedback and improve-your-answer: calmer colour, a clearer header)
 
 - **Changed (feedback modal).** A low result painted the whole report in its band's alarm colour: on Band 1 a solid

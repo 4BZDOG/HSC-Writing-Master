@@ -6,8 +6,9 @@ import { describeAccess, planLabelForFeature, requestUpgrade } from '../../servi
 import { PlusLockChip } from '../UpgradeModal';
 import LoadingIndicator from '../LoadingIndicator';
 import AiBusyOverlay from '../AiBusyOverlay';
-import { ladderBandVars } from '../LadderRow';
-import { BAND_GROUND, FEEDBACK_CARD, PRIMARY_ACTION, SECONDARY_ACTION } from './feedbackChrome';
+
+import { FEEDBACK_CARD, NEXT_GROUND, PRIMARY_ACTION, SECONDARY_ACTION } from './feedbackChrome';
+import { nextVars, ruleVars, youVars } from '../../utils/reportLevels';
 import { SectionHeading } from './FeedbackPieces';
 
 interface ImprovedResponseSectionProps {
@@ -77,7 +78,12 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
   if (!revisedText && (atCeiling || !upgradesLocked)) return null;
 
   return (
-    <section className={className} style={ladderBandVars(exemplarBand)}>
+    // The whole section is the improvement, so the band its light-theme card edges and
+    // wash read (`--band-rgb`, set to the You band on the window) is the Improved band here.
+    <section
+      className={className}
+      style={{ ...youVars(exemplarBand), ...nextVars(exemplarBand) } as React.CSSProperties}
+    >
       <SectionHeading
         icon={Zap}
         label={atCeiling ? "Marker's version" : 'Improved response'}
@@ -85,8 +91,17 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
         toneBg={exemplarConfig.bg}
       >
         {revisedText && !atCeiling && (
-          <span className="t-label ml-auto whitespace-nowrap text-slate-600 dark:text-slate-400 tabular-nums">
-            {gapWords} · Band {exemplarBand}
+          // The level, stated as the key states it (3/8 · Band 2), in the Improved band; the
+          // quiet words say how far that is from the student's own mark.
+          <span className="ml-auto flex flex-wrap items-center gap-2 min-w-0">
+            <span
+              className={`${NEXT_GROUND} t-label inline-flex items-center rounded-lg px-2 py-0.5 tabular-nums whitespace-nowrap`}
+            >
+              {exemplarMark}/{prompt.totalMarks} · Band {exemplarBand}
+            </span>
+            <span className="t-label text-slate-600 dark:text-slate-400 whitespace-nowrap">
+              {gapWords}
+            </span>
           </span>
         )}
         {revisedText && atCeiling && (
@@ -97,12 +112,15 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
         {upgradesLocked && <PlusLockChip feature="answerUpgrades" />}
       </SectionHeading>
 
-      <div ref={cardRef} className={`${FEEDBACK_CARD} relative overflow-hidden`}>
-        <div
-          className="h-1"
-          style={{ backgroundColor: getBandHex(exemplarBand) }}
-          aria-hidden="true"
-        />
+      <div
+        ref={cardRef}
+        className={`${FEEDBACK_CARD} card-rule-top relative overflow-hidden`}
+        style={ruleVars(exemplarBand) as React.CSSProperties}
+      >
+        {/* The card's top rule, in the Improved band: 4px like every trim in the
+            app. The card's top edge takes the same colour (`card-rule-top`), so the rule
+            and the edge read as one line that follows the rounded corners. */}
+        <div className="h-1 bg-[rgb(var(--next-rgb))]" aria-hidden="true" />
 
         {/* The veil is inside the card and takes no radius of its own: the card's
             overflow clip is its padding edge at the inner radius, so the veil is
@@ -214,7 +232,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
             </p>
             <button
               onClick={() => requestUpgrade('answerUpgrades')}
-              className={`${PRIMARY_ACTION} ${BAND_GROUND} mt-1`}
+              className={`${PRIMARY_ACTION} ${NEXT_GROUND} mt-1`}
             >
               {describeAccess('answerUpgrades').ctaLabel}
             </button>

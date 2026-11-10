@@ -1270,10 +1270,66 @@ a:focus-visible,
 :root[data-theme='light'] .band-tint {
   background-color: rgb(var(--band-rgb) / 0.1);
 }
-/* A 3px rule on a band's own header ground. The band itself is the ground's hue, so the rule
-   is lifted toward white to read on it, and it stays the band's colour. */
-.band-rule-lift {
-  background-color: color-mix(in srgb, rgb(var(--band-rgb)) 60%, white);
+/*
+ * The Improved level's classes (`--next-rgb`, `--next-ink-deep-rgb`), the twins of the You
+ * band's `band-solid`, `band-edge-strong` and `band-ink` above. A post-marking
+ * window sets both pairs on its frame (`levelFrameVars`), so the working accents can take the
+ * Improved band while the frame, its edges and its header stay on the You band.
+ */
+.next-solid {
+  background-color: rgb(var(--next-rgb));
+  background-image: linear-gradient(
+    160deg,
+    rgb(255 255 255 / 0.22) 0%,
+    rgb(255 255 255 / 0) 55%,
+    rgb(0 0 0 / 0.08) 100%
+  );
+  color: rgb(2 6 23);
+}
+.next-edge-strong {
+  border-color: rgb(var(--next-rgb) / 0.85);
+}
+:root[data-theme='light'] .next-edge-strong,
+:root[data-theme='light'] .next-edge-ink {
+  border-color: rgb(var(--next-ink-deep-rgb) / 0.85);
+}
+:root[data-theme='light'] .next-ink {
+  color: rgb(var(--next-ink-deep-rgb));
+}
+/*
+ * An accent trim along one side of a rounded surface: "Your next step", the marker's
+ * commentary, the improved response, the syllabus navigator bar.
+ *
+ * A trim used to be a flat bar laid inside the surface. The surface's rounded corner cut
+ * the bar's ends off at an angle, and the surface's own border ran on around the outside
+ * of it, so the corner showed two lines that did not agree. Now the trim is part of the
+ * surface's own edge: that side of the border takes the trim's colour, and the trim's body
+ * is an inset shadow, which the browser draws along the surface's own curve, tapering into
+ * the corners. Use these classes for any new trim on a rounded surface, never a bar.
+ *
+ * `--rule-rgb` is the colour (`ruleVars`), falling back to the surface's `--band-rgb`.
+ * `--rule-w` is the thickness: 4px, the one thickness every trim in the app is drawn at
+ * (the verb brief, an open exemplar on a phone, the sample commentary). The light theme
+ * draws the 1px edge in the level's deep ink (`--rule-ink-deep-rgb`) where one is given,
+ * which is what holds the 3:1 region floor on the pale desk; the body stays the level's
+ * colour. `--tw-shadow` is whatever shadow utility the surface already carries, so the
+ * trim adds to it and does not replace it. The doubled `:root` outranks the border
+ * utilities and `.report-card` in both themes.
+ */
+:root:root .card-rule-left {
+  border-left-color: rgb(var(--rule-rgb, var(--band-rgb)));
+  box-shadow:
+    inset var(--rule-w, 4px) 0 0 rgb(var(--rule-rgb, var(--band-rgb))),
+    var(--tw-shadow, 0 0 #0000);
+}
+:root:root .card-rule-top {
+  border-top-color: rgb(var(--rule-rgb, var(--band-rgb)));
+}
+:root:root[data-theme='light'] .card-rule-left {
+  border-left-color: rgb(var(--rule-ink-deep-rgb, var(--rule-rgb, var(--band-rgb))));
+}
+:root:root[data-theme='light'] .card-rule-top {
+  border-top-color: rgb(var(--rule-ink-deep-rgb, var(--rule-rgb, var(--band-rgb))));
 }
 /* A band's ink on a card, as text or an outline. The dark theme takes its ink from the
    utilities `getBandConfig` sets (the -300 tint); this sets the light theme's deep ink. */

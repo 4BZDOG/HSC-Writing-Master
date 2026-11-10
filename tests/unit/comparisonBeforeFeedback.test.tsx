@@ -101,8 +101,8 @@ describe('the comparison shown before the feedback summary', () => {
 
     const forward = screen.getByText('See my full feedback').closest('button')!;
     const apply = screen.getByText('Use this version').closest('button')!;
-    expect(forward.className).toContain('bg-[rgb(var(--band-rgb))]');
+    expect(forward.className).toContain('bg-[rgb(var(--next-rgb))]');
     expect(forward.className).not.toContain('band-solid');
-    expect(apply.className).not.toContain('bg-[rgb(var(--band-rgb))]');
+    expect(apply.className).not.toContain('bg-[rgb(var(--next-rgb))]');
   });
 });

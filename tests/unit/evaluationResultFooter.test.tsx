@@ -121,11 +121,12 @@ describe('the feedback footer', () => {
     renderModal(base({ revisedAnswer: '' }));
 
     expect(screen.queryByRole('button', { name: /Use this version/ })).toBeNull();
-    // Without a rewrite, going back is the one thing to do, so it is the primary action.
-    // The primary action is the band's flat ground, in its ink.
+    // Without a rewrite, going back is the one thing to do, so it is the primary action. It is
+    // drawn in neutral ink, not a band: going back is not a level the student reaches.
     const back = screen.getByRole('button', { name: 'Back to my response' });
-    expect(back.className).toContain('--band-rgb');
-    expect(back.className).toContain('text-slate-950');
+    expect(back.className).toContain('bg-slate-900');
+    expect(back.className).toContain('text-white');
+    expect(back.className).not.toMatch(/band-rgb/);
   });
 
   it('offers no "Use this version" at full marks, where there is nothing to improve', () => {

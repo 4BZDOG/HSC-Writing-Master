@@ -7,18 +7,23 @@ import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { X, FileCheck, ArrowUpCircle, Check } from 'lucide-react';
 import { isFeatureLocked } from '../services/entitlements';
-import { stripHtmlTags, getBandConfig, getBandRgb, getBandDeepInkRgb } from '../utils/renderUtils';
+import { stripHtmlTags, getBandConfig } from '../utils/renderUtils';
 import {
-  CARD_HEADER_BOX,
   CARD_HEADER_ICON,
   CARD_HEADER_META,
   CARD_HEADER_TITLE,
   cardHeaderWash,
 } from '../utils/cardChrome';
-import { getCommandTermInfo } from '../data/commandTerms';
-import { ladderBandVars } from './LadderRow';
-import { presentableRewrite, rewriteTarget } from './feedback/rewriteText';
-import { BAND_GROUND, PRIMARY_ACTION, SECONDARY_ACTION } from './feedback/feedbackChrome';
+import { presentableRewrite } from './feedback/rewriteText';
+import {
+  NEUTRAL_PRIMARY,
+  NEXT_GROUND,
+  POST_MARKING_HEADER,
+  PRIMARY_ACTION,
+  SECONDARY_ACTION,
+} from './feedback/feedbackChrome';
+import LevelKey from './feedback/LevelKey';
+import { levelFrameVars, resultLevels } from '../utils/reportLevels';
 
 interface EvaluationResultModalProps {
   isOpen: boolean;
@@ -65,13 +70,14 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
   // The footer's note on what "Use this version" does, named by the button it
   // describes. It must be called before the early return below.
   const replacesNoteId = useId();
-  // The modal is portalled, so it cannot inherit the workspace's band. It takes the
-  // question's own tier for its frame and header strip (`.band-surface-primary`).
-  const modalBandTier = getCommandTermInfo(prompt.verb).tier;
-  const modalBandRgb = getBandRgb(modalBandTier);
-  const modalBandDeepRgb = getBandDeepInkRgb(modalBandTier);
-  // The frame takes the workspace cards' own 2px band edge and glow.
-  const modalBand = getBandConfig(modalBandTier);
+
+  // The three levels of this result (utils/reportLevels.ts). The window is the student's
+  // You band: its frame, glow and header. The Improved band is the rewrite's, and the Top
+  // band is only the key's indicator.
+  const upgradesLocked = isFeatureLocked('answerUpgrades');
+  const levels = resultLevels(prompt, result, upgradesLocked);
+  const frameBand = getBandConfig(levels.you.band);
+  const frameVars = levelFrameVars(levels.you.band, (levels.next ?? levels.top).band);
 
   // Escape closes the feedback like every other modal surface — but never
   // mid-improvement, so the regeneration can't be abandoned half-rendered.
@@ -99,18 +105,8 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
 
   // The rewrite the footer would put in the draft, read the same way the report reads it,
   // so the button is offered exactly when the report shows a rewrite to use.
-  const rewrite = presentableRewrite(result.revisedAnswer, isFeatureLocked('answerUpgrades'));
+  const rewrite = presentableRewrite(result.revisedAnswer, upgradesLocked);
   const canUse = !!rewrite.text && result.overallMark < prompt.totalMarks;
-  // "Use this version" is coloured by the band the rewrite reaches, not the band the
-  // student is in now: a Band 1 student is offered the Band 2 colour. The band comes from
-  // the same helper the report's "one mark higher · Band N" line reads (`rewriteTarget`).
-  const rewriteBand = rewriteTarget(
-    result.revisedAnswer,
-    result.overallMark,
-    prompt.totalMarks,
-    modalBandTier,
-    prompt.markingCriteria
-  ).band;
 
   // Taking the rewrite is leaving the feedback, not a toast on top of it: the draft is
   // replaced and the report closes, so the student is back at their own response.
@@ -129,25 +125,19 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
       className="fixed inset-0 z-modal bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto"
     >
       <div
-        className={`clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface band-frame border-2 ${modalBand.border} flex flex-col relative animate-fade-in-up overflow-hidden`}
-        style={
-          {
-            '--band-rgb': modalBandRgb,
-            '--band-ink-deep-rgb': modalBandDeepRgb,
-          } as React.CSSProperties
-        }
+        className={`clip-stable w-full max-w-6xl min-h-[80vh] max-h-[95vh] bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface band-frame border-2 ${frameBand.border} flex flex-col relative animate-fade-in-up overflow-hidden`}
+        style={frameVars as React.CSSProperties}
       >
-        {/* The card header, in the question's band: the same strip, frosted tile
-            and all-caps hero as the workspace cards, so the report reads as the
-            marked answer's own page. The strip's ground is the band's ink, and the
-            white on it is the one pairing the cards already hold to AA. */}
+        {/* The card header, in the student's own band: the same strip as the workspace
+            cards, and the level key on it. The strip's ground is the You band's ink, and
+            the white on it is the one pairing the cards already hold to AA. */}
         <div
-          className={`${CARD_HEADER_BOX} gap-3 z-20 relative overflow-hidden`}
-          style={{ background: cardHeaderWash(modalBandTier) }}
+          className={`${POST_MARKING_HEADER} z-20`}
+          style={{ background: cardHeaderWash(levels.you.band) }}
         >
           <MeshOverlay opacity="opacity-[0.03]" />
 
-          <div className="flex items-center gap-3 sm:gap-4 relative z-10 min-w-0">
+          <div className="flex items-center gap-3 sm:gap-4 relative z-10 min-w-0 flex-1 sm:flex-none">
             <div className={`${CARD_HEADER_ICON} max-sm:hidden`} aria-hidden="true">
               <FileCheck className="w-5 h-5" />
             </div>
@@ -162,6 +152,16 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               </div>
             </div>
           </div>
+
+          {/* The level key sits right of the title on a desktop, and on its own line below
+              `sm`: `max-sm:order-last` moves it beneath the title and the close button. */}
+          <LevelKey
+            you={levels.you}
+            next={levels.next}
+            top={levels.top}
+            total={prompt.totalMarks}
+            className="relative z-10 sm:ml-auto sm:mr-4 max-sm:order-last"
+          />
 
           {/* The auto-save note collapses to its tick icon on phones so the
               close button always stays on screen. */}
@@ -230,8 +230,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
           <button
             onClick={onClose}
             disabled={isImproving}
-            className={`${canUse ? SECONDARY_ACTION : `${PRIMARY_ACTION} ${BAND_GROUND}`} min-w-0 flex-1 sm:flex-none`}
-            style={canUse ? undefined : ladderBandVars(result.overallBand)}
+            className={`${canUse ? SECONDARY_ACTION : `${PRIMARY_ACTION} ${NEUTRAL_PRIMARY}`} min-w-0 flex-1 sm:flex-none`}
           >
             Back to my response
           </button>
@@ -240,8 +239,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
               onClick={handleUse}
               disabled={isImproving}
               aria-describedby={replacesNoteId}
-              className={`${PRIMARY_ACTION} ${BAND_GROUND} min-w-0 flex-1 sm:flex-none`}
-              style={ladderBandVars(rewriteBand)}
+              className={`${PRIMARY_ACTION} ${NEXT_GROUND} min-w-0 flex-1 sm:flex-none`}
             >
               <ArrowUpCircle className="w-4 h-4 shrink-0" aria-hidden="true" />
               <span className="flex flex-col items-start text-left leading-tight">

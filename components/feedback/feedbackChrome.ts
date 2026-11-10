@@ -76,6 +76,29 @@ export const INK_CHIP = 'border border-slate-950/80 bg-white/25 text-slate-950';
  */
 export const BAND_GROUND = 'bg-[rgb(var(--band-rgb))] text-slate-950';
 
+/**
+ * The Improved level's flat ground: `BAND_GROUND` for the band the rewrite reaches. It reads
+ * `--next-rgb`, which a window sets for the Improved band (`nextVars`, `levelFrameVars`), so a
+ * forward action takes the Improved colour and never the frame's You band.
+ */
+export const NEXT_GROUND = 'bg-[rgb(var(--next-rgb))] text-slate-950';
+
+/**
+ * A primary action that is not a level: the one thing to do, drawn in the report's ink, not in
+ * a band. "Back to my response" is the only action when there is no rewrite, so it is the
+ * primary, and it stays neutral, since going back is not a band.
+ */
+export const NEUTRAL_PRIMARY =
+  'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-white';
+
+/**
+ * The header strip of both post-marking windows. The same box as `CARD_HEADER_BOX`, but its
+ * row wraps: the title and the window's actions share the first line, and the level key
+ * (`LevelKey`) takes a line of its own below `sm`, so nothing wraps mid-tile.
+ */
+export const POST_MARKING_HEADER =
+  'px-4 sm:px-6 py-3 text-white flex flex-wrap items-center justify-between gap-x-4 gap-y-3 relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
+
 /** A control on the band's solid fill, in its ink. It is 44px on a phone. */
 export const INK_BUTTON =
   'inline-flex items-center gap-2 min-h-11 sm:min-h-0 px-4 py-2.5 sm:py-2 rounded-xl border border-slate-950/80 bg-white/25 text-slate-950 text-xs font-bold transition-colors duration-200 touch-manipulation hover:bg-white/35 disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950/60';
@@ -83,7 +106,9 @@ export const INK_BUTTON =
 /** The rule under a placard's caption, a footer note on the surface. */
 export const FOOTNOTE = 'text-xs leading-relaxed text-slate-600 dark:text-slate-400';
 
-/** The checkbox a growth item is ticked against, drawn as the PDF draws it: an
- *  empty square in the item's own colour. Painted on the card. */
+/** The checkbox a growth item is ticked against, drawn as the PDF draws it: an empty
+ *  square. Neutral slate, not rose: rose is a band colour on this screen (Band 1), and a
+ *  growth list is not a verdict. The edge is 3:1 or more on the card in both themes.
+ *  Painted on the card. */
 export const GROWTH_BOX =
-  'mt-0.5 w-4 h-4 shrink-0 rounded-none border-2 border-rose-700 dark:border-rose-400';
+  'mt-0.5 w-4 h-4 shrink-0 rounded-none border-2 border-slate-600 dark:border-slate-300';
