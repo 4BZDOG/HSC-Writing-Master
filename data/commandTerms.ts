@@ -718,7 +718,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'SYNTHESISE',
     definition: 'Put together various elements to make a whole.',
-    tip: 'Bring the sources or ideas together, then state the new insight they produce.\nUse a linking structure:\n"Together, these suggest ..."\nDon\'t summarise each source in turn: show how they combine into something bigger.',
+    tip: 'Bring the sources or ideas together, then state the new insight they produce.\nUse a linking structure:\n"Together, these suggest ..."\nDon\'t summarise each source in turn: show what they add up to.',
     tier: 6,
     markRange: [8, 15],
     charRange: [2200, 4500],
