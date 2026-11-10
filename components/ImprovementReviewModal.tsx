@@ -941,7 +941,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           </button>
 
           {/* The replay's progress, in the Improved band, along the header's foot. */}
-          <div className="absolute inset-x-0 bottom-0 h-[3px]" aria-hidden="true">
+          <div className="absolute inset-x-0 bottom-0 h-1" aria-hidden="true">
             <div
               data-replay-rule
               className="h-full origin-left bg-[rgb(var(--next-rgb))] transition-transform duration-700 ease-out motion-reduce:transition-none"

@@ -53,13 +53,11 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
 
   return (
     <div
-      className={`clip-stable relative overflow-hidden rounded-panel border ${band.border} band-surface-primary bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl shadow-lg animate-fade-in`}
+      // The tier's trim down the left is the bar's own edge (`card-rule-left`), so it
+      // follows the rounded corners. It reads the tier from `--band-rgb`.
+      className={`clip-stable card-rule-left relative overflow-hidden rounded-panel border ${band.border} band-surface-primary bg-[rgb(var(--color-bg-surface-elevated))]/50 light:bg-white backdrop-blur-xl shadow-lg animate-fade-in`}
       style={{ '--band-rgb': getBandRgb(safeTier) } as React.CSSProperties}
     >
-      <div
-        className={`absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b ${band.gradient}`}
-        aria-hidden="true"
-      />
       <div className="flex items-center justify-between gap-4 pl-6 pr-4 py-3.5">
         <div className="min-w-0 flex-1">
           {/* Path breadcrumb — each level jumps back to re-choose. The same

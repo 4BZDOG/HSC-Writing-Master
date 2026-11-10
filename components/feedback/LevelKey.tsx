@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowRight, Trophy } from 'lucide-react';
 import type { ReportLevels } from '../../utils/reportLevels';
 import { ladderBandVars } from '../LadderRow';
+import { BAND_GROUND } from './feedbackChrome';
 
 interface LevelKeyProps {
   /** The three levels (`reportLevels`): You, the Improved or next level, and the top. */
@@ -40,11 +41,12 @@ const levelSentence = (
  * the top of the question is (Top). It is the header's one statement of the three
  * levels, so it sits in the same place in both windows.
  *
- * Each tile is a frosted numeral with a 3px rule along its foot in its own band, a
- * caption above it and "Band N" beneath. The header's ground is the You band, so the
- * white on it is the one pairing the header already holds to AA; the tiles' rules are
- * the only band colour the key draws. Top is joined by a dotted connector, because it
- * is the aspiration, not the next step.
+ * Each tile is a chip filled in its own band, with a caption above it and "Band N"
+ * beneath: the three colours a student sees in the key are the three levels, at full
+ * strength, and every other use of those colours in the window points back to them. The
+ * header's ground is the You band's ink, so the captions are white on it, the pairing the
+ * header already holds to AA, and each chip carries the report's ink on a band. Top is
+ * joined by a dotted connector, because it is the aspiration, not the next step.
  *
  * Full marks: one tile, "Band N · top", with a trophy. An improvement that reaches the
  * top: two tiles, the second "Band N · top", and no third tile saying the same again.
@@ -118,24 +120,24 @@ const LevelTile: React.FC<{
   figureAttr?: boolean;
 }> = ({ caption, mark, band, footer, strong = false, figureAttr = false }) => (
   <div className="flex flex-col items-center gap-1 min-w-0">
-    <span className="t-label leading-3 text-white whitespace-nowrap">
-      {caption}
-    </span>
+    <span className="t-label leading-3 text-white whitespace-nowrap">{caption}</span>
+    {/* The tile is the band itself: its flat ground with the ink the report draws on a
+        band (`BAND_GROUND`, AA on all six), so the level's colour is the whole chip and
+        not a trim on it. The white ring sets the tile off the header, whose ground is
+        the You band's own ink. */}
     <span
       data-mark-figure={figureAttr ? 'target' : undefined}
+      data-level-band={band}
       style={ladderBandVars(band)}
-      className={`relative inline-flex items-center justify-center overflow-hidden min-w-[2.25rem] h-8 px-2 pb-1 rounded-lg tabular-nums text-white ring-1 ring-inset ${
+      className={`${BAND_GROUND} inline-flex items-center justify-center min-w-[2.25rem] px-2 rounded-lg tabular-nums shadow-sm ${
         strong
-          ? 'bg-white/25 ring-white/70 text-lg font-black'
-          : 'bg-white/15 ring-white/40 text-base font-bold'
+          ? 'h-8 text-lg font-black ring-2 ring-white'
+          : 'h-8 text-base font-bold ring-1 ring-white/70'
       }`}
     >
       {mark}
-      <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[3px] band-rule-lift" />
     </span>
-    <span className="t-label leading-3 text-white tabular-nums whitespace-nowrap">
-      {footer}
-    </span>
+    <span className="t-label leading-3 text-white tabular-nums whitespace-nowrap">{footer}</span>
   </div>
 );
 

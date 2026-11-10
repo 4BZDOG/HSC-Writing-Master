@@ -64,8 +64,9 @@ describe('ImprovementReviewModal chrome', () => {
     expect(strip!.className).toContain('px-4');
   });
   // The level key is the header's one statement of the three levels: the You tile in the
-  // student's band, the Improved tile one step stronger in the rewrite's band, each with its
-  // 3px rule along its foot. The Top is a third tile, joined by a dotted connector.
+  // student's band, the Improved tile one step stronger in the rewrite's band, each chip
+  // filled with its own band (`BAND_GROUND`). The Top is a third tile, joined by a dotted
+  // connector.
   it('draws the level key: You, Improved and Top, each tile in its own band', () => {
     renderModal();
     const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
@@ -73,18 +74,16 @@ describe('ImprovementReviewModal chrome', () => {
 
     const youBand = getBandForMark(4, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier);
     const you = within(key).getByText('4');
-    expect(you.className).toContain('bg-white/15');
+    expect(you.className).toContain('bg-[rgb(var(--band-rgb))]');
     expect(you.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(youBand));
-    expect(you.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
 
     const improved = dialog.querySelector('[data-mark-figure="target"]') as HTMLElement;
-    expect(improved.className).toContain('bg-white/25');
+    expect(improved.className).toContain('bg-[rgb(var(--band-rgb))]');
     expect(improved.className).toContain('font-black');
     expect(improved.textContent).toBe('5');
     expect(improved.style.getPropertyValue('--band-rgb')).toBe(
       getBandRgb(promptBandForMark(prompt, 5))
     );
-    expect(improved.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
 
     // The top of this question is the third tile: 8 out of 8, Band 4 on the verb's formula.
     expect(within(key).getByText('Top')).toBeTruthy();

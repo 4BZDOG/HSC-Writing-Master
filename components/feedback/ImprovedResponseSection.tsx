@@ -117,10 +117,10 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
         className={`${FEEDBACK_CARD} card-rule-top relative overflow-hidden`}
         style={ruleVars(exemplarBand) as React.CSSProperties}
       >
-        {/* The card's top rule, in the Improved band: 3px like every accent rule in the
-            report. The card's top edge takes the same colour (`card-rule-top`), so the rule
+        {/* The card's top rule, in the Improved band: 4px like every trim in the
+            app. The card's top edge takes the same colour (`card-rule-top`), so the rule
             and the edge read as one line that follows the rounded corners. */}
-        <div className="h-[3px] bg-[rgb(var(--next-rgb))]" aria-hidden="true" />
+        <div className="h-1 bg-[rgb(var(--next-rgb))]" aria-hidden="true" />
 
         {/* The veil is inside the card and takes no radius of its own: the card's
             overflow clip is its padding edge at the inner radius, so the veil is

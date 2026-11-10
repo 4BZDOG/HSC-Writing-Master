@@ -40,11 +40,13 @@ describe('LevelKey', () => {
     expect(container.querySelector('svg.lucide-trophy')).toBeNull();
   });
 
-  it('puts the Improved figure in its own band, one step stronger, and marks it for the replay', () => {
+  it('fills the Improved chip with its own band, one step stronger, and marks it for the replay', () => {
     renderKey(2, { revised: { text: 'Better', mark: 3, keyChanges: [] } });
     const improved = document.querySelector('[data-mark-figure="target"]') as HTMLElement;
     expect(improved.textContent).toBe('3');
-    expect(improved.className).toContain('bg-white/25');
+    // The chip is the band itself (`BAND_GROUND`): filled in its colour, in the band's ink.
+    expect(improved.className).toContain('bg-[rgb(var(--band-rgb))]');
+    expect(improved.className).toContain('text-slate-950');
     expect(improved.className).toContain('font-black');
     expect(improved.style.getPropertyValue('--band-rgb')).toBe(
       getBandRgb(
