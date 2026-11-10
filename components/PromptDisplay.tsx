@@ -245,7 +245,9 @@ const OutcomeChip: React.FC<{
           hover:brightness-110 hover:shadow-lg
         `}
       >
-        <Target className="w-3 h-3 shrink-0 opacity-70" aria-hidden="true" />
+        {/* Decoration: the code is the content. Two chips in a middle-width footer
+            drop it (`.outcome-chip-icon` in index.css) so both fit beside the button. */}
+        <Target className="outcome-chip-icon w-3 h-3 shrink-0 opacity-70" aria-hidden="true" />
         {outcome.code}
       </button>
       {anchor &&
@@ -1397,10 +1399,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           tiles of the chips' own height. A question links one outcome, or two at
           most (`MAX_LINKED_OUTCOMES`), so the chips fit beside the button; they
           used to take a second row of their own, a grid sized for five. Where the
-          footer is too narrow for that (a phone, or two chips in the card's
-          two-column width), the chips drop to a line of their own beneath, so the
-          button keeps its label: `.outcome-footer` in index.css, a container query
-          on the footer's own width. */}
+          footer is narrower than a chip pair needs (a phone, below 25rem), the chips
+          drop to a line of their own beneath,
+          so the button keeps its label: `.outcome-footer` in index.css, a container
+          query on the footer's own width. */}
         {!(condensed && linkedOutcomes.length === 0) && (
           <div
             ref={footerRef}
@@ -1428,11 +1430,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 <button
                   type="button"
                   onClick={() => handleOutcomeClickInternal(linkedOutcomes[0])}
-                  title="Open the outcome brief — what this question is assessing and what the marker is looking for"
+                  title="Open the outcome brief: what this question is assessing and what the marker is looking for"
                   className={`${FOOTER_CHIP} flex-1 min-w-0 justify-between gap-2 px-3 band-fill border-[rgb(var(--band-rgb)/0.85)] ${bandConfig.text} text-xs font-bold hover:brightness-110`}
                 >
                   <span className="inline-flex items-center gap-2">
-                    <Link2 className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
+                    {/* A book, not a link: this opens a brief to read. */}
+                    <BookOpen className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />
                     Read before you write
                   </span>
                   <ChevronRight className="w-3.5 h-3.5 shrink-0 opacity-70" aria-hidden="true" />
@@ -1498,7 +1501,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 className={`${FOOTER_TOOL} ${
                   hasOpenFlag
                     ? 'bg-amber-500/15 border-amber-500/50 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25'
-                    : 'bg-[rgb(var(--color-bg-surface-light))] border-[rgb(var(--band-rgb)/0.45)] text-[rgb(var(--color-text-secondary))] hover:text-amber-600 hover:border-amber-500/60'
+                    : 'bg-[rgb(var(--color-bg-surface-light))] border-slate-500 dark:border-white/40 text-[rgb(var(--color-text-secondary))] hover:text-amber-600 hover:border-amber-500/60'
                 }`}
                 title={
                   hasOpenFlag

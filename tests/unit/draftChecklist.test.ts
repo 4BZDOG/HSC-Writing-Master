@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   buildDraftChecklist,
+  describeChecklist,
   summariseChecklist,
   MAX_CHECKLIST_TERMS,
   SENTENCE_CHECK_FROM_WORDS,
@@ -293,7 +294,8 @@ describe('summariseChecklist', () => {
       wordCount: 90,
       missingTerms: [],
     });
-    expect(summariseChecklist(rows)).toEqual({ cleared: 1, total: 3, allClear: false });
+    expect(summariseChecklist(rows)).toMatchObject({ cleared: 1, total: 3, allClear: false });
+    expect(summariseChecklist(rows).todo.map((row) => row.id)).toEqual(['length', 'structure']);
   });
 
   it('is all clear when every row is, and never on an empty list', () => {
@@ -303,7 +305,59 @@ describe('summariseChecklist', () => {
       missingTerms: [],
     });
     // Length, the terms and the sentence check are all clear here.
-    expect(summariseChecklist(rows)).toEqual({ cleared: 3, total: 3, allClear: true });
-    expect(summariseChecklist([])).toEqual({ cleared: 0, total: 0, allClear: false });
+    expect(summariseChecklist(rows)).toMatchObject({ cleared: 3, total: 3, allClear: true });
+    expect(summariseChecklist(rows).todo).toEqual([]);
+    expect(summariseChecklist([])).toMatchObject({ cleared: 0, total: 0, allClear: false });
+  });
+});
+
+describe('describeChecklist', () => {
+  it('names one outstanding check', () => {
+    const rows = buildDraftChecklist({
+      insights: [insight('length-short')],
+      wordCount: 60,
+      missingTerms: [],
+    });
+    expect(describeChecklist(rows, 60)).toBe('To do: Length');
+  });
+
+  it('names three outstanding checks in full, and two then a count from four', () => {
+    const three = buildDraftChecklist({
+      insights: [insight('length-short'), insight('keywords-missing'), insight('run-on')],
+      wordCount: 60,
+      missingTerms: ['osmosis'],
+    });
+    expect(describeChecklist(three, 60)).toBe('To do: Length, Syllabus terms, Sentences');
+
+    const four = buildDraftChecklist({
+      insights: [
+        insight('length-short'),
+        insight('keywords-missing'),
+        insight('run-on'),
+        insight('paragraphs'),
+      ],
+      wordCount: 200,
+      missingTerms: ['osmosis'],
+    });
+    expect(describeChecklist(four, 200)).toBe('To do: Length, Syllabus terms and 2 more');
+  });
+
+  it('says all clear so far with fewer than four rows under the structure length', () => {
+    const rows = buildDraftChecklist({
+      insights: [insight('length-good')],
+      wordCount: 60,
+      missingTerms: [],
+    });
+    expect(describeChecklist(rows, 60)).toBe('All clear so far');
+  });
+
+  it('says all checks clear once every check is present, and is blank on a blank draft', () => {
+    const rows = buildDraftChecklist({
+      insights: [insight('length-good')],
+      wordCount: 200,
+      missingTerms: [],
+    });
+    expect(describeChecklist(rows, 200)).toBe('All checks clear');
+    expect(describeChecklist([], 0)).toBe('');
   });
 });

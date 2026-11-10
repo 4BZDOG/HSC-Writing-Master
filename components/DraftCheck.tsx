@@ -1,5 +1,5 @@
 import React, { useId, useMemo, useState } from 'react';
-import { CheckCircle2, Circle, ChevronDown } from 'lucide-react';
+import { Check, CheckCircle2, Circle, ChevronDown } from 'lucide-react';
 import type { WritingInsight } from '../utils/writingAnalysis';
 import {
   PANEL_HEADER_CLOSED,
@@ -10,6 +10,7 @@ import {
 import { PROSE_FLOW } from '../utils/prose';
 import {
   buildDraftChecklist,
+  describeChecklist,
   summariseChecklist,
   type DraftChecklistRow,
 } from '../utils/draftChecklist';
@@ -35,20 +36,23 @@ const RING_RADIUS = 13;
 const RING_LENGTH = 2 * Math.PI * RING_RADIUS;
 
 /**
- * How many checks are clear, as a ring in the slot the other panels give an
- * icon tile. The count sits in the middle, so the ring says the same thing
- * in words as it does in its arc, and colour is never the only signal.
+ * The ring says what is left, in the slot the other panels give an icon tile.
  *
- * Emerald when every check is clear, amber while work remains, slate while
- * resting on a blank draft. The track is a neutral stroke in both themes.
+ * The arc is the share cleared: amber while work remains, emerald when every
+ * check is clear, slate while resting on a blank draft. The centre is the
+ * number of checks still to do, in the amber status ink, so it reads as a
+ * count of work rather than a score; a tick replaces it once none remain, and
+ * an em dash while resting. A neutral track in both themes: no tier colour
+ * fills the ring, because colour as fill belongs to the band system alone.
  */
-const ClearRing: React.FC<{ cleared: number; total: number; resting: boolean }> = ({
+const ClearRing: React.FC<{ cleared: number; total: number; todo: number; resting: boolean }> = ({
   cleared,
   total,
+  todo,
   resting,
 }) => {
   const fraction = total > 0 && !resting ? cleared / total : 0;
-  const allClear = !resting && total > 0 && cleared === total;
+  const allClear = !resting && total > 0 && todo === 0;
   const stroke = resting
     ? 'stroke-slate-400 dark:stroke-slate-500'
     : allClear
@@ -57,10 +61,6 @@ const ClearRing: React.FC<{ cleared: number; total: number; resting: boolean }> 
 
   return (
     <div className="relative w-8 h-8 shrink-0">
-      <span
-        aria-hidden="true"
-        className="absolute inset-[4px] rounded-full light:bg-[rgb(var(--band-rgb))]"
-      />
       <svg viewBox="0 0 32 32" className="w-8 h-8 -rotate-90" aria-hidden="true">
         <circle
           cx="16"
@@ -68,7 +68,7 @@ const ClearRing: React.FC<{ cleared: number; total: number; resting: boolean }> 
           r={RING_RADIUS}
           fill="none"
           strokeWidth="3"
-          className="stroke-slate-200 dark:stroke-white/10 light:stroke-[rgb(var(--band-rgb)/0.3)]"
+          className="stroke-slate-200 dark:stroke-white/10"
         />
         <circle
           cx="16"
@@ -82,11 +82,16 @@ const ClearRing: React.FC<{ cleared: number; total: number; resting: boolean }> 
           className={`${stroke} transition-[stroke-dashoffset] duration-500 motion-reduce:transition-none`}
         />
       </svg>
-      {/* An em dash while resting, not a nought. Zero is a RESULT: it says the
-          draft has been read and nothing is clear yet, and there is no draft
-          to read. */}
-      <span className="absolute inset-0 flex items-center justify-center font-mono text-sm font-bold tabular-nums text-slate-900 light:text-slate-950 dark:text-white">
-        {resting ? '—' : cleared}
+      {/* An em dash while resting, not a nought: there is no draft to have
+          checked yet. A tick once nothing is left, so "done" is not a number. */}
+      <span className="absolute inset-0 flex items-center justify-center font-mono text-sm font-bold tabular-nums text-slate-900 dark:text-white">
+        {resting ? (
+          '—'
+        ) : allClear ? (
+          <Check aria-hidden="true" className="w-4 h-4 text-emerald-700 dark:text-emerald-400" />
+        ) : (
+          <span className="text-amber-700 dark:text-amber-300">{todo}</span>
+        )}
       </span>
     </div>
   );
@@ -171,14 +176,16 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
       () => buildDraftChecklist({ insights, wordCount, missingTerms }),
       [insights, wordCount, missingTerms]
     );
-    const { cleared, total, allClear } = useMemo(() => summariseChecklist(rows), [rows]);
+    const { cleared, total, todo } = useMemo(() => summariseChecklist(rows), [rows]);
     const resting = rows.length === 0;
 
-    const summary = useMemo(() => {
-      if (resting) return 'Checks your length, syllabus terms and structure as you write';
-      if (allClear) return 'All checks clear';
-      return `${cleared} of ${total} checks clear`;
-    }, [resting, allClear, cleared, total]);
+    const summary = useMemo(
+      () =>
+        resting
+          ? 'Checks your length, syllabus terms and structure as you write'
+          : describeChecklist(rows, wordCount),
+      [resting, rows, wordCount]
+    );
 
     return (
       <div className={`${PANEL_SURFACE} band-surface animate-fade-in`}>
@@ -191,7 +198,7 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
             resting ? 'cursor-default' : isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
           }`}
         >
-          <ClearRing cleared={cleared} total={total} resting={resting} />
+          <ClearRing cleared={cleared} total={total} todo={todo.length} resting={resting} />
           {/* The panel's NAME takes the heading voice and the line under it stays
               `.t-label`: the heading and its caption, as on every other panel in
               this column. The name is in the primary ink shut or open, as the

@@ -41,7 +41,6 @@ export interface WritingMetrics {
     targetCount: number;
     /** Top of the expected range for this band — the "no longer than" figure. */
     targetCountMax: number;
-    percentage: number;
     currentBandColor: BandConfig;
   };
   insights: WritingInsight[];
@@ -129,7 +128,6 @@ export const useWritingMetrics = (
       targetLabel: `Band ${maxBand}`,
       targetCount,
       targetCountMax,
-      percentage: Math.min(100, (wordCount / targetCount) * 100),
       currentBandColor: getBandConfig(maxBand),
     };
   }, [maxBand, prompt.totalMarks, wordCount]);

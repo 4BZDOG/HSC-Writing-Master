@@ -265,6 +265,12 @@ wide at 1280.
   `FOOTER_CHIP` (36px, 44px below `sm`, `whitespace-nowrap`), so a code is whole or it
   moves to the next line. `workspace-chrome.spec.ts` checks every footer button is
   inside the card, uncut and unscrolled at 1600, 1440, 1280, 1024 and 390.
+  The chips' line is set by the footer's own width (`.outcome-footer`, a container
+  query), in three steps: below 25rem they take a row of their own under the button;
+  from 25rem they sit on the button's row, and a pair drops its decorative target
+  icon below 32rem so both fit beside "Read before you write"; from 32rem everything
+  is inline with its icons. The brief button is a book (it is read); the flag's rest
+  edge is neutral, and amber only while a flag is open.
 - **The reading size lives in the heading's corner.** `CARD_HEADER_CORNER` stacks it
   (`CARD_HEADER_ZOOM`, 28px) over the stat bar on the header's floor, so the bar is
   still level with the writing card's across the gap, and the header stays under the

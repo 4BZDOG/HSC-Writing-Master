@@ -7,7 +7,7 @@ import type { Prompt } from '../../types';
 
 /**
  * The live writing stats panel opens from its whole header row, not from its
- * small "Terms & Structure" pill.
+ * small "Terms and structure" pill.
  *
  * The clock and the word count are the big thing on the row, and a student who
  * presses them expects the panel to open, as every other panel below the
@@ -158,8 +158,83 @@ describe('the live writing stats disclosure', () => {
   it('keeps the pill as a visual label, not a second tab stop with its own name', () => {
     renderStrip();
 
-    const pill = screen.getByText('Terms & Structure').closest('span[aria-hidden="true"]');
+    const pill = screen.getByText('Terms and structure').closest('span[aria-hidden="true"]');
     expect(pill).toBeTruthy();
-    expect(screen.queryByRole('button', { name: /terms & structure/i })).toBeNull();
+    expect(screen.queryByRole('button', { name: /terms and structure/i })).toBeNull();
+  });
+
+  // The panel keeps its name open or shut, and its chevron turns like every
+  // other panel's: down when shut, up when open.
+  it('names the panel the same whether it is shut or open', async () => {
+    const user = userEvent.setup();
+    renderStrip();
+
+    expect(screen.getByText('Terms and structure')).toBeTruthy();
+    await user.click(disclosure());
+    expect(screen.getByText('Terms and structure')).toBeTruthy();
+    expect(screen.queryByText('Hide')).toBeNull();
+  });
+
+  it('points its chevron down when shut and turns it up when open', async () => {
+    const user = userEvent.setup();
+    renderStrip();
+    // The chevron is the last icon in the aria-hidden pill beside the button.
+    const chevron = () =>
+      screen
+        .getByText('Terms and structure')
+        .closest('span[aria-hidden="true"]')
+        ?.querySelector('svg:last-of-type') ?? null;
+
+    expect(chevron()?.getAttribute('class')).not.toContain('rotate-180');
+    expect(chevron()?.getAttribute('class')).not.toContain('-rotate-90');
+
+    await user.click(disclosure());
+    expect(chevron()?.getAttribute('class')).toContain('rotate-180');
+  });
+
+  // The target block was a third progress figure under a header that already
+  // states words against target, so it is gone.
+  it('has no target standard or capacity figure in the open panel', async () => {
+    const user = userEvent.setup();
+    renderStrip();
+    await user.click(disclosure());
+
+    expect(screen.queryByText(/Target Standard/i)).toBeNull();
+    expect(screen.queryByText(/Capacity/)).toBeNull();
+  });
+
+  it('counts key and supporting terms, not "more"', async () => {
+    const user = userEvent.setup();
+    renderStrip({ userAnswer: 'Mitosis begins' });
+    await user.click(disclosure());
+
+    // "mitosis" is named by the question and is in the draft; "chromosome" is
+    // a supporting term and is not. The chip says so in the panel's vocabulary.
+    expect(screen.getByText('1/1 key · 0/1 supporting')).toBeTruthy();
+  });
+
+  it('labels the words-per-sentence tile in full and keeps the helper text readable', async () => {
+    const user = userEvent.setup();
+    renderStrip({ userAnswer: 'Mitosis begins. It divides the nucleus.' });
+    await user.click(disclosure());
+
+    expect(screen.getByText('Words per sentence')).toBeTruthy();
+    expect(screen.queryByText('Avg Words')).toBeNull();
+    expect(screen.getByText(/Longest sentence:/).className).not.toContain('text-[10px]');
+    expect(screen.getByText(/Longest sentence:/).className).toContain('text-xs');
+  });
+
+  it('keeps section heads in the neutral ink, not emerald or sky', async () => {
+    const user = userEvent.setup();
+    const { container } = renderStrip();
+    await user.click(disclosure());
+
+    const heads = Array.from(container.querySelectorAll('h4')).map((h) => h.parentElement);
+    expect(heads.length).toBe(2);
+    for (const head of heads) {
+      const icon = head!.querySelector('svg');
+      expect(icon?.getAttribute('class')).toContain('text-slate-600');
+      expect(icon?.getAttribute('class')).not.toMatch(/emerald|sky/);
+    }
   });
 });

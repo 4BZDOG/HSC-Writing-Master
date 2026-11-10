@@ -141,10 +141,45 @@ export interface ChecklistSummary {
   cleared: number;
   total: number;
   allClear: boolean;
+  /** The rows still to do, in the order they appear. */
+  todo: DraftChecklistRow[];
 }
 
-/** How many of the rows are clear, for the header's count and ring. */
+/** How many of the rows are clear, and which are still to do. */
 export const summariseChecklist = (rows: DraftChecklistRow[]): ChecklistSummary => {
-  const cleared = rows.filter((row) => row.state === 'done').length;
-  return { cleared, total: rows.length, allClear: rows.length > 0 && cleared === rows.length };
+  const todo = rows.filter((row) => row.state === 'todo');
+  const cleared = rows.length - todo.length;
+  return { cleared, total: rows.length, allClear: rows.length > 0 && todo.length === 0, todo };
+};
+
+/** More outstanding labels than this and the line names two and counts the rest. */
+export const MAX_NAMED_TODO = 3;
+
+/**
+ * The draft check's header line. It names what is left rather than giving a
+ * moving fraction, so a student can read it as a to-do list.
+ *
+ * - Work remains: `To do: Length, Syllabus terms`, or `To do: Length,
+ *   Syllabus terms and 2 more` from four outstanding labels.
+ * - Nothing outstanding: `All checks clear` once every check the draft can
+ *   have has switched on (all four rows are present, or the draft is past
+ *   `STRUCTURE_CHECK_OVER_WORDS`, when the structure row always appears);
+ *   otherwise `All clear so far`. The inputs do not say whether a question has
+ *   a syllabus terms row, so a three-row draft under the structure length is
+ *   never called complete.
+ * - A blank draft has no rows and no line: the component shows its resting copy.
+ */
+export const describeChecklist = (rows: DraftChecklistRow[], wordCount: number): string => {
+  const { todo, allClear, total } = summariseChecklist(rows);
+  if (todo.length > 0) {
+    const names = todo.map((row) => row.label);
+    const listed =
+      names.length > MAX_NAMED_TODO
+        ? `${names.slice(0, 2).join(', ')} and ${names.length - 2} more`
+        : names.join(', ');
+    return `To do: ${listed}`;
+  }
+  if (!allClear) return '';
+  const complete = total === 4 || wordCount > STRUCTURE_CHECK_OVER_WORDS;
+  return complete ? 'All checks clear' : 'All clear so far';
 };

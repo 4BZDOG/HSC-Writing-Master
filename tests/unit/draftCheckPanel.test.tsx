@@ -45,18 +45,29 @@ describe('DraftCheck', () => {
     expect(screen.getByText(/^Read$/i)).toBeTruthy();
   });
 
-  it('says how many checks are clear while it is folded', () => {
+  it('names what is still to do while it is folded', () => {
     // Length and structure need work; the sentence check is already clear. The
     // header carries that news while the list itself is shut.
     render(<DraftCheck insights={INSIGHTS} wordCount={90} defaultCollapsed />);
-    expect(screen.getByText('1 of 3 checks clear')).toBeTruthy();
+    expect(screen.getByText('To do: Length, Structure')).toBeTruthy();
   });
 
-  it('counts a draft with nothing to fix as all checks clear', () => {
+  it('says all clear so far for a draft with nothing to fix but not every check present', () => {
     render(
       <DraftCheck
         insights={[{ id: 'all-good', tone: 'positive', message: 'Looking strong.' }]}
         wordCount={40}
+        defaultCollapsed
+      />
+    );
+    expect(screen.getByText('All clear so far')).toBeTruthy();
+  });
+
+  it('says all checks clear once the draft is long enough for every check', () => {
+    render(
+      <DraftCheck
+        insights={[{ id: 'all-good', tone: 'positive', message: 'Looking strong.' }]}
+        wordCount={160}
         defaultCollapsed
       />
     );

@@ -697,7 +697,7 @@ test.describe('workspace card chrome', () => {
  *
  * jsdom cannot say which element a press lands on, so this asks the browser:
  * a press on the clock must reach the disclosure, a press on Pause must not
- * open the panel, and the Terms & Structure pill must still open it. The
+ * open the panel, and the Terms and structure pill must still open it. The
  * disclosure is a button laid over the row as a sibling of the timer, so this
  * is the check that the overlay sits where it is meant to.
  */
@@ -749,7 +749,8 @@ test.describe('the live writing stats disclosure', () => {
     await expect(disclosure).toHaveAttribute('aria-expanded', 'false');
 
     // The pill is the visible label of the same disclosure, so it still opens it.
-    const pillPoint = await centre(page.getByText('Terms & Structure').first());
+    // Exact, because the resting Draft check line also says "terms and structure".
+    const pillPoint = await centre(page.getByText('Terms and structure', { exact: true }).first());
     await page.mouse.click(pillPoint.x, pillPoint.y);
     await expect(disclosure).toHaveAttribute('aria-expanded', 'true');
   });
