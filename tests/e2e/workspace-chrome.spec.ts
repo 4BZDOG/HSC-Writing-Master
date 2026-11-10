@@ -749,7 +749,8 @@ test.describe('the live writing stats disclosure', () => {
     await expect(disclosure).toHaveAttribute('aria-expanded', 'false');
 
     // The pill is the visible label of the same disclosure, so it still opens it.
-    const pillPoint = await centre(page.getByText('Terms and structure').first());
+    // Exact, because the resting Draft check line also says "terms and structure".
+    const pillPoint = await centre(page.getByText('Terms and structure', { exact: true }).first());
     await page.mouse.click(pillPoint.x, pillPoint.y);
     await expect(disclosure).toHaveAttribute('aria-expanded', 'true');
   });
