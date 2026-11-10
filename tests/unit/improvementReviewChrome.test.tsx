@@ -3,10 +3,10 @@ import React from 'react';
 import { render, screen, cleanup, within } from '@testing-library/react';
 import ImprovementReviewModal from '../../components/ImprovementReviewModal';
 import { SectionHeading } from '../../components/feedback/FeedbackPieces';
-import { FEEDBACK_SECTION_HEADING, SHEET_MARGIN } from '../../components/feedback/feedbackChrome';
+import { FEEDBACK_SECTION_HEADING } from '../../components/feedback/feedbackChrome';
 import { promptBandForMark } from '../../utils/guideBands';
 import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
-import { getBandRgb } from '../../utils/renderUtils';
+import { getBandHex, getBandRgb } from '../../utils/renderUtils';
 import type { Prompt, PromptVerb } from '../../types';
 import { Zap } from 'lucide-react';
 
@@ -166,7 +166,7 @@ describe('ImprovementReviewModal chrome', () => {
     expect(sheet).toBeTruthy();
     // The rules are measured from the reading size, and the margin is Band 1's red.
     expect(sheet.style.getPropertyValue('--editor-fs')).toBe('17px');
-    expect(sheet.style.getPropertyValue('--editor-margin')).toBe(SHEET_MARGIN);
+    expect(sheet.style.getPropertyValue('--editor-margin')).toBe(getBandHex(1));
     // The response's own lines are one rule step each: 1.8 leading, as the editor's.
     const text = sheet.querySelector('p') as HTMLElement;
     expect(text.className).toContain('leading-[1.8]');

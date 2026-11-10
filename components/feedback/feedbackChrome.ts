@@ -91,12 +91,6 @@ export const NEXT_GROUND = 'bg-[rgb(var(--next-rgb))] text-slate-950';
 export const NEUTRAL_PRIMARY =
   'bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-white';
 
-/**
- * The margin line on a ruled sheet in the post-marking windows. The writing area draws it in
- * Band 1's red; here that red would be a band colour meaning nothing, so the margin is the
- * paper's neutral slate (a rule, not a result).
- */
-export const SHEET_MARGIN = '#64748b';
 
 /**
  * The header strip of both post-marking windows. The same box as `CARD_HEADER_BOX`, but its

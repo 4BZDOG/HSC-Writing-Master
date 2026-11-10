@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight, Columns2, RefreshCw, Zap } from 'lucide-react';
-import { BandConfig, renderFormattedText } from '../../utils/renderUtils';
+import { BandConfig, getBandHex, renderFormattedText } from '../../utils/renderUtils';
 import { Prompt } from '../../types';
 import { describeAccess, planLabelForFeature, requestUpgrade } from '../../services/entitlements';
 import { PlusLockChip } from '../UpgradeModal';
@@ -12,7 +12,6 @@ import {
   NEXT_GROUND,
   PRIMARY_ACTION,
   SECONDARY_ACTION,
-  SHEET_MARGIN,
 } from './feedbackChrome';
 import { nextVars } from '../../utils/reportLevels';
 import { SectionHeading } from './FeedbackPieces';
@@ -160,7 +159,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
               style={
                 {
                   '--editor-fs': '17px',
-                  '--editor-margin': SHEET_MARGIN,
+                  '--editor-margin': getBandHex(1),
                 } as React.CSSProperties
               }
             >

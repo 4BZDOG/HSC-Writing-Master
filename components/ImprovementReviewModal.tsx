@@ -6,6 +6,7 @@ import {
   stripHtmlTags,
   cleanMarkdown,
   getBandConfig,
+  getBandHex,
   KEYWORD_CHIP_CLASS,
   renderFormattedText,
   renderHighlightedText,
@@ -41,7 +42,6 @@ import {
   NEXT_GROUND,
   POST_MARKING_HEADER,
   PRIMARY_ACTION,
-  SHEET_MARGIN,
 } from './feedback/feedbackChrome';
 import {
   diffWords,
@@ -442,10 +442,11 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   // The frame's two pairs of band variables: the You band (the frame, its glow and its
   // header) and the Improved band (every working accent). Nothing here names a colour.
   const bandStyle = levelFrameVars(youBand, nextBand) as React.CSSProperties;
-  // The page's margin is the paper's neutral rule. It is not a band, so it is not Band 1's red.
+  // The page's margin is Band 1's red on every writing surface (the editor's exam-booklet rule),
+  // so the response reads as the same paper here.
   const ruledSheetVars = {
     '--editor-fs': `${fontSize}px`,
-    '--editor-margin': SHEET_MARGIN,
+    '--editor-margin': getBandHex(1),
   } as React.CSSProperties;
 
   useEscapeKey(isOpen, onClose);
@@ -944,10 +945,10 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
           </button>
 
           {/* The replay's progress, in the Improved band, along the header's foot. */}
-          <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/25" aria-hidden="true">
+          <div className="absolute inset-x-0 bottom-0 h-[3px]" aria-hidden="true">
             <div
               data-replay-rule
-              className="h-full origin-left next-rule-lift transition-transform duration-700 ease-out motion-reduce:transition-none"
+              className="h-full origin-left bg-[rgb(var(--next-rgb))] transition-transform duration-700 ease-out motion-reduce:transition-none"
               style={{ transform: `scaleX(${bandFill})` }}
             />
           </div>

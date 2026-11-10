@@ -249,10 +249,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           </nav>
         )}
         <div className="flex flex-wrap items-center gap-2">
-          <span className="t-label px-2.5 py-1 rounded-lg band-chip edge-ink bg-slate-100 dark:bg-white/10 dark:ring-1 dark:ring-inset dark:ring-white/40 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg border border-slate-500 dark:border-white/40 bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300">
             {prompt.verb}
           </span>
-          <span className="t-label px-2.5 py-1 rounded-lg band-chip edge-ink bg-slate-100 dark:bg-white/10 dark:ring-1 dark:ring-inset dark:ring-white/40 text-slate-600 dark:text-slate-300">
+          <span className="t-label px-2.5 py-1 rounded-lg border border-slate-500 dark:border-white/40 bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300">
             {prompt.totalMarks} Marks
           </span>
         </div>

@@ -1295,9 +1295,6 @@ a:focus-visible,
 .next-edge-strong {
   border-color: rgb(var(--next-rgb) / 0.85);
 }
-.next-rule-lift {
-  background-color: color-mix(in srgb, rgb(var(--next-rgb)) 60%, white);
-}
 :root[data-theme='light'] .next-edge-strong,
 :root[data-theme='light'] .next-edge-ink {
   border-color: rgb(var(--next-ink-deep-rgb) / 0.85);
