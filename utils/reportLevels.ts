@@ -83,7 +83,10 @@ export function resultLevels(
   });
 }
 
-/** The You band's custom properties, for the element that IS the window's band (its frame). */
+/**
+ * The window's band (`--band-rgb`) as custom properties: the You band on a frame, and the
+ * Improved band on the one section that is the improvement, whose cards read the same pair.
+ */
 export const youVars = (band: number): Record<string, string> => ({
   '--band-rgb': getBandRgb(band),
   '--band-ink-deep-rgb': getBandDeepInkRgb(band),

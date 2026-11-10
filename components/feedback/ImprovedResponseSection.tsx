@@ -8,7 +8,7 @@ import LoadingIndicator from '../LoadingIndicator';
 import AiBusyOverlay from '../AiBusyOverlay';
 
 import { FEEDBACK_CARD, NEXT_GROUND, PRIMARY_ACTION, SECONDARY_ACTION } from './feedbackChrome';
-import { nextVars, ruleVars } from '../../utils/reportLevels';
+import { nextVars, ruleVars, youVars } from '../../utils/reportLevels';
 import { SectionHeading } from './FeedbackPieces';
 
 interface ImprovedResponseSectionProps {
@@ -78,7 +78,12 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
   if (!revisedText && (atCeiling || !upgradesLocked)) return null;
 
   return (
-    <section className={className} style={nextVars(exemplarBand) as React.CSSProperties}>
+    // The whole section is the improvement, so the band its light-theme card edges and
+    // wash read (`--band-rgb`, set to the You band on the window) is the Improved band here.
+    <section
+      className={className}
+      style={{ ...youVars(exemplarBand), ...nextVars(exemplarBand) } as React.CSSProperties}
+    >
       <SectionHeading
         icon={Zap}
         label={atCeiling ? "Marker's version" : 'Improved response'}
@@ -90,7 +95,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
           // quiet words say how far that is from the student's own mark.
           <span className="ml-auto flex flex-wrap items-center gap-2 min-w-0">
             <span
-              className={`${NEXT_GROUND} t-label inline-flex items-center rounded-lg px-2 py-0.5 font-bold tabular-nums whitespace-nowrap`}
+              className={`${NEXT_GROUND} t-label inline-flex items-center rounded-lg px-2 py-0.5 tabular-nums whitespace-nowrap`}
             >
               {exemplarMark}/{prompt.totalMarks} · Band {exemplarBand}
             </span>

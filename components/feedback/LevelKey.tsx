@@ -118,7 +118,7 @@ const LevelTile: React.FC<{
   figureAttr?: boolean;
 }> = ({ caption, mark, band, footer, strong = false, figureAttr = false }) => (
   <div className="flex flex-col items-center gap-1 min-w-0">
-    <span className="t-label text-[10px] leading-3 font-bold uppercase tracking-[0.12em] text-white whitespace-nowrap">
+    <span className="t-label leading-3 text-white whitespace-nowrap">
       {caption}
     </span>
     <span
@@ -133,7 +133,7 @@ const LevelTile: React.FC<{
       {mark}
       <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[3px] band-rule-lift" />
     </span>
-    <span className="t-label text-[11px] leading-3 text-white tabular-nums whitespace-nowrap">
+    <span className="t-label leading-3 text-white tabular-nums whitespace-nowrap">
       {footer}
     </span>
   </div>
