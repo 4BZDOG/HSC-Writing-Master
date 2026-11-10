@@ -108,7 +108,8 @@ describe('HowToAnswer', () => {
       const items = Array.from(steps.querySelectorAll(':scope > li'));
       expect(items.length).toBe(2);
       expect(items.map((li) => li.querySelector('span')?.textContent)).toEqual(['1', '2']);
-      expect(items[1].textContent).toContain('Make each difference unmistakable and precise.');
+      // A step that introduces a template ends in a full stop on screen.
+      expect(items[1].textContent).toContain('Use a point-by-point structure.');
     });
 
     it('sets every step at the same size and ink, the lead included', () => {
@@ -131,13 +132,16 @@ describe('HowToAnswer', () => {
       expect(marker.style.getPropertyValue('--band-rgb')).toMatch(/^\d+ \d+ \d+$/);
     });
 
-    it('has one step, and no numbering beyond it, for a method with no further steps', () => {
-      // EXPLAIN's method is its lead; its one caveat goes under "Watch for".
-      render(<Harness verb={'EXPLAIN' as PromptVerb} initiallyOpen />);
+    it('shows a single step as a sentence, with no number and no list, for a method with no further steps', () => {
+      // RECALL's method is its lead alone; its one caveat goes under "Watch for".
+      render(<Harness verb={'RECALL' as PromptVerb} initiallyOpen />);
 
-      const items = card()!.querySelectorAll('ol > li');
-      expect(items.length).toBe(1);
-      expect(items[0].querySelector('span')?.textContent).toBe('1');
+      expect(card()!.querySelector('ol')).toBeNull();
+      expect(card()!.querySelector('ol span')).toBeNull();
+      const step = within(card()!).getByText(
+        'Write the facts down as a list or in short sentences.'
+      );
+      expect(step.tagName).toBe('P');
     });
   });
 
@@ -149,14 +153,16 @@ describe('HowToAnswer', () => {
       expect(heading).toBeTruthy();
       expect(heading.querySelector('svg')).not.toBeNull();
 
-      const caveat = within(card()!).getByText("Facts alone don't explain — connections do.");
+      const caveat = within(card()!).getByText(
+        "Don't list facts on their own: the links between them are the explanation."
+      );
       expect(caveat.closest('ol')).toBeNull();
       expect(caveat.closest('ul')).not.toBeNull();
     });
 
-    it('is absent when the method has nothing to watch for', () => {
-      render(<Harness verb={'DISTINGUISH' as PromptVerb} initiallyOpen />);
-      expect(within(card()!).queryByRole('heading', { name: /watch for/i })).toBeNull();
+    it('is shown beside a single step, since every tip ends on a caution', () => {
+      render(<Harness verb={'RECALL' as PromptVerb} initiallyOpen />);
+      expect(within(card()!).queryByRole('heading', { name: /watch for/i })).not.toBeNull();
     });
   });
 

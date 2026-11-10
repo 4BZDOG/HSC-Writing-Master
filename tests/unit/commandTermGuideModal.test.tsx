@@ -80,7 +80,7 @@ describe('CommandTermGuideModal', () => {
   it('draws the tip as numbered moves, not as one paragraph per line', () => {
     renderGuide();
     // The EXPLAIN tip's lead line is a move, and its word list is not a move.
-    const lead = screen.getByText('Chain every sentence with linking words:');
+    const lead = screen.getByText('Say what happens, then why or how it happens.');
     expect(lead.tagName).toBe('P');
     expect(lead.parentElement?.tagName).toBe('LI');
   });
@@ -101,9 +101,10 @@ describe('CommandTermGuideModal', () => {
 
   it('merges structural keywords the tip does not already quote into the words', () => {
     // DESCRIBE's tip has no word list of its own, so its keywords are the words.
+    // Its tip already says "characteristics", so that one is not repeated as a chip.
     renderGuide({ termInfo: getCommandTermInfo('DESCRIBE') });
-    expect(screen.getByRole('button', { name: 'characteristics' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'consists of' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'characteristics' })).toBeNull();
   });
 
   it('does not repeat a keyword the tip already quotes', () => {
@@ -143,7 +144,7 @@ describe('CommandTermGuideModal', () => {
   it('stays open when a selection inside the sheet is released over the backdrop', () => {
     const { onClose } = renderGuide();
     const backdrop = screen.getByRole('dialog').parentElement as HTMLElement;
-    fireEvent.mouseDown(screen.getByText('Chain every sentence with linking words:'));
+    fireEvent.mouseDown(screen.getByText('Say what happens, then why or how it happens.'));
     fireEvent.mouseUp(backdrop);
     fireEvent.click(backdrop);
     expect(onClose).not.toHaveBeenCalled();
