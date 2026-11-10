@@ -411,7 +411,7 @@ describe('watching the marker’s edits', () => {
   it('fills the band rule as the replay reaches each edit', () => {
     renderModal(threeEdits);
 
-    const rule = document.querySelector('[role="dialog"] > div.h-1 > div') as HTMLElement;
+    const rule = document.querySelector('[role="dialog"] [data-replay-rule]') as HTMLElement;
     expect(rule.style.transform).toBe('scaleX(1)');
 
     startReplay();
@@ -472,7 +472,7 @@ describe('reduced motion', () => {
     renderModal(threeEdits);
 
     startReplay();
-    const band = document.querySelector('[role="dialog"] > div.h-1 > div') as HTMLElement;
+    const band = document.querySelector('[role="dialog"] [data-replay-rule]') as HTMLElement;
     expect(band.className).toContain('motion-reduce:transition-none');
     expect(screen.getByRole('progressbar').firstElementChild?.className).toContain(
       'motion-reduce:transition-none'
@@ -488,7 +488,7 @@ describe('linking an edit in the margin to the page', () => {
 
     fireEvent.mouseEnter(second);
     expect(ringed()).toEqual(['seven', 'beta']);
-    expect(second.className).toContain('band-edge-strong');
+    expect(second.className).toContain('next-edge-strong');
 
     fireEvent.mouseLeave(second);
     expect(ringed()).toEqual(['two', 'alpha']);

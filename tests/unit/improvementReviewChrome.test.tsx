@@ -3,9 +3,10 @@ import React from 'react';
 import { render, screen, cleanup, within } from '@testing-library/react';
 import ImprovementReviewModal from '../../components/ImprovementReviewModal';
 import { SectionHeading } from '../../components/feedback/FeedbackPieces';
-import { FEEDBACK_SECTION_HEADING } from '../../components/feedback/feedbackChrome';
+import { FEEDBACK_SECTION_HEADING, SHEET_MARGIN } from '../../components/feedback/feedbackChrome';
+import { promptBandForMark } from '../../utils/guideBands';
 import { getBandForMark, getCommandTermInfo } from '../../data/commandTerms';
-import { getBandHex, getBandRgb } from '../../utils/renderUtils';
+import { getBandRgb } from '../../utils/renderUtils';
 import type { Prompt, PromptVerb } from '../../types';
 import { Zap } from 'lucide-react';
 
@@ -62,35 +63,81 @@ describe('ImprovementReviewModal chrome', () => {
     expect(strip!.className).toContain('text-white');
     expect(strip!.className).toContain('px-4');
   });
-
-  // The score cluster is two frosted tiles, each with a 3px rule along its foot in its own
-  // band, so the band reads without a solid fill on the header's ground.
-  it('gives each score its own band: frosted tiles, each with its band as a rule', () => {
+  // The level key is the header's one statement of the three levels: the You tile in the
+  // student's band, the Improved tile one step stronger in the rewrite's band, each with its
+  // 3px rule along its foot. The Top is a third tile, joined by a dotted connector.
+  it('draws the level key: You, Improved and Top, each tile in its own band', () => {
     renderModal();
     const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
+    const key = within(dialog).getByRole('group', { name: /You scored 4 out of 8/ });
 
-    const fromBand = getBandForMark(4, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier);
-    const from = within(dialog).getByText('4', { selector: '[class*="bg-white/15"]' });
-    expect(from.className).not.toContain('band-solid');
-    expect(from.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(fromBand));
-    expect(from.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
+    const youBand = getBandForMark(4, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier);
+    const you = within(key).getByText('4');
+    expect(you.className).toContain('bg-white/15');
+    expect(you.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(youBand));
+    expect(you.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
 
-    const to = dialog.querySelector('[data-mark-figure="target"]') as HTMLElement;
-    expect(to.className).toContain('bg-white/25');
-    expect(to.className).toContain('font-black');
-    expect(to.textContent).toBe('5');
-    expect(to.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(4));
-    expect(to.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
+    const improved = dialog.querySelector('[data-mark-figure="target"]') as HTMLElement;
+    expect(improved.className).toContain('bg-white/25');
+    expect(improved.className).toContain('font-black');
+    expect(improved.textContent).toBe('5');
+    expect(improved.style.getPropertyValue('--band-rgb')).toBe(
+      getBandRgb(promptBandForMark(prompt, 5))
+    );
+    expect(improved.querySelector('span[aria-hidden="true"]')!.className).toContain('h-[3px]');
+
+    // The top of this question is the third tile: 8 out of 8, Band 4 on the verb's formula.
+    expect(within(key).getByText('Top')).toBeTruthy();
+    expect(within(key).getByText('8')).toBeTruthy();
   });
 
-  it('names both bands in one line under the score', () => {
+  it('says the key in one sentence for a screen reader, with both bands and the top', () => {
     renderModal();
     const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
+    const you = getBandForMark(4, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier);
+    const improved = promptBandForMark(prompt, 5);
+    const top = promptBandForMark(prompt, prompt.totalMarks);
+    expect(
+      within(dialog).getByRole('group', {
+        name: `You scored 4 out of 8, Band ${you}. The improved response reaches 5 out of 8, Band ${improved}. The top of this question is 8 out of 8, Band ${top}.`,
+      })
+    ).toBeTruthy();
+  });
 
-    // The target band is the `targetBand` the caller passes (4 here); the from-band is
-    // derived from the student's own mark.
-    const fromBand = getBandForMark(4, prompt.totalMarks, getCommandTermInfo(prompt.verb).tier);
-    expect(within(dialog).getByText(`Band ${fromBand} → Band 4`)).toBeTruthy();
+  // The header's band is the one the feedback behind it names. On a ranged guide the marking
+  // guide's row decides a mark's band, and the verb's formula does not: 11/20 is Band 4 on the
+  // guide, Band 3 on the formula. The window used to take the formula and disagree with the
+  // placard, so this fails on that code.
+  it('names the same You band as the feedback behind it, on a ranged marking guide', () => {
+    const ranged = {
+      ...prompt,
+      totalMarks: 20,
+      verb: 'DISCUSS' as PromptVerb,
+      markingCriteria:
+        '17-20 marks: Analyses skilfully\n14-16 marks: Analyses effectively\n11-13 marks: Analyses\n7-10 marks: Describes\n1-6 marks: Refers minimally',
+    } as Prompt;
+    render(
+      <ImprovementReviewModal
+        isOpen
+        onClose={vi.fn()}
+        improvedAnswer={IMPROVED}
+        originalAnswer={ORIGINAL}
+        originalPrompt={ranged}
+        targetBand={4}
+        targetMark={14}
+        originalMark={11}
+        onApply={vi.fn()}
+      />
+    );
+    const dialog = screen.getByRole('dialog');
+    const youBand = promptBandForMark(ranged, 11);
+    expect(youBand).not.toBe(getBandForMark(11, 20, 5));
+    expect(dialog.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(youBand));
+    expect(
+      within(dialog).getByRole('group', {
+        name: new RegExp(`You scored 11 out of 20, Band ${youBand}\\.`),
+      })
+    ).toBeTruthy();
   });
 
   it('shows a short title beside the scores on a phone, with the full title as the name', () => {
@@ -119,7 +166,7 @@ describe('ImprovementReviewModal chrome', () => {
     expect(sheet).toBeTruthy();
     // The rules are measured from the reading size, and the margin is Band 1's red.
     expect(sheet.style.getPropertyValue('--editor-fs')).toBe('17px');
-    expect(sheet.style.getPropertyValue('--editor-margin')).toBe(getBandHex(1));
+    expect(sheet.style.getPropertyValue('--editor-margin')).toBe(SHEET_MARGIN);
     // The response's own lines are one rule step each: 1.8 leading, as the editor's.
     const text = sheet.querySelector('p') as HTMLElement;
     expect(text.className).toContain('leading-[1.8]');
@@ -134,7 +181,7 @@ describe('ImprovementReviewModal chrome', () => {
     // A neutral raised segment, with the band as a rule along its foot (`after:`), not a fill.
     expect(selected.className).not.toContain('band-solid');
     expect(selected.className).toContain('ring-1');
-    expect(selected.className).toContain('after:bg-[rgb(var(--band-rgb))]');
+    expect(selected.className).toContain('after:bg-[rgb(var(--next-rgb))]');
     expect(screen.getByRole('button', { name: 'Clean copy' }).className).not.toContain('after:bg-');
   });
 });

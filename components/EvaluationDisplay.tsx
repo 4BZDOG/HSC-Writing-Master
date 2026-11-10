@@ -85,7 +85,6 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
   userName,
   showToast,
 }) => {
-  const bandConfig = getBandConfig(result.overallBand);
   const reportRef = useRef<HTMLDivElement>(null);
 
   // Plus-gated controls stay visible in a locked (amber) state; a click opens
@@ -99,8 +98,8 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     upgradesLocked,
     revisedText,
     keyChanges,
+    levels,
     maxBand,
-    nextLevel,
     exemplarMark,
     exemplarBand,
     exemplarConfig,
@@ -108,6 +107,9 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
     keywordsUsedCount,
     syllabusTrail,
   } = view;
+  // The band of the mark the student got: the window's colour, and the placard's,
+  // the criteria's and the metric tiles'. Taken from the levels, never worked out here.
+  const youConfig = getBandConfig(levels.you.band);
 
   const {
     isExporting,
@@ -277,10 +279,10 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           data-report="placard"
         >
           <ScorePlacard
-            band={result.overallBand}
+            band={levels.you.band}
             mark={result.overallMark}
             total={prompt.totalMarks}
-            atCeiling={atCeiling || result.overallBand >= maxBand}
+            atCeiling={atCeiling || levels.you.band >= maxBand}
             actions={exportActions}
           />
           <p className={`${FOOTNOTE} px-1`}>{AI_MARKING_DISCLAIMER}</p>
@@ -292,7 +294,11 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           data-report="reading"
         >
           {result.quickTip && (
-            <NextStepNote band={result.overallBand} tip={result.quickTip} prompt={prompt} />
+            <NextStepNote
+              nextBand={(levels.next ?? levels.top).band}
+              tip={result.quickTip}
+              prompt={prompt}
+            />
           )}
           <ImprovedResponseSection
             revisedText={revisedText}
@@ -332,7 +338,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             <SectionHeading icon={Quote} label="Marker's commentary" />
             <div className={`relative overflow-hidden ${FEEDBACK_CARD} p-6 sm:p-8`}>
               <div
-                className={`absolute inset-y-0 left-0 w-1 bg-gradient-to-b ${bandConfig.gradient}`}
+                className={`absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b ${youConfig.gradient}`}
                 aria-hidden="true"
               />
               {/* Serif, because this is the one passage on the page written TO the
@@ -350,7 +356,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
           data-report="figures"
         >
           <BandGoalCard
-            currentBand={result.overallBand}
+            currentBand={levels.you.band}
             maxBand={maxBand}
             marksToFull={marksToFull}
             capNote={
@@ -370,14 +376,14 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
               value={wordCount}
               subtext="Words"
               icon={FileText}
-              theme={bandConfig}
+              theme={youConfig}
             />
             <MetricCard
               label="Key terms"
               value={keywordsUsedCount}
               subtext={`of ${prompt.keywords?.length || 0}`}
               icon={Hash}
-              theme={bandConfig}
+              theme={youConfig}
             />
           </div>
         </div>
@@ -393,7 +399,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
         <CriteriaSection
           className="xl:col-span-2"
           criteria={result.criteria}
-          band={result.overallBand}
+          band={levels.you.band}
           prompt={prompt}
           feedbackLocked={feedbackLocked}
         />

@@ -36,8 +36,8 @@ const StrengthsAndGrowth: React.FC<StrengthsAndGrowthProps> = ({
       <SectionHeading
         icon={CheckCircle}
         label="Strong evidence"
-        tone="text-emerald-800 dark:text-emerald-400"
-        toneBg="bg-emerald-100 dark:bg-emerald-500/15"
+        tone="text-slate-700 dark:text-slate-300"
+        toneBg="bg-slate-200/70 dark:bg-white/10"
       />
       <ul className={`${FEEDBACK_CARD_NEUTRAL} p-5 sm:p-6 space-y-3.5`}>
         {strengths.map((s, i) => (
@@ -68,8 +68,8 @@ const StrengthsAndGrowth: React.FC<StrengthsAndGrowthProps> = ({
       <SectionHeading
         icon={XCircle}
         label="Areas for growth"
-        tone="text-rose-700 dark:text-rose-400"
-        toneBg="bg-rose-100 dark:bg-rose-500/15"
+        tone="text-slate-700 dark:text-slate-300"
+        toneBg="bg-slate-200/70 dark:bg-white/10"
       >
         {feedbackLocked && <PlusLockChip feature="fullFeedback" />}
       </SectionHeading>

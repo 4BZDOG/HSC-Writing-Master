@@ -3,6 +3,8 @@ import React from 'react';
 import { render, screen, fireEvent, cleanup, within, waitFor, act } from '@testing-library/react';
 import ImprovementReviewModal from '../../components/ImprovementReviewModal';
 import type { Prompt, PromptVerb } from '../../types';
+import { promptBandForMark } from '../../utils/guideBands';
+import { getBandRgb } from '../../utils/renderUtils';
 
 /**
  * The improvement is an EDIT of the student's own answer, so the review has to
@@ -168,8 +170,17 @@ describe('ImprovementReviewModal', () => {
     const dialog = screen.getByRole('dialog', { name: 'Your answer, one mark higher' });
     expect(within(dialog).getByText('4')).toBeTruthy();
     expect(within(dialog).getByText('5')).toBeTruthy();
-    // The band line names both bands: where the student was, and where the rewrite reaches.
-    expect(screen.getByText(/→ Band 4$/)).toBeTruthy();
+    // The level key names both bands, where the student was and where the rewrite reaches,
+    // and the top, in one sentence for a screen reader.
+    const you = promptBandForMark(prompt, 4);
+    const improved = promptBandForMark(prompt, 5);
+    expect(
+      within(dialog).getByRole('group', {
+        name: new RegExp(
+          `You scored 4 out of 8, Band ${you}\\. The improved response reaches 5 out of 8, Band ${improved}`
+        ),
+      })
+    ).toBeTruthy();
   });
 
   /**
@@ -208,7 +219,7 @@ describe('ImprovementReviewModal', () => {
     fireEvent.click(screen.getByText('Side by side'));
 
     expect(screen.getByText('Your original')).toBeTruthy();
-    expect(screen.getByText('Improved')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Improved' })).toBeTruthy();
     // Word counts for each column come from the diff, not a separate count.
     expect(screen.getByText('8 words')).toBeTruthy();
     expect(screen.getByText('13 words')).toBeTruthy();
@@ -427,23 +438,29 @@ describe('ImprovementReviewModal', () => {
     });
 
     const apply = screen.getByText('Use this version').closest('button')!;
-    expect(apply.className).toContain('bg-[rgb(var(--band-rgb))]');
+    expect(apply.className).toContain('bg-[rgb(var(--next-rgb))]');
     expect(apply.className).toContain('text-slate-950');
     expect(apply.className).not.toContain('band-solid');
     expect(apply.className).not.toMatch(/text-white/);
 
     const activeMarker = screen.getByLabelText('Edit 1');
-    expect(activeMarker.className).toContain('band-solid');
+    expect(activeMarker.className).toContain('next-solid');
     expect(activeMarker.className).not.toMatch(/text-white/);
     expect(screen.getByLabelText('Edit 2').className).not.toContain('band-solid');
   });
 
-  it('hands the band down to the frame as one custom property', () => {
+  it('hands the You band to the frame, and the Improved band as its own variable', () => {
     renderModal({ targetBand: 4 });
 
     const dialog = screen.getByRole('dialog');
-    // Band 4 is the green-500 step, the same triplet `getBandRgb` gives.
-    expect(dialog.style.getPropertyValue('--band-rgb')).toBe('34 197 94');
+    // The frame is the student's own band (4 of 8 is Band 2); the rewrite's band (5 of 8,
+    // Band 3) is the accent. `targetBand` does not decide either: the marks do.
+    expect(dialog.style.getPropertyValue('--band-rgb')).toBe(
+      getBandRgb(promptBandForMark(prompt, 4))
+    );
+    expect(dialog.style.getPropertyValue('--next-rgb')).toBe(
+      getBandRgb(promptBandForMark(prompt, 5))
+    );
   });
 
   it('marks the cursor edit in the band’s edge, and only that edit', () => {
@@ -454,8 +471,8 @@ describe('ImprovementReviewModal', () => {
 
     const margin = screen.getByRole('complementary', { name: 'The edits' });
     const [first, second] = within(margin).getAllByRole('button');
-    expect(first.className).toContain('band-edge-strong');
-    expect(second.className).not.toContain('band-edge-strong');
+    expect(first.className).toContain('next-edge-strong');
+    expect(second.className).not.toContain('next-edge-strong');
   });
 
   it('draws the page’s own colours from tokens: the cut text is not dimmed by an alpha', () => {
@@ -542,7 +559,7 @@ describe('ImprovementReviewModal', () => {
     renderModal({ improvedAnswer: ORIGINAL });
 
     const back = screen.getByText('Back to feedback').closest('button')!;
-    expect(back.className).toContain('bg-[rgb(var(--band-rgb))]');
+    expect(back.className).toContain('bg-[rgb(var(--next-rgb))]');
     expect(back.className).not.toContain('band-solid');
   });
 

@@ -1275,6 +1275,36 @@ a:focus-visible,
 .band-rule-lift {
   background-color: color-mix(in srgb, rgb(var(--band-rgb)) 60%, white);
 }
+
+/*
+ * The Improved level's classes (`--next-rgb`, `--next-ink-deep-rgb`), the twins of the You
+ * band's `band-solid`, `band-edge-strong`, `band-ink` and `band-rule-lift` above. A post-marking
+ * window sets both pairs on its frame (`levelFrameVars`), so the working accents can take the
+ * Improved band while the frame, its edges and its header stay on the You band.
+ */
+.next-solid {
+  background-color: rgb(var(--next-rgb));
+  background-image: linear-gradient(
+    160deg,
+    rgb(255 255 255 / 0.22) 0%,
+    rgb(255 255 255 / 0) 55%,
+    rgb(0 0 0 / 0.08) 100%
+  );
+  color: rgb(2 6 23);
+}
+.next-edge-strong {
+  border-color: rgb(var(--next-rgb) / 0.85);
+}
+.next-rule-lift {
+  background-color: color-mix(in srgb, rgb(var(--next-rgb)) 60%, white);
+}
+:root[data-theme='light'] .next-edge-strong,
+:root[data-theme='light'] .next-edge-ink {
+  border-color: rgb(var(--next-ink-deep-rgb) / 0.85);
+}
+:root[data-theme='light'] .next-ink {
+  color: rgb(var(--next-ink-deep-rgb));
+}
 /* A band's ink on a card, as text or an outline. The dark theme takes its ink from the
    utilities `getBandConfig` sets (the -300 tint); this sets the light theme's deep ink. */
 :root[data-theme='light'] .band-ink {

@@ -6,22 +6,19 @@ import {
   stripHtmlTags,
   cleanMarkdown,
   getBandConfig,
-  getBandHex,
-  getBandRgb,
-  getBandDeepInkRgb,
   KEYWORD_CHIP_CLASS,
   renderFormattedText,
   renderHighlightedText,
   textContainsKeyword,
 } from '../utils/renderUtils';
-import { getBandForMark, getCommandTermInfo } from '../data/commandTerms';
 import {
-  CARD_HEADER_BOX,
   CARD_HEADER_ICON,
   CARD_HEADER_META,
   CARD_HEADER_TITLE,
   cardHeaderWash,
 } from '../utils/cardChrome';
+import { levelFrameVars, reportLevels } from '../utils/reportLevels';
+import LevelKey from './feedback/LevelKey';
 import {
   Copy,
   ArrowRight,
@@ -40,7 +37,12 @@ import {
 } from 'lucide-react';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
-import { BAND_GROUND, PRIMARY_ACTION } from './feedback/feedbackChrome';
+import {
+  NEXT_GROUND,
+  POST_MARKING_HEADER,
+  PRIMARY_ACTION,
+  SHEET_MARGIN,
+} from './feedback/feedbackChrome';
 import {
   diffWords,
   groupEdits,
@@ -57,7 +59,11 @@ interface ImprovementReviewModalProps {
   improvedAnswer: string;
   originalAnswer?: string | null;
   originalPrompt: Prompt;
-  /** The band the improved answer demonstrates. */
+  /**
+   * The band the improved answer demonstrates. The window derives the band from
+   * `targetMark` through `reportLevels`, so that the window and the feedback behind it
+   * agree; this is the caller's own reading, used only when there is no mark to derive it from.
+   */
   targetBand: number;
   /** What the improved answer is worth, e.g. 5 of 8. */
   targetMark?: number;
@@ -127,7 +133,7 @@ const OP_CLASS: Record<DiffSegment['op'], string> = {
  * that the margin and the page now share.
  */
 const RING_CLASS =
-  'ring-2 ring-offset-1 ring-offset-transparent animate-edit-focus motion-reduce:animate-none ring-[rgb(var(--band-ink-deep-rgb))] dark:ring-[rgb(var(--band-rgb))]';
+  'ring-2 ring-offset-1 ring-offset-transparent animate-edit-focus motion-reduce:animate-none ring-[rgb(var(--next-ink-deep-rgb))] dark:ring-[rgb(var(--next-rgb))]';
 
 /**
  * The student's text on a sheet ruled like the writing area (`.editor-ruling`,
@@ -279,7 +285,7 @@ const DiffText: React.FC<{
               {...hover}
               className={`relative after:absolute after:left-1/2 after:top-1/2 after:h-11 after:w-11 after:-translate-x-1/2 after:-translate-y-1/2 after:content-[''] inline-flex items-center justify-center align-[0.3em] mr-0.5 min-w-[1.4em] h-[1.4em] px-1 rounded-full font-sans text-[10px] font-bold tabular-nums leading-none transition-colors ${
                 inActive
-                  ? 'band-solid'
+                  ? 'next-solid'
                   : 'bg-slate-200 text-slate-600 ring-1 ring-inset ring-slate-500 dark:bg-white/10 dark:text-slate-300 dark:ring-white/50 can-hover:hover:bg-slate-300 dark:can-hover:hover:bg-white/20'
               }`}
             >
@@ -421,30 +427,25 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   const copiedTimer = useRef<number | undefined>(undefined);
   const titleId = useId();
   const descId = useId();
-  const bandConfig = getBandConfig(targetBand);
-  // The band as one custom property on the frame. Every band-coloured part of
-  // the modal reads it from here, through `band-solid`, `band-edge-strong` and
-  // `rgb(var(--band-rgb))`, so no colour is written at a call site.
-  const bandStyle = {
-    '--band-rgb': getBandRgb(targetBand),
-    '--band-ink-deep-rgb': getBandDeepInkRgb(targetBand),
-  } as React.CSSProperties;
-  // The band the student's own answer sat in, from its mark. Each score in the
-  // header wears its own band, so the step from one to the other reads as a
-  // step between two bands rather than one colour and a number.
-  const originalBand =
+  // The three levels (utils/reportLevels.ts), the one place every band in this window comes
+  // from, so it cannot name a different band from the feedback behind it. The window is the
+  // student's You band; the Improved band is the rewrite's, and drives the working accents
+  // and the forward action. `targetBand` is kept for callers, but the band is derived here.
+  const levels =
     originalMark === undefined
-      ? undefined
-      : getBandForMark(
-          originalMark,
-          originalPrompt.totalMarks,
-          getCommandTermInfo(originalPrompt.verb).tier
-        );
-  // The page's margin is Band 1's red on every writing surface (the editor's
-  // exam-booklet rule), so the response reads as the same paper here.
+      ? null
+      : reportLevels(originalPrompt, originalMark, { mark: targetMark });
+  const youBand = levels?.you.band ?? targetBand;
+  const nextBand = (levels?.next ?? levels?.top)?.band ?? targetBand;
+  const bandConfig = getBandConfig(youBand);
+  const nextConfig = getBandConfig(nextBand);
+  // The frame's two pairs of band variables: the You band (the frame, its glow and its
+  // header) and the Improved band (every working accent). Nothing here names a colour.
+  const bandStyle = levelFrameVars(youBand, nextBand) as React.CSSProperties;
+  // The page's margin is the paper's neutral rule. It is not a band, so it is not Band 1's red.
   const ruledSheetVars = {
     '--editor-fs': `${fontSize}px`,
-    '--editor-margin': getBandHex(1),
+    '--editor-margin': SHEET_MARGIN,
   } as React.CSSProperties;
 
   useEscapeKey(isOpen, onClose);
@@ -791,11 +792,11 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
   // with its ink (`band-solid`), which holds AA on all six hues where white did
   // not.
   const secondaryButton =
-    't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 border border-slate-500 dark:border-white/40 transition-colors touch-manipulation flex items-center justify-center gap-2';
-  // The way forward: the target band's flat ground with its dark ink, the same primary as the
-  // marking feedback's footer (`PRIMARY_ACTION` on `BAND_GROUND`), so the two modals' primary
-  // buttons match. The band is the frame's `--band-rgb`.
-  const primaryButton = `${PRIMARY_ACTION} ${BAND_GROUND} flex-1 sm:flex-none`;
+    't-label flex-1 sm:flex-none min-h-11 sm:min-h-0 py-2.5 px-5 rounded-xl text-slate-700 dark:text-slate-200 bg-white dark:bg-white/5 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10 border border-slate-500 dark:border-white/40 transition-colors touch-manipulation flex items-center justify-center gap-2 whitespace-nowrap';
+  // The way forward: the Improved band's flat ground with its dark ink, the same primary as the
+  // marking feedback's footer (`PRIMARY_ACTION` on `NEXT_GROUND`), so the two modals' primary
+  // buttons match. The band is the frame's `--next-rgb`.
+  const primaryButton = `${PRIMARY_ACTION} ${NEXT_GROUND} flex-1 sm:flex-none`;
   const toolGroup =
     'flex items-center gap-0.5 p-0.5 rounded-xl border border-slate-500 dark:border-white/40 bg-white dark:bg-black/20';
   const toolButton =
@@ -880,28 +881,15 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
         className={`clip-stable bg-[rgb(var(--color-bg-surface))] light:bg-white rounded-surface band-frame w-full max-w-6xl xl:max-w-[min(94vw,1500px)] border-2 ${bandConfig.border} animate-fade-in-up motion-reduce:animate-none overflow-hidden flex flex-col max-h-[96vh] sm:max-h-[92vh]`}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* The band this revision reaches, as one rule across the top — the
-            only saturated colour on the frame, so the edits keep the page's
-            attention. During the replay it fills edit by edit, to the band. */}
-        <div
-          className="h-1 shrink-0 bg-slate-500 dark:bg-white/30 overflow-hidden"
-          aria-hidden="true"
-        >
-          <div
-            className="h-full origin-left bg-[rgb(var(--band-rgb))] transition-transform duration-700 ease-out motion-reduce:transition-none"
-            style={{ transform: `scaleX(${bandFill})` }}
-          />
-        </div>
-
-        {/* The card's header, drawn in the target band: the band's ink as the
-            ground, a frosted tile, and the verdict as the all-caps hero. The score
-            sits in the strip with each mark in its own band, the same pair of
-            colours the rail and the page use for those bands. */}
+        {/* The card's header, in the student's You band: the band's ink as the ground,
+            the verdict as the all-caps hero, and the level key on the right, the same
+            key the feedback window carries. The replay's progress is a rule along its
+            foot, in the Improved band, and does not sit above the rounded corners. */}
         <header
-          className={`${CARD_HEADER_BOX} justify-between gap-4 shrink-0`}
-          style={{ background: cardHeaderWash(targetBand) }}
+          className={`${POST_MARKING_HEADER} shrink-0`}
+          style={{ background: cardHeaderWash(youBand) }}
         >
-          <div className="flex items-start gap-3 sm:gap-4 min-w-0 relative z-10">
+          <div className="flex items-start gap-3 sm:gap-4 min-w-0 relative z-10 flex-1 sm:flex-none">
             <div className={`${CARD_HEADER_ICON} max-sm:hidden`} aria-hidden="true">
               <Sparkles className="w-5 h-5" />
             </div>
@@ -934,64 +922,34 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
             </div>
           </div>
 
-          <div className="flex items-start gap-3 sm:gap-4 shrink-0 relative z-10">
-            {/* The mark it moved, said once and large enough to be the point. The
-                title names the gain, so this line gives the figure and the band
-                and nothing else. Each mark is a chip in its own band's solid, with
-                the ink the band-solid class sets, so no white sits on a band. */}
-            {!unchanged && targetMark !== undefined && (
-              <div className="text-right">
-                <p className="flex items-center justify-end gap-1.5 tabular-nums leading-none text-white">
-                  {originalMark !== undefined && originalBand !== undefined && (
-                    <>
-                      {/* Each score is a frosted tile in the header's own language, with a
-                          3px rule along its foot in its own band. The band still reads,
-                          without a solid fill on the header's ground. */}
-                      <span
-                        className="relative inline-flex items-center justify-center overflow-hidden min-w-[2rem] h-8 px-1.5 pb-0.5 rounded-lg text-base font-bold bg-white/15 ring-1 ring-inset ring-white/40"
-                        style={{ '--band-rgb': getBandRgb(originalBand) } as React.CSSProperties}
-                      >
-                        {originalMark}
-                        <span
-                          aria-hidden="true"
-                          className="absolute inset-x-0 bottom-0 h-[3px] band-rule-lift"
-                        />
-                      </span>
-                      <span className="sr-only"> to </span>
-                      <ArrowRight className="w-4 h-4 text-white shrink-0" aria-hidden="true" />
-                    </>
-                  )}
-                  <span
-                    data-mark-figure="target"
-                    className="relative inline-flex items-center justify-center overflow-hidden min-w-[2.25rem] h-9 px-2 pb-0.5 rounded-lg text-xl font-black bg-white/25 ring-1 ring-inset ring-white/70"
-                    style={bandStyle}
-                  >
-                    {shownMark}
-                    <span
-                      aria-hidden="true"
-                      className="absolute inset-x-0 bottom-0 h-[3px] band-rule-lift"
-                    />
-                  </span>
-                  <span className="text-sm font-semibold text-white ml-0.5">
-                    <span aria-hidden="true">/</span>
-                    <span className="sr-only"> out of </span>
-                    {originalPrompt.totalMarks}
-                  </span>
-                </p>
-                <p className={`${CARD_HEADER_META} mt-1.5 whitespace-nowrap`}>
-                  {originalBand !== undefined
-                    ? `Band ${originalBand} → Band ${targetBand}`
-                    : `Band ${targetBand}`}
-                </p>
-              </div>
-            )}
-            <button
-              onClick={onClose}
-              aria-label="Close"
-              className="w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg text-white can-hover:hover:bg-white/15 transition-colors flex items-center justify-center touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
-            >
-              <X className="w-5 h-5" />
-            </button>
+          {/* Where the student is, where the rewrite gets them, and the top. An unchanged
+              rewrite has no level to climb to, so the key is left off. */}
+          {!unchanged && levels && (
+            <LevelKey
+              you={levels.you}
+              next={levels.next}
+              top={levels.top}
+              total={originalPrompt.totalMarks}
+              countingMark={shownMark}
+              className="relative z-10 sm:ml-auto sm:mr-3 max-sm:order-last"
+            />
+          )}
+
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="relative z-10 w-11 h-11 sm:w-9 sm:h-9 shrink-0 rounded-lg text-white can-hover:hover:bg-white/15 transition-colors flex items-center justify-center touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 max-sm:ml-auto"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
+          {/* The replay's progress, in the Improved band, along the header's foot. */}
+          <div className="absolute inset-x-0 bottom-0 h-[3px] bg-white/25" aria-hidden="true">
+            <div
+              data-replay-rule
+              className="h-full origin-left next-rule-lift transition-transform duration-700 ease-out motion-reduce:transition-none"
+              style={{ transform: `scaleX(${bandFill})` }}
+            />
           </div>
         </header>
 
@@ -1105,7 +1063,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   className={`t-label relative inline-flex flex-1 sm:flex-none items-center justify-center min-h-11 sm:min-h-0 px-3 py-1.5 rounded-lg transition-colors whitespace-nowrap touch-manipulation ${
                     view === v.id
                       ? // A neutral raised segment; the band shows as a rule along its foot.
-                        "bg-white text-slate-900 ring-1 ring-slate-500 shadow-sm dark:bg-white/[0.12] dark:text-white dark:ring-white/25 after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:rounded-full after:bg-[rgb(var(--band-rgb))] after:content-['']"
+                        "bg-white text-slate-900 ring-1 ring-slate-500 shadow-sm dark:bg-white/[0.12] dark:text-white dark:ring-white/25 after:absolute after:inset-x-3 after:bottom-1 after:h-0.5 after:rounded-full after:bg-[rgb(var(--next-rgb))] after:content-['']"
                       : 'text-slate-600 dark:text-slate-400 can-hover:hover:text-slate-800 dark:can-hover:hover:text-slate-200 can-hover:hover:bg-slate-100 dark:can-hover:hover:bg-white/10'
                   }`}
                 >
@@ -1156,7 +1114,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                   {replayStep === null ? (
                     <>
                       <Play
-                        className="w-3.5 h-3.5 text-[rgb(var(--band-ink-deep-rgb))] dark:text-[rgb(var(--band-rgb))]"
+                        className="w-3.5 h-3.5 text-[rgb(var(--next-ink-deep-rgb))] dark:text-[rgb(var(--next-rgb))]"
                         aria-hidden="true"
                       />
                       {/* One line on a phone: the short label is what shows, and the full
@@ -1209,7 +1167,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     className="h-1.5 flex-1 rounded-full bg-slate-500 dark:bg-white/30 overflow-hidden"
                   >
                     <div
-                      className="h-full origin-left rounded-full bg-[rgb(var(--band-rgb))] transition-transform duration-300 ease-out motion-reduce:transition-none"
+                      className="h-full origin-left rounded-full bg-[rgb(var(--next-rgb))] transition-transform duration-300 ease-out motion-reduce:transition-none"
                       style={{ transform: `scaleX(${replayStep / edits.length})` }}
                     />
                   </div>
@@ -1312,7 +1270,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                     <div className="sticky top-0 px-5 sm:px-6 py-2.5 bg-surface-elevated/95 dark:bg-[rgb(var(--color-bg-surface))]/95 backdrop-blur-sm border-b border-slate-500 dark:border-white/40 flex items-center gap-2 z-10">
                       {isRevised && (
                         <span
-                          className="w-2 h-2 rounded-full bg-[rgb(var(--band-rgb))]"
+                          className="w-2 h-2 rounded-full bg-[rgb(var(--next-rgb))]"
                           aria-hidden="true"
                         />
                       )}
@@ -1408,7 +1366,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                             className="flex gap-2.5 text-[13px] leading-relaxed text-slate-700 dark:text-slate-300"
                           >
                             <ArrowUpRight
-                              className={`w-3.5 h-3.5 mt-[3px] shrink-0 ${bandConfig.text}`}
+                              className={`w-3.5 h-3.5 mt-[3px] shrink-0 ${nextConfig.text} next-ink`}
                               aria-hidden="true"
                             />
                             <span>
@@ -1437,7 +1395,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                             className="flex gap-2.5 text-[13px] leading-relaxed text-slate-700 dark:text-slate-300"
                           >
                             <span
-                              className="mt-[7px] w-1.5 h-1.5 shrink-0 rounded-full bg-[rgb(var(--band-rgb))]"
+                              className="mt-[7px] w-1.5 h-1.5 shrink-0 rounded-full bg-[rgb(var(--next-rgb))]"
                               aria-hidden="true"
                             />
                             <span>
@@ -1494,14 +1452,14 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                             // page is on in the colour the page uses for it.
                             className={`w-full text-left flex gap-3 p-2.5 rounded-xl border touch-manipulation transition-colors duration-200 ${
                               active
-                                ? 'bg-white dark:bg-white/[0.06] band-edge-strong edge-ink shadow-sm'
+                                ? 'bg-white dark:bg-white/[0.06] next-edge-strong next-edge-ink shadow-sm'
                                 : 'border-transparent can-hover:hover:bg-white/70 dark:can-hover:hover:bg-white/[0.04]'
                             }`}
                           >
                             <span
                               className={`mt-0.5 shrink-0 inline-flex items-center justify-center min-w-[1.5rem] h-6 px-1 rounded-full text-[11px] font-bold tabular-nums transition-colors duration-200 ${
                                 active
-                                  ? 'band-solid'
+                                  ? 'next-solid'
                                   : reached
                                     ? 'text-slate-800 dark:text-slate-100'
                                     : 'bg-slate-200 text-slate-600 ring-1 ring-inset ring-slate-500 dark:bg-white/10 dark:text-slate-300 dark:ring-white/50'
@@ -1510,7 +1468,7 @@ const ImprovementReviewModal: React.FC<ImprovementReviewModalProps> = ({
                               // set from the frame's own variable rather than a class.
                               style={
                                 reached && !active
-                                  ? { backgroundColor: 'rgb(var(--band-rgb) / 0.18)' }
+                                  ? { backgroundColor: 'rgb(var(--next-rgb) / 0.18)' }
                                   : undefined
                               }
                             >

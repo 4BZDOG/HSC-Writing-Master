@@ -96,9 +96,10 @@ describe('the report below full marks', () => {
     expect(screen.getByText('Improved response')).toBeTruthy();
     expect(screen.getByText('Regenerate')).toBeTruthy();
     expect(screen.getByText('See the edits')).toBeTruthy();
-    // The improved header says "one mark higher" in words, not as 3/4 again.
+    // The Improved level is stated as the key states it ("3/4 · Band 2"), in the Improved
+    // band, with the quiet words that say how far it is from the student's own mark.
     expect(screen.getByText(/one mark higher/)).toBeTruthy();
-    expect(screen.queryByText(/3\/4/)).toBeNull();
+    expect(screen.getByText(/3\/4 · Band \d/)).toBeTruthy();
   });
 
   it('lists the edits the marker made beneath the rewrite', () => {

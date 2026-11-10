@@ -102,11 +102,13 @@ export const BandGoalCard = ({
         >
           {rungs.map((b) => (
             <div key={b} className="flex-1 flex flex-col items-center gap-1.5">
+              {/* The rungs the student has reached take the You band (the window's colour);
+                  the rest are neutral. Each rung is not its own band's colour: the scale is
+                  a count of levels, not a set of results. */}
               <div
                 className={`h-2 w-full rounded-full transition-colors duration-500 ${
-                  b <= currentBand ? '' : 'bg-slate-500 dark:bg-white/30'
+                  b <= currentBand ? 'bg-[rgb(var(--band-rgb))]' : 'bg-slate-500 dark:bg-white/30'
                 }`}
-                style={b <= currentBand ? { backgroundColor: getBandHex(b) } : undefined}
               />
               <span
                 className={`text-[9px] font-bold leading-none ${

@@ -1,13 +1,20 @@
 import React, { useEffect, useRef } from 'react';
 import { ArrowRight, Columns2, RefreshCw, Zap } from 'lucide-react';
-import { BandConfig, getBandHex, renderFormattedText } from '../../utils/renderUtils';
+import { BandConfig, renderFormattedText } from '../../utils/renderUtils';
 import { Prompt } from '../../types';
 import { describeAccess, planLabelForFeature, requestUpgrade } from '../../services/entitlements';
 import { PlusLockChip } from '../UpgradeModal';
 import LoadingIndicator from '../LoadingIndicator';
 import AiBusyOverlay from '../AiBusyOverlay';
-import { ladderBandVars } from '../LadderRow';
-import { BAND_GROUND, FEEDBACK_CARD, PRIMARY_ACTION, SECONDARY_ACTION } from './feedbackChrome';
+
+import {
+  FEEDBACK_CARD,
+  NEXT_GROUND,
+  PRIMARY_ACTION,
+  SECONDARY_ACTION,
+  SHEET_MARGIN,
+} from './feedbackChrome';
+import { nextVars } from '../../utils/reportLevels';
 import { SectionHeading } from './FeedbackPieces';
 
 interface ImprovedResponseSectionProps {
@@ -77,7 +84,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
   if (!revisedText && (atCeiling || !upgradesLocked)) return null;
 
   return (
-    <section className={className} style={ladderBandVars(exemplarBand)}>
+    <section className={className} style={nextVars(exemplarBand) as React.CSSProperties}>
       <SectionHeading
         icon={Zap}
         label={atCeiling ? "Marker's version" : 'Improved response'}
@@ -85,8 +92,17 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
         toneBg={exemplarConfig.bg}
       >
         {revisedText && !atCeiling && (
-          <span className="t-label ml-auto whitespace-nowrap text-slate-600 dark:text-slate-400 tabular-nums">
-            {gapWords} · Band {exemplarBand}
+          // The level, stated as the key states it (3/8 · Band 2), in the Improved band; the
+          // quiet words say how far that is from the student's own mark.
+          <span className="ml-auto flex flex-wrap items-center gap-2 min-w-0">
+            <span
+              className={`${NEXT_GROUND} t-label inline-flex items-center rounded-lg px-2 py-0.5 font-bold tabular-nums whitespace-nowrap`}
+            >
+              {exemplarMark}/{prompt.totalMarks} · Band {exemplarBand}
+            </span>
+            <span className="t-label text-slate-600 dark:text-slate-400 whitespace-nowrap">
+              {gapWords}
+            </span>
           </span>
         )}
         {revisedText && atCeiling && (
@@ -98,11 +114,9 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
       </SectionHeading>
 
       <div ref={cardRef} className={`${FEEDBACK_CARD} relative overflow-hidden`}>
-        <div
-          className="h-1"
-          style={{ backgroundColor: getBandHex(exemplarBand) }}
-          aria-hidden="true"
-        />
+        {/* The card's top rule, in the Improved band. It is 3px like every accent rule in the
+            report, and the card's own overflow clip cuts it to the rounded corners. */}
+        <div className="h-[3px] bg-[rgb(var(--next-rgb))]" aria-hidden="true" />
 
         {/* The veil is inside the card and takes no radius of its own: the card's
             overflow clip is its padding edge at the inner radius, so the veil is
@@ -146,7 +160,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
               style={
                 {
                   '--editor-fs': '17px',
-                  '--editor-margin': getBandHex(1),
+                  '--editor-margin': SHEET_MARGIN,
                 } as React.CSSProperties
               }
             >
@@ -214,7 +228,7 @@ const ImprovedResponseSection: React.FC<ImprovedResponseSectionProps> = ({
             </p>
             <button
               onClick={() => requestUpgrade('answerUpgrades')}
-              className={`${PRIMARY_ACTION} ${BAND_GROUND} mt-1`}
+              className={`${PRIMARY_ACTION} ${NEXT_GROUND} mt-1`}
             >
               {describeAccess('answerUpgrades').ctaLabel}
             </button>
