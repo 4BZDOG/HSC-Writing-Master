@@ -100,7 +100,7 @@ describe('the metrics dashboard term tracker', () => {
 
   it('counts the two kinds apart', () => {
     renderDashboard('I relied on automated unit testing.');
-    expect(screen.getByText('1/2 key · 0/1 more')).toBeTruthy();
+    expect(screen.getByText('1/2 key · 0/1 supporting')).toBeTruthy();
   });
 });
 

@@ -33,13 +33,16 @@ interface HowToAnswerProps {
  * The definition is content and stays on screen for the whole draft. The
  * method is behind a named button, and opens as a card beneath the row:
  *
- * - **Method**: the lead move, numbered 1, with any further steps numbered
- *   after it on a thin rule. The lead is set at reading size.
+ * - **Method**: the steps, numbered on a thin rule when there is more than one.
+ *   A single step is a sentence on its own.
  * - **Words to use**: the terms the tip offers, each one a chip that adds the
  *   word to the draft at the caret.
  * - **Sentence shape**: any template the tip gives, set as a quotation.
- * - **Watch for**: the costs and cautions the tip names, under a warning glyph
- *   rather than as steps.
+ * - **Watch for**: the caveat the tip ends on, under a warning glyph rather than
+ *   as a step.
+ *
+ * From `md` the method and its words sit in a left column, the shape and the
+ * caveat in a right one (see StrategyMoves).
  *
  * The card is always mounted and only folds, so opening it does not shift the
  * writing area; while shut it is `inert`, so its controls are not reachable.
@@ -128,11 +131,10 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, bandCeiling, open, onTo
         >
           <div className="min-h-0 overflow-hidden">
             <div className="px-4 sm:px-6 pb-4">
-              {/* The card takes the row's width. It used to stop at 36rem, which
-                  left the right of the verb row empty on a desktop; the line
-                  length is capped on the text inside (see StrategyMoves), so a
-                  wider card does not make the steps any harder to read. */}
-              <div className="rounded-panel border border-[rgb(var(--color-border-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] p-4 sm:p-5 divide-y divide-[rgb(var(--color-border-secondary))]">
+              {/* The card takes the row's width, and StrategyMoves lays its parts
+                  out in columns from `md`. Its edge is the report cards' edge,
+                  slate-500 in light and white/40 in dark, so it clears 3:1 in both. */}
+              <div className="rounded-panel border border-slate-500 dark:border-white/40 bg-[rgb(var(--color-bg-surface-elevated))] p-4 sm:p-5">
                 <StrategyMoves
                   method={method}
                   terms={terms}

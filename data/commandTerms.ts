@@ -70,7 +70,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'IDENTIFY',
     definition: 'Recognise and name something. No explanation or elaboration required.',
-    tip: 'Just name it and stop. "X is Y" is enough.\nExplanations waste time and earn zero extra marks.',
+    tip: "Name it in a word or a short sentence, then stop.\nDon't explain: extra detail earns no extra marks.",
     tier: 1,
     markRange: [1, 2],
     charRange: [100, 300],
@@ -86,7 +86,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'RECALL',
     definition: 'Present remembered facts, ideas, or experiences without elaboration.',
-    tip: 'Brain dump in a list or short sentences.\nAccuracy matters more than polish — get the facts down fast.',
+    tip: "Write the facts down as a list or in short sentences.\nDon't elaborate: accuracy earns the marks, not length.",
     tier: 1,
     markRange: [1, 2],
     charRange: [150, 400],
@@ -102,7 +102,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'RECOUNT',
     definition: 'Retell a sequence of events in the order they occurred.',
-    tip: 'Use time markers — first, then, next, finally.\nStick to what happened; save the "why" for higher-band verbs.',
+    tip: "Retell the events in the order they happened.\nUse time markers:\nfirst, then, next, finally.\nDon't explain why things happened unless the question asks.",
     tier: 1,
     markRange: [1, 3],
     charRange: [200, 600],
@@ -121,7 +121,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'CALCULATE',
     definition: 'Ascertain/determine from given facts, figures or information.',
-    tip: 'Write the formula, substitute, solve — in that order.\nNo working shown = no marks, even if the answer is right.',
+    tip: "Write the formula, substitute the values, then solve, with units.\nDon't skip the working: it earns marks even when the final answer is wrong.",
     tier: 1,
     markRange: [1, 3],
     charRange: [100, 400],
@@ -141,7 +141,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'EXTRACT',
     definition: 'Select and present specific information from a given source, graph, or stimulus.',
-    tip: "Quote or copy directly from the source and label what it shows.\nDon't interpret — just pull out the data asked for.",
+    tip: "Take the exact figure or words from the source and say what they show.\nDon't interpret or add your own knowledge: the answer is in the source.",
     tier: 1,
     markRange: [1, 3],
     charRange: [150, 500],
@@ -160,7 +160,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'DEFINE',
     definition:
       'State the precise meaning of a word, term, or concept, including its essential qualities.',
-    tip: 'Use the syllabus wording if you know it.\nOne solid sentence beats three vague ones — include key features, not just a synonym.',
+    tip: "Give the precise meaning in one sentence, using the syllabus wording where you know it.\nInclude the feature that sets the term apart.\nDon't define a word with itself or with a loose synonym.",
     tier: 2,
     markRange: [1, 3],
     charRange: [200, 500],
@@ -179,7 +179,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'OUTLINE',
     definition: 'Sketch the main features or general principles of a topic without fine detail.',
-    tip: "Think bullet points in sentence form — broad strokes only.\nIf you're writing more than a sentence per point, you're over-detailing.",
+    tip: "Give the main points in order, one sentence each.\nDon't add examples or fine detail: an outline is the broad shape.",
     tier: 2,
     markRange: [2, 4],
     charRange: [400, 900],
@@ -198,7 +198,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'DESCRIBE',
     definition: 'Provide characteristics and features.',
-    tip: 'Use adjectives and specifics to paint a picture.\nAsk yourself: "What does this look like? What are its parts? How does it work?"',
+    tip: "Give the main features or characteristics, each with a specific detail.\nWork through what it is, what its parts are and how it works.\nDon't explain causes or judge: describing is saying what something is like.",
     tier: 2,
     markRange: [2, 4],
     charRange: [500, 1000],
@@ -217,7 +217,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'SUMMARISE',
     definition: 'Express, concisely, the relevant details.',
-    tip: 'Cut ruthlessly — no examples, no elaboration, no fluff.\nIf you can say it in fewer words, do.',
+    tip: "State the key points in as few words as you can.\nKeep the order and the emphasis of the original.\nDon't include examples, quotations or your own opinion.",
     tier: 2,
     markRange: [2, 4],
     charRange: [300, 700],
@@ -236,7 +236,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'CLARIFY',
     definition: 'Make a statement or situation less confused and more comprehensible.',
-    tip: 'Break the complex idea into plain steps.\nUse "in other words" or "this means that" to bridge from confusing to clear.',
+    tip: 'Restate the idea in plain words, one step at a time.\nBridge from the confusing version to the clear one:\n"In other words, ..."\nDon\'t add new information: the aim is to make the same idea easier to follow.',
     tier: 2,
     markRange: [2, 4],
     charRange: [400, 900],
@@ -255,7 +255,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'CLASSIFY',
     definition: 'Arrange or sort into classes or categories based on shared characteristics.',
-    tip: "Name each category and justify the sorting — don't just list.\nSay what trait puts each item in its group.",
+    tip: "Name each category, then place each item in one.\nSay which shared feature puts an item in its group.\nDon't just list the items: the sorting is what earns the marks.",
     tier: 2,
     markRange: [2, 4],
     charRange: [400, 900],
@@ -277,7 +277,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'EXPLAIN',
     definition:
       'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
-    tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
+    tip: "Say what happens, then why or how it happens.\nLink each point to the next with cause-and-effect words:\nbecause, leads to, results in, therefore.\nDon't list facts on their own: the links between them are the explanation.",
     tier: 3,
     markRange: [3, 6],
     charRange: [600, 1400],
@@ -297,7 +297,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'COMPARE',
     definition: 'Show how things are similar or different.',
-    tip: 'Use a balanced structure:\n"Both X and Y... However, X... whereas Y..."\nDiscuss the significance of each point, don\'t just list.',
+    tip: 'Take one feature at a time and set both things against it.\nUse a balanced structure:\n"Both X and Y ... However, X ... whereas Y ..."\nDon\'t describe one thing and then the other: put them side by side.',
     tier: 3,
     markRange: [3, 6],
     charRange: [800, 1800],
@@ -317,7 +317,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'CONTRAST',
     definition: 'Show how things are different or opposite.',
-    tip: 'Ignore similarities entirely.\nUse unlike, whereas, in contrast, on the other hand — and make each difference sharp and specific.',
+    tip: "Take one feature at a time and show how the two differ.\nUse words that mark a difference:\nunlike, whereas, in contrast, on the other hand.\nDon't spend words on similarities: the question asks for differences.",
     tier: 3,
     markRange: [3, 5],
     charRange: [600, 1400],
@@ -336,7 +336,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'DEMONSTRATE',
     definition: 'Show by example.',
-    tip: 'State the concept first, then show it in action with a concrete case.\nReal-world or syllabus examples score highest.',
+    tip: "State the idea, then show it at work in a specific example.\nChoose an example from the syllabus or the stimulus where you can.\nDon't leave the example to speak for itself: say how it shows the idea.",
     tier: 3,
     markRange: [3, 6],
     charRange: [800, 1600],
@@ -355,7 +355,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'PREDICT',
     definition: 'Suggest what may happen based on available information or evidence.',
-    tip: 'Start with "Based on..." and use the data or trend given.\nNever guess — every prediction needs a visible evidence trail.',
+    tip: 'State what is likely to happen, then the evidence that points to it.\nStart from the data or trend given:\n"Based on ..., it is likely that ..."\nDon\'t guess: a prediction needs evidence behind it.',
     tier: 3,
     markRange: [2, 4],
     charRange: [400, 900],
@@ -375,7 +375,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'ACCOUNT',
     definition:
       'State reasons for; report on. Give an account of; narrate a series of events or transactions.',
-    tip: 'Build a cause-and-effect chain:\nA happened because of B, which led to C.\nShow the full sequence, not isolated reasons.',
+    tip: 'Give the reasons in the order they led to the outcome.\nBuild a chain of cause and effect:\n"A happened because of B, which led to C."\nDon\'t list reasons separately: show how each one leads to the next.',
     tier: 3,
     markRange: [3, 6],
     charRange: [800, 1700],
@@ -397,7 +397,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'ANALYSE',
     definition:
       'Identify components and the relationships between them; draw out and relate implications.',
-    tip: "One paragraph per component, then a final paragraph linking them.\nDon't just list parts — every paragraph must show a relationship or implication.",
+    tip: "Break the topic into its parts, one paragraph for each.\nShow how the parts relate, then finish with what follows from them.\nDon't just list the parts: each paragraph must show a relationship or an implication.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -417,7 +417,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'APPLY',
     definition: 'Use in a different, new or unfamiliar situation.',
-    tip: 'Start with the concept, then say "In this case..."\nThe marker wants to see transfer — prove you can use the idea outside the textbook.',
+    tip: 'State the concept, then use it on the situation in the question.\nMake the move explicit:\n"In this case, ..."\nDon\'t restate the theory on its own: the marks are for using it on the new situation.',
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -437,7 +437,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'EXAMINE',
     definition: 'Inquire into.',
-    tip: "Pick 2-3 key aspects and go deep on each with evidence.\nQuality of depth beats quantity of points — don't skim the surface.",
+    tip: "Choose two or three key aspects and look closely at each, with evidence.\nSay what each aspect shows about the whole.\nDon't skim many points: depth earns more than coverage.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -457,7 +457,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'DISTINGUISH',
     definition:
       'Recognise or note/indicate as being distinct or different from; note points of difference.',
-    tip: 'Use a point-by-point structure:\n"X is... whereas Y is..."\nMake each difference unmistakable and precise.',
+    tip: 'Name the point of difference, then say how each thing differs on it.\nUse a point-by-point structure:\n"X is ... whereas Y is ..."\nDon\'t list the features of each: state the difference itself.',
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2000],
@@ -476,7 +476,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'INTERPRET',
     definition: 'Draw meaning from information, data, or a text; explain what it signifies.',
-    tip: "Go beyond the surface.\nIf it's a graph, say what the trend implies.\nIf it's a quote, say what the author is really suggesting — not just what's written.",
+    tip: "Say what the information means, beyond what it literally shows.\nFor a graph, state what the trend implies. For a text, state what the writer is suggesting.\nDon't just describe the data or repeat the quotation.",
     tier: 4,
     markRange: [3, 6],
     charRange: [800, 1800],
@@ -495,7 +495,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'EXTRAPOLATE',
     definition: 'Infer from what is known.',
-    tip: 'Look at the pattern and project forward.\nUse "If this trend continues..." or "This suggests that..."\nAlways anchor your inference in the data.',
+    tip: 'Find the pattern in the data, then extend it beyond what is given.\nSay what the pattern points to:\n"If this trend continues, ..."\nDon\'t go further than the data can support.',
     tier: 4,
     markRange: [3, 6],
     charRange: [800, 1600],
@@ -515,7 +515,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'CONSTRUCT',
     definition: 'Make; build; put together items or arguments to create something coherent.',
-    tip: "Show clear steps in the build, whether it's an argument, graph, or model.\nUse headings or signposting so the structure is visible to the marker.",
+    tip: "Build it in clear steps, whether it is an argument, a table, a graph or a plan.\nLabel each part so the marker can follow the structure.\nDon't leave out the labels, units or headings the form needs.",
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -537,7 +537,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'DISCUSS',
     definition:
       'Identify issues and provide points for and/or against, exploring from different perspectives.',
-    tip: "Structure: intro, arguments for, arguments against, your overall position.\nBalance is key — don't make one side look weak on purpose.",
+    tip: "Set out the issue, give points for and points against, then state your position.\nGive each side its strongest evidence.\nDon't argue one side: the question asks for different perspectives.",
     tier: 5,
     markRange: [5, 10],
     charRange: [1500, 3000],
@@ -557,7 +557,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'ASSESS',
     definition: 'Make a judgement of value, quality, outcomes, results, or size.',
-    tip: 'Name your criteria upfront:\n"This will be assessed against..."\nWeigh strengths vs. weaknesses, then deliver a clear final verdict.',
+    tip: 'Name the criteria you are judging by, then weigh strengths against weaknesses.\nOpen with your criteria:\n"This will be assessed against ..."\nFinish with a clear judgement of how far, how well or how much.\nDon\'t describe both sides and stop: the judgement is what earns the top marks.',
     tier: 5,
     markRange: [6, 10],
     charRange: [1800, 3600],
@@ -576,7 +576,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'JUSTIFY',
     definition: 'Support an argument or conclusion with evidence, reasoning, and logic.',
-    tip: 'Defend your position like a lawyer.\nPile on evidence with "This is supported by..." and "Furthermore..."\nYour job is to be convincing, not balanced.',
+    tip: 'State your position, then support it with evidence and reasoning.\nTie each piece of evidence to the claim:\n"This is supported by ..."\nDon\'t give both sides equal weight: the task is to make the case for your position.',
     tier: 5,
     markRange: [6, 10],
     charRange: [1800, 3600],
@@ -596,7 +596,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'DEDUCE',
     definition: 'Draw conclusions from available evidence or reasoning.',
-    tip: 'Make the reasoning chain explicit and unbreakable:\n"Given A and B, it follows that C."\nShow every logical step — don\'t skip to the answer.',
+    tip: 'Start from the evidence and reason step by step to the conclusion.\nMake each step visible:\n"Given A and B, it follows that C."\nDon\'t jump to the answer: the reasoning is what earns the marks.',
     tier: 5,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -615,7 +615,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'RECOMMEND',
     definition: 'Provide reasons in favour of a chosen course of action or position.',
-    tip: "Compare alternatives briefly, then push your choice hard.\nEnd with a clear call to action: what should happen, when, and why it's best.",
+    tip: "Weigh the options briefly, then name the one you recommend.\nGive the reasons it is the best choice for this situation.\nDon't leave the choice open: end with a clear recommendation.",
     tier: 5,
     markRange: [5, 10],
     charRange: [1500, 3000],
@@ -634,7 +634,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'APPRECIATE',
     definition: 'Make a judgement about the value of.',
-    tip: "Don't just say it's good.\nSay who it helps, what makes it significant, and why it matters in the bigger picture.",
+    tip: "Say what makes it valuable or significant, and to whom.\nSupport the judgement with specific qualities or effects.\nDon't just praise it: explain why it matters.",
     tier: 5,
     markRange: [4, 8],
     charRange: [1000, 2200],
@@ -656,7 +656,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'EVALUATE',
     definition:
       'Make a judgement based on criteria; determine the value, quality, or significance of something.',
-    tip: "State your criteria upfront, test the evidence against each criterion, then deliver a clear verdict.\nDon't sit on the fence.",
+    tip: "State your criteria, test the evidence against each one, then give a clear verdict.\nSay how far the evidence supports the verdict.\nDon't sit on the fence: a judgement is what the question asks for.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2200, 4500],
@@ -677,7 +677,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'CRITICALLY ANALYSE',
     definition:
       'Use interpretation and reasoning to assess a range of evidence and make judgements based on detailed analysis.',
-    tip: "This is Band 6 territory — think about the thinking.\nSpot bias, question what's taken for granted, and acknowledge what the evidence doesn't show.",
+    tip: "Break the evidence into its parts and judge how strong each one is.\nQuestion assumptions, look for bias and say what the evidence leaves out.\nDon't accept a source at face value.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2800, 6000],
@@ -698,7 +698,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'CRITICALLY EVALUATE',
     definition:
       'Add a degree or level of accuracy, knowledge and understanding, logic, questioning, reflection and quality to evaluate.',
-    tip: 'Apply every criterion rigorously, then interrogate your own judgement.\nWhat are the limitations of your evaluation? Where might your criteria be biased?',
+    tip: "Test the evidence against each of your criteria, then reach a judgement.\nQuestion your own judgement: say where it is limited or open to challenge.\nDon't give a verdict before weighing its limits.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2800, 6000],
@@ -718,7 +718,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'SYNTHESISE',
     definition: 'Put together various elements to make a whole.',
-    tip: 'Don\'t just summarise each source — show how they combine into something bigger.\nUse "Together, these suggest..." to signal the new insight.',
+    tip: 'Bring the sources or ideas together, then state the new insight they produce.\nUse a linking structure:\n"Together, these suggest ..."\nDon\'t summarise each source in turn: show what they add up to.',
     tier: 6,
     markRange: [8, 15],
     charRange: [2200, 4500],
@@ -738,7 +738,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'PROPOSE',
     definition: 'Put forward an idea, plan, or suggestion for consideration or action.',
-    tip: 'Be bold but backed by evidence.\nCover what should happen, why, and the expected outcome.\nEnd with a clear call to action.',
+    tip: "Put forward one clear idea or plan and the evidence behind it.\nCover what should happen, why, and what outcome you expect.\nDon't leave it as a general aim: say what should be done.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2200, 4500],
@@ -758,7 +758,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'COMPOSE',
     definition:
       'Create an original piece of writing (imaginative, discursive or persuasive) for a given audience, purpose and form.',
-    tip: 'Plan the piece before you write it: one controlling idea, image or voice.\nEvery stylistic choice should serve that idea, and the ending should land it.',
+    tip: "Plan before you write: choose one controlling idea, image or voice.\nMake every stylistic choice serve that idea, and land it in the ending.\nDon't try to fit in every technique you know: a few, used with purpose, earn more.",
     tier: 6,
     markRange: [5, 20],
     charRange: [1000, 4200],
@@ -779,7 +779,7 @@ export const commandTermsList: CommandTermInfo[] = [
     term: 'INVESTIGATE',
     definition:
       'Plan, inquire into, and draw conclusions about a topic through systematic research.',
-    tip: 'Structure it like a mini-report:\nquestion, method, findings, analysis, conclusion.\nClear section headings help the marker follow your logic.',
+    tip: "Plan the inquiry, gather evidence, then draw conclusions from it.\nSet it out like a short report: question, method, findings, analysis and conclusion.\nDon't state conclusions the evidence does not support.",
     tier: 6,
     markRange: [8, 15],
     charRange: [2800, 6000],
@@ -800,7 +800,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'STATE',
     definition: 'Give the fact or answer plainly. No explanation needed.',
-    tip: 'Just name it and stop. "X is Y" is enough.\nExplanations waste time and earn zero extra marks.',
+    tip: "Give the fact or answer in one plain sentence.\nDon't explain or give examples: they earn no extra marks.",
     tier: 1,
     markRange: [1, 2],
     charRange: [100, 300],
@@ -816,7 +816,7 @@ export const commandTermsList: CommandTermInfo[] = [
   {
     term: 'DIFFERENTIATE',
     definition: 'Recognise or determine the differences between two or more things.',
-    tip: 'Use a point-by-point structure:\n"X is... whereas Y is..."\nMake each difference unmistakable and precise.',
+    tip: 'Take one feature at a time and state how the things differ on it.\nUse a point-by-point structure:\n"X is ... whereas Y is ..."\nDon\'t describe each thing in turn and leave the reader to find the difference.',
     tier: 4,
     markRange: [4, 8],
     charRange: [1000, 2000],
@@ -842,7 +842,7 @@ const fallbackTerm: CommandTermInfo = {
   term: 'EXPLAIN',
   definition:
     'Relate cause and effect; make the relationships between things evident; provide why and/or how.',
-  tip: "Chain every sentence with linking words:\nbecause, leads to, results in, therefore.\nFacts alone don't explain — connections do.",
+  tip: "Say what happens, then why or how it happens.\nLink each point to the next with cause-and-effect words:\nbecause, leads to, results in, therefore.\nDon't list facts on their own: the links between them are the explanation.",
   tier: 3,
   markRange: [1, 20] as [number, number],
   charRange: [600, 1400] as [number, number],

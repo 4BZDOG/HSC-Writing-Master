@@ -1,5 +1,40 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-10 (Writing side: How to answer, Draft check, Terms and structure, the prompt's footer)
+
+- **Changed (How to answer).**
+  - **Copy.** All 39 command-term tips are rewritten to one shape: the method as one plain instruction, an optional
+    second step, optional words to use or a sentence template, and exactly one "Don't …" line. The slang is gone
+    ("Brain dump", "Pile on evidence"), the two duplicate tips are told apart, and CALCULATE no longer says "No
+    working shown = no marks, even if the answer is right" (working earns marks even when the answer is wrong).
+  - **Card.** Two columns from `md` (Method and Words to use; Sentence shape and Watch for), so it is about half as
+    tall on a desktop and its right half is no longer empty. A single step is a sentence, not a list of one. A step
+    that introduces a word list or a template shows a full stop, not a dangling colon. The dark theme's near-white
+    card edge is the report cards' edge.
+- **Fixed (How to answer).**
+  - INVESTIGATE's report sections ("question, method, findings…") were parsed as "Words to use" chips that inserted
+    the word into the draft.
+  - The Method / Watch for split was a loose word match, so RECALL and CRITICALLY ANALYSE showed their method under
+    Watch for and CLASSIFY and APPRECIATE buried the caution in the steps. A caution is now a line that opens with
+    "Don't", "Do not", "Avoid" or "Never" (`isCaveatMove`), and `commandTermTips.test.ts` holds every verb to the shape.
+- **Changed (Draft check).** The header named a moving fraction ("0 of 2 checks clear", then "2 of 3" a paragraph
+  later, as checks switch on with length). It now names what is left: "To do: Length, Syllabus terms". The ring's
+  centre counts what is left, with a tick when nothing is. The light theme's tier-coloured disc behind the count
+  is gone, so the ring is a neutral track and a status arc in both themes.
+- **Changed (Terms and structure).**
+  - The "Target Standard … % Capacity" bar is removed. It was a third progress figure (words ÷ target) under a
+    header that already gives the words, beside a footer meter that gives readiness: the rule is one number.
+  - The disclosure keeps its name, "Terms and structure", open or shut (it read "Hide" when open), and its chevron
+    points down and turns up like its neighbours'.
+  - Section icons are neutral; the count reads "key · supporting", as the Syllabus terms panel does; "Avg Words" is
+    "Words per sentence"; helper lines are 12px; on a phone the count wraps under its heading.
+- **Changed (prompt footer).**
+  - "Read before you write" carries a book, not a chain.
+  - A two-outcome question's footer missed its one-row breakpoint by a few pixels at desktop widths, so its chips
+    took a second row and stretched the writing card's footer beside it. Between 25rem and 32rem the two chips
+    stay on the button's row without their icon.
+  - The flag tool's faint tier-tinted edge is a neutral 3:1 edge.
+
 ## [Unreleased] - 2026-11-10 (Post-marking windows: one colour grammar, You, Improved and Top)
 
 - **Changed.** The improve review and the marking feedback used three band colours with no stated meaning, and the

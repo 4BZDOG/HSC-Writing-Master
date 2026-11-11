@@ -29,7 +29,7 @@ const header = () => screen.getByRole('button', { name: /Draft check/i });
 
 describe('DraftCheck as a checklist', () => {
   describe('the ring', () => {
-    it('shows how many checks are clear, in the ring and in words', () => {
+    it('counts what is still to do, in the ring and in words', () => {
       render(
         <DraftCheck
           insights={TERMS_MISSING}
@@ -39,25 +39,39 @@ describe('DraftCheck as a checklist', () => {
         />
       );
 
-      // Length and sentences are clear; the terms check is not. The count in
-      // the ring is the same as the words beside it, so colour is not the only
-      // signal of progress.
-      expect(within(header()).getByText('2')).toBeTruthy();
-      expect(screen.getByText('2 of 3 checks clear')).toBeTruthy();
+      // Length and sentences are clear; the terms check is not. The ring counts
+      // the one thing left, and the header names it, so the number is never a
+      // fraction that moves as checks switch on.
+      expect(within(header()).getByText('1')).toBeTruthy();
+      expect(screen.getByText('To do: Syllabus terms')).toBeTruthy();
+      expect(screen.queryByText(/of \d+ checks clear/)).toBeNull();
     });
 
-    it('turns the ring emerald and says so once every check is clear', () => {
+    it('shows a tick, emerald ring and the complete line once every check is clear', () => {
       const { container } = render(
+        <DraftCheck
+          insights={[insight('length-good', 'A full-mark length.')]}
+          wordCount={200}
+          defaultCollapsed
+        />
+      );
+
+      expect(screen.getByText('All checks clear')).toBeTruthy();
+      expect(within(header()).queryByText('0')).toBeNull();
+      expect(header().querySelector('svg.lucide-check')).not.toBeNull();
+      const progress = container.querySelectorAll('svg circle')[1];
+      expect(progress.getAttribute('class')).toContain('stroke-emerald-600');
+    });
+
+    it('says so only as far as the draft has checks yet, and not complete', () => {
+      render(
         <DraftCheck
           insights={[insight('length-good', 'A full-mark length.')]}
           wordCount={60}
           defaultCollapsed
         />
       );
-
-      expect(screen.getByText('All checks clear')).toBeTruthy();
-      const progress = container.querySelectorAll('svg circle')[1];
-      expect(progress.getAttribute('class')).toContain('stroke-emerald-600');
+      expect(screen.getByText('All clear so far')).toBeTruthy();
     });
 
     it('keeps the ring amber while work remains', () => {
@@ -75,6 +89,53 @@ describe('DraftCheck as a checklist', () => {
       expect(container.querySelectorAll('svg circle')[1].getAttribute('class')).toContain(
         'stroke-slate-400'
       );
+    });
+
+    it('names a single outstanding check in the header', () => {
+      render(
+        <DraftCheck
+          insights={[insight('length-short', 'About 40 more words to reach Band 5 length.')]}
+          wordCount={60}
+          defaultCollapsed
+        />
+      );
+      expect(screen.getByText('To do: Length')).toBeTruthy();
+      expect(within(header()).getByText('1')).toBeTruthy();
+    });
+
+    it('names three outstanding checks in full', () => {
+      render(
+        <DraftCheck
+          insights={[
+            insight('length-short', 'About 40 more words to reach Band 5 length.'),
+            insight('keywords-missing', 'Weave in 2 more syllabus terms: osmosis, diffusion.'),
+            insight('run-on', 'Split the longest sentence.'),
+          ]}
+          wordCount={60}
+          missingTerms={MISSING_TERMS}
+          defaultCollapsed
+        />
+      );
+      expect(screen.getByText('To do: Length, Syllabus terms, Sentences')).toBeTruthy();
+      expect(within(header()).getByText('3')).toBeTruthy();
+    });
+
+    it('names two outstanding checks and counts the rest from four', () => {
+      render(
+        <DraftCheck
+          insights={[
+            insight('length-short', 'About 40 more words to reach Band 5 length.'),
+            insight('keywords-missing', 'Weave in 2 more syllabus terms: osmosis, diffusion.'),
+            insight('run-on', 'Split the longest sentence.'),
+            insight('paragraphs', 'Break this into paragraphs.'),
+          ]}
+          wordCount={200}
+          missingTerms={MISSING_TERMS}
+          defaultCollapsed
+        />
+      );
+      expect(screen.getByText('To do: Length, Syllabus terms and 2 more')).toBeTruthy();
+      expect(within(header()).getByText('4')).toBeTruthy();
     });
   });
 

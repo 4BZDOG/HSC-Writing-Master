@@ -32,21 +32,19 @@ describe('groupStrategyMoves', () => {
 });
 
 describe('isCaveatMove', () => {
-  it('reads a cost or a restriction as a caveat', () => {
-    expect(isCaveatMove(move('Explanations waste time and earn zero extra marks.'))).toBe(true);
-    expect(isCaveatMove(move("Facts alone don't explain — connections do."))).toBe(true);
-    expect(isCaveatMove(move('No working shown = no marks, even if the answer is right.'))).toBe(
-      true
-    );
-    expect(isCaveatMove(move('Your job is to be convincing, not balanced.'))).toBe(true);
+  it('reads a move that opens with a negative as a caveat', () => {
+    expect(isCaveatMove(move("Don't skip the working: it earns marks."))).toBe(true);
+    expect(isCaveatMove(move('Do not add new information.'))).toBe(true);
+    expect(isCaveatMove(move('Avoid examples unless the question asks for them.'))).toBe(true);
+    expect(isCaveatMove(move('Never guess.'))).toBe(true);
+    expect(isCaveatMove(move('don’t sit on the fence.'))).toBe(true);
   });
 
-  it('reads an instruction to take as a step', () => {
+  it('reads a step to take as a step, even when it mentions a cost', () => {
     expect(isCaveatMove(move('Make each difference unmistakable and precise.'))).toBe(false);
-    expect(isCaveatMove(move('End with a clear call to action.'))).toBe(false);
-    expect(isCaveatMove(move('Clear section headings help the marker follow your logic.'))).toBe(
-      false
-    );
+    expect(isCaveatMove(move('Explanations waste time and earn zero extra marks.'))).toBe(false);
+    expect(isCaveatMove(move('Say why it matters, not just that it is good.'))).toBe(false);
+    expect(isCaveatMove(move('Units are not optional in a calculation.'))).toBe(false);
   });
 });
 
@@ -61,7 +59,7 @@ describe('splitMethodMoves', () => {
     const moves = [
       move('Use a point-by-point structure:'),
       move('Make each difference unmistakable and precise.'),
-      move('Explanations waste time and earn zero extra marks.'),
+      move("Don't explain the reasons: they earn no extra marks."),
       move('End with a clear call to action.'),
     ];
     const { method, watch } = splitMethodMoves(moves);
@@ -71,7 +69,7 @@ describe('splitMethodMoves', () => {
       'End with a clear call to action.',
     ]);
     expect(watch.map((m) => m.text)).toEqual([
-      'Explanations waste time and earn zero extra marks.',
+      "Don't explain the reasons: they earn no extra marks.",
     ]);
   });
 

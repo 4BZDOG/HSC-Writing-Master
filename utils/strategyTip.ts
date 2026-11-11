@@ -102,24 +102,30 @@ export const groupStrategyMoves = (segments: TipSegment[]): TipMove[] => {
 };
 
 /**
- * Cues that a move names what to avoid or what it costs, not what to do. The
- * tips are written that way: a method line, then a line on what it costs
- * ("Explanations waste time…", "Facts alone don't explain…"). Matched on the
- * words themselves rather than per verb, so a new tip is classified by what it
- * says.
+ * A caveat opens with a negative: "Don't", "Do not", "Avoid" or "Never". The
+ * tips are written so that the last line of each one is that caveat, and the
+ * lead word is what marks it, so the split does not depend on what else the
+ * sentence happens to contain.
  */
-const CAVEAT_CUE =
-  /\b(alone|only|not|no|never|don['’]?t|doesn['’]?t|do not|avoid|waste[sd]?|zero|instead|rather than|without|save|more than|too|over-\w+)\b/i;
+const CAVEAT_LEAD = /^(?:don['’]t|do not|avoid|never)\b/i;
 
-/** Whether a move reads as a caveat or a cost rather than a step to take. */
-export const isCaveatMove = (move: TipMove): boolean => CAVEAT_CUE.test(move.text);
+/** Whether a move is a caveat, which opens with "Don't", "Do not", "Avoid" or "Never". */
+export const isCaveatMove = (move: TipMove): boolean => CAVEAT_LEAD.test(move.text.trim());
+
+/**
+ * How a step reads on screen. A step that introduces a word list or a template
+ * ends in a colon in the data, because the parser needs that to attach the
+ * detail; the card shows it as a full stop, since the detail sits in its own
+ * section beside it.
+ */
+export const displayStepText = (text: string): string => text.replace(/:\s*$/, '.');
 
 /**
  * The moves a student follows, and the ones they should watch for.
  *
  * `method[0]` is always the lead: the first move leads, whatever it says. The
- * rest split by what they say. A step to take is numbered after it, and a
- * caveat goes under "Watch for".
+ * rest split on the lead word (see `isCaveatMove`). A step to take is numbered
+ * after the lead, and a caveat goes under "Watch for".
  */
 export const splitMethodMoves = (moves: TipMove[]): { method: TipMove[]; watch: TipMove[] } => {
   const [lead, ...rest] = moves;

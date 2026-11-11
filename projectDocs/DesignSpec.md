@@ -265,6 +265,12 @@ wide at 1280.
   `FOOTER_CHIP` (36px, 44px below `sm`, `whitespace-nowrap`), so a code is whole or it
   moves to the next line. `workspace-chrome.spec.ts` checks every footer button is
   inside the card, uncut and unscrolled at 1600, 1440, 1280, 1024 and 390.
+  The chips' line is set by the footer's own width (`.outcome-footer`, a container
+  query), in three steps: below 25rem they take a row of their own under the button;
+  from 25rem they sit on the button's row, and a pair drops its decorative target
+  icon below 32rem so both fit beside "Read before you write"; from 32rem everything
+  is inline with its icons. The brief button is a book (it is read); the flag's rest
+  edge is neutral, and amber only while a flag is open.
 - **The reading size lives in the heading's corner.** `CARD_HEADER_CORNER` stacks it
   (`CARD_HEADER_ZOOM`, 28px) over the stat bar on the header's floor, so the bar is
   still level with the writing card's across the gap, and the header stays under the
@@ -504,6 +510,20 @@ frame) or from `getBandConfig` / `getBandRgb` / `getBandDeepInkRgb`; no literal.
 | Level key (both windows' headers)    | `LevelKey`: three chips, each filled with its own band at full strength (`BAND_GROUND`, the report's ink on a band) and ringed in white: YOU, IMPROVED (or NEXT) and TOP, with "Band N" beneath. Below `sm` it takes its own row under the title.                                                  | One statement of the three levels, in the same place in both windows.                                                                                            |
 | View tabs                            | The selected tab is a neutral raised segment (white in the light theme, `white/12` in the dark) with the **Improved** band as a 2px rule along its foot.                                                                                                                                           | The control's state is carried by the segment; the band is a small mark, and the mark is the forward action's colour.                                            |
 | Watch the marker's edits             | One 1px border, the same height as the tabs from `sm`, with the Play icon in the **Improved** band. While the replay runs its controls sit in the toolbar's tray. The replay's progress is a 4px rule along the header's foot, in the Improved band.                                               | The group's border was drawn round the button too, so the control showed a doubled outline. The progress is on the header's foot, not above its rounded corners. |
+
+### The panels beside the writing area
+
+- **A panel keeps its name.** The disclosure reads the same open or shut ("Draft check", "Terms and structure"),
+  in sentence case, with a chevron that points down and turns up. A label that changes to "Hide" loses the panel.
+- **A header names what is left.** Draft check says "To do: Length, Syllabus terms", not a fraction of a total that
+  moves as checks switch on. Its ring counts what is left, with a tick when nothing is.
+- **One number.** Progress is stated once per surface: the header's words and the footer's readiness meter. A panel
+  does not add a third figure worked out another way.
+- **Colour means status or level.** Emerald and amber mark a check clear or to do; a tier colour marks the tier.
+  Section icons and control edges that are neither are neutral.
+- **A verb's tip has one shape** (`data/commandTerms.ts`): the method as one instruction, an optional second step,
+  an optional lead-in ending in a colon with a word list or a quoted template, and one last line that opens with
+  "Don't". The card reads that shape (`utils/strategyTip.ts`), and `commandTermTips.test.ts` holds every verb to it.
 
 ### Levels in the post-marking windows
 
