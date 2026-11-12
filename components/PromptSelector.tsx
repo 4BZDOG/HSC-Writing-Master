@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
-import { Course, StatePath, UserRole } from '../types';
+import { Course, StatePath, SyllabusYear, UserRole } from '../types';
 import {
   canCreateCurriculum,
   canCurateContent,
@@ -130,7 +130,10 @@ interface PromptSelectorProps {
   onAddTopicFromSyllabus: () => void;
   onAddTopicWithContent: (
     topicName: string,
-    subTopics: { name: string; dotPoints: string[] }[]
+    subTopics: { name: string; dotPoints: string[] }[],
+    // Where the reader was when they asked. `select` is false when they have
+    // since moved on, so the new topic is created but the selection stays put.
+    placement: { courseId?: string; syllabusYear: SyllabusYear; select: boolean }
   ) => void;
   onGenerateDotPoints: () => void;
   onImportTopic: () => void;
@@ -1108,6 +1111,13 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     onPathChange({ selectedSubItems: updated.length > 0 ? updated : undefined });
   };
 
+  // The place the navigator is showing now. The parse below is awaited, and the
+  // reader may have moved on by the time it returns.
+  const placeRef = useRef({ courseId: statePath.courseId, syllabusYear });
+  useEffect(() => {
+    placeRef.current = { courseId: statePath.courseId, syllabusYear };
+  }, [statePath.courseId, syllabusYear]);
+
   const [inlineTopicOpen, setInlineTopicOpen] = useState(false);
   const [inlineTopicName, setInlineTopicName] = useState('');
   const [inlineSyllabusText, setInlineSyllabusText] = useState('');
@@ -1142,8 +1152,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     }
 
     const syllabusContent = inlineSyllabusText.trim();
+    const origin = { courseId: statePath.courseId, syllabusYear };
     if (!syllabusContent) {
-      onAddTopicWithContent(name, []);
+      onAddTopicWithContent(name, [], { ...origin, select: true });
       setInlineTopicOpen(false);
       return;
     }
@@ -1162,14 +1173,27 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     try {
       const nodes = await parseSyllabusStructure(`Topic Name: ${name}\n\n${syllabusContent}`);
       const subTopics = nodes.length > 0 ? nodes.flatMap((n) => n.subTopics) : [];
-      onAddTopicWithContent(name, subTopics);
+      // The topic always lands where the reader asked. Selecting it is only
+      // right if they are still there: otherwise the selection would be moved
+      // into a course they have left, and their own place would be cleared.
+      const here = placeRef.current;
+      const select = here.courseId === origin.courseId && here.syllabusYear === origin.syllabusYear;
+      onAddTopicWithContent(name, subTopics, { ...origin, select });
       setInlineTopicOpen(false);
     } catch {
       setInlineError('Failed to parse syllabus text. Try again or use the full import.');
     } finally {
       setInlineParsing(false);
     }
-  }, [inlineTopicName, inlineSyllabusText, onAddTopicWithContent, yearTopics, studioLocked]);
+  }, [
+    inlineTopicName,
+    inlineSyllabusText,
+    onAddTopicWithContent,
+    yearTopics,
+    studioLocked,
+    statePath.courseId,
+    syllabusYear,
+  ]);
 
   // --- Personal ordering -------------------------------------------------
   // The app has stored every marked attempt since persistResponse landed and
@@ -2290,6 +2314,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                 filter={activeQuestionFilter}
                 onChange={onQuestionFilterChange}
                 shown={matchingQuestionCount}
+                pastHscPinned={pastHscNavOn}
               />
             )}
             <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center">
@@ -2299,14 +2324,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   options={visiblePromptOptions}
                   optionNoun="questions"
                   value={statePath.promptId || ''}
-                  onChange={(id) => {
-                    const opt = promptOptions.find((o) => o.id === id);
-                    if (opt?.disabled) {
-                      requestUpgrade('advancedQuestions');
-                      return;
-                    }
-                    onPathChange({ promptId: id });
-                  }}
+                  onChange={(id) => onPathChange({ promptId: id })}
+                  onDisabledPick={() => requestUpgrade('advancedQuestions')}
                   placeholder="Select question…"
                   color="amber"
                   caption="Question"

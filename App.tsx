@@ -20,7 +20,7 @@ import ResetPasswordPage from './components/ResetPasswordPage';
 import UserAgreementModal from './components/UserAgreementModal';
 import { useNavigation } from './hooks/useNavigation';
 import { useNavigatorFocusHandoff } from './hooks/useNavigatorFocusHandoff';
-import { activeSyllabusYear, resolveSyllabusYear, yearShortLabel } from './utils/syllabusYear';
+import { resolveSyllabusYear, yearShortLabel } from './utils/syllabusYear';
 import { useSyllabusData } from './hooks/useSyllabusData';
 import { registerCalibrationLibrary } from './utils/pastPaperCalibration';
 import { useGemini } from './hooks/useGemini';
@@ -1034,23 +1034,22 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
                     canCurateContent(user.role) ? handleUpdateFocusAreas : undefined
                   }
                   onAddTopicFromSyllabus={() => openModal('topicSyllabusImport')}
-                  onAddTopicWithContent={(topicName, subTopics) => {
-                    if (!statePath.courseId) return;
+                  onAddTopicWithContent={(topicName, subTopics, placement) => {
+                    // Created where the reader was when they asked, not where they
+                    // are now: this closure can be a render behind an awaited parse,
+                    // so it reads the place from PromptSelector, not from statePath.
+                    // The year is resolved there the same way the navigator
+                    // resolves it, `allowEmpty` and all, so an empty Year 11 does not
+                    // turn into a Year 12 topic.
+                    if (!placement.courseId) return;
                     const newTopic = handleCreateTopicWithContent(
-                      statePath.courseId,
+                      placement.courseId,
                       topicName,
                       subTopics,
-                      // The year the navigator is showing — resolved the same way
-                      // IT resolves, `allowEmpty` and all. Without that, a topic
-                      // created while standing in an empty Year 11 resolved to
-                      // Year 12 and appeared in the HSC list instead.
-                      activeSyllabusYear(
-                        currentCourse,
-                        statePath.syllabusYear,
-                        canCurateContent(user.role)
-                      )
+                      placement.syllabusYear
                     );
                     setNewlyAddedIds((prev) => new Set(prev).add(newTopic.id));
+                    if (!placement.select) return;
                     handlePathChange({
                       topicId: newTopic.id,
                       subTopicId: undefined,

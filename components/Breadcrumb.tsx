@@ -23,6 +23,17 @@ interface BreadcrumbProps {
 /** One icon per level. The path is never deeper than these four. */
 const CRUMB_ICONS = [BookOpen, Layers, Folder, Hash];
 
+/** Names up to this long never truncate; see the dense size's `item`. */
+const SHORT_LABEL = 18;
+
+/**
+ * The least width a long label may shrink to, as a CSS length. Half an em per
+ * character under-estimates the rendered width, so the floor can never exceed
+ * the natural width and pad the label out.
+ */
+const crumbFloor = (label: string, isLast: boolean): string =>
+  `min(${Math.round(label.length * 5) / 10}em, ${isLast ? '12em' : '6em'})`;
+
 /**
  * What each level is called when the crumb offers to return to it. The tooltip
  * has to name the destination: "Change Nature and Practice of Business" read as
@@ -39,40 +50,49 @@ const SIZES = {
     crumb: 'gap-2 px-3 py-1.5 text-sm min-h-11 sm:min-h-0',
     icon: 'w-4 h-4',
     chevron: 'w-4 h-4 mx-2',
+    // Shrinks from `sm` up exactly as the dense size does (see there), so a
+    // long syllabus point fills the card instead of stopping at 250px.
     item: 'flex-shrink-0',
-    labelWidth: 'max-w-[150px] sm:max-w-[250px]',
+    longItem: 'text-sm flex-shrink-0 sm:flex-shrink sm:min-w-[calc(var(--crumb-floor)_+_6em)]',
+    labelWidth: 'max-w-[150px] sm:max-w-none sm:min-w-0',
   },
   dense: {
     // No surface of its own: the collapsed navigator bar is already a card, and
-    // a second bordered, blurred panel inside it reads as a nested box.
-    shell: 'overflow-hidden',
-    list: '',
+    // a second bordered, blurred panel inside it reads as a nested box. No
+    // overflow clip either: the list's focus ring sits in the 4px the list
+    // pads itself by, and the list is the scroll container.
+    shell: 'min-w-0',
+    // 4px of padding with a matching negative margin: room for the 2px focus
+    // outline (offset 2px) inside the list's own clip, and no shift in layout.
+    list: 'p-1 -m-1',
     // The same 44px floor on a phone as the default size. The crumb was 28px tall
     // there, and the path is the one thing in this bar that takes you back up it.
-    crumb: 'gap-1.5 px-2 py-1 text-[11px] min-h-11 sm:min-h-0',
-    icon: 'w-3 h-3',
-    chevron: 'w-3 h-3 mx-1',
-    // Crumbs SHRINK here rather than scroll. The bar is one row beside the
-    // verb, marks and Change button, and a scrolled path pinned to its end
-    // showed the course as "logy (Advanced)" — cut mid-word at the left edge
-    // with nothing saying more was there. Shrinking truncates every crumb a
-    // little, each with an ellipsis and its full name in the title, and the
-    // deepest crumb gives way last. Below the floor it still scrolls, and the
-    // edge fades say so.
+    // From `lg` the type steps up to 13px: the path is the thing to read here.
+    crumb: 'gap-1.5 px-2 py-1 text-[11px] lg:text-[13px] lg:px-2.5 lg:py-1.5 min-h-11 sm:min-h-0',
+    icon: 'w-3 h-3 lg:w-3.5 lg:h-3.5',
+    chevron: 'w-3 h-3 mx-1 lg:w-3.5 lg:h-3.5',
+    // From `sm` up, LONG crumbs shrink rather than scroll. The bar is one row
+    // beside the verb and the Change button, and a scrolled path showed the
+    // course cut mid-word at the left edge.
     //
-    // From `sm` up. On a phone the bar has about 150px for the path, and four
-    // crumbs shrunk to fit it read "H… › D… › C…", which says nothing, so there
-    // the crumbs keep their width, the list scrolls to the deepest one as it
-    // always did, and the fade at the start shows the rest is there.
+    // Only long ones. A short name ("Context", "Modern History") costs little
+    // and reads as nothing once it is "Cont…", so it keeps its full width and
+    // the long names beside it give way, each down to a floor on its label
+    // (`--crumb-floor`: 6em for an ancestor, up to 12em for the deepest, which
+    // is the one the student is looking for). A fixed min-width on the crumb
+    // did this job before and padded every short name out to it, leaving
+    // ragged gaps before the chevrons.
     //
-    // The ancestors get a floor of 8.5rem from `lg`. At 4.5rem they were squeezed
-    // to ~70px at 1440px, which left "Enterpris… › Data vi… › Using data…" and
-    // gave the dot point ~580px; at 8.5rem each one reads as a few words. The
-    // deepest crumb keeps its 4.5rem floor and takes whatever width is left,
-    // truncating with its full title. It also shrinks at full weight from `lg`:
-    // at 0.4 it would not give up the width the ancestors' floors need, and a
-    // 1024px bar overflowed and scrolled, cutting the course crumb's start.
-    item: 'flex-shrink-0 sm:flex-shrink sm:min-w-[4.5rem] sm:last:flex-shrink-[0.4] lg:min-w-[8.5rem] lg:last:min-w-[4.5rem] lg:last:flex-shrink',
+    // Below `sm` every crumb keeps its width and the list scrolls to the
+    // deepest, as it does when even the floors do not fit; the edge fades say
+    // there is more.
+    item: 'flex-shrink-0',
+    // The floor sits on the crumb, not the label, with 5em added for what
+    // surrounds the label (chevron, icon, padding): a flex item's own minimum
+    // is its whole unshrunk content, so the crumb needs an explicit one, and
+    // it carries the label's type size so the `em` means the same thing.
+    longItem:
+      'text-[11px] lg:text-[13px] flex-shrink-0 sm:flex-shrink sm:min-w-[calc(var(--crumb-floor)_+_5em)]',
     labelWidth: 'max-w-[150px] sm:max-w-none sm:min-w-0',
   },
 } as const;
@@ -100,10 +120,19 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
     const end = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
     setHidden((prev) => (prev.start === start && prev.end === end ? prev : { start, end }));
   }, []);
+  // The window resize covers the viewport; the observer covers the bar's own
+  // width, which changes when a panel opens or the right-hand cluster changes.
   useEffect(() => {
     measure();
     window.addEventListener('resize', measure);
-    return () => window.removeEventListener('resize', measure);
+    const el = scrollRef.current;
+    const observer =
+      el && typeof ResizeObserver !== 'undefined' ? new ResizeObserver(measure) : undefined;
+    if (el) observer?.observe(el);
+    return () => {
+      window.removeEventListener('resize', measure);
+      observer?.disconnect();
+    };
   }, [measure]);
   const fade =
     hidden.start || hidden.end
@@ -141,9 +170,18 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
           const level = Math.min(index, CRUMB_ICONS.length - 1);
           const Icon = CRUMB_ICONS[level];
           const canJump = !!item.onClick;
+          const isLong = item.label.length > SHORT_LABEL;
 
           return (
-            <li key={`breadcrumb-${index}`} className={`flex items-center ${scale.item}`}>
+            <li
+              key={`breadcrumb-${index}`}
+              className={`flex items-center ${isLong ? scale.longItem : scale.item}`}
+              style={
+                isLong
+                  ? ({ '--crumb-floor': crumbFloor(item.label, isLast) } as React.CSSProperties)
+                  : undefined
+              }
+            >
               {index > 0 && (
                 <ChevronRight
                   className={`${scale.chevron} text-[rgb(var(--color-text-muted))]/50 flex-shrink-0`}

@@ -50,6 +50,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
   const targetBand = getTargetBand(prompt.totalMarks, safeTier);
   // Tier-identity colour; the band number stays in the text badge.
   const band = getTierScaleConfig(safeTier);
+  const marksLabel = `${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}`;
 
   return (
     <div
@@ -82,13 +83,17 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
         </div>
 
         <div className="flex items-center gap-2.5 shrink-0">
+          {/* Below `xl` the marks and band are not shown here: the path needs the
+              width, and the Writing Prompt card directly beneath repeats both. The
+              chip's title keeps them one hover away, so nothing is lost. */}
           <span
             className={`t-label shrink-0 px-2 py-0.5 rounded-lg ${band.solidBg} ${band.solidText} shadow-sm`}
+            title={`${prompt.verb} · ${marksLabel} · Band ${targetBand}`}
           >
             {prompt.verb}
           </span>
-          <div className="t-label hidden md:flex items-center gap-2.5 text-[rgb(var(--color-text-muted))]">
-            <span className="band-chip rounded-lg px-2 py-0.5">{prompt.totalMarks} marks</span>
+          <div className="t-label hidden xl:flex items-center gap-2.5 text-[rgb(var(--color-text-muted))]">
+            <span className="band-chip rounded-lg px-2 py-0.5">{marksLabel}</span>
             <span className="w-px h-3.5 bg-[rgb(var(--color-border-secondary))]" />
             <span
               className={`band-chip flex items-center gap-1.5 rounded-lg px-2 py-0.5 ${band.text}`}

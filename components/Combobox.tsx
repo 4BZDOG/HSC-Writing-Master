@@ -19,13 +19,26 @@ import { Sparkles, ChevronDown, Search, X } from 'lucide-react';
  */
 export const SEARCH_THRESHOLD = 7;
 
-/** Case- and punctuation-insensitive substring match on every supplied term. */
+/**
+ * Folds text so a person's typing matches the data: case, accents ("cafe" finds
+ * "Café"), and typographic quotes and dashes (a straight apostrophe finds a
+ * curly one).
+ */
+const normalise = (text: string): string =>
+  text
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201c\u201d]/g, '"')
+    .replace(/[\u2013\u2014]/g, '-')
+    .toLowerCase();
+
+/** Case-, accent- and quote-insensitive substring match on every supplied term. */
 const matches = (option: { label: string; searchText?: string }, query: string): boolean => {
-  const haystack = `${option.label} ${option.searchText ?? ''}`.toLowerCase();
+  const haystack = normalise(`${option.label} ${option.searchText ?? ''}`);
   // Every whitespace-separated term must appear, so "2023 assess" finds a
   // question the way a person would type it rather than needing exact order.
-  return query
-    .toLowerCase()
+  return normalise(query)
     .split(/\s+/)
     .filter(Boolean)
     .every((term) => haystack.includes(term));
@@ -123,6 +136,13 @@ interface ComboboxProps {
    * which reads as "nothing chosen yet".
    */
   summary?: string;
+  /**
+   * Called with the id of a locked (`disabled`) option the person picks, in
+   * place of nothing. The list closes and focus returns to the trigger, as a
+   * commit does. Supplying it also lets the highlight land on locked rows, so
+   * the keyboard can reach the same place the mouse can.
+   */
+  onDisabledPick?: (id: string) => void;
 }
 
 const colorStyles: Record<
@@ -262,6 +282,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   caption,
   optionNoun = 'options',
   summary,
+  onDisabledPick,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -400,18 +421,30 @@ const Combobox: React.FC<ComboboxProps> = ({
     if (isOpen && isSearchable) searchRef.current?.focus();
   }, [isOpen, isSearchable]);
 
-  // Step the highlight, skipping disabled (locked) options so Enter always
-  // lands on something actionable.
+  // Locked options are skipped by the highlight, so Enter lands on something
+  // actionable — unless a locked pick has a handler, which is then the action.
+  const canLand = (option: ComboboxOption | undefined) =>
+    !!option && (!option.disabled || !!onDisabledPick);
+
+  // Step the highlight, skipping options that cannot be landed on.
   const stepHighlight = (direction: 1 | -1) => {
     if (visibleOptions.length === 0) return;
     setHighlightedIndex((prev) => {
       let next = prev;
       for (let i = 0; i < visibleOptions.length; i++) {
         next = (next + direction + visibleOptions.length) % visibleOptions.length;
-        if (!visibleOptions[next]?.disabled) return next;
+        if (canLand(visibleOptions[next])) return next;
       }
-      return prev; // every option disabled — stay put
+      return prev; // nothing landable — stay put
     });
+  };
+
+  const firstLandable = () => Math.max(0, visibleOptions.findIndex(canLand));
+
+  const lastLandable = () => {
+    let i = visibleOptions.length - 1;
+    while (i > 0 && !canLand(visibleOptions[i])) i--;
+    return Math.max(0, i);
   };
 
   /**
@@ -427,10 +460,22 @@ const Combobox: React.FC<ComboboxProps> = ({
     buttonRef.current?.focus();
   };
 
+  // A locked option is a pick too: with a handler it is the way to the upgrade,
+  // without one it does nothing, as before.
+  const pickDisabled = (id: string) => {
+    if (!onDisabledPick) return;
+    onDisabledPick(id);
+    setIsOpen(false);
+    buttonRef.current?.focus();
+  };
+
   // Keyboard navigation handler — shared by the trigger and the search box, so
   // arrows and Enter behave the same whichever has focus.
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (disabled) return;
+    // With a query typed, Home and End move the caret in the search text; they
+    // only steer the list when the box is empty or the focus is on the trigger.
+    const inSearchWithText = e.target === searchRef.current && !!query;
 
     switch (e.key) {
       case 'ArrowDown':
@@ -448,25 +493,41 @@ const Combobox: React.FC<ComboboxProps> = ({
         }
         break;
       case 'Home':
-        if (isOpen) {
+        if (isOpen && !inSearchWithText) {
           e.preventDefault();
-          setHighlightedIndex(0);
+          setHighlightedIndex(firstLandable());
         }
         break;
       case 'End':
-        if (isOpen) {
+        if (isOpen && !inSearchWithText) {
           e.preventDefault();
-          setHighlightedIndex(visibleOptions.length - 1);
+          setHighlightedIndex(lastLandable());
         }
         break;
-      case 'Enter':
+      case 'Tab':
+        // Closing the list must not leave Tab to run from inside the portal:
+        // from the search box it would wrap to the end of the document, so
+        // focus goes back to the trigger first.
+        if (isOpen) {
+          setIsOpen(false);
+          if (e.target === searchRef.current) {
+            e.preventDefault();
+            buttonRef.current?.focus();
+          }
+        }
+        break;
+      case 'Enter': {
         e.preventDefault();
-        if (isOpen && visibleOptions.length > 0 && !visibleOptions[highlightedIndex]?.disabled) {
-          commit(visibleOptions[highlightedIndex].id);
-        } else if (!isOpen) {
+        const highlighted = visibleOptions[highlightedIndex];
+        if (!isOpen) {
           setIsOpen(true);
+        } else if (highlighted?.disabled) {
+          pickDisabled(highlighted.id);
+        } else if (highlighted) {
+          commit(highlighted.id);
         }
         break;
+      }
       case 'Escape':
         e.preventDefault();
         // Escape clears a query first and closes only an unfiltered list, so a
@@ -481,18 +542,29 @@ const Combobox: React.FC<ComboboxProps> = ({
     }
   };
 
-  // Reset highlighted index when opening
+  // Reset highlighted index when opening. Keyed on open and value only: the
+  // options array can arrive with a new identity on every parent render, and
+  // that must not snap a highlight the person has just moved.
   useEffect(() => {
     if (isOpen) {
+      // Nothing is typed when it opens, so `options` is the list as shown.
       const currentIndex = options.findIndex((opt) => opt.id === value);
-      setHighlightedIndex(currentIndex >= 0 ? currentIndex : 0);
+      setHighlightedIndex(
+        currentIndex >= 0 && canLand(options[currentIndex]) ? currentIndex : firstLandable()
+      );
     }
-  }, [isOpen, value, options]);
+  }, [isOpen, value]);
+
+  // A new search lands on its first match, not on whatever row the highlight
+  // had reached in the longer list.
+  useEffect(() => {
+    if (deferredQuery.trim()) setHighlightedIndex(firstLandable());
+  }, [deferredQuery]);
 
   // Filtering shortens the list under the highlight; left alone it would point
-  // past the end and Enter would select nothing.
+  // past the end (or, after an empty result, at -1) and Enter would select nothing.
   useEffect(() => {
-    setHighlightedIndex((prev) => (prev < visibleOptions.length ? prev : 0));
+    setHighlightedIndex((prev) => (prev >= 0 && prev < visibleOptions.length ? prev : 0));
   }, [visibleOptions.length]);
 
   // Keep the keyboard highlight visible — long question lists scroll, and an
@@ -580,10 +652,23 @@ const Combobox: React.FC<ComboboxProps> = ({
         // option says `multiline`. `label` rather than `renderLabel` in the
         // title: the latter is a node, and this is the plain string it was built from.
         title={selectedOption ? selectedOption.label : (summary ?? placeholder)}
+        // With no visible label, the name is what the control holds plus what
+        // it is for ("Course: Software Engineering") — the value alone is not enough.
+        aria-label={
+          !label && caption
+            ? `${caption}: ${selectedOption ? selectedOption.label : (summary ?? placeholder)}`
+            : undefined
+        }
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls={isOpen ? listboxId : undefined}
-        aria-activedescendant={isOpen ? `${listboxId}-opt-${highlightedIndex}` : undefined}
+        // Only a trigger that keeps focus while the list is open points at a row;
+        // a searchable list keeps focus in its search box instead.
+        aria-activedescendant={
+          isOpen && !isSearchable && visibleOptions[highlightedIndex]
+            ? `${listboxId}-opt-${highlightedIndex}`
+            : undefined
+        }
       >
         <span
           className={`flex items-center w-full ${selectedOption?.multiline ? 'min-w-0' : 'truncate'} ${selectedOption || summary ? 'font-bold' : ''}`}
@@ -634,7 +719,11 @@ const Combobox: React.FC<ComboboxProps> = ({
                   role="combobox"
                   aria-expanded={isOpen}
                   aria-controls={listboxId}
-                  aria-activedescendant={`${listboxId}-opt-${highlightedIndex}`}
+                  aria-activedescendant={
+                    visibleOptions[highlightedIndex]
+                      ? `${listboxId}-opt-${highlightedIndex}`
+                      : undefined
+                  }
                   aria-label={`Search ${options.length} ${optionNoun}`}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
@@ -664,6 +753,7 @@ const Combobox: React.FC<ComboboxProps> = ({
               id={listboxId}
               role="listbox"
               aria-labelledby={label ? labelId : undefined}
+              aria-label={label ? undefined : caption}
               className="max-h-72 py-1 overflow-auto custom-scrollbar"
             >
               {optionRuns.length > 0 ? (
@@ -675,13 +765,16 @@ const Combobox: React.FC<ComboboxProps> = ({
                       index={index}
                       listboxId={listboxId}
                       isSelected={option.id === value}
-                      className={`${option.disabled ? 'cursor-not-allowed' : 'cursor-pointer'} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
+                      className={`${option.disabled && !onDisabledPick ? 'cursor-not-allowed' : 'cursor-pointer'} ${run.group ? 'scroll-mt-9' : ''} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
                         index === highlightedIndex
                           ? `${getListItemClasses(option, true)}`
                           : getListItemClasses(option, option.id === value)
                       }`}
                       onClick={() => {
-                        if (option.disabled) return;
+                        if (option.disabled) {
+                          pickDisabled(option.id);
+                          return;
+                        }
                         commit(option.id);
                       }}
                       onMouseEnter={() => setHighlightedIndex(index)}

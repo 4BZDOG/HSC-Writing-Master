@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Course, StatePath, Topic, SubTopic, DotPoint, Prompt } from '../types';
 import { resolveSyllabusYear, yearOfTopic } from '../utils/syllabusYear';
+import { getFocusAreas } from '../utils/dataManagerUtils';
 import { STORAGE_KEYS, safeGetItem, safeSetItem, validateStatePath } from '../utils/storageUtils';
 
 export const useNavigation = (courses: Course[], isDataReady: boolean = true) => {
@@ -57,6 +58,9 @@ export const useNavigation = (courses: Course[], isDataReady: boolean = true) =>
     setStatePath((currentPath) => {
       let newPath: StatePath = { ...currentPath };
       let pathChanged = false;
+      // The dot point the path still resolves to, if any: its focus areas are
+      // the only ones the selection may keep.
+      let focusOwner: DotPoint | undefined;
 
       const course = courses.find((c) => c.id === newPath.courseId);
       if (!course) {
@@ -88,6 +92,7 @@ export const useNavigation = (courses: Course[], isDataReady: boolean = true) =>
               newPath.promptId = undefined;
               pathChanged = true;
             } else if (dotPoint) {
+              focusOwner = dotPoint;
               const prompt = dotPoint.prompts.find((p) => p.id === newPath.promptId);
               if (newPath.promptId && !prompt) {
                 newPath.promptId = undefined;
@@ -96,6 +101,18 @@ export const useNavigation = (courses: Course[], isDataReady: boolean = true) =>
             }
           }
         }
+      }
+
+      // Focus areas are read from the current dot point's wording, which can
+      // change under the reader (new data, another device, a dot point gone).
+      // Keep only what that dot point still offers, so the count and the AI
+      // briefing never name a phrase the syllabus no longer has.
+      const selected = newPath.selectedSubItems ?? [];
+      const offered = getFocusAreas(focusOwner);
+      const kept = selected.filter((item) => offered.includes(item));
+      if (kept.length !== selected.length) {
+        newPath.selectedSubItems = kept.length ? kept : undefined;
+        pathChanged = true;
       }
 
       return pathChanged ? newPath : currentPath;
