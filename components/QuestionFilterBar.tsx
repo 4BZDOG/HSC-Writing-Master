@@ -16,6 +16,11 @@ interface QuestionFilterBarProps {
   onChange: (next: QuestionFilter) => void;
   /** How many questions currently pass the filter, for the honest count. */
   shown: number;
+  /**
+   * The Past HSC navigator is on, so `pastHscOnly` is its state rather than a
+   * choice made here. Clear leaves it on, and does not offer itself for it alone.
+   */
+  pastHscPinned?: boolean;
 }
 
 /** The tier's full name, for the difficulty slider's tooltip. */
@@ -41,10 +46,17 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
   filter,
   onChange,
   shown,
+  pastHscPinned = false,
 }) => {
   const [open, setOpen] = useState(false);
 
   const active = isFilterActive(filter, bounds);
+  // A pinned Past HSC switch narrows the list but is not something Clear undoes,
+  // so on its own it must not make Clear look live.
+  const clearable = isFilterActive(
+    pastHscPinned ? { ...filter, pastHscOnly: false } : filter,
+    bounds
+  );
   const summary = summariseFilter(filter, bounds);
   // An axis every question shares is not a choice — a slider over it would be a
   // control that cannot change the list.
@@ -52,7 +64,8 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
   const canFilterMarks = bounds.marks[1] > bounds.marks[0];
   if (!canFilterTier && !canFilterMarks && !bounds.hasPastHsc && !bounds.hasAttempts) return null;
 
-  const reset = () => onChange(widestFilter(bounds));
+  const reset = () =>
+    onChange({ ...widestFilter(bounds), pastHscOnly: pastHscPinned ? filter.pastHscOnly : false });
 
   return (
     <div className="mb-3 rounded-xl border border-white/10 light:border-slate-300 bg-[rgb(var(--color-bg-surface-inset))]/40 light:bg-slate-50 overflow-hidden transition-all">
@@ -88,7 +101,7 @@ const QuestionFilterBar: React.FC<QuestionFilterBarProps> = ({
             ? `${shown} of ${bounds.total} questions shown`
             : `All ${bounds.total} questions shown`}
         </span>
-        {active && (
+        {clearable && (
           <button
             type="button"
             onClick={reset}

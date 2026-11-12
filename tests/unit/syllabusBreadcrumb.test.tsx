@@ -153,4 +153,86 @@ describe('the syllabus breadcrumb', () => {
     expect(shape('dense').crumbs).toHaveLength(4);
     expect(shape('dense').label).toBe('Syllabus path');
   });
+
+  /**
+   * A long crumb's floor is a CSS custom property on its `<li>`, consumed by a
+   * `sm:` class. Read from the style attribute, which is what the DOM carries
+   * whatever jsdom's own CSS parser makes of a custom property.
+   */
+  const floorOf = (label: string) => {
+    const li = screen.getByText(label).closest('li')!;
+    const match = /--crumb-floor:\s*([^;]+)/.exec(li.getAttribute('style') ?? '');
+    return { li, floor: match ? match[1].replace(/\s/g, '') : null };
+  };
+
+  for (const size of ['dense', 'default'] as const) {
+    it(`${size}: a short crumb never shrinks, and a long one shrinks to a capped floor`, () => {
+      const long = 'The Paris Peace Conference and its consequences for Europe in the 1920s';
+      expect(long.length).toBe(71);
+      render(
+        <Breadcrumb
+          size={size}
+          items={[
+            { label: 'Context', onClick: vi.fn() },
+            { label: long, onClick: vi.fn() },
+            { label: long + '!', onClick: vi.fn() },
+          ]}
+        />
+      );
+
+      // "Cont…" says nothing and saves little: short names keep their width.
+      const short = floorOf('Context');
+      expect(short.floor).toBeNull();
+      expect(short.li.className.split(' ')).toContain('flex-shrink-0');
+      expect(short.li.className).not.toContain('sm:flex-shrink');
+
+      // Half an em a character, capped: an ancestor at 6em, the deepest at 12em.
+      const ancestor = floorOf(long);
+      expect(ancestor.floor).toBe('min(35.5em,6em)');
+      expect(ancestor.li.className).toContain('sm:flex-shrink');
+      expect(ancestor.li.className).toContain('sm:min-w-[calc(var(--crumb-floor)');
+      expect(floorOf(long + '!').floor).toBe('min(36em,12em)');
+
+      // Phones keep the natural width and scroll: nothing shrinks unprefixed.
+      expect(ancestor.li.className.split(' ')).toContain('flex-shrink-0');
+    });
+  }
+
+  it('keeps the full label first in the title of a crumb that can be jumped to', () => {
+    const long = 'Construct models of the processes of DNA replication.';
+    render(<Breadcrumb items={path([{ label: long }])} size="dense" />);
+
+    const title = crumbButtons()[0].getAttribute('title') ?? '';
+    expect(title.startsWith(long)).toBe(true);
+    expect(title).toContain('go back to choose a different course');
+  });
+
+  it('re-measures when the bar resizes on its own, and disconnects on unmount', () => {
+    const instances: FakeResizeObserver[] = [];
+    class FakeResizeObserver {
+      observed: Element[] = [];
+      disconnected = false;
+      constructor() {
+        instances.push(this);
+      }
+      observe(el: Element) {
+        this.observed.push(el);
+      }
+      unobserve() {}
+      disconnect() {
+        this.disconnected = true;
+      }
+    }
+    vi.stubGlobal('ResizeObserver', FakeResizeObserver);
+    try {
+      const { container, unmount } = render(<Breadcrumb items={path()} size="dense" />);
+      expect(instances).toHaveLength(1);
+      expect(instances[0].observed).toEqual([container.querySelector('ol')]);
+
+      unmount();
+      expect(instances[0].disconnected).toBe(true);
+    } finally {
+      vi.unstubAllGlobals();
+    }
+  });
 });
