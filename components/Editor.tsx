@@ -917,7 +917,11 @@ const Editor = forwardRef<
                           className={`t-label px-2.5 h-6 sm:h-8 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white hover:bg-white/10'}`}
                         >
                           <Compass className="w-3.5 h-3.5" />
-                          <span className="hidden xl:inline">Coach</span>
+                          {/* From `2xl`, as the Exam label is. The tray has ~20px to
+                              spare beside the title up to there: at 1280 and again
+                              at 1400 the word pushed it onto a second line, which
+                              grew both cards' headers. */}
+                          <span className="hidden 2xl:inline">Coach</span>
                         </button>
                         <button
                           type="button"

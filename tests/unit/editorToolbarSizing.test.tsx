@@ -68,12 +68,13 @@ describe('the header tools', () => {
 });
 
 describe('the mode switch label', () => {
-  it('shows "Coach" beside the compass from xl, and only from xl', () => {
+  it('shows "Coach" beside the compass from 2xl, where the tray has room', () => {
     renderCoach();
 
     const coach = screen.getByRole('button', { name: 'Coach mode' });
     const label = Array.from(coach.querySelectorAll('span')).find((s) => s.textContent === 'Coach');
-    expect(label?.className).toContain('hidden xl:inline');
+    // Not below `2xl`: at 1280 and 1400 the word wrapped the tray and grew the header.
+    expect(label?.className).toContain('hidden 2xl:inline');
   });
 
   it('keeps the Exam label at 2xl, so the header holds its height at 1280px', () => {

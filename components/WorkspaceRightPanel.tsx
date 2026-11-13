@@ -389,7 +389,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // the note in FreeEvalCounter. Renders nothing for anyone who isn't metered.
   // `order-1`: the footer places the chip after the meter from `lg`, and first on
   // the phone's status row (see the footer in Editor).
-  const footerCounter = <FreeEvalCounter className="order-1" />;
+  // `max-lg:ml-auto`: on the wrapped layout it sits at the right of its row, above
+  // Evaluate, rather than trailing the status text.
+  const footerCounter = <FreeEvalCounter className="order-1 max-lg:ml-auto" />;
 
   // The draft-readiness meter, which the button's accent is read against. Hidden
   // in Exam Mode exactly as Live Insights is, so nothing hints at scoring there.
