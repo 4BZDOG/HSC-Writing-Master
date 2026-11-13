@@ -310,6 +310,83 @@ describe('the draft saves itself', () => {
     // p2 must never receive it.
     expect(writes.filter((w) => w.promptId === 'p2')).toHaveLength(0);
   });
+
+  /**
+   * Blur is the other route onto the same write. The autosave checks which question
+   * the words belong to; the blur save did not, so a blur in the render gap after a
+   * question switch filed the previous question's answer under the new question.
+   */
+  it('never writes one question’s answer onto another on blur', () => {
+    const writes: { promptId: string; draft: string }[] = [];
+    const updateCourses = vi.fn((recipe: (draft: unknown) => void) => {
+      const tree = [
+        {
+          id: 'c1',
+          topics: [
+            {
+              id: 't1',
+              subTopics: [
+                {
+                  id: 's1',
+                  dotPoints: [{ id: 'd1', prompts: [prompt({ id: 'p1' }), prompt({ id: 'p2' })] }],
+                },
+              ],
+            },
+          ],
+        },
+      ] as unknown as Course[];
+      recipe(tree);
+      for (const p of (tree as never as typeof tree)[0].topics[0].subTopics[0].dotPoints[0]
+        .prompts as unknown as Prompt[]) {
+        if (p.userDraft) writes.push({ promptId: p.id, draft: p.userDraft });
+      }
+    });
+
+    const render1 = (promptId: string, answer: string) => (
+      <Workspace
+        courses={[]}
+        statePath={{ ...statePath, promptId } as StatePath}
+        currentSelection={{ currentPrompt: prompt({ id: promptId }) }}
+        userAnswer={answer}
+        debouncedUserAnswer={answer}
+        setUserAnswer={vi.fn()}
+        evaluationResult={null}
+        isEvaluating={false}
+        evaluationError={null}
+        isEnriching={false}
+        enrichError={null}
+        isImproving={false}
+        improveAnswerError={null}
+        evaluatedAnswer=""
+        handleEvaluate={vi.fn()}
+        geminiHandlers={{} as never}
+        modalHandlers={{} as never}
+        syllabusHandlers={{ updateCourses } as never}
+        userRole="user"
+        isFocusMode={false}
+        onToggleFocusMode={vi.fn()}
+        writingMode="coach"
+        onWritingModeChange={vi.fn()}
+        showBreadcrumb={false}
+        crumbs={crumbs}
+      />
+    );
+
+    // Load p1, type into it, then switch to p2 without the answer catching up.
+    const view = render(render1('p1', ''));
+    view.rerender(render1('p1', 'An answer about DNA'));
+    view.rerender(render1('p2', 'An answer about DNA'));
+
+    // The student leaves the writing surface now, after the switch.
+    act(() => {
+      document
+        .querySelector('textarea')
+        ?.dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    });
+    view.unmount();
+
+    expect(writes.filter((w) => w.promptId === 'p2')).toHaveLength(0);
+  });
 });
 
 /**

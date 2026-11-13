@@ -230,6 +230,54 @@ describe('outcome chips in the prompt footer', () => {
     expect(parseFloat(preview.style.left)).toBeLessThanOrEqual(window.innerWidth - 144);
   });
 
+  it('opens the preview under a chip that sits near the top of the viewport, not off the top', () => {
+    render(<PromptDisplay {...props} />);
+    const chip = chipFor('SE-12-03');
+    // A chip 40px from the top of the window: a panel above it would be cut off.
+    vi.spyOn(chip, 'getBoundingClientRect').mockReturnValue({
+      left: 500,
+      top: 40,
+      width: 80,
+      height: 24,
+      right: 580,
+      bottom: 64,
+      x: 500,
+      y: 40,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    fireEvent.mouseEnter(chip);
+
+    const preview = screen.getByRole('tooltip') as HTMLElement;
+    // Under the chip's bottom edge, drawn downwards from there, with no lift.
+    expect(preview.style.top).toBe('76px');
+    expect(preview.className).not.toContain('-translate-y-full');
+    // The horizontal clamp still applies.
+    expect(parseFloat(preview.style.left)).toBeGreaterThanOrEqual(144 + 12);
+  });
+
+  it('keeps the preview above a chip that has room over it', () => {
+    render(<PromptDisplay {...props} />);
+    const chip = chipFor('SE-12-03');
+    vi.spyOn(chip, 'getBoundingClientRect').mockReturnValue({
+      left: 500,
+      top: 600,
+      width: 80,
+      height: 24,
+      right: 580,
+      bottom: 624,
+      x: 500,
+      y: 600,
+      toJSON: () => ({}),
+    } as DOMRect);
+
+    fireEvent.mouseEnter(chip);
+
+    const preview = screen.getByRole('tooltip') as HTMLElement;
+    expect(preview.style.top).toBe('588px');
+    expect(preview.className).toContain('-translate-y-full');
+  });
+
   it('leaves the preview shut on a touch device, where a tap opens the full brief', () => {
     vi.stubGlobal(
       'matchMedia',

@@ -1182,6 +1182,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             showBreadcrumb={!isNavCollapsed}
             crumbs={syllabusCrumbs}
             showToast={showToast}
+            draftSaveFailed={storageStatus === 'Error'}
           />
         ) : (
           <div className="min-h-[50vh] flex flex-col items-center justify-center animate-fade-in">

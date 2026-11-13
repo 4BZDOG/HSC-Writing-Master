@@ -1,4 +1,4 @@
-import React, { useId } from 'react';
+import React from 'react';
 import { ReadinessResult, getReadinessChroma } from '../utils/draftReadiness';
 
 interface ReadinessMeterProps {
@@ -7,10 +7,8 @@ interface ReadinessMeterProps {
   compact?: boolean;
   className?: string;
   /** Replaces the track's width classes, so the footer can let the bar take the
-   *  row on a phone and return to a fixed length from `lg`. */
+   *  spare width of its group. */
   barClassName?: string;
-  /** Hides or shows the word label at a width the footer chooses. */
-  labelClassName?: string;
 }
 
 /**
@@ -31,28 +29,24 @@ interface ReadinessMeterProps {
  * so body-text contrast is never affected.
  */
 const ReadinessMeter: React.FC<ReadinessMeterProps> = React.memo(
-  ({ readiness, compact = false, className = '', barClassName, labelClassName = '' }) => {
+  ({ readiness, compact = false, className = '', barClassName }) => {
     // One number: the % (bar, figure and ARIA value) is `percent`, the calibrated
     // readiness. The word comes from `label`, the hue from `chromaLevel` (capped
     // at the question's target band). All three are derived from the same level.
     const { percent, label, chromaLevel } = readiness;
     const chroma = getReadinessChroma(chromaLevel);
-    const barId = useId();
 
     return (
       <div
-        className={`flex items-center gap-2.5 print:hidden ${className}`}
+        className={`flex items-center gap-3 print:hidden ${className}`}
         // print:hidden — a live pre-submission signal has no place on paper.
       >
         {!compact && (
-          <span
-            className={`t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 whitespace-nowrap ${labelClassName}`}
-          >
+          <span className="t-label text-[rgb(var(--color-text-muted))] light:text-slate-600 sm:whitespace-nowrap">
             {label}
           </span>
         )}
         <div
-          id={barId}
           role="progressbar"
           aria-valuenow={percent}
           aria-valuemin={0}

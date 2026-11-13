@@ -56,7 +56,8 @@ const FreeEvalCounter: React.FC<{ className?: string }> = ({ className = '' }) =
     remaining === 0
       ? `You have used all ${limit} free markings for today. Your next one is at ${dailyResetPhrase()}.`
       : `Free plan: ${remaining} of ${limit} daily markings left. Resets at ${dailyResetPhrase()}.`;
-  const classes = `t-label inline-flex items-center gap-1 px-2 py-1 rounded-lg border flex-shrink-0 tabular-nums ${tone} ${className}`;
+  // The footer's chips are 36px, and 44px on a phone (DesignSpec: touch floors).
+  const classes = `t-label inline-flex items-center gap-1 px-2 py-1 h-9 max-sm:h-11 rounded-lg border flex-shrink-0 tabular-nums ${tone} ${className}`;
 
   if (remaining === 0) {
     // At zero the counter is the one place the limit is stated, so it is also
@@ -76,9 +77,23 @@ const FreeEvalCounter: React.FC<{ className?: string }> = ({ className = '' }) =
     );
   }
 
+  // The full sentence from `sm` up, so the chip says what is left and not just a
+  // fraction. Below `sm` the short form fits beside the words and Saved. The
+  // aria-label carries the whole sentence, reset time included, at every width.
   return (
-    <span data-testid="free-eval-counter" title={title} className={classes}>
-      {remaining}/{limit} left
+    <span
+      data-testid="free-eval-counter"
+      role="note"
+      title={title}
+      aria-label={`${remaining} of ${limit} markings left. Resets at ${dailyResetPhrase()}.`}
+      className={classes}
+    >
+      <span className="hidden sm:inline">
+        {remaining} of {limit} markings left
+      </span>
+      <span className="sm:hidden">
+        {remaining}/{limit} left
+      </span>
     </span>
   );
 };

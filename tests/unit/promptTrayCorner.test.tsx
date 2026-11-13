@@ -3,6 +3,7 @@ import React from 'react';
 import { render, screen, cleanup, fireEvent, within } from '@testing-library/react';
 import { CourseOutcome, Prompt, PromptVerb } from '../../types';
 import { getCommandTermInfo, getRecommendedTime } from '../../data/commandTerms';
+import { CARD_HEADER_ZOOM_BUTTON } from '../../utils/cardChrome';
 
 /**
  * The question card's reading size lives in the heading's top-right corner, not in
@@ -96,6 +97,13 @@ describe('the reading size in the question card header', () => {
     ).toBe(true);
   });
 
+  it('gives each button a tooltip that is its accessible name', () => {
+    render(<PromptDisplay {...baseProps()} />);
+    for (const name of ['Decrease reading size', 'Increase reading size']) {
+      expect(screen.getByRole('button', { name }).getAttribute('title')).toBe(name);
+    }
+  });
+
   it('keeps both buttons 44px on a phone', () => {
     render(<PromptDisplay {...baseProps()} />);
     for (const name of ['Decrease reading size', 'Increase reading size']) {
@@ -110,11 +118,71 @@ describe('the reading size in the question card header', () => {
     expect(zoomGroup()).toBeTruthy();
     unmount();
 
-    // Focus Mode with no outcomes draws no footer at all; the control used to go
-    // with it.
+    // Focus Mode with no outcomes draws no footer at all, so the flag moved up
+    // beside the reading size (see the flag tests below).
     render(<PromptDisplay {...baseProps()} condensed prompt={{ ...prompt, linkedOutcomes: [] }} />);
-    expect(screen.queryByRole('button', { name: /flag this question/i })).toBeNull();
+    expect(screen.getByRole('button', { name: /flag this question/i })).toBeTruthy();
     expect(zoomGroup()).toBeTruthy();
+  });
+});
+
+describe('the flag in Focus Mode with nothing linked', () => {
+  const unlinked = { ...prompt, linkedOutcomes: [] } as Prompt;
+  const headerOf = () =>
+    screen.getByText('Writing Prompt').closest('[class*="rounded-t-"]') as HTMLElement;
+  const footerOf = () =>
+    screen
+      .getByRole('button', { name: /flag this question/i })
+      .closest('[class*="rounded-b-"]') as HTMLElement;
+  const flags = () => screen.getAllByRole('button', { name: /flag this question/i });
+
+  it('is drawn once, in the header corner, beside the reading size', () => {
+    render(<PromptDisplay {...baseProps()} condensed prompt={unlinked} />);
+
+    expect(flags()).toHaveLength(1);
+    const flag = within(headerOf()).getByRole('button', { name: 'Flag this question for review' });
+    // The same pill as the reading size, at the same button size.
+    expect(flag.className).toContain(CARD_HEADER_ZOOM_BUTTON);
+    expect(flag.parentElement!.parentElement).toBe(zoomGroup().parentElement);
+  });
+
+  it('opens the flag dialog from the header', () => {
+    render(<PromptDisplay {...baseProps()} condensed prompt={unlinked} />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Flag this question for review' }));
+
+    expect(screen.getByRole('dialog', { name: 'Flag this question' })).toBeTruthy();
+  });
+
+  it('has the same name and tooltip as the footer flag', () => {
+    const footer = render(<PromptDisplay {...baseProps()} />);
+    const footerFlag = screen.getByRole('button', { name: 'Flag this question for review' });
+    const expected = {
+      label: footerFlag.getAttribute('aria-label'),
+      title: footerFlag.getAttribute('title'),
+    };
+    footer.unmount();
+
+    render(<PromptDisplay {...baseProps()} condensed prompt={unlinked} />);
+    const headerFlag = screen.getByRole('button', { name: 'Flag this question for review' });
+    expect(headerFlag.getAttribute('aria-label')).toBe(expected.label);
+    expect(headerFlag.getAttribute('title')).toBe(expected.title);
+  });
+
+  it('is not duplicated in the header when outcomes are linked: the footer holds it', () => {
+    render(<PromptDisplay {...baseProps()} condensed />);
+
+    expect(flags()).toHaveLength(1);
+    expect(footerOf().contains(flags()[0])).toBe(true);
+    expect(within(headerOf()).queryByRole('button', { name: /flag this question/i })).toBeNull();
+  });
+
+  it('is in the footer, and not the header, outside Focus Mode', () => {
+    render(<PromptDisplay {...baseProps()} prompt={unlinked} />);
+
+    expect(flags()).toHaveLength(1);
+    expect(footerOf().contains(flags()[0])).toBe(true);
+    expect(within(headerOf()).queryByRole('button', { name: /flag this question/i })).toBeNull();
   });
 });
 

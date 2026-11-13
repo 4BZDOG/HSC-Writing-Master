@@ -233,7 +233,9 @@ describe('the two headers are built from one vocabulary', () => {
     expect(zoom?.querySelector('button[aria-label="Decrease reading size"]')).toBeTruthy();
     expect(zoom?.querySelector('button[aria-label="Increase reading size"]')).toBeTruthy();
     // Above the bar, not beside the title, and no longer in the footer.
-    expect(corner.firstElementChild).toBe(zoom);
+    // The first row of the corner: the group, now inside a wrapper that also holds
+    // the Focus Mode flag beside it.
+    expect(corner.firstElementChild?.contains(zoom!)).toBe(true);
     expect(heading.parentElement?.querySelector('[aria-label="Reading size"]')).toBeNull();
   });
 
@@ -242,8 +244,10 @@ describe('the two headers are built from one vocabulary', () => {
     const tray = header.querySelector('div[class*="self-stretch"]');
 
     // The reading-size controls are in the tray, not beside the title.
-    expect(tray?.querySelector('button[aria-label="Smaller text"]')).toBeTruthy();
-    expect(heading.parentElement?.querySelector('button[aria-label="Smaller text"]')).toBeNull();
+    expect(tray?.querySelector('button[aria-label="Decrease writing size"]')).toBeTruthy();
+    expect(
+      heading.parentElement?.querySelector('button[aria-label="Decrease writing size"]')
+    ).toBeNull();
   });
 });
 

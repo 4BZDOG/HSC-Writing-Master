@@ -18,7 +18,7 @@ import { getBandInkRgb } from './renderUtils';
 
 /**
  * The strip along the foot of each card: the word count and Evaluate on the
- * writing card, the outcome chips and zoom controls on the prompt. Both take
+ * writing card, the outcome chips and the flag on the prompt. Both take
  * this one ground and rule, so the pair closes the way it opens.
  *
  * The ground is the writing well's own token, not a translucent inset laid over

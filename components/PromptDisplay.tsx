@@ -43,7 +43,7 @@ import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTer
 import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
 import ScenarioCarousel from './ScenarioCarousel';
-import { getCommandTermInfo, getTargetBand, getPromptTermInfo } from '../data/commandTerms';
+import { getTargetBand, getPromptTermInfo } from '../data/commandTerms';
 import { cappedCardHeight, naturalCardHeight } from '../utils/layoutConstants';
 import { useChromeHeightReporter } from '../hooks/useChromeHeightReporter';
 import {
@@ -169,14 +169,20 @@ const FOOTER_TOOL =
 /**
  * The marks and the band as chips on the header's meta line, on a phone only. The
  * verb chip's ground, edge and type, without its underline: these are facts, and
- * only the verb opens its guide by looking like it does. From `sm` they are the
- * corner bar's pills.
+ * only the verb opens its guide by looking like it does. From `sm` the marks and
+ * band move to the corner bar, and the pastHsc chip beside the verb is 28px to
+ * match it, so the row lines up.
  */
 const PHONE_STAT_CHIP =
-  't-label leading-none whitespace-nowrap inline-flex items-center gap-1 bg-black/20 px-2 max-sm:px-1.5 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm';
+  't-label leading-none whitespace-nowrap inline-flex items-center gap-1 bg-black/20 px-2 max-sm:px-1.5 py-1 sm:min-h-7 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm';
 
 /** Half the preview panel's width (w-72), used to keep it on screen. */
 const OUTCOME_PREVIEW_HALF_WIDTH = 144;
+
+/** Room a preview needs above its chip: the tallest a normal outcome's preview runs
+ *  to (a long description, its label and footer). A chip nearer the top of the
+ *  viewport than this opens its preview underneath. An estimate, not a measurement. */
+const OUTCOME_PREVIEW_ROOM = 200;
 
 /**
  * One outcome chip plus its hover preview.
@@ -194,7 +200,7 @@ const OutcomeChip: React.FC<{
   onOpen: () => void;
 }> = ({ outcome, bandConfig, onOpen }) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [anchor, setAnchor] = useState<{ left: number; top: number } | null>(null);
+  const [anchor, setAnchor] = useState<{ left: number; top: number; below: boolean } | null>(null);
   // The preview is the chip's description. It is named by id only while it is
   // showing: a reference to a node that is not in the page is a dangling one.
   const tipId = useId();
@@ -206,12 +212,16 @@ const OutcomeChip: React.FC<{
     const rect = buttonRef.current?.getBoundingClientRect();
     if (!rect) return;
     const centre = rect.left + rect.width / 2;
+    // Near the top of the viewport the panel would be drawn off the top of the
+    // screen, so it opens under the chip instead.
+    const below = rect.top - 12 < OUTCOME_PREVIEW_ROOM;
     setAnchor({
       left: Math.min(
         Math.max(centre, OUTCOME_PREVIEW_HALF_WIDTH + 12),
         window.innerWidth - OUTCOME_PREVIEW_HALF_WIDTH - 12
       ),
-      top: rect.top,
+      top: below ? rect.bottom : rect.top,
+      below,
     });
   }, []);
 
@@ -256,8 +266,8 @@ const OutcomeChip: React.FC<{
           <div
             role="tooltip"
             id={tipId}
-            className="fixed z-tooltip w-72 -translate-x-1/2 -translate-y-full p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-lg pointer-events-none backdrop-blur-xl animate-fade-in"
-            style={{ left: anchor.left, top: anchor.top - 12 }}
+            className={`fixed z-tooltip w-72 -translate-x-1/2 ${anchor.below ? '' : '-translate-y-full'} p-4 text-xs text-left font-medium leading-relaxed text-white light:text-slate-800 bg-[rgb(var(--color-bg-surface-elevated))]/95 light:bg-white border border-[rgb(var(--color-border-secondary))] light:border-slate-200 rounded-2xl shadow-lg pointer-events-none backdrop-blur-xl animate-fade-in`}
+            style={{ left: anchor.left, top: anchor.below ? anchor.top + 12 : anchor.top - 12 }}
           >
             <div className={`flex items-center gap-2 mb-2 ${bandConfig.text}`}>
               <Award className="w-3.5 h-3.5" />
@@ -535,6 +545,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     () => Math.max(1, Math.round(getQuestionSeconds(prompt, verbInfo) / 60)),
     [prompt, verbInfo]
   );
+  // "1 mark", "3 marks": lower case, as on every other line that states marks.
+  const marksWord = prompt.totalMarks === 1 ? 'mark' : 'marks';
   // The band a full-mark response reaches — used in COPY only ("Band 2").
   const targetBand = useMemo(
     () => getTargetBand(prompt.totalMarks, verbInfo.tier),
@@ -555,6 +567,17 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     );
   }, [courseOutcomes, prompt.linkedOutcomes, examMode]);
 
+  // Focus Mode with nothing linked draws no footer, so its flag moves to the
+  // header's corner beside the reading size. Only one of the two is ever drawn.
+  const flagInHeader = condensed && linkedOutcomes.length === 0;
+  // One name and tooltip for the flag, wherever it is drawn.
+  const flagLabel = hasOpenFlag
+    ? 'View the flag on this question'
+    : 'Flag this question for review';
+  const flagTitle = hasOpenFlag
+    ? 'This question is flagged for review — click to view'
+    : 'Something off about this question? Flag it for review';
+
   useEffect(() => {
     setEditQuestionText(prompt.question);
   }, [prompt.question]);
@@ -562,6 +585,24 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   useEffect(() => {
     setEditScenarioText(prompt.scenario || '');
   }, [prompt.scenario]);
+
+  // The card is not remounted when the curator moves to another question, so
+  // open editors and their text carried over: a scenario started on Q1 showed Q1's
+  // text on Q2, and "Save Scenario" wrote it there. Keyed on the id, not the text,
+  // so an update to the same question (a save, an enrichment) does not close an
+  // editor the curator is in. The student's Focus Mode scenario choice is not
+  // reset: it is a preference, remembered per browser.
+  useEffect(() => {
+    setIsEditingQuestion(false);
+    setEditQuestionText(prompt.question);
+    setIsEditingScenario(false);
+    setEditScenarioText(prompt.scenario || '');
+    setIsUploadingImage(false);
+    setIsEditingProvenance(false);
+    setSelectedOutcome(null);
+    setIsFlagModalOpen(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- keyed on the question's identity only
+  }, [prompt.id]);
 
   // Header and footer height observation — see useChromeHeightReporter for why
   // the natural height is reported rather than the rendered box.
@@ -631,8 +672,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   }, [examMode, prompt.question, prompt.scenario, fontSize, scenarioCollapsed]);
 
   const handleSaveQuestion = () => {
-    if (editQuestionText.trim() !== prompt.question) {
-      onUpdatePrompt({ question: editQuestionText.trim() });
+    const next = editQuestionText.trim();
+    // A question with no text is not a question. The button is disabled too; this
+    // stops an empty save from reaching the prompt by any other route.
+    if (!next) return;
+    if (next !== prompt.question) {
+      onUpdatePrompt({ question: next });
     }
     setIsEditingQuestion(false);
   };
@@ -750,7 +795,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     // one visual language means "this opens the verb guide" —
                     // and so this chip stops reading as another fact chip like
                     // the "4 Marks" and "Band 2" pills it sits beside.
-                    className={`t-label leading-none whitespace-nowrap bg-black/20 px-2.5 max-sm:px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all ${
+                    // 28px from `sm`, to match the pastHsc chip beside it. On a phone the
+                    // chip stays 26px so the header keeps its height; its tap area is
+                    // stretched to 44px by the pseudo-element instead.
+                    className={`t-label relative sm:min-h-7 leading-none whitespace-nowrap bg-black/20 px-2.5 max-sm:px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all max-sm:before:absolute max-sm:before:inset-x-0 max-sm:before:-inset-y-[9px] max-sm:before:content-[''] ${
                       examMode
                         ? 'cursor-default'
                         : 'underline decoration-dotted decoration-white/50 underline-offset-[3px] hover:bg-black/30 hover:decoration-solid hover:decoration-white active:scale-[0.98]'
@@ -821,7 +869,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   )}
                   {/* No award icon: its 16px is what keeps the four chips on one line
                       at 390px when the question is a past paper. */}
-                  <span className={`${PHONE_STAT_CHIP} sm:hidden`}>{prompt.totalMarks} Marks</span>
+                  <span className={`${PHONE_STAT_CHIP} sm:hidden`}>
+                    {prompt.totalMarks} {marksWord}
+                  </span>
                   {examMode ? (
                     <span
                       className={`${PHONE_STAT_CHIP} font-bold sm:hidden`}
@@ -859,36 +909,58 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               beside the outcome chips, which is the row that ran out of width
               in two columns, and it vanished with that row in Focus Mode. */}
             <div className={CARD_HEADER_CORNER}>
-              <div role="group" aria-label="Reading size" className={CARD_HEADER_ZOOM}>
-                <button
-                  type="button"
-                  onClick={() => onFontSizeChange(stepReadingSize(fontSize, -1))}
-                  disabled={!canStepReadingSize(fontSize, -1)}
-                  // Icon-only, so it needs a name of its own: `title` is a
-                  // tooltip, and not every screen reader treats one as the
-                  // accessible name.
-                  aria-label="Decrease reading size"
-                  className={CARD_HEADER_ZOOM_BUTTON}
-                  title="Decrease font size"
-                >
-                  <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
-                </button>
-                <span
-                  className="t-label font-mono tabular-nums text-white min-w-[2.25ch] text-center select-none max-sm:sr-only"
-                  aria-live="polite"
-                >
-                  {fontSize}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => onFontSizeChange(stepReadingSize(fontSize, 1))}
-                  disabled={!canStepReadingSize(fontSize, 1)}
-                  aria-label="Increase reading size"
-                  className={CARD_HEADER_ZOOM_BUTTON}
-                  title="Increase font size"
-                >
-                  <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
-                </button>
+              {/* The reading size, and in Focus Mode with nothing linked the flag beside
+                  it: the footer that holds the flag is not drawn then, so this is the
+                  one place the card can be flagged. The wrapper takes the grid place the
+                  zoom group had on a phone. */}
+              <div className="flex items-center gap-1.5 max-sm:col-start-3 max-sm:row-start-1 max-sm:self-center">
+                <div role="group" aria-label="Reading size" className={CARD_HEADER_ZOOM}>
+                  <button
+                    type="button"
+                    onClick={() => onFontSizeChange(stepReadingSize(fontSize, -1))}
+                    disabled={!canStepReadingSize(fontSize, -1)}
+                    // Icon-only, so it needs a name of its own: `title` is a
+                    // tooltip, and not every screen reader treats one as the
+                    // accessible name. The tooltip says the same thing.
+                    aria-label="Decrease reading size"
+                    className={CARD_HEADER_ZOOM_BUTTON}
+                    title="Decrease reading size"
+                  >
+                    <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
+                  </button>
+                  <span
+                    className="t-label font-mono tabular-nums text-white min-w-[2.25ch] text-center select-none max-sm:sr-only"
+                    aria-live="polite"
+                  >
+                    {fontSize}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => onFontSizeChange(stepReadingSize(fontSize, 1))}
+                    disabled={!canStepReadingSize(fontSize, 1)}
+                    aria-label="Increase reading size"
+                    className={CARD_HEADER_ZOOM_BUTTON}
+                    title="Increase reading size"
+                  >
+                    <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
+                  </button>
+                </div>
+                {flagInHeader && (
+                  <div className={CARD_HEADER_ZOOM}>
+                    <button
+                      type="button"
+                      onClick={() => setIsFlagModalOpen(true)}
+                      aria-label={flagLabel}
+                      title={flagTitle}
+                      className={CARD_HEADER_ZOOM_BUTTON}
+                    >
+                      <Flag
+                        className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`}
+                        aria-hidden="true"
+                      />
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div
@@ -910,7 +982,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                 </span>
                 <span className="hidden 2xl:block w-px h-2.5 bg-white/20"></span>
                 <span className="flex items-center gap-1 opacity-90">
-                  <Award className="w-3 h-3 text-white/70" /> {prompt.totalMarks} Marks
+                  <Award className="w-3 h-3 text-white/70" /> {prompt.totalMarks} {marksWord}
                 </span>
                 <span className="w-px h-2.5 bg-white/20"></span>
                 {examMode ? (
@@ -989,6 +1061,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   </div>
                   <textarea
                     ref={questionTextareaRef}
+                    aria-label="Question text"
                     value={editQuestionText}
                     onChange={(e) => setEditQuestionText(e.target.value)}
                     className="w-full bg-transparent border-none p-4 font-serif font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder-slate-500 min-h-[120px]"
@@ -997,14 +1070,20 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                   />
                   <div className="flex justify-end gap-2 px-4 pb-2">
                     <button
-                      onClick={() => setIsEditingQuestion(false)}
+                      onClick={() => {
+                        // Discard the text too, as the scenario's Cancel does, or the
+                        // next Edit shows it and Save can write it.
+                        setEditQuestionText(prompt.question);
+                        setIsEditingQuestion(false);
+                      }}
                       className="px-4 py-2 rounded-xl text-xs font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-white/5 transition-colors"
                     >
                       Cancel
                     </button>
                     <button
                       onClick={handleSaveQuestion}
-                      className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-[0.98]"
+                      disabled={!editQuestionText.trim()}
+                      className="px-4 py-2 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-500 shadow-lg flex items-center gap-2 transition-all hover:scale-105 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
                     >
                       <Save className="w-3.5 h-3.5" /> Save Changes
                     </button>
@@ -1039,7 +1118,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     phones (no hover) they sit in flow under the question
                     instead of absolutely positioned into the header. */}
                   {canCurate && (
-                    <div className="flex gap-2 justify-end mt-3 sm:mt-0 sm:absolute sm:-right-4 sm:-top-10 sm:opacity-0 sm:group-hover/question:opacity-100 transition-opacity">
+                    <div className="flex gap-2 justify-end mt-3 sm:mt-0 sm:absolute sm:-right-4 sm:-top-10 sm:opacity-0 sm:group-hover/question:opacity-100 sm:focus-within:opacity-100 transition-opacity">
                       {canGenerate && (
                         <button
                           onClick={studioAction(() =>
@@ -1049,6 +1128,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                             studioChrome ||
                             'bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-500 text-emerald-400 hover:text-emerald-300'
                           }`}
+                          aria-label={studioTitle('Run Quality Check')}
                           title={studioTitle('Run Quality Check')}
                         >
                           <ShieldCheck className="w-4 h-4" />
@@ -1057,6 +1137,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <button
                         onClick={() => setIsEditingQuestion(true)}
                         className="p-2.5 max-sm:size-11 max-sm:flex max-sm:items-center max-sm:justify-center rounded-xl bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white border border-white/10 light:border-slate-500 text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 shadow-lg hover:scale-110 transition-all"
+                        aria-label="Edit Question"
                         title="Edit Question"
                       >
                         <Edit3 className="w-4 h-4" />
@@ -1100,7 +1181,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         writeFocusScenarioOpen(next);
                       }}
                       aria-expanded={!scenarioCollapsed}
-                      aria-controls={scenarioRegionId}
+                      // Named only while the region is in the DOM (see below), so the
+                      // folded state does not point at a node that is not there.
+                      aria-controls={scenarioCollapsed ? undefined : scenarioRegionId}
                       aria-label={`${scenarioCollapsed ? 'Show' : 'Hide'} context scenario`}
                       className="ml-auto shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold text-[rgb(var(--color-text-secondary))] border border-[rgb(var(--color-border-secondary))]/50 light:border-slate-500 hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
                     >
@@ -1113,7 +1196,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     </button>
                   )}
                   {canCurate && !isEditingScenario && !scenarioCollapsed && (
-                    <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 transition-opacity">
+                    <div className="flex gap-2 opacity-100 sm:opacity-0 sm:group-hover/prompt:opacity-100 sm:focus-within:opacity-100 transition-opacity">
                       {canGenerate && (
                         <button
                           onClick={studioAction(onGenerateScenario)}
@@ -1134,6 +1217,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       <button
                         onClick={() => setIsEditingScenario(true)}
                         className="max-sm:size-11 p-1.5 rounded-lg text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100 transition-colors"
+                        aria-label="Edit Scenario"
                         title="Edit Scenario"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
@@ -1146,6 +1230,9 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                             ? 'text-[rgb(var(--color-accent))] bg-[rgb(var(--color-accent))]/10'
                             : 'text-slate-400 light:text-slate-500 hover:text-white light:hover:text-indigo-600 hover:bg-white/10 light:hover:bg-slate-100'
                         }`}
+                        aria-label={
+                          prompt.scenarioImage ? 'Manage Scenario Image' : 'Add Scenario Image'
+                        }
                         title={
                           prompt.scenarioImage ? 'Manage Scenario Image' : 'Add Scenario Image'
                         }
@@ -1180,6 +1267,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                         </div>
                         <textarea
                           ref={scenarioTextareaRef}
+                          aria-label="Scenario text"
                           value={editScenarioText}
                           onChange={(e) => setEditScenarioText(e.target.value)}
                           className="w-full bg-transparent border-none p-4 font-medium outline-none text-[rgb(var(--color-text-primary))] light:text-slate-900 resize-none font-serif leading-relaxed"
@@ -1403,7 +1491,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           drop to a line of their own beneath,
           so the button keeps its label: `.outcome-footer` in index.css, a container
           query on the footer's own width. */}
-        {!(condensed && linkedOutcomes.length === 0) && (
+        {!flagInHeader && (
           <div
             ref={footerRef}
             style={
@@ -1495,19 +1583,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <button
                 type="button"
                 onClick={() => setIsFlagModalOpen(true)}
-                aria-label={
-                  hasOpenFlag ? 'View the flag on this question' : 'Flag this question for review'
-                }
+                aria-label={flagLabel}
                 className={`${FOOTER_TOOL} ${
                   hasOpenFlag
                     ? 'bg-amber-500/15 border-amber-500/50 text-amber-600 dark:text-amber-400 hover:bg-amber-500/25'
                     : 'bg-[rgb(var(--color-bg-surface-light))] border-slate-500 dark:border-white/40 text-[rgb(var(--color-text-secondary))] hover:text-amber-600 hover:border-amber-500/60'
                 }`}
-                title={
-                  hasOpenFlag
-                    ? 'This question is flagged for review — click to view'
-                    : 'Something off about this question? Flag it for review'
-                }
+                title={flagTitle}
               >
                 <Flag
                   className={`w-3.5 h-3.5 ${hasOpenFlag ? 'fill-current' : ''}`}

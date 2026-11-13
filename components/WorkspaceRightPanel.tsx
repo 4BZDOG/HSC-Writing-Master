@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useSyncExternalStore } from 'react';
+import React, { useRef, useMemo, useState, useId, useSyncExternalStore } from 'react';
 import { Prompt, EvaluationResult, HierarchyContext, WritingMode, StatePath } from '../types';
 import Editor from './Editor';
 import DraftCheck from './DraftCheck';
@@ -50,7 +50,6 @@ interface WorkspaceRightPanelProps {
   focusMinHeight?: string;
   /** The column's root, so the workspace can bring the writing card into view. */
   columnRef?: React.Ref<HTMLDivElement>;
-  editorHeight?: string; // Kept for interface compatibility but ignored
   userAnswer: string;
   setUserAnswer: (val: string) => void;
   debouncedUserAnswer: string;
@@ -87,6 +86,8 @@ interface WorkspaceRightPanelProps {
   blockPaste?: boolean;
   /** Whether everything typed has reached storage. */
   draftSaved?: boolean;
+  /** The storage layer has failed; the footer must not say "Saved". */
+  draftSaveFailed?: boolean;
   /** Time already spent on this question's draft, and where to report it. */
   draftElapsedSeconds?: number;
   onElapsedChange?: (seconds: number) => void;
@@ -128,6 +129,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   referenceSlot,
   blockPaste,
   draftSaved,
+  draftSaveFailed,
   draftElapsedSeconds,
   onElapsedChange,
   showToast,
@@ -158,8 +160,26 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   // single provisional completeness signal (see utils/draftReadiness.ts) — it
   // feeds both the editor's progress meter and the Evaluate button's accent, so
   // the two can never tell a student two different stories about the same draft.
+  // `debouncedUserAnswer` settles a second after typing stops, so for that second
+  // after a question switch it still holds the previous question's words, and the
+  // meter and the Evaluate accent would describe the wrong draft. Until the
+  // debounced text has caught up with the answer on screen, for THIS question,
+  // read the live answer. `settled` is the question the debounced text last caught
+  // up on; it moves only once the two agree, so a stale value never claims a question.
+  const [settled, setSettled] = useState({
+    promptId: currentPrompt.id,
+    text: debouncedUserAnswer,
+  });
+  if (
+    debouncedUserAnswer === userAnswer &&
+    (settled.promptId !== currentPrompt.id || settled.text !== debouncedUserAnswer)
+  ) {
+    setSettled({ promptId: currentPrompt.id, text: debouncedUserAnswer });
+  }
+  const readinessText = settled.promptId === currentPrompt.id ? debouncedUserAnswer : userAnswer;
+
   const { insights, readiness, wordCount, keywordStats } = useWritingMetrics(
-    debouncedUserAnswer,
+    readinessText,
     currentPrompt,
     syllabus
   );
@@ -367,7 +387,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   //
   // The free tier's remaining markings, VISIBLE rather than in a tooltip — see
   // the note in FreeEvalCounter. Renders nothing for anyone who isn't metered.
-  const footerCounter = <FreeEvalCounter />;
+  // `order-1`: the footer places the chip after the meter from `lg`, and first on
+  // the phone's status row (see the footer in Editor).
+  const footerCounter = <FreeEvalCounter className="order-1" />;
 
   // The draft-readiness meter, which the button's accent is read against. Hidden
   // in Exam Mode exactly as Live Insights is, so nothing hints at scoring there.
@@ -384,40 +406,58 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   const footerProgress = isExamMode ? undefined : (
     <ReadinessMeter
       readiness={readiness}
-      className="flex-1 min-w-0 lg:flex-none lg:mr-auto"
-      barClassName="flex-1 min-w-[2rem] lg:flex-none lg:w-20"
-      labelClassName="hidden min-[375px]:inline xl:hidden 2xl:inline"
+      className="flex-1 min-w-0"
+      barClassName="flex-1 min-w-[2rem] max-w-xs"
     />
   );
 
+  // An empty draft is `aria-disabled`, not `disabled`. A disabled button takes no
+  // focus and no hover, so the reason in its title was out of reach of a keyboard,
+  // a screen reader and a touch screen alike. Now it stays focusable and the reason
+  // is read with it. The click handler does nothing for an empty draft, which is
+  // the same guard `handleEvaluate` in App applies to Ctrl + Enter.
+  const draftEmpty = !userAnswer.trim();
+  const emptyHintId = useId();
+
   const evaluateButton = (
-    <button
-      onClick={onEvaluate}
-      disabled={isEvaluating || !userAnswer.trim()}
-      // The accent hue is honest only when the readiness label + percentage
-      // ride with it. When the button is coloured (substance to mark, coach
-      // mode), the accessible name speaks that same readiness; otherwise it
-      // falls back to the visible "Evaluate"/"Evaluating" text.
-      aria-label={
-        !isEvaluating && userAnswer.trim() && !readiness.isNeutral && !isExamMode
-          ? `Evaluate — draft readiness: ${readiness.label}, ${readiness.percent}%`
-          : undefined
-      }
-      title={
-        isEvaluating
-          ? 'Evaluating your response…'
-          : !userAnswer.trim()
-            ? 'Write a response first, then evaluate'
-            : `Evaluate your response (${shortcutName})${evalCounterTitle}`
-      }
-      // 44px tall on a phone, the touch target a thumb needs; the footer it sits
-      // in is the height of this button, so it grows with it and no further.
-      style={
-        buttonConfig.bandRgb
-          ? ({ '--band-rgb': buttonConfig.bandRgb } as React.CSSProperties)
-          : undefined
-      }
-      className={`
+    <>
+      {!isEvaluating && draftEmpty && (
+        <span id={emptyHintId} className="sr-only">
+          Write a response first, then evaluate
+        </span>
+      )}
+      <button
+        onClick={() => {
+          if (draftEmpty) return;
+          onEvaluate();
+        }}
+        disabled={isEvaluating}
+        aria-disabled={!isEvaluating && draftEmpty ? true : undefined}
+        aria-describedby={!isEvaluating && draftEmpty ? emptyHintId : undefined}
+        // The accent hue is honest only when the readiness label + percentage
+        // ride with it. When the button is coloured (substance to mark, coach
+        // mode), the accessible name speaks that same readiness; otherwise it
+        // falls back to the visible "Evaluate"/"Evaluating" text.
+        aria-label={
+          !isEvaluating && userAnswer.trim() && !readiness.isNeutral && !isExamMode
+            ? `Evaluate — draft readiness: ${readiness.label}, ${readiness.percent}%`
+            : undefined
+        }
+        title={
+          isEvaluating
+            ? 'Evaluating your response…'
+            : !userAnswer.trim()
+              ? 'Write a response first, then evaluate'
+              : `Evaluate your response (${shortcutName})${evalCounterTitle}`
+        }
+        // 44px tall on a phone, the touch target a thumb needs; the footer it sits
+        // in is the height of this button, so it grows with it and no further.
+        style={
+          buttonConfig.bandRgb
+            ? ({ '--band-rgb': buttonConfig.bandRgb } as React.CSSProperties)
+            : undefined
+        }
+        className={`
           group px-4 py-2 sm:px-5 sm:py-2.5 min-h-11 sm:min-h-0 rounded-xl font-black text-xs sm:text-sm tracking-tight
           max-lg:ml-auto max-lg:min-w-[7.5rem] max-lg:justify-center
           transition-all duration-300 flex items-center gap-2 flex-shrink-0 border
@@ -431,42 +471,43 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
                 : `${buttonConfig.surface} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
           }
         `}
-    >
-      {isEvaluating ? (
-        <>
-          <Loader2 className="w-4 h-4 animate-spin text-white/60" aria-hidden="true" />
-          <span className="text-slate-400">Evaluating</span>
-        </>
-      ) : (
-        <>
-          <Sparkles
-            className={`w-4 h-4 transition-transform duration-300 ${
-              userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
-            }`}
-          />
-          {/* The label's colour is the fill's own: white on the indigo default,
+      >
+        {isEvaluating ? (
+          <>
+            <Loader2 className="w-4 h-4 animate-spin text-white/60" aria-hidden="true" />
+            <span className="text-slate-400">Evaluating</span>
+          </>
+        ) : (
+          <>
+            <Sparkles
+              className={`w-4 h-4 transition-transform duration-300 ${
+                userAnswer.trim() ? 'group-hover:rotate-12 group-hover:scale-110' : 'opacity-40'
+              }`}
+            />
+            {/* The label's colour is the fill's own: white on the indigo default,
               and the band's ink on the band fill (`band-solid`), so it is unset
               there. Applied unconditionally, the white painted the DISABLED label
               too — legible against the dark footer, invisible against the light
               theme's pale grey one. Unset, the label inherits the button's colour. */}
-          <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
-          {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
+            <span className={userAnswer.trim() ? buttonConfig.text : undefined}>Evaluate</span>
+            {/* The platform's own key. It always read ⌘↵ — a Mac key, on the
                 Windows and ChromeOS machines most NSW schools issue, where
                 the shortcut is Ctrl + Enter — and at 9px the glyph blurred
                 into a smudge. Full strength on an enabled button: dimmed to
                 60%, the band ink fell to 3.3:1 on the red fill. */}
-          <kbd
-            className={`hidden md:inline text-[10px] font-bold border rounded-lg px-1.5 py-0.5 tracking-normal whitespace-nowrap transition-opacity ${
-              userAnswer.trim()
-                ? 'bg-white/15 border-white/10'
-                : 'bg-black/5 border-current/20 opacity-50'
-            }`}
-          >
-            {SUBMIT_SHORTCUT}
-          </kbd>
-        </>
-      )}
-    </button>
+            <kbd
+              className={`hidden md:inline text-[10px] font-bold border rounded-lg px-1.5 py-0.5 tracking-normal whitespace-nowrap transition-opacity ${
+                userAnswer.trim()
+                  ? 'bg-white/15 border-white/10'
+                  : 'bg-black/5 border-current/20 opacity-50'
+              }`}
+            >
+              {SUBMIT_SHORTCUT}
+            </kbd>
+          </>
+        )}
+      </button>
+    </>
   );
 
   return (
@@ -529,6 +570,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             }
             blockPaste={blockPaste}
             draftSaved={draftSaved}
+            draftSaveFailed={draftSaveFailed}
           />
         </div>
       </div>
