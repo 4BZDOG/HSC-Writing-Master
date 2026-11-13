@@ -18,32 +18,35 @@ import { openWorkspace, openVerbRibbon } from './support/workspace';
  * beside it.
  */
 
-/** Every tier-card header, with its name's real and visible line counts. */
+/**
+ * Every tier-card header, with its name's real and visible line counts.
+ *
+ * Read from LAYOUT (`offsetTop`, `offsetHeight`), not from the screen. Each card is scaled by
+ * its position in the strip (`.ribbon-tier-slot`), so the centred card and its neighbours
+ * have different boxes on screen. The scale moves a card's box and not its layout, and the
+ * question here is layout: whether the names, chips and subtitles sit on one line.
+ */
 const tierHeaders = (page: import('@playwright/test').Page) =>
   page.evaluate(() =>
     Array.from(document.querySelectorAll('button[aria-pressed]'))
       .filter((b) => /Band \d/.test(b.textContent || ''))
       .map((b) => {
+        const button = b as HTMLElement;
         const name = b.querySelector('h4') as HTMLElement;
+        const chip = b.querySelector('[class*="rounded-full"]') as HTMLElement | null;
+        const subtitle = b.closest('.ribbon-tier-card')?.querySelector('p') as HTMLElement | null;
         const lineHeight = parseFloat(getComputedStyle(name).lineHeight);
         return {
           text: (name.textContent || '').trim(),
           needs: Math.round(name.scrollHeight / lineHeight),
           shows: Math.round(name.clientHeight / lineHeight),
           clippedSideways: name.scrollWidth > name.clientWidth + 1,
-          headerHeight: Math.round(b.getBoundingClientRect().height),
-          // The name's first line, the ceiling chip and the subtitle under the header.
-          nameTop: Math.round(name.getBoundingClientRect().top),
-          chipTop: Math.round(
-            (
-              b.querySelector('[class*="rounded-full"]') as HTMLElement | null
-            )?.getBoundingClientRect().top ?? -1
-          ),
-          subtitleTop: Math.round(
-            (
-              b.closest('.ribbon-tier-card')?.querySelector('p') as HTMLElement | null
-            )?.getBoundingClientRect().top ?? -1
-          ),
+          headerHeight: button.offsetHeight,
+          // Each offset is measured from its own containing box: the name and the chip from the
+          // header, the subtitle from the card. Those are the rows the cards hang off.
+          nameTop: name.offsetTop,
+          chipTop: chip?.offsetTop ?? -1,
+          subtitleTop: subtitle?.offsetTop ?? -1,
         };
       })
   );
@@ -53,9 +56,10 @@ test.describe('the verb ribbon’s tier cards', () => {
   test.skip(({ isMobile }) => !!isMobile, 'the strip is measured once, at desk width');
 
   test('name every tier in full, and stand the six headers on one line', async ({ page }) => {
-    // Wide enough that the strip is not the constraint — each card is a fixed
-    // 260px, so the failure this guards against is about the CARD, not the
-    // viewport, and a wide window proves that.
+    // Wide enough that the strip is not the constraint. The failure this guards
+    // against is about the CARD, not the viewport: a name that does not fit its own
+    // header. The cards are a carousel, so most sit off screen at this width, and
+    // they are measured all the same.
     await page.setViewportSize({ width: 1920, height: 1150 });
     await openWorkspace(page);
     await openVerbRibbon(page);

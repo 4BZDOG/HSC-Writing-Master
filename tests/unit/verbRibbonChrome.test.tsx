@@ -1520,21 +1520,107 @@ describe('the tier strip says what it is and where it ends', () => {
   });
 });
 
-describe('the six tiers at laptop width', () => {
-  // The strip scrolled at every width, so on a 1280px laptop the top of the
-  // ladder — Evaluate — was off-screen and Discuss was cut in half.
-  it('lays the six tiers side by side from xl, with no fade over edges that do not scroll', () => {
-    expect(RIBBON_STRIP).toContain('xl:grid');
-    expect(RIBBON_STRIP).toContain('xl:grid-cols-6');
-    expect(RIBBON_STRIP).toContain('xl:overflow-visible');
+/** The body of the CSS block that opens at `index`: the text between its braces, matched. */
+const blockAt = (css: string, index: number): string => {
+  const open = css.indexOf('{', index);
+  let depth = 0;
+  for (let k = open; k < css.length; k += 1) {
+    if (css[k] === '{') depth += 1;
+    if (css[k] === '}') {
+      depth -= 1;
+      if (depth === 0) return css.slice(open + 1, k);
+    }
+  }
+  throw new Error(`no closing brace after ${index}`);
+};
 
-    // The fades are switched off at the same width the grid takes over. Tailwind's
-    // `xl` is 1280px and this config does not override the screens.
-    expect((tailwindConfig.theme as { screens?: unknown }).screens).toBeUndefined();
+describe('the six tiers as a carousel, at every width', () => {
+  // The strip was a six-column grid from `xl`, because the top of the ladder was off screen on a
+  // laptop. The staircase now shows all six tiers at once, and the drawer is the detail: one card
+  // at a time, the selected one in the middle. So the grid went, and the strip scrolls at every width.
+  it('is a carousel at every width, with no grid from xl', () => {
+    expect(RIBBON_STRIP).not.toMatch(/(^|\s)xl:grid/);
+    expect(RIBBON_STRIP).not.toContain('xl:overflow-visible');
+    expect(RIBBON_STRIP).toContain('overflow-x-auto');
+    expect(RIBBON_STRIP).toContain('snap-x snap-proximity');
+    expect(RIBBON_TIER_SLOT).not.toContain('xl:w-auto');
+    expect(RIBBON_TIER_SLOT).toContain('w-[var(--tier-card-w)]');
+    expect(RIBBON_TIER_SLOT).toContain('snap-center');
+  });
+
+  // Every card, the first and the last included, has to be able to sit in the middle, so the strip
+  // has half its width less half a card of padding on each side. The width is one custom property
+  // defined on the strip, so the padding and the cells cannot drift apart.
+  it('gives the strip centre padding, from one card width defined on the strip', () => {
+    expect(RIBBON_STRIP).toContain('[--tier-card-w:min(68vw,300px)]');
+    expect(RIBBON_STRIP).toContain('sm:[--tier-card-w:320px]');
+    expect(RIBBON_STRIP).toContain('lg:[--tier-card-w:340px]');
+    expect(RIBBON_STRIP).toContain('px-[max(1rem,calc(50%_-_var(--tier-card-w)/2))]');
+    expect(RIBBON_STRIP).toContain('gap-4');
+    expect(RIBBON_STRIP).toContain('lg:gap-5');
+  });
+
+  // The fades were switched off at xl, where the grid took over. They are on at every width now,
+  // and each shows only on a side that has more strip to scroll to.
+  it('fades an edge only where there is more strip to scroll to, at every width', () => {
     const css = readFileSync('index.css', 'utf8');
-    const off = css.match(/@media \(min-width: 1280px\)\s*\{\s*\.strip-fade\s*\{([^}]*)\}/);
-    expect(off, 'the fades are never switched off at xl').toBeTruthy();
-    expect(off![1]).toContain('display: none');
+    expect(css, 'the fades are still switched off at xl').not.toMatch(
+      /@media \(min-width: 1280px\)\s*\{\s*\.strip-fade/
+    );
+    expect(css).toMatch(/\.strip-fade\s*\{[^}]*opacity: 0;/);
+    expect(css).toMatch(
+      /\[data-at-start='false'\] > \.strip-fade-start,\s*\[data-at-end='false'\] > \.strip-fade-end\s*\{\s*opacity: 1;/
+    );
+  });
+});
+
+describe('the position-based focus and the hover rise', () => {
+  const css = readFileSync('index.css', 'utf8');
+
+  // It is a progressive enhancement: a pointer, a browser that allows motion, and scroll-driven
+  // animation. Anything else shows every card at full size, which is the layout the rest was built on.
+  it('scales the cells by position only inside hover, motion and view-timeline gates', () => {
+    const gate = css.indexOf('@media (hover: hover) and (prefers-reduced-motion: no-preference)');
+    expect(gate, 'the focus is not gated on hover and motion').toBeGreaterThan(-1);
+    const supports = css.indexOf('@supports (animation-timeline: view())', gate);
+    expect(
+      supports,
+      'the focus is not inside @supports (animation-timeline: view())'
+    ).toBeGreaterThan(gate);
+    const rule = css.indexOf('.ribbon-tier-slot {', supports);
+    expect(rule, '.ribbon-tier-slot is not set inside the gated blocks').toBeGreaterThan(supports);
+    const keyframes = css.indexOf('@keyframes ribbon-tier-focus', supports);
+    expect(keyframes, 'the keyframes are not inside the gated blocks').toBeGreaterThan(supports);
+
+    const body = blockAt(css, rule);
+    expect(body).toContain('animation-timeline: view(inline)');
+    // `scale`, not `transform`: the card's hover rise and the `.clip-stable` history both claim
+    // `transform`, and this must not.
+    expect(body).not.toMatch(/(^|[\s;])transform\s*:/);
+    const frames = blockAt(css, keyframes);
+    expect(frames).toMatch(/scale: 0\.88/);
+    expect(frames).toMatch(/scale: 1;/);
+    expect(frames).not.toMatch(/transform/);
+    // Only the one animation, so no other rule can put it on a phone.
+    expect(css.match(/ribbon-tier-focus/g)).toHaveLength(2);
+  });
+
+  // The receded card's hover is a 2px rise by `translate`, which composes with the cell's scale, and
+  // it claims no `transform`. The hover is gated where it was before (the lint test above pins that).
+  it('lifts a receded card 2px by translate, never by scale or transform', () => {
+    const hover = blockAt(css, css.indexOf('.tier-lift:hover'));
+    expect(hover).toContain('translate: 0 -2px');
+    expect(hover).not.toMatch(/scale|transform/);
+    expect(css).toMatch(/\.tier-lift\s*\{[^}]*translate/);
+  });
+
+  // The drag: while a press is moving, the strip stops snapping and selecting, so the scroll follows
+  // the pointer and nothing else.
+  it('stops snapping and selecting while a mouse drags the strip', () => {
+    const dragging = blockAt(css, css.indexOf('.ribbon-strip[data-dragging]'));
+    expect(dragging).toContain('scroll-snap-type: none');
+    expect(dragging).toContain('user-select: none');
+    expect(dragging).toContain('cursor: grabbing');
   });
 });
 
@@ -2117,9 +2203,10 @@ describe('the banner is a themed bar, light in the light theme', () => {
         const title = header.querySelector('h4') as HTMLElement;
         expect(title.className).toContain('row-start-2');
         expect(title.className).toContain('col-span-2');
-        // Two lines reserved below `xl`, three from `xl`: the line counts the name can need.
-        expect(title.className).toContain('min-h-[2.25rem]');
-        expect(title.className).toContain('xl:min-h-[3.3rem]');
+        // Two lines reserved on a phone, where the card is narrow enough for a long
+        // name to wrap. From `sm` the card holds every name on one line: no floor.
+        expect(title.className).toContain('max-sm:min-h-[2.25rem]');
+        expect(title.className).not.toContain('xl:min-h-');
         expect(title.className).toContain('line-clamp-3');
       }
     });

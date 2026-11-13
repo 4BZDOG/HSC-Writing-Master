@@ -341,6 +341,8 @@ fact that decides a student's ceiling — **the command verb caps the band** —
 the design makes that fact the picture: the verb is set at poster scale, and a
 staircase of six tier columns shows how far it lets a response climb.
 
+The drawer under the stage is a centred carousel at every width. The staircase is the overview, with all six tiers at once, and the carousel is the detail: one card at a time, the selected tier in the middle and its neighbours a step smaller either side. On a desktop the cards scale by position, so the middle reads as the one in focus; a phone, or a reader who has asked for less motion, gets the same carousel at full size, and a pager of six dots browses it without selecting. The six-column grid that replaced it from `xl` has gone, because the staircase now shows the whole ladder and the grid's narrow cards stacked the chips and left the short tiers half empty.
+
 **The ribbon is still the loudest surface, on purpose.** A workspace where every
 panel is loud has no hero, only noise. The accordions, the tier cards and everything
 else stay calm so that this one does not have to compete with them.

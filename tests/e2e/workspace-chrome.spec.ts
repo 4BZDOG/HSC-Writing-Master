@@ -67,6 +67,11 @@ const twoFrames = (page: Page) =>
  * at 36px, its start value. Waiting on the transitions themselves is exact at any
  * speed. Infinite animations (spinners, pulses) never finish, so they are left
  * out of the wait rather than holding it open.
+ *
+ * Scroll-driven animations are left out too. Their progress is the scroll position,
+ * not the clock, so their `finished` promise waits on a scroll that may never come:
+ * the verb ribbon's tier cards scale by position on desktop (`ribbon-tier-slot`).
+ * Only animations on the document timeline are waited for.
  */
 const settleTransitions = (page: Page) =>
   page.evaluate(async () => {
@@ -74,6 +79,7 @@ const settleTransitions = (page: Page) =>
     await Promise.all(
       document
         .getAnimations()
+        .filter((a) => a.timeline instanceof DocumentTimeline)
         .filter((a) => Number(a.effect?.getComputedTiming().endTime) !== Infinity)
         .map((a) => a.finished.catch(() => undefined))
     );
