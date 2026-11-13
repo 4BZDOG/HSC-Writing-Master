@@ -1081,6 +1081,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       return {
         id: item,
         label: item,
+        selected: isSelected,
         renderLabel: (
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
@@ -2131,8 +2132,10 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                     // the list. The trigger states the count itself, as a chosen
                     // value. A value that matched no option (the old 'MULTIPLE')
                     // read as "All of this syllabus point" even with focus areas chosen.
+                    // The list stays open per tick, so several can be chosen in one visit.
                     value=""
                     onChange={handleSubItemToggle}
+                    keepOpenOnSelect
                     summary={
                       activeFocusCount > 0
                         ? `${activeFocusCount} focus area${activeFocusCount === 1 ? '' : 's'}`

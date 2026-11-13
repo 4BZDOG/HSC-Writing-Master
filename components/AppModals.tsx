@@ -13,7 +13,7 @@ import {
   parseSubItemsFromDescription,
 } from '../utils/dataManagerUtils';
 import type { RenameFocusAreaGuard } from './RenameModal';
-import { findAndUpdateItem } from '../utils/stateUtils';
+import { findAndUpdateItem, selectPromptIfStillThere } from '../utils/stateUtils';
 import { canCurateContent, isSystemAdmin } from '../utils/permissions';
 import {
   activeSyllabusYear,
@@ -80,7 +80,7 @@ interface AppModalsProps {
   currentSelection: AppCurrentSelection;
   statePath: StatePath;
   courses: Course[];
-  setStatePath: (path: Partial<StatePath>) => void;
+  setStatePath: React.Dispatch<React.SetStateAction<StatePath>>;
   showToast: (
     message: string,
     type: ToastType,
@@ -292,7 +292,10 @@ const AppModals: React.FC<AppModalsProps> = ({
             onPromptGenerated={async (prompt) => {
               const newPrompt = await syllabusHandlers.handleGeneratePrompt(statePath, prompt);
               if (newPrompt) {
-                setStatePath({ ...statePath, promptId: newPrompt.id });
+                // Select it only if the reader is still where they asked from.
+                setStatePath((current) =>
+                  selectPromptIfStillThere(current, statePath, newPrompt.id)
+                );
                 setNewlyAddedIds((prev) => new Set(prev).add(newPrompt.id));
               }
             }}
@@ -319,7 +322,9 @@ const AppModals: React.FC<AppModalsProps> = ({
             onSave={async (prompt) => {
               const newPrompt = await syllabusHandlers.handleGeneratePrompt(statePath, prompt);
               if (newPrompt) {
-                setStatePath({ ...statePath, promptId: newPrompt.id });
+                setStatePath((current) =>
+                  selectPromptIfStillThere(current, statePath, newPrompt.id)
+                );
                 setNewlyAddedIds((prev) => new Set(prev).add(newPrompt.id));
                 showToast('Manual prompt refined and saved.', 'success');
               }
