@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeAll, afterEach } from 'vitest';
 import React from 'react';
-import { render, screen, fireEvent, cleanup } from '@testing-library/react';
+import { render, screen, fireEvent, cleanup, waitFor, within } from '@testing-library/react';
 import CommandVerbHierarchy from '../../components/CommandVerbHierarchy';
 import { PromptVerb } from '../../types';
 import { TIER_GROUPS } from '../../data/commandTerms';
@@ -29,10 +29,15 @@ afterEach(cleanup);
 const getToggle = () => screen.getByRole('button', { name: /command verb hierarchy reference/i });
 
 /**
- * jsdom has no layout, so every box is 0×0 and the auto-scroll — which reads the
- * strip's width and each cell's offset — has nothing to work from. This gives
- * the strip the geometry of a phone: a 393px viewport over six 260px cells with
- * a 16px gap and 16px of padding, 1600px of scrollable width in all.
+ * jsdom has no layout, so every box is 0×0 and the auto-scroll, which reads the
+ * strip's width and each cell's offset, has nothing to work from. This gives the
+ * strip the geometry of a phone under the carousel: a 393px viewport over six 260px
+ * cells with a 16px gap, and centre padding of half the viewport less half a card
+ * (66.5px), so the first and last cells can each reach the middle. That is 1773px
+ * of scrollable width, 1380px of it beyond the viewport.
+ *
+ * A cell's `offsetLeft` is then 66.5 + index × 276, and the position that centres
+ * tier N is (N − 1) × 276, clamped to 0…1380. Tier 1 centres at 0 and tier 6 at 1380.
  */
 const stubStripGeometry = () => {
   const define = (name: string, get: (el: HTMLElement) => number) => {
@@ -49,12 +54,12 @@ const stubStripGeometry = () => {
     };
   };
   const restores = [
-    define('scrollWidth', () => 1600),
+    define('scrollWidth', () => 1773),
     define('clientWidth', () => 393),
     define('offsetWidth', () => 260),
     define('offsetLeft', (el) => {
       const parent = el.parentElement;
-      return parent ? 16 + Array.from(parent.children).indexOf(el) * 276 : 0;
+      return parent ? 66.5 + Array.from(parent.children).indexOf(el) * 276 : 0;
     }),
   ];
   return { restore: () => restores.forEach((restore) => restore()) };
@@ -296,7 +301,7 @@ describe('CommandVerbHierarchy', () => {
 
       expect(scrollIntoView).not.toHaveBeenCalled();
       // A glide, because the reader changed tier and is watching the strip.
-      expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'smooth' });
+      expect(scrollTo).toHaveBeenCalledWith({ left: 1380, behavior: 'smooth' });
     } finally {
       geometry.restore();
     }
@@ -316,7 +321,7 @@ describe('CommandVerbHierarchy', () => {
 
         render(<CommandVerbHierarchy currentVerb={'SYNTHESISE' as PromptVerb} />);
 
-        expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'auto' });
+        expect(scrollTo).toHaveBeenCalledWith({ left: 1380, behavior: 'auto' });
       } finally {
         geometry.restore();
       }
@@ -336,13 +341,13 @@ describe('CommandVerbHierarchy', () => {
 
         fireEvent.click(getToggle());
         expect(scrollTo).toHaveBeenCalledTimes(1);
-        expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'auto' });
+        expect(scrollTo).toHaveBeenCalledWith({ left: 1380, behavior: 'auto' });
       } finally {
         geometry.restore();
       }
     });
 
-    it('leaves the strip where it is when a chip is tapped on a card already in full view', () => {
+    it('leaves the strip where it is when a chip is tapped on the tier already selected', () => {
       const geometry = stubStripGeometry();
       try {
         const scrollTo = vi.fn();
@@ -350,18 +355,18 @@ describe('CommandVerbHierarchy', () => {
 
         render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
         const strip = screen.getByRole('group', { name: /tier ladder/i });
-        // Tier 2's cell spans 292–552; with the strip scrolled to 200 the
-        // viewport is 200–593, so the card is wholly in view but not centred.
-        strip.scrollLeft = 200;
+        // Tier 2's cell spans 342.5–602.5 and is centred at 276. Scrolled to 300, the
+        // viewport is 300–693, so the card is wholly in view but not centred.
+        strip.scrollLeft = 300;
         scrollTo.mockClear();
 
         fireEvent.click(screen.getByRole('button', { name: 'DEFINE' }));
-        expect(scrollTo, 'a tap on a visible card moved the strip').not.toHaveBeenCalled();
+        expect(scrollTo, 'a tap on the same tier moved the strip').not.toHaveBeenCalled();
 
         // A different TIER is a different matter: that is a move the reader
-        // made on purpose, and the strip follows it.
+        // made on purpose, and the strip centres it, even on a card already in view.
         fireEvent.click(screen.getByRole('button', { name: 'SYNTHESISE' }));
-        expect(scrollTo).toHaveBeenCalledWith({ left: 1600, behavior: 'smooth' });
+        expect(scrollTo).toHaveBeenCalledWith({ left: 1380, behavior: 'smooth' });
       } finally {
         geometry.restore();
       }
@@ -376,6 +381,301 @@ describe('CommandVerbHierarchy', () => {
         render(<CommandVerbHierarchy currentVerb={'IDENTIFY' as PromptVerb} />);
         // Tier 1 goes to 0, which is where the strip starts.
         expect(scrollTo).not.toHaveBeenCalled();
+      } finally {
+        geometry.restore();
+      }
+    });
+  });
+
+  describe('is a carousel, centred on the selected tier', () => {
+    it('centres a tier that is already wholly in view, when the tier changes', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        const strip = screen.getByRole('group', { name: /tier ladder/i });
+        // Tier 2 is in view at 300, though not centred. Tier 3 spans 618.5–878.5 and
+        // the viewport 300–693 does not hold it, so this is a plain move, and tier 3
+        // lands in the middle at 552. The point is that the strip centres it.
+        strip.scrollLeft = 300;
+        scrollTo.mockClear();
+
+        fireEvent.click(screen.getByRole('button', { name: 'COMPARE' }));
+        expect(scrollTo).toHaveBeenCalledWith({ left: 552, behavior: 'smooth' });
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('rests at the midpoint with no verb chosen, so the middle of the ladder is in view', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+
+        render(<CommandVerbHierarchy />);
+        // (1773 − 393) / 2: the tier 3 / tier 4 boundary, not an empty left margin.
+        expect(scrollTo).toHaveBeenCalledWith({ left: 690, behavior: 'auto' });
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('marks the edges that have more strip to scroll to, and only those', async () => {
+      const geometry = stubStripGeometry();
+      try {
+        const { container } = render(
+          <CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />
+        );
+        const strip = screen.getByRole('group', { name: /tier ladder/i });
+        const frame = strip.parentElement as HTMLElement;
+
+        // At the start: nothing before it, more after.
+        expect(frame.getAttribute('data-at-start')).toBe('true');
+        expect(frame.getAttribute('data-at-end')).toBe('false');
+
+        // In the middle: more on both sides.
+        strip.scrollLeft = 700;
+        fireEvent.scroll(strip);
+        await waitFor(() => expect(frame.getAttribute('data-at-start')).toBe('false'));
+        expect(frame.getAttribute('data-at-end')).toBe('false');
+
+        // At the far end: nothing after it.
+        strip.scrollLeft = 1380;
+        fireEvent.scroll(strip);
+        await waitFor(() => expect(frame.getAttribute('data-at-end')).toBe('true'));
+        expect(frame.getAttribute('data-at-start')).toBe('false');
+        expect(container).toBeTruthy();
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('moves focus between tier headers with the arrow keys, and Home and End, without selecting', () => {
+      const geometry = stubStripGeometry();
+      try {
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        const header = (band: number) =>
+          screen.getByRole('button', { name: new RegExp(`Up to Band ${band}$`, 'i') });
+        const pressed = () =>
+          [1, 2, 3, 4, 5, 6].filter((band) => header(band).getAttribute('aria-pressed') === 'true');
+
+        header(1).focus();
+        fireEvent.keyDown(header(1), { key: 'ArrowRight' });
+        expect(document.activeElement).toBe(header(2));
+        fireEvent.keyDown(header(2), { key: 'End' });
+        expect(document.activeElement).toBe(header(6));
+        // No wrap: ArrowRight on the last tier stays where it is.
+        fireEvent.keyDown(header(6), { key: 'ArrowRight' });
+        expect(document.activeElement).toBe(header(6));
+        fireEvent.keyDown(header(6), { key: 'Home' });
+        expect(document.activeElement).toBe(header(1));
+        fireEvent.keyDown(header(1), { key: 'ArrowLeft' });
+        expect(document.activeElement).toBe(header(1));
+
+        // Focus only: the selection is still DESCRIBE's tier, two.
+        expect(pressed()).toEqual([2]);
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('centres the tier a header key moves to', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        scrollTo.mockClear();
+
+        const three = screen.getByRole('button', { name: /Up to Band 2$/i });
+        fireEvent.keyDown(three, { key: 'ArrowRight' });
+        expect(scrollTo).toHaveBeenCalledWith({ left: 552, behavior: 'smooth' });
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('lays each card’s chips out from the left, not centred', () => {
+      const { container } = render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+      const strip = screen.getByRole('group', { name: /tier ladder/i });
+      for (const slot of Array.from(strip.children)) {
+        const chips = slot.querySelector('.flex-wrap') as HTMLElement;
+        expect(chips.className).toContain('justify-start');
+        expect(chips.className).not.toContain('justify-center');
+      }
+      expect(container).toBeTruthy();
+    });
+  });
+
+  describe('the pager under the strip', () => {
+    const pagerOf = () => screen.getByTitle('Next tier').parentElement as HTMLElement;
+
+    it('is hidden from assistive tech, and its controls are out of the tab order', () => {
+      render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+      const pager = pagerOf();
+      expect(pager.getAttribute('aria-hidden')).toBe('true');
+      const buttons = Array.from(pager.querySelectorAll('button'));
+      // Previous, six dots, next.
+      expect(buttons).toHaveLength(8);
+      for (const button of buttons) expect(button.tabIndex).toBe(-1);
+    });
+
+    it('browses: a dot centres its tier and leaves the selected verb alone', () => {
+      const geometry = stubStripGeometry();
+      try {
+        const scrollTo = vi.fn();
+        (Element.prototype as unknown as { scrollTo: unknown }).scrollTo = scrollTo;
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        scrollTo.mockClear();
+
+        // The fourth of the six dots, which sits between the two chevrons.
+        const dot = pagerOf().querySelectorAll('button')[4];
+        fireEvent.click(dot);
+
+        // Tier 4 is index 3: centred at (3 × 276) = 828.
+        expect(scrollTo).toHaveBeenCalledWith({ left: 828, behavior: 'smooth' });
+        // The selection is untouched: tier 2 is still the one pressed.
+        const pressed = [1, 2, 3, 4, 5, 6].filter(
+          (band) =>
+            screen
+              .getByRole('button', { name: new RegExp(`Up to Band ${band}$`, 'i') })
+              .getAttribute('aria-pressed') === 'true'
+        );
+        expect(pressed).toEqual([2]);
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('disables the previous chevron at the first tier and the next at the last', async () => {
+      const geometry = stubStripGeometry();
+      try {
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        const strip = screen.getByRole('group', { name: /tier ladder/i });
+        const prev = screen.getByTitle('Previous tier') as HTMLButtonElement;
+        const next = screen.getByTitle('Next tier') as HTMLButtonElement;
+
+        expect(prev.disabled).toBe(true);
+        expect(next.disabled).toBe(false);
+
+        strip.scrollLeft = 1380;
+        fireEvent.scroll(strip);
+        await waitFor(() => expect(next.disabled).toBe(true));
+        expect(prev.disabled).toBe(false);
+      } finally {
+        geometry.restore();
+      }
+    });
+  });
+
+  describe('a mouse can drag the strip, and a click still means a click', () => {
+    // jsdom has no PointerEvent, so testing-library would drop `pointerType`, `button` and
+    // `pointerId` from the events it fires. This keeps them.
+    class PointerEventFake extends MouseEvent {
+      pointerId: number;
+      pointerType: string;
+      constructor(
+        type: string,
+        init: MouseEventInit & { pointerId?: number; pointerType?: string } = {}
+      ) {
+        super(type, init);
+        this.pointerId = init.pointerId ?? 1;
+        this.pointerType = init.pointerType ?? 'mouse';
+      }
+    }
+    const original = (window as unknown as { PointerEvent?: unknown }).PointerEvent;
+    beforeAll(() => {
+      (window as unknown as { PointerEvent: unknown }).PointerEvent = PointerEventFake;
+    });
+    afterEach(() => {
+      (window as unknown as { PointerEvent?: unknown }).PointerEvent = original;
+    });
+
+    it('scrolls the strip past six pixels, and swallows the click that ends the drag', () => {
+      const geometry = stubStripGeometry();
+      try {
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        const strip = screen.getByRole('group', { name: /tier ladder/i });
+        strip.scrollLeft = 500;
+
+        fireEvent.pointerDown(strip, {
+          clientX: 300,
+          button: 0,
+          pointerType: 'mouse',
+          pointerId: 1,
+        });
+        fireEvent.pointerMove(strip, {
+          clientX: 280,
+          button: 0,
+          pointerType: 'mouse',
+          pointerId: 1,
+        });
+        expect(strip.scrollLeft, 'the strip did not follow the drag').toBe(520);
+        expect(strip.getAttribute('data-dragging')).not.toBeNull();
+        fireEvent.pointerUp(strip, { clientX: 280, button: 0, pointerType: 'mouse', pointerId: 1 });
+        expect(strip.getAttribute('data-dragging')).toBeNull();
+
+        // The click the release produces is the drag's, not the chip's.
+        fireEvent.click(screen.getByRole('button', { name: 'IDENTIFY' }));
+        const tierOne = screen.getByRole('button', { name: /Up to Band 1$/i });
+        expect(tierOne.getAttribute('aria-pressed')).toBe('false');
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('still selects on a click under six pixels', () => {
+      const geometry = stubStripGeometry();
+      try {
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        const strip = screen.getByRole('group', { name: /tier ladder/i });
+
+        fireEvent.pointerDown(strip, {
+          clientX: 300,
+          button: 0,
+          pointerType: 'mouse',
+          pointerId: 1,
+        });
+        fireEvent.pointerMove(strip, {
+          clientX: 302,
+          button: 0,
+          pointerType: 'mouse',
+          pointerId: 1,
+        });
+        fireEvent.pointerUp(strip, { clientX: 302, button: 0, pointerType: 'mouse', pointerId: 1 });
+        fireEvent.click(screen.getByRole('button', { name: 'IDENTIFY' }));
+
+        expect(
+          screen.getByRole('button', { name: /Up to Band 1$/i }).getAttribute('aria-pressed')
+        ).toBe('true');
+      } finally {
+        geometry.restore();
+      }
+    });
+
+    it('does not take a touch as a drag: touch scrolls natively', () => {
+      const geometry = stubStripGeometry();
+      try {
+        render(<CommandVerbHierarchy currentVerb={'DESCRIBE' as PromptVerb} />);
+        const strip = screen.getByRole('group', { name: /tier ladder/i });
+        strip.scrollLeft = 500;
+        fireEvent.pointerDown(strip, {
+          clientX: 300,
+          button: 0,
+          pointerType: 'touch',
+          pointerId: 2,
+        });
+        fireEvent.pointerMove(strip, {
+          clientX: 200,
+          button: 0,
+          pointerType: 'touch',
+          pointerId: 2,
+        });
+        expect(strip.scrollLeft).toBe(500);
+        expect(strip.getAttribute('data-dragging')).toBeNull();
       } finally {
         geometry.restore();
       }

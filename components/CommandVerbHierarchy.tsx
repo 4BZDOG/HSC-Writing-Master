@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef, useId } from 'react';
 import { PromptVerb } from '../types';
 import { commandTerms, TIER_GROUPS, getTierTargetBand, tierShortLabel } from '../data/commandTerms';
-import { ChevronDown, Layers } from 'lucide-react';
+import { ChevronDown, ChevronLeft, ChevronRight, Layers } from 'lucide-react';
 import { tierIcon } from '../utils/verbTierIcon';
 import {
   getBandHex,
@@ -17,6 +17,13 @@ import MeshOverlay from './MeshOverlay';
 import { PANEL_ROW_MIN_H } from '../utils/panelStyles';
 import {
   RIBBON_DRAWER,
+  RIBBON_PAGER,
+  RIBBON_PAGER_ARROW,
+  RIBBON_PAGER_DOT,
+  RIBBON_PAGER_MARK,
+  RIBBON_PAGER_MARK_CENTRED,
+  RIBBON_PAGER_MARK_IDLE,
+  RIBBON_PAGER_MARK_SELECTED,
   RIBBON_INK_AURA,
   RIBBON_INK_AURA_LEAVING,
   RIBBON_INK_GLOW,
@@ -235,6 +242,58 @@ const AURA_CROSSFADE_MS = 600;
 const columnFraction = (tier: number): number =>
   Number((0.28 + (0.72 * (tier - 1)) / 5).toFixed(3));
 
+/** Where the tier strip is: whether there is more of it to either side, and the index of
+ *  the tier whose card sits nearest its middle. Read by the fades and the pager. */
+type StripPosition = { atStart: boolean; atEnd: boolean; centred: number };
+
+/** The strip's scroll position, kept inside what it can scroll. */
+const clampScroll = (strip: HTMLElement, left: number): number =>
+  Math.min(Math.max(0, left), Math.max(0, strip.scrollWidth - strip.clientWidth));
+
+/** The position that puts `card` in the middle of the strip. One formula for every tier: the
+ *  strip's padding lets the first and the last reach the middle too (`RIBBON_STRIP`). */
+const centredLeft = (strip: HTMLElement, card: HTMLElement): number =>
+  clampScroll(strip, card.offsetLeft - (strip.clientWidth - card.offsetWidth) / 2);
+
+/** The position that puts the middle of the strip's content in the middle of the strip. */
+const midpointLeft = (strip: HTMLElement): number =>
+  clampScroll(strip, (strip.scrollWidth - strip.clientWidth) / 2);
+
+const prefersReducedMotion = (): boolean =>
+  typeof window.matchMedia === 'function' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Scroll the strip, and only the strip. jsdom and very old browsers have no `Element.scrollTo`;
+ *  the property is what it sets anyway. A position within 2px of where the strip is is not moved
+ *  to, so a settled strip is not told to move again. */
+const settleStrip = (strip: HTMLElement, left: number, instant: boolean): void => {
+  if (Math.abs(strip.scrollLeft - left) < 2) return;
+  if (typeof strip.scrollTo === 'function') {
+    // index.css sets `scroll-behavior: auto !important` under reduced motion, but that does not
+    // govern the JS `behavior` option, so the reader who asked for no animation is asked here too.
+    strip.scrollTo({ left, behavior: instant ? 'auto' : 'smooth' });
+  } else {
+    strip.scrollLeft = left;
+  }
+};
+
+/** Read the strip's position. Nothing is written. */
+const readStrip = (strip: HTMLElement, cells: (HTMLElement | null)[]): StripPosition => {
+  const max = Math.max(0, strip.scrollWidth - strip.clientWidth);
+  const middle = strip.scrollLeft + strip.clientWidth / 2;
+  let centred = 0;
+  let nearest = Infinity;
+  cells.forEach((cell, index) => {
+    if (!cell) return;
+    const distance = Math.abs(cell.offsetLeft + cell.offsetWidth / 2 - middle);
+    if (distance < nearest) {
+      nearest = distance;
+      centred = index;
+    }
+  });
+  return { atStart: strip.scrollLeft <= 1, atEnd: strip.scrollLeft >= max - 1, centred };
+};
+
 const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   currentVerb,
   defaultOpen = true,
@@ -262,7 +321,31 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
   // The tier the strip was last scrolled to, and whether it was open then: the
   // auto-scroll below uses them to tell "the reader changed tier" from "the
   // reader tapped another chip on the card they are already looking at".
-  const scrolled = useRef<{ tier: number | null; open: boolean }>({ tier: null, open: false });
+  const scrolled = useRef<{ tier: number | null; open: boolean; placed: boolean }>({
+    tier: null,
+    open: false,
+    placed: false,
+  });
+  // The header buttons, for the arrow keys that move between tiers.
+  const headerRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  // Where the strip is, for the fades and the pager. Written by the scroll listener below, and
+  // mirrored in a ref so a measurement only sets state when something has changed.
+  const [stripPos, setStripPos] = useState<StripPosition>({
+    atStart: true,
+    atEnd: false,
+    centred: 0,
+  });
+  const stripPosRef = useRef(stripPos);
+  // A mouse drag on the strip: the press, once it has moved more than 6px, and whether the click
+  // that follows its release is to be swallowed.
+  const dragRef = useRef<{
+    pointerId: number;
+    startX: number;
+    startLeft: number;
+    active: boolean;
+  } | null>(null);
+  const dropClick = useRef(false);
+  const [dragging, setDragging] = useState(false);
 
   // A new question re-opens the reference so its verb is explained — unless
   // the reader has folded the ribbon away, in which case it stays folded.
@@ -337,68 +420,183 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
     return { sortedVerbsByGroup: groups, activeTermInfo: current };
   }, [activeVerb, currentVerb]);
 
-  // Bring the active tier into view along the ribbon: first card flush left,
-  // last flush right, everything else centred.
+  // Bring the selected tier into the middle of the strip.
   //
-  // Done by scrolling the strip itself rather than with `scrollIntoView`.
-  // That API cannot be told to leave the page alone — when the ribbon sits
-  // below the fold (it does, whenever the navigator is expanded), selecting a
-  // question scrolled the WINDOW down to the ribbon, throwing the reader away
-  // from the question they had just chosen. Setting `scrollLeft` moves only
-  // the strip.
+  // Done by scrolling the strip itself, never with `scrollIntoView`, which would also
+  // scroll the page. The ribbon sits below the navigator, so picking a question used to
+  // move the WINDOW down to it. Setting `scrollLeft` moves only the strip.
   //
-  // Three cases are NOT a smooth glide to centre, because each one used to be
-  // one and each felt like the strip fighting the reader:
-  //  - the ribbon has only just opened, or this is the first position it has
-  //    had. The strip is mid-unfold and behind the panel's clip, so a 400ms
-  //    slide across it is invisible work competing with the open; it is put in
-  //    place instantly.
-  //  - the reader tapped another chip on a card that is already fully in view.
-  //    Their finger has just lifted from a card where they want it; centring it
-  //    underneath them is the strip moving for no reason they gave it.
-  //  - the strip is already where it would be sent.
+  // Four cases are not a glide, because each one used to be one and each felt like the
+  // strip fighting the reader:
+  //  - the ribbon has only just opened, or this is the first position it has had. The
+  //    strip is mid-unfold and behind the panel's clip, so a slide is invisible work
+  //    competing with the open. It is put in place instantly.
+  //  - the reader tapped another chip on the SAME tier. Their finger has just lifted from
+  //    a card where they want it, and centring it under them is the strip moving for a
+  //    reason they never gave. A change of tier is different: that is the reader moving,
+  //    and the new tier is centred even when it was already in view.
+  //  - no verb is chosen. The strip rests at its midpoint, so the tier 3 / tier 4 boundary
+  //    is in the middle and the cards fill both sides. It is not re-centred on each change.
+  //  - the strip is already where it would be sent (see `settleStrip`).
   useEffect(() => {
     const previous = scrolled.current;
-    scrolled.current = { tier: previous.tier, open: isOpen };
-    if (!isOpen || !activeTermInfo) return;
+    const reopened = isOpen && !previous.open;
+    scrolled.current = { tier: previous.tier, open: isOpen, placed: previous.placed };
+    if (!isOpen) return;
     const strip = scrollContainerRef.current;
-    const activeCard = tierRefs.current[activeTermInfo.tier - 1];
-    if (!strip || !activeCard) return;
+    if (!strip) return;
+
+    if (!activeTermInfo) {
+      if (!previous.placed || reopened) {
+        settleStrip(strip, midpointLeft(strip), true);
+        scrolled.current = { ...scrolled.current, placed: true };
+      }
+      return;
+    }
 
     const tier = activeTermInfo.tier;
-    scrolled.current = { tier, open: true };
-    const isFirst = tier === 1;
-    const isLast = tier === TIER_GROUPS.length;
-    const left = isFirst
-      ? 0
-      : isLast
-        ? strip.scrollWidth
-        : activeCard.offsetLeft - (strip.clientWidth - activeCard.offsetWidth) / 2;
+    const card = tierRefs.current[tier - 1];
+    if (!card) return;
+    const sameTier = previous.tier === tier;
+    scrolled.current = { tier, open: true, placed: true };
+    if (sameTier && previous.open) return;
 
-    const target = Math.max(0, left);
-    if (Math.abs(strip.scrollLeft - target) < 2) return;
-
-    const cardLeft = activeCard.offsetLeft;
-    const cardRight = cardLeft + activeCard.offsetWidth;
-    const fullyInView =
-      cardLeft >= strip.scrollLeft && cardRight <= strip.scrollLeft + strip.clientWidth;
-    if (previous.tier === tier && previous.open && fullyInView) return;
-
-    // index.css sets `scroll-behavior: auto !important` under reduced motion,
-    // but that property does not govern the JS `behavior` option — a reader who
-    // has asked for no animation still got the smooth slide.
-    const reduceMotion =
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const instant = reduceMotion || previous.tier === null || !previous.open;
-    // jsdom (and very old browsers) have no Element.scrollTo — fall back to
-    // the property, which is what scrollTo sets anyway.
-    if (typeof strip.scrollTo === 'function') {
-      strip.scrollTo({ left: target, behavior: instant ? 'auto' : 'smooth' });
-    } else {
-      strip.scrollLeft = target;
-    }
+    const instant = prefersReducedMotion() || !previous.placed || reopened;
+    settleStrip(strip, centredLeft(strip, card), instant);
   }, [activeTermInfo, isOpen]);
+
+  // The strip's position, for the fades and the pager. One passive listener and one
+  // ResizeObserver, both throttled to a frame, and both torn down with the strip. The
+  // strip is always mounted (the drawer is there whether the ribbon is open or not), so
+  // this runs once.
+  useEffect(() => {
+    const strip = scrollContainerRef.current;
+    if (!strip) return;
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const next = readStrip(strip, tierRefs.current);
+      const current = stripPosRef.current;
+      if (
+        current.atStart === next.atStart &&
+        current.atEnd === next.atEnd &&
+        current.centred === next.centred
+      ) {
+        return;
+      }
+      stripPosRef.current = next;
+      setStripPos(next);
+    };
+    const schedule = () => {
+      if (frame) return;
+      if (typeof requestAnimationFrame === 'function') frame = requestAnimationFrame(measure);
+      else measure();
+    };
+    strip.addEventListener('scroll', schedule, { passive: true });
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(schedule) : null;
+    observer?.observe(strip);
+    measure();
+    return () => {
+      strip.removeEventListener('scroll', schedule);
+      observer?.disconnect();
+      if (frame && typeof cancelAnimationFrame === 'function') cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  // The centre padding is a share of the strip's width, so a resize (a window
+  // drag, a rotated phone) leaves `scrollLeft` where it was and the selected
+  // card somewhere else. Put it back in the middle, without a glide: the strip
+  // did not move by anyone's hand. Width only, so a height change is not a cue.
+  const activeTierRef = useRef<number | null>(null);
+  activeTierRef.current = activeTermInfo?.tier ?? null;
+  useEffect(() => {
+    const strip = scrollContainerRef.current;
+    if (!strip || typeof ResizeObserver === 'undefined') return;
+    let width = strip.clientWidth;
+    const observer = new ResizeObserver(() => {
+      if (strip.clientWidth === width) return;
+      width = strip.clientWidth;
+      const tier = activeTierRef.current;
+      const card = tier ? tierRefs.current[tier - 1] : null;
+      settleStrip(strip, card ? centredLeft(strip, card) : midpointLeft(strip), true);
+    });
+    observer.observe(strip);
+    return () => observer.disconnect();
+  }, []);
+
+  // The pager and the arrow keys browse: they centre a tier in the strip. They do not select.
+  const centreTier = (index: number) => {
+    const strip = scrollContainerRef.current;
+    const card = tierRefs.current[index];
+    if (!strip || !card) return;
+    settleStrip(strip, centredLeft(strip, card), prefersReducedMotion());
+  };
+
+  // Mouse drag scrolls the strip. A press that stays within 6px is a click and reaches the
+  // headers and chips untouched. Only a drag takes pointer capture, because capture taken on
+  // the press would steal the click from the buttons. Touch and pen are not handled here: they
+  // scroll natively.
+  const onStripPointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    dropClick.current = false;
+    if (event.pointerType !== 'mouse' || event.button !== 0) return;
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startLeft: event.currentTarget.scrollLeft,
+      active: false,
+    };
+  };
+  const onStripPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const dx = event.clientX - drag.startX;
+    if (!drag.active) {
+      if (Math.abs(dx) <= 6) return;
+      drag.active = true;
+      // jsdom has no pointer capture, so the call is guarded.
+      event.currentTarget.setPointerCapture?.(event.pointerId);
+      setDragging(true);
+    }
+    event.currentTarget.scrollLeft = drag.startLeft - dx;
+  };
+  const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    dragRef.current = null;
+    if (!drag.active) return;
+    // The click that follows a release belongs to the drag, not to whatever is under the pointer.
+    dropClick.current = true;
+    event.currentTarget.releasePointerCapture?.(event.pointerId);
+    setDragging(false);
+  };
+  const onStripClickCapture = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!dropClick.current) return;
+    dropClick.current = false;
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
+  // The tier headers are a row of controls, so the arrow keys move between them, as they do
+  // between tabs. Focus only: selection still needs Enter or Space. The tier is centred too,
+  // because the browser's own scroll-into-view only brings the header to the strip's edge.
+  const onTierKey = (event: React.KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const last = TIER_GROUPS.length - 1;
+    const target =
+      event.key === 'ArrowRight'
+        ? index + 1
+        : event.key === 'ArrowLeft'
+          ? index - 1
+          : event.key === 'Home'
+            ? 0
+            : event.key === 'End'
+              ? last
+              : null;
+    if (target === null) return;
+    event.preventDefault();
+    if (target < 0 || target > last || target === index) return;
+    headerRefs.current[target]?.focus();
+    centreTier(target);
+  };
 
   // The tier the stage is lit to: the verb's own, or the question's ceiling
   // while the verb on show is the question's (see `currentBandCeiling`). The
@@ -950,47 +1148,42 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
 
             {/* The drawer: every verb, by tier. */}
             <div className={RIBBON_DRAWER}>
-              {/* Tier Cards Scroll Area.
+              {/* The tier strip. A carousel of the six cards, with the selected one in the
+                middle; see `RIBBON_STRIP` for why it is one at every width.
 
-                The scroller is named. Without a role a screen-reader user met
-                44 buttons in a flat list with nothing saying they are one
-                horizontal ladder from tier 1 to tier 6. The edge fades that
-                tell a sighted reader there is more strip to the right are a
-                mask on the scroller itself (`strip-edge-mask`), not two
-                overlays in a wrapper of their own. */}
-              <div className={RIBBON_STRIP_FRAME}>
+                The scroller is named. Without a role a screen-reader user met 38
+                buttons in a flat list with nothing saying they are one horizontal
+                ladder from tier 1 to tier 6. The edge fades are sibling overlays of
+                the scroller, not a mask on it (see `.strip-fade` in `index.css`), and
+                they follow the scroll position through the two data attributes below. */}
+              <div
+                className={RIBBON_STRIP_FRAME}
+                data-at-start={stripPos.atStart}
+                data-at-end={stripPos.atEnd}
+              >
                 <div
                   className={RIBBON_STRIP}
                   ref={scrollContainerRef}
                   role="group"
                   aria-label="Cognitive tier ladder, tier 1 to tier 6"
+                  data-dragging={dragging ? '' : undefined}
+                  onPointerDown={onStripPointerDown}
+                  onPointerMove={onStripPointerMove}
+                  onPointerUp={endDrag}
+                  onPointerCancel={endDrag}
+                  onClickCapture={onStripClickCapture}
                 >
                   {sortedVerbsByGroup.map((group, index) => {
                     const isCurrentTier = activeTermInfo?.tier === group.tier;
                     const tierConfig = getTierScaleConfig(group.tier);
                     const TierIcon = tierIcon(group.tier);
 
-                    // Determine transform origin to keep edges aligned when scaling
-                    const isFirst = index === 0;
-                    const isLast = index === sortedVerbsByGroup.length - 1;
-                    const transformOrigin = isFirst
-                      ? 'origin-left'
-                      : isLast
-                        ? 'origin-right'
-                        : 'origin-center';
-
-                    // One branch, not three. The old form had a no-selection
-                    // default of `scale-100 opacity-100` that said nothing the
-                    // card did not already say, and it applied the tier's border
-                    // only on the five non-current cards — where, in the dark
-                    // theme, `RIBBON_TIER_CARD_IDLE`'s neutral outranked it. The
-                    // tier's border is now unconditional and the neutral is gone
-                    // from the idle constant, so all six cards show their tier at
-                    // rest in both themes, which is the ladder this strip exists
-                    // to draw.
+                    // The selected card and the rest differ in their fill, their stacking and
+                    // their halo, and in nothing else: each is the same box. See the constants
+                    // in `utils/verbRibbonChrome.ts`.
                     const cardStyle = isCurrentTier
-                      ? `${RIBBON_TIER_CARD_CURRENT} ${transformOrigin}`
-                      : `${RIBBON_TIER_CARD_RECEDED} ${transformOrigin}`;
+                      ? RIBBON_TIER_CARD_CURRENT
+                      : RIBBON_TIER_CARD_RECEDED;
 
                     return (
                       <div
@@ -1045,7 +1238,11 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       ink. It has the mark ladder's sheen on it, and no shade
                       under its text. See `RIBBON_TIER_HEADER_SELECTED`. */}
                           <button
+                            ref={(el) => {
+                              headerRefs.current[index] = el;
+                            }}
                             type="button"
+                            onKeyDown={(event) => onTierKey(event, index)}
                             onClick={() => {
                               if (group.verbs.length > 0) setActiveVerb(group.verbs[0].term);
                             }}
@@ -1099,7 +1296,7 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                       the content makes every card as tall as the tallest one
                       for free. The scroll stays as the safety net. */}
                           <div className="flex-1 overflow-y-auto px-4 pb-4 pt-3 custom-scrollbar relative z-10">
-                            <div className="flex flex-wrap gap-2 justify-center content-start">
+                            <div className="flex flex-wrap gap-2 justify-start content-start">
                               {group.verbs.map((verb) => {
                                 const isSelected = verb.term === activeVerb;
                                 // The selected chip's fill is the tier's solid one,
@@ -1145,6 +1342,55 @@ const CommandVerbHierarchy: React.FC<CommandVerbHierarchyProps> = ({
                 </div>
                 <span className={RIBBON_STRIP_FADE_START} aria-hidden="true" />
                 <span className={RIBBON_STRIP_FADE_END} aria-hidden="true" />
+              </div>
+
+              {/* The pager: one dot per tier, the centred one a pill, and a chevron either side.
+                It browses the strip and selects nothing. It is hidden from assistive tech, and
+                its buttons are out of the tab order, because the tier headers already give a
+                keyboard or screen-reader user this movement, and a pointer convenience should
+                not add tab stops beside them. */}
+              <div className={RIBBON_PAGER} aria-hidden="true">
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  title="Previous tier"
+                  disabled={stripPos.centred <= 0}
+                  onClick={() => centreTier(Math.max(0, stripPos.centred - 1))}
+                  className={RIBBON_PAGER_ARROW}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                {sortedVerbsByGroup.map((group, index) => {
+                  const isCentred = stripPos.centred === index;
+                  const isSelected = activeTermInfo?.tier === group.tier;
+                  return (
+                    <button
+                      key={group.tier}
+                      type="button"
+                      tabIndex={-1}
+                      title={group.title}
+                      onClick={() => centreTier(index)}
+                      className={RIBBON_PAGER_DOT}
+                      style={{ '--band-rgb': getBandRgb(group.tier) } as React.CSSProperties}
+                    >
+                      <span
+                        className={`${RIBBON_PAGER_MARK} ${isCentred ? RIBBON_PAGER_MARK_CENTRED : RIBBON_PAGER_MARK_IDLE} ${isSelected ? RIBBON_PAGER_MARK_SELECTED : ''}`}
+                      />
+                    </button>
+                  );
+                })}
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  title="Next tier"
+                  disabled={stripPos.centred >= sortedVerbsByGroup.length - 1}
+                  onClick={() =>
+                    centreTier(Math.min(sortedVerbsByGroup.length - 1, stripPos.centred + 1))
+                  }
+                  className={RIBBON_PAGER_ARROW}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
               </div>
             </div>
           </div>

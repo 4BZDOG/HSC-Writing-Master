@@ -1,5 +1,27 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-13 (Verb ribbon: the tier drawer is a centred carousel)
+
+- **Changed (Verb ribbon drawer).**
+  - **Carousel at every width.** The six tier cards are a carousel from phone to desktop, not a six-column grid
+    from `xl`. The selected tier is centred, and the first and last tiers can be centred too, because the strip's
+    padding allows it. Cards are 300 to 340px wide and their height is the tallest card's, so at 1440 the drawer is
+    about 300px of cards where it was about 470px.
+  - **Focus by position (desktop).** On a pointer device, with motion allowed and scroll-driven animation available,
+    each card scales by how far it is from the middle of the strip (88% at the ends, full size in the middle). It is
+    a progressive enhancement: phones and reduced motion show every card at full size.
+  - **Pager.** Six dots and a chevron either side, under the strip. The dots browse and do not select; the centred
+    tier is a pill and the selected tier carries a ring. It is hidden from assistive technology, because the tier
+    headers give a keyboard user the same movement.
+  - **Edge fades** follow the scroll position: an edge fades only where there is more strip to scroll to.
+  - **Hover** on a receded card is now a 2px rise, not a 1.02 scale that overlapped its neighbours.
+  - **Chips** are left-aligned in their cards, not centred.
+- **Added (Verb ribbon drawer).**
+  - A mouse can drag the strip. A drag does not select anything; a click under 6px still does.
+  - The arrow keys move between tier headers, and Home and End go to the first and last. Focus only: selection
+    still needs Enter or Space.
+  - With no verb chosen, the strip rests at its midpoint, so the tier 3 and tier 4 boundary is in the middle.
+
 ## [Unreleased] - 2026-11-10 (Writing side: How to answer, Draft check, Terms and structure, the prompt's footer)
 
 - **Changed (How to answer).**

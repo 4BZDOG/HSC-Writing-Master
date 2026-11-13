@@ -536,50 +536,50 @@ export const RIBBON_DRAWER =
   'relative z-10 p-4 sm:p-6 border-t border-slate-300 bg-white ' +
   'dark:border-white/10 dark:bg-[rgb(var(--color-bg-surface))]';
 
-/** The horizontal tier strip. Six 260px cards plus gaps is ~1580px, so it
- *  overflows at nearly every width. Painted on the drawer.
+/** The horizontal tier strip: a carousel of the six tier cards, at every width.
  *
- *  `snap-proximity`, not `snap-mandatory`. Three things move this strip: the
- *  reader, the auto-scroll that centres the active tier, and the browser's own
- *  scroll-into-view when Tab takes focus into a card that is off screen.
- *  Mandatory snapping contests the last two — it is the right setting for a
- *  pager, and this is a ladder you read along. Proximity keeps the settling
- *  without the argument.
+ *  This is the detail to the staircase's overview. The staircase shows all six
+ *  tiers at once, one step each; the strip shows the tiers one at a time, with the
+ *  selected one in the middle. It was a six-column grid from `xl`, because the top
+ *  of the ladder used to be off screen. The staircase now answers that, and a grid
+ *  of narrow cards was tall and empty: chips stacked one to a row, with a band of
+ *  unused card under the short tiers. Wider cards hold the chips two or three to a row.
+ *
+ *  Every card can sit in the middle, the first and the last included. The strip's
+ *  inline padding is half the strip less half a card, so the end cells can scroll
+ *  to the centre. The card width is one custom property, `--tier-card-w`, set here,
+ *  so the padding and the cells cannot drift apart.
+ *
+ *  `snap-proximity`, not `snap-mandatory`. Three things move this strip: the reader,
+ *  the auto-scroll that centres the selected tier, and the browser's scroll-into-view
+ *  when Tab takes focus into a card off screen. Mandatory snapping contests the last
+ *  two. Proximity settles without the argument.
  *
  *  It carries `role="group"` and a name at the call site. Deliberately NOT
- *  `tabIndex={0}`: WCAG 2.1.1 is already satisfied because the 44 controls
- *  inside it are focusable, and a 51st tab stop in front of them buys nothing.
- *  Do not add one. */
+ *  `tabIndex={0}`: WCAG 2.1.1 is already satisfied because the verb controls inside
+ *  it are focusable, and a tab stop in front of them buys nothing. Do not add one. */
 export const RIBBON_STRIP =
-  // `relative`, so the cards' `offsetLeft` — which the auto-scroll that centres
-  // the selected tier is built on — is measured from THIS box in every browser.
-  // A `relative` wrapper used to do it by accident; with the wrapper gone, an
-  // unpositioned strip leaves the offset parent to the nearest positioned
-  // ancestor, which is the panel, whose left edge is not the strip's.
-  'relative flex overflow-x-auto gap-4 px-4 pb-4 pt-2 snap-x snap-proximity scrollbar-hide ' +
-  // From `xl` the six tiers sit side by side. The strip scrolled at every
-  // width, so on a 1280px laptop — the width the page is mostly used at —
-  // Evaluate, the top of the ladder, was off-screen and Discuss was cut in
-  // half: the two rungs the ladder is there to show a student they are
-  // climbing toward. At 1216px of content, six columns are 189px each, which
-  // holds the longest verb chip (DIFFERENTIATE) with room to spare.
-  'xl:grid xl:grid-cols-6 xl:overflow-visible xl:gap-3 xl:px-0 ' +
-  // `px-4` is the 1rem of padding the edge fades (`RIBBON_STRIP_FADE_*`) ramp
-  // over, so at rest the first card sits just past the left ramp at scroll 0
-  // and the last just before the right one at the far end: the selected tier is
-  // never faded out by the very device that is there to say "there is more". It
-  // is also what gives the selected card's halo somewhere to be drawn — an
-  // `overflow-x-auto` box clips at its padding edge, and at zero padding the
-  // 4px ring was cut off along the card's left side.
-  //
-  // The fades are sibling overlays and NOT a mask on this box. A `mask-image` on
-  // a scroller makes Safari render the scrolling content through a mask layer
-  // every frame, which is what a swipe felt like on an iPhone: a stutter under
-  // the thumb. See `.strip-fade` in `index.css`.
-  //
-  // `overscroll-x-contain` so a flick that reaches either end bounces here and
-  // stops, instead of chaining to the page (or, at the screen edge in Safari,
-  // starting the browser's swipe-back gesture).
+  // `relative`, so the cells' `offsetLeft`, which the auto-scroll is built on, is
+  // measured from THIS box in every browser. Without it the nearest positioned
+  // ancestor, the panel, would be the reference, and its left edge is not the strip's.
+  // `ribbon-strip` is the hook `index.css` uses for the drag cursor and the snap
+  // switch-off while a mouse drags the strip.
+  'ribbon-strip relative flex gap-3 sm:gap-4 lg:gap-5 overflow-x-auto snap-x snap-proximity scrollbar-hide ' +
+  // The card width, in one place. On a phone the card takes most of the screen, so
+  // its neighbours show at the edges and say there is more. From `sm` it is 320px,
+  // and from `lg` 340px, which holds the chips two or three to a row.
+  '[--tier-card-w:min(68vw,300px)] sm:[--tier-card-w:320px] lg:[--tier-card-w:340px] ' +
+  // Centre padding: half the strip, less half a card, on each side, so the first and
+  // last cards can be scrolled into the middle. The 1rem floor keeps a card off the
+  // screen edge on a phone, where the strip is narrower than two cards.
+  'px-[max(1rem,calc(50%_-_var(--tier-card-w)/2))] ' +
+  // Vertical room for the selected card's ring and glow, and the 2px hover rise. An
+  // overflow box clips both axes. The glow falls further than it rises (the halo's
+  // shadow is `0 20px 56px -10px`, which reaches 38px below the card), so the
+  // bottom gets the larger share and no more than the glow needs.
+  'pt-3 pb-10 ' +
+  // A flick that reaches either end bounces here and stops, instead of chaining to
+  // the page or, at the screen edge in Safari, starting the browser's swipe-back.
   'overscroll-x-contain';
 
 /** The strip's frame: the positioning context the two edge fades are placed
@@ -592,6 +592,48 @@ export const RIBBON_STRIP_FRAME = 'relative';
 export const RIBBON_STRIP_FADE_START = 'strip-fade strip-fade-start';
 export const RIBBON_STRIP_FADE_END = 'strip-fade strip-fade-end';
 
+/** The pager under the strip: a quiet row of six dots between two chevrons, one dot per
+ *  tier. It browses. It centres a tier in the strip and does not select, so selection
+ *  stays on the card headers, the chips and the staircase. Painted on the drawer, which is
+ *  white in the light theme and the surface token in the dark one.
+ *
+ *  It is `aria-hidden` at the call site, with `tabIndex={-1}` on every control, because
+ *  the tier headers already give a keyboard or screen-reader user this movement (the arrow
+ *  keys, Home and End). A pointer convenience should not add eight tab stops beside them. */
+export const RIBBON_PAGER = 'flex items-center justify-center gap-1.5 select-none';
+
+/** A pager dot's hit area: 24px square, 32px on a phone, where the thumb is the pointer.
+ *  The dot itself is drawn inside it (`RIBBON_PAGER_MARK`). */
+export const RIBBON_PAGER_DOT =
+  'inline-flex items-center justify-center w-6 h-6 max-sm:w-8 max-sm:h-8 rounded-full touch-manipulation cursor-pointer';
+
+/** A previous or next chevron: 32px, and 44px on a phone. It is dimmed and inert at the
+ *  first and last tier, through the `disabled` attribute. Its hover is gated to devices that
+ *  can hover, as the rest of the ribbon's is. Painted on the drawer. */
+export const RIBBON_PAGER_ARROW =
+  'inline-flex items-center justify-center w-8 h-8 max-sm:w-11 max-sm:h-11 rounded-full touch-manipulation cursor-pointer ' +
+  'text-slate-600 dark:text-[rgb(var(--color-text-muted))] transition-colors duration-200 ' +
+  'can-hover:hover:enabled:bg-slate-100 dark:can-hover:hover:enabled:bg-white/10 ' +
+  'disabled:opacity-40 disabled:cursor-default';
+
+/** The dot itself. Its colour is the tier's hue, from `--band-rgb` on the button, and it is set in
+ *  `index.css` (`.ribbon-pager-mark*`), not here: the same hue serves both themes, as the halo's
+ *  does, and the colour belongs with the other tier colours. Its width says whether it is the tier
+ *  now in the middle: a pill when it is, 8px when it is not. Only the width and the colour move,
+ *  and both are transitioned there. */
+export const RIBBON_PAGER_MARK = 'block h-2 rounded-full ribbon-pager-mark';
+
+/** The centred tier's pill: full strength, 20px wide. */
+export const RIBBON_PAGER_MARK_CENTRED = 'w-5 ribbon-pager-mark-centred';
+
+/** Every other tier's dot: 8px, at 60% of its hue, so the centred one reads at once. */
+export const RIBBON_PAGER_MARK_IDLE = 'w-2 ribbon-pager-mark-idle';
+
+/** The selected verb's tier: a 2px ring in its hue, set off from the dot by a see-through 2px gap,
+ *  so it shows the drawer in either theme. It is applied whether or not that tier is the one in the
+ *  middle, so "where I am looking" and "what I have selected" are both legible when they differ. */
+export const RIBBON_PAGER_MARK_SELECTED = 'ribbon-pager-mark-selected';
+
 /** One tier card. Its edge comes from `band-edge` (or `band-edge-strong` when it is
  *  the selected tier, set at the call site), its fill from `RIBBON_TIER_CARD_IDLE`
  *  or `RIBBON_TIER_CARD_CURRENT`. Painted on the strip, which is painted on the
@@ -603,17 +645,17 @@ export const RIBBON_STRIP_FADE_END = 'strip-fade strip-fade-end';
 export const RIBBON_TIER_CARD =
   'flex-1 min-w-0 relative isolate overflow-hidden rounded-2xl border flex flex-col group/card ribbon-tier-card';
 
-/** The cell a tier card sits in: the strip's flex item, which owns the width,
- *  the snap point and the position the auto-scroll measures, and which holds the
- *  card and its halo side by side. Splitting them is what lets the card clip its
- *  own corners (`overflow-hidden`) while the halo — a ring and a glow that paint
- *  OUTSIDE the box — is not clipped with it.
+/** The cell a tier card sits in: the strip's flex item. It owns the width
+ *  (`--tier-card-w`, set on the strip), the snap point, and the box the auto-scroll
+ *  measures. It holds the card and its halo side by side. Splitting them lets the card
+ *  clip its own corners (`overflow-hidden`) while the halo, a ring and a glow painted
+ *  OUTSIDE the box, is not clipped with it.
  *
- *  `flex` so the card fills the cell's height (every card is as tall as the
- *  tallest, for free). From `xl` the strip is a six-column grid and the cell is
- *  the grid item. */
+ *  `ribbon-tier-slot` is where the position-based focus is set, in `index.css`: the
+ *  cell scales by how far it is from the middle of the strip. That is a scroll-driven
+ *  animation, so it is off on phones and under reduced motion. */
 export const RIBBON_TIER_SLOT =
-  'relative flex flex-shrink-0 w-[260px] xl:w-auto xl:min-w-0 snap-center';
+  'ribbon-tier-slot relative flex flex-shrink-0 w-[var(--tier-card-w)] snap-center';
 
 /** The selected tier's halo: a 2px tier-hued border, a 4px ring and the glow
  *  beneath, all drawn on an overlay that sits over the card and is faded in and
@@ -662,36 +704,33 @@ export const RIBBON_TIER_HALO =
  *  removing the pair from here does not leave a colour with no partner. */
 export const RIBBON_TIER_CARD_IDLE = 'bg-white shadow-sm dark:bg-white/[0.03] dark:shadow-none';
 
-/** Added to the card whose tier the selected verb belongs to. All it states is
- *  the stacking order, `z-10`, above the receded cards at `z-0`, and the card's
- *  fill: `band-fill`, the mark ladder's own row fill, drawn a step stronger for the
- *  ribbon by `.ribbon-tier-card.band-fill` in `index.css`, which leaves the ladder's
- *  own alphas alone. What marks it as selected beyond that is its halo
+/** Added to the card whose tier the selected verb belongs to. What it states is the
+ *  stacking order, `z-10`, above the receded cards at `z-0`, and the card's fill:
+ *  `band-fill`, the mark ladder's row fill, drawn a step stronger for the ribbon by
+ *  `.ribbon-tier-card.band-fill` in `index.css`. What else marks it is its halo
  *  (`RIBBON_TIER_HALO`) and its solid header (`RIBBON_TIER_HEADER_SELECTED`).
  *
- *  It no longer carries a border width, a transform or a shadow. `border-2` here
- *  and 1px on the others meant selecting a tier re-laid out the card's contents
- *  by a pixel, mid-transition; the halo draws the heavier edge over a card that
- *  is the same box in every state. And the selected card does not scale, for the
- *  reason measured earlier: a 5% scale on a 260px card overhangs 6.5px each side
- *  and takes the adjacent gaps to 9.5px against the row's 16px. */
+ *  No border width, transform or shadow. `border-2` here, and 1px on the others, once
+ *  made selecting a tier re-lay out the card's contents by a pixel mid-transition. The
+ *  halo draws the heavier edge over a card that is the same box in every state. The
+ *  selected card is full size because it sits in the middle; the scale belongs to the
+ *  cell (`ribbon-tier-slot`), not the card. */
 export const RIBBON_TIER_CARD_CURRENT = 'z-10 band-fill';
 
-/** Added to a card that is NOT the selected verb's tier, and to all six when
- *  no verb is selected. These cards hold 32 of the ribbon's 38 verb buttons,
- *  so everything on them stays clickable and stays in the tab order — and a
- *  control a keyboard user can reach has to be legible.
+/** Added to a card that is NOT the selected verb's tier, and to all six when no verb is
+ *  selected. These cards hold most of the ribbon's verb buttons, so everything on them
+ *  stays clickable and in the tab order, and a control a keyboard user can reach has to
+ *  be legible.
  *
- *  Nothing here dims. The history is worth keeping because it took three passes
- *  to land: `opacity-50 light:opacity-70` took the card subtitle to a measured
- *  2.72:1; `opacity-90` left it AT the floor rather than above it. De-emphasis
- *  is now carried entirely by colour and weight — the current card takes the
- *  tier's halo and these do not — so every reading inside them is at its own
- *  full contrast.
+ *  Nothing here dims. The history is worth keeping because it took three passes to land:
+ *  `opacity-50 light:opacity-70` took the card subtitle to a measured 2.72:1, and
+ *  `opacity-90` left it AT the floor rather than above it. De-emphasis is carried by
+ *  colour, by weight and by the cell's position-based scale, so every reading inside a
+ *  receded card is at its own full contrast.
  *
- *  `tier-lift` is the hover the old `hover:scale-95` was written to give. It is
- *  gated to devices that can hover (`index.css`), so a tap on a phone does not
- *  leave the card enlarged. */
+ *  `tier-lift` is a 2px rise on hover. It uses the individual `translate` property, so it
+ *  composes with the cell's `scale` and never claims `transform`. It is gated to devices
+ *  that can hover (`index.css`), so a tap on a phone does not leave the card raised. */
 export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
 
 /** A tier card's header, which is the "select this tier" control. The card cannot
@@ -713,8 +752,9 @@ export const RIBBON_TIER_CARD_RECEDED = 'tier-lift z-0';
  *  away on three sides. Inset is the shape this button can wear. */
 export const RIBBON_TIER_HEADER =
   'w-full text-left grid grid-cols-[auto_minmax(0,1fr)] items-center gap-x-3 gap-y-2 px-5 pt-4 pb-2.5 border-b relative cursor-pointer transition-[filter] can-hover:hover:brightness-110 active:brightness-95 touch-manipulation select-none ' +
-  // From `xl`, where the six cards share the row at about 189px each, the
-  // header keeps the same two rows and drops to the card's own inset.
+  // From `xl` the header drops to a tighter inset. The cards are a carousel at every
+  // width now, so this is a matter of the header's own proportions, not of a column
+  // that is narrow. The two rows stay the same.
   'xl:px-4 ' +
   'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
@@ -788,14 +828,13 @@ export const RIBBON_TIER_BAND_IDLE = 'ribbon-tier-band';
  *  which sets its own size and tracking and cannot be adjusted from a call site.
  *  The face and weight are shared; the size and tracking are sized for this row.
  *
- *  It WRAPS, where it once truncated, and is clamped at THREE, which is what the
- *  longest name needs at the xl column width. The floor reserves the lines the
- *  card's own width can need, so one long name cannot push its own header out of
- *  step with the five beside it: two lines below `xl`, three from `xl`, where the
- *  column is narrower. A one-line name leaves the rest of that floor empty and the
- *  heights still agree, which is the point of the floor. */
+ *  It WRAPS, where it once truncated, and is clamped at three lines. From `sm`
+ *  the card is 320px or wider and the longest name sits on one line, so the row
+ *  is as tall as its text. On a phone the card is narrower and a long name takes
+ *  two, so the floor reserves two there: one long name cannot then push its own
+ *  header out of step with the five beside it. */
 export const RIBBON_TIER_HEADER_TITLE =
-  'col-span-2 row-start-2 min-h-[2.25rem] xl:min-h-[3.3rem] 2xl:min-h-[2.25rem] t-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
+  'col-span-2 row-start-2 max-sm:min-h-[2.25rem] t-display uppercase italic text-sm tracking-[0.06em] leading-tight line-clamp-3';
 
 /** What the tier asks of the writer, under its header. Painted on the tier
  *  card body. */
@@ -822,7 +861,7 @@ export const RIBBON_TIER_SUBTITLE_IDLE = 'text-slate-600 dark:text-[rgb(var(--co
 /** One verb chip. The selected/unselected fills are the tier config's, at the
  *  call site. Painted on the tier card body. */
 export const RIBBON_VERB_CHIP =
-  't-label px-3 py-1.5 max-sm:min-h-11 rounded-xl border touch-manipulation select-none ' +
+  't-label px-3 py-1.5 max-sm:min-h-11 rounded-xl border touch-manipulation select-none cursor-pointer ' +
   'transition-[transform,background-color,border-color,color] duration-200 ease-out active:scale-95';
 
 /** An unselected verb pill. Its tint and edge are `.ribbon-verb-chip` in `index.css`,

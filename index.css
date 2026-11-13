@@ -898,35 +898,34 @@ a:focus-visible,
 }
 
 /*
- * The tier cards' hover lift, and why it is a class here rather than `scale-*`
- * at the call site.
+ * The tier cards' hover lift, and why it is a class here rather than `scale-*` at the
+ * call site.
  *
  * It used to be a pair of classes that existed to out-rank `.clip-stable`, whose
- * `transform: translateZ(0)` beat every `scale-*` utility at equal specificity
- * (so `scale-90` had never applied, and the one scale that did fire was
- * `hover:scale-95`, which shrank a hovered card). The cards no longer carry
- * `.clip-stable`: that class is a permanent compositing layer plus an opaque
- * `-webkit-mask-image`, and on six cards that were also running a 700ms
- * `transition-all` with an overshoot curve it was the heaviest thing on the
- * ribbon in Safari. With it gone nothing else claims `transform` on a card, so
- * this is the only rule that does.
+ * `transform: translateZ(0)` beat every `scale-*` utility at equal specificity. The
+ * cards no longer carry `.clip-stable`, which is a permanent compositing layer plus an
+ * opaque `-webkit-mask-image`, and on six cards it was the heaviest thing on the ribbon
+ * in Safari.
+ *
+ * The lift is now a rise of 2px, by the individual `translate` property, and not a
+ * scale. A scale of 1.02 on a 300px card overhung its neighbours. The position-based
+ * focus (`.ribbon-tier-slot`) already scales the CELL by position, through the separate
+ * `scale` property, so the two compose and neither claims `transform`.
  *
  * THE LIFT ONLY EXISTS WHERE A POINTER CAN HOVER. On a touch screen a tap leaves
- * `:hover` stuck on the card until the next tap elsewhere, so the card the
- * reader had just tapped sat at 1.02 and then animated back when the selection
- * moved away. Inside `@media (hover: hover)` an iPhone never sees it.
+ * `:hover` stuck on the card until the next tap elsewhere, so the card the reader had
+ * just tapped sat raised and then dropped when the selection moved away. Inside
+ * `@media (hover: hover)` an iPhone never sees it.
  *
- * The selected card is not lifted at all — it is marked by its halo (see
- * `RIBBON_TIER_HALO`), which costs no geometry — so only the receded cards carry
- * the class. 1.02 is 2.6px a side on a 260px card, which is under the eye's
- * threshold for a row this wide; it is a hover, so it is gone with the cursor.
+ * The selected card is not lifted. It is marked by its halo (see `RIBBON_TIER_HALO`),
+ * which costs no geometry, so only the receded cards carry the class.
  */
 .tier-lift {
-  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: translate 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 @media (hover: hover) {
   .tier-lift:hover {
-    transform: scale(1.02);
+    translate: 0 -2px;
   }
 }
 
@@ -2267,25 +2266,26 @@ a:focus-visible,
 /*
  * The verb ribbon's strip, faded into the drawer at both ends.
  *
- * `scrollbar-hide` removes the only signal that the strip scrolls, and the fade
- * is what replaced it. It is two small gradient overlays rather than a
- * `mask-image` on the scroller, which it used to be, and the reason is Safari:
- * a mask on a scrolling box makes the browser render the whole scroller through
- * a mask layer, and on iOS that is what turns a flick into a stutter — every
- * frame of the swipe re-masks the cards under the reader's thumb. Two static
- * gradients sit still while the cards slide under them.
+ * `scrollbar-hide` removes the only signal that the strip scrolls, and the fade is what
+ * replaces it. It is two small gradient overlays rather than a `mask-image` on the
+ * scroller. A mask on a scrolling box makes Safari render the whole scroller through a
+ * mask layer, and on iOS that is what turns a flick into a stutter: every frame of the
+ * swipe re-masks the cards under the reader's thumb. Two static gradients sit still
+ * while the cards slide under them.
  *
- * They end in the DRAWER's own colour, which is why they are safe here when the
- * old overlays were not: the drawer is opaque in both themes and its fill is
- * the surface token (white in the light theme, which the token resolves to), so
- * there is no page colour to get wrong. The far stop is the same colour at zero
- * alpha rather than `transparent`, which Safari interpolates through grey.
+ * They end in the DRAWER's own colour, which is why they are safe here. The drawer is
+ * opaque in both themes and its fill is the surface token, so there is no page colour
+ * to get wrong. The far stop is the same colour at zero alpha rather than `transparent`,
+ * which Safari interpolates through grey.
  *
- * Two rems of ramp. The strip carries 1rem of side padding (`RIBBON_STRIP`), so
- * at rest the first and last cards sit just clear of their ramp and only a card
- * being scrolled past an edge is faded — never the selected one, flush at an
- * end. From `xl` the six tiers sit side by side, nothing scrolls, and there is no
- * edge to fade toward.
+ * They show only on a side that has more strip to scroll to. The strip's scroll
+ * position sets `data-at-start` and `data-at-end` on the frame (see
+ * `CommandVerbHierarchy`), and the opacity follows them with a short fade. At every
+ * width, so a wide window with a centred card still shows that there is more on each
+ * side.
+ *
+ * Two rems of ramp. The strip carries side padding of half its width less half a card,
+ * floored at 1rem, so a selected card at either end never sits under the ramp.
  */
 .strip-fade {
   position: absolute;
@@ -2294,6 +2294,8 @@ a:focus-visible,
   z-index: 30;
   width: 2rem;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 200ms ease-out;
 }
 .strip-fade-start {
   left: 0;
@@ -2311,10 +2313,89 @@ a:focus-visible,
     rgb(var(--color-bg-surface) / 0)
   );
 }
-@media (min-width: 1280px) {
-  .strip-fade {
-    display: none;
+/* The drawer is white in the light theme, and the token above resolves to white there,
+   so the same gradient serves both. */
+[data-at-start='false'] > .strip-fade-start,
+[data-at-end='false'] > .strip-fade-end {
+  opacity: 1;
+}
+
+/*
+ * The pager's dots (`RIBBON_PAGER_MARK*` in `utils/verbRibbonChrome.ts`), painted in the tier's
+ * own hue from `--band-rgb`, which the button sets. One hue in both themes, as the halo is, on a
+ * mark that has no ground of its own. The selected tier's ring is an outline with an offset, so
+ * the gap between it and the dot is see-through and shows the drawer whichever theme it is.
+ */
+.ribbon-pager-mark {
+  transition:
+    width 200ms ease-out,
+    background-color 200ms ease-out;
+}
+.ribbon-pager-mark-centred {
+  background-color: rgb(var(--band-rgb));
+}
+.ribbon-pager-mark-idle {
+  background-color: rgb(var(--band-rgb) / 0.6);
+}
+.ribbon-pager-mark-selected {
+  outline: 2px solid rgb(var(--band-rgb));
+  outline-offset: 2px;
+}
+
+/*
+ * Position-based focus on the tier cards, desktop only.
+ *
+ * The cell nearest the middle of the strip is full size, and the cells either side
+ * step down towards 88% at the ends. The scale is a scroll-driven animation on the
+ * cell's own `scale` property, so it follows the reader's scroll and needs no script.
+ * It uses `scale` and not `transform`, so it composes with the card's hover rise and
+ * never claims `transform` on a card, which is what the `.clip-stable` history above
+ * warns about.
+ *
+ * Gated twice. `(hover: hover)` keeps it off a phone, where the strip is a swipe and the
+ * cards are already the width of the screen, so scaling them down would only shrink the
+ * text the thumb is reading. `prefers-reduced-motion: no-preference` keeps it off for a
+ * reader who asked for no motion. `@supports (animation-timeline: view())` is the
+ * progressive part: a browser without scroll-driven animations shows every card at full
+ * size, which is the layout the rest of the ribbon was built on.
+ */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .ribbon-tier-slot {
+      animation: ribbon-tier-focus linear both;
+      animation-timeline: view(inline);
+      animation-range: cover 0% cover 100%;
+    }
+    @keyframes ribbon-tier-focus {
+      0%,
+      100% {
+        scale: 0.88;
+      }
+      45%,
+      55% {
+        scale: 1;
+      }
+    }
   }
+}
+
+/*
+ * Mouse drag on the tier strip.
+ *
+ * The script that drags the strip sets `data-dragging` while a press is moving. The
+ * strip then stops snapping (or the scroll would fight the pointer) and stops selecting
+ * text under the pointer. The grab cursor is a hover affordance, so it is gated the same
+ * way as the rest of the ribbon's hover, and touch and pen never see it.
+ */
+@media (hover: hover) {
+  .ribbon-strip {
+    cursor: grab;
+  }
+}
+.ribbon-strip[data-dragging] {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  user-select: none;
 }
 
 /*
