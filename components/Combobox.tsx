@@ -90,6 +90,11 @@ interface ComboboxOption {
    * here still are.
    */
   group?: string;
+  /**
+   * Whether the row is picked. Read only under `keepOpenOnSelect`, where there
+   * is no single `value` to compare against; it sets `aria-selected`.
+   */
+  selected?: boolean;
 }
 
 interface ComboboxProps {
@@ -143,6 +148,14 @@ interface ComboboxProps {
    * the keyboard can reach the same place the mouse can.
    */
   onDisabledPick?: (id: string) => void;
+  /**
+   * A multi-pick: each choice calls `onChange` and the list stays open, with
+   * focus where it was and the highlight on the row just picked, so several
+   * can be chosen in one visit. `value` names one option, so the rows report
+   * their own state through `ComboboxOption.selected`. Escape, Tab and an
+   * outside click still close it.
+   */
+  keepOpenOnSelect?: boolean;
 }
 
 const colorStyles: Record<
@@ -236,9 +249,11 @@ const ComboboxOptionRow: React.FC<{
   listboxId: string;
   className: string;
   isSelected: boolean;
+  /** What `aria-selected` says. Separate from `isSelected`, which also drives the entrance animation. */
+  ariaSelected: boolean;
   onClick: () => void;
   onMouseEnter: () => void;
-}> = ({ option, index, listboxId, className, isSelected, onClick, onMouseEnter }) => {
+}> = ({ option, index, listboxId, className, isSelected, ariaSelected, onClick, onMouseEnter }) => {
   // Plays once — right as the row first renders selected (dropdown opening on
   // the current value) or the moment a click/keyboard action lands here — and
   // never again while it merely stays selected through an unrelated re-render.
@@ -259,7 +274,7 @@ const ComboboxOptionRow: React.FC<{
       onMouseEnter={onMouseEnter}
       className={`${className} ${isSelected && justSelected ? 'animate-fade-in-up-sm' : ''}`}
       role="option"
-      aria-selected={isSelected}
+      aria-selected={ariaSelected}
       aria-disabled={option.disabled || undefined}
     >
       <div className="flex items-center whitespace-normal w-full">
@@ -283,6 +298,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   optionNoun = 'options',
   summary,
   onDisabledPick,
+  keepOpenOnSelect = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -292,7 +308,16 @@ const Combobox: React.FC<ComboboxProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
-  const [menuRect, setMenuRect] = useState({ top: 0, left: 0, width: 0 });
+  // Where the menu sits. An above-placed menu is anchored by `bottom`, so a
+  // short list hugs the trigger without its rendered height being measured.
+  const [menuPos, setMenuPos] = useState<{
+    placement: 'below' | 'above';
+    top?: number;
+    bottom?: number;
+    left: number;
+    width: number;
+    listMaxHeight: number;
+  }>({ placement: 'below', top: 0, left: 0, width: 0, listMaxHeight: 288 });
   const selectedOption = options.find((opt) => opt.id === value);
   const labelId = useId();
   const listboxId = useId();
@@ -378,27 +403,64 @@ const Combobox: React.FC<ComboboxProps> = ({
       const margin = 8;
       const viewportHeight = window.innerHeight;
       const viewportWidth = window.innerWidth;
-      // Worst-case menu height: the list's own CSS cap (`max-h-72` = 288px
-      // below) plus the search bar row when present. A `position: fixed`
-      // element can't be brought on-screen by scrolling the page — scrolling
-      // doesn't move it at all — so a trigger near the bottom of a short
-      // viewport (any phone in portrait) put `rect.bottom + 8` past the fold
-      // with nothing able to reach the options underneath. Caught by the
-      // Mobile Safari e2e suite, which — unlike a desktop click in dev —
-      // actually runs at a real small viewport height.
-      const menuHeight = 288 + (isSearchable ? 52 : 0);
-
-      let top = rect.bottom + margin;
-      if (top + menuHeight > viewportHeight - margin) {
-        top = Math.max(margin, viewportHeight - margin - menuHeight);
-      }
+      // The list scrolls within a cap of 480px, or 60% of the viewport on a
+      // short screen, whichever is smaller.
+      const cap = Math.min(480, Math.round(viewportHeight * 0.6));
+      // What sits beside the scrolling list inside the menu: the search row
+      // when there is one (52px, the figure this file already used; it renders
+      // nearer 46px, so the bound errs on the safe side), plus the menu's own
+      // 1px border top and bottom. The list's padding is inside its max-height.
+      const chrome = (isSearchable ? 52 : 0) + 2;
+      const spaceBelow = viewportHeight - rect.bottom - 2 * margin;
+      const spaceAbove = rect.top - 2 * margin;
 
       let left = rect.left;
       if (left + rect.width > viewportWidth - margin) {
         left = Math.max(margin, viewportWidth - margin - rect.width);
       }
 
-      setMenuRect({ top, left, width: rect.width });
+      // Placement rule. Open below when the room there holds the whole capped
+      // list, or when it is at least as roomy as the room above. Otherwise open
+      // above. The list is then bounded by the side it opens on, so it never
+      // runs off the screen. A shorter threshold (240px) opened a low trigger
+      // below with about 2.5 rows, while the room above was twice as large.
+      const below = spaceBelow >= cap + chrome || spaceBelow >= spaceAbove;
+
+      // Neither side can hold a readable list. A `position: fixed` element
+      // cannot be brought on-screen by scrolling, so pin it inside the viewport
+      // and accept that it covers the trigger: every option must still be
+      // reachable. The Mobile Safari e2e suite runs at a real small viewport
+      // height and is what caught the original overflow.
+      if (Math.max(spaceBelow, spaceAbove) - chrome < 120) {
+        setMenuPos({
+          placement: 'below',
+          top: margin,
+          left,
+          width: rect.width,
+          listMaxHeight: viewportHeight - 2 * margin - chrome,
+        });
+        return;
+      }
+
+      const side = below ? spaceBelow : spaceAbove;
+      const listMaxHeight = Math.max(120, Math.min(cap, side - chrome));
+      setMenuPos(
+        below
+          ? {
+              placement: 'below',
+              top: rect.bottom + margin,
+              left,
+              width: rect.width,
+              listMaxHeight,
+            }
+          : {
+              placement: 'above',
+              bottom: viewportHeight - rect.top + margin,
+              left,
+              width: rect.width,
+              listMaxHeight,
+            }
+      );
     };
     updatePosition();
     // Capture phase so scrolling any ancestor — not just the window — keeps
@@ -456,6 +518,8 @@ const Combobox: React.FC<ComboboxProps> = ({
    */
   const commit = (id: string) => {
     onChange(id);
+    // A multi-pick stays open with focus where it is: the person is mid-selection.
+    if (keepOpenOnSelect) return;
     setIsOpen(false);
     buttonRef.current?.focus();
   };
@@ -571,9 +635,15 @@ const Combobox: React.FC<ComboboxProps> = ({
   // offscreen highlight made arrow-key selection feel broken.
   useEffect(() => {
     if (!isOpen) return;
-    listRef.current
-      ?.querySelector(`[data-option-index="${highlightedIndex}"]`)
-      ?.scrollIntoView({ block: 'nearest' });
+    // One frame late: on open the menu is still settling into its placed
+    // position, and a scroll measured against the old box shifted the first
+    // row under the sticky group heading on a phone.
+    const frame = requestAnimationFrame(() => {
+      listRef.current
+        ?.querySelector(`[data-option-index="${highlightedIndex}"]`)
+        ?.scrollIntoView({ block: 'nearest' });
+    });
+    return () => cancelAnimationFrame(frame);
   }, [isOpen, highlightedIndex]);
 
   const getListItemClasses = (option: ComboboxOption, isSelected: boolean): string => {
@@ -700,13 +770,15 @@ const Combobox: React.FC<ComboboxProps> = ({
         createPortal(
           <div
             ref={dropdownRef}
+            data-placement={menuPos.placement}
             style={{
               position: 'fixed',
-              top: menuRect.top,
-              left: menuRect.left,
-              width: menuRect.width,
+              top: menuPos.top,
+              bottom: menuPos.bottom,
+              left: menuPos.left,
+              width: menuPos.width,
             }}
-            className={`z-dropdown rounded-xl overflow-hidden animate-fade-in border ${listStateStyles}`}
+            className={`z-dropdown rounded-xl overflow-hidden animate-fade-in border ${menuPos.placement === 'above' ? 'origin-bottom' : ''} ${listStateStyles}`}
           >
             {/* Sits outside the scroll region so it stays put while the list
             moves under it. */}
@@ -754,7 +826,16 @@ const Combobox: React.FC<ComboboxProps> = ({
               role="listbox"
               aria-labelledby={label ? labelId : undefined}
               aria-label={label ? undefined : caption}
-              className="max-h-72 py-1 overflow-auto custom-scrollbar"
+              aria-multiselectable={keepOpenOnSelect || undefined}
+              // A multi-pick keeps focus where it was: a click on a row would
+              // otherwise move it to <body>. The scrollbar is left alone.
+              onMouseDown={(e) => {
+                if (keepOpenOnSelect && (e.target as Element).closest('[role="option"]')) {
+                  e.preventDefault();
+                }
+              }}
+              style={{ maxHeight: menuPos.listMaxHeight }}
+              className="py-1 overflow-auto custom-scrollbar"
             >
               {optionRuns.length > 0 ? (
                 optionRuns.map((run) => {
@@ -765,6 +846,7 @@ const Combobox: React.FC<ComboboxProps> = ({
                       index={index}
                       listboxId={listboxId}
                       isSelected={option.id === value}
+                      ariaSelected={keepOpenOnSelect ? !!option.selected : option.id === value}
                       className={`${option.disabled && !onDisabledPick ? 'cursor-not-allowed' : 'cursor-pointer'} ${run.group ? 'scroll-mt-9' : ''} select-none relative py-3 pr-9 transition-[color,background-color,border-color,transform] active:scale-[0.98] ${
                         index === highlightedIndex
                           ? `${getListItemClasses(option, true)}`

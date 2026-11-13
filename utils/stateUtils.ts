@@ -304,3 +304,22 @@ export const deleteSyllabusItem = (
 
   return { updatedCourses, newPath };
 };
+
+/**
+ * Selects a newly created prompt only if the reader is still where they were
+ * when they asked for it. Generation is awaited and can take seconds; spreading
+ * the old path back in would drag them away from wherever they have moved to.
+ * Returns `current` unchanged (same reference) when the place differs.
+ */
+export const selectPromptIfStillThere = (
+  current: StatePath,
+  origin: StatePath,
+  promptId: string
+): StatePath => {
+  const sameDotPoint =
+    current.courseId === origin.courseId &&
+    current.topicId === origin.topicId &&
+    current.subTopicId === origin.subTopicId &&
+    current.dotPointId === origin.dotPointId;
+  return sameDotPoint ? { ...current, promptId } : current;
+};

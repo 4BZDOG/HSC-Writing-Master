@@ -235,15 +235,15 @@ describe('the option list portals clear of a clipping ancestor', () => {
 
     fireEvent.click(trigger);
 
-    const menu = screen.getByRole('listbox').closest('div[style]') as HTMLElement;
-    const top = parseFloat(menu.style.top);
-    // questions.length === SEARCH_THRESHOLD, so the search bar is present:
-    // worst-case menu height is 288 (the list's max-h-72) + 52 (search bar).
-    const menuHeight = 288 + 52;
-    const viewportBottomMargin = 700 - 8;
-
-    expect(top).toBeLessThan(698 + 8); // did NOT naively use rect.bottom + 8
-    expect(top + menuHeight).toBeLessThanOrEqual(viewportBottomMargin);
+    const menu = screen.getByRole('listbox').closest('[data-placement]') as HTMLElement;
+    // Too little room below, so the menu opens above, anchored by its bottom edge
+    // 8px clear of the trigger. It did NOT naively go to rect.bottom + 8.
+    expect(menu.getAttribute('data-placement')).toBe('above');
+    expect(menu.style.bottom).toBe(`${700 - 690 + 8}px`);
+    // questions.length === SEARCH_THRESHOLD, so the search bar is present: the
+    // list plus its 52px search row and 2px border fits in the room above.
+    const listMax = parseFloat(screen.getByRole('listbox').style.maxHeight);
+    expect(listMax + 52 + 2).toBeLessThanOrEqual(690 - 8);
   });
 });
 
