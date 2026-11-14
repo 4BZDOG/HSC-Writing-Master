@@ -248,9 +248,34 @@ state as if it were a DOM state.
   its buttons stay in the tab order and in the accessibility tree. `inert`
   costs nothing visually, unlike hiding the content, which fights the
   animation.
+- **A set of buttons is a group, not a tab list or a toolbar.** The mode switch and
+  the scenario slide toggle are `role="group"` with `aria-pressed`; the maths symbols
+  are a plain `role="group"` of buttons that insert text. `tablist` and `toolbar`
+  promise arrow-key movement, Home and End, and one tab stop for the set; a control
+  that does not implement that model must not claim the role.
 
 Both concerns arbitrate by stack, matching `useEscapeKey`: only the topmost
 surface acts, because dialogs do open over each other.
+
+### The navigator bar and its pickers
+
+- **The path is 13px from `lg`** (11px below), because it is the thing to read there.
+  Short names keep their full width. Only a long name shrinks, and only to a floor for
+  its level (`--crumb-floor`: half an em a character, up to 6em for an ancestor and 12em
+  for the deepest level). A short name cut to "Cont…" reads as nothing, which is why the
+  short ones are exempt. Below `sm` the path does not shrink at all: it scrolls to the
+  deepest level.
+- **Marks and band leave the bar below `xl`.** The prompt card repeats them, so the bar
+  keeps the path, and the verb chip's title carries what is left out.
+- **A picker menu opens on the side with more room**, above its trigger when there is
+  more space there. It scrolls within the smaller of 480px and 60% of the viewport. When
+  neither side has room for that, it is still held on screen so every option can be reached.
+- **A locked option stays a live control.** Clicking it, or pressing Enter, opens the
+  upgrade request. It must not do nothing: a student who cannot see why nothing happened
+  will not find the upgrade.
+- **Single-pick lists close on a choice; a multi-pick list stays open while ticking**
+  (`keepOpenOnSelect`). It is an `aria-multiselectable` listbox, and each row reports its
+  own state as `aria-selected`. Tab closes any list.
 
 ### The question card's corner and foot
 
@@ -286,6 +311,24 @@ The info sheets opened from the card take their facts from existing data:
 full-mark answer holds (`getStructureExpectation`). It is in the outcome brief and the
 verb guide, and is not repeated by either.
 
+### The writing card's footer and header tools
+
+- **Three groups, in one order at every width.** On the left, the draft's status: the
+  word count, then whether it is saved. In the middle, readiness: the meter takes the
+  spare width from `lg`. On the right, the free-markings count, then Evaluate. Gaps are
+  12px inside a group and 16px between groups. Below `lg` the footer wraps to two rows;
+  the reading order is the same, so a screen reader hears one sequence at every width.
+- **The band is stated once,** in the header's chip. The footer does not repeat it, and
+  the completeness word lives on the readiness meter and nowhere else in the footer.
+- **"Saved" is only ever true of the store.** When the save to this device fails the
+  footer says "Not saved", and never "Saved" while the store refuses writes.
+- **An empty draft's Evaluate is `aria-disabled`, not `disabled`,** and points at its
+  reason through `aria-describedby`. A disabled button leaves the tab order and takes its
+  reason with it, so a keyboard or screen-reader user would not learn why it is off.
+- **Header toolbar buttons are 32px from `sm`,** and 44px below, which is the touch size.
+  The mode labels "Coach" and "Exam" are spelt out from `2xl`; below that they are icons,
+  so the tray stays on one line and the header keeps its height.
+
 ### Focus Mode and Exam Mode on desktop
 
 On a desktop Focus Mode opens with the question in view: the layout's top edge, the
@@ -310,6 +353,10 @@ min` in the overrun tone). The strip keeps the running clock and its spoken name
 footer copy is hidden from assistive technology, because it is a second visual copy.
 It is shown so the clock can be seen without scrolling, and its line does not change
 the footer's height.
+
+The clock has no pause or reset. A sitting does not stop while the student thinks, so
+the controls are removed rather than disabled, and the clock is read from the wall clock:
+a hidden tab catches up when it is shown again. Leaving Exam keeps the elapsed time.
 
 Exam Mode also puts the aids away. The command verb reference bar is not rendered
 (it is the verb guide, which is assistance), and the question and scenario text are
@@ -373,7 +420,7 @@ fact that decides a student's ceiling — **the command verb caps the band** —
 the design makes that fact the picture: the verb is set at poster scale, and a
 staircase of six tier columns shows how far it lets a response climb.
 
-The drawer under the stage is a centred carousel at every width. The staircase is the overview, with all six tiers at once, and the carousel is the detail: one card at a time, the selected tier in the middle and its neighbours a step smaller either side. On a desktop the cards scale by position, so the middle reads as the one in focus; a phone, or a reader who has asked for less motion, gets the same carousel at full size, and a pager of six dots browses it without selecting. The six-column grid that replaced it from `xl` has gone, because the staircase now shows the whole ladder and the grid's narrow cards stacked the chips and left the short tiers half empty.
+The drawer under the stage is a centred carousel at every width. The staircase is the overview, with all six tiers at once, and the carousel is the detail: one card at a time, the selected tier in the middle and its neighbours a step smaller either side. On a desktop the cards scale by position, so the middle reads as the one in focus; a phone, or a reader who has asked for less motion, gets the same carousel at full size, and a pager of six dots browses it without selecting. Do not bring back a grid at `xl`: the staircase already shows the whole ladder, and narrow, tall cards stack the chips and leave the short tiers half empty.
 
 **The ribbon is still the loudest surface, on purpose.** A workspace where every
 panel is loud has no hero, only noise. The accordions, the tier cards and everything

@@ -3,6 +3,7 @@ import { Pencil, Award, Link2 } from 'lucide-react';
 import { Prompt } from '../types';
 import { getTargetBand, getCommandTermInfo, getPromptTermInfo } from '../data/commandTerms';
 import { getTierScaleConfig, getBandRgb } from '../utils/renderUtils';
+import { marksLabel } from '../utils/marksLabel';
 import Breadcrumb from './Breadcrumb';
 import type { SyllabusCrumb } from '../types';
 
@@ -50,7 +51,7 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
   const targetBand = getTargetBand(prompt.totalMarks, safeTier);
   // Tier-identity colour; the band number stays in the text badge.
   const band = getTierScaleConfig(safeTier);
-  const marksLabel = `${prompt.totalMarks} ${prompt.totalMarks === 1 ? 'mark' : 'marks'}`;
+  const marks = marksLabel(prompt.totalMarks);
 
   return (
     <div
@@ -88,12 +89,12 @@ const SyllabusNavBar: React.FC<SyllabusNavBarProps> = ({
               chip's title keeps them one hover away, so nothing is lost. */}
           <span
             className={`t-label shrink-0 px-2 py-0.5 rounded-lg ${band.solidBg} ${band.solidText} shadow-sm`}
-            title={`${prompt.verb} · ${marksLabel} · Band ${targetBand}`}
+            title={`${prompt.verb} · ${marks} · Band ${targetBand}`}
           >
             {prompt.verb}
           </span>
           <div className="t-label hidden xl:flex items-center gap-2.5 text-[rgb(var(--color-text-muted))]">
-            <span className="band-chip rounded-lg px-2 py-0.5">{marksLabel}</span>
+            <span className="band-chip rounded-lg px-2 py-0.5">{marks}</span>
             <span className="w-px h-3.5 bg-[rgb(var(--color-border-secondary))]" />
             <span
               className={`band-chip flex items-center gap-1.5 rounded-lg px-2 py-0.5 ${band.text}`}

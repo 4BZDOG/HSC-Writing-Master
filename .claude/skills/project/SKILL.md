@@ -18,7 +18,7 @@ optional Claude engine via the admin AI Engine selector).
 
 - **Frontend**: React 19 + TypeScript + Vite, Tailwind CSS, `use-immer` for state
 - **AI**: `@google/genai` via a server-side proxy (`api/gemini.ts`) — API keys are never bundled client-side
-- **Storage**: Offline-first IndexedDB (`idb`); optional Supabase for multi-user auth and shared backend
+- **Storage**: Offline-first IndexedDB (`idb`); optional Supabase for multi-user auth and shared backend. Drafts merge across tabs and survive a close: `projectDocs/dataSpecifications.md`, "Draft durability"
 - **Validation**: Zod schemas; **Testing**: Vitest (unit) + Playwright (e2e)
 
 ## Where things live
@@ -79,7 +79,7 @@ on 26.04); move the pin when Playwright is upgraded. Inside a git worktree, run
 ESLint as `npx eslint --no-ignore --resolve-plugins-relative-to . <files>`.
 
 The latest handoff (what changed recently, open decisions, working notes) is
-`projectDocs/handoff-2026-11-03.md`.
+`projectDocs/handoff-2026-11-14.md`. The round before it is `projectDocs/handoff-2026-11-03.md`.
 
 Copy `.env.example` to `.env.local` for local setup. Husky + lint-staged run on
 commit — fix failures rather than using `--no-verify`.

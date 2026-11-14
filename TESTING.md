@@ -96,6 +96,18 @@ Supabase-configured dev server for that reason.
 - `class-analytics-ranking.spec.ts` — cohort weakness ranked on marks
 - `agreement-gate.spec.ts` — the user agreement blocks use until accepted
 - `modal-scroll.spec.ts`, `workspace-chrome.spec.ts` — UI regressions
+- `draft-durability.spec.ts` — a student's draft across tabs and closes. Four tests: a second tab does not revert a
+  draft written in the first; text typed just before the tab closes survives a real navigation; the footer says
+  "Not saved", never "Saved", while storage refuses writes; a stashed draft is discarded once the stored draft has
+  moved on. Pages opened in one browser context share IndexedDB, which is how the two-tab cases are tested.
+
+**E2E lessons**
+
+- A scroll-driven animation (`animation-timeline: view()`) never finishes on its own, so `document.getAnimations()`
+  always contains one. A helper that awaits every animation hangs on it. Filter to `DocumentTimeline` animations with
+  a finite end time, as `settleTransitions` in `tests/e2e/workspace-chrome.spec.ts` does.
+- Chromium aborts an IndexedDB transaction started in `pagehide`. Test unload durability with a real navigation and
+  check the result on the next load. Asserting that the `pagehide` handler ran proves nothing about the write.
 
 ### Database Tests (SQL, against real Postgres)
 
