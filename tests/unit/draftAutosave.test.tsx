@@ -98,6 +98,12 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
     savedElapsed.push((p as Prompt).draftElapsedSeconds);
   });
 
+  // The way out goes through persistNow (starts the write now). It applies the same recipe, so the
+  // tree read below is the one a real save would write.
+  const persistNow = vi.fn((recipe: (draft: unknown) => void) => updateCourses(recipe));
+  // The way out also stashes the words synchronously (utils/pendingDraft.ts).
+  const stashPendingDraft = vi.fn();
+
   const current = opts.current ?? prompt();
   // Stable across rerenders, exactly like the useState setter App passes down:
   // a fresh function each render would re-run the draft-loading effect and
@@ -131,7 +137,7 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
       handleEvaluate={vi.fn()}
       geminiHandlers={{} as never}
       modalHandlers={{} as never}
-      syllabusHandlers={{ updateCourses } as never}
+      syllabusHandlers={{ updateCourses, persistNow, stashPendingDraft } as never}
       userRole="user"
       isFocusMode={false}
       onToggleFocusMode={vi.fn()}
@@ -159,7 +165,7 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
         handleEvaluate={vi.fn()}
         geminiHandlers={{} as never}
         modalHandlers={{} as never}
-        syllabusHandlers={{ updateCourses } as never}
+        syllabusHandlers={{ updateCourses, persistNow, stashPendingDraft } as never}
         userRole="user"
         isFocusMode={false}
         onToggleFocusMode={vi.fn()}
@@ -172,7 +178,7 @@ const setup = (opts: { answer: string; current?: Prompt; debounced?: string }) =
 
   if (opts.answer !== (current.userDraft ?? '')) type(opts.answer);
 
-  return { saved, savedElapsed, updateCourses, view, type };
+  return { saved, savedElapsed, updateCourses, persistNow, stashPendingDraft, view, type };
 };
 
 describe('the draft saves itself', () => {
@@ -193,18 +199,25 @@ describe('the draft saves itself', () => {
 
   // The tab closing is the case the old blur-only save could not cover.
   it('writes again on the way out, with whatever was typed since', () => {
-    const { saved, updateCourses } = setup({ answer: 'A sentence in progress' });
+    const { saved, updateCourses, persistNow, stashPendingDraft } = setup({
+      answer: 'A sentence in progress',
+    });
     updateCourses.mockClear();
+    persistNow.mockClear();
 
     act(() => {
       window.dispatchEvent(new Event('pagehide'));
     });
+    expect(stashPendingDraft).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'A sentence in progress' })
+    );
+    expect(persistNow).toHaveBeenCalled();
     expect(updateCourses).toHaveBeenCalled();
     expect(saved[saved.length - 1]).toBe('A sentence in progress');
   });
 
   it('writes when the app is backgrounded — how a phone session ends', () => {
-    const { updateCourses } = setup({ answer: 'Half an answer' });
+    const { updateCourses, stashPendingDraft } = setup({ answer: 'Half an answer' });
     updateCourses.mockClear();
 
     act(() => {
@@ -216,6 +229,9 @@ describe('the draft saves itself', () => {
     });
 
     expect(updateCourses).toHaveBeenCalled();
+    expect(stashPendingDraft).toHaveBeenCalledWith(
+      expect.objectContaining({ text: 'Half an answer' })
+    );
 
     Object.defineProperty(document, 'visibilityState', {
       value: 'visible',
@@ -284,7 +300,13 @@ describe('the draft saves itself', () => {
         handleEvaluate={vi.fn()}
         geminiHandlers={{} as never}
         modalHandlers={{} as never}
-        syllabusHandlers={{ updateCourses } as never}
+        syllabusHandlers={
+          {
+            updateCourses,
+            persistNow: (recipe: (draft: unknown) => void) => updateCourses(recipe),
+            stashPendingDraft: vi.fn(),
+          } as never
+        }
         userRole="user"
         isFocusMode={false}
         onToggleFocusMode={vi.fn()}
@@ -361,7 +383,13 @@ describe('the draft saves itself', () => {
         handleEvaluate={vi.fn()}
         geminiHandlers={{} as never}
         modalHandlers={{} as never}
-        syllabusHandlers={{ updateCourses } as never}
+        syllabusHandlers={
+          {
+            updateCourses,
+            persistNow: (recipe: (draft: unknown) => void) => updateCourses(recipe),
+            stashPendingDraft: vi.fn(),
+          } as never
+        }
         userRole="user"
         isFocusMode={false}
         onToggleFocusMode={vi.fn()}

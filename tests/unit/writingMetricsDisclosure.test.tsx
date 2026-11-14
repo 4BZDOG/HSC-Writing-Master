@@ -150,9 +150,9 @@ describe('the live writing stats disclosure', () => {
 
     expect(screen.queryByRole('button', { name: /writing metrics/i })).toBeNull();
     expect(document.querySelector('[aria-expanded]')).toBeNull();
-    // The clock and the controls are still there.
+    // The clock is still there; Pause and Reset are not (see writingTimer).
     expect(screen.getByRole('timer')).toBeTruthy();
-    expect(pause()).toBeTruthy();
+    expect(screen.queryByRole('button', { name: /pause timer|start timer/i })).toBeNull();
   });
 
   it('keeps the pill as a visual label, not a second tab stop with its own name', () => {

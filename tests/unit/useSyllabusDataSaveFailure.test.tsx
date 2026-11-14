@@ -17,6 +17,9 @@ vi.mock('../../utils/storageUtils', async (importOriginal) => {
     ...actual,
     loadCoursesFromDB: vi.fn(),
     saveCoursesToDB: vi.fn(),
+    // The hook saves through saveCoursesMerged; it delegates to the saveCoursesToDB mock below, so
+    // every assertion on saveCoursesToDB still reads the writes the hook made.
+    saveCoursesMerged: vi.fn(),
     fetchLibrary: vi.fn().mockResolvedValue([]),
     safeGetItem: vi.fn(() => actual.DATA_VERSION),
     safeSetItem: vi.fn(),
@@ -35,10 +38,12 @@ import { useSyllabusData } from '../../hooks/useSyllabusData';
 import {
   loadCoursesFromDB,
   saveCoursesToDB as saveCoursesToDBImport,
+  saveCoursesMerged as saveCoursesMergedImport,
   createBackup as createBackupImport,
 } from '../../utils/storageUtils';
 
 const saveCoursesToDB = saveCoursesToDBImport as unknown as ReturnType<typeof vi.fn>;
+const saveCoursesMerged = saveCoursesMergedImport as unknown as ReturnType<typeof vi.fn>;
 const createBackup = createBackupImport as unknown as ReturnType<typeof vi.fn>;
 
 const baseCourse = (): Course => ({
@@ -50,6 +55,12 @@ const baseCourse = (): Course => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  saveCoursesMerged.mockImplementation(async (courses: Course[]) => ({
+    status: await (saveCoursesToDB as unknown as (c: Course[]) => Promise<string>)(courses),
+    rev: null,
+    merged: courses,
+    adopted: new Map(),
+  }));
   createBackup.mockResolvedValue(true);
   (loadCoursesFromDB as unknown as ReturnType<typeof vi.fn>).mockResolvedValue({
     data: [baseCourse()],

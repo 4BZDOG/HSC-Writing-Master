@@ -14,6 +14,7 @@ import { withIndefiniteArticle } from '../utils/grammar';
 import type { PromptVerb } from '../types';
 import { PanelReadChip } from './PanelDisclosure';
 import StrategyMoves from './StrategyMoves';
+import { FOCUS_SHORT_CLASSES } from '../utils/cardChrome';
 
 interface HowToAnswerProps {
   verb: PromptVerb;
@@ -25,6 +26,8 @@ interface HowToAnswerProps {
   onToggle: () => void;
   /** Opened for this question before and shut again: the "Read" chip. */
   read: boolean;
+  /** Focus Mode on a short window: one 44px row, the definition left out. */
+  compact?: boolean;
 }
 
 /**
@@ -47,7 +50,14 @@ interface HowToAnswerProps {
  * The card is always mounted and only folds, so opening it does not shift the
  * writing area; while shut it is `inert`, so its controls are not reachable.
  */
-const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, bandCeiling, open, onToggle, read }) => {
+const HowToAnswer: React.FC<HowToAnswerProps> = ({
+  verb,
+  bandCeiling,
+  open,
+  onToggle,
+  read,
+  compact = false,
+}) => {
   const panelId = useId();
   const info = useMemo(() => getPromptTermInfo({ verb, bandCeiling }), [verb, bandCeiling]);
   const moves = useMemo(() => groupStrategyMoves(parseStrategyTip(info.tip)), [info.tip]);
@@ -77,10 +87,12 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, bandCeiling, open, onTo
       style={bandStyle}
       className="verb-brief band-edge border-t bg-[rgb(var(--color-bg-surface-inset))]"
     >
-      <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 pl-5 pr-4 sm:pl-7 sm:pr-6 py-3">
+      <div
+        className={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 pl-5 pr-4 sm:pl-7 sm:pr-6 py-3 ${compact ? FOCUS_SHORT_CLASSES.stripRow : ''}`}
+      >
         <span
           aria-hidden="true"
-          className={`ribbon-tier-tile row-start-1 sm:row-span-2 size-10 shrink-0 rounded-tile border flex items-center justify-center ${bandConfig.text}`}
+          className={`ribbon-tier-tile row-start-1 sm:row-span-2 size-10 shrink-0 rounded-tile border flex items-center justify-center ${bandConfig.text} ${compact ? FOCUS_SHORT_CLASSES.stripTile : ''}`}
         >
           <TierIcon className="w-5 h-5" />
         </span>
@@ -91,7 +103,9 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, bandCeiling, open, onTo
             it is the sentence a student most needs. Plain wrapping, not
             `text-balance`: balanced, a one-sentence meaning split into two
             half-width lines and left the right of the row empty. */}
-        <p className="row-start-2 col-span-3 sm:col-span-1 sm:col-start-2 min-w-0 font-serif text-[13px] leading-snug text-[rgb(var(--color-text-secondary))]">
+        <p
+          className={`row-start-2 col-span-3 sm:col-span-1 sm:col-start-2 min-w-0 font-serif text-[13px] leading-snug text-[rgb(var(--color-text-secondary))] ${compact ? FOCUS_SHORT_CLASSES.stripDefinition : ''}`}
+        >
           {info.definition}
         </p>
         {hasBody && (
@@ -100,7 +114,7 @@ const HowToAnswer: React.FC<HowToAnswerProps> = ({ verb, bandCeiling, open, onTo
             onClick={onToggle}
             aria-expanded={open}
             aria-controls={panelId}
-            className="t-label row-start-1 col-start-3 sm:row-span-2 justify-self-end shrink-0 inline-flex items-center gap-1.5 h-11 sm:h-8 pl-2.5 pr-2 rounded-full border border-[rgb(var(--band-rgb)/0.7)] bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-primary))] shadow-sm hover:bg-[rgb(var(--band-rgb)/0.14)] transition-colors motion-reduce:transition-none active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+            className={`t-label row-start-1 col-start-3 sm:row-span-2 ${compact ? FOCUS_SHORT_CLASSES.stripButton : ''} justify-self-end shrink-0 inline-flex items-center gap-1.5 h-11 sm:h-8 pl-2.5 pr-2 rounded-full border border-[rgb(var(--band-rgb)/0.7)] bg-[rgb(var(--color-bg-surface-light))] text-[rgb(var(--color-text-primary))] shadow-sm hover:bg-[rgb(var(--band-rgb)/0.14)] transition-colors motion-reduce:transition-none active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent`}
           >
             <PanelReadChip show={read && !open} />
             <ListOrdered className="w-3.5 h-3.5 shrink-0" aria-hidden="true" />

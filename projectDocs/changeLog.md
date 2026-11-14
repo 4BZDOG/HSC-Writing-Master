@@ -1,5 +1,50 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-14 (Exam and Focus Mode: clock, sitting and keyboard fixes)
+
+- **Changed (Exam Mode).**
+  - **No Pause, Play or Reset under exam conditions.** The clock does not stop while you think, so the controls
+    are gone rather than disabled, and their box with them.
+  - **The exam clock reads real time.** It is measured from the wall clock, so a hidden tab or a sleeping laptop
+    no longer undercounts a sitting. A hidden tab catches up the moment it is shown again.
+  - **Exam Mode survives a reload** in the same tab, so a reload mid-sitting comes back to Exam. A new tab starts
+    in Coach as before. A plan without Exam drops the sitting to Coach.
+  - **The placard says when the aids come back:** "until you submit your response for marking or go back to Coach
+    mode".
+- **Changed (Coach Mode clock).**
+  - **Counts real time too**, so a throttled tab no longer undercounts. An idle pause stops the clock at the moment
+    the three-minute limit began, not at the hour it slept through.
+  - **Starts only when you write.** Opening an empty question straight after a drafted one no longer starts its
+    clock, and the minutes are no longer saved onto the wrong question.
+  - **Leaving Exam keeps the time.** Going from Exam back to Coach carries the exam's total forward instead of
+    resetting it to zero.
+- **Changed (Focus Mode).**
+  - **Focus stays with you.** Leaving Focus Mode with the exit button or Escape returns focus to the Focus button,
+    rather than dropping it at the top of the page. Entering Focus Mode does not move focus.
+  - **Ctrl/⌘ + Shift + F does nothing under an open dialog**, as Escape already did, so a flag dialog keeps what
+    was typed in it.
+  - **The question card's stored height is kept in range** when it is read back, so a stale value cannot make the
+    card unreadably small or larger than the window.
+- **Changed (Accessibility).**
+  - **Spoken time reads properly**: "1 minute 1 second left of the 2 minute guide", "45 seconds left of", with both
+    units pluralised.
+  - **The budget is announced once.** Screen readers hear "Suggested time reached." in Coach Mode, or "Time is up
+    for this question." in Exam Mode, the first time the clock reaches the budget. It is not repeated each second.
+
+- **Changed (layout).**
+  - **Focus Mode opens with the question in view on a desktop.** The layout's top edge is brought to the top of the
+    window when it is off screen; the writing card's own scroll had left the question above the fold on a laptop.
+    The phone branch is unchanged.
+  - **Short desktop windows give the writing area its height back.** At 1280 or wider and no taller than 819px, Focus
+    Mode compacts the writing card's header to one 56px row, its strategy strip to one 44px row and its footer to 57px,
+    and the question card's corner to one row. The writing surface shows seven ruled lines at 1280x720 and 1366x768,
+    where it showed five. Taller screens and phones keep the full headers.
+  - **Exam clock in the footer.** Exam Mode's "Exam conditions" text in the writing card's footer is the exam clock:
+    the strip's own figure and caption, in the overrun tone past the budget. It is hidden from assistive technology,
+    since the strip's timer carries the spoken name.
+  - **Exam Mode puts the aids away.** The command verb reference is not rendered, and the question and scenario are
+    set plain: no verb or syllabus-term highlights, colour or click target.
+
 ## [Unreleased] - 2026-11-13 (Workspace cards: writing footer, header tools, edit and draft fixes)
 
 - **Changed (Written Response).**

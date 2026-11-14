@@ -1,7 +1,7 @@
 import { useImmer, type Updater } from 'use-immer';
 import type { ShowToast } from './useToast';
 import { useCallback, useEffect, useState, useRef } from 'react';
-import { Draft } from 'immer';
+import { Draft, original, produce } from 'immer';
 import {
   Course,
   StatePath,
@@ -26,6 +26,9 @@ import {
   createBackup,
   loadCoursesFromDB,
   saveCoursesToDB,
+  saveCoursesMerged,
+  readCoursesRev,
+  readStoredCourses,
   StorageStatus,
   saveToLibrary,
   fetchLibrary,
@@ -43,6 +46,21 @@ import {
 } from '../services/contributionService';
 import { generateId } from '../utils/idUtils';
 import { detectSubjectArea } from '../utils/subjectAreas';
+import {
+  applyPendingDraft,
+  clearPendingDraft,
+  decidePendingDraft,
+  holdsPendingText,
+  readPendingDraft,
+  writePendingDraft,
+} from '../utils/pendingDraft';
+import {
+  applyAdopted,
+  collectDrafts,
+  mergeForeignDrafts,
+  type DraftBase,
+  type DraftFields,
+} from '../utils/draftMerge';
 import { isSameCourseName } from '../utils/courseNames';
 import {
   mergeCourseContents,
@@ -79,6 +97,15 @@ const ITEM_TYPE_LABELS: Record<string, string> = {
  */
 export interface WorkspaceSyllabusHandlers {
   updateCourses: Updater<Course[]>;
+  /**
+   * Writes the library now rather than a second after the last change, with `recipe` applied
+   * first. The write has started when this returns, so it can run on the way out of the page.
+   */
+  persistNow: (recipe?: (draft: Course[]) => void) => void;
+  /**
+   * Stashes a draft synchronously, for the moment the page is going away (see utils/pendingDraft.ts).
+   */
+  stashPendingDraft: (draft: { promptId: string; text: string; elapsed?: number }) => void;
   handleSampleAnswerGenerated: (path: StatePath, answer: SampleAnswer) => void;
   handleUpdateSampleAnswer: (path: StatePath, answer: SampleAnswer) => void;
   handleDeleteSampleAnswer: (path: StatePath, id: string) => void;
@@ -390,6 +417,16 @@ export const untickUnplaceableTopics = (docs: DiscoveredDoc[]): DiscoveredDoc[] 
 const yearTag = (year?: SyllabusYear): { year?: SyllabusYear } =>
   year && year !== DEFAULT_SYLLABUS_YEAR ? { year } : {};
 
+/**
+ * Drafts another tab wrote to this library, announced once they have been applied here. The
+ * question open in the workspace may be one of them, and the workspace shows its text.
+ */
+export interface ForeignDraftEvent {
+  /** Rises with every announcement, so an effect keyed on it runs once for each. */
+  seq: number;
+  changes: Array<{ promptId: string; previous: string | undefined; userDraft: string }>;
+}
+
 export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
   const [courses, updateCourses] = useImmer<Course[]>([]);
   const [storageStatus, setStorageStatus] = useState<StorageStatus>('Loading');
@@ -410,6 +447,25 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
   // The library as IndexedDB last took it. Immer gives a changed library a new reference, so the
   // auto-save writes only when the library is not this one (see the save effect).
   const lastPersistedRef = useRef<Course[] | null>(null);
+  // The revision this tab last read or wrote (null when unknown). A save made at this revision
+  // can skip reading the library back; any other revision means another tab has written.
+  const knownRevRef = useRef<number | null>(null);
+  // The personal draft fields this tab last read or wrote, by question id (utils/draftMerge.ts).
+  const draftBaseRef = useRef<DraftBase>(new Map());
+  // The library as the last render saw it, for the handlers that run outside a render.
+  const latestCoursesRef = useRef<Course[]>(courses);
+  latestCoursesRef.current = courses;
+  // The pending one-second save, so an immediate write can cancel it.
+  const saveTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  // The write in flight: the same library is never written twice at once, and a pull waits for it.
+  const inFlightRef = useRef<{ courses: Course[]; done: Promise<StorageStatus> } | null>(null);
+  const savesInFlightRef = useRef(0);
+  const readyRef = useRef(false);
+  readyRef.current = isReady;
+  const showToastRef = useRef(showToast);
+  showToastRef.current = showToast;
+  const [foreignDrafts, setForeignDrafts] = useState<ForeignDraftEvent | null>(null);
+  const foreignSeqRef = useRef(0);
 
   useEffect(() => {
     const loadInitialData = async () => {
@@ -426,6 +482,7 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
           if (remoteCourses.length > 0) {
             const recalibrated = recalculateSampleAnswerBands(remoteCourses);
             updateCourses(() => recalibrated);
+            draftBaseRef.current = collectDrafts(recalibrated);
             setStorageStatus('Supabase');
             saveCoursesToDB(recalibrated).catch((err) =>
               console.warn('[Curriculum] Failed to cache remote courses locally:', err)
@@ -441,6 +498,9 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
         }
       }
 
+      // The revision is read first. Read before the library, it can only be older than what
+      // was loaded, which makes the next save take the merge path and never skip a write.
+      const revAtLoad = await readCoursesRev();
       const loadResult = await loadCoursesFromDB();
 
       if (loadResult && loadResult.data.length > 0) {
@@ -487,10 +547,24 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
           }
           if (libraryReady) safeSetItem(STORAGE_KEYS.DATA_VERSION, DATA_VERSION);
         }
+        // A draft stashed as the last session closed (utils/pendingDraft.ts) goes back onto its
+        // question when the stored draft is still the one it was written over. Otherwise it is
+        // dropped. Either way the next save writes the result and clears the entry.
+        const pending = readPendingDraft();
+        if (pending) {
+          if (decidePendingDraft(pending, loadResult.data) === 'apply') {
+            dataToLoad = applyPendingDraft(dataToLoad, pending);
+          } else {
+            clearPendingDraft();
+          }
+        }
         // A library read from IndexedDB is already there, so it is not written back on launch. A
         // copy from the fallback store is written, which moves it into IndexedDB. Anything the
         // migration changed is a new reference, so it is written too.
         if (loadResult.source === 'IndexedDB') lastPersistedRef.current = loadResult.data;
+        // What this tab read: the drafts it will merge against, and the revision they were at.
+        knownRevRef.current = loadResult.source === 'IndexedDB' ? revAtLoad : null;
+        draftBaseRef.current = collectDrafts(loadResult.data);
         updateCourses(() => dataToLoad);
         setIsDiscoveryInProgress(false);
         setIsReady(true);
@@ -692,15 +766,60 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
     [courses, updateCourses, showToast]
   );
 
-  useEffect(() => {
-    if (!isReady) return;
-    const handler = setTimeout(async () => {
-      // A library IndexedDB already holds is not written again. The backup check below still runs,
-      // so the first launch of a day snapshots the library as it was loaded.
-      let status: StorageStatus = 'IndexedDB';
-      if (courses !== lastPersistedRef.current) {
-        status = await saveCoursesToDB(courses);
-        if (status === 'IndexedDB') lastPersistedRef.current = courses;
+  const announceForeignDrafts = useCallback(
+    (adopted: Map<string, DraftFields>, base: DraftBase) => {
+      const changes: ForeignDraftEvent['changes'] = [];
+      for (const [promptId, fields] of adopted) {
+        if (fields.userDraft === undefined) continue;
+        changes.push({
+          promptId,
+          previous: base.get(promptId)?.userDraft,
+          userDraft: fields.userDraft,
+        });
+      }
+      if (changes.length === 0) return;
+      foreignSeqRef.current += 1;
+      setForeignDrafts({ seq: foreignSeqRef.current, changes });
+    },
+    []
+  );
+
+  /** Puts drafts another tab wrote into this library, where this tab has not changed them. */
+  const applyAdoption = useCallback(
+    (adopted: Map<string, DraftFields>, base: DraftBase) => {
+      updateCourses((draft) => {
+        applyAdopted(draft as Course[], adopted, base);
+      });
+      announceForeignDrafts(adopted, base);
+    },
+    [updateCourses, announceForeignDrafts]
+  );
+
+  /**
+   * Writes the library through saveCoursesMerged and records what the store now holds. A write
+   * already in flight for the same library is joined rather than repeated.
+   */
+  const writeCourses = useCallback(
+    (next: Course[]): Promise<StorageStatus> => {
+      const pending = inFlightRef.current;
+      if (pending && pending.courses === next) return pending.done;
+      const base = draftBaseRef.current;
+      savesInFlightRef.current += 1;
+      const done: Promise<StorageStatus> = saveCoursesMerged(next, {
+        knownRev: knownRevRef.current,
+        base,
+      }).then((result) => {
+        savesInFlightRef.current -= 1;
+        if (inFlightRef.current?.done === done) inFlightRef.current = null;
+        const status = result.status;
+        if (status === 'IndexedDB') {
+          knownRevRef.current = result.rev;
+          draftBaseRef.current = collectDrafts(result.merged);
+          lastPersistedRef.current = result.merged;
+          const pending = readPendingDraft();
+          if (pending && holdsPendingText(result.merged, pending)) clearPendingDraft();
+          if (result.adopted.size > 0) applyAdoption(result.adopted, base);
+        }
         // In Supabase mode the badge reports the source of truth; the local save
         // is just the offline cache, so don't let it overwrite 'Supabase' —
         // unless the cache write actually failed, which is worth surfacing.
@@ -712,14 +831,108 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
         // active toast on the transition, guarded so it fires once per change.
         if (status === 'Error' && !saveFailedRef.current) {
           saveFailedRef.current = true;
-          showToast(
+          showToastRef.current(
             'Your changes are not saving — storage may be full or blocked. Export your data to avoid losing work.',
             'error'
           );
         } else if (status !== 'Error' && saveFailedRef.current) {
           saveFailedRef.current = false;
-          showToast('Saving has recovered — your changes are being stored again.', 'success');
+          showToastRef.current(
+            'Saving has recovered — your changes are being stored again.',
+            'success'
+          );
         }
+        return status;
+      });
+      inFlightRef.current = { courses: next, done };
+      return done;
+    },
+    [applyAdoption]
+  );
+
+  /**
+   * Takes the drafts another tab has written since this tab last read or wrote the library. It
+   * runs when the tab comes back into view, so a tab left open does not show old text.
+   *
+   * A draft this tab has typed in since its last save is left to that save, which merges it.
+   * The revision is only moved on when nothing here is unsaved.
+   */
+  const pullForeignDrafts = useCallback(async (): Promise<void> => {
+    if (!readyRef.current || savesInFlightRef.current > 0) return;
+    const stored = await readStoredCourses();
+    if (!stored || !stored.courses) return;
+    if (savesInFlightRef.current > 0) return;
+    if (stored.rev !== null && stored.rev === knownRevRef.current) return;
+    const base = draftBaseRef.current;
+    const local = latestCoursesRef.current;
+    const { merged, adopted } = mergeForeignDrafts(local, stored.courses, base);
+    const unsaved = local !== lastPersistedRef.current;
+    if (adopted.size > 0) applyAdoption(adopted, base);
+    if (!unsaved) {
+      knownRevRef.current = stored.rev;
+      draftBaseRef.current = collectDrafts(merged);
+    }
+  }, [applyAdoption]);
+
+  /**
+   * Stashes the draft about to be written on the way out. Synchronous: it is one localStorage
+   * write, which survives the page going away where an IndexedDB write may not. `prev` is the
+   * draft this tab last knew to be stored, so the stash is only applied over that same draft.
+   */
+  const stashPendingDraft = useCallback(
+    (draft: { promptId: string; text: string; elapsed?: number }): void => {
+      if (!readyRef.current) return;
+      writePendingDraft({
+        ...draft,
+        prev: draftBaseRef.current.get(draft.promptId)?.userDraft ?? '',
+        at: Date.now(),
+      });
+    },
+    []
+  );
+
+  /**
+   * Writes the library now, not a second after the last change, with `recipe` applied first.
+   * The write has started when this returns, so a caller on the way out of the page (pagehide,
+   * unmount) is not left waiting on a timer the page may never reach.
+   */
+  const persistNow = useCallback(
+    (recipe?: (draft: Course[]) => void): void => {
+      if (!readyRef.current) return;
+      let next = latestCoursesRef.current;
+      if (recipe) {
+        const base = next;
+        const applied = produce(base, recipe);
+        if (applied !== base) {
+          next = applied;
+          latestCoursesRef.current = applied;
+          // Hand state the very object being written when nothing else is queued,
+          // so the save effect sees it as already persisted. If an update is
+          // queued that this render has not seen, state is no longer `base`:
+          // run the recipe on top of it, and never replace it with a copy that
+          // lacks that update.
+          updateCourses((draft) => {
+            if (original(draft) === base) return applied as Draft<Course[]>;
+            recipe(draft as Course[]);
+            return undefined;
+          });
+        }
+      }
+      clearTimeout(saveTimerRef.current);
+      if (next === lastPersistedRef.current) return;
+      void writeCourses(next);
+    },
+    [updateCourses, writeCourses]
+  );
+
+  useEffect(() => {
+    if (!isReady) return;
+    const handler = setTimeout(async () => {
+      // A library IndexedDB already holds is not written again. The backup check below still runs,
+      // so the first launch of a day snapshots the library as it was loaded.
+      let status: StorageStatus = 'IndexedDB';
+      if (courses !== lastPersistedRef.current) {
+        status = await writeCourses(courses);
       }
       if (courses.length > 0 && status !== 'Error') {
         createBackup(courses)
@@ -735,8 +948,26 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
           .catch((err) => console.error('Backup failed:', err));
       }
     }, 1000);
+    saveTimerRef.current = handler;
     return () => clearTimeout(handler);
-  }, [courses, isReady]);
+  }, [courses, isReady, writeCourses]);
+
+  // Coming back into view takes what another tab has written (see pullForeignDrafts).
+  useEffect(() => {
+    if (!isReady) return;
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') void pullForeignDrafts();
+    };
+    const onFocus = () => {
+      void pullForeignDrafts();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener('focus', onFocus);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener('focus', onFocus);
+    };
+  }, [isReady, pullForeignDrafts]);
 
   const handleCreateCourse = useCallback(
     (name: string, outcomes: CourseOutcome[], subject?: string) => {
@@ -1196,6 +1427,9 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
   return {
     courses,
     updateCourses,
+    persistNow,
+    stashPendingDraft,
+    foreignDrafts,
     storageStatus,
     libraryItems,
     discoveredDocs,

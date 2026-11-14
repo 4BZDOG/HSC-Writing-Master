@@ -39,6 +39,7 @@ import {
   ImagePlus,
 } from 'lucide-react';
 import { getBandRgb, getTierScaleConfig, renderFormattedText } from '../utils/renderUtils';
+import { FOCUS_SHORT_CLASSES } from '../utils/cardChrome';
 import { splitSyllabusTerms, type SyllabusPlacement } from '../utils/syllabusTermSource';
 import MathSymbolToolbar from './MathSymbolToolbar';
 import ScenarioImageUploader from './ScenarioImageUploader';
@@ -704,6 +705,13 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
     }
   };
 
+  // An exam paper has no highlights. In Exam Mode the command verb and the syllabus
+  // terms are not marked in the question or the scenario, so these are handed to the
+  // renderer as absent and the text comes out plain. Every highlight in this card
+  // reads these two, never `prompt.keywords` or `prompt.verb` directly.
+  const highlightKeywords = examMode ? undefined : prompt.keywords;
+  const highlightVerb = examMode ? undefined : prompt.verb;
+
   return (
     <div
       ref={containerRef}
@@ -737,7 +745,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
           ref={headerRef}
           // Every class in this header comes from utils/cardChrome, shared with
           // the writing card so the pair reads as one piece of furniture.
-          className={CARD_HEADER_BOX}
+          className={`${CARD_HEADER_BOX} ${condensed ? FOCUS_SHORT_CLASSES.header : ''}`}
           style={{
             minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
             background: cardHeaderWash(verbInfo.tier),
@@ -753,8 +761,14 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               <div className={CARD_HEADER_ICON}>
                 <FileQuestion className="w-5 h-5 text-white group-hover:scale-110 transition-transform" />
               </div>
-              <div className={CARD_HEADER_TITLE_BLOCK}>
-                <h3 className={CARD_HEADER_TITLE}>Writing Prompt</h3>
+              <div
+                className={`${CARD_HEADER_TITLE_BLOCK} ${condensed ? FOCUS_SHORT_CLASSES.titleBlock : ''}`}
+              >
+                <h3
+                  className={`${CARD_HEADER_TITLE} ${condensed ? FOCUS_SHORT_CLASSES.title : ''}`}
+                >
+                  Writing Prompt
+                </h3>
                 {/* The meta line, mirroring the writing card's: a chip, then
                   whatever this card has to say about itself. There it is the
                   band being worked towards and how far the response has come;
@@ -775,7 +789,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     did at 320px. On one wrapping line the stats move down a line
                     instead. */}
                 <div
-                  className={`${CARD_HEADER_META_ROW} max-sm:col-start-1 max-sm:col-end-4 max-sm:row-start-2 max-sm:mt-2 max-sm:gap-x-1 max-sm:gap-y-1.5`}
+                  className={`${CARD_HEADER_META_ROW} max-sm:col-start-1 max-sm:col-end-4 max-sm:row-start-2 max-sm:mt-2 max-sm:gap-x-1 max-sm:gap-y-1.5 ${condensed ? FOCUS_SHORT_CLASSES.metaInline : ''}`}
                 >
                   <button
                     onClick={onVerbClick}
@@ -908,7 +922,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
               eye goes to for "make this bigger". It used to live in the footer
               beside the outcome chips, which is the row that ran out of width
               in two columns, and it vanished with that row in Focus Mode. */}
-            <div className={CARD_HEADER_CORNER}>
+            <div className={`${CARD_HEADER_CORNER} ${condensed ? FOCUS_SHORT_CLASSES.corner : ''}`}>
               {/* The reading size, and in Focus Mode with nothing linked the flag beside
                   it: the footer that holds the flag is not drawn then, so this is the
                   one place the card can be flagged. The wrapper takes the grid place the
@@ -1109,8 +1123,8 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       where the guide is assistance. */}
                     {renderFormattedText(
                       prompt.question,
-                      prompt.keywords,
-                      prompt.verb,
+                      highlightKeywords,
+                      highlightVerb,
                       examMode ? undefined : onVerbClick
                     )}
                   </h2>
@@ -1314,16 +1328,16 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                           <PastHscScenario
                             parts={pastHscScenario}
                             image={prompt.scenarioImage}
-                            keywords={prompt.keywords}
-                            verb={prompt.verb}
+                            keywords={highlightKeywords}
+                            verb={highlightVerb}
                             fontSize={fontSize}
                           />
                         ) : prompt.scenarioImage ? (
                           <ScenarioCarousel
                             scenarioText={prompt.scenario}
                             scenarioImage={prompt.scenarioImage}
-                            keywords={prompt.keywords}
-                            verb={prompt.verb}
+                            keywords={highlightKeywords}
+                            verb={highlightVerb}
                             fontSize={fontSize}
                           />
                         ) : prompt.scenario ? (
@@ -1336,7 +1350,11 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                               className="text-[rgb(var(--color-text-primary))] light:text-slate-800 leading-relaxed font-serif italic pl-6 pr-2 break-words max-sm:pl-2.5 max-sm:pr-0 max-sm:border-l-2 max-sm:border-white/20 light:max-sm:border-slate-300"
                               style={{ fontSize: `${fontSize}px` }}
                             >
-                              {renderFormattedText(prompt.scenario, prompt.keywords, prompt.verb)}
+                              {renderFormattedText(
+                                prompt.scenario,
+                                highlightKeywords,
+                                highlightVerb
+                              )}
                             </p>
                           </div>
                         ) : (

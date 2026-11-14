@@ -61,8 +61,11 @@ import {
   requestUpgrade,
   syncCheckoutSession,
   PLAN_LABELS,
+  isFeatureLocked,
 } from './services/entitlements';
 import { guardianCheckoutSuccessMessage } from './services/guardianService';
+import { readStoredWritingMode, writeStoredWritingMode } from './utils/writingModeStore';
+import { showsVerbReference } from './utils/verbReferenceVisibility';
 import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp, Pencil } from 'lucide-react';
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -150,6 +153,9 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     handleImportFromLibrary,
     handleDeleteFromLibrary,
     handleMoveTopic,
+    persistNow,
+    stashPendingDraft,
+    foreignDrafts,
   } = useSyllabusData({ showToast });
 
   // Every user-facing surface — the navigator (PromptSelector, Workspace) AND
@@ -283,7 +289,17 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [isFocusMode, setIsFocusMode] = useState(false);
   // Writing experience: 'coach' surfaces live feedback (highlighting, insights,
   // exemplars); 'exam' simulates HSC exam conditions (no assistance, timed).
-  const [writingMode, setWritingMode] = useState<WritingMode>('coach');
+  // A reload mid-sitting comes back to Exam, if this tab was in Exam and the
+  // plan still allows it. Remembered per tab (see utils/writingModeStore).
+  const [writingMode, setWritingMode] = useState<WritingMode>(() =>
+    readStoredWritingMode() === 'exam' && !isFeatureLocked('examMode') ? 'exam' : 'coach'
+  );
+  useEffect(() => writeStoredWritingMode(writingMode), [writingMode]);
+  // A plan that no longer includes Exam drops the sitting to Coach. Checked on
+  // every render, so a plan change that arrives later is caught too.
+  useEffect(() => {
+    if (writingMode === 'exam' && isFeatureLocked('examMode')) setWritingMode('coach');
+  });
   // The syllabus navigator folds into a breadcrumb once a question is chosen so
   // the screen belongs to the writing; "Change" re-opens it.
   const [isNavExpanded, setIsNavExpanded] = useState(true);
@@ -545,6 +561,14 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
   const [courseRequestPrefill, setCourseRequestPrefill] = useState('');
   const [userAnswer, setUserAnswer] = useState('');
   const debouncedUserAnswer = useDebounce(userAnswer, 1000);
+  // Another tab wrote a newer draft to the question open here: show it, unless this question's text
+  // has been typed in since (then the student's own words stand, and the next save keeps them).
+  useEffect(() => {
+    if (!foreignDrafts || !currentPrompt) return;
+    const change = foreignDrafts.changes.find((c) => c.promptId === currentPrompt.id);
+    if (!change || userAnswer !== (change.previous ?? '')) return;
+    setUserAnswer(change.userDraft);
+  }, [foreignDrafts]);
   const [newlyAddedIds, setNewlyAddedIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
@@ -758,6 +782,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       handleClearAllData,
       handleResetToDefault,
       updateCourses,
+      persistNow,
+      stashPendingDraft,
       discoveredDocs,
       importDiscoveredDocs,
       handleMoveTopic,
@@ -782,6 +808,8 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       handleClearAllData,
       handleResetToDefault,
       updateCourses,
+      persistNow,
+      stashPendingDraft,
       discoveredDocs,
       importDiscoveredDocs,
       handleMoveTopic,
@@ -1126,8 +1154,11 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
             and seven hundred pixels of reference unfolding into that space
             would hand straight back what the fold just bought. Beside the
             dropdowns, where the page is a chooser rather than a writing
-            surface, it is the same browsing aid it has always been. */}
-        {!isFocusMode && (
+            surface, it is the same browsing aid it has always been.
+
+            Not in Exam Mode at all: it is the verb guide, which is assistance, and
+            the simulated paper has none (see `showsVerbReference`). */}
+        {showsVerbReference(writingMode, isFocusMode) && (
           <CommandVerbHierarchy
             currentVerb={currentPrompt?.verb}
             currentBandCeiling={currentPrompt?.bandCeiling}

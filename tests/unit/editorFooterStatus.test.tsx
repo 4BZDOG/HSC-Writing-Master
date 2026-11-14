@@ -5,6 +5,7 @@ import Editor from '../../components/Editor';
 import ReadinessMeter from '../../components/ReadinessMeter';
 import type { ReadinessResult } from '../../utils/draftReadiness';
 import { PromptVerb } from '../../types';
+import { publishExamClock } from '../../utils/examClockStore';
 
 /**
  * The writing card's footer, as one row of three groups:
@@ -85,10 +86,31 @@ describe('the footer says each figure once', () => {
     expect(screen.getAllByText(/^Band \d$/)).toHaveLength(1);
   });
 
-  it('keeps "Exam conditions" in the footer in Exam Mode', () => {
-    render(<Editor {...baseProps} writingMode="exam" value="A draft." />);
+  // Was: 'keeps "Exam conditions" in the footer in Exam Mode'. The footer now shows the
+  // exam clock in that place (the placard, header chip and timer row still say "Exam
+  // conditions"), so the footer must not repeat the phrase and must show the clock.
+  it('shows the exam clock in the footer in Exam Mode, and not "Exam conditions"', () => {
+    publishExamClock({ text: '05:07', caption: 'left of 6 min', over: false });
+    try {
+      render(<Editor {...baseProps} writingMode="exam" value="A draft." />);
 
-    expect(screen.getByText('Exam conditions')).toBeTruthy();
+      expect(screen.queryByText('Exam conditions')).toBeNull();
+      expect(screen.getByText('05:07')).toBeTruthy();
+      expect(screen.getByText('left of 6 min')).toBeTruthy();
+    } finally {
+      publishExamClock(null);
+    }
+  });
+
+  it('shows no exam clock in the footer in Coach Mode', () => {
+    publishExamClock({ text: '05:07', caption: 'left of 6 min', over: false });
+    try {
+      render(<Editor {...baseProps} value="A draft." />);
+
+      expect(screen.queryByText('05:07')).toBeNull();
+    } finally {
+      publishExamClock(null);
+    }
   });
 });
 

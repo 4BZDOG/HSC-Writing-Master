@@ -15,6 +15,7 @@ import {
   Quote,
 } from 'lucide-react';
 import { tierShortLabel } from '../data/commandTerms';
+import { marksLabel } from '../utils/marksLabel';
 import ResponseFeedback from './ResponseFeedback';
 import SupportUsageSummary from './SupportUsageSummary';
 import PdfExportOptions from './PdfExportOptions';
@@ -254,7 +255,7 @@ const EvaluationDisplay: React.FC<EvaluationDisplayProps> = ({
             {prompt.verb}
           </span>
           <span className="t-label px-2.5 py-1 rounded-lg border border-slate-500 dark:border-white/40 bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300">
-            {prompt.totalMarks} Marks
+            {marksLabel(prompt.totalMarks)}
           </span>
         </div>
         <h2 className="text-xl md:text-2xl font-serif font-medium text-slate-900 dark:text-white leading-snug">

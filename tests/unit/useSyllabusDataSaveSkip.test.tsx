@@ -16,6 +16,9 @@ vi.mock('../../utils/storageUtils', async (importOriginal) => {
     ...actual,
     loadCoursesFromDB: vi.fn(),
     saveCoursesToDB: vi.fn(),
+    // The hook saves through saveCoursesMerged; it delegates to the saveCoursesToDB mock below, so
+    // every assertion on saveCoursesToDB still reads the writes the hook made.
+    saveCoursesMerged: vi.fn(),
     fetchLibrary: vi.fn().mockResolvedValue([]),
     safeGetItem: vi.fn((key: string, fallback: unknown) =>
       key === actual.STORAGE_KEYS.DATA_VERSION ? actual.DATA_VERSION : fallback
@@ -38,6 +41,7 @@ import {
   DATA_VERSION,
   loadCoursesFromDB,
   saveCoursesToDB as saveCoursesToDBImport,
+  saveCoursesMerged as saveCoursesMergedImport,
   createBackup as createBackupImport,
   runMigrations as runMigrationsImport,
   STORAGE_KEYS,
@@ -46,6 +50,7 @@ import {
 
 const loadMock = loadCoursesFromDB as unknown as ReturnType<typeof vi.fn>;
 const saveCoursesToDB = saveCoursesToDBImport as unknown as ReturnType<typeof vi.fn>;
+const saveCoursesMerged = saveCoursesMergedImport as unknown as ReturnType<typeof vi.fn>;
 const createBackup = createBackupImport as unknown as ReturnType<typeof vi.fn>;
 const runMigrations = runMigrationsImport as unknown as ReturnType<typeof vi.fn>;
 const safeGetItem = safeGetItemImport as unknown as ReturnType<typeof vi.fn>;
@@ -62,6 +67,12 @@ const pastDebounce = () => new Promise((resolve) => setTimeout(resolve, 1500));
 
 beforeEach(() => {
   vi.clearAllMocks();
+  saveCoursesMerged.mockImplementation(async (courses: Course[]) => ({
+    status: await (saveCoursesToDB as unknown as (c: Course[]) => Promise<string>)(courses),
+    rev: null,
+    merged: courses,
+    adopted: new Map(),
+  }));
   // A browser already at the current version: no migration, no shipped-course sync.
   safeGetItem.mockImplementation((key: string, fallback: unknown) =>
     key === STORAGE_KEYS.DATA_VERSION ? DATA_VERSION : fallback

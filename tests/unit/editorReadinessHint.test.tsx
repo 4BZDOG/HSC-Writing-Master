@@ -129,6 +129,8 @@ describe('editor readiness hint (Surface B)', () => {
 
     expect(screen.queryByText(/Getting there/)).toBeNull();
     expect(screen.queryAllByRole('progressbar')).toHaveLength(0);
-    expect(screen.getByText(/Exam conditions/i)).toBeTruthy();
+    // Was: getByText(/Exam conditions/i) in the footer. The footer now carries the
+    // exam clock, not the phrase; with no clock published it carries neither.
+    expect(screen.queryByText(/Exam conditions/i)).toBeNull();
   });
 });

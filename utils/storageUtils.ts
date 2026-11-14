@@ -3,6 +3,7 @@ import { Course, LibraryItem, User } from '../types';
 import { generateId } from './idUtils';
 import { normaliseGuideRows } from './markingGuideLadder';
 import { isUnedited } from './shippedCourseStamp';
+import { mergeForeignDrafts, type DraftBase, type DraftFields } from './draftMerge';
 import {
   migrateAnalyseVerb,
   formatMarkingCriteria,
@@ -194,6 +195,11 @@ const STORE_LIBRARY = 'library_store';
 const STORE_USERS = 'users_store';
 export const STORE_SCENARIO_IMAGES = 'scenario_images_store';
 const KEY_COURSES = 'courses_data';
+// The library's revision, bumped by every write of KEY_COURSES in the same transaction. A tab
+// that saved at revision N knows nothing else has written since while the stored revision is
+// still N, so its save can skip reading the library back. Absent on libraries saved before it
+// existed, which reads as "unknown", so the first save after an upgrade takes the merge path.
+const KEY_COURSES_REV = 'courses_rev';
 // Where the daily backup was last written (its day key and time), kept in the main store so that
 // checking it does not read the backup itself, which holds the whole library.
 const KEY_BACKUP_STAMP = 'backup_stamp';
@@ -467,24 +473,139 @@ export const clearImportDraft = async (key: string): Promise<void> => {
 
 // --- Async Data Operations (IndexedDB) ---
 
+/**
+ * The next revision after `previous`. It is at least the wall clock, so a revision is never
+ * one a tab could have seen before, even if the revision key was cleared in between.
+ */
+const nextRev = (previous: unknown): number => {
+  const prior = typeof previous === 'number' ? previous : 0;
+  return Math.max(prior + 1, Date.now());
+};
+
+/** The fallback when IndexedDB refuses a write: the library goes to LocalStorage, or nowhere. */
+const saveToLocalStorageFallback = (courses: Course[]): StorageStatus => {
+  try {
+    // Fallback to LocalStorage if IDB fails (e.g. QuotaExceeded or Private Browsing restrictions)
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(STORAGE_KEYS.COURSES, JSON.stringify(courses));
+      return 'LocalStorage';
+    }
+  } catch (lsError) {
+    console.error('Failed to save to LocalStorage:', lsError);
+    return 'Error';
+  }
+  return 'Error';
+};
+
 export const saveCoursesToDB = async (courses: Course[]): Promise<StorageStatus> => {
   try {
     const db = await getDB();
-    await db.put(STORE_MAIN, courses, KEY_COURSES);
+    const tx = db.transaction(STORE_MAIN, 'readwrite');
+    const rev = nextRev(await tx.store.get(KEY_COURSES_REV));
+    await tx.store.put(courses, KEY_COURSES);
+    await tx.store.put(rev, KEY_COURSES_REV);
+    await tx.done;
     return 'IndexedDB';
   } catch (error) {
     console.error('Failed to save to IDB, falling back to LocalStorage:', error);
-    try {
-      // Fallback to LocalStorage if IDB fails (e.g. QuotaExceeded or Private Browsing restrictions)
-      if (typeof window !== 'undefined') {
-        window.localStorage.setItem(STORAGE_KEYS.COURSES, JSON.stringify(courses));
-        return 'LocalStorage';
+    return saveToLocalStorageFallback(courses);
+  }
+};
+
+/** What `saveCoursesMerged` did, and what it needs its caller to know. */
+export interface MergedSave {
+  status: StorageStatus;
+  /** The revision now stored, when the library went to IndexedDB; null otherwise. */
+  rev: number | null;
+  /** The library as written (or as passed, when it did not reach IndexedDB). */
+  merged: Course[];
+  /** Drafts taken from another tab's write, by prompt id. Empty on the fast path. */
+  adopted: Map<string, DraftFields>;
+}
+
+/**
+ * Saves the library without losing a draft another tab has written since this tab last read
+ * or wrote it (see utils/draftMerge.ts).
+ *
+ * One readwrite transaction. When the stored revision is the one `knownRev` names, nothing
+ * else has written, so the library is written as it is and the library is not read back. In
+ * any other case (another tab wrote, or the revision is unknown) the stored library is read in
+ * the same transaction, its drafts merged in, and the result written.
+ *
+ * The transaction is opened straight away, after at most the one microtask that awaiting an
+ * already-open database takes, so a caller on the way out (pagehide) can start a write that
+ * the page's teardown does not cut short before it starts.
+ *
+ * Returns the same statuses as `saveCoursesToDB`, and falls back the same way.
+ */
+export const saveCoursesMerged = async (
+  courses: Course[],
+  opts: { knownRev: number | null; base: DraftBase }
+): Promise<MergedSave> => {
+  try {
+    const db = await getDB();
+    const tx = db.transaction(STORE_MAIN, 'readwrite');
+    const storedRev = await tx.store.get(KEY_COURSES_REV);
+    let toWrite = courses;
+    let adopted = new Map<string, DraftFields>();
+    const fastPath = opts.knownRev !== null && storedRev === opts.knownRev;
+    if (!fastPath) {
+      const stored = (await tx.store.get(KEY_COURSES)) as Course[] | undefined;
+      if (stored) {
+        const result = mergeForeignDrafts(courses, stored, opts.base);
+        toWrite = result.merged;
+        adopted = result.adopted;
       }
-    } catch (lsError) {
-      console.error('Failed to save to LocalStorage:', lsError);
-      return 'Error';
     }
-    return 'Error';
+    const rev = nextRev(storedRev);
+    await tx.store.put(toWrite, KEY_COURSES);
+    await tx.store.put(rev, KEY_COURSES_REV);
+    await tx.done;
+    return { status: 'IndexedDB', rev, merged: toWrite, adopted };
+  } catch (error) {
+    console.error('Failed to save to IDB, falling back to LocalStorage:', error);
+    return {
+      status: saveToLocalStorageFallback(courses),
+      rev: null,
+      merged: courses,
+      adopted: new Map(),
+    };
+  }
+};
+
+/** The stored revision, or null when there is none (or IndexedDB cannot be read). */
+export const readCoursesRev = async (): Promise<number | null> => {
+  try {
+    const db = await getDB();
+    const rev = await db.get(STORE_MAIN, KEY_COURSES_REV);
+    return typeof rev === 'number' ? rev : null;
+  } catch (error) {
+    console.warn('Could not read the library revision:', error);
+    return null;
+  }
+};
+
+/**
+ * The stored revision and library, read in one transaction so they belong together. Null when
+ * IndexedDB cannot be read. Does not migrate from LocalStorage (see `loadCoursesFromDB`).
+ */
+export const readStoredCourses = async (): Promise<{
+  rev: number | null;
+  courses: Course[] | null;
+} | null> => {
+  try {
+    const db = await getDB();
+    const tx = db.transaction(STORE_MAIN, 'readonly');
+    const rev = await tx.store.get(KEY_COURSES_REV);
+    const courses = await tx.store.get(KEY_COURSES);
+    await tx.done;
+    return {
+      rev: typeof rev === 'number' ? rev : null,
+      courses: Array.isArray(courses) ? (courses as Course[]) : null,
+    };
+  } catch (error) {
+    console.warn('Could not read the stored library:', error);
+    return null;
   }
 };
 

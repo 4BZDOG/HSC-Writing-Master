@@ -84,7 +84,7 @@ const ScenarioCarousel: React.FC<ScenarioCarouselProps> = ({
 
       {showToggle && (
         <div
-          role="tablist"
+          role="group"
           aria-label="Scenario slide"
           className="flex items-center justify-center gap-2 mt-4"
         >
@@ -92,8 +92,7 @@ const ScenarioCarousel: React.FC<ScenarioCarouselProps> = ({
             <button
               key={slide}
               type="button"
-              role="tab"
-              aria-selected={activeSlide === slide}
+              aria-pressed={activeSlide === slide}
               onClick={() => setActiveSlide(slide)}
               className={`t-label px-3 py-1 rounded-full transition-all ${
                 activeSlide === slide
