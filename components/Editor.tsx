@@ -3,6 +3,7 @@ import React, {
   useImperativeHandle,
   forwardRef,
   useEffect,
+  useId,
   useLayoutEffect,
   useState,
   useMemo,
@@ -16,8 +17,8 @@ import {
 } from '../utils/renderUtils';
 import { getPromptTermInfo } from '../data/commandTerms';
 import {
+  AlertTriangle,
   Maximize,
-  Lock,
   Minimize,
   Bold,
   Italic,
@@ -100,6 +101,9 @@ interface EditorProps {
   onWritingModeChange?: (mode: WritingMode) => void;
   /** Whether everything typed has reached storage. See the footer. */
   draftSaved?: boolean;
+  /** The storage layer has failed. The footer then says "Not saved" and never
+   *  "Saved", whatever is on screen. */
+  draftSaveFailed?: boolean;
   /** Refuse pasted (and dragged-in) text, with a note explaining why.
    *  Set for students: an HSC response is worth marking only if it is the
    *  student's own typing. Curators keep paste — they move sample answers and
@@ -287,7 +291,7 @@ const ToolbarButton: React.FC<{
     aria-label={tooltip}
     aria-expanded={expanded}
     className={`
-            p-1.5 max-sm:size-11 rounded-lg transition-all duration-200
+            inline-flex items-center justify-center p-1.5 sm:min-w-8 sm:min-h-8 max-sm:size-11 rounded-lg transition-all duration-200
             ${
               active
                 ? 'bg-white/20 text-white shadow-sm'
@@ -337,6 +341,7 @@ const Editor = forwardRef<
       footerAction,
       blockPaste = false,
       draftSaved,
+      draftSaveFailed,
       busyOverlay,
     },
     ref
@@ -351,7 +356,17 @@ const Editor = forwardRef<
     const bodyRef = useRef<HTMLDivElement>(null);
     const footerRef = useRef<HTMLDivElement>(null);
     const footerContentRef = useRef<HTMLDivElement>(null);
-    const [copied, setCopied] = useState(false);
+    // What the Copy button says after a press. A refused copy is said, not silent.
+    const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle');
+    const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const mounted = useRef(true);
+    useEffect(() => {
+      mounted.current = true;
+      return () => {
+        mounted.current = false;
+        if (copyTimer.current) clearTimeout(copyTimer.current);
+      };
+    }, []);
     // Folded, like every panel around it, and quiet from the first frame. The
     // row used to have a LEADING state — amber wash, a lit tile, "Read this
     // first" — because the coaching matters most before the first sentence.
@@ -624,7 +639,10 @@ const Editor = forwardRef<
       const textarea = textareaRef.current;
       if (!textarea) return;
 
-      if (e.key === 'Tab') {
+      // Plain Tab writes two spaces, which is what prose wants. Shift+Tab is never
+      // taken: it is the keyboard's way out of the writing area (WCAG 2.1.2), so
+      // focus moves back as it does everywhere else.
+      if (e.key === 'Tab' && !e.shiftKey) {
         e.preventDefault();
         insertText('  ');
         return;
@@ -633,6 +651,8 @@ const Editor = forwardRef<
       if (e.key === 'Enter' && !e.shiftKey) {
         if (e.metaKey || e.ctrlKey) {
           e.preventDefault();
+          // An empty draft submits nothing, here as on the Evaluate button.
+          if (!value.trim()) return;
           onSave?.();
           onEvaluate?.();
           return;
@@ -702,12 +722,26 @@ const Editor = forwardRef<
     };
 
     const handleCopy = async () => {
-      if (value) {
+      if (!value) return;
+      let next: 'copied' | 'failed';
+      try {
         await navigator.clipboard.writeText(value);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        next = 'copied';
+      } catch {
+        // Refused: no clipboard permission, an insecure page, or no clipboard at
+        // all. Said on the button, rather than a press that did nothing.
+        next = 'failed';
       }
+      if (!mounted.current) return;
+      setCopyState(next);
+      if (copyTimer.current) clearTimeout(copyTimer.current);
+      copyTimer.current = setTimeout(() => setCopyState('idle'), 2000);
     };
+
+    // Read by the textarea's aria-describedby, and by nothing else.
+    const tabHintId = useId();
+    // Set once the writing surface has scrolled, to draw the shade under the strip.
+    const [scrolledDown, setScrolledDown] = useState(false);
 
     // Styling for Grid Stacking (Auto-Grow).
     // The Evaluate action used to float over this surface, with bottom padding
@@ -880,9 +914,13 @@ const Editor = forwardRef<
                           // "draft checks" are inside its tooltip.
                           aria-label="Coach mode"
                           title="Coach Mode — live highlighting, draft checks and exemplars"
-                          className={`t-label px-2.5 h-6 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`t-label px-2.5 h-6 sm:h-8 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${!isExamMode ? 'bg-white text-slate-900 shadow-sm' : 'text-white hover:bg-white/10'}`}
                         >
                           <Compass className="w-3.5 h-3.5" />
+                          {/* From `2xl`, as the Exam label is. The tray has ~20px to
+                              spare beside the title up to there: at 1280 and again
+                              at 1400 the word pushed it onto a second line, which
+                              grew both cards' headers. */}
                           <span className="hidden 2xl:inline">Coach</span>
                         </button>
                         <button
@@ -897,7 +935,7 @@ const Editor = forwardRef<
                           aria-pressed={isExamMode}
                           aria-label="Exam mode"
                           title="Exam Mode — HSC exam simulation: no assistance, timed"
-                          className={`relative t-label px-2.5 h-6 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-600 text-white shadow-sm' : 'text-white/60 hover:text-white hover:bg-white/10'}`}
+                          className={`relative t-label px-2.5 h-6 sm:h-8 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-600 text-white shadow-sm' : 'text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
                           <span className="hidden 2xl:inline">Exam</span>
@@ -958,20 +996,28 @@ const Editor = forwardRef<
                   <ToolbarButton
                     onClick={() => handleManualResize(stepReadingSize(internalFontSize, -1))}
                     icon={<ZoomOut className="w-4 h-4" />}
-                    tooltip="Smaller text"
+                    tooltip="Decrease writing size"
                     disabled={!canStepReadingSize(internalFontSize, -1)}
                   />
                   <ToolbarButton
                     onClick={() => handleManualResize(stepReadingSize(internalFontSize, 1))}
                     icon={<ZoomIn className="w-4 h-4" />}
-                    tooltip="Larger text"
+                    tooltip="Increase writing size"
                     disabled={!canStepReadingSize(internalFontSize, 1)}
                   />
                   <div className="w-px h-4 bg-white/20 mx-0.5 max-sm:hidden" />
                   <ToolbarButton
                     onClick={handleCopy}
-                    icon={copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                    tooltip="Copy"
+                    icon={
+                      copyState === 'copied' ? (
+                        <Check className="w-4 h-4" />
+                      ) : copyState === 'failed' ? (
+                        <X className="w-4 h-4" />
+                      ) : (
+                        <Copy className="w-4 h-4" />
+                      )
+                    }
+                    tooltip={copyState === 'failed' ? 'Copy failed' : 'Copy'}
                     disabled={!value}
                   />
 
@@ -988,7 +1034,7 @@ const Editor = forwardRef<
                           ? 'Exit focus mode (Esc)'
                           : 'Distraction-free writing (Ctrl / ⌘ + Shift + F)'
                       }
-                      className={`t-label max-sm:ml-0 ml-1.5 px-2.5 max-sm:px-0 h-6 max-sm:size-11 max-sm:justify-center rounded-lg transition-all flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-slate-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
+                      className={`t-label max-sm:ml-0 ml-1.5 px-2.5 max-sm:px-0 h-6 sm:h-8 max-sm:size-11 max-sm:justify-center rounded-lg transition-all flex items-center gap-1.5 ${isFocusMode ? 'bg-amber-500 text-slate-900 shadow-lg' : 'bg-white/10 text-white hover:bg-white/20'}`}
                     >
                       {isFocusMode ? (
                         <Minimize className="w-3.5 h-3.5" />
@@ -1050,8 +1096,26 @@ const Editor = forwardRef<
               not re-wrap the text beside a scrollbar appearing. */}
             <div
               ref={bodyRef}
+              onScroll={(e) => setScrolledDown(e.currentTarget.scrollTop > 0)}
               className="relative flex flex-col flex-grow w-full bg-[rgb(var(--color-bg-surface-inset))] overflow-y-auto custom-scrollbar scroll-stable min-h-0 focus-within:ring-2 focus-within:ring-inset focus-within:ring-[rgb(var(--color-accent))]/30"
             >
+              {/* A soft shade under the strip above, so a line scrolled up under it
+                  fades out rather than being cut flat. Sticky rather than absolute:
+                  an absolute child would scroll away with the text. It takes no
+                  height in the flow (-mb-3), so the ruled lines do not move, and it
+                  shows only once the surface is scrolled. Same surface token as the
+                  body it sits on, so it reads in both themes and in Exam Mode. */}
+              <div
+                aria-hidden="true"
+                data-scrolled={scrolledDown}
+                className={`sticky top-0 -mb-3 h-3 z-20 pointer-events-none transition-opacity duration-150 ${
+                  scrolledDown ? 'opacity-100' : 'opacity-0'
+                }`}
+                style={{
+                  background:
+                    'linear-gradient(to bottom, rgb(var(--color-bg-surface-inset) / 0.9), rgb(var(--color-bg-surface-inset) / 0))',
+                }}
+              />
               {/* Progress-Aware Background Bloom */}
               <div
                 className="absolute inset-0 opacity-10 light:opacity-5 transition-all duration-1000 ease-in-out pointer-events-none"
@@ -1093,6 +1157,12 @@ const Editor = forwardRef<
                   </div>
                 </div>
               )}
+
+              {/* How Tab behaves here, for a keyboard user. Visually hidden; the
+                  textarea points at it. */}
+              <span id={tabHintId} className="sr-only">
+                Tab inserts spaces. Press Shift+Tab to leave the writing area.
+              </span>
 
               {/* The ruling is painted by `.editor-ruling` in index.css, on a
                   pseudo-element behind the three layers below. It is a function
@@ -1142,6 +1212,10 @@ const Editor = forwardRef<
                   onPaste={refuseTransfer}
                   onDrop={refuseTransfer}
                   onBlur={() => onSave?.()}
+                  // A name for the field: the placeholder is painted transparent
+                  // and is not one for assistive technology.
+                  aria-label="Your response"
+                  aria-describedby={tabHintId}
                   placeholder={hintText}
                   disabled={disabled}
                   // The focus indicator moves to the scroll region around it
@@ -1195,120 +1269,102 @@ const Editor = forwardRef<
               </div>
             </div>
 
-            {/* Footer Metrics */}
+            {/* Footer Metrics: three groups on one gap scale.
+              LEFT is the draft's status: the word count, then whether it is saved.
+              MIDDLE is the readiness meter, which takes the spare width.
+              RIGHT is the free-markings chip, then Evaluate.
+
+              Gaps: 12px inside a group (gap-3), 16px between groups (gap-x-4), 8px
+              between rows where the footer wraps (gap-y-2).
+
+              Below `lg` the footer is two rows: status and the chip, then the meter
+              and Evaluate. From `lg` it is one row with the meter growing to fill.
+              The chip's `order-1` and the second row's `order-2` give that order
+              without moving anything in the DOM, so a screen reader hears words,
+              saved, chip, readiness, Evaluate at every width. The second row is
+              `lg:contents`, which lets its two items join the single row. */}
             <div
               ref={footerRef}
               className={`${CARD_FOOTER_BOX} flex items-center transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy}`}
               style={{ minHeight: minFooterHeight || 52 }}
             >
               {/* Inner wrapper carries the row layout so its height stays
-              content-driven — the outer box is inflated by the synced
-              minFooterHeight and cannot be measured.
-
-              Two layouts, one piece of markup. Below `lg` the footer is two
-              rows: the words, Saved, the target and the free-markings count on
-              the first, and the readiness bar taking the width with Evaluate
-              at its right on the second. From `lg` it is one row: the status
-              at the left, the target, count and bar centred between the status
-              and the button, and Evaluate at the right.
-
-              The bar and Evaluate sit in a second-row wrapper, which `lg:contents`
-              removes from layout so they become direct children of the one row.
-              The centring is auto margins on the target and on the bar, rather
-              than another wrapper. On a desktop the single row does not wrap: if
-              it is too narrow for the bar's label, the label goes (see
-              `labelClassName` in WorkspaceRightPanel). */}
+                content-driven — the outer box is inflated by the synced
+                minFooterHeight and cannot be measured. */}
               <div
                 ref={footerContentRef}
-                className="w-full flex flex-wrap lg:flex-nowrap items-center gap-x-2.5 lg:gap-x-4 gap-y-2"
+                className="w-full flex flex-wrap lg:flex-nowrap items-center gap-x-4 gap-y-2"
               >
-                {/* Saved shows on a phone too: it is the one thing that tells a
-                student their words are safe, and it is short enough to stand
-                beside the count. */}
-                <div className="t-label flex items-center gap-x-2.5 sm:gap-x-5 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
-                  {/* Words, and not also characters.
-                    A character count is a text-editor convention, and nothing
-                    in this application is measured in characters: the length
-                    guidance says "15 words of about 32", the metrics panel
-                    counts words, and `commandTerms` estimates pages. It was
-                    also load-bearing nowhere — `value.length` was read here and
-                    in no other place. Standing beside the counter that DOES
-                    mean something, it halved the prominence of the one a
-                    student is actually working to. */}
+                {/* LEFT: the words, in lower case, as the panels below the card say
+                  them ("174 words of about 40"). Words, and not also characters: a
+                  character count is a text-editor habit, and nothing in this
+                  application is measured in characters. */}
+                <div className="t-label flex items-center gap-x-3 text-[rgb(var(--color-text-dim))] select-none whitespace-nowrap">
                   <span>
-                    {wordCount} {wordCount === 1 ? 'Word' : 'Words'}
+                    {wordCount} {wordCount === 1 ? 'word' : 'words'}
                   </span>
                   {/* The draft saves itself a second after typing stops. Saying so
-                  is the point: a student who cannot see that their work is kept
-                  has no reason to believe it, and this app asks them to type a
-                  page of prose into a browser tab. Only shown once there is
-                  something to lose. */}
-                  {draftSaved !== undefined && value.trim() !== '' && (
+                    is the point: a student who cannot see that their work is kept
+                    has no reason to believe it. Only shown once there is something
+                    to lose. */}
+                  {draftSaveFailed && value.trim() !== '' ? (
+                    // The storage layer has failed (see useSyllabusData), so "Saved"
+                    // would describe a store that is not taking writes. The same
+                    // warning red as the header's storage badge, with its light partner.
                     <span
-                      className={`flex items-center gap-1.5 transition-colors ${
-                        draftSaved
-                          ? 'text-emerald-500/80 light:text-emerald-700'
-                          : 'text-[rgb(var(--color-text-dim))]'
-                      }`}
-                      title={
-                        draftSaved ? 'Your draft is saved on this device' : 'Saving your draft…'
-                      }
+                      role="status"
+                      aria-label="Your draft is not saving on this device"
+                      title="Your draft is not saving on this device"
+                      className="flex items-center gap-1.5 text-red-700 dark:text-red-300"
                     >
-                      {draftSaved ? (
-                        <Check className="w-3.5 h-3.5" />
-                      ) : (
-                        <Loader2
-                          className="w-3.5 h-3.5 animate-spin opacity-50"
-                          aria-hidden="true"
-                        />
-                      )}
-                      {draftSaved ? 'Saved' : 'Saving'}
+                      <AlertTriangle className="w-3.5 h-3.5" aria-hidden="true" />
+                      Not saved
                     </span>
+                  ) : (
+                    draftSaved !== undefined &&
+                    value.trim() !== '' && (
+                      <span
+                        className={`flex items-center gap-1.5 transition-colors ${
+                          draftSaved
+                            ? 'text-emerald-500/80 light:text-emerald-700'
+                            : 'text-[rgb(var(--color-text-dim))]'
+                        }`}
+                        title={
+                          draftSaved ? 'Your draft is saved on this device' : 'Saving your draft…'
+                        }
+                      >
+                        {draftSaved ? (
+                          <Check className="w-3.5 h-3.5" />
+                        ) : (
+                          <Loader2
+                            className="w-3.5 h-3.5 animate-spin opacity-50"
+                            aria-hidden="true"
+                          />
+                        )}
+                        {draftSaved ? 'Saved' : 'Saving'}
+                      </span>
+                    )
                   )}
                 </div>
-                {/* The question's fixed goal, at the start of the middle. The
-                  auto left margin is what centres the middle between the status
-                  and the button from `lg`; below it the row simply wraps here. */}
-                <div className="t-label flex items-center gap-2.5 whitespace-nowrap lg:ml-auto">
-                  {/* The halo separates the band dot from the surface behind
-                    it. A white ring does that on the dark footer and vanishes
-                    on the light one, so the dot lost its edge in light mode —
-                    the footer is a theme surface, unlike the header above it,
-                    which is always painted with the band gradient and where a
-                    white-alpha treatment is right in both themes. */}
-                  <div
-                    className="w-2.5 h-2.5 rounded-full transition-colors duration-700 ring-2 ring-slate-900/10 dark:ring-white/10"
-                    style={{ backgroundColor: chroma.accent }}
-                  />
-                  {/* "Band 2 target", not "Band 2 Target · Limited". The band's
-                    NESA descriptor beside the word "target" read as though the
-                    goal itself were "limited" — to a student aiming at the top
-                    of a DESCRIBE question, which is capped at Band 2 by its
-                    verb. The descriptor rides in the title for anyone who
-                    wants it. `whitespace-nowrap`: at 1280px it broke in two. */}
-                  <span
-                    className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))]"
-                    title={
-                      isExamMode
-                        ? undefined
-                        : `The highest band this question can reach: Band ${chroma.targetBand} (${chroma.name})`
-                    }
-                  >
-                    {isExamMode ? 'Exam conditions' : `Band ${chroma.targetBand} target`}
+
+                {/* Exam Mode has no readiness meter, so its one fact about the
+                  conditions takes the middle of the row. */}
+                {isExamMode && (
+                  <span className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))] lg:flex-1">
+                    Exam conditions
                   </span>
-                  {/* The completeness word lives on the `ReadinessMeter` beside
-                    the bar and the percentage it belongs to, and not here. It
-                    used to be appended to this pill too, so the row read the
-                    same two words twice, once about the QUESTION and once about
-                    the DRAFT. */}
-                </div>
+                )}
+
+                {/* RIGHT, first: the free-markings chip (see FreeEvalCounter). */}
                 {footerCounter}
-                {/* From `lg` the bar and Evaluate are the middle's last item
-                    and the button, with no box of their own; below it they are
-                    the second row, the bar taking the width. */}
-                <div className="w-full flex items-center gap-3 lg:contents">
+
+                {/* MIDDLE and RIGHT's action. The completeness word lives on the
+                  ReadinessMeter, beside the bar and the figure it belongs to, and
+                  nowhere else in the footer. The target band is stated once, in
+                  the header chip above. */}
+                <div className="order-2 w-full flex items-center gap-3 lg:contents">
                   {footerProgress}
-                  {footerAction}
+                  <div className="flex lg:order-2 max-lg:ml-auto">{footerAction}</div>
                 </div>
               </div>
             </div>

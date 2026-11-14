@@ -35,7 +35,11 @@ describe('FreeEvalCounter', () => {
 
     const counter = screen.getByTestId('free-eval-counter');
     expect(counter.tagName).toBe('SPAN');
-    expect(counter.textContent).toBe('3/5 left');
+    // Both forms are in the DOM, one hidden by breakpoint: the full sentence from
+    // `sm` up and the short one below it. The aria-label carries the sentence.
+    expect(counter.textContent).toContain('3 of 5 markings left');
+    expect(counter.textContent).toContain('3/5 left');
+    expect(counter.getAttribute('aria-label')).toMatch(/^3 of 5 markings left\. Resets at /);
   });
 
   it('becomes a control at zero that opens the prompt for the daily limit', () => {
@@ -62,6 +66,33 @@ describe('FreeEvalCounter', () => {
     render(<FreeEvalCounter />);
 
     expect(screen.getByTestId('free-eval-counter').className).toContain('min-h-11 sm:min-h-0');
+  });
+
+  it('says what is left in full from sm up, and names the reset time', () => {
+    remaining = 3;
+    render(<FreeEvalCounter />);
+
+    const counter = screen.getByTestId('free-eval-counter');
+    // The full sentence is the visible text from sm up; the fraction is the phone's.
+    expect(counter.querySelector('.hidden.sm\\:inline')?.textContent).toBe('3 of 5 markings left');
+    expect(counter.querySelector('.sm\\:hidden')?.textContent).toBe('3/5 left');
+    expect(counter.getAttribute('aria-label')).toMatch(/^3 of 5 markings left\. Resets at .+\.$/);
+  });
+
+  it('reads the singular correctly: 1 of 5 markings left', () => {
+    remaining = 1;
+    render(<FreeEvalCounter />);
+
+    expect(screen.getByTestId('free-eval-counter').getAttribute('aria-label')).toMatch(
+      /^1 of 5 markings left\./
+    );
+  });
+
+  it('is 36px tall, and 44px on a phone, like the chips beside it', () => {
+    remaining = 3;
+    render(<FreeEvalCounter />);
+
+    expect(screen.getByTestId('free-eval-counter').className).toContain('h-9 max-sm:h-11');
   });
 
   it('draws nothing for an account that is not metered', () => {

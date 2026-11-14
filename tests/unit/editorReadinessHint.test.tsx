@@ -91,13 +91,14 @@ describe('editor readiness hint (Surface B)', () => {
     expect(screen.queryByText(/62%/)).toBeNull();
   });
 
-  it('leaves the completeness word to the meter, and keeps the goal pill', () => {
+  it('leaves the completeness word to the meter, and states the band once', () => {
     renderEditor({ readiness: readyish, progress: 0.62 });
 
     expect(screen.queryByText(/Getting there/)).toBeNull();
-    // The question's fixed goal pill is what this row was always for, and is
-    // untouched.
-    expect(screen.getByText(/Band \d target/i)).toBeTruthy();
+    // The band is stated once, in the header chip. The footer used to repeat it as
+    // "Band N target", which the design's one-number rule rules out.
+    expect(screen.queryByText(/Band \d target/i)).toBeNull();
+    expect(screen.getAllByText(/^Band \d$/)).toHaveLength(1);
   });
 
   /**

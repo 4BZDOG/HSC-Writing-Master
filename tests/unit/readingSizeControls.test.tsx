@@ -81,8 +81,8 @@ const renderSurface = (surface: Surface, size: number, onChange = vi.fn()) => {
       />
     );
     return {
-      down: screen.getByRole('button', { name: 'Smaller text' }),
-      up: screen.getByRole('button', { name: 'Larger text' }),
+      down: screen.getByRole('button', { name: 'Decrease writing size' }),
+      up: screen.getByRole('button', { name: 'Increase writing size' }),
     };
   }
 

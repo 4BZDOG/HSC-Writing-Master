@@ -1,5 +1,27 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-13 (Workspace cards: writing footer, header tools, edit and draft fixes)
+
+- **Changed (Written Response).**
+  - **Footer in three groups.** Words and saved state, then readiness (its word shown at every width), then markings
+    left and Evaluate, on one gap scale. The band is stated once, in the header chip; "Band N target" is gone from
+    the footer. "3 of 5 markings left" replaces "3/5 left" from `sm`, at chip height.
+  - **Header tools.** Toolbar buttons are 32px on desktop (44px on a phone, as before). Inactive mode labels are
+    solid white, which holds 4.5:1 on every band's wash. "Coach" and "Exam" are spelt out from `2xl`, where the
+    tray has room; below it they stay icons so the tray keeps to one line and the header to its height.
+  - **A shade under the strip** when the writing has scrolled beneath it.
+- **Changed (Writing Prompt).** "1 mark" / "3 marks", singular-aware and lower-case. The verb chip is 28px on
+  desktop with a 44px tap area on a phone. In Focus Mode with nothing linked, the flag sits in the header corner.
+- **Fixed.**
+  - A curator's question or scenario editor no longer carries its text from one question to the next; a cancelled
+    question edit is discarded; an empty question cannot be saved.
+  - The footer says "Not saved" when the save to this device failed, and never "Saved".
+  - A blur just after a question switch cannot file the text under the wrong question. Readiness follows a
+    question switch at once.
+  - Shift+Tab leaves the writing area. The response box, the edit boxes and the icon-only buttons are named. An
+    empty draft's Evaluate button gives its reason to keyboard and screen-reader users.
+  - Copy reports a refused clipboard. The outcome preview opens below a chip near the top of the screen.
+
 ## [Unreleased] - 2026-11-13 (Verb ribbon: the tier drawer is a centred carousel)
 
 - **Changed (Verb ribbon drawer).**

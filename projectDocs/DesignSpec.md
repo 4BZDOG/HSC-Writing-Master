@@ -277,6 +277,8 @@ wide at 1280.
   96px ceiling. On a phone the corner is one 44px row, reading size left and bar
   right. In the header it is reachable in Focus Mode, where a footer with no linked
   outcomes is not drawn at all. The bar is found by `data-card-bar`, not by position.
+  In exactly that case the flag joins it there, as a pill of the same size beside the
+  reading size: anyone can raise a flag, so it cannot go with the footer.
 
 The info sheets opened from the card take their facts from existing data:
 `QuestionExpectations` states a question's word range (`getFullMarkWordRange`), time

@@ -117,6 +117,26 @@ const activate = (opener: HTMLElement) => {
   fireEvent.click(opener);
 };
 
+describe('the flag in Focus Mode with nothing linked, in the header corner', () => {
+  it('returns focus to the header flag when the dialog is closed with Cancel', async () => {
+    render(
+      <PromptDisplay
+        {...cardProps}
+        onVerbClick={vi.fn()}
+        condensed
+        prompt={{ ...prompt, linkedOutcomes: [] } as Prompt}
+      />
+    );
+    const trigger = screen.getByRole('button', { name: 'Flag this question for review' });
+    activate(trigger);
+
+    const dialog = screen.getByRole('dialog', { name: 'Flag this question' });
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Cancel' }));
+
+    await waitFor(() => expect(document.activeElement).toBe(trigger));
+  });
+});
+
 describe('focus returns to the prompt card’s triggers', () => {
   describe('"Read before you write" opens the outcome brief', () => {
     const opener = () => screen.getByRole('button', { name: /Read before you write/ });

@@ -160,6 +160,9 @@ interface WorkspaceProps {
    */
   crumbs: SyllabusCrumb[];
   showToast?: ShowToast;
+  /** The storage layer has failed (App's storage status is 'Error'), so nothing
+   *  typed is reaching the device. The footer must say so, not say "Saved". */
+  draftSaveFailed?: boolean;
 }
 
 /**
@@ -208,6 +211,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
   showBreadcrumb = true,
   crumbs,
   showToast,
+  draftSaveFailed,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint, currentPrompt } =
     currentSelection;
@@ -412,7 +416,9 @@ const Workspace: React.FC<WorkspaceProps> = ({
   }, [linkableOutcomes, currentCourse, currentPrompt?.linkedOutcomes]);
 
   const handleSaveDraft = () => {
-    if (!currentPrompt) return;
+    // The same ownership rule as flushDraft below. A blur in the render gap after
+    // a question switch must not file the previous question's words under this one.
+    if (!currentPrompt || answerBelongsTo.current !== currentPrompt.id) return;
     if (userAnswer !== currentPrompt.userDraft) {
       syllabusHandlers.updateCourses((draft: any) => {
         findAndUpdateItem(draft, statePath, (p: any) => {
@@ -931,10 +937,12 @@ const Workspace: React.FC<WorkspaceProps> = ({
           // Exam Mode is the exception to the exception: it simulates sitting
           // the paper, and nobody pastes into an exam booklet.
           blockPaste={isExamMode || !canCurateContent(userRole)}
-          // Truthful rather than optimistic: this compares what is on screen
-          // with what is actually in storage, so "Saved" is never shown over
-          // unsaved words.
+          // What is on screen matches the draft held in the course state, which is
+          // where every save writes it. That state is not yet the device: whether
+          // the write reached storage is `draftSaveFailed`, and the footer says
+          // "Not saved" rather than "Saved" when it did not.
           draftSaved={userAnswer === (currentPrompt.userDraft ?? '')}
+          draftSaveFailed={draftSaveFailed}
           draftElapsedSeconds={currentPrompt.draftElapsedSeconds}
           onElapsedChange={handleElapsedChange}
         />
