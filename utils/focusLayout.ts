@@ -53,6 +53,16 @@ export const FOCUS_PROMPT_MAX_CSS = `calc(100dvh - ${FOCUS_CHROME_RESERVE + FOCU
 export const focusWritingCardMinHeight = (promptPx: number): string =>
   `max(${FOCUS_WRITING_CARD_MIN}px, calc(100dvh - ${Math.round(promptPx) + FOCUS_CHROME_RESERVE}px))`;
 
+/**
+ * Whether entering Focus Mode on a wide window must scroll the layout into view.
+ *
+ * The layout (question card, splitter and writing card) is taller than a desktop
+ * screen, so it is the TOP edge that the student must see. It needs scrolling
+ * only when that edge is off screen; a top already on screen is left where it is.
+ */
+export const focusEntryNeedsScroll = (topPx: number, viewportHeight: number): boolean =>
+  topPx < 0 || topPx >= viewportHeight;
+
 /** Clamp a requested question-card height into the range the splitter allows. */
 export const clampFocusPromptHeight = (px: number, viewportHeight: number): number =>
   Math.round(Math.min(Math.max(px, FOCUS_PROMPT_MIN), maxFocusPromptHeight(viewportHeight)));
@@ -80,13 +90,46 @@ export const readFocusScenarioOpen = (): boolean => readItem(FOCUS_SCENARIO_KEY)
 export const writeFocusScenarioOpen = (open: boolean): void =>
   writeItem(FOCUS_SCENARIO_KEY, open ? '1' : '0');
 
-/** The question card's chosen height in px, or `null` to fit the question. */
-export const readFocusPromptHeight = (): number | null => {
+/**
+ * The question card's chosen height in px, or `null` to fit the question.
+ *
+ * Clamped on read, with the same limits the splitter enforces: a stored value
+ * from a taller window, or a hand-edited one, must not leave a question card
+ * 10px tall. The viewport defaults to the window's, as the splitter's does.
+ */
+export const readFocusPromptHeight = (
+  viewportHeight: number = typeof window === 'undefined' ? 0 : window.innerHeight
+): number | null => {
   const raw = readItem(FOCUS_PROMPT_HEIGHT_KEY);
   if (raw === null) return null;
   const n = Number(raw);
-  return Number.isFinite(n) && n > 0 ? Math.round(n) : null;
+  if (!Number.isFinite(n) || n <= 0) return null;
+  return clampFocusPromptHeight(n, viewportHeight);
 };
 
 export const writeFocusPromptHeight = (px: number | null): void =>
   writeItem(FOCUS_PROMPT_HEIGHT_KEY, px === null ? null : String(Math.round(px)));
+
+/**
+ * Resolves once the transitions running on `el`'s ancestors have finished.
+ *
+ * Focus Mode eases the page's own padding over 500ms as it opens, so a position
+ * read straight away is 16px short of where the layout settles, and a scroll
+ * aimed at that position lands 16px high. Waiting for the transition removes the
+ * error. Resolves at once where the browser has no Web Animations API (tests) or
+ * when nothing above the layout is animating.
+ */
+export const whenAncestorsSettle = (el: HTMLElement): Promise<void> => {
+  if (typeof document === 'undefined' || typeof document.getAnimations !== 'function') {
+    return Promise.resolve();
+  }
+  const ancestors = new Set<Element>();
+  for (let node: Element | null = el; node; node = node.parentElement) ancestors.add(node);
+  const running = document.getAnimations().filter((animation) => {
+    const target = (animation.effect as KeyframeEffect | null)?.target;
+    return !!target && ancestors.has(target);
+  });
+  return Promise.all(running.map((animation) => animation.finished.catch(() => undefined))).then(
+    () => undefined
+  );
+};

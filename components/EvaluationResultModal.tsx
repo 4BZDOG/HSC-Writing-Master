@@ -8,6 +8,7 @@ import { useScrollLock } from '../hooks/useScrollLock';
 import { X, FileCheck, ArrowUpCircle, Check } from 'lucide-react';
 import { isFeatureLocked } from '../services/entitlements';
 import { stripHtmlTags, getBandConfig } from '../utils/renderUtils';
+import { marksLabel } from '../utils/marksLabel';
 import {
   CARD_HEADER_ICON,
   CARD_HEADER_META,
@@ -147,7 +148,7 @@ const EvaluationResultModal: React.FC<EvaluationResultModalProps> = ({
                 <span className={`${CARD_HEADER_META} whitespace-nowrap`}>{prompt.verb}</span>
                 <span className="w-1 h-1 rounded-full bg-white/70" aria-hidden="true"></span>
                 <span className={`${CARD_HEADER_META} whitespace-nowrap`}>
-                  {prompt.totalMarks} Marks
+                  {marksLabel(prompt.totalMarks)}
                 </span>
               </div>
             </div>

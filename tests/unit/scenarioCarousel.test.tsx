@@ -33,7 +33,7 @@ describe('ScenarioCarousel', () => {
     );
 
     expect(screen.getByText(/sequencing a genome/i)).toBeTruthy();
-    expect(screen.queryByRole('tablist')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Scenario slide' })).toBeNull();
   });
 
   it('renders only the image slide, with no toggle, when there is no text', async () => {
@@ -41,7 +41,7 @@ describe('ScenarioCarousel', () => {
 
     render(<ScenarioCarousel scenarioImage={makeImageRef()} fontSize={18} />);
 
-    expect(screen.queryByRole('tablist')).toBeNull();
+    expect(screen.queryByRole('group', { name: 'Scenario slide' })).toBeNull();
     await waitFor(() => expect(screen.getByAltText('Scenario diagram')).toBeTruthy());
   });
 
@@ -54,16 +54,12 @@ describe('ScenarioCarousel', () => {
     );
 
     render(
-      <ScenarioCarousel
-        scenarioText="Some context."
-        scenarioImage={makeImageRef()}
-        fontSize={18}
-      />
+      <ScenarioCarousel scenarioText="Some context." scenarioImage={makeImageRef()} fontSize={18} />
     );
 
     // Text slide is active by default; switch to the image slide to see the
     // loading state resolve into the image.
-    fireEvent.click(screen.getByRole('tab', { name: /image/i }));
+    fireEvent.click(screen.getByRole('button', { name: /image/i }));
     expect(screen.getByText(/loading image/i)).toBeTruthy();
 
     resolveLoad({ dataUrl: 'data:image/jpeg;base64,abc' });
@@ -85,17 +81,20 @@ describe('ScenarioCarousel', () => {
 
     // Text slide shown first, toggle visible because both exist.
     expect(screen.getByText(/sequencing a genome/i)).toBeTruthy();
-    const tabs = screen.getByRole('tablist');
-    expect(tabs).toBeTruthy();
-
-    fireEvent.click(screen.getByRole('tab', { name: /image/i }));
-    await waitFor(() =>
-      expect(screen.getByAltText('Genome sequencing diagram')).toBeTruthy()
+    const toggle = screen.getByRole('group', { name: 'Scenario slide' });
+    expect(toggle).toBeTruthy();
+    expect(screen.getByRole('button', { name: /text/i }).getAttribute('aria-pressed')).toBe('true');
+    expect(screen.getByRole('button', { name: /image/i }).getAttribute('aria-pressed')).toBe(
+      'false'
     );
+
+    fireEvent.click(screen.getByRole('button', { name: /image/i }));
+    await waitFor(() => expect(screen.getByAltText('Genome sequencing diagram')).toBeTruthy());
     expect(screen.queryByText(/sequencing a genome/i)).toBeNull();
 
-    fireEvent.click(screen.getByRole('tab', { name: /text/i }));
+    fireEvent.click(screen.getByRole('button', { name: /text/i }));
     expect(screen.getByText(/sequencing a genome/i)).toBeTruthy();
+    expect(screen.getByRole('button', { name: /text/i }).getAttribute('aria-pressed')).toBe('true');
   });
 
   it('shows an unavailable message if the image failed to load', async () => {

@@ -126,7 +126,7 @@ const MathSymbolToolbar: React.FC<MathSymbolToolbarProps> = ({ textareaRef, valu
     <div className="flex items-center gap-1.5 mb-2">
       <div
         className="flex items-center gap-1.5 overflow-x-auto pb-0.5 flex-1 min-w-0"
-        role="toolbar"
+        role="group"
         aria-label="Insert maths and science symbols"
       >
         <Sigma className="w-3.5 h-3.5 text-slate-500 flex-shrink-0" aria-hidden="true" />

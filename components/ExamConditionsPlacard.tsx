@@ -36,7 +36,7 @@ const ExamConditionsPlacard: React.FC<ExamConditionsPlacardProps> = ({ onBackToC
           </h3>
           <p className="mt-1.5 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
             Syllabus terms, the marking guide, sample answers and the draft check are put away until
-            you finish.
+            you submit your response for marking or go back to Coach mode.
           </p>
           <button
             type="button"

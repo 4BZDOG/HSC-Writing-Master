@@ -215,3 +215,45 @@ export const CARD_HEADER_BAR =
   // at every width; the height is 44px below `sm`, where the writing tools are
   // 44px touch targets. Both cards take the same step, so the pair still matches.
   'flex items-center h-9 max-sm:h-11 px-2 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';
+
+/**
+ * Focus Mode on a short desktop window: at least 1280px wide and no taller than
+ * 819px (a 1280x720 or 1366x768 laptop). Taller screens, and every phone and
+ * tablet, keep the full headers.
+ *
+ * Tailwind cannot build a class from a runtime string, so each class below is
+ * written out in full and begins with this variant. `cardChrome.test.ts` pins
+ * that every entry starts with `FOCUS_SHORT`, so the media query lives in one
+ * place and a class cannot quietly drift off it.
+ */
+export const FOCUS_SHORT = '[@media(min-width:1280px)_and_(max-height:819px)]';
+
+/**
+ * What Focus Mode compacts on a short window, applied only to the cards in Focus
+ * Mode. The writing card and the question card share the header, so they share
+ * these; the strategy strip and the footer have their own.
+ */
+export const FOCUS_SHORT_CLASSES = {
+  /** A header is one row: 40px icon tile plus 8px above and below = 56px. */
+  header: '[@media(min-width:1280px)_and_(max-height:819px)]:py-2',
+  /** The title and what sits beside it share the row rather than stacking. */
+  titleBlock:
+    '[@media(min-width:1280px)_and_(max-height:819px)]:flex [@media(min-width:1280px)_and_(max-height:819px)]:flex-row [@media(min-width:1280px)_and_(max-height:819px)]:items-center [@media(min-width:1280px)_and_(max-height:819px)]:gap-3',
+  /** The title drops to the `xl` step; it is the same size at 1280 and 1366. */
+  title: '[@media(min-width:1280px)_and_(max-height:819px)]:!text-xl',
+  /** The meta line, kept on the title's row. */
+  metaInline: '[@media(min-width:1280px)_and_(max-height:819px)]:mt-0',
+  /** The writing card's band line, hidden so the header is one row. */
+  metaHidden: '[@media(min-width:1280px)_and_(max-height:819px)]:hidden',
+  /** The question card's corner: reading size, flag and stat bar on one row. */
+  corner:
+    '[@media(min-width:1280px)_and_(max-height:819px)]:flex-row [@media(min-width:1280px)_and_(max-height:819px)]:items-center [@media(min-width:1280px)_and_(max-height:819px)]:gap-2',
+  /** The strategy strip: a single 44px row, verb and "How to answer". */
+  stripRow: '[@media(min-width:1280px)_and_(max-height:819px)]:py-1.5',
+  stripTile:
+    '[@media(min-width:1280px)_and_(max-height:819px)]:!size-8 [@media(min-width:1280px)_and_(max-height:819px)]:!row-span-1',
+  stripDefinition: '[@media(min-width:1280px)_and_(max-height:819px)]:hidden',
+  stripButton: '[@media(min-width:1280px)_and_(max-height:819px)]:!row-span-1',
+  /** The writing card's footer, trimmed so it stays within 60px. */
+  footer: '[@media(min-width:1280px)_and_(max-height:819px)]:py-1',
+} as const;

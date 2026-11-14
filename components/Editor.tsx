@@ -45,6 +45,7 @@ import {
   CARD_FOOTER_BOX,
   CARD_HEADER_BAR,
   CARD_HEADER_BOX,
+  FOCUS_SHORT_CLASSES,
   cardHeaderWash,
   CARD_HEADER_ICON,
   CARD_HEADER_IDENTITY,
@@ -56,6 +57,7 @@ import {
   CARD_HEADER_TRAY,
 } from '../utils/cardChrome';
 import HowToAnswer from './HowToAnswer';
+import ExamClockChip from './ExamClockChip';
 import { READING_SIZE_DEFAULT, canStepReadingSize, stepReadingSize } from '../utils/readingSize';
 import { EXAM_BOOKLET_BORDER } from '../utils/panelStyles';
 
@@ -800,7 +802,7 @@ const Editor = forwardRef<
             ref={headerRef}
             // Every class here comes from utils/cardChrome, shared with the
             // question card so the two headers are the same object twice.
-            className={`${CARD_HEADER_BOX} transition-[background,box-shadow] duration-1000 ease-in-out`}
+            className={`${CARD_HEADER_BOX} ${isFocusMode ? FOCUS_SHORT_CLASSES.header : ''} transition-[background,box-shadow] duration-1000 ease-in-out`}
             style={{
               minHeight: minHeaderHeight ? `${minHeaderHeight}px` : 'auto',
               background: chroma.background,
@@ -831,11 +833,17 @@ const Editor = forwardRef<
                     className={`w-5 h-5 group-hover:scale-110 transition-transform ${chroma.iconColor}`}
                   />
                 </div>
-                <div className={CARD_HEADER_TITLE_BLOCK}>
-                  <h3 className={CARD_HEADER_TITLE}>Written Response</h3>
+                <div
+                  className={`${CARD_HEADER_TITLE_BLOCK} ${isFocusMode ? FOCUS_SHORT_CLASSES.titleBlock : ''}`}
+                >
+                  <h3
+                    className={`${CARD_HEADER_TITLE} ${isFocusMode ? FOCUS_SHORT_CLASSES.title : ''}`}
+                  >
+                    Written Response
+                  </h3>
                   {isExamMode ? (
                     <div
-                      className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:row-start-2`}
+                      className={`${CARD_HEADER_META_ROW} max-sm:col-start-2 max-sm:row-start-2 ${isFocusMode ? FOCUS_SHORT_CLASSES.metaInline : ''}`}
                     >
                       <span className="t-label leading-none bg-red-600 px-2 py-1 rounded-lg border border-white/20 flex items-center gap-1 shadow-sm">
                         <GraduationCap className="w-3 h-3" /> Exam
@@ -844,7 +852,9 @@ const Editor = forwardRef<
                     </div>
                   ) : (
                     <div
-                      className={`${CARD_HEADER_META_ROW} max-sm:col-start-3 max-sm:row-start-1`}
+                      // In Focus Mode on a short window the band line is hidden, so the
+                      // header is one row (see FOCUS_SHORT_CLASSES).
+                      className={`${CARD_HEADER_META_ROW} max-sm:col-start-3 max-sm:row-start-1 ${isFocusMode ? FOCUS_SHORT_CLASSES.metaHidden : ''}`}
                     >
                       {/* The question's fixed goal, and nothing about the
                           draft.
@@ -1024,6 +1034,8 @@ const Editor = forwardRef<
                   {onToggleFocusMode && (
                     <button
                       onClick={onToggleFocusMode}
+                      // Focus returns here when Focus Mode is left by keyboard (see Workspace).
+                      data-focus-toggle=""
                       // One name, with the state in aria-pressed: a name that also
                       // flipped said the state twice, and "Exit focus mode" was
                       // already the pill's name above the cards.
@@ -1083,6 +1095,7 @@ const Editor = forwardRef<
               and its meaning; the card opens headless beneath it. */}
             {!isExamMode && verb && (
               <HowToAnswer
+                compact={isFocusMode}
                 verb={verb}
                 bandCeiling={bandCeiling}
                 open={showStrategy}
@@ -1285,7 +1298,7 @@ const Editor = forwardRef<
               `lg:contents`, which lets its two items join the single row. */}
             <div
               ref={footerRef}
-              className={`${CARD_FOOTER_BOX} flex items-center transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy}`}
+              className={`${CARD_FOOTER_BOX} ${isFocusMode ? FOCUS_SHORT_CLASSES.footer : ''} flex items-center transition-[box-shadow,border-color] duration-700 ease-in-out ${chroma.energy}`}
               style={{ minHeight: minFooterHeight || 52 }}
             >
               {/* Inner wrapper carries the row layout so its height stays
@@ -1347,12 +1360,13 @@ const Editor = forwardRef<
                   )}
                 </div>
 
-                {/* Exam Mode has no readiness meter, so its one fact about the
-                  conditions takes the middle of the row. */}
+                {/* Exam Mode has no readiness meter, so the exam clock takes the middle
+                  of the row. The strip above carries the running clock; this is the
+                  copy the student can see from the writing card (see ExamClockChip). */}
                 {isExamMode && (
-                  <span className="t-label whitespace-nowrap text-[rgb(var(--color-text-secondary))] lg:flex-1">
-                    Exam conditions
-                  </span>
+                  <div className="flex items-center min-w-0 lg:flex-1">
+                    <ExamClockChip />
+                  </div>
                 )}
 
                 {/* RIGHT, first: the free-markings chip (see FreeEvalCounter). */}

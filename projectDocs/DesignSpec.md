@@ -286,6 +286,36 @@ The info sheets opened from the card take their facts from existing data:
 full-mark answer holds (`getStructureExpectation`). It is in the outcome brief and the
 verb guide, and is not repeated by either.
 
+### Focus Mode and Exam Mode on desktop
+
+On a desktop Focus Mode opens with the question in view: the layout's top edge, the
+question card, is scrolled to the top of the window when the page was scrolled
+elsewhere. The writing card's own scroll brought the writing area to the top instead,
+which left the question above the fold on a laptop. On a phone the writing card still
+comes to the top, as it always did.
+
+On a short window (at least 1280px wide and no taller than 819px; `FOCUS_SHORT` in
+`utils/cardChrome.ts`) Focus Mode gives the writing area back the height its chrome
+took. Only in Focus Mode, and only at that size: the writing card's header is one row
+of 56px (the band line hidden, the title on the row with the verb or the Exam label);
+the strategy strip is one 44px row (the verb and "How to answer", the definition
+left out); the footer is trimmed to stay within 60px; and the question card's corner
+puts the reading size, the flag and the marks and band chips on one row. Measured at
+1280x720 this lifts the writing surface from 5 ruled lines to 7 or more. Taller screens
+and phones keep the full headers, which is what the media query is for.
+
+In Exam Mode the footer's "Exam conditions" text is replaced by the exam clock: the
+same figure and caption as the strip above (`05:07 left of 6 min`, or `+00:42 over 6
+min` in the overrun tone). The strip keeps the running clock and its spoken name. The
+footer copy is hidden from assistive technology, because it is a second visual copy.
+It is shown so the clock can be seen without scrolling, and its line does not change
+the footer's height.
+
+Exam Mode also puts the aids away. The command verb reference bar is not rendered
+(it is the verb guide, which is assistance), and the question and scenario text are
+set plain: no verb or syllabus-term highlights, no colour and no click target on a
+term. The writing surface already turns its highlights off in Exam Mode.
+
 ### Radius
 
 Radius is chosen by ROLE, from `theme.extend.borderRadius` in

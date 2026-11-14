@@ -49,7 +49,9 @@ import {
   FOCUS_PROMPT_MIN,
   focusWritingCardMinHeight,
   maxFocusPromptHeight,
+  focusEntryNeedsScroll,
   readFocusPromptHeight,
+  whenAncestorsSettle,
   writeFocusPromptHeight,
 } from '../utils/focusLayout';
 
@@ -263,6 +265,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
   const focusPromptRegionId = useId();
   const focusPromptRef = useRef<HTMLDivElement>(null);
   const writingColumnRef = useRef<HTMLDivElement>(null);
+  // The Focus layout as a whole: question card, splitter and writing card.
+  const focusLayoutRef = useRef<HTMLDivElement>(null);
   const focusFills = isFocusMode && isWideWindow;
 
   useEffect(() => {
@@ -296,12 +300,29 @@ const Workspace: React.FC<WorkspaceProps> = ({
   // question, so its top is what the student needs.
   useEffect(() => {
     if (!isFocusMode) return;
-    const frame = requestAnimationFrame(() =>
-      writingColumnRef.current?.scrollIntoView({
-        block: isWideWindow ? 'nearest' : 'start',
-      })
-    );
-    return () => cancelAnimationFrame(frame);
+    let cancelled = false;
+    const frame = requestAnimationFrame(() => {
+      if (!isWideWindow) {
+        writingColumnRef.current?.scrollIntoView({ block: 'start' });
+        return;
+      }
+      // Wide window: the layout is taller than the screen, so 'nearest' on the
+      // writing card left the question above the fold. Bring the TOP of the layout
+      // (the question card's top edge) to the top of the screen, unless it is there.
+      // The page's padding eases for 500ms as Focus opens, so the position is read
+      // only once that has settled (see whenAncestorsSettle).
+      const layout = focusLayoutRef.current;
+      if (!layout) return;
+      void whenAncestorsSettle(layout).then(() => {
+        if (cancelled) return;
+        if (!focusEntryNeedsScroll(layout.getBoundingClientRect().top, window.innerHeight)) return;
+        layout.scrollIntoView({ block: 'start' });
+      });
+    });
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+    };
   }, [isFocusMode]);
 
   // Layout Sync State. Headers and footers are matched in both directions so
@@ -514,7 +535,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
         : Math.floor(elapsed / 60) !== Math.floor(storedElapsed / 60);
       if (!answerChanged && !elapsedChanged) return;
 
-      syllabusHandlers.updateCourses((draft: any) => {
+      const recipe = (draft: any) => {
         findAndUpdateItem(draft, path, (p: any) => {
           p.userDraft = answer;
           // Never backwards. A flush can fire from `pagehide` after the clock
@@ -522,7 +543,23 @@ const Workspace: React.FC<WorkspaceProps> = ({
           // went down would read as time a student never got back.
           p.draftElapsedSeconds = Math.max(elapsed, storedElapsed);
         });
-      });
+      };
+      // On the way out the write starts at once (persistNow): a timer-based save
+      // is the one thing a closing page does not wait for. Otherwise it is the
+      // ordinary state update that the autosave timer then writes.
+      // Leaving the page: first a synchronous stash of the words (it survives the page going
+      // away, an IndexedDB write may not), then the write itself for the case where the page is
+      // only hidden and the write completes.
+      if (final) {
+        if (answerChanged) {
+          syllabusHandlers.stashPendingDraft({
+            promptId,
+            text: answer,
+            elapsed: Math.max(elapsed, storedElapsed),
+          });
+        }
+        syllabusHandlers.persistNow(recipe);
+      } else syllabusHandlers.updateCourses(recipe);
     },
     [syllabusHandlers]
   );
@@ -601,7 +638,12 @@ const Workspace: React.FC<WorkspaceProps> = ({
     Enter: (e: KeyboardEvent) => {
       if (!isEvaluating && userAnswer.trim() && (e.ctrlKey || e.metaKey)) onInternalEvaluate();
     },
-    F: () => onToggleFocusMode(),
+    // The chord yields to an open dialog for the same reason Escape does below:
+    // toggling Focus Mode remounts the question card, which would unmount a flag
+    // dialog and lose what was typed in it.
+    F: () => {
+      if (!isOverlayOpen()) onToggleFocusMode();
+    },
     // Pressing Escape while in Focus Mode returns to the full workspace — the
     // universal "exit fullscreen" gesture. It yields to anything layered above
     // it: with the outcome brief open, one press used to close the brief AND
@@ -611,6 +653,21 @@ const Workspace: React.FC<WorkspaceProps> = ({
       if (isFocusMode && !isOverlayOpen()) onToggleFocusMode();
     },
   });
+
+  // Leaving Focus Mode unmounts whatever held the keyboard (the exit pill, or the
+  // writing card on Escape), and focus then falls to <body>, so the next Tab
+  // starts again at the top of the page. Hand it to the Focus button instead.
+  // Only when focus has actually been lost: a student typing in the response
+  // keeps the caret where it is. Entering Focus Mode never moves focus.
+  const wasFocusMode = useRef(isFocusMode);
+  useEffect(() => {
+    const leftFocusMode = wasFocusMode.current && !isFocusMode;
+    wasFocusMode.current = isFocusMode;
+    if (!leftFocusMode) return;
+    const active = document.activeElement;
+    if (active && active !== document.body) return;
+    document.querySelector<HTMLElement>('[data-focus-toggle]')?.focus();
+  }, [isFocusMode]);
 
   const handleRunQualityCheck = (content: string, type: 'question' | 'code') => {
     modalHandlers.showQualityCheck({
@@ -788,6 +845,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
           reference material — instead of burying the editor beneath the
           reference accordions. */}
       <div
+        ref={focusLayoutRef}
         // No transition on this grid: `grid-template-columns` cannot interpolate
         // between `none` and a 12-column track list, so `transition-all` animated
         // nothing useful here — it only kept the composited cards in motion while

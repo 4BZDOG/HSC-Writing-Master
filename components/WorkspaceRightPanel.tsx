@@ -646,9 +646,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             this layout — the exemplars beside a two-column workspace, and in
             Focus Mode the syllabus terms and marking guide too, since there is no left rail to
             hold it. */}
-        {referenceSlot && (
-          <div className={`flex flex-col ${isExamMode ? 'hidden' : ''}`}>{referenceSlot}</div>
-        )}
+        {referenceSlot && <div className="flex flex-col">{referenceSlot}</div>}
       </div>
 
       {/*

@@ -88,8 +88,8 @@ describe('the exam conditions placard', () => {
     renderWorkspace('exam');
     const region = placard();
     expect(region).not.toBeNull();
-    expect(within(region!).getByText(/put away until you finish/i).textContent).toMatch(
-      /syllabus terms, the marking guide, sample answers and the draft check/i
+    expect(within(region!).getByText(/put away until you submit/i).textContent).toMatch(
+      /syllabus terms, the marking guide, sample answers and the draft check are put away until you submit your response for marking or go back to Coach mode/i
     );
     // The reference panels themselves are not drawn under exam conditions.
     expect(screen.queryByRole('button', { name: /^syllabus terms/i })).toBeNull();

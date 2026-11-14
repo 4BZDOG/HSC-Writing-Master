@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useId, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useId, useMemo, useRef } from 'react';
 import { Prompt, WritingMode } from '../types';
 import { getCommandTermInfo, getExpectedTerms, getPromptTermInfo } from '../data/commandTerms';
 import { getQuestionSeconds } from '../utils/pastHscUtils';
@@ -20,11 +20,11 @@ import {
   PANEL_HEADER_OPEN,
   PANEL_ROW_MIN_H,
   PANEL_SURFACE,
-  EXAM_BOOKLET_BORDER,
   EXAM_PANEL_SURFACE,
 } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
 import { TERM_CHIP_HOVER, TERM_CHIP_RESTING } from '../utils/termChrome';
+import { publishExamClock } from '../utils/examClockStore';
 
 interface PillProps {
   label: string;
@@ -48,6 +48,19 @@ interface PillProps {
  * clock does not stop while you think.
  */
 const IDLE_PAUSE_MS = 3 * 60 * 1000;
+
+/**
+ * A duration as it is read aloud: "1 minute 1 second", "45 seconds", "7 minutes".
+ * Both units pluralise, and a zero unit is left out rather than spoken.
+ */
+const spokenDuration = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  const parts: string[] = [];
+  if (minutes > 0) parts.push(`${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`);
+  if (secs > 0 || minutes === 0) parts.push(`${secs} ${secs === 1 ? 'second' : 'seconds'}`);
+  return parts.join(' ');
+};
 
 /** A figure that supports the clock rather than competing with it. */
 const SupportStat: React.FC<{ children: React.ReactNode; title?: string }> = ({
@@ -198,7 +211,6 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     const opened = useOpenedOnce(!isCollapsed, prompt.id);
     const bodyId = useId();
     const [isTimerActive, setIsTimerActive] = useState(false);
-    const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
     const commandTermInfo = useMemo(
       () => getPromptTermInfo(prompt),
@@ -240,12 +252,56 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // remainder gives both readings from one number, and the overrun has
     // somewhere to go.
     const [elapsed, setElapsed] = useState(elapsedSeconds);
+    /** The same total, readable from a timer or an effect without a stale value. */
+    const elapsedRef = useRef(elapsedSeconds);
+    /**
+     * Where the clock stands: the total it started from, and the wall-clock
+     * moment it last started or resumed. Elapsed time is read from the wall
+     * clock against this anchor rather than counted tick by tick. A background
+     * tab throttles timers and a sleeping laptop stops them, so a counted clock
+     * undercounts exactly when nobody is watching — which is when an exam runs.
+     */
+    const anchor = useRef({ base: elapsedSeconds, startedAt: 0 });
+    /** Whether the clock is counting, readable from an effect without a stale value. */
+    const runningRef = useRef(false);
+    /** Whether the budget has already been announced for this question and mode. */
+    const budgetAnnounced = useRef(false);
+    /** The one polite announcement, set once when the budget is reached. */
+    const [announcement, setAnnouncement] = useState('');
     /** Set when the STUDENT pressed pause, so typing does not override them. */
     const pausedByUser = useRef(false);
     const lastTypedAt = useRef(0);
     /** What the clock was last set up for, so a MODE change can be told from a
      *  remount. The two want opposite things — see below. */
     const setUpFor = useRef<{ promptId: string; exam: boolean } | null>(null);
+    /** The answer on screen when this question first appeared — see the typing effect. */
+    const staleAnswer = useRef<{ promptId: string; text: string } | null>(null);
+
+    const showElapsed = useCallback((seconds: number) => {
+      elapsedRef.current = seconds;
+      setElapsed(seconds);
+    }, []);
+    /** Where the clock stands at `at`, counted from the wall clock. */
+    const elapsedAt = useCallback(
+      (at: number) =>
+        anchor.current.base + Math.max(0, Math.floor((at - anchor.current.startedAt) / 1000)),
+      []
+    );
+    /** Starts, or resumes, counting from the total on screen right now. */
+    const startClock = useCallback(() => {
+      anchor.current = { base: elapsedRef.current, startedAt: Date.now() };
+      runningRef.current = true;
+      setIsTimerActive(true);
+    }, []);
+    /** Stops at `at`, so the total is the moment the clock stopped, not the moment this ran. */
+    const stopClock = useCallback(
+      (at: number) => {
+        showElapsed(elapsedAt(at));
+        runningRef.current = false;
+        setIsTimerActive(false);
+      },
+      [elapsedAt, showElapsed]
+    );
 
     // Reset the clock whenever the question or the mode changes. Keyed on the
     // prompt id (not just the recommended time) so switching between two
@@ -261,18 +317,44 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // which mode it was last set up in to tell them apart.
     useEffect(() => {
       const previous = setUpFor.current;
-      const modeChanged = previous?.promptId === prompt.id && previous.exam !== isExamMode;
+      const samePrompt = !!previous && previous.promptId === prompt.id;
+      const enteringExam = samePrompt && !previous.exam && isExamMode;
+      // Leaving Exam hands back the total the exam clock reached. That is what
+      // the draft is about to save; the `elapsedSeconds` prop can lag it until
+      // the next flush, so it is not the value to use here.
+      const leavingExam = samePrompt && previous.exam && !isExamMode;
       setUpFor.current = { promptId: prompt.id, exam: isExamMode };
 
-      setElapsed(modeChanged ? 0 : elapsedSeconds);
+      const start = enteringExam ? 0 : leavingExam ? elapsedRef.current : elapsedSeconds;
+      showElapsed(start);
+      budgetAnnounced.current = start >= recommendedTime;
+      setAnnouncement('');
       pausedByUser.current = false;
       lastTypedAt.current = Date.now();
-      setIsTimerActive(isExamMode);
+      // Exam Mode is running the moment you switch in; Coach waits for writing.
+      if (isExamMode) {
+        startClock();
+      } else {
+        runningRef.current = false;
+        setIsTimerActive(false);
+      }
       // `elapsedSeconds` is deliberately NOT a dependency: it is the value to
       // restore FROM, and it changes as the clock's own reports are saved back.
       // Listing it would make every save restart the clock it just recorded.
       // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [prompt.id, recommendedTime, isExamMode]);
+    }, [prompt.id, recommendedTime, isExamMode, showElapsed, startClock]);
+
+    // Announced once, the first time the clock reaches the budget. Read on
+    // demand, never every second. A total already past the budget when the
+    // question opens (a reload) was marked as told above, so it stays quiet.
+    useEffect(() => {
+      if (elapsed < recommendedTime || budgetAnnounced.current) return;
+      budgetAnnounced.current = true;
+      setAnnouncement(isExamMode ? 'Time is up for this question.' : 'Suggested time reached.');
+      // Keyed on the count alone: the budget and mode are read with it, and
+      // this runs after the reset above has updated all three together.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [elapsed]);
 
     // The running total, reported upward for the next draft flush to save.
     useEffect(() => {
@@ -293,26 +375,57 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // The test is the one the workspace already uses to decide whether an
     // answer belongs to its question: what is on screen is the stored draft
     // until it differs from it.
+    //
+    // THE WORKSPACE HANDS OVER ITS ANSWER A SECOND LATE. The text here is the
+    // debounced answer, so for a second after a question switch it still holds
+    // the PREVIOUS question's words. Those are not typing, whatever the new
+    // question's draft is. Whatever was on screen when this question appeared is
+    // recorded as stale, and only a change away from it counts as writing.
+    const openedWith = useRef(prompt.id);
+    useEffect(() => {
+      // Only a switch can leave stale words behind. On mount the text is this
+      // question's own draft, and the draft check above already covers it.
+      if (openedWith.current === prompt.id) return;
+      openedWith.current = prompt.id;
+      staleAnswer.current = { promptId: prompt.id, text: userAnswer };
+      // Keyed on the question alone: this is a snapshot taken when it opens.
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [prompt.id]);
+
     useEffect(() => {
       if (!userAnswer.trim()) return;
       if (userAnswer === (prompt.userDraft ?? '')) return;
+      const stale = staleAnswer.current;
+      if (stale?.promptId === prompt.id && stale.text === userAnswer) return;
       lastTypedAt.current = Date.now();
-      if (!pausedByUser.current) setIsTimerActive(true);
-    }, [userAnswer, prompt.userDraft]);
+      if (!pausedByUser.current && !runningRef.current) startClock();
+    }, [userAnswer, prompt.userDraft, prompt.id, startClock]);
 
     useEffect(() => {
       if (!isTimerActive) return;
-      timerIntervalRef.current = setInterval(() => {
-        if (!isExamMode && Date.now() - lastTypedAt.current > IDLE_PAUSE_MS) {
-          setIsTimerActive(false);
+      const update = () => {
+        const now = Date.now();
+        // Coach Mode parks itself after the idle limit, at the moment the limit
+        // began, not at the moment this tick happened to land: a laptop asleep
+        // for an hour must not be counted as an hour of writing.
+        if (!isExamMode && now - lastTypedAt.current > IDLE_PAUSE_MS) {
+          stopClock(lastTypedAt.current + IDLE_PAUSE_MS);
           return;
         }
-        setElapsed((seconds) => seconds + 1);
-      }, 1000);
-      return () => {
-        if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+        showElapsed(elapsedAt(now));
       };
-    }, [isTimerActive, isExamMode]);
+      const interval = setInterval(update, 1000);
+      // A hidden tab may have been throttled for minutes. Catch up the moment
+      // it is shown again rather than waiting for the next tick.
+      const onVisibilityChange = () => {
+        if (document.visibilityState !== 'hidden') update();
+      };
+      document.addEventListener('visibilitychange', onVisibilityChange);
+      return () => {
+        clearInterval(interval);
+        document.removeEventListener('visibilitychange', onVisibilityChange);
+      };
+    }, [isTimerActive, isExamMode, elapsedAt, showElapsed, stopClock]);
 
     const formatTime = (s: number) =>
       `${Math.floor(s / 60)
@@ -354,9 +467,20 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // A ticking display is not readable as digits by a screen reader, and
     // role="timer" is implicitly aria-live="off", so this is read on demand
     // rather than announced every second.
-    const spokenClock = `${Math.floor(Math.abs(remainingTime) / 60)} minutes ${
-      Math.abs(remainingTime) % 60
-    } seconds ${isOverTime ? 'over' : 'left of'} the ${budgetMinutes} minute guide for this question`;
+    const spokenClock = `${spokenDuration(Math.abs(remainingTime))} ${isOverTime ? 'over' : 'left of'} the ${budgetMinutes} minute guide for this question`;
+
+    // The Exam clock, published for the writing card's footer (ExamClockChip). The
+    // strings are the ones this strip prints, so the two never disagree. Published
+    // on every commit: the store drops an unchanged reading, so this costs nothing
+    // while the figure holds still, and it cannot leave a stale reading behind when
+    // the question changes.
+    useEffect(() => {
+      publishExamClock(
+        isExamMode ? { text: clock, caption: clockCaption, over: isOverTime } : null
+      );
+    });
+    // Off the page with the strip: nothing from this question may outlive it.
+    useEffect(() => () => publishExamClock(null), []);
 
     // The panel wears the same surface as every other one below the writing
     // area — see utils/panelStyles. It used to carry a heavier border, a
@@ -472,70 +596,71 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             />
           )}
 
-          <div
-            className={`flex items-center gap-2 px-3 py-1 sm:py-0 border-t sm:border-t-0 sm:border-l ${
-              isExamMode ? EXAM_BOOKLET_BORDER : 'border-slate-300 dark:border-white/10'
-            }`}
-          >
-            {/* On a phone the two controls are one segmented strip of 44px cells,
+          {/* Exam Mode has no controls: the clock does not stop while you think,
+              so there is no Pause, Play or Reset, and no empty box for them. */}
+          {!isExamMode && (
+            <div className="flex items-center gap-2 px-3 py-1 sm:py-0 border-t sm:border-t-0 sm:border-l border-slate-300 dark:border-white/10">
+              {/* On a phone the two controls are one segmented strip of 44px cells,
                 so the touch targets are the size of the thumb and the strip is
                 no taller than they are. */}
-            <div
-              className={`relative z-10 flex gap-1 max-sm:gap-0 bg-slate-100 dark:bg-white/5 p-1 max-sm:p-0 max-sm:overflow-hidden rounded-xl border ${
-                isExamMode ? EXAM_BOOKLET_BORDER : 'border-slate-300 dark:border-white/10'
-              }`}
-            >
-              <button
-                onClick={() => {
-                  const next = !isTimerActive;
-                  // A deliberate pause outranks the auto-start: without this,
-                  // the next keystroke would start the clock straight back up.
-                  pausedByUser.current = !next;
-                  if (next) lastTypedAt.current = Date.now();
-                  setIsTimerActive(next);
-                }}
-                aria-label={isTimerActive ? 'Pause timer' : 'Start timer'}
-                title={isTimerActive ? 'Pause timer' : 'Start timer'}
-                className="p-1.5 max-sm:size-11 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
-              >
-                {isTimerActive ? (
-                  <Pause className="w-3.5 h-3.5" />
-                ) : (
-                  <Play className="w-3.5 h-3.5" />
-                )}
-              </button>
-              <button
-                onClick={() => {
-                  setIsTimerActive(false);
-                  pausedByUser.current = false;
-                  setElapsed(0);
-                }}
-                aria-label="Reset timer"
-                title="Reset timer"
-                className="p-1.5 max-sm:size-11 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-              </button>
-            </div>
-            {/* The pill is the disclosure's visible label, not a second control:
+              <div className="relative z-10 flex gap-1 max-sm:gap-0 bg-slate-100 dark:bg-white/5 p-1 max-sm:p-0 max-sm:overflow-hidden rounded-xl border border-slate-300 dark:border-white/10">
+                <button
+                  onClick={() => {
+                    if (isTimerActive) {
+                      // A deliberate pause outranks the auto-start: without this,
+                      // the next keystroke would start the clock straight back up.
+                      pausedByUser.current = true;
+                      stopClock(Date.now());
+                    } else {
+                      pausedByUser.current = false;
+                      lastTypedAt.current = Date.now();
+                      startClock();
+                    }
+                  }}
+                  aria-label={isTimerActive ? 'Pause timer' : 'Start timer'}
+                  title={isTimerActive ? 'Pause timer' : 'Start timer'}
+                  className="p-1.5 max-sm:size-11 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
+                >
+                  {isTimerActive ? (
+                    <Pause className="w-3.5 h-3.5" />
+                  ) : (
+                    <Play className="w-3.5 h-3.5" />
+                  )}
+                </button>
+                <button
+                  onClick={() => {
+                    runningRef.current = false;
+                    setIsTimerActive(false);
+                    pausedByUser.current = false;
+                    showElapsed(0);
+                  }}
+                  aria-label="Reset timer"
+                  title="Reset timer"
+                  className="p-1.5 max-sm:size-11 rounded-lg hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-all active:scale-90"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                </button>
+              </div>
+              {/* The pill is the disclosure's visible label, not a second control:
                 the stretched button above it takes the press, so it is marked
                 aria-hidden and carries no name of its own. Its hover answers the
                 row's, because pressing anywhere on the row toggles the panel. */}
-            {!isExamMode && (
-              <span
-                aria-hidden="true"
-                className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full can-hover:group-hover/metrics:bg-slate-100 dark:can-hover:group-hover/metrics:bg-white/10 text-slate-600 dark:text-slate-400 can-hover:group-hover/metrics:text-slate-900 dark:can-hover:group-hover/metrics:text-white transition-all"
-              >
-                {/* Named, not just a chevron — the panel starts collapsed, so
+              {!isExamMode && (
+                <span
+                  aria-hidden="true"
+                  className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1.5 rounded-full can-hover:group-hover/metrics:bg-slate-100 dark:can-hover:group-hover/metrics:bg-white/10 text-slate-600 dark:text-slate-400 can-hover:group-hover/metrics:text-slate-900 dark:can-hover:group-hover/metrics:text-white transition-all"
+                >
+                  {/* Named, not just a chevron — the panel starts collapsed, so
                     nothing else tells a student the term tracker is in here. */}
-                <span className="t-label whitespace-nowrap">Terms and structure</span>
-                <PanelReadChip show={opened && isCollapsed} />
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-500 motion-reduce:transition-none ${isCollapsed ? '' : 'rotate-180'}`}
-                />
-              </span>
-            )}
-          </div>
+                  <span className="t-label whitespace-nowrap">Terms and structure</span>
+                  <PanelReadChip show={opened && isCollapsed} />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-500 motion-reduce:transition-none ${isCollapsed ? '' : 'rotate-180'}`}
+                  />
+                </span>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Improved Smooth Expansion Container — all live-feedback panels; hidden
@@ -646,6 +771,12 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
             </div>
           </div>
         </div>
+        {/* Always in the page, so a change to it is heard. Empty until the
+            budget is reached, and kept after the panel so it is not the panel's
+            first row. */}
+        <p role="status" aria-live="polite" className="sr-only">
+          {announcement}
+        </p>
       </div>
     );
   }

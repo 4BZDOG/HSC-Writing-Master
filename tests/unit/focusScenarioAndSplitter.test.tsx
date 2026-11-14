@@ -3,7 +3,13 @@ import React from 'react';
 import { render, screen, cleanup, fireEvent } from '@testing-library/react';
 import PromptDisplay from '../../components/PromptDisplay';
 import FocusSplitter from '../../components/FocusSplitter';
-import { FOCUS_SCENARIO_KEY } from '../../utils/focusLayout';
+import {
+  FOCUS_PROMPT_HEIGHT_KEY,
+  FOCUS_PROMPT_MIN,
+  FOCUS_SCENARIO_KEY,
+  maxFocusPromptHeight,
+  readFocusPromptHeight,
+} from '../../utils/focusLayout';
 import { Prompt, PromptVerb } from '../../types';
 
 /**
@@ -202,5 +208,43 @@ describe('FocusSplitter', () => {
       delete proto.releasePointerCapture;
       delete proto.hasPointerCapture;
     }
+  });
+});
+
+/**
+ * A stored height is a convenience, and it can be stale: saved on a taller
+ * window, or edited by hand. It is clamped on read to the range the splitter
+ * allows, so a question card can never open at 10px.
+ */
+describe('the stored question-card height', () => {
+  beforeEach(() => window.localStorage.clear());
+  afterEach(() => window.localStorage.clear());
+
+  it('reads back a height inside the splitter range', () => {
+    window.localStorage.setItem(FOCUS_PROMPT_HEIGHT_KEY, '300');
+    expect(readFocusPromptHeight(900)).toBe(300);
+  });
+
+  it('clamps a height too small to read up to the splitter minimum', () => {
+    window.localStorage.setItem(FOCUS_PROMPT_HEIGHT_KEY, '10');
+    expect(readFocusPromptHeight(900)).toBe(FOCUS_PROMPT_MIN);
+  });
+
+  it('clamps a height taller than the window allows down to the splitter maximum', () => {
+    window.localStorage.setItem(FOCUS_PROMPT_HEIGHT_KEY, '5000');
+    expect(readFocusPromptHeight(900)).toBe(maxFocusPromptHeight(900));
+  });
+
+  it('treats an absent or unusable value as no choice at all', () => {
+    expect(readFocusPromptHeight(900)).toBeNull();
+    window.localStorage.setItem(FOCUS_PROMPT_HEIGHT_KEY, 'tall');
+    expect(readFocusPromptHeight(900)).toBeNull();
+    window.localStorage.setItem(FOCUS_PROMPT_HEIGHT_KEY, '-40');
+    expect(readFocusPromptHeight(900)).toBeNull();
+  });
+
+  it('clamps against the window height when no viewport is given, as the splitter does', () => {
+    window.localStorage.setItem(FOCUS_PROMPT_HEIGHT_KEY, '5000');
+    expect(readFocusPromptHeight()).toBe(maxFocusPromptHeight(window.innerHeight));
   });
 });

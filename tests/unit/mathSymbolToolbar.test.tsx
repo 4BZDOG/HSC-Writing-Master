@@ -27,6 +27,15 @@ const Harness: React.FC<{ initialValue?: string; onChangeSpy?: (v: string) => vo
 };
 
 describe('MathSymbolToolbar', () => {
+  it('is a labelled group of plain buttons, with no toolbar role it cannot keep', () => {
+    render(<Harness />);
+    // A toolbar promises arrow-key roving focus, which this does not implement;
+    // the buttons are a plain group, each one Tab-reachable.
+    expect(screen.queryByRole('toolbar')).toBeNull();
+    const group = screen.getByRole('group', { name: 'Insert maths and science symbols' });
+    expect(group.querySelectorAll('button').length).toBeGreaterThan(0);
+  });
+
   it('renders the direct-insert symbol pills and wrap buttons', () => {
     render(<Harness />);
     // getByRole throws if no match is found, so a successful call is itself
