@@ -91,6 +91,8 @@ describe('SeatOverageNotice', () => {
 
     fireEvent.click(button);
     await waitFor(() => expect(createPortalUrlMock).toHaveBeenCalledTimes(1));
+    // Seat overage is a school licence matter, so the school's portal is the one opened.
+    expect(createPortalUrlMock).toHaveBeenCalledWith('school');
     // A failed portal says why, rather than leaving a button that did nothing.
     expect(await screen.findByText('Stripe is busy.')).toBeTruthy();
   });

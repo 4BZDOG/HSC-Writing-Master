@@ -318,6 +318,15 @@ describe('when Stripe is down', () => {
     expect(res.body).toEqual({ prices: {} });
   });
 
+  it('tells the CDN and the browser not to keep an empty answer', async () => {
+    retrieve.mockRejectedValue(new Error('Stripe is unreachable'));
+
+    const res = await call();
+
+    expect(res.body).toEqual({ prices: {} });
+    expect(res.headers['Cache-Control']).toBe('no-store');
+  });
+
   it('does not cache the empty answer, so the next request tries Stripe again', async () => {
     retrieve.mockRejectedValue(new Error('Stripe is unreachable'));
     await call();
