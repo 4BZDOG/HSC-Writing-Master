@@ -19,11 +19,12 @@ import MeshOverlay from './MeshOverlay';
 import { Lock, User as UserIcon, BookOpen, AlertCircle, Loader2, MailCheck } from 'lucide-react';
 import LegalDocumentModal from './LegalDocumentModal';
 import AuthField from './AuthField';
+import AuthHowItWorks from './AuthHowItWorks';
 import {
   AUTH_CARD,
-  AUTH_COLUMN,
   AUTH_PAGE,
   AUTH_PRIMARY_BUTTON,
+  AUTH_SECONDARY_BUTTON,
   AUTH_TEXT_LINK,
 } from '../utils/authChrome';
 
@@ -173,6 +174,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [pending, setPending] = useState<'submit' | 'guest' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [oauthLoading, setOauthLoading] = useState<Provider | null>(null);
+  // A wrong email or password marks both fields, not only the banner above the
+  // button, so the eye goes to the fields that need changing. Cleared on typing.
+  const [credentialsRejected, setCredentialsRejected] = useState(false);
 
   const [mode, setMode] = useState<'signin' | 'signup' | 'reset'>('signin');
   const [resetSentTo, setResetSentTo] = useState<string | null>(null);
@@ -206,6 +210,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     formChanged.current = true;
     setMode(next);
     setError(null);
+    setCredentialsRejected(false);
     // Both success panels replace the form, so today their own buttons are the
     // only way out and they clear these first. Clearing here as well means a
     // future entry point cannot land someone on a stale "check your email"
@@ -289,6 +294,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       return;
     }
     setError(null);
+    setCredentialsRejected(false);
 
     const trimmedUsername = username.trim();
 
@@ -316,12 +322,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       // account — arrives already worded by authService with its own remedy,
       // and flattening it into "bad password" sends the reader the wrong way.
       const message = err instanceof Error ? err.message : '';
+      const rejected = !message || /invalid username or password/i.test(message);
+      setCredentialsRejected(rejected);
       setError(
-        message && !/invalid username or password/i.test(message)
-          ? message
-          : isSupabaseConfigured
+        rejected
+          ? isSupabaseConfigured
             ? 'That email and password do not match an account. Check both and try again.'
             : 'That username and password do not match an account. Check both and try again.'
+          : message
       );
     } finally {
       setPending(null);
@@ -371,12 +379,20 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     <div className={AUTH_PAGE}>
       <AuthBackdrop />
 
-      <div className={AUTH_COLUMN}>
-        <AuthBrand tagline="Practise on real HSC papers and questions calibrated against them, and see each response marked against the NESA band descriptors." />
+      {/* From 1024px this is two columns: the brand, and how it works, on the
+          left; the card on the right. Below that it is one column in the order
+          brand, card, walkthrough, so the form is the first thing a phone shows. */}
+      <div className="relative z-10 my-auto w-full max-w-6xl grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1fr)_420px] lg:gap-x-20 lg:items-center">
+        <AuthBrand
+          align="split"
+          headline="Write an HSC answer. See the band it earns, and how to lift it."
+          tagline="Practise on real HSC papers and questions calibrated against them, and see each response marked against the NESA band descriptors."
+          className="lg:col-start-1 lg:row-start-1 lg:self-end"
+        />
 
         {/* Main Login Card */}
         <div
-          className="w-full max-w-[420px] relative z-10 animate-fade-in-up"
+          className="w-full max-w-[420px] mx-auto lg:mx-0 relative z-10 animate-fade-in-up lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:self-center"
           style={{ animationDelay: '200ms' }}
         >
           <div className={AUTH_CARD}>
@@ -538,7 +554,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         value={displayName}
                         onChange={(e) => setDisplayName(e.target.value)}
                         type="text"
-                        placeholder="Shown in the app"
+                        hint="Shown in the app. You can leave it blank."
                         icon={UserIcon}
                         autoComplete="name"
                       />
@@ -551,12 +567,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                       onChange={(e) => {
                         setUsername(e.target.value);
                         setFieldErrors((prev) => ({ ...prev, email: undefined }));
+                        setCredentialsRejected(false);
                       }}
                       type={isSupabaseConfigured ? 'email' : 'text'}
-                      placeholder={isSupabaseConfigured ? 'Enter email address' : 'Enter username'}
                       icon={UserIcon}
+                      autoFocus
                       autoComplete={isSupabaseConfigured ? 'email' : 'username'}
                       error={fieldErrors.email}
+                      invalid={credentialsRejected}
                       hint={
                         mode === 'signup' && signupAllowedDomains().length > 0
                           ? allowedDomainMessage(signupAllowedDomains())
@@ -574,16 +592,18 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         onChange={(e) => {
                           setPassword(e.target.value);
                           setFieldErrors((prev) => ({ ...prev, password: undefined }));
+                          setCredentialsRejected(false);
                         }}
                         type="password"
-                        placeholder={
-                          mode === 'signup'
-                            ? `At least ${MIN_PASSWORD_LENGTH} characters`
-                            : 'Enter password'
-                        }
                         icon={Lock}
                         autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
                         error={fieldErrors.password}
+                        invalid={credentialsRejected}
+                        hint={
+                          mode === 'signup'
+                            ? `At least ${MIN_PASSWORD_LENGTH} characters.`
+                            : undefined
+                        }
                         revealable
                       />
                     </div>
@@ -598,7 +618,6 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                           setFieldErrors((prev) => ({ ...prev, confirmPassword: undefined }));
                         }}
                         type="password"
-                        placeholder="Type the password again"
                         icon={Lock}
                         autoComplete="new-password"
                         error={fieldErrors.confirmPassword}
@@ -710,7 +729,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                         onClick={() => handleOAuthLogin(id)}
                         disabled={pending !== null || oauthLoading !== null}
                         aria-busy={oauthLoading === id || undefined}
-                        className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-slate-300 light:text-slate-600 bg-white/5 light:bg-surface-inset border-2 border-white/10 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 py-3.5 rounded-2xl text-sm font-semibold text-slate-300 light:text-slate-700 bg-white/5 light:bg-surface-inset border-2 border-white/10 light:border-slate-500 hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgb(var(--color-bg-surface))] light:focus-visible:ring-indigo-600"
                         title={`Sign in with ${label}`}
                       >
                         {oauthLoading === id ? (
@@ -727,42 +746,43 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
                 </div>
               )}
 
-              <div className="mt-7">
+              <div className="mt-7 space-y-2.5">
                 {/* Its own busy state: the spinner and words say this button is
-                    the one working, and the Sign in button is left as it was. */}
+                    the one working, and the Sign in button is left as it was. The
+                    caption says what a guest gets, since "guest" alone does not. */}
                 <button
                   type="button"
                   onClick={handleGuestLogin}
                   disabled={pending !== null || oauthLoading !== null}
                   aria-busy={pending === 'guest' || undefined}
-                  className="text-sm font-semibold w-full py-4 rounded-2xl text-slate-300 light:text-slate-600 bg-white/5 light:bg-surface-inset border-2 border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] transition-all flex items-center justify-center gap-3 shadow-inner disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-describedby="guest-caption"
+                  className={AUTH_SECONDARY_BUTTON}
                 >
                   {pending === 'guest' ? (
                     <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                   ) : (
                     <BookOpen className="w-4 h-4" aria-hidden="true" />
                   )}
-                  {pending === 'guest' ? 'Opening guest session…' : 'Continue as guest'}
+                  {pending === 'guest' ? 'Opening guest session…' : 'Try it as a guest'}
                 </button>
+                <p
+                  id="guest-caption"
+                  className="text-center text-xs leading-relaxed text-slate-400 light:text-slate-600 px-2"
+                >
+                  No account needed. Your work stays in this browser, not on our servers.
+                </p>
               </div>
-            </div>
-
-            {/* Footer Info */}
-            <div className="t-label bg-black/40 light:bg-surface-elevated px-6 sm:px-10 py-5 border-t border-white/10 light:border-slate-300 flex justify-between items-center text-slate-400 light:text-slate-600">
-              <button
-                type="button"
-                onClick={() => setIsLegalOpen(true)}
-                className="hover:text-indigo-400 light:hover:text-indigo-700 underline-offset-2 hover:underline transition-colors"
-              >
-                Terms &amp; Privacy
-              </button>
-              <span className="font-mono">v{APP_VERSION}</span>
             </div>
           </div>
 
+          {/* The one place the legal documents are linked from this card. The
+              footer strip that used to repeat the link is gone. */}
           <p className="mt-5 text-center text-xs leading-relaxed text-slate-400 light:text-slate-600 px-4">
-            Signing in means agreeing to the Terms of Use and Privacy Notice. Marks given here are
-            practice feedback from an AI — never an official HSC result.
+            Signing in means you accept our{' '}
+            <button type="button" onClick={() => setIsLegalOpen(true)} className={AUTH_TEXT_LINK}>
+              Terms &amp; Privacy
+            </button>
+            . <span className="font-mono">v{APP_VERSION}</span>
           </p>
 
           <LegalDocumentModal isOpen={isLegalOpen} onClose={() => setIsLegalOpen(false)} />
@@ -803,6 +823,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             </div>
           )}
         </div>
+
+        <AuthHowItWorks className="lg:col-start-1 lg:row-start-2 lg:self-start" />
       </div>
     </div>
   );

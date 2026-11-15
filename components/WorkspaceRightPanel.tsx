@@ -48,6 +48,9 @@ interface WorkspaceRightPanelProps {
   /** Focus Mode on a wide window: the writing card's floor, so it takes the
    *  height the question leaves (see `focusWritingCardMinHeight`). */
   focusMinHeight?: string;
+  /** Focus Mode: the column's width classes. The reading-width column unless the
+   *  student has chosen a wider arrangement (see utils/focusLayout). */
+  focusColumnClass?: string;
   /** The column's root, so the workspace can bring the writing card into view. */
   columnRef?: React.Ref<HTMLDivElement>;
   userAnswer: string;
@@ -98,6 +101,7 @@ interface WorkspaceRightPanelProps {
 const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
   isFocusMode,
   focusMinHeight,
+  focusColumnClass = 'max-w-5xl mx-auto w-full',
   columnRef,
   userAnswer,
   setUserAnswer,
@@ -517,7 +521,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       ref={columnRef}
       className={`${
         isFocusMode
-          ? 'col-span-1 max-w-5xl mx-auto w-full'
+          ? `col-span-1 ${focusColumnClass}`
           : // The same columns in every mode: Exam Mode swaps the rail for its
             // conditions placard rather than widening this card, so the headers
             // of the two cards stay level.

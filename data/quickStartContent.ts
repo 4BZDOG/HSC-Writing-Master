@@ -71,13 +71,13 @@ const STUDENT_TRACK: QuickStartTrack = {
   eyebrow: 'Quick start',
   title: 'Your first marked answer, in five steps',
   intro:
-    'This is a marker that explains itself. You write an HSC-style answer, it marks it against the syllabus, and it tells you exactly where the marks went — and where the next band is.',
+    'Write an answer, get it marked against the syllabus, and see where the marks went and what would lift the band.',
   timeToRead: '2 min read',
   steps: [
     {
       icon: 'compass',
       title: 'Find a question',
-      body: 'Use the navigator across the top. It follows the syllabus exactly, so you can go straight to the dot point you are stuck on.',
+      body: 'Use the navigator across the top to go straight to the dot point you are working on.',
       detail: [
         'Course → Topic → Sub-topic → Dot point → Question.',
         'The command verb hierarchy under it shows the six tiers of command verbs, from Identify to Evaluate. The question you pick lights up its tier.',
@@ -86,8 +86,8 @@ const STUDENT_TRACK: QuickStartTrack = {
     },
     {
       icon: 'pen',
-      title: 'Write like it is the real exam',
-      body: 'Answer in the writing area. Draft check, under it, keeps an eye on the basics as you write.',
+      title: 'Write your answer',
+      body: 'Write in the writing area. Draft check watches length, syllabus terms and sentence structure as you go.',
       detail: [
         'Whether the length suits the marks on offer.',
         'Syllabus terms you have used, and the ones still missing. Tap a missing term to add it.',
@@ -99,7 +99,7 @@ const STUDENT_TRACK: QuickStartTrack = {
     {
       icon: 'gauge',
       title: 'Get it marked',
-      body: 'Press Evaluate. In under a minute you get a mark out of the question’s total, a band, and the reasoning behind both.',
+      body: 'Press Evaluate. In under a minute you get a mark, a band, and the reasoning behind both.',
       detail: [
         'A criterion-by-criterion breakdown — which parts earned marks and which did not.',
         'What you did well, and the specific things to fix next time.',
@@ -109,7 +109,7 @@ const STUDENT_TRACK: QuickStartTrack = {
     {
       icon: 'target',
       title: 'Close the gap to the next band',
-      body: 'This is the part that actually moves your marks. Do not skip it.',
+      body: 'This is the step that moves your marks. Compare your answer with the band above it.',
       detail: [
         'Read the sample answers at each band and compare them to yours — the difference between Band 4 and Band 6 is usually structural, not effort.',
         'Use the answer upgrade to see your own words rewritten one step higher (the next band, or one more mark on a long question), with each change explained.',
@@ -120,12 +120,12 @@ const STUDENT_TRACK: QuickStartTrack = {
     {
       icon: 'timer',
       title: 'Then practise under pressure',
-      body: 'Switch from Coach to Exam mode when you want the real thing: a countdown, no live feedback, no exemplars, and a plain exam-paper screen. You get the full marking afterwards.',
+      body: 'Switch to Exam mode for a countdown and no live feedback. You still get the full marking afterwards.',
       planNote: 'Exam simulation is part of Band 6 Plus.',
     },
   ],
   closer:
-    'One properly-read set of feedback beats five rushed attempts. Read why you lost the mark before you write the next answer.',
+    'One properly-read set of feedback beats five rushed attempts. Read it before you write the next answer.',
 };
 
 const TEACHER_TRACK: QuickStartTrack = {

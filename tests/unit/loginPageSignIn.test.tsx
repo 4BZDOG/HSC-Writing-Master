@@ -104,11 +104,12 @@ describe('LoginPage sign-in', () => {
     expect((screen.getByLabelText(/^password$/i) as HTMLInputElement).value).toBe('teacher');
   });
 
-  it('names the sign-in form, and leaves focus alone on arrival', () => {
-    // Focus moves to a heading only when the card's contents CHANGE; landing on
-    // the page must not steal it.
+  it('names the sign-in form, and starts in the username field', () => {
+    // Focus moves to a heading only when the card's contents CHANGE, so landing
+    // on the page does not move it to the heading. It starts in the first field
+    // instead, so a student can type straight away.
     render(<LoginPage onLogin={onLogin} />);
-    expect(document.activeElement).toBe(document.body);
+    expect(document.activeElement).toBe(screen.getByLabelText(/username/i));
     expect(screen.getByRole('heading', { name: /^sign in$/i })).toBeTruthy();
   });
 
@@ -138,7 +139,7 @@ describe('LoginPage sign-in', () => {
     const user = userEvent.setup();
     render(<LoginPage onLogin={onLogin} />);
 
-    await user.click(screen.getByRole('button', { name: /continue as guest/i }));
+    await user.click(screen.getByRole('button', { name: /try it as a guest/i }));
 
     const guest = await screen.findByRole('button', { name: /opening guest session/i });
     expect(guest.getAttribute('aria-busy')).toBe('true');
@@ -160,7 +161,7 @@ describe('LoginPage sign-in', () => {
     const busy = await screen.findByRole('button', { name: 'Signing in…' });
     expect(busy.getAttribute('aria-busy')).toBe('true');
     expect(
-      screen.getByRole('button', { name: /continue as guest/i }).getAttribute('aria-busy')
+      screen.getByRole('button', { name: /try it as a guest/i }).getAttribute('aria-busy')
     ).toBeNull();
   });
 

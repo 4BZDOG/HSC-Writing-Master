@@ -108,6 +108,9 @@ interface PromptDisplayProps {
   /** Focus Mode only: the card's height bounds, set by the splitter. Ignored
    *  unless `condensed`, where the card is a flex item of the focus column. */
   focusFrame?: { height?: string; maxHeight: string };
+  /** Focus Mode, side by side: the card has the height of the window, so the
+   *  scenario stays open and its Show/Hide toggle is not offered. */
+  scenarioAlwaysOpen?: boolean;
   breadcrumb?: string[];
   /** The syllabus above this question. The filler list of terms marks the ones
    *  the question names itself, so it says the same thing as the Syllabus Terms
@@ -432,6 +435,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   minTotalHeight,
   condensed = false,
   focusFrame,
+  scenarioAlwaysOpen = false,
   breadcrumb,
   syllabus,
   examMode = false,
@@ -507,7 +511,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // the full box.
   const hasScenario = !!prompt.scenario || !!prompt.scenarioImage;
   const scenarioCollapsed =
-    condensed && hasScenario && !scenarioOpen && !isEditingScenario && !isUploadingImage;
+    condensed &&
+    !scenarioAlwaysOpen &&
+    hasScenario &&
+    !scenarioOpen &&
+    !isEditingScenario &&
+    !isUploadingImage;
   const scenarioPreview = prompt.scenario
     ? prompt.scenario.replace(/\s+/g, ' ').trim()
     : 'Includes an image';
@@ -1186,7 +1195,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       {scenarioPreview}
                     </p>
                   )}
-                  {condensed && hasScenario && !isEditingScenario && (
+                  {condensed && !scenarioAlwaysOpen && hasScenario && !isEditingScenario && (
                     <button
                       type="button"
                       onClick={() => {

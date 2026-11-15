@@ -21,7 +21,12 @@ import { ladderBandVars } from './LadderRow';
 import { useOpenCriterionRequest } from '../utils/ladderLink';
 import { questionCeilingBand } from '../utils/markingGuideParse';
 import { classifySyllabusTerms, type SyllabusTermContext } from '../utils/syllabusTermSource';
-import { PANEL_NAME, PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import {
+  REFERENCE_TILE,
+  REFERENCE_TILE_NEUTRAL,
+  ReferencePanelHeader,
+} from './ReferencePanelHeader';
 import { useSupportResource } from '../hooks/useSupportResource';
 import type { SupportResourceId } from '../utils/supportEngagement';
 
@@ -93,7 +98,7 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
       // The band reaches the panel's own header, body divider and lit edge through
       // `--band-rgb`. Set only on a hero, so an ordinary section draws none of it.
       style={hero ? ladderBandVars(band) : undefined}
-      className={`${PANEL_SURFACE} band-surface mb-3 last:mb-0 ${hero && isOpen ? HERO_LIT : ''}`}
+      className={`${PANEL_SURFACE} band-surface mb-4 last:mb-0 ${hero && isOpen ? HERO_LIT : ''}`}
     >
       {/* The header row is a wrapper around the disclosure, which carries the shared
           row height and the tint. The hero's wash sits on this row, behind the title. */}
@@ -104,49 +109,46 @@ export const AccordionSection: React.FC<AccordionSectionProps> = ({
           onClick={() => setIsOpen(!isOpen)}
           aria-expanded={isOpen}
           aria-controls={panelId}
-          // The name and its caption stand 36px tall, so a plain header pads 12px
-          // either side to clear the shared 61px line the rest of the column stands
-          // on. A hero is 40px at its tile, so it trims its padding to 10px.
-          className={`flex-1 min-w-0 ${hero ? 'py-2.5' : 'py-3'} px-5 flex items-center justify-between`}
+          // Every header stands on the shared 40px tile and the 61px row, so the
+          // padding is 10px either side of it.
+          className="flex-1 min-w-0 py-2.5 px-5 flex items-center justify-between gap-4"
         >
-          <div className="flex items-center gap-4">
-            {hero ? (
-              <div className={`${HERO_TILE} ${LADDER_SOLID}`}>
-                {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-5 h-5' })}
-              </div>
-            ) : (
-              <div
-                className={`w-8 h-8 rounded-xl flex items-center justify-center border transition-all duration-500 ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : 'bg-slate-100 dark:bg-black/20 border-slate-300 dark:border-white/10 text-slate-500'}`}
-              >
-                {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
-              </div>
-            )}
-            <span className="text-left">
-              <span
-                // The panel's NAME, in the heading voice; the subtitle under it
-                // stays `.t-label`, which is what makes the pair read as a heading
-                // and its caption rather than two labels. A hero's name is in the
-                // primary ink whether it is open or not: it is the panel's
-                // identity, not a state.
-                className={`${PANEL_NAME} ${hero || isOpen ? 'text-slate-900 dark:text-white' : 'text-slate-500 dark:text-slate-400'}`}
-              >
-                {title}
-              </span>
-              {subtitle && (
-                <span
-                  className={`t-label block ${hero ? 'text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-400'}`}
+          <ReferencePanelHeader
+            tile={
+              hero ? (
+                <div className={`${HERO_TILE} ${LADDER_SOLID}`}>
+                  {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-5 h-5' })}
+                </div>
+              ) : (
+                <div
+                  className={`${REFERENCE_TILE} ${isOpen ? `${bandConfig.solidBg} border-white/20 ${bandConfig.solidText} shadow-lg` : REFERENCE_TILE_NEUTRAL}`}
                 >
-                  {subtitle}
-                </span>
-              )}
-            </span>
-          </div>
-          <div className="flex items-center gap-2.5 flex-shrink-0">
-            <PanelReadChip show={opened && !isOpen} />
-            <ChevronDown
-              className={`w-4 h-4 transition-transform duration-500 ${hero ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400'} ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
-            />
-          </div>
+                  {React.cloneElement(icon as React.ReactElement<any>, { className: 'w-4 h-4' })}
+                </div>
+              )
+            }
+            // The panel's NAME, in the heading voice; the subtitle stays `.t-label`.
+            // A hero's name is in the primary ink whether it is open or not: it is
+            // the panel's identity, not a state.
+            title={title}
+            subtitle={subtitle}
+            titleClassName={
+              hero || isOpen
+                ? 'text-slate-900 dark:text-white'
+                : 'text-slate-500 dark:text-slate-400'
+            }
+            subtitleClassName={
+              hero ? 'text-slate-700 dark:text-slate-300' : 'text-slate-600 dark:text-slate-400'
+            }
+            trailing={
+              <>
+                <PanelReadChip show={opened && !isOpen} />
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform duration-500 ${hero ? 'text-slate-600 dark:text-slate-300' : 'text-slate-400'} ${isOpen ? 'rotate-180 text-slate-900 dark:text-white' : ''}`}
+                />
+              </>
+            }
+          />
         </button>
       </div>
 
@@ -344,7 +346,7 @@ const ReferenceMaterials: React.FC<ReferenceMaterialsProps> = (props) => {
   // they can return.
 
   return (
-    <div className="flex flex-col gap-1 animate-fade-in">
+    <div className="flex flex-col animate-fade-in">
       <SyllabusTermsPanel {...props} />
 
       <MarkingGuidePanel

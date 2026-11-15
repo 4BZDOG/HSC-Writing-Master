@@ -43,8 +43,17 @@ import type { WorkspaceSyllabusHandlers } from '../hooks/useSyllabusData';
 import type { AppGeminiHandlers, AppModalHandlers } from '../hooks/appHandlerTypes';
 import { READING_SIZE_DEFAULT } from '../utils/readingSize';
 import FocusSplitter from './FocusSplitter';
+import { useFocusArrangement } from '../hooks/useFocusArrangement';
 import {
   FOCUS_FILL_MIN_WIDTH,
+  FOCUS_SIDE_CARD_HEIGHT,
+  FOCUS_SIDE_PERCENT_DEFAULT,
+  FOCUS_SIDE_PERCENT_MAX,
+  FOCUS_SIDE_PERCENT_MIN,
+  clampFocusSidePercent,
+  effectiveFocusArrangement,
+  readFocusSidePercent,
+  writeFocusSidePercent,
   FOCUS_PROMPT_MAX_CSS,
   FOCUS_PROMPT_MIN,
   focusWritingCardMinHeight,
@@ -259,22 +268,37 @@ const Workspace: React.FC<WorkspaceProps> = ({
     readFocusPromptHeight()
   );
   const [focusPromptPx, setFocusPromptPx] = useState(0);
-  const [isWideWindow, setIsWideWindow] = useState(() =>
-    typeof window === 'undefined' ? true : window.innerWidth >= FOCUS_FILL_MIN_WIDTH
+  const [windowWidth, setWindowWidth] = useState(() =>
+    typeof window === 'undefined' ? FOCUS_FILL_MIN_WIDTH : window.innerWidth
   );
+  const isWideWindow = windowWidth >= FOCUS_FILL_MIN_WIDTH;
+  // The arrangement the student chose beside the exit pill, and the one this
+  // window can actually show: side by side needs room for two readable columns.
+  const [chosenArrangement] = useFocusArrangement();
+  const focusArrangement = effectiveFocusArrangement(chosenArrangement, windowWidth);
+  const focusSide = isFocusMode && focusArrangement === 'side';
+  const focusColumnClass =
+    focusArrangement === 'stacked' ? 'max-w-5xl mx-auto w-full' : 'w-full min-w-0';
+  // The question column's share of the row, side by side. Remembered per browser.
+  const [focusSidePercent, setFocusSidePercent] = useState(() => readFocusSidePercent());
+  useEffect(() => {
+    writeFocusSidePercent(focusSidePercent);
+  }, [focusSidePercent]);
   const focusPromptRegionId = useId();
   const focusPromptRef = useRef<HTMLDivElement>(null);
   const writingColumnRef = useRef<HTMLDivElement>(null);
   // The Focus layout as a whole: question card, splitter and writing card.
   const focusLayoutRef = useRef<HTMLDivElement>(null);
-  const focusFills = isFocusMode && isWideWindow;
+  // The stack sizes its two cards against each other with the horizontal
+  // splitter. Side by side they are simply both the height of the window.
+  const focusFills = isFocusMode && isWideWindow && !focusSide;
 
   useEffect(() => {
     writeFocusPromptHeight(focusPromptHeight);
   }, [focusPromptHeight]);
 
   useEffect(() => {
-    const update = () => setIsWideWindow(window.innerWidth >= FOCUS_FILL_MIN_WIDTH);
+    const update = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
   }, []);
@@ -850,10 +874,19 @@ const Workspace: React.FC<WorkspaceProps> = ({
         // between `none` and a 12-column track list, so `transition-all` animated
         // nothing useful here — it only kept the composited cards in motion while
         // Focus Mode added or removed whole columns, leaving stale paint behind.
+        style={
+          focusSide
+            ? {
+                gridTemplateColumns: `minmax(0, ${focusSidePercent}fr) 1.5rem minmax(0, ${100 - focusSidePercent}fr)`,
+              }
+            : undefined
+        }
         className={
-          isFocusMode
-            ? 'flex flex-col w-full flex-1 min-h-0'
-            : 'grid grid-cols-1 xl:grid-cols-12 xl:grid-rows-[auto,1fr] gap-6 flex-1 min-h-0'
+          focusSide
+            ? 'grid w-full flex-1 min-h-0 items-start'
+            : isFocusMode
+              ? 'flex flex-col w-full flex-1 min-h-0'
+              : 'grid grid-cols-1 xl:grid-cols-12 xl:grid-rows-[auto,1fr] gap-6 flex-1 min-h-0'
         }
       >
         {!isFocusMode && (
@@ -898,7 +931,13 @@ const Workspace: React.FC<WorkspaceProps> = ({
           <div
             ref={focusPromptRef}
             id={focusPromptRegionId}
-            className="animate-fade-in flex-none max-w-5xl mx-auto w-full mb-6 sm:mb-0"
+            className={
+              focusSide
+                ? // Pinned while the page scrolls on to the reference panels under
+                  // the writing card, so the question is still there to read from.
+                  'animate-fade-in min-w-0 sticky top-4 self-start'
+                : `animate-fade-in flex-none ${focusColumnClass} mb-6 sm:mb-0`
+            }
           >
             <PromptDisplay
               prompt={currentPrompt}
@@ -926,16 +965,19 @@ const Workspace: React.FC<WorkspaceProps> = ({
               onHeaderResize={setPromptHeaderHeight}
               minHeaderHeight={syncedHeader}
               condensed
+              scenarioAlwaysOpen={focusSide}
               focusFrame={
-                focusFills
-                  ? {
-                      height:
-                        focusPromptHeight === null
-                          ? undefined
-                          : `min(${focusPromptHeight}px, ${FOCUS_PROMPT_MAX_CSS})`,
-                      maxHeight: FOCUS_PROMPT_MAX_CSS,
-                    }
-                  : undefined
+                focusSide
+                  ? { height: FOCUS_SIDE_CARD_HEIGHT, maxHeight: FOCUS_SIDE_CARD_HEIGHT }
+                  : focusFills
+                    ? {
+                        height:
+                          focusPromptHeight === null
+                            ? undefined
+                            : `min(${focusPromptHeight}px, ${FOCUS_PROMPT_MAX_CSS})`,
+                        maxHeight: FOCUS_PROMPT_MAX_CSS,
+                      }
+                    : undefined
               }
               breadcrumb={crumbs.map((c) => c.label)}
               examMode={isExamMode}
@@ -952,12 +994,33 @@ const Workspace: React.FC<WorkspaceProps> = ({
             controlsId={focusPromptRegionId}
             onResize={setFocusPromptHeight}
             onReset={() => setFocusPromptHeight(null)}
+            className={focusColumnClass}
+          />
+        )}
+
+        {focusSide && (
+          <FocusSplitter
+            orientation="vertical"
+            valueNow={focusSidePercent}
+            min={FOCUS_SIDE_PERCENT_MIN}
+            max={FOCUS_SIDE_PERCENT_MAX}
+            controlsId={focusPromptRegionId}
+            containerRef={focusLayoutRef}
+            onResize={(percent) => setFocusSidePercent(clampFocusSidePercent(percent))}
+            onReset={() => setFocusSidePercent(FOCUS_SIDE_PERCENT_DEFAULT)}
           />
         )}
 
         <WorkspaceRightPanel
           isFocusMode={isFocusMode}
-          focusMinHeight={focusFills ? focusWritingCardMinHeight(focusPromptPx) : undefined}
+          focusMinHeight={
+            focusSide
+              ? FOCUS_SIDE_CARD_HEIGHT
+              : focusFills
+                ? focusWritingCardMinHeight(focusPromptPx)
+                : undefined
+          }
+          focusColumnClass={focusColumnClass}
           columnRef={writingColumnRef}
           showToast={showToast}
           userAnswer={userAnswer}

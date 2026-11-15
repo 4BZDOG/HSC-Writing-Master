@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { ChevronDown, ChevronUp, History, LogOut, ScrollText } from 'lucide-react';
@@ -85,6 +85,35 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
   // from its focusable list and never handed focus back on close.
   const dialogRef = useFocusTrap<HTMLDivElement>(true);
 
+  // The title takes focus on open, and not the first control. The trap focuses
+  // its first focusable element when the dialog opens, and that is the consent
+  // checkbox, at the foot of the scrolling list. Focusing it scrolled the list
+  // to the bottom, so the gate opened on items 4 to 6 with the start hidden
+  // under the header. A layout effect runs before the trap's effect, so the
+  // trap sees focus already inside the dialog and leaves it there. `preventScroll`
+  // keeps the list at the top.
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  useLayoutEffect(() => {
+    titleRef.current?.focus({ preventScroll: true });
+  }, []);
+
+  // The list is long, so the bottom edge fades and says there is more while
+  // there is more. It is measured from the scroll position, not assumed.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [atEnd, setAtEnd] = useState(false);
+  const updateAtEnd = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setAtEnd(el.scrollHeight - el.scrollTop - el.clientHeight <= 8);
+  }, []);
+  useEffect(() => {
+    updateAtEnd();
+    window.addEventListener('resize', updateAtEnd);
+    return () => window.removeEventListener('resize', updateAtEnd);
+    // Re-measured when the documents open or the copy changes, since either
+    // changes the length of the list.
+  }, [updateAtEnd, showDocuments, returning]);
+
   const heading =
     reason === 'updated'
       ? 'We have updated this'
@@ -108,6 +137,7 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
   useScrollLock(true);
 
   const canContinue = blocking ? agreed && !isSaving : true;
+  const showAgreeHint = blocking && !agreed && !isSaving;
 
   return createPortal(
     <div
@@ -131,8 +161,10 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
               {charter.eyebrow} · v{AGREEMENT_VERSION}
             </span>
             <h2
+              ref={titleRef}
+              tabIndex={-1}
               id="agreement-title"
-              className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1 text-white light:text-slate-900"
+              className="text-2xl sm:text-3xl font-black tracking-tighter leading-tight mt-1 text-white light:text-slate-900 outline-none"
             >
               {heading}
             </h2>
@@ -142,145 +174,172 @@ const UserAgreementModal: React.FC<UserAgreementModalProps> = ({
           </div>
         </div>
 
-        <div className="p-6 sm:p-8 overflow-y-auto custom-scrollbar">
-          {/* What changed — only ever shown to someone who accepted an
+        <div className="relative flex-1 min-h-0 flex flex-col">
+          <div
+            ref={scrollRef}
+            onScroll={updateAtEnd}
+            className="flex-1 min-h-0 p-6 sm:p-8 overflow-y-auto custom-scrollbar"
+          >
+            {/* What changed — only ever shown to someone who accepted an
               earlier version, and only when we can actually say what moved. */}
-          {returning && changes.length > 0 && (
-            <div className="mb-6 rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300 p-4">
-              <span className="t-label text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
-                <History className="w-3.5 h-3.5" /> What changed
-              </span>
-              <ul className="space-y-2">
-                {changes.flatMap((change) =>
-                  change.summary.map((line, i) => (
-                    <li
-                      key={`${change.version}-${i}`}
-                      className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] flex gap-2.5"
-                    >
-                      <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-amber-500" />
-                      <span>{line}</span>
-                    </li>
-                  ))
-                )}
-              </ul>
-            </div>
-          )}
-
-          {/* The charter itself. Each promise is a well cut into the paper. */}
-          <ul className="space-y-3">
-            {charter.promises.map((promise) => {
-              const Icon = CHARTER_ICONS[promise.icon];
-              return (
-                <li
-                  key={promise.title}
-                  className={`flex items-start gap-4 p-4 rounded-2xl border transition-colors ${
-                    promise.emphasis
-                      ? 'bg-amber-400/[0.06] light:bg-amber-100/60 border-amber-400/25 light:border-amber-300'
-                      : 'bg-white/[0.03] light:bg-surface-inset border-white/5 light:border-slate-300'
-                  }`}
-                >
-                  <div
-                    className={`w-9 h-9 shrink-0 rounded-xl flex items-center justify-center ${
-                      promise.emphasis
-                        ? 'bg-amber-400/15 text-amber-500 light:text-amber-700'
-                        : 'bg-indigo-500/10 text-indigo-400 light:text-indigo-600'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <h3 className="text-[13px] font-black text-[rgb(var(--color-text-primary))] leading-snug">
-                      {promise.title}
-                    </h3>
-                    <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-1">
-                      {promise.body}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
-
-          {/* The binding documents, in the same dialog so reading them never
-              costs you your place in the flow. The toggle is a strip. */}
-          <div className="mt-5 rounded-2xl border border-white/5 light:border-slate-300 overflow-hidden">
-            <button
-              onClick={() => setShowDocuments((open) => !open)}
-              aria-expanded={showDocuments}
-              className="w-full flex items-center gap-3 px-4 py-3.5 bg-white/[0.03] light:bg-surface-elevated hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
-            >
-              <ScrollText className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
-              <span className="flex-1 min-w-0">
-                <span className="t-label block text-[rgb(var(--color-text-primary))]">
-                  Read the full Terms of Use and Privacy Notice
+            {returning && changes.length > 0 && (
+              <div className="mb-6 rounded-2xl bg-amber-400/5 light:bg-amber-100/60 border border-amber-400/20 light:border-amber-300 p-4">
+                <span className="t-label text-amber-500 light:text-amber-700 flex items-center gap-2 mb-3">
+                  <History className="w-3.5 h-3.5" /> What changed
                 </span>
-                <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
-                  The charter above is a summary. These are the documents you are agreeing to.
-                </span>
-              </span>
-              {showDocuments ? (
-                <ChevronUp className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
-              ) : (
-                <ChevronDown className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
-              )}
-            </button>
-            {showDocuments && (
-              <div className="p-4 border-t border-white/5 light:border-slate-300 animate-fade-in">
-                <LegalDocumentReader scrollAreaClassName="max-h-[40vh]" />
+                <ul className="space-y-2">
+                  {changes.flatMap((change) =>
+                    change.summary.map((line, i) => (
+                      <li
+                        key={`${change.version}-${i}`}
+                        className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] flex gap-2.5"
+                      >
+                        <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-amber-500" />
+                        <span>{line}</span>
+                      </li>
+                    ))
+                  )}
+                </ul>
               </div>
             )}
-          </div>
 
-          {/* Consent */}
-          {blocking ? (
-            <label className="mt-6 flex items-start gap-3 p-4 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-100/60 border border-indigo-500/25 light:border-indigo-300 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={agreed}
-                onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-0.5 w-4 h-4 shrink-0 rounded-lg accent-indigo-500 cursor-pointer"
-              />
-              <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] leading-relaxed">
-                {charter.acceptLabel}, including the Terms of Use and Privacy Notice.
-                {user.role === 'user' && (
-                  <span className="block font-medium text-[rgb(var(--color-text-secondary))] mt-1">
-                    If you are under 18, read this with a parent, carer or teacher first.
-                  </span>
-                )}
-              </span>
-            </label>
-          ) : (
-            <p className="mt-6 text-xs text-[rgb(var(--color-text-secondary))] leading-relaxed p-4 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300">
-              You are browsing as a guest, so there is nothing to sign — nothing you do is saved to
-              our servers. Make an account when you want your work and progress kept.
-            </p>
-          )}
+            {/* The charter itself. Each promise is a well cut into the paper. */}
+            <ul className="space-y-3">
+              {charter.promises.map((promise) => {
+                const Icon = CHARTER_ICONS[promise.icon];
+                return (
+                  <li
+                    key={promise.title}
+                    className={`flex items-start gap-4 p-4 rounded-2xl border transition-colors ${
+                      promise.emphasis
+                        ? 'bg-amber-400/[0.06] light:bg-amber-100/60 border-amber-400/25 light:border-amber-300'
+                        : 'bg-white/[0.03] light:bg-surface-inset border-white/5 light:border-slate-300'
+                    }`}
+                  >
+                    <div
+                      className={`w-9 h-9 shrink-0 rounded-xl flex items-center justify-center ${
+                        promise.emphasis
+                          ? 'bg-amber-400/15 text-amber-500 light:text-amber-700'
+                          : 'bg-indigo-500/10 text-indigo-400 light:text-indigo-600'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="text-[13px] font-black text-[rgb(var(--color-text-primary))] leading-snug">
+                        {promise.title}
+                      </h3>
+                      <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-1">
+                        {promise.body}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
 
-          <div className="mt-5 flex flex-col sm:flex-row gap-3">
-            <button
-              onClick={blocking ? onAccept : onDismiss}
-              disabled={!canContinue}
-              className="text-sm font-semibold flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              {isSaving
-                ? 'Saving…'
-                : blocking
-                  ? 'Agree and continue'
-                  : 'Got it, let me look around'}
-            </button>
-            {blocking && (
+            {/* The binding documents, in the same dialog so reading them never
+              costs you your place in the flow. The toggle is a strip. */}
+            <div className="mt-5 rounded-2xl border border-white/5 light:border-slate-300 overflow-hidden">
               <button
-                onClick={onLogout}
-                className="t-label px-5 py-3.5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all flex items-center justify-center gap-2"
+                onClick={() => setShowDocuments((open) => !open)}
+                aria-expanded={showDocuments}
+                className="w-full flex items-center gap-3 px-4 py-3.5 bg-white/[0.03] light:bg-surface-elevated hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
               >
-                <LogOut className="w-3.5 h-3.5" /> Sign out
+                <ScrollText className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
+                <span className="flex-1 min-w-0">
+                  <span className="t-label block text-[rgb(var(--color-text-primary))]">
+                    Read the full Terms of Use and Privacy Notice
+                  </span>
+                  <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
+                    The charter above is a summary. These are the documents you are agreeing to.
+                  </span>
+                </span>
+                {showDocuments ? (
+                  <ChevronUp className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
+                )}
               </button>
-            )}
-          </div>
+              {showDocuments && (
+                <div className="p-4 border-t border-white/5 light:border-slate-300 animate-fade-in">
+                  <LegalDocumentReader scrollAreaClassName="max-h-[40vh]" />
+                </div>
+              )}
+            </div>
 
-          <p className="mt-3 text-center text-xs text-[rgb(var(--color-text-muted))]">
-            {LEGAL_CONFIG.productName} · You can re-read this any time from your profile.
-          </p>
+            {/* Consent */}
+            {blocking ? (
+              <label className="mt-6 flex items-start gap-3 p-4 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-100/60 border border-indigo-500/25 light:border-indigo-300 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                  className="mt-0.5 w-4 h-4 shrink-0 rounded-lg accent-indigo-500 cursor-pointer"
+                />
+                <span className="text-xs font-bold text-[rgb(var(--color-text-primary))] leading-relaxed">
+                  {charter.acceptLabel}, including the Terms of Use and Privacy Notice.
+                  {user.role === 'user' && (
+                    <span className="block font-medium text-[rgb(var(--color-text-secondary))] mt-1">
+                      If you are under 18, read this with a parent, carer or teacher first.
+                    </span>
+                  )}
+                </span>
+              </label>
+            ) : (
+              <p className="mt-6 text-xs text-[rgb(var(--color-text-secondary))] leading-relaxed p-4 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300">
+                You are browsing as a guest, so there is nothing to sign — nothing you do is saved
+                to our servers. Make an account when you want your work and progress kept.
+              </p>
+            )}
+
+            {/* A disabled button gives no reason on its own, so the reason is said
+              here and tied to the button for a screen reader. */}
+            {showAgreeHint && (
+              <p
+                id="agree-hint"
+                className="mt-5 text-xs font-medium text-indigo-400 light:text-indigo-700"
+              >
+                Tick the box above to continue.
+              </p>
+            )}
+            <div className={`${showAgreeHint ? 'mt-3' : 'mt-5'} flex flex-col sm:flex-row gap-3`}>
+              <button
+                onClick={blocking ? onAccept : onDismiss}
+                disabled={!canContinue}
+                aria-describedby={showAgreeHint ? 'agree-hint' : undefined}
+                className="text-sm font-semibold flex-1 px-6 py-3.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm active:scale-[0.98] transition-all flex items-center justify-center gap-2.5 disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {isSaving
+                  ? 'Saving…'
+                  : blocking
+                    ? 'Agree and continue'
+                    : 'Got it, let me look around'}
+              </button>
+              {blocking && (
+                <button
+                  onClick={onLogout}
+                  className="t-label px-5 py-3.5 rounded-2xl bg-[rgb(var(--color-bg-surface-inset))] text-[rgb(var(--color-text-secondary))] border border-white/5 light:border-slate-300 hover:bg-white/10 light:hover:bg-surface-light transition-all flex items-center justify-center gap-2"
+                >
+                  <LogOut className="w-3.5 h-3.5" /> Sign out
+                </button>
+              )}
+            </div>
+
+            <p className="mt-3 text-center text-xs text-[rgb(var(--color-text-muted))]">
+              {LEGAL_CONFIG.productName} · You can re-read this any time from your profile.
+            </p>
+          </div>
+          {!atEnd && (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-24 flex items-end justify-center pb-3 bg-gradient-to-t from-[rgb(var(--color-bg-surface))] via-[rgb(var(--color-bg-surface))]/85 to-transparent"
+            >
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold text-[rgb(var(--color-text-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] border border-white/10 light:border-slate-400 shadow-sm">
+                <ChevronDown className="w-3.5 h-3.5" /> Scroll for more
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>,

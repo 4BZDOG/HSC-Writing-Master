@@ -66,7 +66,6 @@ import {
   SAMPLE_PAGE,
   SAMPLE_PAGE_BAR,
   SAMPLE_PAGE_BAR_CHIP,
-  SAMPLE_PAGE_BAR_FIGURE,
   SAMPLE_PAGE_FOOT,
   SAMPLE_PAGE_TEXT,
   SAMPLE_PICKER,
@@ -77,7 +76,6 @@ import {
   SAMPLE_ROW_FIGURE,
   SAMPLE_ROW_HEAD,
   SAMPLE_ROW_META,
-  SAMPLE_ROW_SUMMARY,
   SAMPLE_ROW,
   SAMPLE_ROW_PREVIEW,
   SAMPLE_TOOLS,
@@ -504,39 +502,17 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
               </span>
               <span className={SAMPLE_ROW_HEAD}>
                 <span className={SAMPLE_ROW_META}>
-                  {/* On a phone the open header is the row's summary, since the paper's
-                      own bar is reduced to its source and the criterion link. */}
-                  {isOpen && (
-                    <span className={SAMPLE_ROW_SUMMARY}>
-                      {group.mark}/{prompt.totalMarks} · Band {displayBand}
-                      {locked ? '' : ` · ${countWords(currentSample.answer)} words`}
+                  {/* The same line whether the row is open or shut: the source and the
+                      text, the flag, the length and the exemplar count. The open row
+                      does not restate its summary, because the gutter already gives the
+                      mark and the band. */}
+                  {locked ? (
+                    <span
+                      className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
+                    >
+                      <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
                     </span>
-                  )}
-                  {/* On a phone the open row's source sits on this line, beside the
-                      summary. It used to sit on the paper's solid band bar, a second
-                      full-width strip of saturated colour that held only this badge
-                      and the criterion link; from `sm` the bar is still there. Each is
-                      drawn in one place only, so it is mounted once. */}
-                  {isOpen && phone && (
-                    <span className="inline-flex items-center gap-2">
-                      {locked ? (
-                        <span
-                          className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
-                        >
-                          <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
-                        </span>
-                      ) : (
-                        <>
-                          <SourceBadge
-                            source={currentSample.source}
-                            derivedFromStudent={currentSample.derivedFromStudent}
-                          />
-                          <TextBadge text={currentSample.prescribedText} />
-                        </>
-                      )}
-                    </span>
-                  )}
-                  {!isOpen && (
+                  ) : (
                     <>
                       <SourceBadge
                         source={currentSample.source}
@@ -555,18 +531,11 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                       <Flag className="w-2.5 h-2.5 fill-current" aria-hidden="true" /> Flagged
                     </span>
                   )}
-                  {!isOpen &&
-                    (locked ? (
-                      <span
-                        className={`${CHIP} border-slate-500 text-slate-700 dark:border-white/25 dark:text-slate-300`}
-                      >
-                        <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
-                      </span>
-                    ) : (
-                      <span className={SAMPLE_ROW_FIGURE}>
-                        {countWords(currentSample.answer)} words
-                      </span>
-                    ))}
+                  {!locked && (
+                    <span className={SAMPLE_ROW_FIGURE}>
+                      {countWords(currentSample.answer)} words
+                    </span>
+                  )}
                   {hasPicker && (
                     <span className={SAMPLE_ROW_FIGURE}>{group.answers.length} exemplars</span>
                   )}
@@ -704,24 +673,6 @@ const ExemplarRow: React.FC<ExemplarRowProps> = React.memo(
                               {group.mark}/{prompt.totalMarks}
                             </span>
                           </span>
-                          {isOpen &&
-                            (locked ? (
-                              <span className={`${CHIP} ${SAMPLE_PAGE_BAR_CHIP}`}>
-                                <Lock className="w-2.5 h-2.5" aria-hidden="true" /> Locked
-                              </span>
-                            ) : (
-                              <>
-                                <span className={`${SAMPLE_PAGE_BAR_FIGURE} max-sm:hidden`}>
-                                  {countWords(currentSample.answer)} words
-                                </span>
-                                <SourceBadge
-                                  source={currentSample.source}
-                                  derivedFromStudent={currentSample.derivedFromStudent}
-                                  onSolid
-                                />
-                                <TextBadge text={currentSample.prescribedText} onSolid />
-                              </>
-                            ))}
                           {criterion && (
                             <button
                               type="button"
@@ -1147,70 +1098,81 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
     <div ref={bodyRef} className="flex flex-col gap-3">
       {/* The tools: reading size for everybody, and the AI actions for staff only,
           in the Marking Guide's slim row so the two bodies open the same way. */}
-      <div className={SAMPLE_TOOLS}>
-        <div className={SAMPLE_ZOOM}>
-          <button
-            type="button"
-            onClick={() => setFontSize(stepReadingSize(fontSize, -1))}
-            disabled={!canStepReadingSize(fontSize, -1)}
-            className={SAMPLE_ZOOM_BUTTON}
-            title="Decrease text size"
-            aria-label="Decrease text size"
-          >
-            <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
-          </button>
-          <span className={SAMPLE_ZOOM_VALUE}>{fontSize}</span>
-          <button
-            type="button"
-            onClick={() => setFontSize(stepReadingSize(fontSize, 1))}
-            disabled={!canStepReadingSize(fontSize, 1)}
-            className={SAMPLE_ZOOM_BUTTON}
-            title="Increase text size"
-            aria-label="Increase text size"
-          >
-            <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
-          </button>
-        </div>
-
-        {canGenerate && (
-          <>
-            {onRecalibrate && (
-              <button
-                type="button"
-                onClick={() => setIsRecalibratePickerOpen(true)}
-                disabled={isRecalibrating || !prompt.sampleAnswers?.length}
-                className={`${SAMPLE_AI_BUTTON} sm:px-2.5 sm:h-[30px]`}
-                aria-label="Recalibrate samples with AI"
-                aria-busy={isRecalibrating || undefined}
-                title="Recalibrate samples with AI — choose which ones"
-              >
-                <RefreshCw
-                  className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`}
-                  aria-hidden="true"
-                />
-              </button>
-            )}
+      {/* One toolbar line, as the other panels open with: the line of intro on the left,
+          the reading size and the AI actions on the right. The size used to sit alone on
+          a row of its own above the exemplars. */}
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <p className="t-label text-slate-600 dark:text-slate-400">
+          Model answers for each mark, with the criterion they meet.
+        </p>
+        <div className={SAMPLE_TOOLS}>
+          <div className={SAMPLE_ZOOM}>
             <button
               type="button"
-              onClick={
-                studioLocked
-                  ? () => requestUpgrade('aiContentStudio')
-                  : () => setIsGeneratorOpen(true)
-              }
-              title={
-                studioLocked
-                  ? describeAccess('aiContentStudio').explanation
-                  : 'Add a sample answer with AI'
-              }
-              aria-label="Generate a sample answer"
-              className={studioLocked ? AI_LOCKED : `${SAMPLE_AI_BUTTON} sm:px-3`}
+              onClick={() => setFontSize(stepReadingSize(fontSize, -1))}
+              disabled={!canStepReadingSize(fontSize, -1)}
+              className={SAMPLE_ZOOM_BUTTON}
+              title="Decrease text size"
+              aria-label="Decrease text size"
             >
-              <Zap className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" aria-hidden="true" />
-              <span className="hidden sm:inline">Generate</span>
-              {studioLocked && <PlusLockChip feature="aiContentStudio" />}
+              <ZoomOut className="w-3.5 h-3.5" aria-hidden="true" />
             </button>
-          </>
-        )}
+            <span className={SAMPLE_ZOOM_VALUE}>{fontSize}</span>
+            <button
+              type="button"
+              onClick={() => setFontSize(stepReadingSize(fontSize, 1))}
+              disabled={!canStepReadingSize(fontSize, 1)}
+              className={SAMPLE_ZOOM_BUTTON}
+              title="Increase text size"
+              aria-label="Increase text size"
+            >
+              <ZoomIn className="w-3.5 h-3.5" aria-hidden="true" />
+            </button>
+          </div>
+
+          {canGenerate && (
+            <>
+              {onRecalibrate && (
+                <button
+                  type="button"
+                  onClick={() => setIsRecalibratePickerOpen(true)}
+                  disabled={isRecalibrating || !prompt.sampleAnswers?.length}
+                  className={`${SAMPLE_AI_BUTTON} sm:px-2.5 sm:h-[30px]`}
+                  aria-label="Recalibrate samples with AI"
+                  aria-busy={isRecalibrating || undefined}
+                  title="Recalibrate samples with AI — choose which ones"
+                >
+                  <RefreshCw
+                    className={`w-3.5 h-3.5 ${isRecalibrating ? 'animate-spin' : ''}`}
+                    aria-hidden="true"
+                  />
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={
+                  studioLocked
+                    ? () => requestUpgrade('aiContentStudio')
+                    : () => setIsGeneratorOpen(true)
+                }
+                title={
+                  studioLocked
+                    ? describeAccess('aiContentStudio').explanation
+                    : 'Add a sample answer with AI'
+                }
+                aria-label="Generate a sample answer"
+                className={studioLocked ? AI_LOCKED : `${SAMPLE_AI_BUTTON} sm:px-3`}
+              >
+                <Zap
+                  className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400"
+                  aria-hidden="true"
+                />
+                <span className="hidden sm:inline">Generate</span>
+                {studioLocked && <PlusLockChip feature="aiContentStudio" />}
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       {prescribedTexts.length > 1 && (

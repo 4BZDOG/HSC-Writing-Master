@@ -93,7 +93,7 @@ test.describe('agreement gate', () => {
     await page.getByRole('button', { name: /sign out/i }).click();
 
     // Back to the sign-in page rather than trapped behind a dialog.
-    await expect(page.getByRole('button', { name: /continue as guest/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /try it as a guest/i })).toBeVisible();
   });
 
   test('a teacher reads the staff charter', async ({ page }) => {
@@ -104,7 +104,7 @@ test.describe('agreement gate', () => {
 
   test('a guest is shown the charter but never blocked by it', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('button', { name: /continue as guest/i }).click();
+    await page.getByRole('button', { name: /try it as a guest/i }).click();
 
     await expect(page.getByText(STUDENT_CHARTER)).toBeVisible();
     // Nothing to sign: a read-only trial that persists nothing server-side is
