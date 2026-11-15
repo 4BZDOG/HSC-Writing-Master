@@ -38,9 +38,24 @@ export const AUTH_PRIMARY_BUTTON =
   'w-full py-4 rounded-2xl font-bold text-sm text-white flex items-center justify-center gap-3 ' +
   'bg-indigo-600 hover:bg-indigo-500 border-2 border-white/10 hover:border-white/20 ' +
   'shadow-sm active:scale-[0.98] ' +
-  'transition-[background-color,border-color,transform] disabled:opacity-50 disabled:cursor-not-allowed';
+  'transition-[background-color,border-color,transform] disabled:opacity-50 disabled:cursor-not-allowed ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 ' +
+  'focus-visible:ring-offset-[rgb(var(--color-bg-surface))] light:focus-visible:ring-indigo-600';
+
+/** The secondary actions on a card: Try it as a guest, the SSO buttons. Same
+ *  ring as the primary, and a control border that clears 3:1 on white. */
+export const AUTH_SECONDARY_BUTTON =
+  'text-sm font-semibold w-full py-4 rounded-2xl text-slate-300 light:text-slate-700 ' +
+  'bg-white/5 light:bg-surface-inset border-2 border-white/10 light:border-slate-500 ' +
+  'hover:bg-white/10 light:hover:bg-surface-light active:scale-[0.98] ' +
+  'transition-[background-color,transform] flex items-center justify-center gap-3 ' +
+  'disabled:opacity-50 disabled:cursor-not-allowed ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 ' +
+  'focus-visible:ring-offset-[rgb(var(--color-bg-surface))] light:focus-visible:ring-indigo-600';
 
 /** An inline text action — "Forgot your password?", "Back to sign in". */
 export const AUTH_TEXT_LINK =
   'font-bold underline underline-offset-2 ' +
-  'text-indigo-400 hover:text-indigo-300 light:text-indigo-700 light:hover:text-indigo-800';
+  'rounded-lg text-indigo-400 hover:text-indigo-300 light:text-indigo-700 light:hover:text-indigo-800 ' +
+  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-300 focus-visible:ring-offset-2 ' +
+  'focus-visible:ring-offset-[rgb(var(--color-bg-surface))] light:focus-visible:ring-indigo-600';

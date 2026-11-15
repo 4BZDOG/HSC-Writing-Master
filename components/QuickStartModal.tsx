@@ -1,7 +1,17 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { useFocusTrap } from '../hooks/useFocusTrap';
-import { X, Rocket, Crown, Lightbulb, Clock, Lock, Scale, ArrowRight } from 'lucide-react';
+import {
+  X,
+  Rocket,
+  Crown,
+  Lightbulb,
+  Clock,
+  Lock,
+  Scale,
+  ArrowRight,
+  ChevronDown,
+} from 'lucide-react';
 import type { User } from '../types';
 import type { ToastType } from '../hooks/useToast';
 import { QUICK_START_ICONS } from './agreementIcons';
@@ -51,6 +61,19 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
   initialTab = 'guide',
 }) => {
   const [tab, setTab] = useState<QuickStartTab>(initialTab);
+  // The body scrolls, and its bottom edge says so while there is more below.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [atEnd, setAtEnd] = useState(false);
+  const updateAtEnd = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    setAtEnd(el.scrollHeight - el.scrollTop - el.clientHeight <= 8);
+  }, []);
+  useEffect(() => {
+    updateAtEnd();
+    window.addEventListener('resize', updateAtEnd);
+    return () => window.removeEventListener('resize', updateAtEnd);
+  }, [updateAtEnd, tab, isOpen]);
   useEscapeKey(isOpen, onClose);
   // Tab stays inside the dialog while it is open, and focus returns to
   // whatever opened it on close. Partners `useEscapeKey` — same stack,
@@ -165,132 +188,155 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           makes the arrow keys work on it; the label says which panel has
           focus, since the three tabs share this one container.
          */}
-        <div
-          className="p-6 sm:p-8 overflow-y-auto custom-scrollbar"
-          tabIndex={0}
-          role="region"
-          aria-label={`${TABS.find((t) => t.id === tab)?.label ?? 'Guide'} — scrollable`}
-        >
-          {tab === 'guide' && (
-            <>
-              <ol className="space-y-4">
-                {track.steps.map((step, index) => {
-                  const Icon = QUICK_START_ICONS[step.icon];
-                  return (
-                    <li
-                      key={step.title}
-                      className="flex gap-4 p-5 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300"
-                    >
-                      <div className="shrink-0 flex flex-col items-center gap-2">
-                        <span className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 light:text-indigo-600">
-                          <Icon className="w-4 h-4" />
-                        </span>
-                        <span className="t-label tabular-nums text-[rgb(var(--color-text-muted))]">
-                          {String(index + 1).padStart(2, '0')}
-                        </span>
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="text-sm font-black text-[rgb(var(--color-text-primary))] leading-snug">
-                          {step.title}
-                        </h3>
-                        <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-1.5">
-                          {step.body}
-                        </p>
-                        {step.detail && (
-                          <ul className="mt-2.5 space-y-1.5">
-                            {step.detail.map((line) => (
-                              <li
-                                key={line}
-                                className="text-xs leading-relaxed text-[rgb(var(--color-text-muted))] flex gap-2.5"
-                              >
-                                <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-indigo-400/60" />
-                                <span>{line}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                        {/* Never let the guide promise something this account
+        <div className="relative flex-1 min-h-0 flex flex-col">
+          <div
+            ref={scrollRef}
+            onScroll={updateAtEnd}
+            className="flex-1 min-h-0 p-6 sm:p-8 overflow-y-auto custom-scrollbar"
+            tabIndex={0}
+            role="region"
+            aria-label={`${TABS.find((t) => t.id === tab)?.label ?? 'Guide'} — scrollable`}
+          >
+            {tab === 'guide' && (
+              <>
+                <ol className="space-y-4">
+                  {track.steps.map((step, index) => {
+                    const Icon = QUICK_START_ICONS[step.icon];
+                    return (
+                      <li
+                        key={step.title}
+                        className="flex gap-4 p-5 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300"
+                      >
+                        <div className="shrink-0 flex flex-col items-center gap-2">
+                          <span className="w-10 h-10 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 light:text-indigo-600">
+                            <Icon className="w-4 h-4" />
+                          </span>
+                          <span className="t-label tabular-nums text-[rgb(var(--color-text-muted))]">
+                            {String(index + 1).padStart(2, '0')}
+                          </span>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="text-sm font-black text-[rgb(var(--color-text-primary))] leading-snug">
+                            {step.title}
+                          </h3>
+                          <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mt-1.5">
+                            {step.body}
+                          </p>
+                          {step.detail && (
+                            // The detail is there for whoever wants it. Collapsed, the
+                            // step reads as a title and one sentence.
+                            <details className="group mt-3">
+                              <summary className="inline-flex cursor-pointer list-none items-center gap-1.5 rounded-lg text-xs font-semibold text-indigo-400 light:text-indigo-700 hover:underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400">
+                                <ChevronDown className="w-3.5 h-3.5 transition-transform group-open:rotate-180" />
+                                <span className="group-open:hidden">Show the detail</span>
+                                <span className="hidden group-open:inline">Hide the detail</span>
+                              </summary>
+                              <ul className="mt-2.5 space-y-1.5">
+                                {step.detail.map((line) => (
+                                  <li
+                                    key={line}
+                                    className="text-xs leading-relaxed text-[rgb(var(--color-text-muted))] flex gap-2.5"
+                                  >
+                                    <span className="mt-1.5 shrink-0 w-1 h-1 rounded-full bg-indigo-400/60" />
+                                    <span>{line}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </details>
+                          )}
+                          {/* Never let the guide promise something this account
                             cannot do — the note only appears when the feature
                             is genuinely beyond their plan. */}
-                        {step.planNote && plan === 'free' && (
-                          <p className="mt-3 inline-flex items-start gap-2 text-xs text-amber-500 light:text-amber-800 leading-relaxed">
-                            <Lock className="w-3 h-3 mt-0.5 shrink-0" />
-                            {step.planNote}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
+                          {step.planNote && plan === 'free' && (
+                            <p className="mt-3 inline-flex items-start gap-2 text-xs text-amber-500 light:text-amber-800 leading-relaxed">
+                              <Lock className="w-3 h-3 mt-0.5 shrink-0" />
+                              {step.planNote}
+                            </p>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ol>
 
-              <div className="mt-5 p-5 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-100/60 border border-indigo-500/20 light:border-indigo-300">
-                <span className="t-label text-indigo-400 light:text-indigo-700 block mb-2">
-                  The one thing to remember
-                </span>
-                <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] font-medium">
-                  {track.closer}
-                </p>
-              </div>
-            </>
-          )}
-
-          {tab === 'plans' && (
-            <>
-              <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mb-5">
-                {/* A parent holds no plan of their own, so "You are on Free" would
-                    describe nothing; what they are choosing is their child's plan. */}
-                {user.role === 'parent' ? (
-                  <>Here is what each plan gives a student, and what it costs.</>
-                ) : (
-                  <>
-                    You are on <span className="font-bold">{PLAN_LABELS[plan]}</span>. Here is
-                    exactly what that includes — and what the other plans add.
-                  </>
-                )}{' '}
-                Everything below is read straight from the app’s own access rules, so it is always
-                current.
-              </p>
-              <PlanComparison user={user} showToast={showToast} onDone={onClose} />
-            </>
-          )}
-
-          {tab === 'tips' && (
-            <>
-              <ul className="space-y-3">
-                {POWER_TIPS.map((tip) => (
-                  <li
-                    key={tip.label}
-                    className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300"
-                  >
-                    <span className="t-label shrink-0 px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 light:text-indigo-700">
-                      {tip.label}
-                    </span>
-                    <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] pt-0.5">
-                      {tip.body}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-
-              {onOpenLegal && (
-                <button
-                  onClick={onOpenLegal}
-                  className="mt-5 w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/[0.03] light:bg-surface-elevated border border-white/5 light:border-slate-300 hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
-                >
-                  <Scale className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
-                  <span className="flex-1 min-w-0">
-                    <span className="t-label block text-[rgb(var(--color-text-primary))]">
-                      Your agreement, terms and privacy
-                    </span>
-                    <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
-                      What the AI marker is, who can see what, and what we do with the work.
-                    </span>
+                <div className="mt-5 p-5 rounded-2xl bg-indigo-500/[0.07] light:bg-indigo-100/60 border border-indigo-500/20 light:border-indigo-300">
+                  <span className="t-label text-indigo-400 light:text-indigo-700 block mb-2">
+                    The one thing to remember
                   </span>
-                  <ArrowRight className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
-                </button>
-              )}
-            </>
+                  <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] font-medium">
+                    {track.closer}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {tab === 'plans' && (
+              <>
+                <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] mb-5">
+                  {/* A parent holds no plan of their own, so "You are on Free" would
+                    describe nothing; what they are choosing is their child's plan. */}
+                  {user.role === 'parent' ? (
+                    <>Here is what each plan gives a student, and what it costs.</>
+                  ) : (
+                    <>
+                      You are on <span className="font-bold">{PLAN_LABELS[plan]}</span>. Here is
+                      exactly what that includes — and what the other plans add.
+                    </>
+                  )}{' '}
+                  Everything below is read straight from the app’s own access rules, so it is always
+                  current.
+                </p>
+                <PlanComparison user={user} showToast={showToast} onDone={onClose} />
+              </>
+            )}
+
+            {tab === 'tips' && (
+              <>
+                <ul className="space-y-3">
+                  {POWER_TIPS.map((tip) => (
+                    <li
+                      key={tip.label}
+                      className="flex items-start gap-4 p-4 rounded-2xl bg-white/[0.03] light:bg-surface-inset border border-white/5 light:border-slate-300"
+                    >
+                      <span className="t-label shrink-0 px-2.5 py-1 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 light:text-indigo-700">
+                        {tip.label}
+                      </span>
+                      <p className="text-xs leading-relaxed text-[rgb(var(--color-text-secondary))] pt-0.5">
+                        {tip.body}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+
+                {onOpenLegal && (
+                  <button
+                    onClick={onOpenLegal}
+                    className="mt-5 w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl bg-white/[0.03] light:bg-surface-elevated border border-white/5 light:border-slate-300 hover:bg-white/[0.06] light:hover:bg-surface-inset transition-colors text-left"
+                  >
+                    <Scale className="w-4 h-4 text-indigo-400 light:text-indigo-600 shrink-0" />
+                    <span className="flex-1 min-w-0">
+                      <span className="t-label block text-[rgb(var(--color-text-primary))]">
+                        Your agreement, terms and privacy
+                      </span>
+                      <span className="block text-xs text-[rgb(var(--color-text-muted))] mt-0.5">
+                        What the AI marker is, who can see what, and what we do with the work.
+                      </span>
+                    </span>
+                    <ArrowRight className="w-4 h-4 text-slate-400 light:text-slate-600 shrink-0" />
+                  </button>
+                )}
+              </>
+            )}
+          </div>
+          {!atEnd && (
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-20 flex items-end justify-center pb-2.5 bg-gradient-to-t from-[rgb(var(--color-bg-surface))] via-[rgb(var(--color-bg-surface))]/85 to-transparent"
+            >
+              <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-semibold text-[rgb(var(--color-text-secondary))] bg-[rgb(var(--color-bg-surface-elevated))] border border-white/10 light:border-slate-400 shadow-sm">
+                <ChevronDown className="w-3.5 h-3.5" /> More below
+              </span>
+            </div>
           )}
         </div>
 
@@ -300,7 +346,7 @@ const QuickStartModal: React.FC<QuickStartModalProps> = ({
           </span>
           <button
             onClick={onClose}
-            className="t-label min-h-11 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all"
+            className="t-label whitespace-nowrap min-h-11 px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg active:scale-[0.98] transition-all"
           >
             {tab === 'guide' ? 'Start writing' : 'Close'}
           </button>

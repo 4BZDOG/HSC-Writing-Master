@@ -7,6 +7,7 @@ import { useWritingMetrics } from '../hooks/useWritingMetrics';
 import type { SyllabusPlacement } from '../utils/syllabusTermSource';
 import {
   ChevronDown,
+  Timer,
   Play,
   Pause,
   RotateCcw,
@@ -23,6 +24,7 @@ import {
   EXAM_PANEL_SURFACE,
 } from '../utils/panelStyles';
 import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { REFERENCE_TILE, REFERENCE_TILE_NEUTRAL } from './ReferencePanelHeader';
 import { TERM_CHIP_HOVER, TERM_CHIP_RESTING } from '../utils/termChrome';
 import { publishExamClock } from '../utils/examClockStore';
 
@@ -492,7 +494,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
     // the band-tinted surface: the writing card it belongs to is neutral, and a
     // band-coloured border on the timer read as a different object beside it.
     return (
-      <div className={isExamMode ? EXAM_PANEL_SURFACE : `${PANEL_SURFACE} band-surface`}>
+      <div className={isExamMode ? EXAM_PANEL_SURFACE : `${PANEL_SURFACE} edge-ink`}>
         {/* The divider only earns its place when something sits below it —
             collapsed, it doubled up with the card's own bottom border. */}
         {/* The header row. Its tone follows the disclosure exactly as every other
@@ -512,7 +514,12 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
               that moves on its own, the only one with a consequence, and the
               one a student under exam conditions is actually managing. Words
               and syllabus coverage answer to it. */}
-          <div className="flex flex-1 items-center gap-4 sm:gap-6 px-4 sm:px-5 py-3 min-w-0">
+          <div className="flex flex-1 items-center gap-4 sm:gap-6 px-4 sm:px-5 py-2.5 min-w-0">
+            {/* The same 40px tile the other panels' headers carry, so the timer's
+                row reads as a header and not as a bare strip. */}
+            <div className={`${REFERENCE_TILE} ${REFERENCE_TILE_NEUTRAL} max-sm:hidden`}>
+              <Timer className="w-4 h-4" aria-hidden="true" />
+            </div>
             {/* The caption sits BESIDE the figure, not under it.
                 Stacked, the pair stood 58px tall and dragged the whole panel
                 to 82px against the 62px every other panel keeps. Set on one

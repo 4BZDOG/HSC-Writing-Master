@@ -1,5 +1,40 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-15 (Focus layouts, reference panels as one family, a new front door)
+
+- **Added (Focus Mode on a desktop).**
+  - **Three layouts, chosen beside the exit pill:** Stacked (the reading-width column, as before), Wide (the same
+    stack across the window) and Side by side (question on the left, answer on the right). The choice is
+    remembered per browser. Works the same in Coach and Exam Mode.
+  - **Side by side fits the window.** Both cards are exactly the height of the window at any size, the scenario
+    stays open, and the question stays pinned while the page scrolls on to the reference panels.
+  - **A vertical splitter** between the two columns sets the question's share (25 to 60 per cent) by drag, or by
+    Left, Right, Home and End. Double-click returns it to 40 per cent.
+  - **Side by side needs 1100px.** On a narrower window the stack is drawn instead, and the choice is kept for
+    when the window is wide again.
+- **Changed (the panels under the writing card).**
+  - **One header for all five.** Draft check, the timer, Syllabus terms, Marking guide and Sample answers share a
+    40px tile, the same title and caption type and a 61px row (`components/ReferencePanelHeader.tsx`).
+  - **One gap.** 16px between every panel, in the rail and in Focus Mode.
+  - **Sample answers.** The reading-size control sits on the panel's intro line rather than a row of its own. A
+    row's source, word count and chevron are in the same place open or shut, and the open paper no longer
+    repeats them.
+  - **Light theme.** Neutral panel edges clear 3:1 (`edge-ink`, and slate-500 in `PANEL_SURFACE`).
+- **Changed (sign-in).**
+  - **Two columns from 1024px:** the brand, a headline and a three-step "How it works" on the left, the form on
+    the right. One column below that, with Sign in above the fold at 390x844 and 1280x720.
+  - **The form.** Placeholders that repeated their labels are gone, the username takes focus on arrival, a wrong
+    sign-in marks both fields, and every control has a focus ring.
+  - **"Try it as a guest"** says what a guest gets: no account, work kept in this browser.
+  - **One legal line** under the card instead of a footer link and a sentence.
+- **Changed (first run).**
+  - **The agreement opens at the top.** The focus trap focused the checkbox at the foot of the list and scrolled
+    it into view, hiding the first items. The title takes focus instead, without scrolling.
+  - **The agreement shows there is more below**, and the disabled button says why ("Tick the box above to
+    continue.").
+  - **Quick start reads at a glance:** a title and one sentence per step, the detail behind "Show the detail",
+    and a shorter student track.
+
 ## [Unreleased] - 2026-11-14 (Exam and Focus Mode: clock, sitting and keyboard fixes)
 
 - **Changed (Exam Mode).**
