@@ -1,0 +1,17 @@
+{
+  "syllabus": "Engineering Studies 11–12 Syllabus (2026), Preliminary and HSC courses (NESA, the newest published Engineering Studies syllabus; implemented from 2028: Year 11 from Term 1 2028, Year 12 from Term 4 2028, first HSC examination 2029; the Engineering Studies Stage 6 Syllabus (2011) is taught for Year 12 until then)",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/tas/engineering-studies-11-12-2026 (NESA curriculum site, focus-area pages; outcomes page; course page for implementation dates)",
+  "id": "course-hsc-engineering-studies",
+  "name": "Engineering Studies",
+  "prefix": "es",
+  "outcomePattern": "^ES-1[12]-\\d\\d$",
+  "topics": [
+    { "title": "Engineering materials", "year": "year11" },
+    { "title": "Applied engineering analysis", "year": "year11" },
+    { "title": "Technical graphics and communication", "year": "year11" },
+    { "title": "Civil and structural engineering", "year": "year12" },
+    { "title": "Aeronautical and aerospace engineering", "year": "year12" },
+    { "title": "Transport engineering and automation", "year": "year12" },
+    { "title": "Environmental engineering and energy systems", "year": "year12" }
+  ]
+}

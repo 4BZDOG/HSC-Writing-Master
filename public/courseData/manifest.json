@@ -157,6 +157,24 @@
       "selected": false
     },
     {
+      "file": "HSCAboriginalStudies.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": false
+    },
+    {
+      "file": "HSCAgriculture.json",
+      "type": "course",
+      "subject": "TAS",
+      "selected": false
+    },
+    {
+      "file": "HSCEngineeringStudies.json",
+      "type": "course",
+      "subject": "TAS",
+      "selected": false
+    },
+    {
       "file": "topics/software-engineering-secure-architecture-topic.json",
       "type": "topic",
       "subject": "TAS",

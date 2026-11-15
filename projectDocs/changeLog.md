@@ -1,5 +1,20 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Three more structure-only courses: Aboriginal Studies, Agriculture, Engineering Studies)
+
+- **Added (DATA_VERSION 2.51.0).** Three structure-only courses whose HSC exam is all written, chosen from
+  `projectDocs/course-roadmap.md`. Each is the 2026 syllabus from NESA's page data (Year 11 from 2028, first HSC 2029;
+  the older syllabus is examined until then), as the app does for Visual Arts, Biology and others. Year 11 and Year 12,
+  unticked in the first-run picker, no questions yet:
+  - **Aboriginal Studies** (146 dot points; AST-11-01 to AST-12-09). The Year 12 comparative study's six areas are
+    option topics, "Social justice: …" (students study two), and the Country study's two are "Land, water and sky
+    Country: …" (students study one). NESA's defined terms keep their capitals: Aboriginal, Peoples, Country,
+    Community, Cultural Knowledges.
+  - **Agriculture** (144 dot points; AG-11-01 to AG-12-07). The 2026 syllabus has no electives.
+  - **Engineering Studies** (369 dot points; ES-11-01 to ES-12-08). Seven focus areas, no options.
+  - Configs are in `.claude/skills/build-course-data/configs/`. Agriculture's photosynthesis equation was written by
+    hand, because `fetch_nesa.py` flattens a labelled stacked arrow ("⟶lightchlorophyll").
+
 ## [Unreleased] - 2026-11-16 (Five new courses, structure only: the roadmap's first wave)
 
 - **Added (DATA_VERSION 2.50.0).** Five structure-only courses from `projectDocs/course-roadmap.md` Wave 1, unticked

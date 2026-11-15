@@ -1,0 +1,34 @@
+{
+  "syllabus": "Agriculture 11–12 Syllabus (2026), Years 11 and 12 (NESA, the newest released Agriculture syllabus; implemented from 2028, first HSC examination 2029; it replaces the Agriculture Stage 6 Syllabus (2013))",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/tas/agriculture-11-12-2026 (NESA curriculum site, page data read by tools/fetch_nesa.py; status \"New from\" 2028, publication year 2026)",
+  "id": "course-hsc-agriculture",
+  "name": "Agriculture",
+  "prefix": "ag",
+  "outcomePattern": "^AG-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Agriculture in Australia",
+      "year": "year11"
+    },
+    {
+      "title": "Plant production",
+      "year": "year11"
+    },
+    {
+      "title": "Animal production",
+      "year": "year11"
+    },
+    {
+      "title": "Commercial food and fibre production",
+      "year": "year12"
+    },
+    {
+      "title": "Opportunities and challenges for Australian agriculture",
+      "year": "year12"
+    },
+    {
+      "title": "Agricultural research",
+      "year": "year12"
+    }
+  ]
+}
