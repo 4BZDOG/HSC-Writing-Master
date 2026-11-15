@@ -48,12 +48,21 @@ export const signIn = async (
  */
 export const EVALUATE_BUTTON = /^Evaluate(?!,)/;
 
-/** The charter gate, then the quick-start guide, then the bundled curriculum. */
-export const clearOnboarding = async (page: Page): Promise<void> => {
+/**
+ * The charter gate, then the quick-start guide, then the bundled curriculum.
+ *
+ * `appearWithin` is how long each of the three is given to show up. A fresh
+ * sign-in needs the full 20 seconds: they animate in after the mock login's
+ * deliberate delay. A further tab on a session that has already been through
+ * onboarding will see none of them, and at 20 seconds each that is a minute of
+ * waiting for nothing, which is what took `draft-durability`'s two-tab test past
+ * its 120 seconds on Mobile Safari. Such a caller passes a short wait instead.
+ */
+export const clearOnboarding = async (page: Page, appearWithin = 20_000): Promise<void> => {
   // The gate animates in after the mock login's deliberate delay, so wait for
   // it rather than sampling — a bare `count()` here is always zero.
   const agree = page.getByRole('button', { name: /agree and continue/i });
-  await agree.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+  await agree.waitFor({ state: 'visible', timeout: appearWithin }).catch(() => {});
   if (await agree.count()) {
     // Scoped to the gate's own dialog. A bare page-wide `getByRole('checkbox')`
     // now competes with the first-run syllabus import, which renders eight of
@@ -101,7 +110,7 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
   const guideDialog = page
     .getByRole('dialog')
     .filter({ has: page.getByRole('button', { name: /getting started/i }) });
-  await guideDialog.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+  await guideDialog.waitFor({ state: 'visible', timeout: appearWithin }).catch(() => {});
   if (await guideDialog.count()) {
     // "Start writing" rather than the header's X: it is the guide's own
     // primary action and the one a student actually presses. `.last()` because
@@ -121,7 +130,7 @@ export const clearOnboarding = async (page: Page): Promise<void> => {
   // a database operation on a count of records rather than the thing a teacher
   // is actually doing.
   const importButton = page.getByRole('button', { name: /add \d+ syllabus(es)?/i });
-  await importButton.waitFor({ state: 'visible', timeout: 20_000 }).catch(() => {});
+  await importButton.waitFor({ state: 'visible', timeout: appearWithin }).catch(() => {});
   if (await importButton.count()) {
     await importButton.first().click();
     await importButton.waitFor({ state: 'hidden', timeout: 20_000 }).catch(() => {});

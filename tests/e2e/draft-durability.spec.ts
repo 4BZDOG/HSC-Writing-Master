@@ -106,17 +106,18 @@ const openIn = async (context: BrowserContext): Promise<Page> => {
   const page = await context.newPage();
   await page.goto('/');
   const loginForm = page.locator('#username');
-  if (
-    await loginForm.waitFor({ state: 'visible', timeout: 5_000 }).then(
-      () => true,
-      () => false
-    )
-  ) {
+  const signedInHere = await loginForm.waitFor({ state: 'visible', timeout: 5_000 }).then(
+    () => true,
+    () => false
+  );
+  if (signedInHere) {
     await page.fill('#username', 'user');
     await page.fill('#password', 'user');
     await page.click('button[type=submit]');
   }
-  await clearOnboarding(page);
+  // A tab that arrived already signed in has been through onboarding in the first
+  // tab, so it is given a short look for the gate and the guide, not a minute.
+  await clearOnboarding(page, signedInHere ? undefined : 6_000);
   // The session restores the question it was on, so usually the writing surface is already here.
   const surface = RESPONSE(page);
   if (
