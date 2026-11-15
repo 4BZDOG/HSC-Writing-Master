@@ -278,6 +278,63 @@ immediately for everyone via the read path. Two natural follow-ups:
 - Keep curated example courses in git so the example library is reviewable and
   reproducible across environments, independent of any one database.
 
+## Sign-up limits
+
+The sign-up form's checks (`VITE_ENABLE_SIGNUP`, `VITE_ALLOWED_EMAIL_DOMAINS`) are a
+convenience. The anon key is public, so anyone can POST straight to Supabase's
+`/auth/v1/signup`, and each new account is a student with a daily AI allowance that you
+pay for. The limits that cost money therefore live in the database (`schema.sql` §33):
+
+- **Sign-ups on or off.** Off refuses every new account.
+- **Allowed email domains.** Case-insensitive, and sub-domains of a listed domain pass.
+  Empty allows any domain.
+- **Daily cap.** The most new accounts per UTC day. Blank means no cap.
+
+The defaults are on, any domain, no cap, so an upgrade changes nothing until you set a value.
+The domain rule covers SSO as well as self-registration, because the same hook runs for
+OAuth-created accounts.
+
+### Turn the hook on (once per project)
+
+1. Run `schema.sql`. It creates `public.signup_settings`, the settings RPCs and
+   `public.hook_before_user_created`.
+2. In the Supabase dashboard, go to **Authentication → Hooks → Add hook → Before User
+   Created**, choose **Postgres function**, and select `public.hook_before_user_created`.
+
+Until this hook is on, the settings are stored but not applied.
+
+A refused student sees the hook's own message, for example "Sign-ups are paused for today.
+Try again tomorrow."
+
+### Adjust the limits
+
+- **From the app:** Admin → AI Usage Dashboard → **Sign-up limits**. A change applies to the
+  next sign-up, with no redeploy.
+- **From SQL, as an admin with a signed-in session** (the RPC reads `auth.uid()`):
+
+  ```sql
+  select public.set_signup_settings(true, array['education.nsw.gov.au'], 200);
+  ```
+
+- **From the SQL editor:** the editor runs without `auth.uid()`, so the RPC refuses it. Write
+  the row directly. Domains must be bare and lowercase, because this statement does not
+  normalise them:
+
+  ```sql
+  update public.signup_settings
+     set signups_enabled       = true,
+         allowed_email_domains = array['education.nsw.gov.au'],
+         daily_signup_cap      = 200,
+         updated_at            = now();
+  ```
+
+### Keep the client hint in step
+
+`VITE_ALLOWED_EMAIL_DOMAINS` is still set on the deployment. It stops the form and the SSO
+flow from offering an address the server would refuse, and it should list the same domains
+as `allowed_email_domains`. If they differ, the server still decides, and a student can meet
+a refusal the form did not predict.
+
 ## Connecting the app (next phase — not done here)
 
 Once the database is seeded, the app changes happen in roughly this order:

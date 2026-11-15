@@ -7,6 +7,16 @@ import {
   isSystemAdmin,
 } from '../utils/permissions';
 import Combobox, { SEARCH_THRESHOLD } from './Combobox';
+import FacultyFilterBar, { facultyGroupHeading } from './FacultyFilterBar';
+import {
+  FACULTY_FILTER_ALL,
+  groupCoursesByFaculty,
+  readFacultyFilter,
+  resolveFacultyFilter,
+  writeFacultyFilter,
+  type FacultyFilter,
+} from '../utils/courseGrouping';
+import { subjectAreaOf } from '../utils/subjectAreas';
 import QuestionFilterBar from './QuestionFilterBar';
 import {
   QuestionFilter,
@@ -798,47 +808,106 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const focusAreasOverridden = !!selectedDotPoint?.focusAreas;
   const activeFocusCount = statePath.selectedSubItems?.length || 0;
 
-  const courseOptions = useMemo(
-    () =>
-      courses.map((c) => {
-        // One row, two renderings. The closed control also carries the meta
-        // chips (Draft, Ready) below `sm`, where they take the width the name
-        // needs; `inTrigger` hides them there and nowhere else, so the open
-        // list still shows them on a phone.
-        const row = (inTrigger: boolean) => (
-          <div className="flex items-center gap-3">
-            <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course}`}>
-              <Book className="w-4 h-4" />
-            </div>
-            <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
-            {canCreateTree && c.status === 'draft' && (
-              <span
-                className={`t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 light:text-amber-800 border border-amber-500/30 flex-shrink-0 ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
-              >
-                Draft
-              </span>
-            )}
-            {/* Both years together: the question is "is this course ready to
-                show someone", and it is not ready if half of it is empty. */}
-            {canCurate && (
-              <CoverageChip
-                coverage={questionCoverage(c)}
-                label={c.name}
-                className={inTrigger ? 'hidden sm:inline-flex' : ''}
-              />
-            )}
+  // Faculty grouping for the course list (see utils/courseGrouping.ts). Courses
+  // are sorted by name within each faculty, and the faculty chosen in the
+  // filter is remembered on this device.
+  const courseGroups = useMemo(() => groupCoursesByFaculty(courses), [courses]);
+  const presentAreas = useMemo(() => courseGroups.map((g) => g.area), [courseGroups]);
+  const [facultyChoice, setFacultyChoice] = useState<FacultyFilter>(readFacultyFilter);
+  // A remembered faculty with no courses left falls back to All for this view only.
+  const facultyFilter = resolveFacultyFilter(facultyChoice, presentAreas);
+  const chooseFaculty = useCallback((filter: FacultyFilter) => {
+    setFacultyChoice(filter);
+    writeFacultyFilter(filter);
+  }, []);
+  // Chips only earn their row with two or more faculties to choose between, and
+  // a faculty heading only earns its place when the list spans several.
+  const showFacultyFilter = courseGroups.length > 1;
+  const showFacultyHeadings = showFacultyFilter && facultyFilter === FACULTY_FILTER_ALL;
+
+  const courseOptions = useMemo(() => {
+    const toOption = (c: Course, group: string | undefined, concealed: boolean) => {
+      // One row, two renderings. The closed control also carries the meta
+      // chips (Draft, Ready) below `sm`, where they take the width the name
+      // needs; `inTrigger` hides them there and nowhere else, so the open
+      // list still shows them on a phone.
+      const row = (inTrigger: boolean) => (
+        <div className="flex items-center gap-3">
+          <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course}`}>
+            <Book className="w-4 h-4" />
           </div>
-        );
-        return {
-          id: c.id,
-          label: c.name,
-          isNew: newlyAddedIds.has(c.id),
-          renderLabel: row(false),
-          renderSelected: row(true),
-        };
-      }),
-    [courses, newlyAddedIds, canCurate, canCreateTree]
-  );
+          <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
+          {canCreateTree && c.status === 'draft' && (
+            <span
+              className={`t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 light:text-amber-800 border border-amber-500/30 flex-shrink-0 ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
+            >
+              Draft
+            </span>
+          )}
+          {/* Both years together: the question is "is this course ready to
+              show someone", and it is not ready if half of it is empty. */}
+          {canCurate && (
+            <CoverageChip
+              coverage={questionCoverage(c)}
+              label={c.name}
+              className={inTrigger ? 'hidden sm:inline-flex' : ''}
+            />
+          )}
+        </div>
+      );
+      return {
+        id: c.id,
+        label: c.name,
+        isNew: newlyAddedIds.has(c.id),
+        renderLabel: row(false),
+        renderSelected: row(true),
+        group,
+        concealed,
+      };
+    };
+
+    const visibleGroups =
+      facultyFilter === FACULTY_FILTER_ALL
+        ? courseGroups
+        : courseGroups.filter((g) => g.area === facultyFilter);
+    const listed = visibleGroups.flatMap((group) =>
+      group.courses.map((c) => toOption(c, showFacultyHeadings ? group.area : undefined, false))
+    );
+    // The chosen course stays on the closed control even when the faculty filter
+    // hides it from the list, so the trigger never reads "Select course…" over a
+    // real choice.
+    const chosenHidden =
+      selectedCourse && !listed.some((o) => o.id === selectedCourse.id)
+        ? toOption(selectedCourse, undefined, true)
+        : null;
+    return chosenHidden ? [...listed, chosenHidden] : listed;
+  }, [
+    courseGroups,
+    facultyFilter,
+    showFacultyHeadings,
+    selectedCourse,
+    newlyAddedIds,
+    canCurate,
+    canCreateTree,
+  ]);
+
+  const hiddenCourseName =
+    facultyFilter !== FACULTY_FILTER_ALL &&
+    selectedCourse &&
+    subjectAreaOf(selectedCourse) !== facultyFilter
+      ? selectedCourse.name
+      : undefined;
+
+  const courseFacultyHeader = showFacultyFilter ? (
+    <FacultyFilterBar
+      faculties={courseGroups.map((g) => ({ area: g.area, count: g.courses.length }))}
+      total={courses.length}
+      value={facultyFilter}
+      onChange={chooseFaculty}
+      hiddenCourseName={hiddenCourseName}
+      onShowAll={() => chooseFaculty(FACULTY_FILTER_ALL)}
+    />
+  ) : undefined;
 
   /**
    * Year 11 and Year 12 as a choice beside the course name.
@@ -1634,6 +1703,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                   color="blue"
                   appearance="quiet"
                   caption="Course"
+                  header={courseFacultyHeader}
+                  groupHeading={showFacultyHeadings ? facultyGroupHeading : undefined}
+                  emptyFallback={
+                    facultyFilter !== FACULTY_FILTER_ALL
+                      ? {
+                          label: 'Show all faculties',
+                          onAction: () => chooseFaculty(FACULTY_FILTER_ALL),
+                        }
+                      : undefined
+                  }
                   emptyAction={
                     canRequestCourse
                       ? {
