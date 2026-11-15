@@ -4,6 +4,7 @@ import {
   consumeAiQuota,
   consumeEvaluation,
   recordAiModelUsage,
+  refundEvaluation,
   resolveCallerIsStaff,
   resolveCallerPlan,
   type QuotaVerdict,
@@ -103,6 +104,16 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   // trimmed to what the free tier has paid for (decided below, applied to the
   // provider response at the end of the handler).
   let isEvaluation = false;
+  // Set when this call spent one of the caller's metered free evaluations, so
+  // it can be given back if no marking comes out of it (AI quota refused, or
+  // the provider failed). The refund runs with the service role.
+  let refundUserId: string | null = null;
+  const refundIfSpent = async (): Promise<void> => {
+    if (!refundUserId) return;
+    const userId = refundUserId;
+    refundUserId = null;
+    await refundEvaluation(userId);
+  };
   let onFreeTier = false;
   // Whether this caller's plan covers the rewritten answer. Decided separately
   // from the feedback-detail switch below — see `withholdRewrite`.
@@ -161,10 +172,14 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         });
         return;
       }
+      if (evaluations?.allowed && !evaluations.unlimited) refundUserId = auth.userId;
       // The verdict doubles as the caller's plan: `unlimited` is true for
       // staff, paid plans and licensed schools. A false here means the free
       // tier, whose result must be redacted before it leaves the server.
-      onFreeTier = evaluations ? !evaluations.unlimited : false;
+      // A missing verdict (consume_evaluation errored or is not migrated) lets
+      // the evaluation through, fail-open, but must not also hand a free
+      // caller the paid feedback detail: fall back to the plan for that.
+      onFreeTier = evaluations ? !evaluations.unlimited : (await callerPlan()) === 'free';
 
       // A deployment may mark the free tier on a cheaper model (off unless
       // FREE_TIER_MARKING_MODEL is set; see requestGuard.ts and cost-model.md).
@@ -202,6 +217,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       const plan = await callerPlan();
       if (plan && !planUnlocks(plan, feature)) {
         const required = featureMinPlan(feature);
+        await refundIfSpent();
         res.status(402).json({
           error:
             required === 'school'
@@ -223,6 +239,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         quota.scope === 'school'
           ? `Daily AI limit reached for your school (${quota.used}/${quota.limit} shared calls used today). The pool resets at midnight UTC — ask an admin if your school needs more.`
           : `Daily AI limit reached (${quota.used}/${quota.limit} calls used today). Your allowance resets at midnight UTC — ask an admin if you need more.`;
+      await refundIfSpent();
       res.status(429).json({ error: message, quota });
       return;
     }
@@ -245,6 +262,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     kimi: process.env.KIMI_API_KEY,
   };
   const result = await runAiProxy(forwardBody, keys);
+  if (result.status !== 200) await refundIfSpent();
 
   // Enforce the content paywall HERE, not in the UI. The client blurs locked
   // feedback, but blurred text is still in the DOM and readable in devtools —

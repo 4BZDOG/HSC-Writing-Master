@@ -43,7 +43,7 @@ const stubPage = (html: string) => {
 
 /** A fetch stub that answers each exact URL from a route, and fails loudly on any other. */
 const stubRoutes = (routes: Record<string, () => Response>) => {
-  const fetchMock = vi.fn(async (input: string | URL | Request) => {
+  const fetchMock = vi.fn(async (input: string | URL | Request, _init?: RequestInit) => {
     const make = routes[String(input)];
     if (!make) throw new Error(`unexpected fetch of ${String(input)}`);
     return make();
