@@ -11,6 +11,11 @@
  */
 
 import type { ProxyResult } from './generate';
+import {
+  PROVIDER_TIMEOUT_MESSAGE,
+  PROVIDER_TIMEOUT_MS,
+  isProviderTimeout,
+} from './providerTimeout';
 
 const GROQ_ENDPOINT = 'https://api.groq.com/openai/v1/chat/completions';
 const DEFAULT_MAX_TOKENS = 8192;
@@ -154,8 +159,12 @@ export const runGroqProxy = async (
         authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
     });
   } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     const message = error instanceof Error ? error.message : 'Groq request failed.';
     return { status: 502, body: { error: message } };
   }
@@ -163,7 +172,10 @@ export const runGroqProxy = async (
   let json: unknown;
   try {
     json = await res.json();
-  } catch {
+  } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     return {
       status: res.status || 502,
       body: { error: 'Groq returned a non-JSON response.' },

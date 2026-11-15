@@ -14,6 +14,11 @@
  */
 
 import type { ProxyResult } from './generate';
+import {
+  PROVIDER_TIMEOUT_MESSAGE,
+  PROVIDER_TIMEOUT_MS,
+  isProviderTimeout,
+} from './providerTimeout';
 
 const OPENROUTER_ENDPOINT = 'https://openrouter.ai/api/v1/chat/completions';
 const DEFAULT_MAX_TOKENS = 8192;
@@ -171,8 +176,12 @@ export const runOpenRouterProxy = async (
         'X-Title': 'HSC AI Evaluator',
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
     });
   } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     const message = error instanceof Error ? error.message : 'OpenRouter request failed.';
     return { status: 502, body: { error: message } };
   }
@@ -180,7 +189,10 @@ export const runOpenRouterProxy = async (
   let json: unknown;
   try {
     json = await res.json();
-  } catch {
+  } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     return {
       status: res.status || 502,
       body: { error: 'OpenRouter returned a non-JSON response.' },

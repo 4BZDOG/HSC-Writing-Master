@@ -11,6 +11,11 @@
  */
 
 import type { ProxyResult } from './generate';
+import {
+  PROVIDER_TIMEOUT_MESSAGE,
+  PROVIDER_TIMEOUT_MS,
+  isProviderTimeout,
+} from './providerTimeout';
 
 const KIMI_ENDPOINT = 'https://api.moonshot.ai/v1/chat/completions';
 const DEFAULT_MAX_TOKENS = 8192;
@@ -148,8 +153,12 @@ export const runKimiProxy = async (
         authorization: `Bearer ${apiKey}`,
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
     });
   } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     const message = error instanceof Error ? error.message : 'Kimi request failed.';
     return { status: 502, body: { error: message } };
   }
@@ -157,7 +166,10 @@ export const runKimiProxy = async (
   let json: unknown;
   try {
     json = await res.json();
-  } catch {
+  } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     return {
       status: res.status || 502,
       body: { error: 'Kimi returned a non-JSON response.' },

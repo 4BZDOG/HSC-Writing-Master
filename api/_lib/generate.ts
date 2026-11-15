@@ -1,4 +1,5 @@
 import { GoogleGenAI } from '@google/genai';
+import { PROVIDER_TIMEOUT_MS } from './providerTimeout';
 
 /**
  * Shared Gemini proxy logic, used by both the Vercel serverless function
@@ -62,7 +63,7 @@ export const runGeminiProxy = async (
                 { status: 504 }
               )
             ),
-          55_000
+          PROVIDER_TIMEOUT_MS
         );
       }),
     ]).finally(() => clearTimeout(timeoutId));

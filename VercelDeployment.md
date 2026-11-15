@@ -17,7 +17,7 @@
 
 This guide walks through deploying the **HSC AI Evaluator** — a React 19 + TypeScript + Vite single-page application — to [Vercel](https://vercel.com).
 
-The app is a **React SPA** served as static assets from Vercel's global CDN, plus **five serverless functions** under `api/` — chief among them `api/gemini.ts`, which proxies the AI provider so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).
+The app is a **React SPA** served as static assets from Vercel's global CDN, plus **eleven serverless functions** under `api/` — chief among them `api/gemini.ts`, which proxies the AI provider so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).
 
 ---
 
@@ -138,11 +138,11 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
 
 - **`installCommand`** uses `npm ci` (not `npm install`) so the deploy builds the lockfile's exact tree, with `--legacy-peer-deps` for React 19's peer ranges.
 - **`regions`** pins the functions to Sydney. Without it they default to Washington DC, so every marking call would round-trip Sydney → US → Sydney against an Australian database. This is a latency and data-path decision, not a preference.
-- **`functions`** raises `maxDuration` to 60s — a long marking call exceeds the 10s default. The glob is `api/*.ts`, deliberately not `api/**/*.ts`: the recursive form pulls in `api/_lib/`, which would declare 15 functions against the Hobby plan's 12-function ceiling and fail the deploy.
+- **`functions`** raises `maxDuration` to 60s — a long marking call exceeds the 10s default. The glob is `api/*.ts`, deliberately not `api/**/*.ts`: the recursive form pulls in `api/_lib/`, which would declare 36 functions (the 11 routes plus 25 shared modules) against the Hobby plan's 12-function ceiling and fail the deploy.
 - **`rewrites`** sends any deep link to the SPA shell **except** `/api/*`, so the serverless functions stay reachable instead of being swallowed by the SPA fallback.
 - **`headers`** caches Vite's content-hashed `assets/*` aggressively (immutable per build), while `index.html` is revalidated every load so new deploys are picked up immediately.
 
-> **Serverless functions:** any file directly under `api/` is deployed by Vercel as a serverless function automatically. Here that is five — `gemini.ts` (the AI proxy), `fetch-url.ts`, `create-checkout.ts`, `customer-portal.ts` and `stripe-webhook.ts`. `api/_lib/` is shared code and is ignored as a route because of the leading underscore.
+> **Serverless functions:** any file directly under `api/` is deployed by Vercel as a serverless function automatically. Here that is eleven — `gemini.ts` (the AI proxy), `fetch-url.ts`, `create-checkout.ts`, `customer-portal.ts`, `prices.ts`, `stripe-webhook.ts`, `sync-checkout.ts`, `issue-invoice.ts`, `request-invoice.ts`, `screen-contribution.ts` and `prepare-account-deletion.ts`. `api/_lib/` is shared code and is ignored as a route because of the leading underscore.
 
 ---
 
