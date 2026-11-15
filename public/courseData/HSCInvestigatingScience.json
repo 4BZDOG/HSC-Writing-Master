@@ -1,0 +1,1181 @@
+[
+  {
+    "id": "course-hsc-investigating-science",
+    "name": "Investigating Science",
+    "outcomes": [
+      {
+        "code": "IS-11-08",
+        "description": "identifies that the collection of primary and secondary data initiates scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11-09",
+        "description": "examines the use of inferences and generalisations in scientific investigations",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11-10",
+        "description": "develops, and engages with, modelling as an aid in predicting and simplifying scientific objects and processes",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11-11",
+        "description": "describes and assesses how scientific explanations, laws and theories have developed",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigation",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11WS-02",
+        "description": "designs and evaluates investigations in order to obtain primary and secondary data and information",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11WS-03",
+        "description": "conducts investigations to collect valid and reliable primary and secondary data and information",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11WS-04",
+        "description": "selects and processes appropriate qualitative and quantitative data and information using a range of appropriate media",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11WS-05",
+        "description": "analyses and evaluates primary and secondary data and information",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11WS-06",
+        "description": "solves scientific problems using primary and secondary data, critical thinking skills and scientific processes",
+        "year": "year11"
+      },
+      {
+        "code": "IS-11WS-07",
+        "description": "communicates scientific understanding using suitable language and terminology for a specific audience or purpose",
+        "year": "year11"
+      },
+      {
+        "code": "IS-12-12",
+        "description": "develops and evaluates the process of undertaking scientific investigations"
+      },
+      {
+        "code": "IS-12-13",
+        "description": "describes and explains how science drives the development of technologies"
+      },
+      {
+        "code": "IS-12-14",
+        "description": "uses evidence-based analysis in a scientific investigation to support or refute a hypothesis"
+      },
+      {
+        "code": "IS-12-15",
+        "description": "evaluates the implications of ethical, social, economic and political influences on science"
+      },
+      {
+        "code": "IS-12WS-01",
+        "description": "develops and evaluates questions and hypotheses for scientific investigation"
+      },
+      {
+        "code": "IS-12WS-02",
+        "description": "designs and evaluates investigations in order to obtain primary and secondary data and information"
+      },
+      {
+        "code": "IS-12WS-03",
+        "description": "conducts investigations to collect valid and reliable primary and secondary data and information"
+      },
+      {
+        "code": "IS-12WS-04",
+        "description": "selects and processes appropriate qualitative and quantitative data and information using a range of appropriate media"
+      },
+      {
+        "code": "IS-12WS-05",
+        "description": "analyses and evaluates primary and secondary data and information"
+      },
+      {
+        "code": "IS-12WS-06",
+        "description": "solves scientific problems using primary and secondary data, critical thinking skills and scientific processes"
+      },
+      {
+        "code": "IS-12WS-07",
+        "description": "communicates scientific understanding using suitable language and terminology for a specific audience or purpose"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-is-11-working-scientifically",
+        "name": "Working scientifically",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-is-11-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-working-scientifically-1-1",
+                "description": "Develop and evaluate inquiry questions and hypotheses to identify a concept that can be investigated scientifically, involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-1-2",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-working-scientifically-2",
+            "name": "Planning investigations",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-working-scientifically-2-1",
+                "description": "Assess risks, consider ethical issues and select appropriate materials and technologies when designing and planning an investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-2-2",
+                "description": "Justify and evaluate the use of variables and experimental controls to ensure that a valid procedure is developed that allows for the reliable collection of data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-2-3",
+                "description": "Evaluate and modify an investigation in response to new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-working-scientifically-3",
+            "name": "Conducting investigations",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-working-scientifically-3-1",
+                "description": "Employ and evaluate safe work practices and manage risks",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-3-2",
+                "description": "Use appropriate technologies to ensure and evaluate accuracy",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-3-3",
+                "description": "Select and extract information from a wide range of reliable secondary sources and acknowledge them using an accepted referencing style",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative data and information and represent them using a range of formats, digital technologies and appropriate media",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-4-2",
+                "description": "Apply quantitative processes where appropriate",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-4-3",
+                "description": "Evaluate and improve the quality of data",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-working-scientifically-5-1",
+                "description": "Derive trends, patterns and relationships in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-5-2",
+                "description": "Assess error, uncertainty and limitations in data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-5-3",
+                "description": "Assess the relevance, accuracy, validity and reliability of primary and secondary data and suggest improvements to investigations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-working-scientifically-6",
+            "name": "Problem solving",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-working-scientifically-6-1",
+                "description": "Use modelling (including mathematical examples) to explain phenomena, make predictions and solve problems using evidence from primary and secondary sources",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-6-2",
+                "description": "Use scientific evidence and critical thinking skills to solve problems",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-working-scientifically-7-1",
+                "description": "Select and use suitable forms of digital, visual, written and/or oral forms of communication",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-7-2",
+                "description": "Select and apply appropriate scientific notations, nomenclature and scientific language to communicate in a variety of contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-working-scientifically-7-3",
+                "description": "Construct evidence-based arguments and engage in peer feedback to evaluate an argument or conclusion",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-11-cause-and-effect-observing",
+        "name": "Cause and effect – observing",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-is-11-cause-and-effect-observing-1",
+            "name": "Role of observations",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-observing-1-1",
+                "description": "Carry out a practical investigation to record both quantitative and qualitative data from observations, for example (burning a candle floating in a closed container; the behaviour of slaters in a dry/wet or light/dark environment; the Bernoulli effect; strata in rock cuttings)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-1-2",
+                "description": "Discuss and evaluate the characteristics of observations made compared to inferences drawn in respect of the practical investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-1-3",
+                "description": "Research how observation has instigated experimentation to investigate cause and effect in historical examples, including but not limited to (Archimedes observing the displacement of water; Alexander Fleming’s observations of the effect of mould on bacteria; Galileo’s observations of the movement of Jupiter’s moons)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-1-4",
+                "description": "Assess ways in which Aboriginal and Torres Strait Islander Peoples use observation to develop an understanding of Country and Place in order to create innovative ways of managing the natural environment, including but not limited to (firestick farming; knowledge about plants for medicinal purposes)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-observing-2",
+            "name": "Observations",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-observing-2-1",
+                "description": "Carry out a practical activity to qualitatively and quantitatively describe, for example (microscopic images of a variety of cells; geological strata in rock faces and road cuttings; an object falling due to gravity; characteristics of acids and bases)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-2-2",
+                "description": "Analyse the quantitative data from the following information sources, including but not limited to (digital images and hand-drawn diagrams of cells; geological succession obtained from rock strata; graphs of results obtained from observations of an object falling due to gravity; data showing the pH of acids and bases)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-2-3",
+                "description": "Evaluate the differences between qualitative and quantitative observations and data and where these are used",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-observing-3",
+            "name": "Observations as evidence",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-observing-3-1",
+                "description": "Use data gathered to plan a practical investigation to (pose further questions that will be investigated; discuss the role of variables; determine the independent and dependent variables; formulate a hypothesis that links the independent and dependent variables; describe at least three variables that should be controlled in order to increase the validity of the investigation)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-3-2",
+                "description": "Develop a method to collect primary data for a practical investigation by (describing how to change the independent variable; determining the characteristics of the measurements that will form the dependent variable; describing how the data will be collected; describing how the controlled variables will be made consistent; describing how risks can be minimised)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-3-3",
+                "description": "Evaluate how observation is limited by the observational tools available, including but not limited to (observing the Universe; digital versus analogue technologies)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-observing-4",
+            "name": "Observing, collecting and recording data",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-observing-4-1",
+                "description": "Carry out the planned practical investigation, above, to collect primary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-4-2",
+                "description": "Apply conventions for collecting and recording observations to qualitatively and quantitatively analyse the primary data, including but not limited to (tabulation; graphing; visual representations; digital representations)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-4-3",
+                "description": "Compare the usefulness of observations recorded in the initial practical activity with the primary data gathered in this planned practical investigation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-observing-5",
+            "name": "Conclusions promote further observations",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-observing-5-1",
+                "description": "Draw conclusions from the analysis of the primary data collected in the practical investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-5-2",
+                "description": "Evaluate the process of drawing conclusions from the primary data collected",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-5-3",
+                "description": "Assess the findings of the scientific investigation in relation to the findings of other related investigations",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-observing-5-4",
+                "description": "Assess the need to make further observations by gathering data about other phenomena arising from the practical investigation",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-11-cause-and-effect-inferences-and-generalisations",
+        "name": "Cause and effect – inferences and generalisations",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-is-11-cause-and-effect-inferences-and-generalisations-1",
+            "name": "Observations and inferences",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-1-1",
+                "description": "Investigate the practices of Aboriginal and Torres Strait Islander Peoples that relate to observations and inferences, including but not limited to (leaching of toxins in bush tucker; locating sources of freshwater within bodies of salt water)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-1-2",
+                "description": "Conduct a collaborative practical investigation and collect a range of qualitative and quantitative primary data from one of the following (growth of plants; reactions of calcium carbonate; the ‘life’ of different batteries under different circumstances; water quality of a pond or local stream)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-1-3",
+                "description": "Make inferences and conclusions derived from the primary data collected in this collaborative practical investigation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-inferences-and-generalisations-2",
+            "name": "Using secondary-sourced data",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-2-1",
+                "description": "Collect qualitative and quantitative secondary-sourced data to validate the inferences and conclusions drawn from the practical investigation carried out above, based on one or more of the following (the effect of soil salinity on plant growth; chemical reactions in cave formation; energy storage; methods of water monitoring)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-2-2",
+                "description": "Discuss how secondary-sourced data adds to the inferences and conclusions drawn from primary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-2-3",
+                "description": "Evaluate the usefulness of considering secondary-sourced research before undertaking an investigation to collect primary data, in order to (make inferences; develop inquiry questions; construct suitable hypotheses; plan suitable investigations; avoid unnecessary investigation)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-inferences-and-generalisations-3",
+            "name": "Observing patterns",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-3-1",
+                "description": "Describe patterns that have been observed over time throughout the Universe and in nature using, for example (animal migration; movement of comets; formation and shape of snow crystals; elements exhibiting certain properties)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-3-2",
+                "description": "Interpret data in order to propose a hypothesis based on an irregular pattern observed over time in the Universe and in nature using, for example (the Aurora Australis; fractals in nature; the behaviour of unstable isotopes)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-3-3",
+                "description": "Examine the human tendency to observe patterns and misinterpret information, for example (pareidolia; optical illusions)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-3-4",
+                "description": "Discuss how the tendency to recognise patterns, even when they may not exist, can lead to misinterpretation of data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-3-5",
+                "description": "Discuss the role and significance of outliers in data",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-inferences-and-generalisations-4",
+            "name": "Developing inquiry questions",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-4-1",
+                "description": "Gather secondary-sourced data describing historical instances of long-standing assumptions that have been updated by scientific investigation, including but not limited to (spontaneous generation and the investigations that led to the proposal of the germ theory; radioactivity: including the work of Henri Becquerel and Marie Curie; phlogiston theory; human influences on atmospheric pollution)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-4-2",
+                "description": "Propose an inquiry question, construct a hypothesis and conduct an investigation that tests a common assumption, for example (washing with antibacterial soap kills more germs than washing with normal soap; the Sun rises in the East and sets in the West; what goes up must come down)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-4-3",
+                "description": "Use appropriate representations to analyse the data",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-inferences-and-generalisations-5",
+            "name": "Generalisations in science",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-5-1",
+                "description": "Make generalisations to describe any trends found in the data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-5-2",
+                "description": "Draw conclusion based on generalisations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-cause-and-effect-inferences-and-generalisations-6",
+            "name": "Peer review",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-6-1",
+                "description": "Assess the input that collaborative teams and alternative perspectives have had on the development of hypotheses and research questions that have contributed to the development of, for example (particle accelerators; periodic table; study of bioastronomy; geological uniformitarianism)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-6-2",
+                "description": "Assess the scientific community’s current understanding of scientific mysteries and outline why this understanding remains incomplete, including but not limited to (origins of life on the Earth; the idea that feynmanium is the last chemical on the periodic table that could exist; the expanding Universe and Hubble constant)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-cause-and-effect-inferences-and-generalisations-6-3",
+                "description": "Evaluate biases that may have affected the scientific thinking of European settlers about Aboriginal and Torres Strait Islander Peoples’ ecological understanding and knowledge of Country and Place in relation to agricultural practices and the biological and natural resources of Australia",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-11-scientific-models",
+        "name": "Scientific models",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-is-11-scientific-models-1",
+            "name": "Models to inform understanding",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-scientific-models-1-1",
+                "description": "Examine the types of models that may be used in science, including (diagrams; physical replicas; mathematical representations; analogies; computer simulations)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-scientific-models-1-2",
+                "description": "Examine the use of scientific models, including but not limited to (epidemic models; models of the Universe; atomic models; climate models)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-scientific-models-1-3",
+                "description": "Outline how models have been used to illustrate, simplify and represent scientific concepts and processes",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-scientific-models-1-4",
+                "description": "Explain how scientific models are used to make predictions that are difficult to analyse in the real world due to time frames, size and cost",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-scientific-models-1-5",
+                "description": "Assess the effectiveness of models at facilitating the understanding of scientific processes, structures and mathematical relationships through the use of (diagrams; physical replicas; mathematical representations; analogies; computer simulations)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-scientific-models-1-6",
+                "description": "Evaluate how scientific models draw on a growing body of data from a wide range of disciplines and technologies to refine predictions and test new hypotheses",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-scientific-models-2",
+            "name": "Types of models",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-scientific-models-2-1",
+                "description": "Explain why new evidence can challenge the use of existing scientific models and may result in those models being contested and refined or replaced, including but not limited to the development of (epidemic models; models of the Universe; atomic models; climate models)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-scientific-models-2-2",
+                "description": "Compare the limitations of simple and complex scientific models",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-scientific-models-3",
+            "name": "Constructing a model",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-scientific-models-3-1",
+                "description": "Investigate a scientific concept or process that can be represented using a model, by (planning a model with reference to the scientific literature; constructing a model using appropriate resources to represent the selected scientific concept; demonstrating how the model could be used to make a prediction; presenting and evaluating the model through peer feedback)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-11-theories-and-laws",
+        "name": "Theories and laws",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-is-11-theories-and-laws-1",
+            "name": "Introduction to scientific theories and laws",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-theories-and-laws-1-1",
+                "description": "Collect primary data to investigate the law of conservation of mass",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-theories-and-laws-1-2",
+                "description": "Collect secondary-sourced data to investigate the theory of plate tectonics",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-theories-and-laws-1-3",
+                "description": "Compare the characteristics of theories and laws",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-theories-and-laws-2",
+            "name": "Development of a theory",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-theories-and-laws-2-1",
+                "description": "Gather secondary-sourced data to investigate the supporting evidence and development of theories, including but not limited to (germ theory; oxygen theory of combustion)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-theories-and-laws-2-2",
+                "description": "Gather secondary-sourced data to investigate how aspects of a theory can be disproved through the collection of evidence, including (Geocentric Theory (of the solar system); Theory of Inheritance of Acquired Characteristics; Dalton’s atomic theory; Steady State Theory of the Universe (in cosmology))",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-theories-and-laws-3",
+            "name": "Development of laws",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-theories-and-laws-3-1",
+                "description": "Gather secondary-sourced data to investigate and assess the evidence that supports scientific laws, including but not limited to (Newton’s Second Law of Motion; Avogadro’s Law; law of superposition; Mendel’s Law of Dominance)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-theories-and-laws-3-2",
+                "description": "Design and collect primary data to show that results can be predicted by laws, including but not limited to (Ohm’s Law; law of conservation of energy)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-11-theories-and-laws-4",
+            "name": "Application of theories and laws in science",
+            "dotPoints": [
+              {
+                "id": "dp-is-11-theories-and-laws-4-1",
+                "description": "Investigate how the law of conservation of energy is applied in different science disciplines through primary and secondary-sourced research, including but not limited to (Chemistry; Physics; Human Biology; Earth and Environmental Science)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-theories-and-laws-4-2",
+                "description": "Demonstrate, using evidence and examples, how diverse phenomena have been unified into specific theories, for example (atomic theory; theory of evolution; Big Bang theory; plate tectonic theory)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-11-theories-and-laws-4-3",
+                "description": "Gather secondary-sourced data to investigate how scientific investigations of nuclear reactions and decay changed the way in which the law of conservation of mass and law of conservation of energy are interpreted",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-12-working-scientifically",
+        "name": "Working scientifically",
+        "subTopics": [
+          {
+            "id": "subtopic-is-12-working-scientifically-1",
+            "name": "Questioning and predicting",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-working-scientifically-1-1",
+                "description": "Develop and evaluate inquiry questions and hypotheses to identify a concept that can be investigated scientifically, involving primary and secondary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-1-2",
+                "description": "Modify questions and hypotheses to reflect new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-working-scientifically-2",
+            "name": "Planning investigations",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-working-scientifically-2-1",
+                "description": "Assess risks, consider ethical issues and select appropriate materials and technologies when designing and planning an investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-2-2",
+                "description": "Justify and evaluate the use of variables and experimental controls to ensure that a valid procedure is developed that allows for the reliable collection of data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-2-3",
+                "description": "Evaluate and modify an investigation in response to new evidence",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-working-scientifically-3",
+            "name": "Conducting investigations",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-working-scientifically-3-1",
+                "description": "Employ and evaluate safe work practices and manage risks",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-3-2",
+                "description": "Use appropriate technologies to ensure and evaluate accuracy",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-3-3",
+                "description": "Select and extract information from a wide range of reliable secondary sources and acknowledge them using an accepted referencing style",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-working-scientifically-4",
+            "name": "Processing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-working-scientifically-4-1",
+                "description": "Select qualitative and quantitative data and information and represent them using a range of formats, digital technologies and appropriate media",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-4-2",
+                "description": "Apply quantitative processes where appropriate",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-4-3",
+                "description": "Evaluate and improve the quality of data",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-working-scientifically-5",
+            "name": "Analysing data and information",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-working-scientifically-5-1",
+                "description": "Derive trends, patterns and relationships in data and information",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-5-2",
+                "description": "Assess error, uncertainty and limitations in data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-5-3",
+                "description": "Assess the relevance, accuracy, validity and reliability of primary and secondary data and suggest improvements to investigations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-working-scientifically-6",
+            "name": "Problem solving",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-working-scientifically-6-1",
+                "description": "Use modelling (including mathematical examples) to explain phenomena, make predictions and solve problems using evidence from primary and secondary sources",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-6-2",
+                "description": "Use scientific evidence and critical thinking skills to solve problems",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-working-scientifically-7",
+            "name": "Communicating",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-working-scientifically-7-1",
+                "description": "Select and use suitable forms of digital, visual, written and/or oral forms of communication",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-7-2",
+                "description": "Select and apply appropriate scientific notations, nomenclature and scientific language to communicate in a variety of contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-working-scientifically-7-3",
+                "description": "Construct evidence-based arguments and engage in peer feedback to evaluate an argument or conclusion",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-12-scientific-investigations",
+        "name": "Scientific investigations",
+        "subTopics": [
+          {
+            "id": "subtopic-is-12-scientific-investigations-1",
+            "name": "Practical investigations to obtain primary data",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-scientific-investigations-1-1",
+                "description": "Research the factors that led scientists to investigate the following, including but not limited to (peptic ulcers (Marshall and Warren); plant growth (Von Helmont); microwaves (Spencer))",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-1-2",
+                "description": "Propose a reason for the scientists undertaking their investigations above by examining the type of data or information that they sought, for example (finding relationships or patterns in identified phenomena; testing the conclusion of a previous investigation; utilising scientific knowledge and understanding to make more accurate predictions and develop new technologies)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-1-3",
+                "description": "Determine the hypotheses that were tested in each of the scientific investigations above",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-1-4",
+                "description": "Describe where deviations from the traditional and linear models of scientific methodology were necessary in order to test each hypothesis in the investigations above",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-scientific-investigations-2",
+            "name": "Different types of scientific investigations",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-scientific-investigations-2-1",
+                "description": "Using examples, evaluate the objectives and data collected in an investigation by a recognised scientist or team of scientists, including but not limited to (Marshall and Warren and peptic ulcers; Eratosthenes and Earth’s circumference; Doppler and the Doppler effect; Priestley’s experiments with oxygen)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-2-2",
+                "description": "Evaluate the methodology of the scientific investigations above by (justifying the method chosen based on the subject of the investigation and the context, for example: experimental testing, fieldwork, locating and using information sources, conducting surveys and using modelling and simulations; evaluating the relevance of the investigation by considering the peer-reviewed literature in the area of study; justifying the suitability of the type of data that is to be collected)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-scientific-investigations-3",
+            "name": "Student investigation",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-scientific-investigations-3-1",
+                "description": "Develop a method most appropriate to test a hypothesis following observation",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-3-2",
+                "description": "Justify the type of methodology used to test the hypothesis",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-scientific-investigations-4",
+            "name": "Reliability and validity",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-scientific-investigations-4-1",
+                "description": "Evaluate the design of the student investigation by (explaining the choice of independent, dependent and controlled variables with reference to the research question; explaining the sample selection and sample sizes used for gathering data; justifying the suitability of materials used based on their relevance to the research question, availability, cost, risk and familiarity of use; assessing the ethics of conducting the investigation by considering confidentiality, humane treatment and animal welfare; predicting an achievable time frame to conduct the investigation; justifying working individually or collaboratively)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-4-2",
+                "description": "Conduct the planned investigation and collect, record and analyse primary data",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-4-3",
+                "description": "Draw a conclusion or conclusions, and suggest further investigation or research by (analysing the results and interpreting the data; explaining the relevance of the findings of the investigation in relation to the inquiry question and hypothesis; justifying the methodology and any changes made to improve the data collected; describing potential beneficial and harmful consequences when the findings are applied to a real-world scenario)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-4-4",
+                "description": "Evaluate the validity of the investigation by determining whether the tests measured what they were intended to measure",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-4-5",
+                "description": "Evaluate the reliability of the investigation by determining (consistency of the results obtained; measures taken to reduce error)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-scientific-investigations-5",
+            "name": "Reporting",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-scientific-investigations-5-1",
+                "description": "Review a published and peer-reviewed scientific report to determine the conventions of writing a report on a practical investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-5-2",
+                "description": "Use a sample of a published and peer-reviewed secondary source to identify (the purpose of the report; measures taken to reduce error; the language style used; the presentation and structure of the report)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-5-3",
+                "description": "Compare and contrast the structures and functions of a scientific investigation and its written report",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-scientific-investigations-5-4",
+                "description": "Prepare a report on the student investigation that was carried out",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-12-technologies",
+        "name": "Technologies",
+        "subTopics": [
+          {
+            "id": "subtopic-is-12-technologies-1",
+            "name": "Scientific investigation and technology",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-technologies-1-1",
+                "description": "Design a practical investigation that uses available technologies to measure both the independent and dependent variables that produce quantitative data to measure the effect of changes of, including but not limited to (temperature on reaction rate; temperature on volume of gas; speed on distance travelled; pressure on volume of gas)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-technologies-1-2",
+                "description": "Conduct the practical investigation to obtain relevant data and evaluate the limitations of the technologies used",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-technologies-1-3",
+                "description": "Investigate the range of measuring devices used in the practical investigation and assess the likelihood of random and systematic errors and the devices' degree of accuracy",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-technologies-1-4",
+                "description": "Using specific examples, compare the accuracy of analogue and digital technologies in making observations",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-technologies-1-5",
+                "description": "Assess the safety of technologies selected for the practical investigation by using chemical safety data and Work Health and Safety guidelines as appropriate",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-technologies-2",
+            "name": "A continuous cycle",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-technologies-2-1",
+                "description": "Using examples, assess the impact that developments in technologies have had on the accumulation of evidence for scientific theories, laws and models, including but not limited to (computerised simulations and models of the Earth’s geological history; X-ray diffraction and the discovery of the structure of deoxyribonucleic acid (DNA); technology to detect radioactivity and the development of atomic theory; the Hadron collider and discovery of the Higgs boson)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-technologies-2-2",
+                "description": "Using examples, assess the impact that developments in scientific theories, laws and models have had on the development of new technologies, including but not limited to (the laws of refraction and reflection on the development of microscopes and telescopes; radioactivity and radioactive decay on the development of radiotherapy and nuclear bombs; the discovery of the structure of DNA and the development of biotechnologies to genetically modify organisms; Newton’s laws and the technology required to build buildings capable of withstanding earthquakes)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-technologies-2-3",
+                "description": "Investigate scientists’ increasing awareness of the value of Aboriginal and Torres Strait Islander Peoples’ knowledge and understanding of the medicinal and material uses of plants and, in partnership with communities, investigate the potential for ethical development of new drug treatments and synthetic chemicals through the bioharvesting of plants from Country and Place",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-12-fact-or-fallacy",
+        "name": "Fact or fallacy?",
+        "subTopics": [
+          {
+            "id": "subtopic-is-12-fact-or-fallacy-1",
+            "name": "Testing claims",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-fact-or-fallacy-1-1",
+                "description": "Plan and conduct an investigation based on testing a claim, and consider (validity of the experimental design; reliability of the data obtained; accuracy of the procedure, including random and systematic error)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-1-2",
+                "description": "Using examples, evaluate the impact that sample selection and sample sizes can have on the results of an investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-1-3",
+                "description": "Compare emotive advertising with evidence-based claims, including but not limited to (health claims on food packaging; claims about the efficacy of a product)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-fact-or-fallacy-2",
+            "name": "Impacts on investigations",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-fact-or-fallacy-2-1",
+                "description": "Using examples, justify the use of placebos, double-blind trials and control groups in order to draw valid conclusions",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-2-2",
+                "description": "Evaluate the impact of societal and economic influences on the collection and interpretation of data, including but not limited to (predicting variations in climate; suggesting remedies for health conditions; manipulating statistical data)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-fact-or-fallacy-3",
+            "name": "Evidence-based analysis",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-fact-or-fallacy-3-1",
+                "description": "Evaluate how evidence of a correlation can be misinterpreted as causation, including but not limited to (the Hawthorne effect; 1991 study that linked hormone replacement therapy to coronary heart disease; the Mozart Effect on child development)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-fact-or-fallacy-4",
+            "name": "Reading between the lines",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-fact-or-fallacy-4-1",
+                "description": "Examine a contemporary scientific debate and how it is portrayed in the mainstream media, including but not limited to (accuracy of information; validity of data; reliability of information sources)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-4-2",
+                "description": "Evaluate the use and interpretation of the terms ‘theory’, ‘hypothesis’, ‘belief’ and ‘law’ in relation to media reporting of scientific developments",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-4-3",
+                "description": "Compare the difference in reporting between a peer-reviewed journal article and a scientific article published in popular media",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-4-4",
+                "description": "Analyse how conflicts of interest can result in scientific evidence being suppressed, misinterpreted or misrepresented and discuss measures to counteract such conflicts, including but not limited to (tobacco industry and lung cancer; fossil fuel industry and climate change; commercial industries researching products for market; asbestos mining and lung cancer)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-4-5",
+                "description": "Describe the halo effect and, using examples, explain how the influence of positive perceptions can result in the rejection of valid alternative perspectives, including but not limited to (celebrities endorsing products or viewpoints; popular brand companies making misleading advertising claims)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-4-6",
+                "description": "Using examples, analyse a pseudo-scientific claim and how scientific language and processes can be manipulated to sway public opinion, including but not limited to (astrology; numerology; iridology)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-fact-or-fallacy-5",
+            "name": "Science as self-correcting – the issues",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-fact-or-fallacy-5-1",
+                "description": "Conduct an investigation using secondary sources to research a scientist who has falsified their scientific experimental results, and discuss the process used to uncover the fraudulent research",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-5-2",
+                "description": "Analyse the scientific debate surrounding ‘publication’ and discuss the implications of scientists’ need to ‘publish or perish’",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-5-3",
+                "description": "Evaluate the increasing volume of scientific papers being published and assess the feasibility of science to effectively manage, review, replicate and validate investigations, for example (Pons and Fleischmann’s cold fusion announcement in 1989; Alex Smolyanitsky’s falsified scientific paper using the pseudonyms Maggie Simpson and Edna Krabapple, accepted for publication in 2014; Tom Spears’ nonsense journal submission accepted for publication in 2013)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-5-4",
+                "description": "Analyse the benefits of peer review in relation to the advancement of science",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-fact-or-fallacy-5-5",
+                "description": "Discuss the impact of fake science journals on the public perception of science",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-is-12-science-and-society",
+        "name": "Science and society",
+        "subTopics": [
+          {
+            "id": "subtopic-is-12-science-and-society-1",
+            "name": "Incidents, events and science",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-science-and-society-1-1",
+                "description": "Investigate case studies of past events to consider how they have affected the public image of science, including but not limited to (meltdowns of nuclear reactors; development of the smallpox vaccine; development of flight; positive and negative aspects of damming rivers)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-science-and-society-2",
+            "name": "Regulation of scientific research",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-science-and-society-2-1",
+                "description": "Investigate the need for the regulation of scientific research in, for example (genetic modification of sex cells and embryos; development of biotechnological weaponry; testing of pharmaceuticals; products and processes of the nuclear industry; protection of Indigenous cultural and intellectual property)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-science-and-society-2-2",
+                "description": "Investigate and assess ethical issues surrounding current scientific research in, for example (use of radiation; pharmaceutical research; gene manipulation in biotechnology; mining practices; bioprospecting)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-science-and-society-2-3",
+                "description": "Investigate a range of international scientific codes of conduct in regard to scientific research and practice in the areas of, for example (cloning; stem cell research; surrogacy; genetically modified foods; transplantation of organs)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-science-and-society-2-4",
+                "description": "Evaluate the effectiveness of international regulation in scientific research and practice",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-is-12-science-and-society-3",
+            "name": "Influence of economic, social and political forces on scientific research",
+            "dotPoints": [
+              {
+                "id": "dp-is-12-science-and-society-3-1",
+                "description": "Evaluate the costs involved in space exploration compared to investments in social issues, for example poverty and human global food supply",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-science-and-society-3-2",
+                "description": "Evaluate how scientific research aids economic development and human progress in relation to, for example (nuclear power generation; use of antimicrobial drugs; genetically modified foods; use of petroleum products; robotics and the use of drones)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-science-and-society-3-3",
+                "description": "Evaluate the impacts of scientific research, devices and applications on world health and human wellbeing, including but not limited to (medical surgical devices; surgical procedures; water purification and wastewater treatment; vaccination programs for the eradication of disease)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-science-and-society-3-4",
+                "description": "Using examples, analyse the impacts that governments and large corporations have on scientific research, including but not limited to (corporations and market opportunities; university research project budgets; governmental budgets and limited time priorities; benefit-sharing in research using Indigenous intellectual and cultural property)",
+                "prompts": []
+              },
+              {
+                "id": "dp-is-12-science-and-society-3-5",
+                "description": "Evaluate how personal, cultural and socioeconomic perspectives can influence the direction of scientific research, for example (perceptions about diet in a multicultural society; investigating traditional medical treatments; mining practices)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

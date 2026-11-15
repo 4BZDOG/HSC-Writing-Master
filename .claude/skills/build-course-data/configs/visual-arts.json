@@ -1,0 +1,43 @@
+{
+  "syllabus": "Visual Arts 11–12 Syllabus (2026); Year 11 from Term 1 2028, Year 12 from Term 4 2028, first HSC 2029",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/creative-arts/visual-arts-11-12-2026",
+  "startFocusAreas": ["content/year-11/fa88a24343", "content/year-12/fa521c7eb3"],
+  "id": "course-hsc-visual-arts",
+  "name": "Visual Arts",
+  "prefix": "va",
+  "outcomePattern": "^VA-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Practice",
+      "year": "year11"
+    },
+    {
+      "title": "Artworld concepts",
+      "year": "year11"
+    },
+    {
+      "title": "Viewpoints",
+      "year": "year11"
+    },
+    {
+      "title": "Art criticism and art history",
+      "year": "year11"
+    },
+    {
+      "title": "Practice",
+      "year": "year12"
+    },
+    {
+      "title": "Artworld concepts",
+      "year": "year12"
+    },
+    {
+      "title": "Viewpoints",
+      "year": "year12"
+    },
+    {
+      "title": "Art criticism and art history",
+      "year": "year12"
+    }
+  ]
+}

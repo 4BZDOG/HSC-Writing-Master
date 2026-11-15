@@ -1,0 +1,44 @@
+{
+  "syllabus": "Food Technology Stage 6 Syllabus (2013), Preliminary and HSC courses (NESA, current Stage 6 syllabus; the nsw.gov.au page and syllabus give no implementation or first-HSC date)",
+  "source": "https://www.nsw.gov.au/education-and-training/nesa/curriculum/tas/food-technology-stage-6-2013 (syllabus DOCX: food-technology-st6-syl.docx)",
+  "id": "course-hsc-food-technology",
+  "name": "Food Technology",
+  "prefix": "ft",
+  "outcomePattern": "^[PH]\\d\\.\\d+$",
+  "topics": [
+    {
+      "title": "Food Availability and Selection",
+      "year": "year11",
+      "name": "Food availability and selection"
+    },
+    {
+      "title": "Food Quality",
+      "year": "year11",
+      "name": "Food quality"
+    },
+    {
+      "title": "Nutrition",
+      "year": "year11"
+    },
+    {
+      "title": "The Australian Food Industry",
+      "year": "year12",
+      "name": "The Australian food industry"
+    },
+    {
+      "title": "Food Manufacture",
+      "year": "year12",
+      "name": "Food manufacture"
+    },
+    {
+      "title": "Food Product Development",
+      "year": "year12",
+      "name": "Food product development"
+    },
+    {
+      "title": "Contemporary Nutrition Issues",
+      "year": "year12",
+      "name": "Contemporary nutrition issues"
+    }
+  ]
+}

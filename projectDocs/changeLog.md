@@ -1,5 +1,27 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Five new courses, structure only: the roadmap's first wave)
+
+- **Added (DATA_VERSION 2.50.0).** Five structure-only courses from `projectDocs/course-roadmap.md` Wave 1, unticked
+  in the first-run picker (teachers fill them with the Starter questions tool or a later authoring pass), Year 11 and
+  Year 12, in NESA's own words, every dot point with no questions yet:
+  - **Studies of Religion I** (242 dot points) and **Studies of Religion II** (296): the 2009 syllabus, still the
+    newest NESA publishes for the course, built from NESA's DOC. Outcomes P1–P9 and H1–H9. The five religious
+    traditions are option topics, "Religious tradition study: …" (Year 11) and "Depth study: …" (Year 12); students
+    study two (SoR I) or three (SoR II). Religions of Ancient Origin, Religion in Australia pre-1945, Religion and
+    Peace and Religion and Non-Religion are SoR II only.
+  - **Visual Arts** (60 dot points): the 2026 syllabus from NESA's page data (Year 11 from 2028, first HSC 2029; the
+    2016 syllabus is examined until then), as the app already does for Biology and others. Only what the written
+    paper assesses is in: Practice, Artworld concepts, Viewpoints, and Art criticism and art history. Art making and
+    the "In Art making, …" paragraphs are left out, because the body of work is practical.
+  - **Investigating Science** (145 dot points): the 2017 syllabus from NESA's DOCX; the 2023 draft is in
+    consultation, not in force. NESA's INS codes are written in the app's form (IS-11-08, and IS-11WS-01 to 07 for
+    each year's copy of the Working Scientifically outcomes), as Biology does.
+  - **Food Technology** (107 dot points): the 2013 syllabus from NESA's DOCX, P1.1–H5.1. A Food Technology 11–12 draft
+    is in consultation. "Learn to" statements are kept as dot points, as in CAFS and Society and Culture.
+  - Configs are in `.claude/skills/build-course-data/configs/`; the courses are listed in the manifest under their
+    faculties (HSIE, Creative Arts, TAS, Science).
+
 ## [Unreleased] - 2026-11-15 (Card headers, page header, feedback PDF and profile: bugs and polish)
 
 - **Changed (workspace card headers).**
