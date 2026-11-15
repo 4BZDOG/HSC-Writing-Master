@@ -42,7 +42,14 @@ test.describe('Focus Mode arrangement', () => {
       await expect
         .poll(async () => {
           const c = await cards(page);
-          return !!c.prompt && !!c.response && c.prompt.right <= c.response.left;
+          // The page's padding eases for 500ms as Focus opens, so the cards are
+          // read once they have come to rest inside the window.
+          return (
+            !!c.prompt &&
+            !!c.response &&
+            c.prompt.right <= c.response.left &&
+            c.response.bottom <= c.viewport.height
+          );
         })
         .toBe(true);
 
