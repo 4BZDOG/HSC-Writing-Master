@@ -123,15 +123,17 @@ export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 max-sm:contents';
  * The size has since stepped up again (28px from 1440; 24px from 1360 as before, and 20px in the two narrowest two-column widths), so the name
  * stands nearly as tall as the 40px tile beside it, and the header around it
  * was tightened to pay for that: 8px of padding instead of 12, a 2px gap to the
- * meta line, and a 24px reading size over a 32px bar in the corner. The header
- * is 80px where it was 92.
+ * meta line, and a 24px reading size in the corner over the bar, which keeps its
+ * 36px and its 32px tools. The header
+ * is 78px where it was 92.
  *
- * 28px is the ceiling, and it was measured. At 30px a free account's toolbar
- * (labelled from `2xl`, with the Plus chip on Exam) is 4px too wide to stay
- * beside "WRITTEN RESPONSE" even at the page's full width, so the bar dropped
- * to its own line and both headers grew to 120px.
- * And 1440 is where 28px starts, for the same account: at 1360 its toolbar,
- * unlabelled but still carrying the Plus chip, is 4px too wide beside it.
+ * 28px is the ceiling, and it was measured against the widest toolbar there is:
+ * a free account's, which carries the Plus chip on Exam. At 30px that toolbar
+ * no longer fits beside "WRITTEN RESPONSE" even at the page's full width, the
+ * bar drops to its own line and both headers grow to about 120px. For the same
+ * reason 28px starts at 1440 and not 1360, the toolbar's labels wait for 1600
+ * (see Editor), and its gaps are 2px. The spare room beside the heading is
+ * never under 32px at any width from 1280 up.
  *
  * So the full step is held until there is width for it. 1360 is not a round
  * number because it is not a guess: it is where the bar stops fitting. Below
@@ -186,8 +188,8 @@ export const CARD_HEADER_TRAY =
  * thing in it, so it keeps the tray's job (top-aligned row, bar level with the
  * writing card's across the gap) and its shrink rules.
  *
- * Two rows cost a header 24px + 4px + the bar's 32px = 60px, the same as the
- * heading block beside it (34px + 2px + 24px), so the header is 76px and well
+ * Two rows cost a header 24px + 2px + the bar's 36px = 62px, about the same as the
+ * heading block beside it, so the header is 78px and well
  * under the ceiling `workspace-chrome.spec.ts` holds.
  *
  * On a phone the corner is `display: contents`, so its reading size and its bar
@@ -196,11 +198,11 @@ export const CARD_HEADER_TRAY =
  * verb. Two lines in all, where a full row of its own used to cost a third.
  */
 export const CARD_HEADER_CORNER =
-  'self-stretch flex flex-col items-end justify-between gap-1 ml-auto min-w-0 shrink sm:shrink-0 max-sm:contents';
+  'self-stretch flex flex-col items-end justify-between gap-0.5 ml-auto min-w-0 shrink sm:shrink-0 max-sm:contents';
 
 /**
  * The reading size control in that corner. The bar's own fill and border, one step
- * smaller (24px against the bar's 32px, so the pair stack inside the heading's
+ * smaller (24px against the bar's 36px, so the pair stack inside the heading's
  * height), and 44px on a phone where its buttons are touch targets.
  *
  * On a phone it loses its box entirely: two plain icon buttons, with the figure
@@ -228,7 +230,7 @@ export const CARD_HEADER_BAR =
   // no scroll container is created at all. The fill and border are the same
   // at every width; the height is 44px below `sm`, where the writing tools are
   // 44px touch targets. Both cards take the same step, so the pair still matches.
-  'flex items-center h-8 max-sm:h-11 px-1.5 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';
+  'flex items-center h-9 max-sm:h-11 px-1.5 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';
 
 /**
  * Focus Mode on a short desktop window: at least 1280px wide and no taller than

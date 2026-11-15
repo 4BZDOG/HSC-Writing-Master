@@ -139,12 +139,17 @@ describe('renaming yourself', () => {
 
   it('abandons on Escape and puts the real name back', () => {
     const onUpdateUser = vi.fn();
-    renderModal({ onUpdateUser });
+    const onClose = vi.fn();
+    renderModal({ onUpdateUser, onClose });
     fireEvent.click(screen.getByRole('button', { name: /rename yourself/i }));
     const input = screen.getByLabelText(/your display name/i);
     fireEvent.change(input, { target: { value: 'Typo McTypo' } });
     fireEvent.keyDown(input, { key: 'Escape' });
     expect(onUpdateUser).not.toHaveBeenCalled();
+    // Escape cancels the rename and nothing more: the profile stays open, and
+    // the window-level Escape that closes it never sees this press.
+    expect(onClose).not.toHaveBeenCalled();
+    expect(screen.queryByLabelText(/your display name/i)).toBeNull();
     expect(screen.getByRole('button', { name: /rename yourself/i }).textContent).toContain(
       'Ada Lovelace'
     );
@@ -263,12 +268,59 @@ describe('the average on the stats tab', () => {
     });
     expect(screen.getByText('90%')).toBeTruthy();
     expect(screen.getByText('Avg mark')).toBeTruthy();
-    expect(screen.queryByText('Avg Band')).toBeNull();
+    expect(screen.queryByText('Avg band')).toBeNull();
     expect(screen.getByText(/earning 90% of the marks on offer/)).toBeTruthy();
   });
 
   it('keeps the band average for a profile that predates it', () => {
     renderModal();
-    expect(screen.getByText('Avg Band')).toBeTruthy();
+    expect(screen.getByText('Avg band')).toBeTruthy();
+  });
+});
+
+describe('the scroll edge of the body', () => {
+  it('says there is more below while the content overflows, and stops once it is reached', () => {
+    renderModal();
+    const dialog = screen.getByRole('dialog', { name: 'Your profile' });
+    const body = dialog.querySelector('.overflow-y-auto') as HTMLElement;
+    Object.defineProperty(body, 'scrollHeight', { configurable: true, value: 1200 });
+    Object.defineProperty(body, 'clientHeight', { configurable: true, value: 500 });
+    Object.defineProperty(body, 'scrollTop', { configurable: true, writable: true, value: 0 });
+    fireEvent.scroll(body);
+    expect(document.querySelector('[data-scroll-cue="below"]')).toBeTruthy();
+    expect(document.querySelector('[data-scroll-cue="above"]')).toBeNull();
+
+    body.scrollTop = 700;
+    fireEvent.scroll(body);
+    expect(document.querySelector('[data-scroll-cue="below"]')).toBeNull();
+    expect(document.querySelector('[data-scroll-cue="above"]')).toBeTruthy();
+  });
+});
+
+describe('a guest session', () => {
+  it('is cleared from this browser, never described as a deleted account', () => {
+    renderModal({ user: makeUser({ role: 'guest' }) as User });
+    openSettings();
+    expect(screen.queryByRole('button', { name: /delete my account/i })).toBeNull();
+    fireEvent.click(screen.getByRole('button', { name: /clear guest session/i }));
+    expect(screen.getByText(/clears your guest session/i)).toBeTruthy();
+    expect(screen.queryByText(/your responses and all your progress/i)).toBeNull();
+    expect(screen.queryByText(/cancelled straight away/i)).toBeNull();
+    expect(screen.getByRole('button', { name: /^clear session$/i })).toBeTruthy();
+  });
+});
+
+describe('a student with nothing marked yet', () => {
+  it('is told what will appear and how to start, not shown an empty chart or a mock-mode note', () => {
+    const base = makeUser();
+    renderModal({
+      user: {
+        ...base,
+        stats: { ...base.stats, questionsAnswered: 0, averageBand: 0, streakDays: 0, xp: 0 },
+      } as User,
+    });
+    expect(screen.getByText(/Nothing has been marked yet/)).toBeTruthy();
+    expect(screen.getByText(/Your progress charts start here/)).toBeTruthy();
+    expect(screen.queryByText(/Band history is kept/)).toBeNull();
   });
 });

@@ -68,21 +68,21 @@ describe('the header tools', () => {
 });
 
 describe('the mode switch label', () => {
-  it('shows "Coach" beside the compass from 2xl, where the tray has room', () => {
+  it('shows "Coach" beside the compass from 1600px, where the tray has room', () => {
     renderCoach();
 
     const coach = screen.getByRole('button', { name: 'Coach mode' });
     const label = Array.from(coach.querySelectorAll('span')).find((s) => s.textContent === 'Coach');
-    // Not below `2xl`: at 1280 and 1400 the word wrapped the tray and grew the header.
-    expect(label?.className).toContain('hidden 2xl:inline');
+    // Not below 1600px: at 1280, 1400 and 1536 the word wrapped the tray and grew the header.
+    expect(label?.className).toContain('hidden min-[1600px]:inline');
   });
 
-  it('keeps the Exam label at 2xl, so the header holds its height at 1280px', () => {
+  it('keeps the Exam label at 1600px, so the header holds its height at 1280px', () => {
     renderCoach();
 
     const exam = screen.getByRole('button', { name: 'Exam mode' });
     const label = Array.from(exam.querySelectorAll('span')).find((s) => s.textContent === 'Exam');
-    expect(label?.className).toContain('hidden 2xl:inline');
+    expect(label?.className).toContain('hidden min-[1600px]:inline');
   });
 });
 

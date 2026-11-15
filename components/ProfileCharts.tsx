@@ -157,6 +157,24 @@ export const ProfileHistoryNote: React.FC<{
   </div>
 );
 
+/**
+ * What a student with no marked answers sees in place of the charts. The charts
+ * are not drawn at all here, so an empty box cannot be read as a result. It says
+ * what will appear and the one step that makes it appear.
+ */
+export const ProfileEmptyNote: React.FC = () => (
+  <div className="flex items-start gap-3 min-w-0 rounded-panel border border-slate-300 bg-surface shadow-sm dark:border-white/10 dark:bg-white/[0.03] dark:shadow-none p-4 sm:p-5">
+    <Info className="w-4 h-4 mt-0.5 shrink-0 text-muted" aria-hidden="true" />
+    <div className="min-w-0 space-y-1.5">
+      <p className="text-sm font-semibold text-primary">Your progress charts start here</p>
+      <p className="text-sm leading-relaxed text-secondary">
+        Band progress, strength by command tier and your recent attempts appear after your first
+        marked response.
+      </p>
+    </div>
+  </div>
+);
+
 // ---------------------------------------------------------------------------
 // Band progress: the band ladder as the y axis
 // ---------------------------------------------------------------------------
