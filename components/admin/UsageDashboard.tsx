@@ -73,6 +73,7 @@ import { useEscapeKey } from '../../hooks/useEscapeKey';
 import { useFocusTrap } from '../../hooks/useFocusTrap';
 import { useScrollLock } from '../../hooks/useScrollLock';
 import DataLoading from '../DataLoading';
+import SignupLimitsSection from './SignupLimitsSection';
 
 interface UsageDashboardProps {
   isOpen: boolean;
@@ -1138,6 +1139,9 @@ const UsageDashboard: React.FC<UsageDashboardProps> = ({ isOpen, onClose, showTo
                   </div>
                 </section>
               )}
+
+              {/* Sign-up limits (schema §33). Hides itself on a database that pre-dates §33. */}
+              <SignupLimitsSection isOpen={isOpen} showToast={showToast} />
 
               {/* Schools — shared quota pools. Hidden when the database
                   pre-dates the schools migration (schema §12). */}

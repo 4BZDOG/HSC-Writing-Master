@@ -96,7 +96,9 @@ are optional; **1, 2 and 6 are not.**
    all four Supabase variables set, not two.
 4. **Restrict who can get an account** — `VITE_ALLOWED_EMAIL_DOMAINS`, and a
    single-tenant Entra registration if you enable Microsoft sign-in — _before_
-   the URL is shared with anyone.
+   the URL is shared with anyone. The database enforces the same limits, but only
+   once the Supabase **Before User Created** hook is on; see
+   `supabase/README.md` → "Sign-up limits".
 5. **Billing**, if you are selling: `docs/stripesetup.md` and the checklist below.
 6. **Verify against the running deployment**, not against the dashboard you
    just filled in. `npm run check:deploy -- --url https://…`, then sign in and

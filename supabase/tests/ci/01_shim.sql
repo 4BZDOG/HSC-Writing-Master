@@ -23,15 +23,22 @@ create extension if not exists pgcrypto;
 do $$ begin create role anon          nologin noinherit;            exception when duplicate_object then null; end $$;
 do $$ begin create role authenticated nologin noinherit;            exception when duplicate_object then null; end $$;
 do $$ begin create role service_role  nologin noinherit bypassrls;  exception when duplicate_object then null; end $$;
+-- The role Supabase's auth service runs "Before User Created" hooks as (schema.sql §33).
+-- It is deliberately NOT bypassrls, so the hook's read of signup_settings goes through
+-- the policy the schema grants it, as it has to on a real project.
+do $$ begin create role supabase_auth_admin nologin noinherit;      exception when duplicate_object then null; end $$;
 
 create schema if not exists auth;
 
 -- Minimal auth.users: only the columns schema.sql touches (the FK target id,
--- the email used by handle_new_user, and raw_user_meta_data it reads).
+-- the email used by handle_new_user, raw_user_meta_data it reads, and created_at
+-- which the sign-up cap counts).
 create table if not exists auth.users (
   id                 uuid primary key default gen_random_uuid(),
   email              text,
-  raw_user_meta_data jsonb not null default '{}'::jsonb
+  raw_user_meta_data jsonb not null default '{}'::jsonb,
+  -- The sign-up cap counts today's rows (schema.sql §33).
+  created_at         timestamptz not null default now()
 );
 
 -- auth.uid(): resolve the 'sub' claim from the request.jwt.claims GUC, exactly

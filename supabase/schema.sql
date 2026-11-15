@@ -5056,6 +5056,216 @@ create trigger trg_profiles_block_entitlement_self_write
   for each row execute function public.prevent_entitlement_self_write();
 
 -- =============================================================================
+-- §33 · Sign-up limits, enforced by the database
+--
+--     services/signupPolicy.ts checks VITE_ENABLE_SIGNUP and the allowed domains in the
+--     browser, but the anon key ships in the bundle, so anyone can POST straight to
+--     /auth/v1/signup and skip the form. Every account is a student with a daily AI
+--     allowance that the operator pays for, so the limits have to hold on the server.
+--
+--     Supabase's "Before User Created" auth hook runs before each new account is
+--     written, for email, phone, OAuth and SSO sign-ups alike, and can refuse it.
+--     hook_before_user_created below is that hook. It reads one settings row, which
+--     an admin changes with set_signup_settings() (from the admin panel), so the limits
+--     are adjustable without a redeploy. None of this applies until the hook is switched
+--     on in the dashboard: Authentication → Hooks → Before User Created.
+--
+--     The domain rule therefore covers SSO as well as self-registration, because the
+--     hook fires for OAuth-created users too. VITE_ALLOWED_EMAIL_DOMAINS stays as the
+--     client-side hint and should list the same domains.
+--
+--     Defaults change nothing: enabled, any domain, no daily cap.
+-- =============================================================================
+
+create table if not exists public.signup_settings (
+  id                    boolean primary key default true check (id),
+  signups_enabled       boolean not null default true,
+  -- Bare domains, lowercase. Empty = any domain. Sub-domains of a listed domain pass.
+  allowed_email_domains text[] not null default '{}',
+  -- New accounts allowed per UTC day. Null = no cap.
+  daily_signup_cap      integer check (daily_signup_cap is null or daily_signup_cap >= 0),
+  updated_at            timestamptz,
+  updated_by            uuid references public.profiles (id) on delete set null
+);
+
+insert into public.signup_settings (id) values (true) on conflict do nothing;
+
+alter table public.signup_settings enable row level security;
+
+-- Admins read the row. There is no insert, update or delete policy: every write goes
+-- through set_signup_settings(), so the table cannot be edited around its checks.
+drop policy if exists "Admins read signup settings" on public.signup_settings;
+create policy "Admins read signup settings"
+  on public.signup_settings for select
+  using (public.is_admin());
+
+-- The settings row, read by the admin panel's RPC and by the auth hook.
+create or replace function public.get_signup_settings()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can read sign-up settings';
+  end if;
+  return (
+    select jsonb_build_object(
+      'signups_enabled',       s.signups_enabled,
+      'allowed_email_domains', to_jsonb(s.allowed_email_domains),
+      'daily_signup_cap',      s.daily_signup_cap,
+      'updated_at',            s.updated_at
+    )
+    from public.signup_settings s
+    where s.id
+  );
+end; $$;
+
+-- Admin-only setter. Normalises the domains (lowercase, trimmed, a leading '@' dropped,
+-- empties and duplicates removed) so the hook compares like with like.
+create or replace function public.set_signup_settings(
+  p_enabled   boolean,
+  p_domains   text[],
+  p_daily_cap integer
+)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_domains text[];
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change sign-up settings';
+  end if;
+  if p_enabled is null then
+    raise exception 'Say whether sign-ups are enabled';
+  end if;
+  if p_daily_cap is not null and p_daily_cap < 0 then
+    raise exception 'The daily sign-up cap must be zero or more, or blank for no cap';
+  end if;
+
+  select coalesce(array_agg(distinct s.d order by s.d), '{}'::text[])
+    into v_domains
+    from (
+      select btrim(ltrim(btrim(lower(x)), '@')) as d
+        from unnest(coalesce(p_domains, '{}'::text[])) as x
+    ) s
+   where s.d <> '';
+
+  if exists (select 1 from unnest(v_domains) as d where d ~ '[[:space:]@/]') then
+    raise exception 'Allowed domains must be bare domain names, such as education.nsw.gov.au';
+  end if;
+
+  insert into public.signup_settings
+    (id, signups_enabled, allowed_email_domains, daily_signup_cap, updated_at, updated_by)
+  values (true, p_enabled, v_domains, p_daily_cap, now(), auth.uid())
+  on conflict (id) do update
+    set signups_enabled       = excluded.signups_enabled,
+        allowed_email_domains = excluded.allowed_email_domains,
+        daily_signup_cap      = excluded.daily_signup_cap,
+        updated_at            = excluded.updated_at,
+        updated_by            = excluded.updated_by;
+
+  return public.get_signup_settings();
+end; $$;
+
+-- The "Before User Created" hook. Supabase calls it with the event
+--     {"metadata": {...}, "user": {"email": "...", ...}}
+-- and reads the result: '{}' lets the account be created, and
+--     {"error": {"http_code": 403, "message": "..."}}
+-- refuses it with that message, which the sign-up form shows to the person.
+--
+-- It runs as supabase_auth_admin, which is why it is SECURITY INVOKER (the default)
+-- and reads the settings through the policy granted to that role below, rather than
+-- being a definer function. It is never callable by a signed-in user or anon: see the
+-- revoke after it.
+create or replace function public.hook_before_user_created(event jsonb)
+returns jsonb language plpgsql stable set search_path = public as $$
+declare
+  v_enabled boolean;
+  v_domains text[];
+  v_cap     integer;
+  v_email   text;
+  v_domain  text;
+  v_count   integer;
+  v_refuse  text;
+begin
+  -- No row (a database that never ran this section) reads as the defaults.
+  select s.signups_enabled, s.allowed_email_domains, s.daily_signup_cap
+    into v_enabled, v_domains, v_cap
+    from public.signup_settings s
+   where s.id;
+  v_enabled := coalesce(v_enabled, true);
+  v_domains := coalesce(v_domains, '{}'::text[]);
+
+  if not v_enabled then
+    v_refuse := 'Sign-ups are closed for this site.';
+  end if;
+
+  -- Domain rule. Case-insensitive; a sub-domain of an allowed domain passes, but a
+  -- domain that merely ends in the same letters does not (x@noteducation.nsw.gov.au).
+  -- An account with no email (a phone sign-up) cannot satisfy a domain list.
+  if v_refuse is null and cardinality(v_domains) > 0 then
+    v_email  := lower(btrim(event #>> '{user,email}'));
+    v_domain := substring(v_email from '@([^@]+)$');
+    if v_domain is null or not exists (
+         select 1 from unnest(v_domains) as d
+          where v_domain = d or right(v_domain, length(d) + 1) = '.' || d
+       ) then
+      v_refuse := 'That email address can''t be used to sign up here. Use your school email address.';
+    end if;
+  end if;
+
+  -- Daily cap. auth.users has no row for the account being created yet, so the count
+  -- is the accounts already made today; the cap is reached when that is >= the cap.
+  if v_refuse is null and v_cap is not null then
+    select count(*) into v_count
+      from auth.users
+     where created_at >= (date_trunc('day', now() at time zone 'UTC')) at time zone 'UTC';
+    if v_count >= v_cap then
+      v_refuse := 'Sign-ups are paused for today. Try again tomorrow.';
+    end if;
+  end if;
+
+  if v_refuse is null then
+    return '{}'::jsonb;
+  end if;
+  return jsonb_build_object('error', jsonb_build_object('http_code', 403, 'message', v_refuse));
+end; $$;
+
+-- ---- Grants ---------------------------------------------------------------------
+
+revoke all on public.signup_settings from anon, authenticated;
+grant select on public.signup_settings to authenticated;
+
+revoke all on function public.get_signup_settings() from public, anon;
+grant execute on function public.get_signup_settings() to authenticated;
+
+revoke all on function public.set_signup_settings(boolean, text[], integer) from public, anon;
+grant execute on function public.set_signup_settings(boolean, text[], integer) to authenticated;
+
+-- Nobody but the auth service may run the hook. Supabase's default privileges grant
+-- EXECUTE to anon and authenticated on new functions, so revoke both explicitly.
+revoke all on function public.hook_before_user_created(jsonb) from public, anon, authenticated;
+
+-- The hook's own access, granted only where the role exists. A real Supabase project
+-- always has supabase_auth_admin (and owns auth.users, so the grants below are no-ops
+-- there). A plain Postgres has no such role and skips them with a notice.
+do $$
+begin
+  if exists (select 1 from pg_roles where rolname = 'supabase_auth_admin') then
+    grant usage on schema public to supabase_auth_admin;
+    grant usage on schema auth to supabase_auth_admin;
+    grant select on auth.users to supabase_auth_admin;
+    grant select on public.signup_settings to supabase_auth_admin;
+    grant execute on function public.hook_before_user_created(jsonb) to supabase_auth_admin;
+
+    drop policy if exists "Auth admin reads signup settings" on public.signup_settings;
+    create policy "Auth admin reads signup settings"
+      on public.signup_settings for select
+      to supabase_auth_admin
+      using (true);
+  else
+    raise notice 'supabase_auth_admin not found: sign-up hook grants skipped (not a Supabase project)';
+  end if;
+end $$;
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================
