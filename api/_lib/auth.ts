@@ -12,6 +12,10 @@
  * used for local dev and the current keyless deployments. Enforcement turns on
  * automatically once an operator sets those two server-side env vars.
  *
+ * That passthrough is for mock mode only. In production with a provider key
+ * and no Supabase, `isUnguardedAiProxy()` fails closed instead, unless
+ * `ALLOW_ANONYMOUS_AI=true` is set.
+ *
  * That degradation has one exception, `isMisconfigured()` below: a production
  * deployment with the CLIENT-side Supabase variables but not the server-side
  * ones is not in mock mode, it is misconfigured, and passing its requests
@@ -69,6 +73,35 @@ export const isMisconfigured = (): boolean =>
   !isAuthEnabled() &&
   Boolean(process.env.VITE_SUPABASE_URL && process.env.VITE_SUPABASE_ANON_KEY);
 
+/** Provider keys the proxy would spend. Mirrors what api/gemini.ts and api/screen-contribution.ts read. */
+const PROVIDER_KEY_VARS = [
+  'GEMINI_API_KEY',
+  'API_KEY',
+  'ANTHROPIC_API_KEY',
+  'OPENROUTER_API_KEY',
+  'GROQ_API_KEY',
+  'KIMI_API_KEY',
+] as const;
+
+/**
+ * Is this a production deployment that holds a paid provider key but has no
+ * server-side Supabase, so nothing stops anonymous callers spending that key?
+ *
+ * This is the other half of the degradation rule. A deployment with no
+ * Supabase AND no provider key is mock mode and harmless. One with a key is
+ * an open proxy, because the auth gate has nothing to verify a token against.
+ * `isMisconfigured()` covers the half-configured case; this covers the
+ * unconfigured one.
+ *
+ * `ALLOW_ANONYMOUS_AI=true` is the deliberate opt-out for a single-user or demo
+ * deployment that accepts this. Production only: local dev is unchanged.
+ */
+export const isUnguardedAiProxy = (): boolean =>
+  process.env.NODE_ENV === 'production' &&
+  !isAuthEnabled() &&
+  PROVIDER_KEY_VARS.some((name) => Boolean(process.env[name]?.trim())) &&
+  process.env.ALLOW_ANONYMOUS_AI?.trim().toLowerCase() !== 'true';
+
 export const verifyRequestAuth = async (
   authorizationHeader: string | undefined
 ): Promise<AuthResult> => {
@@ -85,6 +118,19 @@ export const verifyRequestAuth = async (
         'AI proxy misconfigured: this deployment has client-side Supabase (VITE_SUPABASE_URL / ' +
         'VITE_SUPABASE_ANON_KEY) but not the server-side pair. Set SUPABASE_URL and ' +
         'SUPABASE_ANON_KEY to the same values in the hosting project so sessions can be verified.',
+    };
+  }
+
+  // Production with a provider key and no Supabase at all: refuse, unless the
+  // operator has said in writing that anonymous use is intended.
+  if (isUnguardedAiProxy()) {
+    return {
+      ok: false,
+      status: 503,
+      error:
+        'AI proxy disabled: this production deployment has an AI provider key but no Supabase ' +
+        'sign-in, so anyone could spend that key. Set SUPABASE_URL and SUPABASE_ANON_KEY to turn ' +
+        'sign-in on, or set ALLOW_ANONYMOUS_AI=true for a deliberate single-user or demo deployment.',
     };
   }
 

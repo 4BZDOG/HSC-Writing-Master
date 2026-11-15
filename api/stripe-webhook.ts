@@ -328,10 +328,16 @@ async function handleSubscriptionDeleted(
 
   // End any school licence backed by this subscription — members lose the
   // school plan at their next session refresh.
-  await supabase
+  const { error: schoolError } = await supabase
     .from('schools')
     .update({ plan_status: 'canceled', plan_period_end: null, plan_cancel_at_period_end: false })
     .eq('stripe_subscription_id', subId);
+  if (schoolError) {
+    // Thrown, not logged: the event is acknowledged with 200 otherwise and Stripe never
+    // retries, leaving the licence active. The handler's catch releases the claim.
+    console.error('[stripe-webhook] school licence cancel failed:', schoolError.message);
+    throw schoolError;
+  }
 
   // Find the user and downgrade their cached plan to free (unless they have
   // another active subscription, which resolve_stripe_plan handles). The customer
@@ -369,18 +375,28 @@ async function handleSubscriptionDeleted(
   }
   if (!userId) return;
 
-  // Use the DB function to resolve the correct plan (handles multiple subs).
-  const { data: resolvedPlan } = await supabase.rpc('resolve_stripe_plan', {
+  // Use the DB function to resolve the correct plan (handles multiple subs). An error
+  // here is thrown rather than defaulted to free: a failed lookup must not downgrade a
+  // user who still holds another live subscription.
+  const { data: resolvedPlan, error: resolveError } = await supabase.rpc('resolve_stripe_plan', {
     p_user_id: userId,
   });
+  if (resolveError) {
+    console.error('[stripe-webhook] resolve_stripe_plan failed:', resolveError.message);
+    throw resolveError;
+  }
 
-  await supabase
+  const { error: profileError } = await supabase
     .from('profiles')
     .update({
       stripe_plan: resolvedPlan ?? 'free',
       plan_period_end: null,
     })
     .eq('id', userId);
+  if (profileError) {
+    console.error('[stripe-webhook] profile downgrade failed:', profileError.message);
+    throw profileError;
+  }
 }
 
 /**
@@ -422,7 +438,30 @@ async function handlePaymentFailed(
     return;
   }
 
-  await supabase
+  // Only a subscription that already holds the plan can be past_due. A first charge
+  // that fails leaves a new subscription `incomplete`, and writing past_due over it
+  // would make openCheckout read a purchase that never completed as a live plan: the
+  // retry would be refused as "already subscribed", and the banner would promise access
+  // the customer never had. Any other status (or no row) is left as it is, unstamped,
+  // so the later subscription event still applies in order.
+  const { data: current, error: readError } = await supabase
+    .from('subscriptions')
+    .select('status')
+    .eq('id', subId)
+    .maybeSingle();
+  if (readError) {
+    console.error('[stripe-webhook] payment failure status read failed:', readError.message);
+    throw readError;
+  }
+  const currentStatus = current?.status as string | undefined;
+  if (!currentStatus || !PLAN_HOLDING_STATUSES.includes(currentStatus)) {
+    console.log(
+      `[stripe-webhook] payment failure for ${subId} left status '${currentStatus ?? 'missing'}' unchanged`
+    );
+    return;
+  }
+
+  const { error: updateError } = await supabase
     .from('subscriptions')
     .update({
       status: 'past_due',
@@ -430,7 +469,14 @@ async function handlePaymentFailed(
       ...eventStamp(eventCreated),
     })
     .eq('id', subId);
+  if (updateError) {
+    console.error('[stripe-webhook] past_due update failed:', updateError.message);
+    throw updateError;
+  }
 }
+
+/** Statuses that hold a paid plan, and so can move to past_due when a charge fails. */
+const PLAN_HOLDING_STATUSES = ['active', 'trialing', 'past_due'];
 
 // Vercel raw-body config: disable the default JSON parser so we get the raw
 // string for signature verification.

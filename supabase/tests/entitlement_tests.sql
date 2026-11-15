@@ -151,6 +151,57 @@ begin
 end $$;
 rollback;
 
+-- ---- 2b. refund_evaluation() gives one back, never below zero ----------------
+begin;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000e1","role":"authenticated"}';
+set local role authenticated;
+
+do $$
+begin
+  perform public.consume_evaluation();
+  perform public.consume_evaluation();
+end $$;
+
+-- An end user must not be able to refund their own evaluations: that would be
+-- unlimited free marking.
+do $$
+begin
+  begin
+    perform public.refund_evaluation('00000000-0000-0000-0000-0000000000e1'::uuid);
+    raise exception 'TEST FAILED: an authenticated user could call refund_evaluation()';
+  exception when insufficient_privilege then
+    raise notice 'PASS: refund_evaluation() is not callable by an authenticated user';
+  end;
+end $$;
+
+-- The server can: service_role holds the execute grant, and the call itself runs
+-- here as the test's superuser (the CI shim gives service_role no schema usage).
+reset role;
+do $$
+declare
+  v_used integer;
+begin
+  if not has_function_privilege('service_role', 'public.refund_evaluation(uuid)', 'execute') then
+    raise exception 'TEST FAILED: service_role cannot execute refund_evaluation()';
+  end if;
+  if has_function_privilege('anon', 'public.refund_evaluation(uuid)', 'execute') then
+    raise exception 'TEST FAILED: anon can execute refund_evaluation()';
+  end if;
+
+  v_used := (public.refund_evaluation('00000000-0000-0000-0000-0000000000e1'::uuid)->>'used')::integer;
+  if v_used <> 1 then
+    raise exception 'TEST FAILED: refund left the count at % (expected 1)', v_used;
+  end if;
+
+  perform public.refund_evaluation('00000000-0000-0000-0000-0000000000e1'::uuid);
+  v_used := (public.refund_evaluation('00000000-0000-0000-0000-0000000000e1'::uuid)->>'used')::integer;
+  if v_used <> 0 then
+    raise exception 'TEST FAILED: refund took the count to % (expected 0, never below)', v_used;
+  end if;
+  raise notice 'PASS: refund_evaluation() gives back one and never goes below zero';
+end $$;
+rollback;
+
 -- ---- 3. Paid plans, staff and school members are never metered -------------
 begin;
 do $$

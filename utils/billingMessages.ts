@@ -35,6 +35,8 @@ const SERVER_SENTENCE_CODES = new Set([
   'school_licence_held', // "Your school already has a School licence…"
   'school_role_required', // a student tried to buy a licence: a role refusal, not an outage
   'account_lookup_failed', // a retryable check on the account, with its own sentence
+  'purchase_pending', // "Your last purchase is still being confirmed…", a 409 that is not "already subscribed"
+  'checkout_starting', // the same checkout is already being created, so retry shortly
 ]);
 
 const UNAVAILABLE: Record<BillingAction, string> = {

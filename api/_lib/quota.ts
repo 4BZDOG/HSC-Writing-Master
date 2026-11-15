@@ -14,7 +14,26 @@
  * window. Like the auth gate, quotas are disabled entirely when the server
  * has no Supabase configured (mock-mode parity).
  */
+import { getSupabaseAdmin } from './supabaseAdmin';
 import { createClient } from '@supabase/supabase-js';
+
+/**
+ * Upper bound on any single Supabase request made from the request path. A
+ * stalled Supabase would otherwise hold the call until Vercel's 60s kill returns
+ * a non-JSON 504. The fail-open paths below turn the abort into "allowed" (or
+ * "not gated"), exactly as they do for any other error.
+ */
+const SUPABASE_TIMEOUT_MS = 5000;
+
+/** How long recordAiModelUsage may hold its caller before giving up waiting. */
+const RECORD_USAGE_WAIT_MS = 1500;
+
+/** fetch with a deadline; a caller-supplied signal is honoured as well. */
+const timedFetch = (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
+  const timeout = AbortSignal.timeout(SUPABASE_TIMEOUT_MS);
+  const signal = init?.signal ? AbortSignal.any([init.signal, timeout]) : timeout;
+  return fetch(input, { ...init, signal });
+};
 
 export interface QuotaVerdict {
   allowed: boolean;
@@ -46,7 +65,7 @@ export const consumeAiQuota = async (accessToken: string): Promise<QuotaVerdict 
     // so a caller can only ever spend their own allowance.
     const client = createClient(url, anonKey, {
       auth: { persistSession: false },
-      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+      global: { headers: { Authorization: `Bearer ${accessToken}` }, fetch: timedFetch },
     });
     const { data, error } = await client.rpc('consume_ai_quota');
     if (error || !data || typeof (data as QuotaVerdict).allowed !== 'boolean') {
@@ -95,7 +114,7 @@ export const consumeEvaluation = async (accessToken: string): Promise<Evaluation
     // so a caller can only ever spend their own allowance.
     const client = createClient(url, anonKey, {
       auth: { persistSession: false },
-      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+      global: { headers: { Authorization: `Bearer ${accessToken}` }, fetch: timedFetch },
     });
     const { data, error } = await client.rpc('consume_evaluation');
     if (error || !data || typeof (data as EvaluationVerdict).allowed !== 'boolean') {
@@ -109,6 +128,39 @@ export const consumeEvaluation = async (accessToken: string): Promise<Evaluation
   } catch (e) {
     console.warn('[quota] consume_evaluation failed — allowing evaluation (fail-open):', e);
     return null;
+  }
+};
+
+/**
+ * Give back the evaluation consumeEvaluation() spent, when the marking call then
+ * fails before an answer exists (AI quota refused, provider error). Best-effort:
+ * a missed refund costs the student one free evaluation, so every error is
+ * logged and swallowed rather than thrown into the request.
+ *
+ * Runs with the SERVICE ROLE, for the verified user id, because
+ * refund_evaluation() is deliberately not callable by end users: a refund a
+ * student could call themselves would be unlimited free marking.
+ */
+export const refundEvaluation = async (userId: string): Promise<void> => {
+  const admin = getSupabaseAdmin();
+  if (!admin) return;
+
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  try {
+    const timeout = new Promise<{ error: { message: string } }>((resolve) => {
+      timer = setTimeout(() => resolve({ error: { message: 'timed out' } }), SUPABASE_TIMEOUT_MS);
+    });
+    const { error } = await Promise.race([
+      admin.rpc('refund_evaluation', { p_user: userId }),
+      timeout,
+    ]);
+    if (error) {
+      console.warn('[quota] refund_evaluation failed (evaluation not returned):', error.message);
+    }
+  } catch (e) {
+    console.warn('[quota] refund_evaluation failed (evaluation not returned):', e);
+  } finally {
+    clearTimeout(timer);
   }
 };
 
@@ -135,7 +187,7 @@ export const resolveCallerPlan = async (
   try {
     const client = createClient(url, anonKey, {
       auth: { persistSession: false },
-      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+      global: { headers: { Authorization: `Bearer ${accessToken}` }, fetch: timedFetch },
     });
     const { data, error } = await client.rpc('caller_plan');
     if (error || (data !== 'free' && data !== 'plus' && data !== 'school')) {
@@ -166,19 +218,37 @@ export const recordAiModelUsage = async (accessToken: string, model: string): Pr
   const anonKey = process.env.SUPABASE_ANON_KEY;
   if (!url || !anonKey || !model) return;
 
-  try {
-    // The user's own JWT scopes the RPC to their auth.uid(), so a caller can
-    // only ever record against their own tally.
-    const client = createClient(url, anonKey, {
-      auth: { persistSession: false },
-      global: { headers: { Authorization: `Bearer ${accessToken}` } },
-    });
-    const { error } = await client.rpc('record_ai_model_usage', { p_model: model });
-    if (error) {
-      console.warn('[quota] record_ai_model_usage unavailable (ignored):', error.message);
+  // The handler awaits this before the provider call, so it must not hold the
+  // request. The write carries on in the background and swallows its own errors;
+  // the race only stops the await from waiting on it past RECORD_USAGE_WAIT_MS.
+  const write = (async () => {
+    try {
+      // The user's own JWT scopes the RPC to their auth.uid(), so a caller can
+      // only ever record against their own tally.
+      const client = createClient(url, anonKey, {
+        auth: { persistSession: false },
+        global: { headers: { Authorization: `Bearer ${accessToken}` }, fetch: timedFetch },
+      });
+      const { error } = await client.rpc('record_ai_model_usage', { p_model: model });
+      if (error) {
+        console.warn('[quota] record_ai_model_usage unavailable (ignored):', error.message);
+      }
+    } catch (e) {
+      console.warn('[quota] record_ai_model_usage failed (ignored):', e);
     }
-  } catch (e) {
-    console.warn('[quota] record_ai_model_usage failed (ignored):', e);
+  })();
+
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const deadline = new Promise<void>((resolve) => {
+    timer = setTimeout(() => {
+      console.warn('[quota] record_ai_model_usage still pending — continuing (ignored)');
+      resolve();
+    }, RECORD_USAGE_WAIT_MS);
+  });
+  try {
+    await Promise.race([write, deadline]);
+  } finally {
+    clearTimeout(timer);
   }
 };
 
@@ -199,7 +269,7 @@ export const resolveCallerIsStaff = async (accessToken: string): Promise<boolean
   try {
     const client = createClient(url, anonKey, {
       auth: { persistSession: false },
-      global: { headers: { Authorization: `Bearer ${accessToken}` } },
+      global: { headers: { Authorization: `Bearer ${accessToken}` }, fetch: timedFetch },
     });
     const { data, error } = await client.rpc('is_reviewer');
     if (error) {

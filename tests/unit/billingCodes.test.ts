@@ -27,9 +27,7 @@ describe('the codes the client reads are the codes the server sends', () => {
 
   it('keeps the 409 for a live subscription without a code, so the portal route still applies to it', () => {
     // The live-subscription refusal is answered with its sentence and no `code`.
-    expect(serverSource).toMatch(
-      /res\.status\(409\)\.json\(\{\s*error:\s*live \? ALREADY_SUBSCRIBED/
-    );
+    expect(serverSource).toMatch(/\{\s*error:\s*ALREADY_SUBSCRIBED\s*\}/);
     expect(serverSource).toMatch(
       /const ALREADY_SUBSCRIBED =\s*\n?\s*'You already have an active subscription/
     );
@@ -69,6 +67,28 @@ describe('billingErrorMessage: the server sentence for the three coded refusals'
         code: BILLING_CODE.accountLookupFailed,
       })
     ).toBe(lookup);
+  });
+
+  it('shows the purchase-pending sentence on a 409, not an outage or "already subscribed"', () => {
+    const pending = 'Your last purchase is still being confirmed. Try again shortly.';
+    expect(
+      billingErrorMessage('checkout', {
+        status: 409,
+        error: pending,
+        code: BILLING_CODE.purchasePending,
+      })
+    ).toBe(pending);
+  });
+
+  it('shows the checkout-starting sentence on a 409, not the outage sentence', () => {
+    const starting = 'Your checkout is already being created. Try again in a moment.';
+    expect(
+      billingErrorMessage('checkout', {
+        status: 409,
+        error: starting,
+        code: BILLING_CODE.checkoutStarting,
+      })
+    ).toBe(starting);
   });
 
   it('still maps an uncoded 403 to the outage sentence, so the old behaviour holds', () => {

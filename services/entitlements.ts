@@ -896,6 +896,10 @@ export const BILLING_CODE = {
   schoolLicenceHeld: 'school_licence_held',
   schoolRoleRequired: 'school_role_required',
   accountLookupFailed: 'account_lookup_failed',
+  /** A purchase is still settling, so there is nothing new to buy yet. Not "already subscribed". */
+  purchasePending: 'purchase_pending',
+  /** The same checkout is being created in another request. Retry shortly. */
+  checkoutStarting: 'checkout_starting',
 } as const;
 
 /**

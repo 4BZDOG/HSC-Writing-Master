@@ -178,6 +178,9 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   }
 
   const prices = await currentPrices();
-  res.setHeader?.('Cache-Control', CACHE_CONTROL);
+  // An empty answer means Stripe could not be read, so it must not sit in the CDN for
+  // the cache window. Only a real answer is cached.
+  const empty = Object.keys(prices).length === 0;
+  res.setHeader?.('Cache-Control', empty ? 'no-store' : CACHE_CONTROL);
   res.status(200).json({ prices });
 }

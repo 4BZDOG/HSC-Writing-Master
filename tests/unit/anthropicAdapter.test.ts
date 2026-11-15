@@ -1,5 +1,43 @@
-import { describe, it, expect } from 'vitest';
-import { geminiToAnthropicRequest, anthropicToClientResponse } from '../../api/_lib/anthropic';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import {
+  geminiToAnthropicRequest,
+  anthropicToClientResponse,
+  runAnthropicProxy,
+} from '../../api/_lib/anthropic';
+import { PROVIDER_TIMEOUT_MESSAGE } from '../../api/_lib/providerTimeout';
+
+describe('runAnthropicProxy timeout', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('passes a deadline signal to the upstream fetch', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response('{}', { status: 500 }));
+    vi.stubGlobal('fetch', fetchMock);
+    await runAnthropicProxy('key', { contents: { parts: [{ text: 'q' }] } });
+    const init = fetchMock.mock.calls[0][1] as RequestInit;
+    expect(init.signal).toBeDefined();
+  });
+
+  it('maps an aborted upstream call to a JSON 504 with the British-English message', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockRejectedValue(new DOMException('The operation timed out.', 'TimeoutError'))
+    );
+    const result = await runAnthropicProxy('key', { contents: { parts: [{ text: 'q' }] } });
+    expect(result.status).toBe(504);
+    expect(result.body).toEqual({ error: PROVIDER_TIMEOUT_MESSAGE });
+    expect(PROVIDER_TIMEOUT_MESSAGE).toBe(
+      'The AI provider took too long to respond. Please try again.'
+    );
+  });
+
+  it('keeps a non-timeout network failure as a 502', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('fetch failed')));
+    const result = await runAnthropicProxy('key', { contents: { parts: [{ text: 'q' }] } });
+    expect(result.status).toBe(502);
+  });
+});
 
 /**
  * The Anthropic adapter translates the app's Gemini-shaped requests into the

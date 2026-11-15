@@ -82,6 +82,7 @@ create table if not exists public.courses (
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
+create index if not exists idx_courses_created_by on public.courses (created_by);
 
 create table if not exists public.course_outcomes (
   id          uuid primary key default gen_random_uuid(),
@@ -204,7 +205,9 @@ create index if not exists idx_dotpoints_subtopic  on public.dot_points (sub_top
 create index if not exists idx_prompts_dotpoint    on public.prompts (dot_point_id);
 create index if not exists idx_prompts_status      on public.prompts (status);
 create index if not exists idx_prompts_created_by  on public.prompts (created_by);
+create index if not exists idx_prompts_reviewed_by on public.prompts (reviewed_by);
 create index if not exists idx_answers_prompt      on public.sample_answers (prompt_id);
+create index if not exists idx_answers_created_by  on public.sample_answers (created_by);
 create index if not exists idx_responses_user      on public.responses (user_id);
 create index if not exists idx_responses_prompt    on public.responses (prompt_id);
 -- One row per (student, prompt): the latest attempt + AI feedback. Lets the
@@ -2172,6 +2175,41 @@ begin
     'allowed', true, 'used', v_used, 'limit', v_limit, 'unlimited', false);
 end; $$;
 
+-- Give back one evaluation spent by consume_evaluation() when the marking call
+-- then fails before an answer exists (AI quota refused, provider error). Takes
+-- one off today's counter for p_user, never below zero. A no-op when the user
+-- has no row today or is unlimited (never metered, so nothing to refund).
+--
+-- SERVER ONLY. Callable by service_role and nobody else: a refund an end user
+-- could call would let a free account mark an answer, refund it, and repeat
+-- for unlimited free evaluations. The API decides when a refund is owed and
+-- calls this with the service-role key (api/_lib/quota.ts refundEvaluation).
+drop function if exists public.refund_evaluation();
+create or replace function public.refund_evaluation(p_user uuid)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_used  integer;
+begin
+  if p_user is null then
+    raise exception 'refund_evaluation: p_user is required';
+  end if;
+
+  if public.has_unlimited_evaluations(p_user) then
+    return jsonb_build_object('refunded', false, 'used', 0, 'unlimited', true);
+  end if;
+
+  update public.evaluation_usage
+     set evaluations = greatest(evaluations - 1, 0)
+   where user_id = p_user and day = (now() at time zone 'utc')::date
+  returning evaluations into v_used;
+
+  return jsonb_build_object(
+    'refunded', v_used is not null, 'used', coalesce(v_used, 0), 'unlimited', false);
+end; $$;
+
+revoke all on function public.refund_evaluation(uuid) from public, anon, authenticated;
+grant execute on function public.refund_evaluation(uuid) to service_role;
+
 -- Read-only view of today's evaluation allowance (does not consume), so the
 -- client can show an accurate count instead of trusting localStorage.
 create or replace function public.get_evaluation_status()
@@ -2589,6 +2627,7 @@ create table if not exists public.classes (
 );
 create index if not exists classes_owner_idx  on public.classes (owner_id);
 create index if not exists classes_school_idx on public.classes (school_id);
+create index if not exists classes_course_idx on public.classes (course_id);
 
 create table if not exists public.class_members (
   class_id  uuid not null references public.classes (id) on delete cascade,
@@ -3254,6 +3293,9 @@ create table if not exists public.course_request_voices (
 
 create index if not exists course_request_voices_request_idx
   on public.course_request_voices (request_id);
+-- The primary key leads with request_id, so a lookup by voter needs its own index.
+create index if not exists course_request_voices_user_idx
+  on public.course_request_voices (user_id);
 
 alter table public.course_requests       enable row level security;
 alter table public.course_request_voices enable row level security;
@@ -4086,6 +4128,8 @@ create unique index if not exists licence_requests_one_pending_idx
 -- The per-user cap (more than 3 requests in 24 hours) counts by requester.
 create index if not exists licence_requests_requester_idx
   on public.licence_requests (requested_by, created_at);
+create index if not exists licence_requests_decided_by_idx
+  on public.licence_requests (decided_by);
 
 drop trigger if exists trg_licence_requests_updated on public.licence_requests;
 create trigger trg_licence_requests_updated before update on public.licence_requests
@@ -4440,6 +4484,7 @@ create table if not exists public.guardian_invites (
   constraint guardian_invites_code_shape check (code ~ '^[A-HJ-NP-Z2-9]{8}$')
 );
 create index if not exists guardian_invites_student_idx on public.guardian_invites (student_id);
+create index if not exists guardian_invites_redeemed_by_idx on public.guardian_invites (redeemed_by);
 
 -- One row per failed redeem, so the attempt limit can count them. Written for a bad,
 -- unknown, used, expired or own code alike. Rows older than a day are deleted by the

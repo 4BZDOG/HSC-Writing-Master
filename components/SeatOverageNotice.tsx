@@ -79,7 +79,8 @@ const SeatOverageNotice: React.FC<{ user: User }> = ({ user }) => {
   const openPortal = async () => {
     setIsOpeningPortal(true);
     setPortalError(null);
-    const { url, error } = await createPortalUrl();
+    // Seat overage is a school-licence matter, so the portal opened is the school's.
+    const { url, error } = await createPortalUrl('school');
     if (url) {
       window.location.href = url;
       return;

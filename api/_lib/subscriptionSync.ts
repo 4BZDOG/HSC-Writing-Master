@@ -350,7 +350,21 @@ export async function applySubscriptionUpsert(
   // exhausted (customer.subscription.deleted also fires for cancellations).
   // The client reads the subscription row's `past_due` status directly
   // (RLS: users read own subscriptions) to show a fix-your-payment banner.
-  const activePlan = planKeepingStatus ? plan : 'free';
+  // A terminal subscription must not drop the holder to free while they still hold
+  // another live one, so the plan is resolved across all their rows (the upsert above
+  // has already written this row's new status). holderId is the beneficiary for a
+  // guardian purchase, which is whose plan this is.
+  let activePlan: string = plan;
+  if (!planKeepingStatus) {
+    const { data: resolved, error: resolveError } = await supabase.rpc('resolve_stripe_plan', {
+      p_user_id: holderId,
+    });
+    if (resolveError) {
+      console.error('[stripe-webhook] resolve_stripe_plan failed:', resolveError.message);
+      throw resolveError;
+    }
+    activePlan = (resolved as string | null | undefined) ?? 'free';
+  }
   const { error: profileError } = await supabase
     .from('profiles')
     .update({
@@ -385,9 +399,11 @@ export async function applySubscriptionUpsert(
   }
 
   // School seat licence: sync the purchaser's school so every member holds
-  // the plan (the client resolves membership → plan at sign-in). Best-effort:
-  // a purchaser without a school still gets the plan personally, and an admin
-  // can attach the school later.
+  // the plan (the client resolves membership → plan at sign-in). A purchaser
+  // without a school still gets the plan personally, and an admin can attach
+  // the school later. A school write that fails is thrown, not logged: the
+  // event would otherwise be acknowledged and never retried, leaving the school
+  // on a stale status. The upsert is idempotent, so a retry is safe.
   if (plan === 'school' && !beneficiaryId) {
     if (schoolId) {
       // Checked before the write: the row still names the licence this write replaces.
@@ -415,6 +431,7 @@ export async function applySubscriptionUpsert(
         .eq('id', schoolId);
       if (schoolError) {
         console.error('[stripe-webhook] school licence sync failed:', schoolError.message);
+        throw schoolError;
       }
     } else {
       console.warn(

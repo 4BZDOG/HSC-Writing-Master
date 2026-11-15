@@ -44,9 +44,7 @@ const COURSE_DATA_DIR = resolve(__dirname, '..', 'public', 'courseData');
 const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SEED_ADMIN_ID } = process.env;
 
 if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) {
-  console.error(
-    'Missing env. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before running.'
-  );
+  console.error('Missing env. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY before running.');
   process.exit(1);
 }
 
@@ -61,11 +59,23 @@ const createdBy = SEED_ADMIN_ID || null; // owner of seeded content
 /** Insert a row and return its new id, reusing an existing row by legacy_id. */
 async function upsert(table, matchCol, matchVal, row) {
   if (matchVal) {
-    const { data: existing, error: selErr } = await db
-      .from(table)
-      .select('id')
-      .eq(matchCol, matchVal)
-      .maybeSingle();
+    // Look up by the same owner the partial unique indexes key on (schema.sql
+    // ~607-626). A user's own copy of a seeded item can carry the same legacy_id,
+    // so matching on legacy_id alone found two rows (maybeSingle() errors) or
+    // overwrote the user's private copy as approved. Rows the seed writes without
+    // a created_by (topics, sub-topics, dot points) match on null, as they are stored.
+    // With an owner set, an owner-less row from an earlier seed run (before
+    // SEED_ADMIN_ID was set) is adopted rather than duplicated; the owner's own
+    // row wins when both exist.
+    const owner = row.created_by ?? null;
+    let query = db.from(table).select('id').eq(matchCol, matchVal);
+    query = owner
+      ? query
+          .or(`created_by.eq.${owner},created_by.is.null`)
+          .order('created_by', { ascending: true, nullsFirst: false })
+          .limit(1)
+      : query.is('created_by', null);
+    const { data: existing, error: selErr } = await query.maybeSingle();
     if (selErr) throw new Error(`${table} lookup failed: ${selErr.message}`);
     if (existing) {
       const { error: updErr } = await db.from(table).update(row).eq('id', existing.id);
