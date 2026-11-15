@@ -112,7 +112,7 @@ vi.mock('../../pdf/fontLoader', () => ({
   loadInterFont: vi.fn(async () => false),
 }));
 
-const { exportEvaluationPdf, PdfExportError, sanitizeFilename, meterStep } =
+const { exportEvaluationPdf, PdfExportError, sanitizeFilename, meterStep, feedbackFilename } =
   await import('../../pdf/exportEvaluation');
 
 const data = (over: Partial<EvaluationExportData> = {}): EvaluationExportData => ({
@@ -134,6 +134,40 @@ const data = (over: Partial<EvaluationExportData> = {}): EvaluationExportData =>
 
 beforeEach(() => {
   saveThrows = false;
+});
+
+describe('the marking report file name', () => {
+  it('names the course, verb and day, so a class set does not collide', () => {
+    expect(
+      feedbackFilename({
+        course: 'Enterprise Computing',
+        verb: 'explain',
+        date: new Date(2026, 10, 5, 9, 30),
+      })
+    ).toBe('HSC-Feedback-Enterprise-Computing-EXPLAIN-2026-11-05.pdf');
+  });
+
+  it('drops the course cleanly when there is none, and never carries a student name or a band', () => {
+    expect(feedbackFilename({ verb: 'IDENTIFY', date: new Date(2026, 0, 31) })).toBe(
+      'HSC-Feedback-IDENTIFY-2026-01-31.pdf'
+    );
+  });
+});
+
+describe('the score summary cells', () => {
+  it('has no metrics cell when there is no word count or key-term count', () => {
+    const [summary] = buildEvaluationBlocks(data()).filter((b) => b.kind === 'scoreSummary');
+    expect(summary.metricLabel).toBeUndefined();
+    expect(summary.runs[0].text).toBe('');
+  });
+
+  it('labels the metrics cell when there is something to show in it', () => {
+    const [summary] = buildEvaluationBlocks(
+      data({ wordCount: 120, keywordsUsed: 2, keywordsTotal: 5 })
+    ).filter((b) => b.kind === 'scoreSummary');
+    expect(summary.metricLabel).toBe('Response');
+    expect(summary.runs[0].text).toBe('120 words\n2 of 5 key terms');
+  });
 });
 
 describe('exporting a report', () => {

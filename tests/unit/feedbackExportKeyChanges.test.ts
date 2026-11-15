@@ -16,7 +16,10 @@ vi.mock('../../services/entitlements', async (importOriginal) => {
   return { ...actual, isFeatureLocked: vi.fn(() => false) };
 });
 
-vi.mock('../../pdf', () => ({ exportEvaluationPdf: vi.fn(async () => undefined) }));
+vi.mock('../../pdf', () => ({
+  exportEvaluationPdf: vi.fn(async () => undefined),
+  feedbackFilename: () => 'HSC-Feedback-EXPLAIN.pdf',
+}));
 
 const prompt = {
   id: 'p1',

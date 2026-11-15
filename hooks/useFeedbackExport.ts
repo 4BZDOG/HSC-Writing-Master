@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import type { ToastType } from './useToast';
 import { EvaluationResult, HierarchyContext, Prompt } from '../types';
-import { exportEvaluationPdf } from '../pdf';
+import { exportEvaluationPdf, feedbackFilename } from '../pdf';
 import {
   PdfExportPreferences,
   readPdfPreferences,
@@ -98,7 +98,11 @@ export function useFeedbackExport({
         pageSize: pdfPrefs.pageSize,
         copies: pdfPrefs.copies,
         showFields: pdfPrefs.showFields,
-        filename: `HSC-${prompt.verb}-Band${result.overallBand}-Feedback`,
+        filename: feedbackFilename({
+          course: hierarchy?.course,
+          verb: prompt.verb,
+          date: new Date(),
+        }),
         // The COURSE, not the topic and sub-topic — those are the middle two
         // segments of the syllabus trail printed a centimetre below, so the
         // masthead was repeating the trail verbatim while the one thing the

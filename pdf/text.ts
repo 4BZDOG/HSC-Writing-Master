@@ -61,7 +61,41 @@ export const toText = (input: string): string => {
   // Subscripts: _{...} or _digits.
   s = expandSubscriptsToUnicode(s);
 
+  // Scripts the embedded Inter does not contain (CJK, kana, Hangul, Arabic,
+  // Hebrew, Indic, Thai). jsPDF maps a missing glyph to .notdef, which prints
+  // as nothing at all: the word is silently gone from the paper while the
+  // screen shows it. A "?" per character keeps the count honest and tells the
+  // reader something is there.
+  s = Array.from(s, (ch) => (isUnsupportedScript(ch) ? '?' : ch)).join('');
+
   return s;
+};
+
+/**
+ * Code-point ranges the bundled Inter (public/fonts/Inter-Regular.ttf) has no
+ * glyph for. Checked against its cmap: Hebrew, Arabic, Indic, Thai (bar the baht
+ * sign), kana, Hangul, CJK and fullwidth forms are all absent. Latin, Greek,
+ * Cyrillic and the superscript/subscript blocks are present, so they are not
+ * listed. Emoji are excluded: the canvas raster path draws them.
+ */
+const UNSUPPORTED_SCRIPT_BLOCKS: ReadonlyArray<readonly [number, number]> = [
+  [0x0590, 0x06ff], // Hebrew, Arabic
+  [0x0900, 0x0dff], // Indic
+  [0x0e01, 0x0e3e], // Thai, without the baht sign at U+0E3F
+  [0x0e40, 0x0e7f],
+  [0x3000, 0x303f], // CJK symbols and punctuation
+  [0x3040, 0x30ff], // Hiragana, Katakana
+  [0x3100, 0x312f], // Bopomofo
+  [0x3400, 0x4dbf], // CJK extension A
+  [0x4e00, 0x9fff], // CJK unified ideographs
+  [0xac00, 0xd7af], // Hangul
+  [0xf900, 0xfaff], // CJK compatibility ideographs
+  [0xff00, 0xffef], // Halfwidth and fullwidth forms
+];
+
+const isUnsupportedScript = (ch: string): boolean => {
+  const cp = ch.codePointAt(0) ?? 0;
+  return UNSUPPORTED_SCRIPT_BLOCKS.some(([lo, hi]) => cp >= lo && cp <= hi);
 };
 
 // --- HTML stripping (whitelist-based, comparison-safe) ---------------------

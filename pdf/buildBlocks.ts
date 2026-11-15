@@ -433,6 +433,7 @@ export const buildEvaluationBlocks = (
     inkAccent,
     bandScale: shownBand,
     bandScaleMax,
+    metricLabel: metricBits.length ? 'Response' : undefined,
     runs: [run(metricBits.join('\n'), 8.5, { style: 'bold', color: COLORS.body })],
     basePadTop: 1,
     basePadBottom: 3,

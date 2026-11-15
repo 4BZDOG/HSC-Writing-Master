@@ -23,7 +23,10 @@ vi.mock('../../services/entitlements', async (importOriginal) => {
 });
 
 const exportEvaluationPdf = vi.fn();
-vi.mock('../../pdf', () => ({ exportEvaluationPdf: (opts: unknown) => exportEvaluationPdf(opts) }));
+vi.mock('../../pdf', () => ({
+  exportEvaluationPdf: (opts: unknown) => exportEvaluationPdf(opts),
+  feedbackFilename: () => 'HSC-Feedback-EXPLAIN.pdf',
+}));
 
 import EvaluationDisplay from '../../components/EvaluationDisplay';
 
