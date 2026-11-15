@@ -93,6 +93,28 @@ const TARGET_PAGES_WITH_ANSWER = 3;
 const ASCENT = 0.82; // approximate baseline offset as a fraction of em
 const ascentMm = (fontPt: number) => fontPt * MM_PER_PT * ASCENT;
 
+/**
+ * The download name for a marking report: `HSC-Feedback-<course>-<VERB>-<yyyy-mm-dd>.pdf`,
+ * the same shape as the progress report's `HSC-Progress-Report-…`.
+ *
+ * Every report used to be `HSC-<VERB>-Band<n>-Feedback`, so a class set printed
+ * in one afternoon saved as "… (1).pdf", "… (2).pdf" with nothing to say which
+ * course or day each came from. The date is ISO so the files sort. No student
+ * name and no band: the file often leaves the room with a teacher or a parent,
+ * and a result does not belong in a name that sits in a Downloads folder.
+ */
+export const feedbackFilename = (opts: { course?: string; verb: string; date: Date }): string => {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const day = `${opts.date.getFullYear()}-${pad(opts.date.getMonth() + 1)}-${pad(opts.date.getDate())}`;
+  const parts = ['HSC-Feedback', opts.course?.trim(), opts.verb.trim().toUpperCase(), day];
+  return sanitizeFilename(
+    parts
+      .filter((p): p is string => Boolean(p))
+      .join('-')
+      .replace(/\s+/g, '-')
+  );
+};
+
 /** Strip filesystem-hostile characters and force a .pdf extension. */
 export const sanitizeFilename = (name: string): string => {
   const base = (name || 'export')
@@ -716,8 +738,10 @@ const drawScoreSummary = (
   const metricW = SCORE_SUMMARY.metricCellBaseMm * pScale;
   const markX = xLeft + bar + pad;
   const bandX = markX + markW + gap;
+  // No metrics, no third cell: the band cell takes the space instead.
+  const hasMetrics = Boolean(block.metricLabel);
   const metricX = xLeft + colW - pad - metricW;
-  const bandW = metricX - gap - bandX;
+  const bandW = (hasMetrics ? metricX - gap : xLeft + colW - pad) - bandX;
   const labelPt = SCORE_SUMMARY.labelPt * pScale;
   const labelBase = top + pad + ascentMm(labelPt);
   const bodyTop = top + pad + labelPt * SCORE_SUMMARY.labelLineFactor * MM_PER_PT;
@@ -725,7 +749,8 @@ const drawScoreSummary = (
   // Hairlines between the cells, so the three read as one instrument.
   doc.setDrawColor(accent[0], accent[1], accent[2]);
   doc.setLineWidth(SCORE_SUMMARY.cellRuleBaseMm * pScale);
-  for (const rx of [bandX - gap / 2, metricX - gap / 2]) {
+  const rules = hasMetrics ? [bandX - gap / 2, metricX - gap / 2] : [bandX - gap / 2];
+  for (const rx of rules) {
     doc.line(rx, top + pad, rx, top + boxH - pad);
   }
 
@@ -779,7 +804,8 @@ const drawScoreSummary = (
   }
 
   // Cell 3 — the metrics, one fact per line.
-  drawDisplayLine(doc, 'Response', {
+  if (!hasMetrics) return;
+  drawDisplayLine(doc, block.metricLabel ?? 'Response', {
     ...ctx,
     x: metricX,
     y: labelBase,

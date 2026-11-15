@@ -123,7 +123,7 @@ const settledChrome = async (page: Page): Promise<Chrome> => {
 };
 
 /** How tall a header may be before it is carrying empty space again. */
-const HEADER_CEILING = 96;
+const HEADER_CEILING = 84;
 
 test.describe('workspace card chrome', () => {
   test.describe.configure({ timeout: 120_000 });
@@ -140,14 +140,14 @@ test.describe('workspace card chrome', () => {
     // the two-column breakpoint itself, where the question card is narrowest
     // and its header has least room before it wraps.
     //
-    // 1360 and 1359 are the two sides of the heading's own step (see
-    // CARD_HEADER_TITLE): above it the heading takes 24px, below it 20px,
-    // because 24px is where the response card's corner bar stops fitting
+    // 1440 and 1439, and 1360 and 1359, are the two sides of the heading's two steps (see
+    // CARD_HEADER_TITLE): above it the heading takes 28px, below it 24px,
+    // because 28px is where the response card's corner bar stops fitting
     // beside the heading and drops to its own line — while the question
     // card's, being narrower, stays up. That is exactly the 44px split this
     // test caught when the step was first set at `sm`, so both sides of it
     // are measured rather than the safe one alone.
-    for (const width of [1600, 1440, 1360, 1359, 1280]) {
+    for (const width of [1600, 1440, 1439, 1360, 1359, 1280]) {
       await page.setViewportSize({ width, height: 1000 });
       // Polled until the height sync has settled, not waited out: see settledChrome.
       const { prompt, response } = await settledChrome(page);

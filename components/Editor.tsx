@@ -897,7 +897,7 @@ const Editor = forwardRef<
                     why the focus-mode button at its end was once easily missed. */}
                 <div
                   data-card-bar
-                  className={`${CARD_HEADER_BAR} gap-0 sm:gap-1 max-sm:col-span-full max-sm:justify-between max-sm:px-0 max-sm:bg-transparent max-sm:border-0 max-sm:shadow-none max-sm:backdrop-blur-none ${
+                  className={`${CARD_HEADER_BAR} gap-0 sm:gap-0.5 max-sm:col-span-full max-sm:justify-between max-sm:px-0 max-sm:bg-transparent max-sm:border-0 max-sm:shadow-none max-sm:backdrop-blur-none ${
                     isExamMode ? 'max-sm:row-start-3' : 'max-sm:row-start-2'
                   }`}
                 >
@@ -931,7 +931,7 @@ const Editor = forwardRef<
                               spare beside the title up to there: at 1280 and again
                               at 1400 the word pushed it onto a second line, which
                               grew both cards' headers. */}
-                          <span className="hidden 2xl:inline">Coach</span>
+                          <span className="hidden min-[1600px]:inline">Coach</span>
                         </button>
                         <button
                           type="button"
@@ -948,7 +948,7 @@ const Editor = forwardRef<
                           className={`relative t-label px-2.5 h-6 sm:h-8 max-sm:size-11 max-sm:px-0 max-sm:justify-center rounded-lg flex items-center gap-1.5 transition-all active:scale-[0.98] ${isExamMode ? 'bg-red-600 text-white shadow-sm' : 'text-white hover:bg-white/10'}`}
                         >
                           <GraduationCap className="w-3.5 h-3.5" />
-                          <span className="hidden 2xl:inline">Exam</span>
+                          <span className="hidden min-[1600px]:inline">Exam</span>
                           {/* A lock alone on a phone. The "Plus" chip was the
                               widest thing in this bar, and at 390px it pushed
                               focus mode off the end of a strip that scrolls
@@ -1053,7 +1053,7 @@ const Editor = forwardRef<
                       ) : (
                         <Maximize className="w-3.5 h-3.5" />
                       )}
-                      <span className="hidden 2xl:inline">Focus</span>
+                      <span className="hidden min-[1600px]:inline">Focus</span>
                     </button>
                   )}
                 </div>

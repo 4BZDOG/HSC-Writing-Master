@@ -1,5 +1,33 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-15 (Card headers, page header, feedback PDF and profile: bugs and polish)
+
+- **Changed (workspace card headers).**
+  - **Shorter, and the same height.** The Writing Prompt and Written Response headers are 78px (from 92) and
+    equal at every width. `workspace-chrome.spec.ts` now holds them under 84px.
+  - **A larger title.** 28px from 1440 wide (was 24px) and 24px in one column (was 20px). It stays 24px from 1360
+    and 20px at the two narrowest two-column widths, where a free account's toolbar leaves no more room beside it.
+  - **Paid for in the chrome:** 8px of header padding instead of 12, a 24px reading size and tighter gaps. The
+    toolbar keeps its 32px tools; its Coach, Exam and Focus labels now appear from 1600px wide, not 1536.
+- **Changed (page header).**
+  - **One height and radius** for the plan chip, the storage chip and the profile control (40px from `sm`).
+  - **Light-theme edges clear 3:1** on the bar, the profile control, the plan and storage chips and the tools menu.
+  - **Fixed: the tools menu stayed open** after keyboard focus left it.
+- **Changed (feedback PDF).**
+  - **Fixed: an empty Response cell.** The score summary no longer prints the heading over nothing when there is
+    no word or key-term count; the band cell takes the width.
+  - **Fixed: characters that vanished.** Scripts the embedded font cannot draw (CJK, Arabic, Thai and similar)
+    print as "?" instead of being dropped.
+  - **A file name that sorts:** `HSC-Feedback-<course>-<VERB>-<yyyy-mm-dd>.pdf`, the same shape as the progress
+    report. No student name and no band.
+- **Changed (profile).**
+  - **The body shows when there is more.** A fade at the top or bottom edge while content is scrolled out of view.
+  - **A new student is told what will appear**, and how to start, in place of empty charts. The average reads "–"
+    until something is marked.
+  - **Fixed: a guest was offered "Delete my account"** with copy about deleting a profile and progress. A guest
+    sees "Clear guest session", with what that actually clears.
+  - **The summary is three short sentences**: what has been marked, where it stands, what to do next.
+
 ## [Unreleased] - 2026-11-15 (Focus layouts, reference panels as one family, a new front door)
 
 - **Added (Focus Mode on a desktop).**

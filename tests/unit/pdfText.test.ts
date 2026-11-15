@@ -7,6 +7,21 @@ import {
   normalizeContent,
 } from '../../pdf/text';
 
+describe('toText keeps what the font cannot draw visible', () => {
+  it('replaces each character of a script Inter has no glyph for with "?"', () => {
+    // Inter has no CJK, kana, Hangul, Arabic or Hebrew; jsPDF would draw these
+    // as nothing, so the word vanished from the paper.
+    expect(toText('ok 中文 end')).toBe('ok ?? end');
+    expect(toText('かな')).toBe('??');
+    expect(toText('مرحبا')).toBe('?????');
+  });
+
+  it('leaves the glyphs the font does have untouched', () => {
+    const kept = 'Café naïve señor — “curly” ‘quotes’ ≥ × ° µ H₂O x² Ωmega ΣΔ ฿';
+    expect(toText(kept)).toBe(kept);
+  });
+});
+
 describe('toText', () => {
   it('converts ^digits to Unicode superscripts', () => {
     expect(toText('x^2')).toBe('x²');
@@ -105,7 +120,9 @@ describe('normalizeContent', () => {
   });
 
   it('keeps code comparisons selectable and intact', () => {
-    expect(normalizeContent('Use arr[i] < arr[j] to compare')).toBe('Use arr[i] < arr[j] to compare');
+    expect(normalizeContent('Use arr[i] < arr[j] to compare')).toBe(
+      'Use arr[i] < arr[j] to compare'
+    );
   });
 });
 
