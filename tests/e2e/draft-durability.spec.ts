@@ -133,10 +133,15 @@ const openIn = async (context: BrowserContext): Promise<Page> => {
   return page;
 };
 
+// Every wait below is sized for Mobile Safari on a shared CI runner, where one boot of the app
+// with the full library takes the better part of a minute and this spec boots it up to three
+// times a test. The first WebKit runs timed out on budgets that Chromium met with room to spare.
+const SLOW = 60_000;
+
 test.describe('draft durability', () => {
   test('a second tab does not revert a draft written in the first', async ({ browser }) => {
     // Three tabs are opened on a shared, loaded app, so this takes a while on a busy runner.
-    test.setTimeout(300_000);
+    test.setTimeout(480_000);
     const context = await browser.newContext();
 
     // Both tabs load the same question while it is still empty.
@@ -144,14 +149,14 @@ test.describe('draft durability', () => {
     const b = await openIn(context);
 
     await RESPONSE(a).fill('alpha draft');
-    await expect(a.getByText(SAVED)).toBeVisible({ timeout: 15_000 });
-    await expect.poll(() => storeHolds(a, 'alpha draft'), { timeout: 15_000 }).toBe(true);
+    await expect(a.getByText(SAVED)).toBeVisible({ timeout: SLOW });
+    await expect.poll(() => storeHolds(a, 'alpha draft'), { timeout: SLOW }).toBe(true);
 
     // Tab B, still holding the empty Q1, writes Q2.
     await switchToSecondQuestion(b);
     await RESPONSE(b).fill('beta draft');
-    await expect(b.getByText(SAVED)).toBeVisible({ timeout: 15_000 });
-    await expect.poll(() => storeHolds(b, 'beta draft'), { timeout: 15_000 }).toBe(true);
+    await expect(b.getByText(SAVED)).toBeVisible({ timeout: SLOW });
+    await expect.poll(() => storeHolds(b, 'beta draft'), { timeout: SLOW }).toBe(true);
 
     // The store still holds A's Q1 text after B's write.
     expect(await storeHolds(b, 'alpha draft')).toBe(true);
@@ -165,7 +170,7 @@ test.describe('draft durability', () => {
   });
 
   test('what is typed just before the tab closes is kept', async ({ browser }) => {
-    test.setTimeout(120_000);
+    test.setTimeout(360_000);
     const context = await browser.newContext();
     const page = await openIn(context);
 
@@ -177,11 +182,11 @@ test.describe('draft durability', () => {
     await page.goto('about:blank');
 
     const again = await openIn(context);
-    await expect(RESPONSE(again)).toHaveValue(sentence, { timeout: 20_000 });
+    await expect(RESPONSE(again)).toHaveValue(sentence, { timeout: SLOW });
   });
 
   test('the footer says Not saved when storage refuses the write', async ({ page }) => {
-    test.setTimeout(120_000);
+    test.setTimeout(360_000);
     await openWorkspace(page);
 
     await page.evaluate(() => {
@@ -194,7 +199,7 @@ test.describe('draft durability', () => {
 
     try {
       await RESPONSE(page).fill('refused draft');
-      await expect(page.getByText(NOT_SAVED).first()).toBeVisible({ timeout: 15_000 });
+      await expect(page.getByText(NOT_SAVED).first()).toBeVisible({ timeout: SLOW });
       // Several autosave cycles with storage still refusing: never "Saved".
       for (let i = 0; i < 3; i++) {
         await page.waitForTimeout(1200);
@@ -208,17 +213,17 @@ test.describe('draft durability', () => {
     }
 
     await RESPONSE(page).fill('accepted draft');
-    await expect(page.getByText(SAVED)).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByText(SAVED)).toBeVisible({ timeout: SLOW });
     await expect(page.getByText(NOT_SAVED)).toHaveCount(0);
   });
 
   test('a stashed draft does not overwrite a newer stored draft', async ({ browser }) => {
-    test.setTimeout(180_000);
+    test.setTimeout(360_000);
     const context = await browser.newContext();
     const page = await openIn(context);
 
     await RESPONSE(page).fill('stored draft');
-    await expect.poll(() => storeHolds(page, 'stored draft'), { timeout: 15_000 }).toBe(true);
+    await expect.poll(() => storeHolds(page, 'stored draft'), { timeout: SLOW }).toBe(true);
     const promptId = await draftPromptId(page, 'stored draft');
     expect(promptId).not.toBeNull();
 
@@ -238,7 +243,7 @@ test.describe('draft durability', () => {
     );
     await page.reload();
 
-    await expect(RESPONSE(page)).toHaveValue('stored draft', { timeout: 30_000 });
+    await expect(RESPONSE(page)).toHaveValue('stored draft', { timeout: SLOW });
     expect(await page.evaluate(() => window.localStorage.getItem('hsc.pendingDraft'))).toBeNull();
   });
 });

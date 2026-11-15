@@ -859,10 +859,16 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
    */
   const pullForeignDrafts = useCallback(async (): Promise<void> => {
     if (!readyRef.current || savesInFlightRef.current > 0) return;
+    // The revision first, and the library only if it has moved. This runs on
+    // every return to the tab, and the library is many megabytes: reading it
+    // to learn that nothing changed made each focus cost a full deserialise.
+    const rev = await readCoursesRev();
+    if (rev === knownRevRef.current) return;
+    if (savesInFlightRef.current > 0) return;
     const stored = await readStoredCourses();
     if (!stored || !stored.courses) return;
     if (savesInFlightRef.current > 0) return;
-    if (stored.rev !== null && stored.rev === knownRevRef.current) return;
+    if (stored.rev === knownRevRef.current) return;
     const base = draftBaseRef.current;
     const local = latestCoursesRef.current;
     const { merged, adopted } = mergeForeignDrafts(local, stored.courses, base);
