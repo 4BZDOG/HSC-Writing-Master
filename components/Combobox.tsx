@@ -91,6 +91,12 @@ interface ComboboxOption {
    */
   group?: string;
   /**
+   * Chosen, but not listed: a filter elsewhere in the picker hides it. It still
+   * names the closed control (so the value is never shown as "nothing chosen"),
+   * and it is left out of the list, the search and the count.
+   */
+  concealed?: boolean;
+  /**
    * Whether the row is picked. Read only under `keepOpenOnSelect`, where there
    * is no single `value` to compare against; it sets `aria-selected`.
    */
@@ -156,6 +162,26 @@ interface ComboboxProps {
    * outside click still close it.
    */
   keepOpenOnSelect?: boolean;
+  /**
+   * How a group's heading is drawn, for a grouped list (see
+   * `ComboboxOption.group`). `visual` is what shows; `accessibleName` is what a
+   * screen reader announces when it enters the group. Omit for the plain group
+   * name, which is what every grouped list was before this.
+   */
+  groupHeading?: (group: string) => { visual: React.ReactNode; accessibleName: string };
+  /**
+   * Content drawn inside the open menu, between the search row and the list. It
+   * stays put while the list scrolls, like the search row. Its focusable
+   * controls are reached by Tab from the search box or the trigger: the one with
+   * `tabIndex={0}` takes focus, and Tab out of the header closes the list.
+   */
+  header?: React.ReactNode;
+  /**
+   * A second way out of an empty result, offered beside `emptyAction`. It does
+   * not close the list, so it can widen the search in place ("Show all
+   * faculties") with the query still typed.
+   */
+  emptyFallback?: { label: string; onAction: () => void };
 }
 
 const colorStyles: Record<
@@ -299,6 +325,9 @@ const Combobox: React.FC<ComboboxProps> = ({
   summary,
   onDisabledPick,
   keepOpenOnSelect = false,
+  groupHeading,
+  header,
+  emptyFallback,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -308,6 +337,7 @@ const Combobox: React.FC<ComboboxProps> = ({
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   // Where the menu sits. An above-placed menu is anchored by `bottom`, so a
   // short list hugs the trigger without its rendered height being measured.
   const [menuPos, setMenuPos] = useState<{
@@ -324,8 +354,11 @@ const Combobox: React.FC<ComboboxProps> = ({
 
   const theme = colorStyles[color] || colorStyles.default;
 
+  // Concealed options name the control but are not part of the list.
+  const listedOptions = useMemo(() => options.filter((opt) => !opt.concealed), [options]);
+
   // Search appears only where scanning stops being the faster option.
-  const isSearchable = options.length >= SEARCH_THRESHOLD;
+  const isSearchable = listedOptions.length >= SEARCH_THRESHOLD;
 
   /**
    * The typed text paints immediately; the LIST catches up.
@@ -343,9 +376,9 @@ const Combobox: React.FC<ComboboxProps> = ({
   const visibleOptions = useMemo(
     () =>
       isSearchable && deferredQuery.trim()
-        ? options.filter((option) => matches(option, deferredQuery))
-        : options,
-    [options, deferredQuery, isSearchable]
+        ? listedOptions.filter((option) => matches(option, deferredQuery))
+        : listedOptions,
+    [listedOptions, deferredQuery, isSearchable]
   );
 
   /** The visible options as consecutive runs of one group, each keeping its
@@ -410,7 +443,10 @@ const Combobox: React.FC<ComboboxProps> = ({
       // when there is one (52px, the figure this file already used; it renders
       // nearer 46px, so the bound errs on the safe side), plus the menu's own
       // 1px border top and bottom. The list's padding is inside its max-height.
-      const chrome = (isSearchable ? 52 : 0) + 2;
+      // The header (when there is one) is measured rather than guessed: its
+      // height depends on what it holds, and it is rendered by the time this runs.
+      const headerChrome = headerRef.current?.offsetHeight ?? 0;
+      const chrome = (isSearchable ? 52 : 0) + headerChrome + 2;
       const spaceBelow = viewportHeight - rect.bottom - 2 * margin;
       const spaceAbove = rect.top - 2 * margin;
 
@@ -471,7 +507,11 @@ const Combobox: React.FC<ComboboxProps> = ({
       window.removeEventListener('scroll', updatePosition, true);
       window.removeEventListener('resize', updatePosition);
     };
-  }, [isOpen, isSearchable]);
+  }, [isOpen, isSearchable, header]);
+
+  // `header` is a new node on each parent render, so re-measuring when it
+  // changes keeps the list's cap in step with a header whose height moved (a
+  // hint line appearing, chips wrapping onto a second row).
 
   // A stale query would silently hide options the next time this opens.
   useEffect(() => {
@@ -533,6 +573,35 @@ const Combobox: React.FC<ComboboxProps> = ({
     buttonRef.current?.focus();
   };
 
+  // Keys inside the header. Tab moves between its controls natively and leaves
+  // the list at either end; Escape closes it from anywhere in the header.
+  const handleHeaderKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsOpen(false);
+      buttonRef.current?.focus();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const stops = Array.from(
+      headerRef.current?.querySelectorAll<HTMLElement>('button:not([disabled]), [tabindex="0"]') ??
+        []
+    ).filter((el) => el.tabIndex >= 0);
+    if (stops.length === 0) return;
+    const atStart = e.target === stops[0];
+    const atEnd = e.target === stops[stops.length - 1];
+    if ((e.shiftKey && atStart) || (!e.shiftKey && atEnd)) {
+      e.preventDefault();
+      if (e.shiftKey && searchRef.current) {
+        searchRef.current.focus();
+        return;
+      }
+      setIsOpen(false);
+      buttonRef.current?.focus();
+    }
+  };
+
   // Keyboard navigation handler — shared by the trigger and the search box, so
   // arrows and Enter behave the same whichever has focus.
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
@@ -568,18 +637,27 @@ const Combobox: React.FC<ComboboxProps> = ({
           setHighlightedIndex(lastLandable());
         }
         break;
-      case 'Tab':
+      case 'Tab': {
+        if (!isOpen) break;
+        // A header with controls is the next stop after the search box or the
+        // trigger, so a keyboard user can reach it (the list used to close here).
+        const headerStop = headerRef.current?.querySelector<HTMLElement>('[tabindex="0"]');
+        const inHeader = !!headerRef.current?.contains(e.target as Node);
+        if (!inHeader && headerStop && !e.shiftKey) {
+          e.preventDefault();
+          headerStop.focus();
+          break;
+        }
         // Closing the list must not leave Tab to run from inside the portal:
         // from the search box it would wrap to the end of the document, so
         // focus goes back to the trigger first.
-        if (isOpen) {
-          setIsOpen(false);
-          if (e.target === searchRef.current) {
-            e.preventDefault();
-            buttonRef.current?.focus();
-          }
+        setIsOpen(false);
+        if (e.target === searchRef.current) {
+          e.preventDefault();
+          buttonRef.current?.focus();
         }
         break;
+      }
       case 'Enter': {
         e.preventDefault();
         const highlighted = visibleOptions[highlightedIndex];
@@ -612,9 +690,9 @@ const Combobox: React.FC<ComboboxProps> = ({
   useEffect(() => {
     if (isOpen) {
       // Nothing is typed when it opens, so `options` is the list as shown.
-      const currentIndex = options.findIndex((opt) => opt.id === value);
+      const currentIndex = listedOptions.findIndex((opt) => opt.id === value);
       setHighlightedIndex(
-        currentIndex >= 0 && canLand(options[currentIndex]) ? currentIndex : firstLandable()
+        currentIndex >= 0 && canLand(listedOptions[currentIndex]) ? currentIndex : firstLandable()
       );
     }
   }, [isOpen, value]);
@@ -796,11 +874,11 @@ const Combobox: React.FC<ComboboxProps> = ({
                       ? `${listboxId}-opt-${highlightedIndex}`
                       : undefined
                   }
-                  aria-label={`Search ${options.length} ${optionNoun}`}
+                  aria-label={`Search ${listedOptions.length} ${optionNoun}`}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  placeholder={`Search ${options.length} ${optionNoun}`}
+                  placeholder={`Search ${listedOptions.length} ${optionNoun}`}
                   // 16px below `sm`: iOS zooms the page into any input set smaller,
                   // and the zoom does not come back out on its own.
                   className="w-full bg-transparent py-3 pl-10 pr-9 text-base sm:text-sm font-medium text-[rgb(var(--color-text-primary))] light:text-slate-900 placeholder:text-[rgb(var(--color-text-muted))] focus:outline-none"
@@ -818,6 +896,15 @@ const Combobox: React.FC<ComboboxProps> = ({
                     <X className="w-3.5 h-3.5" />
                   </button>
                 )}
+              </div>
+            )}
+            {header && (
+              <div
+                ref={headerRef}
+                onKeyDown={handleHeaderKeyDown}
+                className="border-b border-white/10 light:border-slate-200 px-3 py-2.5"
+              >
+                {header}
               </div>
             )}
             <ul
@@ -884,13 +971,18 @@ const Combobox: React.FC<ComboboxProps> = ({
                   // The inner `<ul role="none">` is for the HTML (an `<li>` may
                   // not hold an `<li>`); being presentational it drops out, so
                   // listbox > group > option, as ARIA 1.2 allows.
+                  const heading = groupHeading?.(run.group);
                   return (
-                    <li key={`group-${run.group}`} role="group" aria-label={run.group}>
+                    <li
+                      key={`group-${run.group}`}
+                      role="group"
+                      aria-label={heading ? heading.accessibleName : run.group}
+                    >
                       <div
                         aria-hidden="true"
                         className="t-label sticky top-0 z-10 px-4 pt-2.5 pb-1.5 text-[rgb(var(--color-text-dim))] light:text-slate-500 bg-[rgb(var(--color-bg-surface-elevated))] light:bg-white"
                       >
-                        {run.group}
+                        {heading ? heading.visual : run.group}
                       </div>
                       <ul role="none">{rows}</ul>
                     </li>
@@ -903,6 +995,15 @@ const Combobox: React.FC<ComboboxProps> = ({
                       ? `Nothing matches “${deferredQuery.trim()}”.`
                       : 'No options available.'}
                   </span>
+                  {emptyFallback && (
+                    <button
+                      type="button"
+                      onClick={emptyFallback.onAction}
+                      className="mt-2 block mx-auto text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline not-italic"
+                    >
+                      {emptyFallback.label}
+                    </button>
+                  )}
                   {emptyAction && (
                     <button
                       type="button"

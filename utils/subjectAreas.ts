@@ -30,17 +30,19 @@ export type SubjectArea =
   | 'Other';
 
 /**
- * Canonical order, used wherever faculties are listed. `Other` is last because
- * it is the bucket for everything unrecognised, not a faculty a school has.
+ * Canonical order, used wherever faculties are listed: alphabetical, so a
+ * student scanning the course picker finds a faculty where they expect it.
+ * `Other` is last because it is the bucket for everything unrecognised, not a
+ * faculty a school has.
  */
 export const SUBJECT_AREAS: SubjectArea[] = [
+  'Creative Arts',
+  'English',
+  'HSIE',
+  'Mathematics',
+  'PDHPE',
   'Science',
   'TAS',
-  'HSIE',
-  'English',
-  'Mathematics',
-  'Creative Arts',
-  'PDHPE',
   'Other',
 ];
 
