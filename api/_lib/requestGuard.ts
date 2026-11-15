@@ -13,8 +13,9 @@
  *
  *   1. MODEL. Only the models the app itself offers (services/aiModels.ts,
  *      mirrored in ALLOWED_MODELS below and pinned by tests/unit/requestGuard
- *      .test.ts). A caller who brings their own key for that provider (the admin
- *      runtime-key modal) is paying, and is not held to the list.
+ *      .test.ts). A STAFF caller who brings their own key for that provider (the
+ *      admin runtime-key modal) is paying, and is not held to the list. A
+ *      non-staff caller's `__keyOverride` is discarded (see guardAiRequest).
  *   2. SIZE. The prompt and the output a STUDENT-sized call can ask for. The
  *      largest prompt the app builds for a student is a 20-mark marking run, at
  *      about 22,000 characters; the envelope is several times that. A request
@@ -115,7 +116,24 @@ export const guardAiRequest = async (
   if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
     return { ok: false, status: 400, error: 'Invalid request body.' };
   }
-  const body = raw as GuardRequest & Record<string, unknown>;
+  let body = raw as GuardRequest & Record<string, unknown>;
+
+  // `__keyOverride` lifts every limit below for the caller's own key, so only
+  // staff may send one. The override is an admin-only testing aid (the UI
+  // offers it from the admin tools menu, services/runtimeKeys.ts), but the
+  // request body is client-controlled and the UI gate proves nothing. A non-staff
+  // caller's override is stripped here, on a copy, so the call is held to the
+  // same model list and student limits as any other. The copy is what goes on to
+  // runAiProxy (api/gemini.ts forwards this function's `body`), so the override
+  // cannot survive by reaching it through the original object.
+  if ('__keyOverride' in body) {
+    if (!(await isStaff())) {
+      const sanitised: GuardRequest & Record<string, unknown> = { ...body };
+      delete sanitised.__keyOverride;
+      body = sanitised;
+    }
+  }
+
   const provider = typeof body.provider === 'string' ? body.provider : 'gemini';
   const ownKey = !!body.__keyOverride?.[provider];
 
