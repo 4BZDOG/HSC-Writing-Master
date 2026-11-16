@@ -3,7 +3,7 @@
 ## [Unreleased] - 2026-11-16 (Science questions, written only; course unlocks)
 
 - **Added (DATA_VERSION 2.52.0).** Written-response questions for the three science courses that had only past HSC
-  questions, two per dot point, written by agents to `author_brief.md` and validated:
+  questions (922 new), two per dot point, written by agents to `author_brief.md` and validated:
   - **Chemistry** 355 questions (61% of dot points covered, from 6%), **Physics** 304 (40%, from 5%), **Earth and
     Environmental Science** 304 (60%, from 6%).
   - Science questions are written only: no CALCULATE verb and no numeric working. A formula is tested by explaining or
