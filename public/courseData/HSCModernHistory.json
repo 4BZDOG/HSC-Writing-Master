@@ -5421,11 +5421,11 @@
                       },
                       {
                         "id": "sa-mh-56-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The Battle of Britain stopped the Germans invading Britain because the RAF beat the Luftwaffe in the air. After that the Blitz bombed London, which caused a lot of damage, but it did not make Britain surrender. This meant Hitler had to change his plans, and this helped the Allies in the long run.",
                         "source": "AI",
                         "feedback": "Identifies two events and a consequence, but the analysis is thin: the link to the wider war is asserted, and the Operation Sea Lion and morale points are missing.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-mh-56-3",
@@ -5584,11 +5584,11 @@
                       },
                       {
                         "id": "sa-mh-59-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Moscow was the first Soviet success because the German army was stopped outside the capital in December 1941. Stalingrad was a bigger turning point because the Sixth Army was surrounded and surrendered in 1943. Kursk was a Soviet victory in July 1943 that gave the Soviets the initiative for the rest of the war.",
                         "source": "AI",
                         "feedback": "Accurate, in order, and it makes a judgement, but the reasons each battle mattered are asserted rather than analysed, and the link to the Eastern Front is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-mh-59-3",
@@ -5703,11 +5703,11 @@
                       },
                       {
                         "id": "sa-mh-61-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Civilians in Britain faced the Blitz and rationing, and evacuation separated many children from their families. In Germany the bombing of cities caused hardship late in the war. In the Soviet Union the siege of Leningrad and the German occupation caused very heavy losses, which makes the Soviet experience the hardest of the three.",
                         "source": "AI",
                         "feedback": "Accurate and reaches a judgement, but the reasons for the differences are asserted rather than analysed, and the total war and home front points are missing.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-mh-61-3",
@@ -6102,9 +6102,9 @@
                       {
                         "id": "sa-mh-67-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Operation Bagration was a Soviet offensive in June 1944 that destroyed German Army Group Centre in Belarus. It advanced several hundred kilometres and reached Warsaw, which made it important for the Eastern Front.",
-                        "feedback": "Accurate and explains the scale of the offensive in brief, but the effect on Warsaw and the wider front is asserted rather than explained, so it earns 4 marks.",
+                        "feedback": "Accurate and explains the scale of the offensive in brief, but the effect on Warsaw and the wider front is asserted rather than explained, so it earns 3 marks.",
                         "band": 2
                       },
                       {
@@ -6206,11 +6206,11 @@
                       },
                       {
                         "id": "sa-mh-69-2",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "The Red Army was the main reason for Allied victory because it fought the Germans on the Eastern Front and reached Berlin in 1945. Lend-Lease and American production also helped the Allies, and the strategic bombing campaign damaged German industry. Germany was also weakened by Hitler's decisions, such as the invasion of the Soviet Union and the fighting at Stalingrad.",
                         "source": "AI",
-                        "feedback": "Identifies several reasons with accurate evidence and a judgement that the Red Army was the main factor, but the material factors are only listed and the criteria for the judgement are not applied, so it earns 6 marks.",
-                        "band": 4
+                        "feedback": "Identifies several reasons with accurate evidence and a judgement that the Red Army was the main factor, but the material factors are only listed and the criteria for the judgement are not applied, so it earns 5 marks.",
+                        "band": 3
                       },
                       {
                         "id": "sa-mh-69-3",
@@ -6332,9 +6332,9 @@
                       {
                         "id": "sa-mh-71-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Apartheid was an ideology of racial separation held by the National Party, which came to power in 1948. Its policies included the Population Registration Act, which classified people by race, and the Group Areas Act, which separated residential areas.",
-                        "feedback": "Explains the ideology and two policies with some accuracy, but practice and the link between ideology and policy are not developed, so it earns 4 marks.",
+                        "feedback": "Explains the ideology and two policies with some accuracy, but practice and the link between ideology and policy are not developed, so it earns 3 marks.",
                         "band": 2
                       },
                       {
@@ -7060,11 +7060,11 @@
                       },
                       {
                         "id": "sa-mh-83-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Biko's Black Consciousness Movement encouraged Black South Africans to reject inferiority and build their own organisations. The Soweto Uprising in June 1976 began as a protest over Afrikaans in schools, and police shootings turned it into a national revolt. Biko's death in police custody in 1977 showed the state's readiness to kill its opponents.",
                         "source": "AI",
-                        "feedback": "Discusses the movement and two events with accurate evidence, but the significance is asserted rather than weighed against a criterion, so it earns 5 marks.",
-                        "band": 4
+                        "feedback": "Discusses the movement and two events with accurate evidence, but the significance is asserted rather than weighed against a criterion, so it earns 4 marks.",
+                        "band": 3
                       },
                       {
                         "id": "sa-mh-83-3",
@@ -7115,9 +7115,9 @@
                       {
                         "id": "sa-mh-84-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Soweto Uprising began when students protested against Afrikaans being used in schools. Police opened fire on the marchers, and the protests spread to other townships.",
-                        "feedback": "Explains the trigger and the state's response with accurate evidence, but does not explain the underlying grievance over Bantu Education, so it earns 4 marks.",
+                        "feedback": "Explains the trigger and the state's response with accurate evidence, but does not explain the underlying grievance over Bantu Education, so it earns 3 marks.",
                         "band": 2
                       },
                       {
@@ -7181,9 +7181,9 @@
                       {
                         "id": "sa-mh-85-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "After Sharpeville the government banned the ANC and the PAC and declared a state of emergency. Under the Terrorism Act and the ninety-day detention law, opponents could be held without trial. Many leaders went into exile.",
-                        "feedback": "Explains the legal tactics and one impact accurately, but the climate of fear and the limits of repression are not developed, so it earns 4 marks.",
+                        "feedback": "Explains the legal tactics and one impact accurately, but the climate of fear and the limits of repression are not developed, so it earns 3 marks.",
                         "band": 2
                       },
                       {
@@ -7294,11 +7294,11 @@
                       },
                       {
                         "id": "sa-mh-87-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The Security Branch and the police worked together: police enforced the pass laws in the townships, and the Security Branch detained and interrogated those the police identified, so repression linked the street to the interrogation room. Raids into neighbouring countries extended the same approach against exiled opponents.",
                         "source": "AI",
-                        "feedback": "Analyses two roles and the link between them with accurate evidence, but the effect on maintaining the system is not developed and the armed forces are missing, so it earns 5 marks.",
-                        "band": 3
+                        "feedback": "Analyses two roles and the link between them with accurate evidence, but the effect on maintaining the system is not developed and the armed forces are missing, so it earns 4 marks.",
+                        "band": 2
                       },
                       {
                         "id": "sa-mh-87-3",
@@ -7575,9 +7575,9 @@
                       {
                         "id": "sa-mh-91-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "South Africa sent troops into Angola in Operation Savannah to back UNITA. It also backed RENAMO in Mozambique, which damaged that country. The Nkomati Accord in 1984 was signed between South Africa and Mozambique.",
-                        "feedback": "Accurate and identifies three relations, but the reasons for South Africa's actions and their consequences are not developed, so it earns 4 marks.",
+                        "feedback": "Accurate and identifies three relations, but the reasons for South Africa's actions and their consequences are not developed, so it earns 3 marks.",
                         "band": 2
                       },
                       {
@@ -7693,11 +7693,11 @@
                       },
                       {
                         "id": "sa-mh-93-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "In the 1960s resistance relied on mass campaigns, but after Rivonia the ANC and PAC moved into exile and Umkhonto we Sizwe carried out sabotage. In the 1980s the United Democratic Front and COSATU brought mass mobilisation back into the townships and workplaces. The change made resistance more difficult for the state to control.",
                         "source": "AI",
-                        "feedback": "Analyses two phases with accurate evidence and a link between them, but the reasons for the change are not explained and the judgement is brief, so it earns 5 marks.",
-                        "band": 3
+                        "feedback": "Analyses two phases with accurate evidence and a link between them, but the reasons for the change are not explained and the judgement is brief, so it earns 4 marks.",
+                        "band": 2
                       },
                       {
                         "id": "sa-mh-93-3",
@@ -7806,11 +7806,11 @@
                       },
                       {
                         "id": "sa-mh-95-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "International responses included a UN arms embargo in 1977 and the Comprehensive Anti-Apartheid Act of 1986. Divestment by companies and universities reduced investment in South Africa, and sporting boycotts kept the issue in the public eye. These measures put pressure on the government, but they were not the main reason apartheid ended.",
                         "source": "AI",
-                        "feedback": "Analyses the nature and impact of several responses with accurate evidence, but the judgement is limited to a single sentence, so it earns 5 marks.",
-                        "band": 4
+                        "feedback": "Analyses the nature and impact of several responses with accurate evidence, but the judgement is limited to a single sentence, so it earns 4 marks.",
+                        "band": 3
                       },
                       {
                         "id": "sa-mh-95-3",

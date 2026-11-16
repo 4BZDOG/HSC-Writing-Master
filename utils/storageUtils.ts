@@ -154,7 +154,8 @@ import {
 // 2.53.0: 332 more written-response science questions (Chemistry 74%, Physics 58%, EES 80% of dot points).
 // 2.54.0: 412 more written-response science questions; Chemistry 90%, Physics 84%, EES 100% of dot points
 // (the rest are calculation-only dot points, skipped on purpose).
-export const DATA_VERSION = '2.54.0';
+// 2.55.0: 1,407 sample answers that were too short for their mark moved down to a mark their length supports.
+export const DATA_VERSION = '2.55.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

@@ -783,10 +783,10 @@
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Statements (1) and (3) are facts because they can be checked against records. Statement (4) is an opinion, since it judges young people without evidence. These opinions could influence a reader because the facts make the article seem reliable.",
                         "feedback": "Distinguishes the statements with reasons and identifies how the mix could affect a reader. The analysis is brief and does not test the prediction in statement (2).",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-2-3-n0-n1-s3",
@@ -1384,10 +1384,10 @@
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Maya could complain to the store or to the consumer agency, and the agency may help her reach a settlement. If that fails she could go to a tribunal. The Australian Consumer Law gives her rights to a refund.",
                         "feedback": "Examines two options with some accuracy but gives limited explanation of how each operates in practice.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-4-2-n0-n1-s3",
@@ -1508,10 +1508,10 @@
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-5-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The register should not become law because there is no evidence it will reduce theft. The shop owner says it will cost small businesses money, which is a real concern. A voluntary scheme may be a better option.",
                         "feedback": "Takes a clear position with some evidence, but the opposing view is noted rather than answered.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-5-1-n0-n1-s3",
@@ -1742,10 +1742,10 @@
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-5-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The drone law is only partly effective. Police find it hard to identify drone operators, so enforcement is weak. The law does protect owners' privacy, but fines are rarely imposed, so the law deters little.",
-                        "feedback": "Applies two criteria with some reasoning, but the other criteria are not weighed and the judgement is brief, so it sits in the 5-mark band.",
-                        "band": 4
+                        "feedback": "Applies two criteria with some reasoning, but the other criteria are not weighed and the judgement is brief, so it sits in the 3-mark band.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-year-11-legal-themes-and-skills-5-3-n0-n1-s3",
@@ -1992,10 +1992,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The law should change to stay relevant to society, because the old mail-order law does not cover online shopping. However, changing the law can create uncertainty for businesses, so some parts may be left as they are.",
                         "feedback": "Discusses reasons for and against change, but the conclusion on the extent of change is limited.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-1-2-n0-n1-s3",
@@ -2110,10 +2110,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The law has adapted to technological change through privacy and online safety legislation. However, it can be slow to respond to new technology, so some harms may not be covered when they first appear.",
                         "feedback": "Assesses a strength and a limit, but the judgement on effectiveness is brief and the examples are general.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-1-3-n0-n1-s3",
@@ -2346,10 +2346,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Amending outdated laws is quicker and keeps the parts of an Act that still work. However, repeated amendments can make a law difficult to follow, so replacing it may sometimes achieve justice better.",
                         "feedback": "Assesses strengths and limits of amending, but the judgement on justice is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-1-5-n0-n1-s3",
@@ -2588,10 +2588,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Findings and recommendations can change the law, because they provide evidence for reform. However, the government does not have to adopt a recommendation, so change can be slow.",
                         "feedback": "Assesses a strength and a limit, but the judgement on effectiveness is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-2-1-n0-n1-s3",
@@ -2705,10 +2705,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The media can draw attention to a problem, and advocacy groups can campaign for a change in the law. However, the government does not have to act, so these methods may not change the law.",
                         "feedback": "Discusses some strengths and limits, but the conclusion on effectiveness is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-2-2-n0-n1-s3",
@@ -2823,10 +2823,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Royal commissions and law reform commissions can recommend changes to the law after investigation. However, Parliament is not required to adopt their recommendations, so change may be limited.",
                         "feedback": "Assesses some strengths and limits, but the judgement and examples are brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-2-3-n0-n1-s3",
@@ -3307,10 +3307,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The 2017 reform gave same-sex couples the right to marry, so their relationships receive legal recognition. This benefits individuals and promotes equality in the community, though some people argue the benefits are mostly symbolic.",
                         "feedback": "Explains benefits with some accuracy, but the assessment is limited and does not weigh who gained most.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-4-1-n0-n1-s3",
@@ -3425,10 +3425,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Delay is a limitation because a tenant may wait for a tribunal decision while the rent increase applies. Landlords may also respond by avoiding tenants who have complained, which reduces the reform's benefit.",
                         "feedback": "Explains two limitations with reasoning, but does not weigh their combined effect on the most vulnerable tenants.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-4-2-n0-n1-s3",
@@ -3787,10 +3787,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-5-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Wik decision held that pastoral leases did not necessarily extinguish native title. This created uncertainty, which led the government to pass legislation in 1998.",
                         "feedback": "Explains a key effect of the decision with some accuracy, but does not analyse how far it drove change.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-5-3-n0-n1-s3",
@@ -3906,10 +3906,10 @@
                       {
                         "id": "prompt-ls-11-changing-the-law-5-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Mabo decision recognised native title, which led Parliament to pass the Native Title Act 1993 (Cth). This shows a court decision producing a legislative response.",
                         "feedback": "Explains one court decision leading to a legislative response, but does not examine the later Wik step.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-changing-the-law-5-4-n0-n1-s3",
@@ -4871,10 +4871,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The law is partly effective. It lacks certainty because 'unreasonable noise' is not defined, and few residents would see the gazette notice, so it is not accessible.",
                         "feedback": "Relevant characteristics are applied to the scenario with some judgement, but the reasoning is not sustained.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-1-2-n0-n1-s3",
@@ -5454,10 +5454,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The rule of law stops government from detaining people without a legal basis. This protects protesters and other groups.",
                         "feedback": "Describes the importance of the rule of law for groups with some reference to the scenario, but without weighing the effect on government.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-1-7-n0-n1-s3",
@@ -6743,10 +6743,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The Children's Court deals with young people differently from adults. The Coroner's Court looks at how people die.",
                         "feedback": "Identifies a feature of each court with a basic example, but does not discuss why the features contribute to justice.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-4-2-n0-n1-s3",
@@ -7563,10 +7563,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-5-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The High Court's reading of section 51 changed in the Engineers' case, which widened Commonwealth power. The Court still cannot change the words of the Constitution, so its effect on power is limited.",
                         "feedback": "Discusses one significant interpretive change with an accurate example, but the balance is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-5-4-n0-n1-s3",
@@ -8160,10 +8160,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-6-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The General Assembly can adopt resolutions on international law, but they are generally not binding. The Security Council can make binding decisions, but a permanent member may veto a resolution, as in the scenario.",
                         "feedback": "Describes both organs and their legal effect accurately, with less development of the scenario.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-6-4-n0-n1-s3",
@@ -8278,10 +8278,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-6-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The organisation could bring the four nation-states together to share data on the fishery. It could also help them negotiate catch limits, but it cannot force a state to accept them.",
                         "feedback": "Explains two functions accurately but applies them less fully and does not develop the limits.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-6-5-n0-n1-s3",
@@ -8517,10 +8517,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-6-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Non-government organisations can campaign for a treaty and provide research to nation-states. The International Campaign to Ban Landmines helped lead to the Ottawa Convention, but states that refuse to sign are not bound by it.",
                         "feedback": "Explains campaigning and includes an example, but the assessment of influence is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-6-7-n0-n1-s3",
@@ -8639,10 +8639,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Mia's right to host a party creates a responsibility to keep noise within council rules. Raj's right to peace creates a responsibility for Mia not to disturb him unreasonably.",
                         "feedback": "Describes the two responsibilities accurately but does not explain how they are enforced.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-1-n0-n1-s3",
@@ -8758,10 +8758,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Statute law gives Amira the clearest protection, because the Anti-Discrimination Act 1977 (NSW) covers disability discrimination in employment. Common law and international law play smaller roles, since a treaty is not enforceable unless it is implemented.",
                         "feedback": "Describes the main protection accurately but analyses the interaction of the sources only briefly.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-2-n0-n1-s3",
@@ -8877,10 +8877,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A NSW court can hear the challenge and declare the law invalid if it breaches the Constitution, so its decision is binding. The UN Human Rights Committee can consider a complaint, but its views are not binding.",
                         "feedback": "Explains the binding and non-binding outcomes accurately but does not weigh their effectiveness.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-3-n0-n1-s3",
@@ -8994,10 +8994,10 @@
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The customer could sue for false imprisonment and seek damages for the humiliation and lost work. The guard may have to pay compensation, and this may affect the guard's job and reputation.",
                         "feedback": "Describes consequences for both parties accurately but does not examine them in depth.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-investigating-the-law-7-4-n0-n1-s3",
@@ -9477,10 +9477,10 @@
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The prosecution must prove Lee guilty beyond reasonable doubt. The witness's identification may be doubtful, so this protects Lee.",
                         "feedback": "The standard is described and linked to the scenario, but the examination is brief and does not discuss the limits.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-1-4-n0-n1-s3",
@@ -9597,10 +9597,10 @@
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A lawyer can test the prosecution's evidence, while Tom must represent himself and may not understand the rules.",
                         "feedback": "One effect of representation is applied to the scenario, but the discussion is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-1-5-n0-n1-s3",
@@ -11370,10 +11370,10 @@
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Merits review asks whether a decision is correct, while judicial review asks whether it was made lawfully. A tribunal can make a new decision, but a court usually only refers the matter back to the agency.",
                         "feedback": "Explains the difference between the two processes with accuracy but limited application to the scenario.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-4-n0-n1-s3",
@@ -11486,10 +11486,10 @@
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Ombudsman can investigate complaints about government agencies and recommend remedies, but its recommendations are not binding, so agencies may not act on them.",
                         "feedback": "Discusses the role and a limit of the Ombudsman with some evaluation but limited application.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-5-n0-n1-s3",
@@ -11605,10 +11605,10 @@
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A royal commission investigates matters of public concern, and its coercive powers allow it to compel documents. However, government decides whether to accept its recommendations, so the commission cannot enforce change.",
                         "feedback": "Explains the purpose with some discussion of a limit but limited application.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-6-n0-n1-s3",
@@ -11722,10 +11722,10 @@
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The commission found misconduct in banking and recommended changes to remuneration and accountability, but the government did not adopt every recommendation.",
                         "feedback": "Explains the main finding and recommendations with some accuracy and limited evaluation.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-7-n0-n1-s3",
@@ -11839,10 +11839,10 @@
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The owner was not notified, so she could not respond before the penalty was imposed, which shows a lack of procedural fairness. Her inability to pay for a lawyer also limits her access to justice.",
                         "feedback": "Explains two concepts of justice with some accuracy and limited evaluation.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-disputes-under-the-law-3-8-n0-n1-s3",
@@ -13410,10 +13410,10 @@
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Unpaid fines can lead to warrants and court appearances. A conviction can make it harder to find rental housing, and without housing people may miss court notices. This creates a cycle that is hard to break.",
                         "feedback": "One way is examined in some detail and a further effect is noted, but the link between stages is not fully explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-1-3-n0-n1-s3",
@@ -13652,10 +13652,10 @@
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Australian Human Rights Commission can conciliate complaints but cannot make binding decisions. Advocacy organisations help shape policy, but their funding limits what they can do.",
                         "feedback": "Strengths and limits are identified with some relevance, but the judgement on effectiveness is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-2-n0-n1-s3",
@@ -13770,10 +13770,10 @@
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Negotiate with the landlord first, in writing. If that fails, contact NSW Fair Trading about the bond, which may resolve the dispute without a hearing.",
                         "feedback": "One method is applied with a sensible sequence, but the reasons and later steps are underdeveloped.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-3-n0-n1-s3",
@@ -13888,10 +13888,10 @@
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A conference gives the victim a say and asks the young person to repair the harm. However, it may not suit serious offences where a court response is needed.",
                         "feedback": "Benefits and limits are discussed with some reference to the scenario, but no firm position is reached.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-4-n0-n1-s3",
@@ -14006,10 +14006,10 @@
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Shelter NSW can make submissions to government about housing policy. Governments do not have to accept these submissions.",
                         "feedback": "One influence is described and one constraint is noted, but neither is developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-2-5-n0-n1-s3",
@@ -14130,10 +14130,10 @@
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Access indicators measure whether people can use the system, such as timely legal advice. Outcome indicators measure what the system achieves, such as whether the victim feels safe.",
                         "feedback": "The two kinds are differentiated, with examples of each, but the explanation is brief.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-3-1-n0-n1-s3",
@@ -14248,10 +14248,10 @@
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Financial barriers such as legal costs and travel make it hard to start a dispute. Distance and limited internet access add to the problem by making advice harder to get.",
                         "feedback": "Two barriers are analysed with relevant examples, but the interaction between them is only briefly explained.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ls-11-case-study-2-one-group-in-society-3-2-n0-n1-s3",
@@ -15919,9 +15919,9 @@
                       {
                         "id": "sa-ls-26-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The prosecution must prove the charge beyond reasonable doubt, and it presents witnesses and evidence. The defence can challenge the prosecution's witnesses and call its own evidence. The judge or jury then decides whether the accused is guilty.",
-                        "feedback": "A 4-mark response explains the roles of both parties with reasonable accuracy but does not explain how the adversarial system relies on the contest or refer to the scenario.",
+                        "feedback": "A 3-mark response explains the roles of both parties with reasonable accuracy but does not explain how the adversarial system relies on the contest or refer to the scenario.",
                         "band": 2
                       },
                       {
@@ -16107,10 +16107,10 @@
                       {
                         "id": "sa-ls-29-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "A jury brings community values into the trial and reduces the risk of a single judge's error. However, complex cases may be hard for jurors to understand, and publicity may affect their impartiality. A judge-alone trial can be quicker and provides written reasons, so it may suit some matters better.",
-                        "feedback": "A 5-mark response discusses reasons for and against both forms of trial with some accuracy, but does not develop the weighing of the arguments or apply them to a fraud case.",
-                        "band": 4
+                        "feedback": "A 4-mark response discusses reasons for and against both forms of trial with some accuracy, but does not develop the weighing of the arguments or apply them to a fraud case.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-29-3",
@@ -16352,11 +16352,11 @@
                       },
                       {
                         "id": "sa-ls-33-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Support services and advocacy help Aboriginal and Torres Strait Islander Peoples understand the court process and access legal representation. Culturally appropriate services can reduce barriers such as distrust and language. However, funding is often uncertain, which limits how far these services can improve access to justice.",
                         "source": "AI",
-                        "feedback": "A 5-mark response discusses the impact of support services and advocacy with accurate detail and a limited judgement, but does not develop the assessment or apply the scenario in depth.",
-                        "band": 4
+                        "feedback": "A 4-mark response discusses the impact of support services and advocacy with accurate detail and a limited judgement, but does not develop the assessment or apply the scenario in depth.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-33-3",
@@ -16480,19 +16480,19 @@
                       },
                       {
                         "id": "sa-ls-35-2",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "Punishment reflects the seriousness of the offence and gives victims a sense that the wrong has been recognised. Deterrence aims to discourage offending, but its effect is uncertain. Protection and rehabilitation are also purposes of sentencing, and a judge must weigh them in deciding a fair sentence for the offender in the scenario, balancing the interests of the victim and society.",
                         "source": "AI",
-                        "feedback": "A 6-mark response explains the purposes and their effect on victims and society with some evaluation, but its judgement is limited and the weighing between the purposes is not developed.",
-                        "band": 4
+                        "feedback": "A 5-mark response explains the purposes and their effect on victims and society with some evaluation, but its judgement is limited and the weighing between the purposes is not developed.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-35-3",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Punishment and deterrence are purposes of sentencing.",
                         "source": "AI",
-                        "feedback": "A 2-mark response identifies two purposes with no link to victims, offenders or society and no evaluation.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies two purposes with no link to victims, offenders or society and no evaluation.",
+                        "band": 1
                       }
                     ],
                     "scenario": "A magistrate in a hypothetical district court is sentencing an offender who has committed a serious assault and has prior convictions. The victim has asked for a severe sentence, while the offender's lawyer seeks a sentence focused on rehabilitation."
@@ -16604,10 +16604,10 @@
                       {
                         "id": "sa-ls-37-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Parliament sets maximum penalties for offences, and the court must consider aggravating and mitigating factors. Aggravating factors such as a prior record increase the sentence, while a guilty plea or remorse reduces it. Judicial discretion means the judge weighs these factors, but this can lead to different sentences for similar offences.",
-                        "feedback": "A 5-mark response analyses at least two factors and their effect on the sentence, with accurate examples, but does not explain the interaction with guidelines or reach a developed judgement.",
-                        "band": 3
+                        "feedback": "A 4-mark response analyses at least two factors and their effect on the sentence, with accurate examples, but does not explain the interaction with guidelines or reach a developed judgement.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-37-3",
@@ -17574,10 +17574,10 @@
                       {
                         "id": "sa-ls-53-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Detention and supervision orders manage high-risk offenders who are due for release but who pose an unacceptable risk. They protect the community, but they limit the liberty of people who have already been sentenced. Critics argue that predicting future risk is uncertain, so such orders should be used only where the evidence is strong.",
-                        "feedback": "A 5-mark response discusses the orders with accurate detail and identifies the tension with liberty and the uncertainty of prediction, but does not refer to the Act or develop a judgement.",
-                        "band": 4
+                        "feedback": "A 4-mark response discusses the orders with accurate detail and identifies the tension with liberty and the uncertainty of prediction, but does not refer to the Act or develop a judgement.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-53-3",
@@ -24636,15 +24636,15 @@
                       },
                       {
                         "id": "sa-ls-171-2",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "The best interests principle protects children mainly through domestic family law, where the Family Law Act makes it the paramount consideration. International law, in the Convention on the Rights of the Child, supports the principle, but it is not directly enforceable in Australian courts. In practice the protection depends on decision-makers applying the principle consistently, and children often rely on adults to raise their interests.",
                         "source": "AI",
                         "feedback": "Identifies a domestic strength and an international limitation and reaches a general judgement. Develop the reasoning further, with examples of how the limits operate, to reach 8 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-171-3",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The best interests principle protects children because the law says it must be considered in parenting cases.",
                         "source": "AI",
                         "feedback": "Describes the principle without evaluation or reference to international law.",
@@ -24999,7 +24999,7 @@
                       {
                         "id": "sa-ls-177-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Some professionals must report concerns about children.",
                         "feedback": "Identifies the duty in general terms without naming the threshold or the process.",
                         "band": 1
@@ -25289,15 +25289,15 @@
                       },
                       {
                         "id": "sa-ls-182-2",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "Family dispute resolution is effective for parents who can negotiate, because it is quicker and cheaper than court and keeps parents in control. However, it is less suitable where one parent is controlling or violent, and agreements may need a court order to be enforced. Court processes provide enforceable orders and evidence, but they are slower and more adversarial.",
                         "source": "AI",
                         "feedback": "Identifies a strength and a limitation of each process and reaches a general judgement. Develop the reasoning on safety and enforceability to reach 8 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-182-3",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Family dispute resolution is quicker than going to court, but it does not suit every family.",
                         "source": "AI",
                         "feedback": "Identifies one strength and one limitation without evaluating the court process.",
@@ -25407,10 +25407,10 @@
                       {
                         "id": "sa-ls-184-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Parenting plans allow parents to tailor arrangements, while court orders are enforceable and decided on the best interests of the child. Child support is a financial obligation calculated under a formula, so it is generally separate from parenting arrangements. Together they support the child, but they operate largely independently of one another.",
                         "feedback": "Accurate analysis of the role of each mechanism and of their independence. Add an example of how each serves the child's best interests to reach 7 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-184-3",
@@ -25524,18 +25524,18 @@
                       {
                         "id": "sa-ls-186-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "A binding financial agreement gives certainty if it meets the formal requirements, including independent legal advice. However, it may lock in unfairness where one party had less bargaining power. Informal agreements are flexible, but the court is not bound by them, so they do not reliably produce equitable outcomes.",
                         "feedback": "Identifies a strength and a limitation of each kind of agreement and reaches a general judgement. Develop the reasoning on bargaining power and consent orders to reach 8 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-186-3",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A binding financial agreement is a written agreement that can settle property matters.",
                         "feedback": "Describes one kind of agreement without assessment of its effect on equitable outcomes.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A couple married for 15 years signed a document before separating that they called a financial agreement and that divides their assets. One spouse had no independent legal advice, and the other had controlled the family finances. They now disagree about whether the document is binding."
@@ -25712,7 +25712,7 @@
                       {
                         "id": "sa-ls-189-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A victim can seek an apprehended domestic violence order from a court, which can restrict contact with the offender. Criminal charges can also be laid for violent conduct, so the offender may be prosecuted and punished for the offence.",
                         "feedback": "Two remedies are explained accurately. Add family law injunctions or compensation to reach 5 or 6 marks.",
                         "band": 2
@@ -25769,7 +25769,7 @@
                       {
                         "id": "sa-ls-190-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "Legal remedies are essential because they restrain the offender and impose penalties for breach. However, a protection order is only effective if the victim has a safe place to live and can use the order safely. Advocacy and support services therefore help victims use legal remedies, which makes them at least as important in practice.",
                         "feedback": "Justifies the view with reasoning about how support makes remedies usable. Add examples such as safety planning or court advocacy to reach 8 marks.",
                         "band": 3
@@ -25949,10 +25949,10 @@
                       {
                         "id": "sa-ls-193-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Financial dependence can keep a victim in a violent relationship, because leaving may mean losing housing and income. Language barriers and fear of retaliation also prevent people from reporting, and people with disability may find services hard to access.",
                         "feedback": "Examines three barriers with some explanation. Explain how each one prevents protection in more detail to reach 5 or 6 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-193-3",
@@ -26006,18 +26006,18 @@
                       {
                         "id": "sa-ls-194-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Financial dependence is a major barrier because a victim without income or housing may feel unable to leave. Social isolation and distrust of institutions also prevent reporting. These barriers could be reduced by financial support, culturally safe services and trained staff, although the barriers are hard to remove completely.",
                         "feedback": "Discusses several barriers and some ways to reduce them. Add examples and explain why one barrier is the most significant to reach 7 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-194-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Financial dependence stops some victims from leaving.",
                         "feedback": "Identifies one barrier with minimal discussion of its significance or how it could be reduced.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -26135,18 +26135,18 @@
                       {
                         "id": "sa-ls-196-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Australian law protects the right to adequate housing indirectly, through tenancy regulation, anti-discrimination law and government programs such as social housing. These protections help people who have a tenancy, but there is no direct entitlement to housing that courts can enforce. Protection for people who are homeless is weaker.",
-                        "feedback": "Assesses the indirect protections and the gap for homeless people. Add a specific strength and limitation of the programs to reach 6 marks.",
-                        "band": 4
+                        "feedback": "Assesses the indirect protections and the gap for homeless people. Add a specific strength and limitation of the programs to reach 5 marks.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-196-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Tenancy law provides some protection for renters.",
                         "feedback": "Identifies a protection without assessing how far it protects people who are homeless.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A federal parliamentary committee is considering a bill that would require governments to report on progress in providing adequate housing. It asks whether Australian law should recognise housing as an enforceable right."
@@ -26317,18 +26317,18 @@
                       {
                         "id": "sa-ls-198-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Strata title lets owners hold an individual lot and share common property costs through levies. However, owners must follow by-laws and owners corporation decisions, which may limit their control over the building.",
                         "feedback": "One advantage and one disadvantage are analysed with some explanation. Add the financial risk of special levies or the role of the owners corporation to reach 5 or 6 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-198-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Strata title means owners share common property.",
                         "feedback": "One feature is identified with minimal analysis of its effect on owners.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A couple is choosing between a house on a freehold block and an apartment in a strata scheme managed by an owners corporation."
@@ -26435,15 +26435,15 @@
                       {
                         "id": "sa-ls-200-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "Native title was recognised in Mabo (1992), which rejected terra nullius and allowed claims based on traditional laws and customs. The Native Title Act 1993 (Cth) provides a process for claims. However, native title can be extinguished and claimants must prove a continuing connection, so protection is incomplete.",
                         "feedback": "Identifies a strength and a limitation and reaches a general judgement. Develop the reasoning on proof and extinguishment to reach 8 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-200-3",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Native title is a legal recognition of Aboriginal connections to land, but it can be lost.",
                         "feedback": "Describes native title in general terms with a brief limitation, without evaluation of the extent of protection.",
                         "band": 2
@@ -26553,10 +26553,10 @@
                       {
                         "id": "sa-ls-202-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The media can raise public awareness of housing needs by reporting on homelessness and poor rental conditions. However, coverage can be selective or stigmatising, which may reinforce prejudice against people seeking housing.",
                         "feedback": "Describes a positive and a negative effect with limited reasoning. Explain how each effect shapes public understanding to reach 5 or 6 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-202-3",
@@ -26675,7 +26675,7 @@
                       {
                         "id": "sa-ls-204-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A buyer and seller sign a written contract of sale, the buyer pays a deposit on exchange, and the property is transferred on settlement. Before settlement, the buyer usually checks the title and the condition of the property.",
                         "feedback": "Explains three stages with some accuracy. Add the cooling-off period and its exceptions, or the role of the conveyancer, to reach 5 or 6 marks.",
                         "band": 2
@@ -26792,10 +26792,10 @@
                       {
                         "id": "sa-ls-206-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "A tenancy agreement sets out the rent, the length of the tenancy and the obligations of both parties, which gives certainty. However, statutory terms are needed because landlords may have more bargaining power, so the law implies protections that the agreement cannot remove.",
                         "feedback": "Explains the certainty function and the role of statutory terms. Add the effect of standard-form terms on the balance to reach 7 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-206-3",
@@ -26918,7 +26918,7 @@
                       {
                         "id": "sa-ls-207-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Buyers need finance from a lender, and lenders assess whether the buyer can repay the loan. Buyers with irregular income or little savings may be excluded, and a large deposit requirement can be a barrier to buying property.",
                         "feedback": "Explains the lender assessment and the deposit requirement. Add a further source, such as family guarantees or government schemes, to reach 5 or 6 marks.",
                         "band": 2
@@ -26973,10 +26973,10 @@
                       {
                         "id": "sa-ls-208-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Misleading marketing and pressure selling can lead buyers to commit to a purchase they would not otherwise make. The Australian Consumer Law prohibits misleading or deceptive conduct and unconscionable conduct, which gives buyers remedies. However, buyers may not discover the conduct in time to use these protections.",
                         "feedback": "Identifies two practices and links them to consumer law protections with a limit. Add the credit law protections and an example to reach 7 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-208-3",
@@ -27090,18 +27090,18 @@
                       {
                         "id": "sa-ls-210-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Anti-discrimination law protects tenants in tenancy relationships by making it unlawful to refuse or end a tenancy because of race, disability or sex. However, proof is difficult and tenants may not know their rights, so the protection is weaker in practice.",
-                        "feedback": "Assesses one strength and one limitation. Add the remedies available and their limits to reach 6 marks.",
-                        "band": 4
+                        "feedback": "Assesses one strength and one limitation. Add the remedies available and their limits to reach 5 marks.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-210-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Anti-discrimination law prohibits discrimination against tenants.",
                         "feedback": "Identifies the protection without assessing how effective it is.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A tenant with a visual impairment and a guide dog applies for a rental property. The agent says the property is no longer available, but the tenant suspects the real reason is the dog and the disability."
@@ -27214,18 +27214,18 @@
                       {
                         "id": "sa-ls-212-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Boundary disputes are difficult because the title boundary may not match a fence or hedge, and surveys can be expensive. The parties may also have a long history of conflict, which makes agreement hard.",
                         "feedback": "Two reasons are analysed with some explanation. Add the effect of cost or encroachment to reach 5 or 6 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-212-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Boundary disputes can be expensive to resolve.",
                         "feedback": "One reason is identified with minimal explanation of why it makes resolution harder.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A neighbour's new garage encroaches by about half a metre onto the adjoining block, and the neighbour refuses to discuss the matter until a survey is completed."
@@ -27332,15 +27332,15 @@
                       },
                       {
                         "id": "sa-ls-214-2",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "Alternative dispute resolution is quicker and cheaper than a tribunal hearing, and it allows parties to agree on flexible arrangements. However, it depends on both parties being willing to negotiate, and a settlement may be difficult to enforce if it is not recorded. Where there is a power imbalance, mediation may not protect the weaker party.",
                         "source": "AI",
                         "feedback": "Identifies a strength and two limitations and reaches a general judgement. Develop the comparison with tribunals to reach 8 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-214-3",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Mediation is cheaper than a tribunal but may not be enforceable.",
                         "source": "AI",
                         "feedback": "Describes one feature and one limitation with minimal evaluation.",
@@ -27395,7 +27395,7 @@
                       {
                         "id": "sa-ls-215-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "NCAT resolves many residential property disputes, including tenancy matters, and its decisions are binding. Courts deal with more complex or high-value disputes, and they apply formal procedures.",
                         "feedback": "Explains the role of each body on two points. Add the specialist role of tribunals or the power of courts to reach 5 or 6 marks.",
                         "band": 2
@@ -27403,7 +27403,7 @@
                       {
                         "id": "sa-ls-215-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Courts and tribunals can resolve property disputes.",
                         "feedback": "Identifies the two bodies without explaining their roles.",
                         "band": 1
@@ -27451,7 +27451,7 @@
                       {
                         "id": "sa-ls-216-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Tribunals are more accessible for ordinary residential disputes because they are less formal and usually cheaper, and members often have specialist knowledge. Courts are more suitable for complex or high-value disputes, because they have broader powers and can set precedent, but they are more formal, more expensive and slower.",
                         "feedback": "Compares the two on accessibility, cost and formality, with a reasoned suitability point. Add a precise point on binding orders or remedial powers to reach 7 marks.",
                         "band": 2
@@ -27571,10 +27571,10 @@
                       {
                         "id": "sa-ls-218-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "Interpreter services should be available early, and information about property rights should be translated into plain language. Community legal centres should be funded to assist people from culturally and linguistically diverse backgrounds, which would improve access to justice for people facing language barriers in residential property disputes.",
                         "feedback": "Recommends several measures linked to language barriers with brief justification. Explain how each measure addresses the barrier and consider feasibility to reach 8 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-218-3",
@@ -27694,10 +27694,10 @@
                       {
                         "id": "sa-ls-220-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Housing affordability causes financial stress for individuals and families, who may have to reduce spending on essentials or move to cheaper areas. Vulnerable groups, such as older people and single parents, face a greater risk of homelessness when housing costs rise.",
                         "feedback": "Discusses the impact on individuals, families and vulnerable groups with some link to affordability. Add examples of the choices families make and the effect on children to reach 7 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-220-3",
@@ -28040,11 +28040,11 @@
                       },
                       {
                         "id": "sa-ls-226-2",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "Culturally appropriate housing helps Aboriginal families keep extended family together and stay connected to Country, which improves tenancy security. However, it depends on government funding, and where supply is short, many families remain on waiting lists. The benefit is real but partial, because affordability depends on more than design.",
                         "source": "AI",
                         "feedback": "Six marks: the benefits and limits are assessed and a partly supported judgement is reached. Examples are general and the weighing of benefits against limits could be more precise to reach a higher band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-226-3",
@@ -28154,10 +28154,10 @@
                       {
                         "id": "sa-ls-228-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "Demand-side measures such as rent assistance and first home buyer concessions help households in immediate need, but they can push up prices if supply is limited. Planning reform increases supply over time, although it is slow and can be resisted by local communities. The measures are partly effective because they address different parts of the problem, and they are more effective when combined.",
                         "feedback": "Six marks: the answer evaluates both demand-side and supply-side measures and reaches a partly supported judgement. The analysis of how the measures interact is brief and the examples are general.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-228-3",
@@ -28336,10 +28336,10 @@
                       {
                         "id": "sa-ls-231-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Homelessness includes sleeping rough and couch surfing.",
                         "feedback": "Two marks: two forms of homelessness are described with limited explanation and no analysis of the extent or the groups affected.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical scenario: A council report notes that people sleeping in parks have become more visible in the city centre. Service providers say that many more people are staying with friends or in overcrowded homes, out of sight."
@@ -28442,7 +28442,7 @@
                       {
                         "id": "sa-ls-233-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "Australian law protects some human rights of people experiencing homelessness, mainly through anti-discrimination law and personal safety protections. However, Australia has no federal bill of rights and no general right to housing, so people who cannot afford a home have no direct legal claim. The right to adequate housing in international law is not directly enforceable in Australian courts, which limits its practical effect.",
                         "feedback": "Six marks: the answer assesses the extent of protection with accurate examples and reaches a partly supported judgement. The discussion of practical barriers to using legal rights is missing.",
                         "band": 4
@@ -28670,10 +28670,10 @@
                       {
                         "id": "sa-ls-237-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "Specialist homelessness services respond quickly to people in crisis, but demand often exceeds capacity. Housing First is more effective at addressing the underlying problem because it provides a stable home first, but it needs dedicated housing and sustained funding. Overall, measures are partly effective, and their success depends on supply and coordination.",
                         "feedback": "Six marks: two measures are evaluated with accurate examples and a partly supported judgement. The effect of coordination is only mentioned, not developed.",
-                        "band": 5
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-237-3",
@@ -28975,7 +28975,7 @@
                       {
                         "id": "sa-ls-241-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "State sovereignty means that states are independent and can decide whether to join treaties, so global rules depend on cooperation. A state that refuses monitoring can be hard to regulate, even when other states support the rules.",
                         "feedback": "Four marks: one way sovereignty affects regulation is explained with accurate detail. The answer does not discuss the limits on sovereignty or the role of non-intervention.",
                         "band": 2
@@ -29030,15 +29030,15 @@
                       {
                         "id": "sa-ls-242-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "State sovereignty limits regulation because states must consent to treaties and the International Court of Justice needs states to accept its jurisdiction. The veto in the Security Council also prevents action in some disputes. However, many states accept treaty obligations, so regulation is not absent, although it is uneven.",
                         "feedback": "Five marks: two limits of sovereignty are analysed with some explanation. The answer does not weigh the obligations states accept in much detail.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-242-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Sovereignty means countries are independent.",
                         "feedback": "Two marks: a general statement about sovereignty is made without any analysis of how it limits regulation.",
                         "band": 1
@@ -29144,7 +29144,7 @@
                       {
                         "id": "sa-ls-244-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Global conflict is caused by ethnic and religious tensions, competition over resources and weak states. For example, groups that feel excluded from power may turn to violence, while scarce water or land can increase disputes between communities. Outside powers may also prolong conflict by supplying weapons.",
                         "feedback": "Five marks: at least two causes are explained with examples, and the answer shows how outside involvement prolongs conflict. The interaction between causes is not examined.",
                         "band": 3
@@ -29152,10 +29152,10 @@
                       {
                         "id": "sa-ls-244-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Religion and resources cause conflict.",
                         "feedback": "Two marks: causes are identified with limited description and no examination of how they lead to conflict.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical scenario: A regional think tank is preparing a report on a series of disputes between neighbouring states. Its analysts want to explain why conflict has continued despite several peace agreements."
@@ -29258,10 +29258,10 @@
                       {
                         "id": "sa-ls-246-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "The Charter of the United Nations creates a framework for collective security, but the veto limits the Security Council. The Geneva Conventions set widely accepted standards, although they are often breached in conflicts. Overall, the instruments are partly effective because compliance depends on states being willing to follow them.",
                         "feedback": "Six marks: effectiveness is assessed with accurate examples and a partly supported judgement. The analysis of enforcement and the role of sanctions is missing.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-246-3",
@@ -29373,18 +29373,18 @@
                       {
                         "id": "sa-ls-248-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Non-government organisations can document abuses, which creates evidence that governments must respond to. The media can influence public opinion, which may put pressure on governments to act. However, governments can resist this pressure by denying access or emphasising sovereignty.",
                         "feedback": "Four marks: two ways of influence are analysed with accurate detail. The examples are general and the analysis of the limits is brief.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-248-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Non-government organisations help people in conflicts.",
                         "feedback": "Two marks: a way these actors act is identified, but the answer does not analyse how it influences governments.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical scenario: A humanitarian organisation publishes a report about displaced families in a conflict zone. The report is picked up by international news outlets, and a government is asked to explain its response."
@@ -29493,18 +29493,18 @@
                       {
                         "id": "sa-ls-250-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "Mutual aid builds trust between states, which makes cooperation on other issues easier. Assistance also reduces the causes of instability, such as poverty, that can lead to conflict. However, aid is costly, so the justification is strongest where aid is well targeted.",
                         "feedback": "Six marks: the view is justified with accurate reasons and a partly supported conclusion. The counter-argument is only briefly considered.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-250-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Mutual aid helps countries to work together.",
                         "feedback": "Two marks: a reason is identified without any justification of why mutual aid is essential.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical scenario: A Pacific island nation has experienced repeated natural disasters. Its government asks partner states for assistance, but some politicians argue that aid should be reduced to save money at home."
@@ -29607,10 +29607,10 @@
                       {
                         "id": "sa-ls-252-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Individuals are directly responsible for war crimes and crimes against humanity under international law. Armed groups are bound by humanitarian rules in armed conflict, but they have limited accountability. Corporations have fewer direct obligations and are mainly regulated through domestic law, so their responsibility is less clear.",
                         "feedback": "Five marks: obligations of three categories of non-state actor are analysed with accurate examples. The explanation of enforcement is brief.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-252-3",
@@ -29719,11 +29719,11 @@
                       },
                       {
                         "id": "sa-ls-254-2",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "The United Nations and regional bodies keep governments talking and create forums for dialogue, which helps to maintain relationships. However, the veto power of permanent members limits what the Security Council can do, and funding affects what these organisations can achieve. Overall, they are partly effective because their success depends on member commitment.",
                         "source": "AI",
                         "feedback": "Six marks: the effectiveness of these organisations is evaluated with a partly supported judgement. The examples are general and the discussion of funding is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-254-3",
@@ -29773,7 +29773,7 @@
                       {
                         "id": "sa-ls-255-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The General Assembly is open to all member states and its resolutions are recommendations. The Security Council has permanent members with veto power and its decisions can be binding.",
                         "feedback": "Four marks: the two organs are compared with accurate detail on one clear difference in legal force and membership. The link to international cooperation is not developed.",
                         "band": 2
@@ -29887,10 +29887,10 @@
                       {
                         "id": "sa-ls-257-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Australia's commitments under the Charter of the United Nations help to create rules for collective security. Its peacekeeping and regional partnerships also contribute, but its participation is shaped by national interest, so its effect is not always consistent.",
                         "feedback": "Five marks: some contributions and limits are evaluated with accuracy. The judgement is limited and the examples are general.",
-                        "band": 4
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-257-3",
@@ -30007,18 +30007,18 @@
                       {
                         "id": "sa-ls-259-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Modern wars place civilians at greater risk, because fighting takes place in towns and camps. International humanitarian law protects civilians, but its principles are harder to apply when armed groups mix with civilians.",
                         "feedback": "Four marks: the changing nature of war is linked to its effect on civilians with some accuracy. The discussion of how the law applies is limited.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-259-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Civilians are harmed in war.",
                         "feedback": "Two marks: a risk to civilians is identified without discussion of the changing nature of war or of the law.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical scenario: A humanitarian agency is preparing a briefing for its board. The briefing notes that most of the people harmed in recent conflicts are not combatants, and it asks whether the rules of war still protect them."
@@ -30122,10 +30122,10 @@
                       {
                         "id": "sa-ls-261-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 3,
                         "answer": "International humanitarian law is widely accepted and shapes military training, but it is frequently breached in armed conflict. Its effectiveness depends on compliance, and accountability for war crimes is uneven. Overall, the law is partly effective in limiting harm.",
                         "feedback": "Six marks: the effectiveness of the law is evaluated with a partly supported judgement. The examples are general and the discussion of accountability is brief.",
-                        "band": 5
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-261-3",
@@ -30235,10 +30235,10 @@
                       {
                         "id": "sa-ls-263-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "The United Nations has useful tools, such as Security Council resolutions and peacekeeping, but its actions are limited by the veto power of permanent members and by funding. Overall, its effectiveness is partly supported by its achievements and partly limited by these constraints.",
                         "feedback": "Six marks: the effectiveness of the actions is assessed with a partly supported judgement. The examples are general and the discussion of sanctions is missing.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-263-3",
@@ -30289,10 +30289,10 @@
                       {
                         "id": "sa-ls-264-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Security Council can impose sanctions on a state that threatens peace, such as arms embargoes and travel bans. These measures are binding and are designed to change behaviour without the use of force.",
                         "feedback": "Four marks: one response to a threat to peace is explained with accurate detail. The authorisation of force and the link between the two responses are not analysed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-264-3",
@@ -30579,15 +30579,15 @@
                       {
                         "id": "sa-ls-269-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Conflict affects individuals through death, injury and displacement, and groups through damaged social ties. Nation-states face economic costs and weaker institutions. These impacts can persist after fighting ends, so recovery is slow.",
                         "feedback": "Five marks: the impact is analysed on all three levels with some explanation of how the effects persist. The interaction between the levels is not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-269-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Conflict harms individuals, groups and nation-states.",
                         "feedback": "Two marks: the levels are identified with no description of the impact or analysis of how the effects differ.",
                         "band": 1
@@ -30694,18 +30694,18 @@
                       {
                         "id": "sa-ls-271-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "Burden-sharing through resettlement and funded humanitarian assistance would protect displaced people, because it relieves the states that host the most refugees. The recommendation would be stronger if it were linked to peace processes, although funding and political will may limit it.",
                         "feedback": "Six marks: a recommendation is justified with accurate reasons and a partly supported conclusion. Only one recommendation is made, so the answer does not explore several options.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-271-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "States should give displaced people more help.",
                         "feedback": "Two marks: a response is identified with little justification and no specific recommendation.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical scenario: Conflict in a neighbouring region has displaced large numbers of families. A regional forum is asking member states to agree on a shared set of recommendations. Some states want to focus on emergency relief, while others want a long-term plan for return and resettlement."
@@ -30809,18 +30809,18 @@
                       {
                         "id": "sa-ls-273-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "State sovereignty limits enforcement because a state is bound only by treaties it has consented to, and it may withdraw from them. Courts can only decide disputes where states accept their jurisdiction. However, many states accept obligations and comply with them, so enforcement is not absent but depends on the willingness of states.",
                         "feedback": "Five marks: two ways in which sovereignty limits enforcement are discussed, with some explanation of the obligations states still accept. The judgement about the extent of the limitation is limited.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-273-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Sovereignty means states are independent.",
                         "feedback": "Two marks: sovereignty is described in general terms without discussion of how it limits enforcement.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical scenario: A group of states has agreed to a treaty that requires independent inspections of industrial sites. One state refuses inspection and says that its sovereignty protects its territory. The other states are considering whether any enforcement action can be taken."
@@ -30988,10 +30988,10 @@
                       {
                         "id": "sa-ls-275-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "R2P has shaped expectations of states, but it is limited by the veto power, concerns about state sovereignty and political will. Its effectiveness is partly supported by its normative influence and partly limited by the difficulty of responding to atrocities in practice.",
                         "feedback": "Six marks: the effectiveness of R2P is evaluated with a partly supported judgement. The examples are general and the controversy over the third pillar is only mentioned.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-275-3",
@@ -31462,11 +31462,11 @@
                       },
                       {
                         "id": "sa-ls-283-2",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The Security Council can impose sanctions on a state that develops weapons of mass destruction, which may change its behaviour. However, the state may find other suppliers, and permanent members may disagree, so sanctions are not always effective.",
                         "source": "AI",
-                        "feedback": "A 5-mark response assesses one response and one limitation, with limited application to the scenario and no inspection analysis.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses one response and one limitation, with limited application to the scenario and no inspection analysis.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-283-3",
@@ -31956,9 +31956,9 @@
                       {
                         "id": "sa-ls-289-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "An employee is covered by minimum conditions and the Fair Work Act, but an independent contractor is generally not. In the scenario, Sam's regular roster and hourly pay suggest employee status, even though the owner calls him a casual.",
-                        "feedback": "A 4-mark response explains one implication of status accurately with some application to Sam. It does not address Ruby, so it does not reach the 5-mark band.",
+                        "feedback": "A 3-mark response explains one implication of status accurately with some application to Sam. It does not address Ruby, so it does not reach the 5-mark band.",
                         "band": 2
                       },
                       {
@@ -32011,11 +32011,11 @@
                       },
                       {
                         "id": "sa-ls-290-2",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Courts look at how much control the business has over the work, whether the worker supplies their own tools and whether they can make a profit or suffer a loss. A worker who follows the business's rosters and procedures is more likely to be an employee, even if the contract calls them a contractor.",
                         "source": "AI",
-                        "feedback": "A 5-mark response identifies three factors and explains how control points towards employee status, but it does not weigh the factors against each other.",
-                        "band": 3
+                        "feedback": "A 4-mark response identifies three factors and explains how control points towards employee status, but it does not weigh the factors against each other.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-290-3",
@@ -32247,10 +32247,10 @@
                       {
                         "id": "sa-ls-294-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Trade unions influence the law through bargaining and submissions to government, while non-government organisations provide evidence and expertise. The media can shape public opinion, but its attention is often short-lived, so these groups are most effective when they combine their efforts.",
-                        "feedback": "A 5-mark response describes the influence of three groups with some reasoning and one limitation, but it does not assess the extent of their influence in depth.",
-                        "band": 4
+                        "feedback": "A 4-mark response describes the influence of three groups with some reasoning and one limitation, but it does not assess the extent of their influence in depth.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-294-3",
@@ -32371,10 +32371,10 @@
                       {
                         "id": "sa-ls-296-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A culturally responsive approach helps workers understand safety procedures, which supports the employer's duty of care. Consulting staff about the manual can also identify hazards that a head office policy might miss.",
-                        "feedback": "A 4-mark response explains benefits of a culturally responsive approach with some application to the consultation problem in the scenario, but does not assess limits or reach a judgement.",
-                        "band": 4
+                        "feedback": "A 3-mark response explains benefits of a culturally responsive approach with some application to the consultation problem in the scenario, but does not assess limits or reach a judgement.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-296-3",
@@ -32489,10 +32489,10 @@
                       {
                         "id": "sa-ls-298-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Workers can contribute to safety by reporting hazards, and the business must consult them before changing work arrangements. A health and safety representative can raise concerns on their behalf, which can prompt the business to fix problems.",
-                        "feedback": "A 5-mark response analyses two forms of participation with some application to the scenario, but has limited analysis of how participation affects compliance.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two forms of participation with some application to the scenario, but has limited analysis of how participation affects compliance.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-298-3",
@@ -32606,10 +32606,10 @@
                       {
                         "id": "sa-ls-300-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Improvement notices can fix an immediate hazard quickly, but they address one site at a time, so the company can continue the same practice elsewhere. Court action carries a stronger deterrent, although prosecution is slow and expensive.",
-                        "feedback": "A 5-mark response assesses one method and one limitation, with some application to the scenario.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses one method and one limitation, with some application to the scenario.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-300-3",
@@ -32724,10 +32724,10 @@
                       {
                         "id": "sa-ls-302-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Regulation can lag behind technology, so new hazards such as electric bikes may not be covered by clear rules. Penalties may also be too low to deter a company that gains more from breaching the rules than it would pay in fines, which the scenario suggests is the case.",
-                        "feedback": "A 5-mark response analyses two inadequacies, regulatory lag and weak deterrence, with some application to the scenario, but it does not analyse enforcement limits.",
-                        "band": 3
+                        "feedback": "A 4-mark response analyses two inadequacies, regulatory lag and weak deterrence, with some application to the scenario, but it does not analyse enforcement limits.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-302-3",
@@ -32791,17 +32791,17 @@
                       {
                         "id": "sa-ls-303-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Workers depend on wages to meet basic needs, so an underpaid worker may struggle to pay rent or food. In the scenario, deductions for uniforms reduce the pay of kitchen staff who rely on their wages to support families.",
-                        "feedback": "A 4-mark response explains one reason for protecting fair pay accurately, with some application to the scenario. It does not address a second reason.",
+                        "feedback": "A 3-mark response explains one reason for protecting fair pay accurately, with some application to the scenario. It does not address a second reason.",
                         "band": 2
                       },
                       {
                         "id": "sa-ls-303-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Fair pay stops workers being exploited.",
-                        "feedback": "A 2-mark response identifies one reason with minimal explanation and no application.",
+                        "feedback": "A 1-mark response identifies one reason with minimal explanation and no application.",
                         "band": 1
                       }
                     ],
@@ -32847,10 +32847,10 @@
                       {
                         "id": "sa-ls-304-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Fair pay protects workers from exploitation and gives employers who comply a level playing field. However, compliance can be costly for small businesses with narrow margins.",
-                        "feedback": "A 4-mark response discusses one benefit and one cost with some accuracy, but does not weigh them or reach a view.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses one benefit and one cost with some accuracy, but does not weigh them or reach a view.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-304-3",
@@ -32963,10 +32963,10 @@
                       {
                         "id": "sa-ls-306-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Modern awards set the minimum pay for an industry, and the National Minimum Wage sets the lowest legal rate. An enterprise agreement can pay above the award, but it must pass the better off overall test, so the trade-off in the scenario must not leave employees worse off.",
-                        "feedback": "A 5-mark response analyses how two instruments interact, with accurate reference to the better off overall test and some application to the scenario, but it does not weigh the effect of the trade-off in depth.",
-                        "band": 3
+                        "feedback": "A 4-mark response analyses how two instruments interact, with accurate reference to the better off overall test and some application to the scenario, but it does not weigh the effect of the trade-off in depth.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-306-3",
@@ -33080,10 +33080,10 @@
                       {
                         "id": "sa-ls-308-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The Fair Work Ombudsman can secure back pay quickly, which helps workers who need money now. Courts can impose penalties that deter other employers, but court action is slow and expensive, so workers may wait a long time for a remedy.",
-                        "feedback": "A 5-mark response evaluates two methods and one limitation with some application, but does not address the restructuring in the scenario in depth.",
-                        "band": 4
+                        "feedback": "A 4-mark response evaluates two methods and one limitation with some application, but does not address the restructuring in the scenario in depth.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-308-3",
@@ -33197,17 +33197,17 @@
                       {
                         "id": "sa-ls-310-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Visa conditions can make international students fear that a complaint will affect their status, so they may not report underpayment. Casual employment also makes unrecorded hours harder to detect, which can conceal wage theft.",
-                        "feedback": "A 5-mark response analyses two factors that increase exposure to exploitation, with some application to the scenario, but it does not explain how the factors combine.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two factors that increase exposure to exploitation, with some application to the scenario, but it does not explain how the factors combine.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-310-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Vulnerable workers can be exploited by employers.",
-                        "feedback": "A 2-mark response makes a basic statement without identifying any factor.",
+                        "feedback": "A 1-mark response makes a basic statement without identifying any factor.",
                         "band": 1
                       }
                     ],
@@ -33265,9 +33265,9 @@
                       {
                         "id": "sa-ls-311-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Leave was once granted at the employer's discretion, but leave is now recognised in the National Employment Standards. In the scenario, the father's entitlement to parental leave shows how leave has been recognised for family responsibilities.",
-                        "feedback": "A 4-mark response explains one stage of the evolution accurately and applies parental leave to the scenario, but does not explain a second stage or why recognition matters.",
+                        "feedback": "A 3-mark response explains one stage of the evolution accurately and applies parental leave to the scenario, but does not explain a second stage or why recognition matters.",
                         "band": 2
                       },
                       {
@@ -33321,18 +33321,18 @@
                       {
                         "id": "sa-ls-312-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Leave is important for health. Workers who are unwell need time to recover, and forcing them to work while ill can cause longer-term harm to the worker and spread illness to others.",
-                        "feedback": "A 4-mark response justifies the position with one reason, explained accurately, but does not add a second reason or address a counterargument.",
-                        "band": 4
+                        "feedback": "A 3-mark response justifies the position with one reason, explained accurately, but does not add a second reason or address a counterargument.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-312-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Leave helps workers to rest.",
-                        "feedback": "A 2-mark response identifies one reason with minimal support.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies one reason with minimal support.",
+                        "band": 1
                       }
                     ]
                   }
@@ -33554,10 +33554,10 @@
                       {
                         "id": "sa-ls-316-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The National Employment Standards set minimum leave entitlements that apply to every eligible employee. Enterprise agreements can provide more leave, such as a leave loading, so the manager's claim that agreements cannot improve on the standards is incorrect.",
-                        "feedback": "A 5-mark response analyses the floor and the bargaining layer with accurate reasoning and some application, but does not consider the approval safeguard in depth.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the floor and the bargaining layer with accurate reasoning and some application, but does not consider the approval safeguard in depth.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-316-3",
@@ -33671,10 +33671,10 @@
                       {
                         "id": "sa-ls-318-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Casual loading gives workers a higher hourly rate in place of paid leave, which is simple and immediate. However, it gives no time away from work when a worker is ill, so it protects pay but not health or family responsibilities.",
-                        "feedback": "A 5-mark response evaluates one measure and one limitation, with some application, but does not evaluate the portable schemes or the contractor position.",
-                        "band": 4
+                        "feedback": "A 4-mark response evaluates one measure and one limitation, with some application, but does not evaluate the portable schemes or the contractor position.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-318-3",
@@ -33803,10 +33803,10 @@
                       {
                         "id": "sa-ls-320-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Workers have a human right to work.",
-                        "feedback": "A 2-mark response identifies one reason with minimal support.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies one reason with minimal support.",
+                        "band": 1
                       }
                     ]
                   }
@@ -33911,10 +33911,10 @@
                       {
                         "id": "sa-ls-322-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Unfair dismissal asks whether a dismissal was harsh, unjust or unreasonable, while the general protections ask whether the dismissal was for a prohibited reason. A worker dismissed after complaining about unpaid overtime may have a claim under the general protections, even if the employer has a reason for the dismissal.",
-                        "feedback": "A 5-mark response analyses the two protections with accurate reasoning and some application, but does not test the restructure explanation or practical requirements.",
-                        "band": 3
+                        "feedback": "A 4-mark response analyses the two protections with accurate reasoning and some application, but does not test the restructure explanation or practical requirements.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-322-3",
@@ -34028,9 +34028,9 @@
                       {
                         "id": "sa-ls-324-2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Fair Work Commission can conciliate an unfair dismissal claim, and it can order reinstatement or compensation in some cases. Courts can impose civil penalties for breaches of workplace laws, which act as a deterrent to employers.",
-                        "feedback": "A 4-mark response explains the roles of the Commission and the courts, but does not explain alternative dispute resolution, so it does not reach the 5-mark band.",
+                        "feedback": "A 3-mark response explains the roles of the Commission and the courts, but does not explain alternative dispute resolution, so it does not reach the 5-mark band.",
                         "band": 2
                       },
                       {
@@ -34084,10 +34084,10 @@
                       {
                         "id": "sa-ls-325-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Alternative dispute resolution, such as mediation, is usually faster and cheaper, and it can preserve a working relationship. However, a mediated settlement is binding only when the parties agree, so an employee who needs an enforceable order may need a tribunal.",
-                        "feedback": "A 5-mark response evaluates one process and one limitation with some application to the scenario, but does not compare the tribunal process in depth.",
-                        "band": 4
+                        "feedback": "A 4-mark response evaluates one process and one limitation with some application to the scenario, but does not compare the tribunal process in depth.",
+                        "band": 3
                       },
                       {
                         "id": "sa-ls-325-3",
@@ -34201,10 +34201,10 @@
                       {
                         "id": "sa-ls-327-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Fear of reprisal stops workers from complaining, even where the law protects them. Language barriers and limited knowledge of the right body can also keep vulnerable workers from enforcing their rights, so workplace law is less effective for them.",
-                        "feedback": "A 5-mark response analyses two barriers with some application to the scenario, but does not analyse cost or time limits.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two barriers with some application to the scenario, but does not analyse cost or time limits.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ls-327-3",
@@ -35300,10 +35300,10 @@
                       {
                         "id": "prompt-ls-12-legal-themes-and-skills-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Legal measures are more effective for individuals because a court order is binding. However, court action is slow and costly, so a union campaign may reach more workers quickly, although it does not produce a binding outcome.",
                         "feedback": "Justifies a judgement with some reasoning, but does not weigh the agency complaint or the limits of the campaign.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-12-legal-themes-and-skills-3-3-n0-n1-s3",
@@ -35784,10 +35784,10 @@
                       {
                         "id": "prompt-ls-12-legal-themes-and-skills-5-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The legal system responds to technology by using existing laws, such as defamation, and Parliament can pass new offences. This shows responsiveness, but courts may be slow and existing laws may be outdated. Changing values and media coverage may push the government to act quickly.",
                         "feedback": "Accurate description with some evaluation, but the judgement about timeliness and effectiveness is limited.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ls-12-legal-themes-and-skills-5-2-n0-n1-s3",

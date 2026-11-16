@@ -578,10 +578,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Keeping the mass and surface constant means any change in the distance is due to the release height. The standard-height trial shows whether the set-up is consistent across the investigation.",
-                        "feedback": "Meets the 4-mark row by explaining the need to keep the mass and surface constant, with a reason for the control trial. It does not justify these choices or say what would go wrong without them.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the need to keep the mass and surface constant, with a reason for the control trial. It does not justify these choices or say what would go wrong without them.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-2-1-n0-n1-s3",
@@ -816,10 +816,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The textbook is reliable because it names its publisher and lists its original measurements. The blog post is not reliable because it has no author or date, and its claim of 500 metres per second contradicts the other sources.",
-                        "feedback": "Meets the 4-mark row by assessing two sources with a reason for each judgement. It does not assess the lecture slides or recommend a source.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing two sources with a reason for each judgement. It does not assess the lecture slides or recommend a source.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-2-3-n0-n1-s3",
@@ -1054,10 +1054,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The light gate is a better timing device than a stopwatch because it times the trolley automatically. The smooth ramp is also a better choice, because it causes less friction, so the angle matters more than the surface.",
-                        "feedback": "Meets the 4-mark row: two items are justified with relevant reasons, but the trolley is not discussed and the valid and reliable results are not linked to each choice.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: two items are justified with relevant reasons, but the trolley is not discussed and the valid and reliable results are not linked to each choice.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-2-5-n0-n1-s3",
@@ -1172,10 +1172,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The laser could help patients, but the group must test it for safety and get informed consent before treating anyone. The same system could also be adapted for weapons, which is a serious ethical issue.",
-                        "feedback": "Meets the 4-mark row by discussing two issues with relevant reasons, but surveillance and the responsibility of the group are not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing two issues with relevant reasons, but surveillance and the responsibility of the group are not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-2-6-n0-n1-s3",
@@ -1297,10 +1297,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Applying the hierarchy of controls, the group should substitute a lidded, insulated container for the open beaker, which reduces the risk of scalding from splashes.",
-                        "feedback": "Meets the 4-mark row by applying the hierarchy to one control measure and explaining how it reduces risk. Improving the second hazard as well would lift it to the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by applying the hierarchy to one control measure and explaining how it reduces risk. Improving the second hazard as well would lift it to the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-3-1-n0-n1-s3",
@@ -1416,10 +1416,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The rubber band is unsuitable because it stretches, so the length changes during the swing and cannot be controlled.",
-                        "feedback": "Meets the 4-mark row by assessing one limitation with a relevant reason. Adding the pivot and timing limitations would move it up.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing one limitation with a relevant reason. Adding the pivot and timing limitations would move it up.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-3-2-n0-n1-s3",
@@ -1784,10 +1784,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-4-1-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The table is the most useful source.",
-                        "feedback": "Meets the 2-mark row by identifying the most useful source without a reason.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying the most useful source without a reason.",
+                        "band": 1
                       }
                     ]
                   }
@@ -2013,10 +2013,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A graph is better because it shows the trend in temperature as time increases. The line of best fit shows the cooling pattern clearly, with labelled axes and units.",
-                        "feedback": "Meets the 4-mark row by justifying the graph with relevant reasons about the trend. Weighing what the table does well would raise it.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the graph with relevant reasons about the trend. Weighing what the table does well would raise it.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-4-3-n0-n1-s3",
@@ -3539,10 +3539,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-6-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The class could repeat the trials with a streamlined trolley on the same ramp angles.",
-                        "feedback": "Meets the 3-mark row: a relevant modification is described without a clear justification. Linking it to the larger gap at steep angles would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: a relevant modification is described without a clear justification. Linking it to the larger gap at steep angles would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-6-3-n0-n1-s3",
@@ -3659,10 +3659,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-6-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A model can be tested by checking its predictions, and new evidence can show that it needs to change.",
-                        "feedback": "Meets the 3-mark row: describes testing and briefly mentions change. Discussing why the model may change, with an example, would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes testing and briefly mentions change. Discussing why the model may change, with an example, would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-6-4-n0-n1-s3",
@@ -3902,10 +3902,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-7-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "She could use a line graph, a video and an oral presentation for the panel.",
-                        "feedback": "Meets the 3-mark row: describes suitable media without a justification. Explaining what each medium conveys would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes suitable media without a justification. Explaining what each medium conveys would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-7-2-n0-n1-s3",
@@ -4020,10 +4020,10 @@
                       {
                         "id": "prompt-phy-11-working-scientifically-7-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The conclusion uses informal wording, such as 'cos', and the symbol KE is not defined.",
-                        "feedback": "Meets the 3-mark row by describing features of the language and symbols. Judging how these affect the panel, with specific changes, would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing features of the language and symbols. Judging how these affect the panel, with specific changes, would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-working-scientifically-7-3-n0-n1-s3",
@@ -4616,10 +4616,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The vertical component gets bigger as the angle increases, because more of the ball's speed points upward.",
-                        "feedback": "Meets the 3-mark row by explaining how one component depends on the angle. It does not describe the horizontal component, so it does not reach the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining how one component depends on the angle. It does not describe the horizontal component, so it does not reach the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-1-4-n0-n1-s3",
@@ -4737,10 +4737,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Average velocity uses displacement, and average speed uses distance. Both are divided by the time.",
-                        "feedback": "Meets the 3-mark row by explaining that average velocity depends on displacement and average speed on distance. It does not apply this to the lap, so it does not explain why the average velocity is zero.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that average velocity depends on displacement and average speed on distance. It does not apply this to the lap, so it does not explain why the average velocity is zero.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-1-6-n0-n1-s3",
@@ -5111,10 +5111,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Trolley Q has the greater acceleration because it reaches the final velocity in a shorter time.",
-                        "feedback": "Meets the 3-mark row by deducing that Q accelerates more, with reference to the shorter time. It gives no reasoning about displacement, which P's longer time and the shared average velocity would support.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by deducing that Q accelerates more, with reference to the shorter time. It gives no reasoning about displacement, which P's longer time and the shared average velocity would support.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-2-3-n0-n1-s3",
@@ -5468,18 +5468,18 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "As θ increases, the horizontal component decreases and the vertical component increases, so less of the rope force pulls the crate forward. Cosine and sine show these changes, so the horizontal pull weakens as the rope lifts.",
-                        "feedback": "Meets the 4-mark row by interpreting how both components change with θ and the effect on the horizontal pull. It does not use the end points to show the full trend, which the 5-mark row needs.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by interpreting how both components change with θ and the effect on the horizontal pull. It does not use the end points to show the full trend, which the 5-mark row needs.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-3-1-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The vertical component increases as θ increases.",
-                        "feedback": "Meets the 2-mark row by identifying one component changing with θ, with little reasoning. Describing how the horizontal component changes as well would lift it to the 3-mark row.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one component changing with θ, with little reasoning. Describing how the horizontal component changes as well would lift it to the 3-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -7130,10 +7130,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Mechanical energy is not conserved, because friction and air resistance act on the skier and do negative work.",
                         "feedback": "States the conclusion with a correct reason, but does not say where the energy goes.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-2-n0-n1-s3",
@@ -7244,10 +7244,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The pushing force does positive work, and gravity does negative work as the trolley rises.",
                         "feedback": "Describes the sign of each force's work, but does not relate the net work to the energy changes.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-3-n0-n1-s3",
@@ -7370,10 +7370,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "On a frictionless ramp, mechanical energy is conserved, so each trolley's loss of potential energy becomes kinetic energy. Both trolleys start from the same height, so they reach the bottom with the same speed.",
-                        "feedback": "Meets the 4-mark row by applying conservation to compare the speeds, but the larger kinetic energy of the heavier trolley and the work done by gravity are not discussed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by applying conservation to compare the speeds, but the larger kinetic energy of the heavier trolley and the work done by gravity are not discussed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-6-n0-n1-s3",
@@ -7484,10 +7484,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Gravity does negative work as the box rises and positive work as it is lowered, of equal size.",
                         "feedback": "Gives the sign of gravity's work at each stage, but does not show that the net work is zero or link it to gravitational potential energy.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-7-n0-n1-s3",
@@ -7712,10 +7712,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The trolleys push on each other with equal and opposite forces, so the total momentum does not change.",
                         "feedback": "States the equal and opposite forces and the result, but does not explain the impulses or the external force condition.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-9-n0-n1-s3",
@@ -7826,10 +7826,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Momentum is conserved in every collision, but kinetic energy is lost in an inelastic collision.",
                         "feedback": "Assesses both parts correctly, but gives no qualification or explanation of the forces.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-10-n0-n1-s3",
@@ -7955,10 +7955,10 @@
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Friction on the track removes momentum, so the total momentum after the collision looks smaller.",
                         "feedback": "Describes one source of error and its effect, but does not analyse the others or suggest an improvement.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-fundamentals-of-mechanics-5-14-n0-n1-s3",
@@ -8196,10 +8196,10 @@
                       {
                         "id": "prompt-phy-11-waves-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A higher frequency means a shorter period, and at constant wave speed the wavelength becomes shorter.",
                         "feedback": "Describes both effects correctly, but does not explain why the wavelength shortens.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-1-2-n0-n1-s3",
@@ -8310,10 +8310,10 @@
                       {
                         "id": "prompt-phy-11-waves-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A transverse wave has crests and troughs, while a longitudinal wave has compressions and rarefactions.",
                         "feedback": "Describes the defining features of each wave, but does not contrast the displacement direction or the wavelength measurement.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-1-3-n0-n1-s3",
@@ -8429,10 +8429,10 @@
                       {
                         "id": "prompt-phy-11-waves-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The graph shows the period and amplitude of one particle, but not whether the wave is transverse or longitudinal.",
                         "feedback": "Describes what the graph shows and states the limitation, but does not explain why both wave types give the same curve.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-1-5-n0-n1-s3",
@@ -8543,10 +8543,10 @@
                       {
                         "id": "prompt-phy-11-waves-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "One wavelength is a repeating section of the graph, and it contains one compression and one rarefaction.",
                         "feedback": "Describes one wavelength correctly, but does not link the graph to the particles of the medium.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-1-6-n0-n1-s3",
@@ -8657,10 +8657,10 @@
                       {
                         "id": "prompt-phy-11-waves-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "In shallow water the wave slows, so its wavelength and velocity decrease, which gives an estimate of depth.",
                         "feedback": "Describes the relationship in shallow water, but does not discuss limitations or the deep-water case.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-1-7-n0-n1-s3",
@@ -8777,10 +8777,10 @@
                       {
                         "id": "prompt-phy-11-waves-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Sound is a mechanical wave that needs a medium, but light is an electromagnetic wave and does not.",
                         "feedback": "Compares the two waves correctly, but does not give the sunlight example or explain the particles needed for sound.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-2-1-n0-n1-s3",
@@ -9355,10 +9355,10 @@
                       {
                         "id": "prompt-phy-11-waves-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The transmitter's oscillating charges produce an electromagnetic wave that carries energy to the receiving antenna, which detects it.",
-                        "feedback": "Meets the 3-mark row by explaining that the wave carries energy from transmitter to receiver. It does not explain how the receiving antenna takes up the energy, and describing that would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that the wave carries energy from transmitter to receiver. It does not explain how the receiving antenna takes up the energy, and describing that would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-2-6-n0-n1-s3",
@@ -9709,10 +9709,10 @@
                       {
                         "id": "prompt-phy-11-waves-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The intensity falls as distance increases because the energy from the point source is spread over a larger area.",
-                        "feedback": "Meets the 3-mark row by explaining the fall in intensity through the spreading of energy. It does not describe the sphere or assess the claim, and adding those would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining the fall in intensity through the spreading of energy. It does not describe the sphere or assess the claim, and adding those would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-2-10-n0-n1-s3",
@@ -10178,10 +10178,10 @@
                       {
                         "id": "prompt-phy-11-waves-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The student could repeat trials at each angle and average the results to make the investigation more accurate.",
-                        "feedback": "Meets the 3-mark row by describing one way to improve accuracy. It does not identify a source of error or a second improvement, and adding these would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing one way to improve accuracy. It does not identify a source of error or a second improvement, and adding these would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-3-3-n0-n1-s3",
@@ -10657,10 +10657,10 @@
                       {
                         "id": "prompt-phy-11-waves-3-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Parallax error could make the protractor reading slightly wrong, which would change the angle of refraction measured.",
-                        "feedback": "Meets the 3-mark row by explaining how one source of error changes the angle measured. It does not assess a second source or judge the effect on the refractive index, and adding these would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining how one source of error changes the angle measured. It does not assess a second source or judge the effect on the refractive index, and adding these would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-3-10-n0-n1-s3",
@@ -11237,10 +11237,10 @@
                       {
                         "id": "prompt-phy-11-waves-3-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The two sources must have the same frequency, or the pattern will not stay in one place.",
-                        "feedback": "Meets the 3-mark row by explaining that the sources must share a frequency for a stable pattern. It does not explain the changing phase difference or the movement of the maxima and minima, and adding these would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that the sources must share a frequency for a stable pattern. It does not explain the changing phase difference or the movement of the maxima and minima, and adding these would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-3-15-n0-n1-s3",
@@ -11469,10 +11469,10 @@
                       {
                         "id": "prompt-phy-11-waves-3-17-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "At a higher harmonic the string forms more loops, so there are more nodes and antinodes along the string.",
-                        "feedback": "Meets the 3-mark row by explaining that more nodes and antinodes appear as the frequency increases. It does not explain why the fixed ends must be nodes, and adding that would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that more nodes and antinodes appear as the frequency increases. It does not explain why the fixed ends must be nodes, and adding that would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-3-17-n0-n1-s3",
@@ -11585,10 +11585,10 @@
                       {
                         "id": "prompt-phy-11-waves-3-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Tightening the string increases the wave speed on the string, so the frequency of the fundamental increases.",
-                        "feedback": "Meets the 3-mark row by explaining the rise in wave speed and frequency. It does not explain that the wavelength stays the same, and adding that would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining the rise in wave speed and frequency. It does not explain that the wavelength stays the same, and adding that would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-waves-3-18-n0-n1-s3",
@@ -14096,10 +14096,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The heater draws a larger current from the same 230 V supply, so by P = VI its power is greater than the appliance's power.",
-                        "feedback": "Meets the 4-mark row by applying P = VI to compare the two devices, but the rate of energy transfer to the surroundings is not explained.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by applying P = VI to compare the two devices, but the rate of energy transfer to the surroundings is not explained.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-11-n0-n1-s3",
@@ -14217,10 +14217,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "In the series circuit all the lamps go out, because the current stops. In the parallel circuit the other lamps stay lit, because they are still connected to the cell.",
-                        "feedback": "Meets the 4-mark row by stating what happens in each circuit, but the paths of the current are not explained in full.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by stating what happens in each circuit, but the paths of the current are not explained in full.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-13-n0-n1-s3",
@@ -14333,10 +14333,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The cell, switch, ammeter and lamp L1 are in series with each other. L2 and L3 form a parallel circuit, because the loop divides into two branches.",
-                        "feedback": "Meets the 4-mark row by identifying the series and parallel parts with some reasoning, but the ammeter and voltmeter are not explained.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by identifying the series and parallel parts with some reasoning, but the ammeter and voltmeter are not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-14-n0-n1-s3",
@@ -14449,10 +14449,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Connected in parallel across the lamp, the ammeter has a very low resistance, so most of the current bypasses the lamp and the lamp goes out.",
-                        "feedback": "Meets the 4-mark row by justifying the effect of one misplaced meter with its resistance, but the voltmeter in the second circuit is not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the effect of one misplaced meter with its resistance, but the voltmeter in the second circuit is not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-15-n0-n1-s3",
@@ -14565,10 +14565,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-16-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The higher resistance lamp increases the total resistance of the circuit, so the current falls. The current is still the same at every point, so the ammeter reading falls.",
-                        "feedback": "Meets the 4-mark row by analysing the change in resistance and its effect on the current, but conservation of charge is not used to explain the same current at each point.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing the change in resistance and its effect on the current, but conservation of charge is not used to explain the same current at each point.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-16-n0-n1-s3",
@@ -14681,10 +14681,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-17-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "With the circuit open, no current flows through the two remaining lamps. No energy is transferred in them, so their voltmeters read zero.",
-                        "feedback": "Meets the 4-mark row by applying conservation of energy to the remaining lamps, but the reading across the lamp that burns out is not explained.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by applying conservation of energy to the remaining lamps, but the reading across the lamp that burns out is not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-17-n0-n1-s3",
@@ -14797,10 +14797,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Adding a third lamp increases the total resistance of the series circuit, because the resistances of the components add. The current from the cell therefore falls, so each lamp glows more dimly.",
-                        "feedback": "Meets the 4-mark row by deducing the increase in total resistance and the fall in current, but the fixed cell voltage is not referred to.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by deducing the increase in total resistance and the fall in current, but the fixed cell voltage is not referred to.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-18-n0-n1-s3",
@@ -15041,10 +15041,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-22-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The ammeter has a small resistance, so it slightly reduces the current in the circuit. The voltmeter draws a small current, so the voltage it reads across a branch is slightly lower than the true value.",
-                        "feedback": "Meets the 4-mark row by analysing two sources of error and linking each to a reading. Adding a third source, such as the battery's internal resistance or resistor tolerance, would lift it to the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing two sources of error and linking each to a reading. Adding a third source, such as the battery's internal resistance or resistor tolerance, would lift it to the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-2-22-n0-n1-s3",
@@ -15518,10 +15518,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Reversing the current reverses the magnetic field of the solenoid, so the north and south poles swap ends.",
-                        "feedback": "Meets the 3-mark row: the reversal of the field direction is analysed, with some reference to the poles. A reason from the right-hand grip rule would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: the reversal of the field direction is analysed, with some reference to the poles. A reason from the right-hand grip rule would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-3-5-n0-n1-s3",
@@ -15638,10 +15638,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Soft iron is the better core because it loses its magnetism quickly when the current stops. It becomes magnetised while the current flows, so the electromagnet works.",
-                        "feedback": "Meets the 4-mark row by assessing soft iron as the better core, with a reason. It does not weigh up the steel source, and comparing the magnetism steel retains would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing soft iron as the better core, with a reason. It does not weigh up the steel source, and comparing the magnetism steel retains would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-3-7-n0-n1-s3",
@@ -15755,10 +15755,10 @@
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "More current gives a stronger field, and more paper clips are picked up, so current affects strength. The results do not show why the count stops rising at the highest currents.",
-                        "feedback": "Meets the 4-mark row by linking current to strength, with a partial reason for the pattern. It gives no reason for the levelling off, and naming the core's limit would lift it to the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by linking current to strength, with a partial reason for the pattern. It gives no reason for the levelling off, and naming the core's limit would lift it to the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-11-electricity-and-magnetism-3-8-n0-n1-s3",
@@ -15885,10 +15885,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The pendulum data show the swing height falling, and the published study shows that bobs of greater mass lose a smaller fraction of their energy in air. Together they suggest a hypothesis about mass and swing height.",
-                        "feedback": "Meets the 4-mark row by combining both data sets to suggest a hypothesis, without checking that the study's conditions match the trials. Checking the conditions would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by combining both data sets to suggest a hypothesis, without checking that the study's conditions match the trials. Checking the conditions would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-1-1-n0-n1-s3",
@@ -16003,10 +16003,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The hypothesis is not supported, because the period of a pendulum does not depend on the mass of the bob for a small swing. The student should check this before accepting the hypothesis.",
-                        "feedback": "Meets the 4-mark row by stating that the period does not depend on mass for a small swing, with a partial reason. The checks on swing size and air effects are missing, which the 6-mark row needs.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by stating that the period does not depend on mass for a small swing, with a partial reason. The checks on swing size and air effects are missing, which the 6-mark row needs.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-1-2-n0-n1-s3",
@@ -16121,10 +16121,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The hypothesis about mass must be removed, because the period did not change with the bob's mass. A new hypothesis about amplitude fits the evidence.",
-                        "feedback": "Meets the 4-mark row by changing the hypothesis to fit the evidence, without rewriting the research question. Rewriting the question to ask about amplitude would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by changing the hypothesis to fit the evidence, without rewriting the research question. Rewriting the question to ask about amplitude would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-1-3-n0-n1-s3",
@@ -16243,10 +16243,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The investigation is invalid because the mass and the release angle change along with the length, so the change in period cannot be linked to the length alone.",
-                        "feedback": "Meets the 4-mark row by justifying the invalidity with a reason about several variables changing together. Naming the controlled variables that should have been held constant would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the invalidity with a reason about several variables changing together. Naming the controlled variables that should have been held constant would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-2-1-n0-n1-s3",
@@ -16479,10 +16479,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The data are of limited reliability, because the string length is not stated, so the student cannot tell whether the periods were measured under the same conditions.",
-                        "feedback": "Meets the 4-mark row by assessing the reliability with a reason, identifying one missing condition. Naming the release angle and timing method as further gaps would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing the reliability with a reason, identifying one missing condition. Naming the release angle and timing method as further gaps would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-2-3-n0-n1-s3",
@@ -16595,10 +16595,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A hazard is the mains power point, with a risk of electric shock. The control measure is to keep the lead away from the water. A second hazard is the hot water, with a risk of scalding.",
-                        "feedback": "Meets the 4-mark row by giving two hazards with their risks and one control measure. A control for the scalding risk would lift it to the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by giving two hazards with their risks and one control measure. A control for the scalding risk would lift it to the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-2-4-n0-n1-s3",
@@ -16713,10 +16713,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A light gate is better than a stopwatch, because it removes human reaction time from the timing. A fine, non-stretch string is also used so the length stays constant.",
-                        "feedback": "Meets the 4-mark row by justifying the light gate over a stopwatch with a reason, and naming one material choice. Justifying the bob and pivot as well would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the light gate over a stopwatch with a reason, and naming one material choice. Justifying the bob and pivot as well would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-2-5-n0-n1-s3",
@@ -16831,10 +16831,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "There is an ethical issue in misuse, because the knowledge that generates electricity can also be used to build weapons. A second issue is the radioactive waste from reactors, which stays hazardous for long periods.",
-                        "feedback": "Meets the 4-mark row by discussing two ethical issues with some reason, without weighing the benefits against the risks. Adding the benefit of low-carbon electricity would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing two ethical issues with some reason, without weighing the benefits against the risks. Adding the benefit of low-carbon electricity would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-2-6-n0-n1-s3",
@@ -17310,10 +17310,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Textbooks give the general relationship, which is that the period increases slightly with amplitude. A journal article reports measured periods at stated amplitudes.",
-                        "feedback": "Meets the 4-mark row by examining two secondary sources and their contribution to the question, without judging their reliability. Judging which is most reliable for the report would lift it to the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by examining two secondary sources and their contribution to the question, without judging their reliability. Judging which is most reliable for the report would lift it to the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-3-4-n0-n1-s3",
@@ -17433,10 +17433,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The database gives the quantitative periods for each string length. The flow chart gives the steps of the method, which is qualitative information.",
-                        "feedback": "Meets the 4-mark row by selecting quantitative information from the database and qualitative information from the flow chart, with a partial reason. Assessing the video and rejecting unreliable information would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by selecting quantitative information from the database and qualitative information from the flow chart, with a partial reason. Assessing the video and rejecting unreliable information would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-4-1-n0-n1-s3",
@@ -17550,10 +17550,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A unit error changes the result, because the same number in the wrong unit describes a different quantity. The Mars Climate Orbiter was lost in 1999 after data in one unit system were used by a team expecting another.",
-                        "feedback": "Meets the 4-mark row by explaining how a unit error changes a result, with a reason from the mismatch. Explaining the consequence for the trajectory and the control would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how a unit error changes a result, with a reason from the mismatch. Explaining the consequence for the trajectory and the control would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-4-2-n0-n1-s3",
@@ -17668,10 +17668,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A table gives the exact period for each string length, and a labelled diagram shows the set-up. Together they let a reader check the values against the investigation.",
-                        "feedback": "Meets the 4-mark row by discussing two representations and how they organise the data, with a partial reason for combining them. Adding a spreadsheet or key with its purpose would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing two representations and how they organise the data, with a partial reason for combining them. Adding a spreadsheet or key with its purpose would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-4-3-n0-n1-s3",
@@ -17906,10 +17906,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Cultural burning gives long-term observations of how fire affects the environment, which scientists can test against their own measurements.",
-                        "feedback": "Meets the 4-mark row by examining one contribution of Cultural Knowledge observations to scientific knowledge, with a reason. A second contribution, such as testable hypotheses or land management, would lift it to the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by examining one contribution of Cultural Knowledge observations to scientific knowledge, with a reason. A second contribution, such as testable hypotheses or land management, would lift it to the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-4-5-n0-n1-s3",
@@ -18385,18 +18385,18 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-5-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The conclusion is not valid yet, because each magnet was tested only once. The reading by eye limits the precision of each angle, so the student should repeat each trial.",
-                        "feedback": "Meets the 4-mark row: assesses validity with a reason and mentions precision. It does not assess reliability or the accuracy of the readings.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: assesses validity with a reason and mentions precision. It does not assess reliability or the accuracy of the readings.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-5-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The student tested each magnet only once.",
-                        "feedback": "Meets the 2-mark row: identifies one weakness in the method. It does not assess the conclusion.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row: identifies one weakness in the method. It does not assess the conclusion.",
+                        "band": 1
                       }
                     ]
                   }
@@ -19209,10 +19209,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-6-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The single reading cannot show how the rate changes, so the original conclusion is weak. The group should record temperature at regular intervals and modify the method to show the change.",
-                        "feedback": "Meets the 4-mark row: evaluates a weakness of the original method and modifies one aspect of it. The modification is not fully justified against the new evidence.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: evaluates a weakness of the original method and modifies one aspect of it. The modification is not fully justified against the new evidence.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-6-3-n0-n1-s3",
@@ -19326,10 +19326,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-6-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The experiment tested a prediction about the aether, and the null result showed that the prediction failed. This means the aether idea was contested by evidence, and later theory dropped it.",
-                        "feedback": "Meets the 4-mark row: discusses the experiment with reference to testing and contestability. It does not explain why an untestable theory is not scientific.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: discusses the experiment with reference to testing and contestability. It does not explain why an untestable theory is not scientific.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-6-4-n0-n1-s3",
@@ -19448,10 +19448,10 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-7-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The result compares only two light colours and does not show that blue light suits all plants. Peer review would check whether the other variables were controlled and whether the conclusion is limited to the colours tested.",
-                        "feedback": "Meets the 4-mark row: uses evidence to question the conclusion, with some reference to peer review. It does not build a sustained argument.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: uses evidence to question the conclusion, with some reference to peer review. It does not build a sustained argument.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-7-1-n0-n1-s3",
@@ -19799,18 +19799,18 @@
                       {
                         "id": "prompt-phy-12-working-scientifically-7-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The lab report needs precise terminology and full evidence, including the uncertainty. The newsletter needs plain language and one clear graph, while keeping the same finding.",
-                        "feedback": "Meets the 4-mark row: assesses the difference in terminology and evidence, with some reasons. It does not justify the level of detail in full.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: assesses the difference in terminology and evidence, with some reasons. It does not justify the level of detail in full.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-working-scientifically-7-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The newsletter should use plain language.",
-                        "feedback": "Meets the 2-mark row: identifies one feature of the newsletter. It makes no assessment.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row: identifies one feature of the newsletter. It makes no assessment.",
+                        "band": 1
                       }
                     ]
                   }
@@ -20282,10 +20282,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The phone video adds error from the camera angle and the scale. Air resistance is not included in the parabola, so the path is not exactly as predicted.",
-                        "feedback": "Meets the 4-mark row: assesses two limitations with some reasons. It does not address reliability.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: assesses two limitations with some reasons. It does not address reliability.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-1-6-n0-n1-s3",
@@ -20983,10 +20983,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The stone moves along a tangent to the circle, not outwards, because its velocity is in that direction. The student's claim is wrong.",
-                        "feedback": "Meets the 4-mark row by explaining the tangent velocity and rejecting the claim. It gives no reference to Newton's first law or to the removal of the net force.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the tangent velocity and rejecting the claim. It gives no reference to Newton's first law or to the removal of the net force.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-6-n0-n1-s3",
@@ -21099,10 +21099,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Increasing speed changes the centripetal acceleration more, because ac = v² / r has speed squared while radius appears only in the denominator.",
-                        "feedback": "Meets the 4-mark row by explaining the speed and radius effects with the formula. It does not compare the two effects for the same proportional change.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the speed and radius effects with the formula. It does not compare the two effects for the same proportional change.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-7-n0-n1-s3",
@@ -21217,10 +21217,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Weight and normal force balance vertically. Friction acts towards the centre and provides the centripetal force.",
-                        "feedback": "Meets the 3-mark row by describing the forces and naming friction as the centripetal force. It does not connect the wet road to the maximum speed.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the forces and naming friction as the centripetal force. It does not connect the wet road to the maximum speed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-8-n0-n1-s3",
@@ -21337,10 +21337,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The horizontal tension component provides the centripetal force, and the vertical component balances the weight.",
-                        "feedback": "Meets the 3-mark row by describing the roles of the components. It does not explain why the tension must change when the speed increases.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the roles of the components. It does not explain why the tension must change when the speed increases.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-9-n0-n1-s3",
@@ -21455,10 +21455,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Friction in the tube reduces the tension, so the measured centripetal force is less than the hanging weight. This is a limitation of the method.",
-                        "feedback": "Meets the 4-mark row by assessing one limitation and its effect on the measured results. It does not give a second limitation or a way to reduce either.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing one limitation and its effect on the measured results. It does not give a second limitation or a way to reduce either.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-10-n0-n1-s3",
@@ -21576,10 +21576,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The energy depends on the mass of the planet, the mass of the object and the distance from its centre. Energy rises as the object moves away from the planet.",
-                        "feedback": "Meets the 4-mark row by naming the three factors and the direction of change. It does not explain why equal rises give different energy changes.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by naming the three factors and the direction of change. It does not explain why equal rises give different energy changes.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-12-n0-n1-s3",
@@ -21693,10 +21693,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Work done against gravity equals the increase in gravitational potential energy, so the work done graph rises as the potential energy graph does.",
-                        "feedback": "Meets the 4-mark row by linking work done with potential energy. It does not describe the kinetic energy graph or the flattening at large distances.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by linking work done with potential energy. It does not describe the kinetic energy graph or the flattening at large distances.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-13-n0-n1-s3",
@@ -21889,10 +21889,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-16-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Kinetic energy is positive and gravitational potential energy is negative for a satellite in orbit.",
-                        "feedback": "Meets the 3-mark row by describing the signs of the two energies. It does not analyse the total energy or the energy needed to escape.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the signs of the two energies. It does not analyse the total energy or the energy needed to escape.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-16-n0-n1-s3",
@@ -22009,10 +22009,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Gravitational potential energy increases and kinetic energy decreases as the satellite moves to the higher orbit.",
-                        "feedback": "Meets the 4-mark row by analysing the potential and kinetic changes. It does not state the change in total mechanical energy or the energy input needed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing the potential and kinetic changes. It does not state the change in total mechanical energy or the energy input needed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-2-18-n0-n1-s3",
@@ -22130,10 +22130,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The force depends on both masses and on the distance between them, and it is greater for larger masses.",
-                        "feedback": "Meets the 4-mark row by naming the mass and distance dependence. It does not relate weight to the gravitational force or use the law of universal gravitation.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by naming the mass and distance dependence. It does not relate weight to the gravitational force or use the law of universal gravitation.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-1-n0-n1-s3",
@@ -22246,10 +22246,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The field strength depends on the planet's mass and on the distance from its centre, and it is lower at greater height.",
-                        "feedback": "Meets the 4-mark row by naming both factors and the effect of height. It does not explain the inverse square relationship.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by naming both factors and the effect of height. It does not explain the inverse square relationship.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-2-n0-n1-s3",
@@ -22367,10 +22367,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The field is radial, so it is not uniform everywhere, but it is nearly uniform close to the surface.",
-                        "feedback": "Meets the 3-mark row by explaining that the field is radial and nearly uniform near the surface. It does not justify the claim using the conditions for the approximation.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that the field is radial and nearly uniform near the surface. It does not justify the claim using the conditions for the approximation.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-4-n0-n1-s3",
@@ -22484,10 +22484,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Real orbits are ellipses, so the radius changes, but for planets with nearly circular orbits the approximation is good.",
-                        "feedback": "Meets the 4-mark row by discussing the ellipse limitation and the nearly circular case. It does not explain the effect on speed or on the force.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing the ellipse limitation and the nearly circular case. It does not explain the effect on speed or on the force.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-5-n0-n1-s3",
@@ -22684,10 +22684,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The law of orbital periods shows that the period increases as the radius increases for the same central mass.",
-                        "feedback": "Meets the 3-mark row by explaining the increase from the law. It does not explain why the period does not increase in direct proportion.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining the increase from the law. It does not explain why the period does not increase in direct proportion.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-9-n0-n1-s3",
@@ -22800,10 +22800,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Acceleration and orbital velocity both decrease as the radius increases, while the period increases.",
-                        "feedback": "Meets the 4-mark row by describing how the three quantities change with radius. It does not refer to the formulae or explain the changes.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing how the three quantities change with radius. It does not refer to the formulae or explain the changes.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-10-n0-n1-s3",
@@ -22917,10 +22917,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A geostationary satellite stays over one point, so it monitors one region continuously, but it is far from the surface.",
-                        "feedback": "Meets the 4-mark row by assessing one satellite type with an orbital feature and a limitation. It does not assess the low Earth orbit option or reach a judgement.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing one satellite type with an orbital feature and a limitation. It does not assess the low Earth orbit option or reach a judgement.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-11-n0-n1-s3",
@@ -23033,10 +23033,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Only changes in gravitational potential energy matter, so the zero point is a convention, but zero at an infinite distance is convenient.",
-                        "feedback": "Meets the 4-mark row by discussing the convention through energy changes and one reason for it. It does not explain why bound masses have negative energy.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing the convention through energy changes and one reason for it. It does not explain why bound masses have negative energy.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-12-n0-n1-s3",
@@ -23151,10 +23151,10 @@
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The stone on the surface has a more negative potential energy, and both values are negative.",
-                        "feedback": "Meets the 3-mark row by comparing the two values and their signs. It does not explain why both are negative or what the zero means.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by comparing the two values and their signs. It does not explain why both are negative or what the zero means.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-advanced-mechanics-3-13-n0-n1-s3",
@@ -23510,10 +23510,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The field does negative work on the electron, so its kinetic energy falls and its electric potential energy rises by the same amount.",
-                        "feedback": "Meets the 4-mark row: describes both energy changes and identifies the work done, but does not explain the sign of each change or the conservation of energy.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: describes both energy changes and identifies the work done, but does not explain the sign of each change or the conservation of energy.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-1-3-n0-n1-s3",
@@ -23747,10 +23747,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The magnetic force acts at right angles to the electron's velocity, so it changes the direction of the electron's motion.",
-                        "feedback": "Meets the 4-mark row: identifies the perpendicular force, but gives limited explanation of its effect on the speed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: identifies the perpendicular force, but gives limited explanation of its effect on the speed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-1-6-n0-n1-s3",
@@ -24103,10 +24103,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Both paths are circular, because a centripetal force acts towards the centre. The forces are different: one is gravitational and the other is magnetic.",
-                        "feedback": "Meets the 4-mark row: identifies a similarity and a difference, with only limited explanation of the forces.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: identifies a similarity and a difference, with only limited explanation of the forces.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-1-11-n0-n1-s3",
@@ -24217,10 +24217,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-1-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The electric field accelerates the electrons, increasing their kinetic energy, while the magnetic field changes the direction of the beam.",
-                        "feedback": "Meets the 4-mark row: describes the function of both fields, with limited reference to the effects on the electrons.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: describes the function of both fields, with limited reference to the effects on the electrons.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-1-12-n0-n1-s3",
@@ -24564,10 +24564,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The force is zero when the conductor lies along the field, and largest when it is at right angles to the field.",
-                        "feedback": "Meets the 4-mark row: identifies the zero and maximum cases, with limited analysis of the change between them.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: identifies the zero and maximum cases, with limited analysis of the change between them.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-2-3-n0-n1-s3",
@@ -24678,10 +24678,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The clamped wire cannot move, so the motor effect is not visible. A better method would let the wire swing freely.",
-                        "feedback": "Meets the 4-mark row: identifies one limitation with a reason, with a limited suggestion for improvement.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: identifies one limitation with a reason, with a limited suggestion for improvement.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-2-4-n0-n1-s3",
@@ -24797,10 +24797,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The torque is larger when the force is applied further from the hinges and when the force is larger. Pushing at right angles to the door gives the greatest torque.",
-                        "feedback": "Meets the 4-mark row: analyses the distance and force effects, with limited reference to the angle.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: analyses the distance and force effects, with limited reference to the angle.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-2-6-n0-n1-s3",
@@ -24913,10 +24913,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Increasing the number of turns or the current increases the torque, because the force on the coil is larger.",
-                        "feedback": "Meets the 3-mark row: describes the effect of turns and current, with limited analysis of the area and field strength.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the effect of turns and current, with limited analysis of the area and field strength.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-2-7-n0-n1-s3",
@@ -25147,10 +25147,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "More turns increase the force on the coil for a given current, but the extra wire also raises the resistance of the coil.",
-                        "feedback": "Meets the 4-mark row: identifies the gain in torque and the rise in resistance, with no assessment of the current.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: identifies the gain in torque and the rise in resistance, with no assessment of the current.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-2-10-n0-n1-s3",
@@ -25266,10 +25266,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Magnetic flux is the total magnetic field through an area. Magnetic field strength is a property of the field.",
-                        "feedback": "Meets the 3-mark row: describes both quantities, without a direct comparison of their dependence on the loop.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes both quantities, without a direct comparison of their dependence on the loop.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-3-1-n0-n1-s3",
@@ -26080,10 +26080,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The method is valid for showing that a faster magnet gives a larger deflection. However, pushing by hand means the speed is not controlled, and only one solenoid is used, so the results are limited.",
                         "feedback": "Assesses validity with some reasons and names one major limitation. The improvements are missing, which keeps it below the top rows.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-3-9-n0-n1-s3",
@@ -26752,10 +26752,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-4-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The torque comes from the force on the current in the armature windings, so it depends on the current. A larger induced emf does not automatically give a bigger torque.",
-                        "feedback": "Meets the 4-mark row by explaining that torque depends on the current, with some reasoning about the induced emf. It does not describe electromagnetic induction or the back emf, and it does not link power and speed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining that torque depends on the current, with some reasoning about the induced emf. It does not describe electromagnetic induction or the back emf, and it does not link power and speed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-4-7-n0-n1-s3",
@@ -27178,10 +27178,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-4-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "As the motor speeds up, the back emf increases and the current falls. At the steady speed, the back emf is close to the supply voltage, so the current is small.",
-                        "feedback": "Meets the 4-mark row by explaining the effect of back emf on the current and the steady speed. It does not analyse the balance of voltages in full, so it cannot reach the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the effect of back emf on the current and the steady speed. It does not analyse the balance of voltages in full, so it cannot reach the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-4-11-n0-n1-s3",
@@ -27295,10 +27295,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-4-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The rotor coil turns in the magnetic field of the stator magnets, and the current reaches the lamp through the slip rings and brushes. If the brushes are worn, the current to the lamp is reduced.",
-                        "feedback": "Meets the 4-mark row by describing the roles of the components and linking the worn brushes to a reduced current. It does not explain the rise in contact resistance or why the lamp flickers.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the roles of the components and linking the worn brushes to a reduced current. It does not explain the rise in contact resistance or why the lamp flickers.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-4-12-n0-n1-s3",
@@ -27411,10 +27411,10 @@
                       {
                         "id": "prompt-phy-12-electromagnetism-4-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The split-ring commutator keeps the current in one direction, but its size changes over each rotation, so the current is pulsing rather than steady.",
-                        "feedback": "Meets the 4-mark row by explaining that the direction is constant while the size varies, with some reasoning about the commutator. It does not refer to the emf over the rotation or fully justify the conclusion.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining that the direction is constant while the size varies, with some reasoning about the commutator. It does not refer to the emf over the rotation or fully justify the conclusion.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-electromagnetism-4-13-n0-n1-s3",
@@ -27658,10 +27658,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Electromagnetic waves are produced by oscillating charges. The changing electric field creates a magnetic field, which creates an electric field again, so the wave is propagated through a vacuum without a medium.",
                         "feedback": "Explains the regeneration of the fields with some reference to propagation. It does not analyse the orientation of the fields, which keeps it below the top rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-1-2-n0-n1-s3",
@@ -27773,10 +27773,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Maxwell showed that light is an electromagnetic wave, because the electric permittivity and magnetic permeability of free space set the speed of electromagnetic waves. The predicted value matched the measured speed of light, which linked optics and electromagnetism.",
                         "feedback": "Explains the relationship and the match with some reference to Maxwell. The wider significance is not discussed, which keeps it below the top rows.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-1-3-n0-n1-s3",
@@ -27889,10 +27889,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The spark-gap oscillator produced electromagnetic waves, and the loop antenna detected them when a spark jumped across its gap. Hertz's measurements of wavelength and frequency gave a speed matching the predicted speed, which verified the theory.",
                         "feedback": "Explains how the apparatus produced and detected the waves, with some link to the predicted speed. The detection logic is brief, which keeps it below the top rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-1-4-n0-n1-s3",
@@ -28005,10 +28005,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The measured value is close to the accepted speed, so the method seems accurate. However, the node positions are hard to read by eye, which causes random error, and repeated trials would reduce it.",
                         "feedback": "Assesses accuracy with some reasons and refers to one source of error. It does not separate systematic from random error, which keeps it below the top rows.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-1-5-n0-n1-s3",
@@ -28127,10 +28127,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Diffraction at each slit spreads the light, and the waves from the two slits overlap on the screen. Interference between them produces bright bands where the waves are in phase and dark bands where they are out of phase.",
                         "feedback": "Analyses the roles of diffraction and interference with some reasoning about phase. It does not use path difference or explain the fading of the outer bands.",
-                        "band": 4
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-2-1-n0-n1-s3",
@@ -28243,10 +28243,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A wide opening gives almost no diffraction because it is much larger than the wavelength of the light. Small slit gaps are needed in diffraction of light experiments, since a narrow gap spreads the light much more.",
                         "feedback": "Explains the contrast between the two openings with some reasoning. The design advice is missing, which keeps it below the top rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-2-2-n0-n1-s3",
@@ -28358,10 +28358,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The central maximum is brightest because light from both slits arrives in phase. The outer bright bands are dimmer, and the intensity falls to zero at the dark bands, where the light cancels.",
                         "feedback": "Interprets the central maximum and the zeros with some reasoning. The envelope from diffraction is not explained, which keeps it below the top rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-2-3-n0-n1-s3",
@@ -28706,10 +28706,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A laser provides monochromatic light, so the bright and dark bands of the interference patterns are clear. A narrow double slit spreads the light, and in the laboratory experiment the student measures the fringe spacing and the screen distance.",
                         "feedback": "Explains the apparatus with some reference to the measurements. The analysis of the trend is missing, which keeps it below the top rows.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-2-6-n0-n1-s3",
@@ -28827,10 +28827,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Torch light is unpolarised light, with electric fields in many planes. Laser light is linearly polarised, so its electric field oscillates in one plane. A polarising filter would therefore change the laser light's brightness but not the torch light's.",
                         "feedback": "Explains the planes for each beam and predicts the filter result. The reason the laser light is polarised is not given, which keeps it below the top rows.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-2-8-n0-n1-s3",
@@ -30557,10 +30557,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-3-16-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The two lines are parallel because they share the gradient h. They differ in their intercepts, so the metal with the higher work function has a higher threshold frequency and lower kinetic energy at the same frequency.",
-                        "feedback": "Meets the 4-mark row: explains the shared gradient and the difference in intercepts, but does not link the result to the photon model in the photoelectric experiments.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: explains the shared gradient and the difference in intercepts, but does not link the result to the photon model in the photoelectric experiments.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-3-16-n0-n1-s3",
@@ -30673,10 +30673,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-3-17-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "In a solar cell, photons with enough energy release electrons in a semiconductor, producing a current. A photomultiplier tube also uses the photoelectric effect, releasing electrons from a photocathode that are multiplied to give a measurable signal.",
-                        "feedback": "Meets the 4-mark row: describes both applications and the photoelectric release, but does not discuss how each depends on the energy of individual photons.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: describes both applications and the photoelectric release, but does not discuss how each depends on the energy of individual photons.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-3-17-n0-n1-s3",
@@ -30789,10 +30789,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-3-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The three parallel lines match the photon model. The gradient is the same for each metal, as predicted, while the intercepts differ with the work function. This supports the quantum nature of light.",
-                        "feedback": "Meets the 4-mark row: explains the parallel lines against the prediction for the gradient and intercepts, but does not assess how strong the evidence is.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: explains the parallel lines against the prediction for the gradient and intercepts, but does not assess how strong the evidence is.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-3-18-n0-n1-s3",
@@ -31563,10 +31563,10 @@
                       {
                         "id": "prompt-phy-12-nature-of-light-4-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Muons have a short lifetime but many reach the ground, which time dilation explains. Atomic clocks flown on aircraft run at different rates from clocks on the ground, matching the predictions. Together these support the theory of relativity.",
-                        "feedback": "Meets the 4-mark row: explains both lines of evidence and their support for the theory, but does not analyse the velocities or judge the strength of the evidence.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: explains both lines of evidence and their support for the theory, but does not analyse the velocities or judge the strength of the evidence.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-nature-of-light-4-8-n0-n1-s3",
@@ -31808,10 +31808,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The beam bends towards the positive plate, so the rays are negatively charged. The magnetic field also bends the beam, which shows that the rays are moving charges.",
-                        "feedback": "Describes both deflections with a link to charge, but does not explain the direction of the forces, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes both deflections with a link to charge, but does not explain the direction of the forces, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-2-n0-n1-s3",
@@ -32114,18 +32114,18 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The model had evidence from cathode-ray experiments that atoms contain negative electrons, and it accounted for the electrical neutrality of atoms through a positive sphere. However, the gold foil experiment showed large-angle scattering that a spread-out positive charge cannot produce, so the model is weakened by this later evidence.",
-                        "feedback": "Analyses the evidence and gives a brief judgement of the gold foil weakness, which meets the 5-mark row.",
-                        "band": 4
+                        "feedback": "Analyses the evidence and gives a brief judgement of the gold foil weakness, which meets the 4-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Cathode-ray experiments showed that atoms contain electrons.",
                         "feedback": "Identifies one piece of evidence for electrons only.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -32229,10 +32229,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Some alpha particles were scattered through large angles and a few rebounded. This requires a strong positive charge concentrated in a small region, which is why the nuclear model replaced the plum pudding model.",
-                        "feedback": "Describes the scattering results and explains that they need a concentrated charge, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the scattering results and explains that they need a concentrated charge, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-7-n0-n1-s3",
@@ -32344,10 +32344,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Orbiting electrons should radiate energy and collapse, so the nuclear model could not explain stable atoms. Hydrogen also produces discrete line spectra that the model could not explain. Fixed energy levels were proposed to address both problems.",
-                        "feedback": "Describes both limitations, with a link to the fixed energy levels of the new model, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes both limitations, with a link to the fixed energy levels of the new model, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-8-n0-n1-s3",
@@ -32460,10 +32460,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Classical electrostatic attraction and circular orbits form the basic picture. Quantum energy levels stop continuous radiation, which addresses one limitation of the nuclear model.",
-                        "feedback": "Describes both kinds of idea, with a link for the quantum idea only, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes both kinds of idea, with a link for the quantum idea only, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-9-n0-n1-s3",
@@ -32577,10 +32577,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The predicted mass was lower than the measured mass, which was a limitation of the early model. Electrons are far too light to account for the difference.",
-                        "feedback": "Describes the mismatch as a limitation and explains that electrons are too light, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the mismatch as a limitation and explains that electrons are too light, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-10-n0-n1-s3",
@@ -32692,10 +32692,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Applying conservation of energy and conservation of momentum to the proton collisions showed that the unknown radiation had mass. This pointed to a new particle, the neutron.",
-                        "feedback": "Describes the application of both laws and links it to a new particle, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the application of both laws and links it to a new particle, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-11-n0-n1-s3",
@@ -32808,10 +32808,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Electrons falling between energy levels emit photons at specific wavelengths, giving bright lines. Electrons rising between the same levels absorb those wavelengths, giving dark lines at the same positions.",
-                        "feedback": "Describes both processes and links them to the same energy levels and wavelengths, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes both processes and links them to the same energy levels and wavelengths, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-12-n0-n1-s3",
@@ -32924,10 +32924,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The model treats electrons as particles in fixed orbits, which is a limitation because electrons also behave as waves. The stationary energy level model cannot describe this wave behaviour.",
-                        "feedback": "Describes the fixed orbits and links them to the wave limitation, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the fixed orbits and links them to the wave limitation, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-13-n0-n1-s3",
@@ -33040,10 +33040,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The upward arrow shows absorption of one photon. The two downward arrows show emission of two photons with smaller energies, one for each step between energy levels.",
-                        "feedback": "Describes the arrows and explains that each emitted photon has less energy than the absorbed one, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the arrows and explains that each emitted photon has less energy than the absorbed one, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-14-n0-n1-s3",
@@ -33156,18 +33156,18 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "An electron absorbs a photon only if the photon energy equals the gap between two energy levels. The energy transferred must match the gap exactly.",
-                        "feedback": "Describes absorption as an energy transfer that matches the energy gap, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes absorption as an energy transfer that matches the energy gap, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-15-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Electrons absorb photons of particular energies only.",
                         "feedback": "Identifies the principle without the reason from conservation of energy.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -33277,10 +33277,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-17-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A standing wave fits only when a whole number of loops fits around the orbit. The diagram shows an orbit with three loops and one with four, so each stationary energy level has its own number of loops.",
-                        "feedback": "Explains the whole-number condition and how the diagram shows different stationary energy levels, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Explains the whole-number condition and how the diagram shows different stationary energy levels, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-17-n0-n1-s3",
@@ -33393,10 +33393,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A moving electron has a small momentum, so its wavelength is comparable to atomic spacing and can be detected. A tennis ball has a large momentum, so its wavelength is far too small to detect.",
-                        "feedback": "Describes both wavelengths and links each to its momentum, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes both wavelengths and links each to its momentum, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-18-n0-n1-s3",
@@ -33509,10 +33509,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-19-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Electron diffraction patterns show bright and dark regions that interference of waves can explain. The pattern builds up from many electrons, so it is strong evidence for electron waves.",
-                        "feedback": "Describes the pattern as evidence for waves and refers to the many electrons, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Describes the pattern as evidence for waves and refers to the many electrons, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-19-n0-n1-s3",
@@ -33692,10 +33692,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-21-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A proton has two up quarks and one down quark, giving a net positive charge. A neutron has one up quark and two down quarks, giving no net charge. The strong force holds the quarks together.",
-                        "feedback": "Describes both quark combinations and their charges, and the strong force, without explaining why the force is needed, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes both quark combinations and their charges, and the strong force, without explaining why the force is needed, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-21-n0-n1-s3",
@@ -33808,10 +33808,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-22-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Protons and neutrons are made of quarks held together by the strong force. Electrons are leptons, not made of quarks, and are held to the nucleus by electromagnetic attraction.",
-                        "feedback": "Describes the two particle types and a force for each, without analysing why they are described differently, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the two particle types and a force for each, without analysing why they are described differently, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-22-n0-n1-s3",
@@ -33990,10 +33990,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-24-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sommerfeld refined the Bohr model with elliptical orbits to explain the fine structure of spectral lines, keeping its core idea. The plum pudding model was replaced after the gold foil experiment.",
-                        "feedback": "Describes a refinement and a replacement as two cases, without analysing why the outcomes differ, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes a refinement and a replacement as two cases, without analysing why the outcomes differ, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-1-24-n0-n1-s3",
@@ -34112,10 +34112,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Carbon-12 and carbon-14 are isotopes, with the same six protons but different numbers of neutrons.",
-                        "feedback": "Distinguishes the isotopes by neutron number, but does not compare them with a different element, which meets the 3-mark row.",
-                        "band": 3
+                        "feedback": "Distinguishes the isotopes by neutron number, but does not compare them with a different element, which meets the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-1-n0-n1-s3",
@@ -34227,10 +34227,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The strong nuclear force acts on protons and neutrons equally. Its short range means it only binds nearby nucleons, so very large nuclei are difficult to hold together.",
-                        "feedback": "Describes the equal action and short range, with a link to nucleus size, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the equal action and short range, with a link to nucleus size, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-2-n0-n1-s3",
@@ -34343,10 +34343,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Light nuclei have about equal numbers of neutrons and protons. Heavier nuclei need more neutrons, because neutrons add strong attraction without adding repulsion.",
-                        "feedback": "Describes the change in the ratio and gives a reason based on neutrons, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes the change in the ratio and gives a reason based on neutrons, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-3-n0-n1-s3",
@@ -34986,10 +34986,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A short half-life means a radioisotope decays quickly, so it is less stable than one with a long half-life.",
-                        "feedback": "Meets the 3-mark row: describes the link between half-life and the speed of decay, with limited discussion of its limits.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the link between half-life and the speed of decay, with limited discussion of its limits.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-9-n0-n1-s3",
@@ -35100,10 +35100,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The steeper curve for radioisotope A shows that its amount falls faster, so A has the shorter half-life.",
-                        "feedback": "Meets the 3-mark row: describes the steeper curve with limited reference to half-life.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the steeper curve with limited reference to half-life.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-10-n0-n1-s3",
@@ -35561,10 +35561,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Gamma radiation is penetrating enough to be detected outside the body, and a short half-life limits the patient's dose.",
-                        "feedback": "Meets the 3-mark row: describes the properties of the medical radioisotope with limited justification.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the properties of the medical radioisotope with limited justification.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-2-15-n0-n1-s3",
@@ -36251,10 +36251,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The moderator slows neutrons, the control rods absorb neutrons, and the coolant carries heat away from the fuel.",
-                        "feedback": "Meets the 3-mark row: describes the function of each component with limited reference to the steady output.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the function of each component with limited reference to the steady output.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-6-n0-n1-s3",
@@ -36479,10 +36479,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Hahn and Strassmann identified barium as a product, and Meitner and Frisch explained the split as nuclear fission.",
-                        "feedback": "Meets the 3-mark row: describes the identification and explanation with limited reference to later use.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the identification and explanation with limited reference to later use.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-8-n0-n1-s3",
@@ -36593,10 +36593,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Balanced fusion and fission equations show that mass number and atomic number are conserved.",
-                        "feedback": "Meets the 3-mark row: describes what the equations show with limited reference to what they omit.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes what the equations show with limited reference to what they omit.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-9-n0-n1-s3",
@@ -36707,10 +36707,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Fusion needs very high temperatures and pressures, which are hard to produce and contain on Earth.",
-                        "feedback": "Meets the 3-mark row: describes the requirement with limited discussion of difficulty.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the requirement with limited discussion of difficulty.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-10-n0-n1-s3",
@@ -37520,10 +37520,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Mass is converted into energy in annihilation, so the claim that the mass is destroyed is not correct.",
-                        "feedback": "Meets the 3-mark row: describes the conversion of mass to energy, but does not explain the two photons.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the conversion of mass to energy, but does not explain the two photons.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-18-n0-n1-s3",
@@ -37638,10 +37638,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-19-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The law of conservation of mass–energy means the total energy before the annihilation equals the total energy after it, so the energy released must come from the particles.",
-                        "feedback": "Meets the 4-mark row: explains the conservation law, but does not assess the claim or the kinetic energy.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: explains the conservation law, but does not assess the claim or the kinetic energy.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-19-n0-n1-s3",
@@ -37754,10 +37754,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-20-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Positrons annihilate quickly in the body, so the scanner detects the gamma rays, which are more penetrating and can leave the body.",
-                        "feedback": "Meets the 4-mark row: explains that gamma rays are more penetrating than positrons, but does not explain coincidence or location.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: explains that gamma rays are more penetrating than positrons, but does not explain coincidence or location.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-3-20-n0-n1-s3",
@@ -38345,10 +38345,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Fusion produces outward pressure that pushes against gravity, which would otherwise compress the star.",
-                        "feedback": "Meets the 3-mark row: explains the opposing forces, with limited analysis of how they balance.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the opposing forces, with limited analysis of how they balance.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-4-5-n0-n1-s3",
@@ -38461,10 +38461,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-4-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A massive main sequence star is more luminous than a low-mass star, because it burns its fuel faster.",
-                        "feedback": "Meets the 3-mark row: explains the higher luminosity and faster burning, with limited reference to the time on the main sequence.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the higher luminosity and faster burning, with limited reference to the time on the main sequence.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-4-6-n0-n1-s3",
@@ -39041,10 +39041,10 @@
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-4-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Fusion releases energy only if the products are more tightly bound, and iron is the most tightly bound element.",
-                        "feedback": "Meets the 3-mark row: explains the rule and mentions iron, but does not apply it to the fusion of iron or the core.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the rule and mentions iron, but does not apply it to the fusion of iron or the core.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-phy-12-matter-energy-and-the-cosmos-4-11-n0-n1-s3",
