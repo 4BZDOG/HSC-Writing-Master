@@ -238,7 +238,7 @@ export const CARD_HEADER_BAR =
  * tablet, keep the full headers.
  *
  * Tailwind cannot build a class from a runtime string, so each class below is
- * written out in full and begins with this variant. `cardChrome.test.ts` pins
+ * written out in full and begins with this variant. `focusShortClasses.test.ts` pins
  * that every entry starts with `FOCUS_SHORT`, so the media query lives in one
  * place and a class cannot quietly drift off it.
  */
