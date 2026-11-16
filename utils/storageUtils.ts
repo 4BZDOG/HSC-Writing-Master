@@ -151,7 +151,8 @@ import {
 // 2.51.0: Three more structure-only courses: Aboriginal Studies, Agriculture and Engineering Studies.
 // 2.52.0: Written-response questions for Chemistry, Physics and Earth and Environmental Science (922 new);
 // calculation questions removed from the science courses.
-export const DATA_VERSION = '2.52.0';
+// 2.53.0: 332 more written-response science questions (Chemistry 74%, Physics 58%, EES 80% of dot points).
+export const DATA_VERSION = '2.53.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
