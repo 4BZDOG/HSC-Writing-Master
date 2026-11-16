@@ -1,5 +1,8 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
-import { Course, StatePath, SyllabusYear, UserRole } from '../types';
+import { Course, StatePath, SyllabusYear, User, UserRole } from '../types';
+import { useCourseUnlockGate } from '../hooks/useCourseUnlocks';
+import { useCourseUnlockPrice } from '../hooks/useLivePrices';
+import { CourseLockBadge } from './CourseLockBadge';
 import {
   canCreateCurriculum,
   canCurateContent,
@@ -112,6 +115,8 @@ import { parseSyllabusStructure } from '../services/geminiService';
 
 interface PromptSelectorProps {
   courses: Course[];
+  /** The signed-in viewer. Needed to tell which courses are locked for them (course unlocks). */
+  user?: User | null;
   statePath: StatePath;
   onPathChange: (path: Partial<StatePath>) => void;
   onAddCourse: () => void;
@@ -637,6 +642,7 @@ const PastHscNavigator = ({
 
 const PromptSelector: React.FC<PromptSelectorProps> = ({
   courses = [],
+  user = null,
   statePath = {} as StatePath,
   onPathChange,
   onAddCourse,
@@ -825,6 +831,12 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const showFacultyFilter = courseGroups.length > 1;
   const showFacultyHeadings = showFacultyFilter && facultyFilter === FACULTY_FILTER_ALL;
 
+  // A locked course stays selectable (it can still be browsed); it only carries a
+  // lock badge. With course unlocks off, `isLocked` is always false and no price is fetched.
+  const unlockGate = useCourseUnlockGate(user);
+  const unlockPrice = useCourseUnlockPrice();
+  const unlockPriceText = unlockPrice?.display ?? null;
+
   const courseOptions = useMemo(() => {
     const toOption = (c: Course, group: string | undefined, concealed: boolean) => {
       // One row, two renderings. The closed control also carries the meta
@@ -837,6 +849,9 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
             <Book className="w-4 h-4" />
           </div>
           <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
+          {unlockGate.isLocked(c.id) && (
+            <CourseLockBadge priceText={unlockPriceText} compact={inTrigger} />
+          )}
           {canCreateTree && c.status === 'draft' && (
             <span
               className={`t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 light:text-amber-800 border border-amber-500/30 flex-shrink-0 ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
@@ -889,6 +904,8 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
     newlyAddedIds,
     canCurate,
     canCreateTree,
+    unlockGate,
+    unlockPriceText,
   ]);
 
   const hiddenCourseName =

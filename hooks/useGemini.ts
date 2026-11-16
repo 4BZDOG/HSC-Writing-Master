@@ -77,6 +77,8 @@ interface GeminiHookProps {
   onApiKeyInvalid: () => void;
   user?: User;
   onUpdateUser?: (user: User) => void;
+  /** Opens the unlock prompt for a course the proxy refused (402 course_locked). */
+  onCourseLocked?: (courseId: string) => void;
 }
 
 export const useGemini = ({
@@ -88,6 +90,7 @@ export const useGemini = ({
   onApiKeyInvalid,
   user,
   onUpdateUser,
+  onCourseLocked,
 }: GeminiHookProps) => {
   const [evaluationResult, setEvaluationResult] = useState<EvaluationResult | null>(null);
   /**
@@ -208,6 +211,19 @@ export const useGemini = ({
       }
       // The plan doesn't include this feature at all. Sell the RIGHT thing:
       // the prompt is opened for the feature that was actually refused.
+      // The course is locked for this viewer (the proxy's 402 course_locked): the
+      // answer is to buy that course, so its unlock prompt opens instead of an error.
+      // The server refused a marking with no course attached (400 course_required, which it
+      // sends once unlocks are on). Its sentence goes in the error toast.
+      if ((error as { code?: unknown })?.code === 'course_required') {
+        const message = error instanceof Error ? error.message : 'This question has no course.';
+        showToast(message, 'error');
+        return message;
+      }
+      if (error instanceof gemini.CourseLockedError) {
+        onCourseLocked?.(error.courseId || currentCourse?.id || '');
+        return error.message;
+      }
       if (error instanceof gemini.FeatureLockedError) {
         showToast(error.message, 'info');
         requestUpgrade(error.feature as PremiumFeatureKey);
@@ -215,7 +231,7 @@ export const useGemini = ({
       }
       return error instanceof Error ? error.message : 'An unknown API error occurred.';
     },
-    [onApiKeyInvalid, showToast]
+    [onApiKeyInvalid, onCourseLocked, showToast, currentCourse?.id]
   );
 
   // The syllabus content the selected question sits under — the dot point and
@@ -260,7 +276,10 @@ export const useGemini = ({
           buildSyllabusContext(),
           // Not asked for when the plan withholds it: the server would strip it,
           // so the tokens would be paid for and never read.
-          { withRewrite: !isFeatureLocked('answerUpgrades') }
+          {
+            withRewrite: !isFeatureLocked('answerUpgrades'),
+            courseId: currentCourse?.id,
+          }
         );
         // The server has now spent one of the caller's daily evaluations, so
         // spend one from the local mirror too — HERE, at the point the call
@@ -552,7 +571,16 @@ export const useGemini = ({
       for (const sample of samples) {
         try {
           // We reuse evaluateAnswer as it provides robust marking logic including thinking blocks
-          const result = await gemini.evaluateAnswer(sample.answer, calibrationPrompt);
+          // Recalibration is marking, so it carries the course like any marking does.
+          const result = await gemini.evaluateAnswer(
+            sample.answer,
+            calibrationPrompt,
+            undefined,
+            undefined,
+            {
+              courseId: statePath.courseId,
+            }
+          );
           // Recalibration is marking, and the server meters it as such
           // (consume_evaluation, schema §14) — one unit per sample. Mirror it
           // so the remaining count doesn't overstate what is left.
@@ -792,7 +820,8 @@ export const useGemini = ({
           error instanceof gemini.ApiKeyError ||
           error instanceof gemini.QuotaExceededError ||
           error instanceof gemini.EvaluationLimitError ||
-          error instanceof gemini.FeatureLockedError;
+          error instanceof gemini.FeatureLockedError ||
+          error instanceof gemini.CourseLockedError;
         if (!announced) {
           showToast(
             `The sub-topic was added, but no dot points were generated: ${message}`,

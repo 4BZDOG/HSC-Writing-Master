@@ -25,6 +25,8 @@ import { useSyllabusData } from './hooks/useSyllabusData';
 import { registerCalibrationLibrary } from './utils/pastPaperCalibration';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
+import { useCourseUnlockSession } from './hooks/useCourseUnlocks';
+import { getOwnedCourseUnlocks, isCourseLocked } from './services/courseAccess';
 import { useToast } from './hooks/useToast';
 import { usePlanFreshness } from './hooks/usePlanFreshness';
 import { applyPlanFields } from './utils/planFreshness';
@@ -397,6 +399,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     cancelConfirmation,
     showQualityCheck,
     closeQualityCheck,
+    requestCourseUnlock,
   } = useModalManager({
     /**
      * Rename, then drop any Active Focus the new wording no longer offers.
@@ -513,6 +516,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     ),
     user,
     onUpdateUser,
+    onCourseLocked: requestCourseUnlock,
   });
 
   const globalLoadingMessage = useMemo(() => {
@@ -578,8 +582,18 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     return () => clearTimeout(timer);
   }, [newlyAddedIds]);
 
+  // Loads the viewer's course unlocks, and handles the #/course-unlocked return from
+  // checkout. Does nothing while course unlocks are off (projectDocs/course-unlocks.md).
+  useCourseUnlockSession({ user, courses, showToast });
+
   const handleEvaluate = useCallback(() => {
     if (!currentPrompt || !userAnswer.trim()) return;
+    // A locked course is refused before any quota is spent, so the unlock prompt
+    // opens here rather than after a server 402. With unlocks off this is never true.
+    if (currentCourse && isCourseLocked(currentCourse.id, user, getOwnedCourseUnlocks())) {
+      requestCourseUnlock(currentCourse.id);
+      return;
+    }
     if (isEvalLimitReached(user)) {
       // Shared with the server-refusal path in useGemini, so the same event is
       // described the same way whichever side catches it. Reads the live figure
@@ -593,7 +607,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       return;
     }
     evaluate(userAnswer, currentPrompt);
-  }, [currentPrompt, userAnswer, user, showToast, evaluate]);
+  }, [currentPrompt, currentCourse, userAnswer, user, showToast, evaluate, requestCourseUnlock]);
+
+  // The course turned out to be included after all (the server's 409 course_included):
+  // the marking the student asked for simply goes ahead.
+  const proceedAfterCourseIncluded = useCallback(() => {
+    if (currentPrompt && userAnswer.trim()) evaluate(userAnswer, currentPrompt);
+  }, [currentPrompt, userAnswer, evaluate]);
 
   // The local free-evaluation mirror is spent inside useGemini, at the point
   // the marking call returns. It is deliberately NOT an effect on
@@ -746,6 +766,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       cancelConfirmation,
       showQualityCheck,
       closeQualityCheck,
+      requestCourseUnlock,
     }),
     [
       openModal,
@@ -761,6 +782,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       cancelConfirmation,
       showQualityCheck,
       closeQualityCheck,
+      requestCourseUnlock,
     ]
   );
   const syllabusHandlers = useMemo(
@@ -1047,6 +1069,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               >
                 <PromptSelector
                   courses={navigatorCourses}
+                  user={user}
                   statePath={statePath}
                   onPathChange={handlePathChange}
                   onAddCourse={() => openModal('courseCreator')}
@@ -1294,6 +1317,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           user={user}
           onUpdateUser={onUpdateUser}
           onLogout={handleLogout}
+          onCourseIncluded={proceedAfterCourseIncluded}
         />
         <UpgradeModal showToast={showToast} user={user} />
         <CourseRequestModal
