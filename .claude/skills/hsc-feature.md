@@ -165,6 +165,10 @@ Apply these Tailwind patterns consistently.
 - **Live readiness is one number**: every surface reads `readiness.percent` (bar, figure, button name, editor veil); the word and the colour (`chromaLevel`) derive from it. Never display `readiness.score`, and never add a second calibration — see `utils/draftReadiness.ts`.
 - **Haptic buttons**: `hover:scale-105 active:scale-[0.98] transition-transform shadow-lg` (`active:scale-[0.98]` is the codebase standard).
 - **Typography**: Interface text → `font-sans (Inter)`; writing/exemplar areas → `font-serif (Newsreader)`; telemetry/marks → `font-mono (JetBrains Mono)`
+- **Mark counts** go through `marksLabel(n)` (`utils/marksLabel.ts`): "1 mark", "3 marks". Do not write `${n} marks` inline.
+- **Short-desktop Focus Mode** uses `FOCUS_SHORT` and `FOCUS_SHORT_CLASSES` (`utils/cardChrome.ts`). Tailwind cannot build a class from a runtime string, so each entry is a full literal that starts with `FOCUS_SHORT`; `tests/unit/focusShortClasses.test.ts` enforces it.
+- **Pickers** are `components/Combobox.tsx`. `onDisabledPick` makes a locked option open its upgrade request; `keepOpenOnSelect` keeps a multi-pick list open (`aria-multiselectable`).
+- **On/off toggles** are `role="group"` with `aria-pressed`. Do not use `tablist` or `toolbar` unless you build their arrow-key model.
 - **Language**: Strictly British/Australian English — "Analyse", "Programme", "Colour", "Summarise".
 
 ---
@@ -194,6 +198,7 @@ Apply these Tailwind patterns consistently.
 1. Add optional field to `Prompt` interface in `types.ts`.
 2. Update Zod schema in `utils/dataManagerUtils.ts` (use `.optional()` for backwards compatibility).
 3. Bump `DATA_VERSION` in `utils/storageUtils.ts` and add a migration case in `runMigrations()` if needed for existing data.
+4. If it is a personal field (the student's words or time, not an edit to the course), also add it to `PERSONAL_PROMPT_FIELDS` (`utils/shippedCourseStamp.ts`), and to the draft merge in `utils/draftMerge.ts` if two tabs must share it. See `projectDocs/dataSpecifications.md`, "Draft durability".
 
 ### Add a new Gemini generation function
 
@@ -252,6 +257,7 @@ export const useMyFeature = () => {
 ## Gotchas
 
 - **Never read an imported value at module scope.** A template literal, object literal or call that dereferences an import at the top level of a module can throw `Cannot access 'X' before initialization` in a production build — Rollup may place the reader and the definer in chunks that import each other, and the reader runs first. Dev, `vite build`, Vitest and the e2e suite are all blind to it; it shows as a blank page on the deployed site. Put the read inside a function. A plain alias counts too: `const X = IMPORTED_CONSTANT` at module top level fails `check:eager-reads`. `npm run check:bundle` (real build output) and `npm run check:eager-reads` (sources) guard this in CI — see `projectDocs/bundleSafety.md`.
+- **The exam clock is an external store.** The metrics strip publishes it through `utils/examClockStore.ts`, and `ExamClockChip` reads it with `useSyncExternalStore`. Do not lift its per-second state into `Editor`: every tick would re-render the writing card.
 - **Never import from `App.tsx` directly** — it creates circular dependencies. Shared types go in `types.ts`; shared utilities go in `utils/`.
 - **`safeJsonParse` is not a validator** — it only strips fences and parses. Use Zod for actual shape validation on AI output that feeds the data model.
 - **IndexedDB is async everywhere** — all `idb` calls in `utils/idbTransactions.ts` return Promises. Forgetting `await` causes silent no-ops with no runtime error.

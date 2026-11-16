@@ -198,6 +198,20 @@
     since the strip's timer carries the spoken name.
   - **Exam Mode puts the aids away.** The command verb reference is not rendered, and the question and scenario are
     set plain: no verb or syllabus-term highlights, colour or click target.
+- **Fixed (drafts).**
+  - **Two tabs no longer overwrite each other's drafts.** Each save checks a revision kept beside the library. When
+    another tab has written since this tab last read or wrote it, the save keeps that tab's draft for every question
+    this tab has not typed in, and the saved time never goes backwards. A tab takes the other's drafts when it is
+    brought back into view.
+  - **What is typed just before a tab closes is kept.** The final save on the way out also stashes the words in
+    localStorage, which survives the unload where an IndexedDB write may not. The next load applies the stash only if
+    the stored draft is still the one it was written over, and clears it once a save holds its text.
+  - **Known limits.** Only drafts are merged. Library edits made in two tabs (course structure, marking guides, names)
+    are still last save wins, and so are two tabs typing in the same question.
+- **Changed (marks and controls).**
+  - **"1 mark" and "3 marks"** in the marking results come from one shared helper.
+  - **Scenario slides and the maths symbols** are groups of buttons, not a tab list or a toolbar, so they no longer
+    promise arrow-key movement they do not have.
 
 ## [Unreleased] - 2026-11-13 (Workspace cards: writing footer, header tools, edit and draft fixes)
 
@@ -205,9 +219,9 @@
   - **Footer in three groups.** Words and saved state, then readiness (its word shown at every width), then markings
     left and Evaluate, on one gap scale. The band is stated once, in the header chip; "Band N target" is gone from
     the footer. "3 of 5 markings left" replaces "3/5 left" from `sm`, at chip height.
-  - **Header tools.** Toolbar buttons are 32px on desktop (44px on a phone, as before). Inactive mode labels are
-    solid white, which holds 4.5:1 on every band's wash. "Coach" and "Exam" are spelt out from `2xl`, where the
-    tray has room; below it they stay icons so the tray keeps to one line and the header to its height.
+  - **Header tools.** Toolbar buttons are 32px from `sm` (44px below it, the phone tap size). Inactive mode labels
+    meet 4.5:1 contrast. "Coach" and "Exam" are spelt out from `2xl`, where the tray has room; below it they stay
+    icons so the tray keeps to one line and the header to its height.
   - **A shade under the strip** when the writing has scrolled beneath it.
 - **Changed (Writing Prompt).** "1 mark" / "3 marks", singular-aware and lower-case. The verb chip is 28px on
   desktop with a 44px tap area on a phone. In Focus Mode with nothing linked, the flag sits in the header corner.
@@ -219,6 +233,7 @@
     question switch at once.
   - Shift+Tab leaves the writing area. The response box, the edit boxes and the icon-only buttons are named. An
     empty draft's Evaluate button gives its reason to keyboard and screen-reader users.
+  - Curator tools show when they take keyboard focus, and the scenario toggle is named for assistive technology.
   - Copy reports a refused clipboard. The outcome preview opens below a chip near the top of the screen.
 
 ## [Unreleased] - 2026-11-13 (Verb ribbon: the tier drawer is a centred carousel)
@@ -226,8 +241,8 @@
 - **Changed (Verb ribbon drawer).**
   - **Carousel at every width.** The six tier cards are a carousel from phone to desktop, not a six-column grid
     from `xl`. The selected tier is centred, and the first and last tiers can be centred too, because the strip's
-    padding allows it. Cards are 300 to 340px wide and their height is the tallest card's, so at 1440 the drawer is
-    about 300px of cards where it was about 470px.
+    padding allows it, and the selected card stays centred when the strip is resized. Cards are 300px wide on a
+    phone, 320px from `sm` and 340px from `lg`. At 1440 they are about 266px tall, where the grid's cards were 471px.
   - **Focus by position (desktop).** On a pointer device, with motion allowed and scroll-driven animation available,
     each card scales by how far it is from the middle of the strip (88% at the ends, full size in the middle). It is
     a progressive enhancement: phones and reduced motion show every card at full size.
@@ -242,6 +257,38 @@
   - The arrow keys move between tier headers, and Home and End go to the first and last. Focus only: selection
     still needs Enter or Space.
   - With no verb chosen, the strip rests at its midpoint, so the tier 3 and tier 4 boundary is in the middle.
+
+## [Unreleased] - 2026-11-13 (Syllabus navigator: menus and the focus picker)
+
+- **Fixed (navigator).**
+  - **A stale path is not written back.** A question generated or saved while the reader has moved to another syllabus
+    point no longer puts its old place over the current one. It is selected only if they are still on the same point.
+- **Changed (pickers).**
+  - **Menus open where there is room.** A picker menu opens above its trigger when there is more room there, and it
+    scrolls within the smaller of 480px and 60% of the viewport, where it was a fixed 288px. A viewport too short for
+    either side still keeps every option on screen.
+  - **The focus-area picker stays open while you tick.** It reports its ticks to assistive technology
+    (`aria-multiselectable`, and `aria-selected` on each row).
+
+## [Unreleased] - 2026-11-12 (Syllabus navigator: breadcrumb and pickers)
+
+- **Changed (breadcrumb).**
+  - **Readable on desktop.** The path is 13px from `lg`. A short name keeps its full width; only a long one shrinks,
+    and only to a floor set for its level, so names are no longer padded out or cut.
+  - **Marks and band leave the bar below `xl`.** The prompt card already shows them, so they move into the verb chip's
+    title. "1 mark" is singular.
+  - The focus ring is no longer clipped, and the edge fades re-measure when the bar resizes.
+- **Changed (pickers).**
+  - **A locked question opens the upgrade request** (by click or Enter), where it did nothing before.
+  - **Keyboard.** Enter after a search picks the first match, not a stale row. Tab closes the list. Home and End move
+    the caret while a query is typed.
+  - **Search** ignores accents and typographic quotes. Triggers and lists are named for screen readers, and a
+    highlighted row no longer sits under a sticky group heading.
+- **Fixed (navigator state).**
+  - A topic created after its parse finishes lands in the course it was asked from, and no longer clears the place the
+    reader has moved to.
+  - Clear in the Refine bar leaves the Past HSC navigator on.
+  - Focus areas that a dot point no longer offers are removed from the selection.
 
 ## [Unreleased] - 2026-11-10 (Writing side: How to answer, Draft check, Terms and structure, the prompt's footer)
 
