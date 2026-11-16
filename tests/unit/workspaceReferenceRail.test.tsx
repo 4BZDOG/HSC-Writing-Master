@@ -363,7 +363,7 @@ describe('band-3 header icon badges use their matched text colour, not white-on-
         content
       </AccordionSection>
     );
-    const badge = document.querySelector('button .rounded-xl') as HTMLElement;
+    const badge = document.querySelector('button .rounded-tile') as HTMLElement;
     expect(badge.className).not.toContain('text-white');
     expect(badge.className).toContain('text-yellow-950');
   });

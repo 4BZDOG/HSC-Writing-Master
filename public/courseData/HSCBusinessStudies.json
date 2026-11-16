@@ -1011,10 +1011,10 @@
                       {
                         "id": "prompt-bs-11-1-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Amberly Bakehouse combines flour, butter, equipment and labour to produce bread and pastries for customers. The owners also take on risk by borrowing for a larger oven. The business aims for profit, which is the reward for this risk.",
                         "feedback": "Examines the resources and the risk with partly developed reasoning about how they combine.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-1-3-1-n0-n1-s3",
@@ -2389,10 +2389,10 @@
                       {
                         "id": "prompt-bs-11-1-5-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The mill should weigh owner profit against community impact. Night shifts could upset residents and the council, but owners need a fair return on their investment, so the mill should look for a balanced solution.",
-                        "feedback": "A 4-mark response discusses both interests with some detail but reaches only a partly supported view.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses both interests with some detail but reaches only a partly supported view.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-5-3-n0-n1-s3",
@@ -2508,10 +2508,10 @@
                       {
                         "id": "prompt-bs-11-1-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The business life cycle helps the owner see that flat sales may mean maturity. However, it is only a general pattern, so the owner should check current sales before planning a second location.",
-                        "feedback": "A 4-mark response discusses the model as a planning tool with some reference to the scenario but gives a limited view of its limits.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses the model as a planning tool with some reference to the scenario but gives a limited view of its limits.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-6-1-n0-n1-s3",
@@ -2734,10 +2734,10 @@
                       {
                         "id": "prompt-bs-11-1-6-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Mossgiel could win more wholesale trade in Dubbo because it already knows its customers. Online sales in Sydney would be riskier and more costly, so the business should be cautious.",
-                        "feedback": "A 4-mark response discusses both options with some detail but gives a partly supported view.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses both options with some detail but gives a partly supported view.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-6-3-n0-n1-s3",
@@ -2848,10 +2848,10 @@
                       {
                         "id": "prompt-bs-11-1-6-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Keeping existing customers is cheaper than finding new ones, but a mature business still needs some new customers to replace losses. The bakery should focus mainly on its regulars.",
-                        "feedback": "A 4-mark response discusses one option with accurate detail and refers briefly to the other.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses one option with accurate detail and refers briefly to the other.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-6-4-n0-n1-s3",
@@ -2961,10 +2961,10 @@
                       {
                         "id": "prompt-bs-11-1-6-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Fewer customers mean the machine maintenance is spread over fewer jobs, so each job costs more.",
-                        "feedback": "A 3-mark response explains one effect on costs but does not analyse options.",
-                        "band": 3
+                        "feedback": "A 2-mark response explains one effect on costs but does not analyse options.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-1-6-5-n0-n1-s3",
@@ -3075,10 +3075,10 @@
                       {
                         "id": "prompt-bs-11-1-6-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sunny Patch could hire a second cook for weekends to meet rising demand, which is quick to arrange but adds wage costs.",
-                        "feedback": "A 4-mark response applies one suitable response with accurate detail but does not weigh alternatives.",
-                        "band": 3
+                        "feedback": "A 3-mark response applies one suitable response with accurate detail but does not weigh alternatives.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-1-6-6-n0-n1-s3",
@@ -3188,10 +3188,10 @@
                       {
                         "id": "prompt-bs-11-1-6-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The cheaper imports reduce sales, and the owner's refusal to change designs means the business cannot compete on style.",
-                        "feedback": "A 4-mark response analyses one external and one internal factor with some links but does not show interaction in depth.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses one external and one internal factor with some links but does not show interaction in depth.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-1-6-7-n0-n1-s3",
@@ -3300,10 +3300,10 @@
                       {
                         "id": "prompt-bs-11-1-6-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Creditors may recover only part of what they are owed, and the workers lose their jobs, so both groups are harmed by the liquidation.",
-                        "feedback": "A 4-mark response describes the effects on two stakeholder groups with some accuracy but does not weigh them.",
-                        "band": 4
+                        "feedback": "A 3-mark response describes the effects on two stakeholder groups with some accuracy but does not weigh them.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-6-8-n0-n1-s3",
@@ -6714,10 +6714,10 @@
                       {
                         "id": "prompt-bs-11-2-5-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Quality assurance would check bottles as they are filled, which should reduce faults. However, the sensors would cost $30,000.",
-                        "feedback": "A 3-mark response describes quality assurance and one cost effect, but it does not weigh the saving against the cost or reach a position.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes quality assurance and one cost effect, but it does not weigh the saving against the cost or reach a position.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-2-5-5-n0-n1-s3",
@@ -7731,10 +7731,10 @@
                       {
                         "id": "prompt-bs-11-2-5-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "External recruitment would bring experience from larger factories, but applicants would need a long induction and would not know the products. Internal recruitment would reward Dan's knowledge and support morale, although he has no supervisory training.",
-                        "feedback": "Discusses both options with accurate points but does not reach a justified recommendation, so it earns 4 marks.",
-                        "band": 4
+                        "feedback": "Discusses both options with accurate points but does not reach a justified recommendation, so it earns 3 marks.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-2-5-14-n0-n1-s3",
@@ -7845,10 +7845,10 @@
                       {
                         "id": "prompt-bs-11-2-5-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Training would make the mechanics faster at finding faults, which improves productivity. However, two weeks of training would delay paying jobs and reduce revenue for the workshop in the short term.",
-                        "feedback": "Explains one benefit and one cost with some accuracy, but the analysis is brief and does not address staff retention, so it earns 4 marks.",
-                        "band": 3
+                        "feedback": "Explains one benefit and one cost with some accuracy, but the analysis is brief and does not address staff retention, so it earns 3 marks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-2-5-15-n0-n1-s3",
@@ -8187,10 +8187,10 @@
                       {
                         "id": "prompt-bs-11-2-5-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Honesty requires Bellbird Organics to report misleading labelling, because customers may be misled. However, the owners need solid evidence first, and an unfounded complaint would be unfair to the competitor and could damage Bellbird's reputation.",
-                        "feedback": "Explains two ethical issues with accurate detail, but the weighing is brief, so it earns 4 marks.",
-                        "band": 3
+                        "feedback": "Explains two ethical issues with accurate detail, but the weighing is brief, so it earns 3 marks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-2-5-18-n0-n1-s3",
@@ -8307,10 +8307,10 @@
                       {
                         "id": "prompt-bs-11-2-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Changing internal operations would need investment that the studio may not afford, so marketing is a better response. A wider online range could reach buyers outside Byron Bay, although it may not solve the problem of shipping costs.",
-                        "feedback": "Discusses both options with accurate points but does not weigh the trade-off fully, so it earns 4 marks.",
-                        "band": 4
+                        "feedback": "Discusses both options with accurate points but does not weigh the trade-off fully, so it earns 3 marks.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-2-6-1-n0-n1-s3",
@@ -8421,10 +8421,10 @@
                       {
                         "id": "prompt-bs-11-2-6-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The clinic should first explain the new system to staff. Receptionists should then be trained before go-live. Patients could be told about the change, and the manager should check how things are going afterwards.",
-                        "feedback": "Outlines several stages with accurate but thin detail and limited link to the clinic, so it earns 4 marks.",
-                        "band": 3
+                        "feedback": "Outlines several stages with accurate but thin detail and limited link to the clinic, so it earns 3 marks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-2-6-2-n0-n1-s3",
@@ -9801,7 +9801,7 @@
                       {
                         "id": "prompt-bs-11-3-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Executive summary, situational analysis, operations, marketing, financial section and risks, presented under headings in a logical order.",
                         "feedback": "Outlines the main sections with some accuracy, but gives no sub-headings and no hierarchy showing how the sections connect.",
                         "band": 2
@@ -10271,10 +10271,10 @@
                       {
                         "id": "prompt-bs-11-3-4-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Finance matters for cafes. Management matters too.",
                         "feedback": "Two general statements are made without assessing either cafe.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -10383,10 +10383,10 @@
                       {
                         "id": "prompt-bs-11-3-5-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Tomas has trade skills and motivation, which are strengths. However, he has no business qualifications, so he may underprice jobs or misjudge cash flow. He could take a short business course to fill the gap.",
                         "feedback": "A strength and a gap are discussed and linked to the plan, but the discussion is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-1-n0-n1-s3",
@@ -10497,10 +10497,10 @@
                       {
                         "id": "prompt-bs-11-3-5-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Maya's own survey is free and relevant to the local area, but it reaches few people. The professional report costs more and may be generalised. The survey is the better choice, supported by census data.",
                         "feedback": "Both sources are compared for cost and reliability and a choice is made, but the justification is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-2-n0-n1-s3",
@@ -10611,10 +10611,10 @@
                       {
                         "id": "prompt-bs-11-3-5-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Lantern's late-night menu is a point of difference, since few CBD options serve food after 6 pm. However, the Thai restaurants are established, so the business idea may struggle to win customers. A trial would help test demand.",
                         "feedback": "A point of difference and a competitor are discussed, but the assessment is brief and the conclusion is not fully supported.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-3-n0-n1-s3",
@@ -10839,10 +10839,10 @@
                       {
                         "id": "prompt-bs-11-3-5-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Premium pricing suits the shopping centre's families and office workers, who value fresh fruit and healthy options. However, the food court has cheaper competitors, so the owner should test prices before committing.",
                         "feedback": "A recommendation is made and linked to the market and location, but the risks are only briefly discussed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-5-n0-n1-s3",
@@ -10953,10 +10953,10 @@
                       {
                         "id": "prompt-bs-11-3-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A bank loan costs interest and fees, but it keeps savings for wages and rent. Using savings avoids interest, but leaves little cash in reserve. The owner could use a mix of both.",
                         "feedback": "Both sources are compared for cost and risk and a mix is suggested, but the assessment is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-6-n0-n1-s3",
@@ -11067,10 +11067,10 @@
                       {
                         "id": "prompt-bs-11-3-5-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Zoning may need checking because the shop was a takeaway. Health rules apply to the old cafe equipment, which may need replacing. This could add cost and delay the opening.",
                         "feedback": "Zoning and health are both examined with a link to timing and cost, but the discussion is brief.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-3-5-7-n0-n1-s3",
@@ -11523,10 +11523,10 @@
                       {
                         "id": "prompt-bs-11-3-5-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Payroll tax is a cost on wages, so it reduces the cash the business has each time it pays the apprentice. This matters because the owner must pay it even when customers are slow to pay their invoices.",
                         "feedback": "Analyses one taxation obligation and its effect on cash flow with some link to the scenario, but does not consider a second obligation or reach a judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-11-n0-n1-s3",
@@ -11642,10 +11642,10 @@
                       {
                         "id": "prompt-bs-11-3-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The owner could survey the business's home customers and talk to the two commercial clients. Customer feedback is cheap, but two responses from businesses are not enough to show that commercial demand exists.",
                         "feedback": "Discusses two sources with some links to the scenario, but the choice is only partly justified.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-1-n0-n1-s3",
@@ -11757,10 +11757,10 @@
                       {
                         "id": "prompt-bs-11-3-6-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Harbour Ferment's strong local reputation is a strength, and its single small brewing room is a weakness. A national beverage company's similar drink is an external threat, but the answer does not say how it affects sales.",
                         "feedback": "Identifies internal and external factors with partial explanation, and the threat is not explained in full.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-3-6-2-n0-n1-s3",
@@ -11870,10 +11870,10 @@
                       {
                         "id": "prompt-bs-11-3-6-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The owner could change the objective to increase sales by a set amount within a year. This would be measurable and have a time frame, which the current objective lacks. It would also support the growth goal.",
                         "feedback": "Recommends one change to an objective with some reasons linked to the goal, but does not consider the vision or the business's capacity.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-3-n0-n1-s3",
@@ -11982,10 +11982,10 @@
                       {
                         "id": "prompt-bs-11-3-6-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The clinic could cut staff hours to save cash. This would conflict with the vision of gentle care, because patients may wait longer. However, the saving might be needed to keep the business open.",
                         "feedback": "Discusses one decision with a link to the vision and some reasoning, but does not reach a conclusion.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-4-n0-n1-s3",
@@ -12096,10 +12096,10 @@
                       {
                         "id": "prompt-bs-11-3-6-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Riverbend could keep its goal of stable profit, which protects the family's income. However, online sales would be a growth goal that could reach customers the store does not reach now, though it would need investment.",
                         "feedback": "Applies business goals to the store with some reasons for a goal, but the recommendation is only partly developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-3-6-5-n0-n1-s3",
@@ -12209,10 +12209,10 @@
                       {
                         "id": "prompt-bs-11-3-6-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A second roastery would support long-term growth, but the loan would strain cash flow for several years. Online sales cost less and carry less risk, but they may grow the business more slowly.",
                         "feedback": "Advantages and disadvantages of both options are discussed with accurate links, but the answer does not develop a conclusion.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-6-n0-n1-s3",
@@ -12437,10 +12437,10 @@
                       {
                         "id": "prompt-bs-11-3-6-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A third oven would give the bakery enough capacity for 500 loaves, but it costs $48 000. Overtime for current staff is cheaper at first but cannot be kept up for long, and it may reduce quality.",
                         "feedback": "Two options are assessed with relevant detail on capacity and cost, but they are not weighed against each other and no clear conclusion is reached.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-8-n0-n1-s3",
@@ -12551,10 +12551,10 @@
                       {
                         "id": "prompt-bs-11-3-6-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A premium target market suits the current prices and allows promotion based on quality. However, the market may be small, so the salon could lose customers who want cheaper grooming.",
                         "feedback": "One option is analysed with some relevant detail, but it is not weighed against the price-sensitive option.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-3-6-9-n0-n1-s3",
@@ -12665,10 +12665,10 @@
                       {
                         "id": "prompt-bs-11-3-6-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A bank loan lets Oakhaven buy the van now, but the $1 000 monthly repayments would strain cash flow in winter. Waiting two years avoids interest but delays the larger jobs.",
                         "feedback": "One option is discussed with relevant advantages and disadvantages, but the comparison is brief and no conclusion is reached.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-10-n0-n1-s3",
@@ -12893,10 +12893,10 @@
                       {
                         "id": "prompt-bs-11-3-6-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Past sales growth is easy to use, but it assumes conditions stay the same. The growth may have been boosted by a regional event, and a new rival could reduce future sales.",
                         "feedback": "Two limitations are discussed with some relevance, but the forecast is not tested against alternative scenarios and no conclusion is reached.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-12-n0-n1-s3",
@@ -13007,10 +13007,10 @@
                       {
                         "id": "prompt-bs-11-3-6-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The variable cost rises to $5.50, so total cost increases by $600 to $12 600. This means profit will also fall, although the answer does not calculate the new figure.",
                         "feedback": "The effect on total cost is accurate and profit is referred to, but total revenue and the new profit figure are not examined.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-3-6-13-n0-n1-s3",
@@ -13121,10 +13121,10 @@
                       {
                         "id": "prompt-bs-11-3-6-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "At $11 the shop would need about 1143 posters to break even, compared with 1000 at $12. If sales rise to 1600, profit would be unchanged, so the price cut does not improve profit.",
                         "feedback": "Break-even is applied to the new price with accurate figures, but the capacity limit and other options are not weighed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-3-6-14-n0-n1-s3",
@@ -14047,10 +14047,10 @@
                       {
                         "id": "prompt-bs-11-3-7-2-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Fixed teams could reduce staff turnover.",
                         "feedback": "Two marks: identifies a possible effect of the team structure with limited reasoning and no reference to the wider success of the business.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -14679,18 +14679,18 @@
                       {
                         "id": "sa-bs-1-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A cost leadership strategy lowers prices but can reduce quality. Quality differentiation allows a premium price but requires investment in inputs and staff.",
-                        "feedback": "A 5-mark response discusses both cost and quality with accurate examples. Discussing how the balance depends on the market and reaching a view would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses both cost and quality with accurate examples. Discussing how the balance depends on the market and reaching a view would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-1-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Businesses must balance cost and quality.",
-                        "feedback": "A 2-mark response makes a general statement without discussion.",
-                        "band": 2
+                        "feedback": "A 1-mark response makes a general statement without discussion.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Northline Furniture is a mid-sized maker of solid timber dining tables in Western Sydney that sells through independent furniture retailers. Its owners are weighing cheaper imported timber and faster finishing against keeping its hand-finished premium process, which retailers say is the main reason customers choose its tables. The owners want to know how the balance between cost and quality should be set."
@@ -14735,10 +14735,10 @@
                       {
                         "id": "prompt-bs-1-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The second inspection will cost more, but it should stop spoiled bottles reaching customers, which protects the brand.",
-                        "feedback": "A 3-mark response gives a relevant benefit with a brief link to customers, but it does not weigh the cost or reach a justified position.",
-                        "band": 3
+                        "feedback": "A 2-mark response gives a relevant benefit with a brief link to customers, but it does not weigh the cost or reach a justified position.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-1-n1-s3",
@@ -14794,10 +14794,10 @@
                       {
                         "id": "sa-bs-2-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Globalisation allows businesses to source inputs more cheaply, but longer supply chains increase the risk of delay. It also increases competition from overseas producers.",
-                        "feedback": "A 5-mark response analyses two impacts with accurate examples. Analysing economies of scale and the variation across businesses would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two impacts with accurate examples. Analysing economies of scale and the variation across businesses would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-2-3",
@@ -14965,10 +14965,10 @@
                       {
                         "id": "prompt-bs-3-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Workplace safety and environmental rules add costs for Redgum, such as new equipment, but they protect workers and the community from harm.",
-                        "feedback": "A 5-mark response assesses the costs and protection of the policies, but it does not reach a judgement about whether the balance is appropriate.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses the costs and protection of the policies, but it does not reach a judgement about whether the balance is appropriate.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-3-n1-s3",
@@ -15024,10 +15024,10 @@
                       {
                         "id": "sa-bs-4-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Operations managers decide on materials and waste, which affect the environment.",
-                        "feedback": "A 3-mark response describes one area with some accuracy. Explaining stakeholder expectations and labour conditions would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one area with some accuracy. Explaining stakeholder expectations and labour conditions would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-4-3",
@@ -15252,10 +15252,10 @@
                       {
                         "id": "sa-bs-6-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "In a food manufacturer, operations relies on marketing forecasts of demand, and finance funds the inventory that operations holds.",
-                        "feedback": "A 5-mark response assesses the relationship in one business with accurate evidence. Assessing a second business and reaching a conclusion would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses the relationship in one business with accurate evidence. Assessing a second business and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-6-3",
@@ -15308,9 +15308,9 @@
                       {
                         "id": "prompt-bs-6-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Ironbark needs finance for its cutting machine, and Little Sprout needs finance to pay its educators.",
-                        "feedback": "A 3-mark response identifies a finance need in each business, but it does not contrast how operations decisions drive those needs.",
+                        "feedback": "A 2-mark response identifies a finance need in each business, but it does not contrast how operations decisions drive those needs.",
                         "band": 2
                       },
                       {
@@ -15367,10 +15367,10 @@
                       {
                         "id": "sa-bs-7-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Efficient operations let a business charge lower prices than competitors, which helps keep customers.",
-                        "feedback": "A 3-mark response explains one mechanism with some accuracy. Explaining quality, flexibility and why capabilities are hard to copy would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one mechanism with some accuracy. Explaining quality, flexibility and why capabilities are hard to copy would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-7-3",
@@ -15423,18 +15423,18 @@
                       {
                         "id": "prompt-bs-7-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Riverside could train its grooming staff to a set standard and offer appointments, so customers wait less and keep returning.",
-                        "feedback": "A 5-mark response proposes a relevant strategy with some justification, but it does not assess trade-offs and the link to a sustained advantage is limited.",
-                        "band": 4
+                        "feedback": "A 3-mark response proposes a relevant strategy with some justification, but it does not assess trade-offs and the link to a sustained advantage is limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-7-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Riverside should keep its prices low.",
-                        "feedback": "A 2-mark response makes a general suggestion without an operations strategy or justification, and it does not respond to the scenario's point that price is not the store's advantage.",
-                        "band": 2
+                        "feedback": "A 1-mark response makes a general suggestion without an operations strategy or justification, and it does not respond to the scenario's point that price is not the store's advantage.",
+                        "band": 1
                       }
                     ]
                   }
@@ -15482,18 +15482,18 @@
                       {
                         "id": "sa-bs-8-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The bakery should use just-in-time inventory to reduce waste, and schedule production from weekly cafe orders to avoid overproduction.",
-                        "feedback": "A 5-mark response recommends justified strategies linked to the business. Assessing risks and trade-offs would move it into the top band.",
-                        "band": 4
+                        "feedback": "A 3-mark response recommends justified strategies linked to the business. Assessing risks and trade-offs would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-8-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The bakery could buy a new oven.",
-                        "feedback": "A 2-mark response identifies a strategy without justification.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies a strategy without justification.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Bluewater Bakehouse is a family bakery in Newcastle that makes bread, pastries and cakes. It supplies several local cafes with daily deliveries and sells a small amount from its own shop. Its owners are concerned about wasted stock, uneven product quality and bakers working late, and want operations strategies that address these problems without raising prices."
@@ -15603,10 +15603,10 @@
                       {
                         "id": "sa-bs-9-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Operations can lower costs by using large-scale production, which helps a business compete on price.",
-                        "feedback": "A 3-mark response explains cost leadership with some accuracy. Explaining differentiation would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains cost leadership with some accuracy. Explaining differentiation would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-9-3",
@@ -15659,10 +15659,10 @@
                       {
                         "id": "prompt-bs-9-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Bayside Bakes makes bread cheaply in large batches, and Heritage Cheese Co makes special cheeses that cost more.",
-                        "feedback": "A 3-mark response describes each business and notes a difference, but it does not explain how the operations priorities follow from each competitive strategy.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes each business and notes a difference, but it does not explain how the operations priorities follow from each competitive strategy.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-9-n1-s3",
@@ -15946,10 +15946,10 @@
                       {
                         "id": "sa-bs-11-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Marketing sells products and operations makes them, so the two must work together.",
-                        "feedback": "A 3-mark response describes one link with some accuracy. Explaining finance and human resources would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one link with some accuracy. Explaining finance and human resources would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-11-3",
@@ -16002,18 +16002,18 @@
                       {
                         "id": "prompt-bs-11-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Marketing forecasts demand for the product, and operations must make enough stock, which takes money from finance and staff from human resources.",
-                        "feedback": "A 5-mark response identifies links between operations and the other functions, but it does not discuss how timing or forecasting errors affect the launch.",
-                        "band": 4
+                        "feedback": "A 3-mark response identifies links between operations and the other functions, but it does not discuss how timing or forecasting errors affect the launch.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-11-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Marketing and operations both help the business.",
-                        "feedback": "A 2-mark response makes a general statement without identifying a specific link between operations and another function.",
-                        "band": 2
+                        "feedback": "A 1-mark response makes a general statement without identifying a specific link between operations and another function.",
+                        "band": 1
                       }
                     ]
                   },
@@ -16127,10 +16127,10 @@
                       {
                         "id": "sa-bs-12-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Globalisation widens sourcing options but adds complexity. Technology allows automation. Quality expectations push firms to adopt quality systems.",
-                        "feedback": "A 5-mark response analyses three influences with accurate examples. Analysing regulation and sustainability and their effects on decisions would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses three influences with accurate examples. Analysing regulation and sustainability and their effects on decisions would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-12-3",
@@ -16183,9 +16183,9 @@
                       {
                         "id": "prompt-bs-12-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Automating the packaging line would cut labour costs, but the machines are expensive to buy and maintain.",
-                        "feedback": "A 3-mark response describes a benefit and a cost of automation with some link to Bellbird, but it does not examine how cost-based competition affects the decision.",
+                        "feedback": "A 2-mark response describes a benefit and a cost of automation with some link to Bellbird, but it does not examine how cost-based competition affects the decision.",
                         "band": 2
                       },
                       {
@@ -16364,10 +16364,10 @@
                       {
                         "id": "sa-bs-13-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business should manage waste and treat its employees fairly.",
-                        "feedback": "A 3-mark response describes two areas with some accuracy. Extending to the supply chain and communities would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two areas with some accuracy. Extending to the supply chain and communities would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-13-3",
@@ -16593,10 +16593,10 @@
                       {
                         "id": "sa-bs-14-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Legal compliance means following the law, and ethical responsibility means doing the right thing.",
-                        "feedback": "A 3-mark response defines both with some accuracy but gives no operations example.",
-                        "band": 2
+                        "feedback": "A 2-mark response defines both with some accuracy but gives no operations example.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-14-3",
@@ -16708,10 +16708,10 @@
                       {
                         "id": "sa-bs-15-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Recycling and energy-efficient equipment reduce waste and costs for a manufacturer.",
-                        "feedback": "A 3-mark response describes sustainability with some accuracy. Explaining social responsibility would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes sustainability with some accuracy. Explaining social responsibility would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-15-3",
@@ -16764,9 +16764,9 @@
                       {
                         "id": "prompt-bs-15-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Drip irrigation uses less water than overhead sprinklers, so the nursery can cut its water bills.",
-                        "feedback": "A 3-mark response describes one change and a basic benefit, but it does not weigh the cost or show a second change.",
+                        "feedback": "A 2-mark response describes one change and a basic benefit, but it does not weigh the cost or show a second change.",
                         "band": 2
                       },
                       {
@@ -17219,10 +17219,10 @@
                       {
                         "id": "sa-bs-19-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A factory assembles parts into products, which is a transformation process.",
-                        "feedback": "A 3-mark response explains one process with some accuracy. Explaining service and hybrid processes would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one process with some accuracy. Explaining service and hybrid processes would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-19-3",
@@ -17334,10 +17334,10 @@
                       {
                         "id": "sa-bs-20-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "High volume and low variety suit standardised processes. Low volume and high variety require flexible processes. Seasonal variation makes capacity hard to match.",
-                        "feedback": "A 5-mark response analyses three influences with accurate examples. Analysing customer visibility and the effect on quality would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses three influences with accurate examples. Analysing customer visibility and the effect on quality would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-20-3",
@@ -17390,10 +17390,10 @@
                       {
                         "id": "prompt-bs-20-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Sparkle could offer discounted weekday mornings to move some customers away from weekend peaks.",
-                        "feedback": "A 3-mark response recommends one change with a basic reason, but it does not justify the change against the scenario or consider its risks.",
-                        "band": 3
+                        "feedback": "A 2-mark response recommends one change with a basic reason, but it does not justify the change against the scenario or consider its risks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-20-n1-s3",
@@ -17510,9 +17510,9 @@
                       {
                         "id": "sa-bs-21-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A Gantt chart shows tasks against time, so managers can see when each task starts and ends.",
-                        "feedback": "A 3-mark response describes the Gantt chart with some accuracy. Explaining the critical path and its effect on delays would move it up.",
+                        "feedback": "A 2-mark response describes the Gantt chart with some accuracy. Explaining the critical path and its effect on delays would move it up.",
                         "band": 2
                       },
                       {
@@ -17756,10 +17756,10 @@
                       {
                         "id": "sa-bs-22-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Automation can speed up production and reduce labour costs, but it requires investment.",
-                        "feedback": "A 3-mark response explains one factor with some accuracy. Explaining task design and layout would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one factor with some accuracy. Explaining task design and layout would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-22-3",
@@ -17812,17 +17812,17 @@
                       {
                         "id": "prompt-bs-22-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A product layout would suit the runabouts because each hull moves through the same stations in order, but the yachts would still need a process layout.",
-                        "feedback": "A 5-mark response analyses the two layouts against the two kinds of work with some accuracy, but it gives limited consideration of task design or the trade-offs.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the two layouts against the two kinds of work with some accuracy, but it gives limited consideration of task design or the trade-offs.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-22-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "A process layout groups tools together.",
-                        "feedback": "A 2-mark response defines a layout without analysing its effect on Sandpiper's operations process.",
+                        "feedback": "A 1-mark response defines a layout without analysing its effect on Sandpiper's operations process.",
                         "band": 1
                       }
                     ]
@@ -17941,10 +17941,10 @@
                       {
                         "id": "sa-bs-23-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Businesses monitor their output and correct problems when quality falls.",
-                        "feedback": "A 3-mark response describes monitoring and control with some accuracy. Explaining improvement would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes monitoring and control with some accuracy. Explaining improvement would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-23-3",
@@ -18163,10 +18163,10 @@
                       {
                         "id": "sa-bs-25-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Good customer service keeps customers happy, so they buy again.",
-                        "feedback": "A 3-mark response describes one effect with some accuracy. Explaining how operations supports service would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one effect with some accuracy. Explaining how operations supports service would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-25-3",
@@ -18219,10 +18219,10 @@
                       {
                         "id": "prompt-bs-25-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Members could be offered induction times in advance, so they wait less at the front desk.",
-                        "feedback": "A 3-mark response describes a change with a basic link to waiting time, but it does not show how the change improves satisfaction or repeat business.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes a change with a basic link to waiting time, but it does not show how the change improves satisfaction or repeat business.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-25-n1-s3",
@@ -18334,10 +18334,10 @@
                       {
                         "id": "prompt-bs-26-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "An extended call-out team would reassure customers, but it would cost the company more in wages.",
-                        "feedback": "A 3-mark response identifies a benefit and a cost of the call-out team, but it does not explain the wider significance of after-sales service for the business.",
-                        "band": 3
+                        "feedback": "A 2-mark response identifies a benefit and a cost of the call-out team, but it does not explain the wider significance of after-sales service for the business.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-26-n1-s3",
@@ -18399,17 +18399,17 @@
                       {
                         "id": "sa-bs-27-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Quality and speed can conflict, since skipping checks speeds production but reduces quality. Customisation adds complexity and cost, which conflicts with cost leadership.",
-                        "feedback": "A 5-mark response analyses two trade-offs with accurate examples. Analysing dependability and flexibility and reaching a view on priorities would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two trade-offs with accurate examples. Analysing dependability and flexibility and reaching a view on priorities would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-27-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Operations objectives include quality, speed and cost.",
-                        "feedback": "A 2-mark response lists objectives without analysing them.",
+                        "feedback": "A 1-mark response lists objectives without analysing them.",
                         "band": 1
                       }
                     ],
@@ -18455,10 +18455,10 @@
                       {
                         "id": "prompt-bs-27-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A faster machine would let Sunnyside serve more customers each hour, but it would cost more to buy.",
-                        "feedback": "A 3-mark response describes a benefit and a cost of the faster machine, but it does not examine how the trade-off affects the cost per load or customers.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes a benefit and a cost of the faster machine, but it does not examine how the trade-off affects the cost per load or customers.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-27-n1-s3",
@@ -18680,10 +18680,10 @@
                       {
                         "id": "sa-bs-28-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business develops a new product by testing a prototype and then launching it.",
-                        "feedback": "A 3-mark response describes the process with some accuracy. Explaining the operations implications and advantage would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the process with some accuracy. Explaining the operations implications and advantage would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-28-3",
@@ -18736,10 +18736,10 @@
                       {
                         "id": "prompt-bs-28-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Ferncliff could hire an external studio to design the range, which would avoid hiring designers, but it would give less control over how the products are made.",
-                        "feedback": "A 5-mark response justifies one option with reasons on each side, but it does not reach a fully supported decision or weigh the revision risk against the speed of outsourcing.",
-                        "band": 4
+                        "feedback": "A 3-mark response justifies one option with reasons on each side, but it does not reach a fully supported decision or weigh the revision risk against the speed of outsourcing.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-28-n1-s3",
@@ -18795,10 +18795,10 @@
                       {
                         "id": "sa-bs-29-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Logistics determines how quickly goods reach customers. Global sourcing lowers input costs, but longer supply chains increase the risk of delay.",
-                        "feedback": "A 5-mark response analyses two elements with accurate examples. Analysing e-commerce and reaching a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two elements with accurate examples. Analysing e-commerce and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-29-3",
@@ -18910,10 +18910,10 @@
                       {
                         "id": "sa-bs-30-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Outsourcing can reduce costs and let a business focus on core activities. However, the business loses direct control over quality and timing.",
-                        "feedback": "A 5-mark response assesses one advantage and one disadvantage with some evidence. Assessing dependence and a judgement on when outsourcing is appropriate would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses one advantage and one disadvantage with some evidence. Assessing dependence and a judgement on when outsourcing is appropriate would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-30-3",
@@ -19085,10 +19085,10 @@
                       {
                         "id": "sa-bs-31-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Leading-edge technology is new and can give an advantage, while established technology is cheaper and proven.",
-                        "feedback": "A 3-mark response describes both types with some accuracy. Explaining the trade-off in risk and cost would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes both types with some accuracy. Explaining the trade-off in risk and cost would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-31-3",
@@ -19262,10 +19262,10 @@
                       {
                         "id": "sa-bs-32-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Holding stock protects against supply disruption but ties up cash and risks obsolescence. JIT reduces inventory costs but depends on reliable suppliers.",
-                        "feedback": "A 5-mark response analyses holding stock and JIT with accurate evidence. Explaining LIFO and FIFO and their effect on profit would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses holding stock and JIT with accurate evidence. Explaining LIFO and FIFO and their effect on profit would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-32-3",
@@ -19508,10 +19508,10 @@
                       {
                         "id": "sa-bs-33-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Quality management means checking products to make sure they meet standards.",
-                        "feedback": "A 3-mark response describes quality management as inspection with some accuracy. Explaining prevention and the link to cost would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes quality management as inspection with some accuracy. Explaining prevention and the link to cost would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-33-3",
@@ -19683,10 +19683,10 @@
                       {
                         "id": "sa-bs-34-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Managers check performance against targets and fix problems when they arise.",
-                        "feedback": "A 3-mark response describes control with some accuracy. Explaining the setting of standards and the measurement would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes control with some accuracy. Explaining the setting of standards and the measurement would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-34-3",
@@ -19790,10 +19790,10 @@
                       {
                         "id": "sa-bs-35-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business can get a quality certificate to show customers its products are reliable.",
-                        "feedback": "A 3-mark response describes assurance with some accuracy. Explaining the systems and the cost would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes assurance with some accuracy. Explaining the systems and the cost would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-35-3",
@@ -19905,10 +19905,10 @@
                       {
                         "id": "sa-bs-36-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Businesses improve operations by making small changes that reduce waste.",
-                        "feedback": "A 3-mark response describes improvement with some accuracy. Explaining staff involvement and measurement would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes improvement with some accuracy. Explaining staff involvement and measurement would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-36-3",
@@ -20020,10 +20020,10 @@
                       {
                         "id": "sa-bs-37-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Redundancy payments and retraining are costs that cause resistance. Managers can phase investment and redeploy staff to reduce the cost and disruption.",
-                        "feedback": "A 5-mark response analyses resistance and two methods with accurate examples. Analysing inertia and reaching a judgement would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses resistance and two methods with accurate examples. Analysing inertia and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-37-3",
@@ -20259,10 +20259,10 @@
                       {
                         "id": "sa-bs-38-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Global sourcing lowers input costs but adds currency risk and distance. Economies of scale are possible in global markets, but require large investment.",
-                        "feedback": "A 5-mark response analyses two factors with accurate examples. Analysing scanning and learning and research and development would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two factors with accurate examples. Analysing scanning and learning and research and development would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-38-3",
@@ -20446,10 +20446,10 @@
                       {
                         "id": "sa-bs-39-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Operations makes the products and marketing sells them, so both need goods and services.",
-                        "feedback": "A 3-mark response describes the link with some accuracy. Explaining customer value and the way marketing defines the offering would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the link with some accuracy. Explaining customer value and the way marketing defines the offering would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-39-3",
@@ -20561,9 +20561,9 @@
                       {
                         "id": "sa-bs-40-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Marketing must not mislead customers, and the law stops businesses from making false claims.",
-                        "feedback": "A 3-mark response describes regulation with some accuracy. Explaining ethics and the effect on trust would move it up.",
+                        "feedback": "A 2-mark response describes regulation with some accuracy. Explaining ethics and the effect on trust would move it up.",
                         "band": 2
                       },
                       {
@@ -20616,10 +20616,10 @@
                       {
                         "id": "prompt-bs-40-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The claim should change because customers paid a premium believing it was proven, and the company cannot show that it is true.",
-                        "feedback": "A 5-mark response justifies a position mainly on ethical grounds with a conclusion. Adding the legal position and weighing it against trust would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response justifies a position mainly on ethical grounds with a conclusion. Adding the legal position and weighing it against trust would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-40-n1-s3",
@@ -20675,10 +20675,10 @@
                       {
                         "id": "sa-bs-41-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Advertising reaches large audiences and builds awareness, while personal selling is needed for complex services. Sales promotions prompt immediate purchase.",
-                        "feedback": "A 5-mark response assesses three strategies with accurate evidence. Assessing publicity and reaching a judgement on the best mix would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses three strategies with accurate evidence. Assessing publicity and reaching a judgement on the best mix would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-41-3",
@@ -20796,10 +20796,10 @@
                       {
                         "id": "sa-bs-42-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "The water bottle is differentiated on durability and design, which suits its target market. The premium price supports brand value, but it may limit growth against cheaper competitors.",
-                        "feedback": "A 6-mark response evaluates the strategies with some judgement, but the criteria are not stated and the promotion and distribution are not evaluated. Adding these would strengthen it.",
-                        "band": 4
+                        "feedback": "A 4-mark response evaluates the strategies with some judgement, but the criteria are not stated and the promotion and distribution are not evaluated. Adding these would strengthen it.",
+                        "band": 3
                       },
                       {
                         "id": "sa-bs-42-3",
@@ -20918,10 +20918,10 @@
                       {
                         "id": "sa-bs-43-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A marketing plan should set measurable objectives, such as a sales increase, and identify target markets. The strategies should then follow from the target market.",
-                        "feedback": "A 5-mark response analyses the components with accurate evidence. Analysing the financial forecast and monitoring and reaching a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the components with accurate evidence. Analysing the financial forecast and monitoring and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-43-3",
@@ -21033,10 +21033,10 @@
                       {
                         "id": "sa-bs-44-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Globalisation means businesses can sell in more countries, so they must think about different markets.",
-                        "feedback": "A 3-mark response describes an effect with some accuracy. Explaining standardisation and customisation would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes an effect with some accuracy. Explaining standardisation and customisation would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-44-3",
@@ -21269,10 +21269,10 @@
                       {
                         "id": "sa-bs-46-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Marketing needs operations to produce what it sells, and finance pays for campaigns.",
-                        "feedback": "A 3-mark response describes two links with some accuracy. Explaining human resources and the two-way nature would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two links with some accuracy. Explaining human resources and the two-way nature would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-46-3",
@@ -21723,10 +21723,10 @@
                       {
                         "id": "sa-bs-49-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Income affects what customers can buy, and advertising can change their attitudes.",
-                        "feedback": "A 3-mark response describes two factors with some accuracy. Explaining sociocultural and government factors would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two factors with some accuracy. Explaining sociocultural and government factors would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-49-3",
@@ -22196,10 +22196,10 @@
                       {
                         "id": "sa-bs-51-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Misleading advertising is when a business gives consumers a false impression, and the business can be fined.",
-                        "feedback": "A 3-mark response explains the conduct and one consequence with some accuracy. Explaining the absence of intent and corrective advertising would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains the conduct and one consequence with some accuracy. Explaining the absence of intent and corrective advertising would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-51-3",
@@ -22311,10 +22311,10 @@
                       {
                         "id": "sa-bs-52-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Cinemas charge students less than adults for the same film, which is price discrimination.",
-                        "feedback": "A 3-mark response explains the practice with an example and some accuracy. Explaining the conditions and the legal limits would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains the practice with an example and some accuracy. Explaining the conditions and the legal limits would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-52-3",
@@ -22426,10 +22426,10 @@
                       {
                         "id": "sa-bs-53-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Goods must be of acceptable quality, so a business cannot sell a product that is faulty.",
-                        "feedback": "A 3-mark response explains one condition with some accuracy. Explaining fitness for purpose and the effect on marketing claims would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one condition with some accuracy. Explaining fitness for purpose and the effect on marketing claims would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-53-3",
@@ -22648,17 +22648,17 @@
                       {
                         "id": "sa-bs-55-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Exaggerated advertising claims mislead consumers. Sugging, a sales pitch disguised as research, misuses the trust that people place in research.",
-                        "feedback": "A 5-mark response analyses two ethical issues with accurate examples. Analysing health and fair competition and the link to trust would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two ethical issues with accurate examples. Analysing health and fair competition and the link to trust would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-55-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Some advertising is not honest.",
-                        "feedback": "A 2-mark response identifies an issue without analysis.",
+                        "feedback": "A 1-mark response identifies an issue without analysis.",
                         "band": 1
                       }
                     ],
@@ -22704,10 +22704,10 @@
                       {
                         "id": "prompt-bs-55-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Rosemount should be honest in its price comparison, because customers rely on it to choose between the two bakeries.",
-                        "feedback": "A 3-mark response identifies one ethical consideration with some accuracy. Discussing the accuracy of the comparison and the flyers on the rival's counter would move it up.",
-                        "band": 3
+                        "feedback": "A 2-mark response identifies one ethical consideration with some accuracy. Discussing the accuracy of the comparison and the flyers on the rival's counter would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-55-n1-s3",
@@ -22769,10 +22769,10 @@
                       {
                         "id": "sa-bs-56-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "SWOT looks at strengths, weaknesses, opportunities and threats for a business.",
-                        "feedback": "A 3-mark response describes SWOT with some accuracy. Explaining the product life cycle and its use in strategy would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes SWOT with some accuracy. Explaining the product life cycle and its use in strategy would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-56-3",
@@ -23163,9 +23163,9 @@
                       {
                         "id": "prompt-bs-57-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Mango Lime was preferred by 120 customers and Beetroot Apple by 50, so Sunrise should launch Mango Lime.",
-                        "feedback": "A 3-mark response describes the survey results with some accuracy and makes a recommendation. Converting the figures to proportions and using the age data would move it up.",
+                        "feedback": "A 2-mark response describes the survey results with some accuracy and makes a recommendation. Converting the figures to proportions and using the age data would move it up.",
                         "band": 2
                       },
                       {
@@ -23222,10 +23222,10 @@
                       {
                         "id": "sa-bs-58-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business sets a target to grow its market share over the next year.",
-                        "feedback": "A 3-mark response describes one objective with some accuracy. Explaining the criteria and the link to business objectives would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one objective with some accuracy. Explaining the criteria and the link to business objectives would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-58-3",
@@ -23337,10 +23337,10 @@
                       {
                         "id": "sa-bs-59-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business divides customers by age and location and chooses the group it can serve best.",
-                        "feedback": "A 3-mark response describes the process with some accuracy. Explaining psychographics and the criteria for choice would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the process with some accuracy. Explaining psychographics and the criteria for choice would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-59-3",
@@ -23451,10 +23451,10 @@
                       {
                         "id": "sa-bs-60-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A business starts from its objectives and target market. The product, price, place and promotion must all suit that market, so the mix is consistent.",
-                        "feedback": "A 5-mark response analyses the development with accurate reasoning. Giving an example and assessing consistency would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the development with accurate reasoning. Giving an example and assessing consistency would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-60-3",
@@ -23565,10 +23565,10 @@
                       {
                         "id": "sa-bs-61-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The business puts the plan into action and checks whether sales match the forecast.",
-                        "feedback": "A 3-mark response describes two stages with some accuracy. Explaining the variance analysis and revision would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two stages with some accuracy. Explaining the variance analysis and revision would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-61-3",
@@ -23805,10 +23805,10 @@
                       {
                         "id": "sa-bs-62-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business divides the market into groups and offers a product that differs from competitors.",
-                        "feedback": "A 3-mark response describes two concepts with some accuracy. Explaining positioning and the link would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two concepts with some accuracy. Explaining positioning and the link would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-62-3",
@@ -24428,10 +24428,10 @@
                       {
                         "id": "sa-bs-66-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Cost-based pricing adds a mark-up to the cost of making the product.",
-                        "feedback": "A 3-mark response explains one method with some accuracy. Explaining market and competition-based pricing would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one method with some accuracy. Explaining market and competition-based pricing would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-66-3",
@@ -24602,10 +24602,10 @@
                       {
                         "id": "sa-bs-67-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Skimming sets a high price for a new product, and penetration sets a low price to win customers.",
-                        "feedback": "A 3-mark response explains two strategies with some accuracy. Explaining loss leaders and price points would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains two strategies with some accuracy. Explaining loss leaders and price points would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-67-3",
@@ -24708,17 +24708,17 @@
                       {
                         "id": "sa-bs-68-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Customers often use a high price as a signal of high quality. However, a high price for a product that is not better will reduce perceived value.",
-                        "feedback": "A 5-mark response analyses the relationship with accurate examples. Analysing the damage a low price can do to a premium brand and reaching a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the relationship with accurate examples. Analysing the damage a low price can do to a premium brand and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-68-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Expensive products are usually better quality.",
-                        "feedback": "A 2-mark response makes a generalisation without analysing the interaction.",
+                        "feedback": "A 1-mark response makes a generalisation without analysing the interaction.",
                         "band": 1
                       }
                     ],
@@ -24988,10 +24988,10 @@
                       {
                         "id": "sa-bs-70-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Advertising reaches large audiences, and personal selling involves salespeople talking to customers.",
-                        "feedback": "A 3-mark response describes two elements with some accuracy. Explaining sales promotions and publicity would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two elements with some accuracy. Explaining sales promotions and publicity would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-70-3",
@@ -25102,10 +25102,10 @@
                       {
                         "id": "sa-bs-71-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business sends a message to customers, who respond by buying or giving feedback.",
-                        "feedback": "A 3-mark response describes the process with some accuracy. Explaining opinion leaders and word of mouth would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the process with some accuracy. Explaining opinion leaders and word of mouth would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-71-3",
@@ -25157,10 +25157,10 @@
                       {
                         "id": "prompt-bs-71-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Oakmere Furniture sends an email, which subscribers read, and some of them reply with questions, which is feedback.",
-                        "feedback": "A 3-mark response summarises most stages in order with some accuracy, but it does not link the sharing and the newspaper report to the spread of the message. Add those secondary channels to reach 4 marks.",
-                        "band": 2
+                        "feedback": "A 2-mark response summarises most stages in order with some accuracy, but it does not link the sharing and the newspaper report to the spread of the message. Add those secondary channels to reach 3 marks.",
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-71-n1-s3",
@@ -25330,10 +25330,10 @@
                       {
                         "id": "sa-bs-73-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Products can go directly to customers or through retailers.",
-                        "feedback": "A 3-mark response describes channels with some accuracy. Explaining the factors and the role of wholesalers would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes channels with some accuracy. Explaining the factors and the role of wholesalers would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-73-3",
@@ -25444,10 +25444,10 @@
                       {
                         "id": "sa-bs-74-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Intensive distribution puts products everywhere, and exclusive distribution uses only a few outlets.",
-                        "feedback": "A 3-mark response describes two types with some accuracy. Explaining selective distribution and the link to product type would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two types with some accuracy. Explaining selective distribution and the link to product type would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-74-3",
@@ -25558,10 +25558,10 @@
                       {
                         "id": "sa-bs-75-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Transport choice trades cost against speed. Centralised warehousing reduces cost but lengthens delivery times.",
-                        "feedback": "A 5-mark response analyses two issues with accurate examples. Analysing inventory and its link to customer satisfaction would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two issues with accurate examples. Analysing inventory and its link to customer satisfaction would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-75-3",
@@ -25736,10 +25736,10 @@
                       {
                         "id": "sa-bs-76-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Staff deliver the service, so their friendliness affects how customers see it.",
-                        "feedback": "A 3-mark response describes one element with some accuracy. Explaining processes and physical evidence would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one element with some accuracy. Explaining processes and physical evidence would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-76-3",
@@ -25904,10 +25904,10 @@
                       {
                         "id": "sa-bs-77-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "E-marketing uses social media and websites to promote products to customers.",
-                        "feedback": "A 3-mark response describes e-marketing with some accuracy. Explaining targeting and the effect on strategy would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes e-marketing with some accuracy. Explaining targeting and the effect on strategy would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-77-3",
@@ -25960,10 +25960,10 @@
                       {
                         "id": "prompt-bs-77-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Redleaf should spend about $14,000 on email, because it has 8,000 subscribers, and about $12,000 on social media advertising to reach new campers.",
                         "feedback": "A 5-6 mark response recommends an allocation across two channels with reasons, but it gives no reason for the website or the reserve. Explain the website priority and each share to reach the top band.",
-                        "band": 4
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-77-n1-s3",
@@ -26019,10 +26019,10 @@
                       {
                         "id": "sa-bs-78-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Businesses sell products in other countries and must choose how to enter those markets.",
-                        "feedback": "A 3-mark response describes global marketing with some accuracy. Explaining the entry modes and cultural factors would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes global marketing with some accuracy. Explaining the entry modes and cultural factors would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-78-3",
@@ -26074,10 +26074,10 @@
                       {
                         "id": "prompt-bs-78-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Auckland is close to Melbourne, so opening a cafe there is low risk. Exporting beans to Japan would need the labels changed for Japanese customers.",
                         "feedback": "A 5-6 mark response assesses the decisions in both markets with accurate evidence and some links to the brand. Weigh the licensing offer and the brand's cafe story to reach 7 marks.",
-                        "band": 4
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-78-n1-s3",
@@ -26312,10 +26312,10 @@
                       {
                         "id": "prompt-bs-79-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Kingfisher's playful name may not translate well into other languages, and its orange logo may mean something different overseas.",
-                        "feedback": "A 3-mark response predicts two challenges with some link to the Queensland experience but does not explain how the founder story would change. Add that third challenge and reason through it to reach 4 marks.",
-                        "band": 3
+                        "feedback": "A 2-mark response predicts two challenges with some link to the Queensland experience but does not explain how the founder story would change. Add that third challenge and reason through it to reach 3 marks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-79-n1-s3",
@@ -26371,10 +26371,10 @@
                       {
                         "id": "sa-bs-80-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Standardisation means selling the same product everywhere, which saves costs.",
-                        "feedback": "A 3-mark response describes an advantage with some accuracy. Explaining the disadvantages would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes an advantage with some accuracy. Explaining the disadvantages would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-80-3",
@@ -26548,10 +26548,10 @@
                       {
                         "id": "sa-bs-81-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A food company changes its recipe for different countries to suit local tastes.",
-                        "feedback": "A 3-mark response describes customisation with some accuracy. Explaining its costs and when it is appropriate would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes customisation with some accuracy. Explaining its costs and when it is appropriate would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-81-3",
@@ -26722,10 +26722,10 @@
                       {
                         "id": "sa-bs-82-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Exchange rates and tariffs change the cost of imported products in each country.",
-                        "feedback": "A 3-mark response describes two factors with some accuracy. Explaining local competition and purchasing power would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two factors with some accuracy. Explaining local competition and purchasing power would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-82-3",
@@ -26836,10 +26836,10 @@
                       {
                         "id": "sa-bs-83-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A perceptual map shows where competitors sit on price and quality. A business that offers high quality at a mid-range price occupies a position rivals do not hold.",
-                        "feedback": "A 5-mark response analyses differentiation with accurate examples. Assessing the sustainability of the position and reaching a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses differentiation with accurate examples. Assessing the sustainability of the position and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-83-3",
@@ -26962,10 +26962,10 @@
                       {
                         "id": "sa-bs-84-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business may cut spending to raise profit this year, which harms future growth.",
-                        "feedback": "A 3-mark response explains one conflict with some accuracy. Explaining a second conflict would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one conflict with some accuracy. Explaining a second conflict would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-84-3",
@@ -27017,10 +27017,10 @@
                       {
                         "id": "prompt-bs-84-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Cutting training would raise profit this year, but the new range may be delayed without skilled installers. The dividend also draws on the same cash needed for the new equipment, so the two objectives compete.",
                         "feedback": "A 5-6 mark response discusses two conflicts with accurate examples. Reach a reasoned view on the board's proposal to reach 7 marks.",
-                        "band": 4
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-84-n1-s3",
@@ -27138,10 +27138,10 @@
                       {
                         "id": "sa-bs-85-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Government regulation sets reporting obligations, and interest rate settings affect the cost of borrowing. Exchange rates change the value of overseas earnings.",
-                        "feedback": "A 5-mark response analyses several influences with accurate examples. Analysing global economic conditions and their effect on funds, and reaching a conclusion, would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses several influences with accurate examples. Analysing global economic conditions and their effect on funds, and reaching a conclusion, would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-85-3",
@@ -27193,10 +27193,10 @@
                       {
                         "id": "prompt-bs-85-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Government incentives have increased Ridgeback's sales, but the weaker dollar makes its imported panels more expensive.",
-                        "feedback": "A 3-mark response describes the influences on financial management with limited evaluation. Weigh the benefit of the sales against the risk to margin, and name a management response, to reach 4 marks.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes the influences on financial management with limited evaluation. Weigh the benefit of the sales against the risk to margin, and name a management response, to reach 3 marks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-85-n1-s3",
@@ -27252,10 +27252,10 @@
                       {
                         "id": "sa-bs-86-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Assets are recorded at historical cost, so they may not show their current value.",
-                        "feedback": "A 3-mark response explains one limitation with some accuracy. Explaining timing and accounting choices would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one limitation with some accuracy. Explaining timing and accounting choices would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-86-3",
@@ -27366,17 +27366,17 @@
                       {
                         "id": "sa-bs-87-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Both types carry credit risk. Global transactions also carry exchange rate risk, which does not exist in domestic sales, and political risk.",
-                        "feedback": "A 5-mark response compares the risks with accurate examples. Explaining how each risk is managed would move it into the top band.",
+                        "feedback": "A 3-mark response compares the risks with accurate examples. Explaining how each risk is managed would move it into the top band.",
                         "band": 2
                       },
                       {
                         "id": "sa-bs-87-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Global transactions are riskier than domestic ones.",
-                        "feedback": "A 2-mark response makes a general comparison without identifying specific risks.",
+                        "feedback": "A 1-mark response makes a general comparison without identifying specific risks.",
                         "band": 1
                       }
                     ],
@@ -27660,10 +27660,10 @@
                       {
                         "id": "sa-bs-89-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The gross profit ratio has fallen over three years while the industry average held steady, suggesting weaker pricing or cost control. The current ratio has improved, showing better liquidity.",
-                        "feedback": "A 5-mark response assesses performance using comparisons over time and against benchmarks with accurate evidence. Recognising limitations and reaching a fuller judgement would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses performance using comparisons over time and against benchmarks with accurate evidence. Recognising limitations and reaching a fuller judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-89-3",
@@ -27778,18 +27778,18 @@
                       {
                         "id": "sa-bs-90-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Offer a discount for early payment to shorten the collection period and improve cash flow. Review costs to remove waste and lift the net profit ratio.",
-                        "feedback": "A 5-mark response recommends justified strategies linked to ratios. Assessing the risks and trade-offs would move it into the top band.",
-                        "band": 4
+                        "feedback": "A 3-mark response recommends justified strategies linked to ratios. Assessing the risks and trade-offs would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-90-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The business could cut its costs.",
-                        "feedback": "A 2-mark response identifies a strategy without justification.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies a strategy without justification.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Coastal Print Studio, a commercial printing business, reports that its net profit ratio has fallen from 12 per cent to 4 per cent in two years, while its average collection period for receivables has grown from 35 to 62 days. Its bank has asked for a plan to improve cash flow before it renews the overdraft."
@@ -27893,17 +27893,17 @@
                       {
                         "id": "sa-bs-91-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Presenting results favourably, such as recognising revenue early, can mislead shareholders even if it is technically allowed. Auditors and regulators provide checks.",
-                        "feedback": "A 5-mark response analyses reporting practices with accurate examples and the role of checks. Analysing the effect on creditors and employees and reaching a judgement would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses reporting practices with accurate examples and the role of checks. Analysing the effect on creditors and employees and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-91-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Financial reports should be honest.",
-                        "feedback": "A 2-mark response makes a general statement without analysing practices.",
+                        "feedback": "A 1-mark response makes a general statement without analysing practices.",
                         "band": 1
                       }
                     ],
@@ -28014,10 +28014,10 @@
                       {
                         "id": "sa-bs-92-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Financial management decides how money is spent and where funding comes from.",
-                        "feedback": "A 3-mark response describes two functions with some accuracy. Explaining the link to strategy and risk would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two functions with some accuracy. Explaining the link to strategy and risk would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-92-3",
@@ -28297,10 +28297,10 @@
                       {
                         "id": "sa-bs-94-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Profitability is measured by the net profit ratio, and liquidity is measured by the current ratio.",
-                        "feedback": "A 3-mark response explains two objectives with some accuracy. Explaining growth, efficiency and solvency would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains two objectives with some accuracy. Explaining growth, efficiency and solvency would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-94-3",
@@ -28588,10 +28588,10 @@
                       {
                         "id": "sa-bs-96-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Marketing campaigns cost money, so finance must fund them.",
-                        "feedback": "A 3-mark response describes one link with some accuracy. Explaining operations and human resources would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one link with some accuracy. Explaining operations and human resources would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-96-3",
@@ -28937,10 +28937,10 @@
                       {
                         "id": "sa-bs-99-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "An overdraft lets a business borrow short-term, and a mortgage is a long-term loan secured over property.",
-                        "feedback": "A 3-mark response describes two instruments with some accuracy. Explaining factoring, debentures and the matching principle would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two instruments with some accuracy. Explaining factoring, debentures and the matching principle would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-99-3",
@@ -29042,10 +29042,10 @@
                       {
                         "id": "sa-bs-100-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business can sell ordinary shares to raise money, which gives investors part-ownership.",
-                        "feedback": "A 3-mark response describes equity with some accuracy. Explaining rights issues, placements and dilution would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes equity with some accuracy. Explaining rights issues, placements and dilution would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-100-3",
@@ -29331,10 +29331,10 @@
                       {
                         "id": "sa-bs-102-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "ASIC makes companies follow financial reporting rules, and company tax reduces profit.",
-                        "feedback": "A 3-mark response describes both influences with some accuracy. Explaining the effect on decisions would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes both influences with some accuracy. Explaining the effect on decisions would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-102-3",
@@ -29386,10 +29386,10 @@
                       {
                         "id": "prompt-bs-102-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The concession rewards reinvestment, so Pinecrest may fund a warehouse from profit rather than borrowing. The disclosure rule would not apply directly to a company of its size.",
-                        "feedback": "A 5-mark response discusses the concession's effect with reasoning and notes that the reporting rule does not directly apply. Weighing the risk of the concession's conditions and the effect on lenders would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses the concession's effect with reasoning and notes that the reporting rule does not directly apply. Weighing the risk of the concession's conditions and the effect on lenders would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-102-n1-s3",
@@ -29445,10 +29445,10 @@
                       {
                         "id": "sa-bs-103-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A weak global outlook makes managers delay investment. When overseas investors are cautious, funds become scarcer and borrowing costs rise.",
-                        "feedback": "A 5-mark response analyses two influences with accurate examples. Analysing interest rates and reaching a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two influences with accurate examples. Analysing interest rates and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-103-3",
@@ -29626,10 +29626,10 @@
                       {
                         "id": "sa-bs-104-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The business works out its financial needs and sets a budget for the year.",
-                        "feedback": "A 3-mark response describes two elements with some accuracy. Explaining risks, record systems and controls would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two elements with some accuracy. Explaining risks, record systems and controls would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-104-3",
@@ -29681,9 +29681,9 @@
                       {
                         "id": "prompt-bs-104-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Sales were above budget, but wages and fabric costs went over, so the business should check why.",
-                        "feedback": "A 3-mark response describes the variances with some accuracy but does not calculate them or recommend action. Applying the process to each variance would move it up.",
+                        "feedback": "A 2-mark response describes the variances with some accuracy but does not calculate them or recommend action. Applying the process to each variance would move it up.",
                         "band": 2
                       },
                       {
@@ -29740,10 +29740,10 @@
                       {
                         "id": "sa-bs-105-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Debt is cheaper and does not dilute ownership, but it creates fixed repayments. Equity avoids repayments but dilutes control and may cost more over time.",
-                        "feedback": "A 5-mark response assesses both forms with accurate evidence. Linking the choice to the business's circumstances and reaching a judgement would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses both forms with accurate evidence. Linking the choice to the business's circumstances and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-105-3",
@@ -29978,10 +29978,10 @@
                       {
                         "id": "sa-bs-106-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business should use long-term loans to buy property rather than an overdraft.",
-                        "feedback": "A 3-mark response gives one example with some accuracy. Explaining the principle and the risk of mismatch would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response gives one example with some accuracy. Explaining the principle and the risk of mismatch would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-106-3",
@@ -31294,10 +31294,10 @@
                       {
                         "id": "sa-bs-113-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business can compare its ratios with last year's figures to see whether they are improving.",
-                        "feedback": "A 3-mark response explains one comparison with some accuracy. Explaining standards and similar businesses would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one comparison with some accuracy. Explaining standards and similar businesses would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-113-3",
@@ -31349,10 +31349,10 @@
                       {
                         "id": "prompt-bs-113-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The aluminium range's margin of 26 per cent is below the existing 34 per cent and the owners' 30 per cent target, so the expansion should be tested before it proceeds.",
-                        "feedback": "A 5-mark response investigates the decision with evidence from one or two comparisons and suggests a conclusion. Adding the competitor comparison and the limitations would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response investigates the decision with evidence from one or two comparisons and suggests a conclusion. Adding the competitor comparison and the limitations would move it up.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-113-n1-s3",
@@ -31530,10 +31530,10 @@
                       {
                         "id": "sa-bs-114-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Normalised earnings remove one-off items, which can make profit look better.",
-                        "feedback": "A 3-mark response explains one limitation with some accuracy. Explaining capitalising expenses and valuing assets would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one limitation with some accuracy. Explaining capitalising expenses and valuing assets would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-114-3",
@@ -31705,17 +31705,17 @@
                       {
                         "id": "sa-bs-115-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Creative accounting can comply with the rules yet mislead shareholders. Managers face pressure from bonus targets to present results favourably.",
-                        "feedback": "A 5-mark response analyses two ethical issues with accurate examples. Analysing the effect on creditors and employees would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two ethical issues with accurate examples. Analysing the effect on creditors and employees would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-115-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Financial reports should not mislead people.",
-                        "feedback": "A 2-mark response makes a general statement without analysing the issues.",
+                        "feedback": "A 1-mark response makes a general statement without analysing the issues.",
                         "band": 1
                       }
                     ],
@@ -31825,10 +31825,10 @@
                       {
                         "id": "sa-bs-116-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Cash flow management means making sure the business has enough cash to pay its bills.",
-                        "feedback": "A 3-mark response explains the purpose with some accuracy. Explaining the difference between profit and cash and the methods would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains the purpose with some accuracy. Explaining the difference between profit and cash and the methods would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-116-3",
@@ -31881,10 +31881,10 @@
                       {
                         "id": "prompt-bs-116-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The owner could forecast cash and use a loan for the machine so the overdraft is not used up.",
-                        "feedback": "A 3-mark response describes cash flow strategies with some accuracy but combines them only briefly. Explaining how the seasonal gap, the machine and the overdraft interact would move it up.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes cash flow strategies with some accuracy but combines them only briefly. Explaining how the seasonal gap, the machine and the overdraft interact would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-116-n1-s3",
@@ -32057,10 +32057,10 @@
                       {
                         "id": "sa-bs-118-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Offering a discount for early payment brings cash in sooner.",
-                        "feedback": "A 3-mark response explains one strategy with some accuracy. Explaining factoring and the distribution of payments would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one strategy with some accuracy. Explaining factoring and the distribution of payments would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-118-3",
@@ -32295,10 +32295,10 @@
                       {
                         "id": "sa-bs-119-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Working capital is current assets minus current liabilities, and businesses need enough of it.",
-                        "feedback": "A 3-mark response defines working capital with some accuracy. Explaining its management and the trade-off would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response defines working capital with some accuracy. Explaining its management and the trade-off would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-119-3",
@@ -32412,10 +32412,10 @@
                       {
                         "id": "sa-bs-120-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business should collect its receivables quickly and avoid holding too much stock.",
-                        "feedback": "A 3-mark response describes two assets with some accuracy. Explaining the cash control and the trade-off would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two assets with some accuracy. Explaining the cash control and the trade-off would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-120-3",
@@ -32529,10 +32529,10 @@
                       {
                         "id": "sa-bs-121-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business can pay suppliers on their credit terms and use an overdraft when cash is short.",
-                        "feedback": "A 3-mark response describes two liabilities with some accuracy. Explaining the cost and the risk would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two liabilities with some accuracy. Explaining the cost and the risk would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-121-3",
@@ -32762,10 +32762,10 @@
                       {
                         "id": "sa-bs-123-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business can increase profit by raising prices or by cutting costs.",
-                        "feedback": "A 3-mark response identifies two ways with some accuracy. Explaining the margin and the trade-off would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response identifies two ways with some accuracy. Explaining the margin and the trade-off would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-123-3",
@@ -32941,10 +32941,10 @@
                       {
                         "id": "sa-bs-124-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Fixed costs like rent do not change with output, and variable costs like materials do.",
-                        "feedback": "A 3-mark response explains the distinction with some accuracy. Explaining cost centres and expense minimisation would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains the distinction with some accuracy. Explaining cost centres and expense minimisation would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-124-3",
@@ -33057,10 +33057,10 @@
                       {
                         "id": "sa-bs-125-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business sets sales targets and compares them with actual sales.",
-                        "feedback": "A 3-mark response describes one control with some accuracy. Explaining pricing controls and the link to marketing objectives would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one control with some accuracy. Explaining pricing controls and the link to marketing objectives would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-125-3",
@@ -33173,10 +33173,10 @@
                       {
                         "id": "sa-bs-126-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business earning money in another currency faces the risk that exchange rates change.",
-                        "feedback": "A 3-mark response explains one challenge with some accuracy. Explaining regulation and political risk would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one challenge with some accuracy. Explaining regulation and political risk would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-126-3",
@@ -33630,10 +33630,10 @@
                       {
                         "id": "sa-bs-130-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Hedging means a business locks in an exchange rate to avoid losing money if the currency moves.",
-                        "feedback": "A 3-mark response describes hedging with some accuracy. Giving an instrument and its cost would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes hedging with some accuracy. Giving an instrument and its cost would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-130-3",
@@ -33746,10 +33746,10 @@
                       {
                         "id": "sa-bs-131-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A forward contract fixes a price for a future transaction, which reduces risk.",
-                        "feedback": "A 3-mark response describes one derivative with some accuracy. Explaining options and speculation would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one derivative with some accuracy. Explaining options and speculation would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-131-3",
@@ -33875,18 +33875,18 @@
                       {
                         "id": "sa-bs-132-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Minimum employment standards set a floor that contracts cannot undercut. Awards set minimum pay for industries, which shapes the terms employers offer.",
-                        "feedback": "A 5-mark response discusses two forms of influence with accurate examples. Discussing the approval of agreements and reaching a view would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses two forms of influence with accurate examples. Discussing the approval of agreements and reaching a view would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-132-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The government makes laws about employment.",
-                        "feedback": "A 2-mark response makes a general statement without discussing influence on contracts.",
-                        "band": 2
+                        "feedback": "A 1-mark response makes a general statement without discussing influence on contracts.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Brightwater Aged Care employs 320 staff across four residential homes and is negotiating new employment contracts for its care workers. The state government has announced changes to aged-care funding, and the union has asked for a base rate above the modern award."
@@ -33992,10 +33992,10 @@
                       {
                         "id": "sa-bs-133-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business treats employees fairly and provides safe workplaces, which is part of its social responsibility.",
-                        "feedback": "A 3-mark response describes two expressions with some accuracy. Explaining diversity or community engagement would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two expressions with some accuracy. Explaining diversity or community engagement would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-133-3",
@@ -34225,9 +34225,9 @@
                       {
                         "id": "sa-bs-135-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Staff who speak other languages help the business communicate with overseas partners.",
-                        "feedback": "A 3-mark response describes one advantage with some accuracy. Examining market insight and innovation would move it up.",
+                        "feedback": "A 2-mark response describes one advantage with some accuracy. Examining market insight and innovation would move it up.",
                         "band": 2
                       },
                       {
@@ -34347,10 +34347,10 @@
                       {
                         "id": "sa-bs-136-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Operations needs skilled staff, which human resources recruits and trains.",
-                        "feedback": "A 3-mark response describes one link with some accuracy. Explaining finance and marketing would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one link with some accuracy. Explaining finance and marketing would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-136-3",
@@ -34464,9 +34464,9 @@
                       {
                         "id": "sa-bs-137-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Collective agreements pool the bargaining power of employees and apply to a whole workforce. Individual contracts depend on the bargaining power of one employee.",
-                        "feedback": "A 5-mark response compares the processes on bargaining power with accurate detail. Comparing the approval process and the outcomes would move it up.",
+                        "feedback": "A 3-mark response compares the processes on bargaining power with accurate detail. Comparing the approval process and the outcomes would move it up.",
                         "band": 2
                       },
                       {
@@ -34580,18 +34580,18 @@
                       {
                         "id": "sa-bs-138-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Moving the 150 roles offshore could reduce labour costs and give access to specialist language skills. However, Pacific Telecom would lose direct control over the quality of calls and the working conditions of the supplier's staff.",
-                        "feedback": "A 5-mark response discusses advantages and disadvantages with accurate examples. Discussing the reputational and disruption risks and reaching a view would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses advantages and disadvantages with accurate examples. Discussing the reputational and disruption risks and reaching a view would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-138-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Outsourcing overseas can save money.",
-                        "feedback": "A 2-mark response identifies one advantage without discussion.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies one advantage without discussion.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Pacific Telecom Services, an Australian call-centre operator, is considering moving 150 customer support roles to a supplier overseas to cut costs. Its customer support is currently managed in-house, and its service quality is rated highly by its customers."
@@ -34697,10 +34697,10 @@
                       {
                         "id": "sa-bs-139-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 4,
                         "answer": "Staff turnover is high, and absenteeism rises during peak periods, so human resource management is not fully effective. The business should introduce career development and better rostering.",
-                        "feedback": "A 6-mark response evaluates effectiveness using indicators and recommends strategies, but the evidence is brief and the risks of the recommendations are not assessed. Adding these would strengthen it.",
-                        "band": 4
+                        "feedback": "A 4-mark response evaluates effectiveness using indicators and recommends strategies, but the evidence is brief and the risks of the recommendations are not assessed. Adding these would strengthen it.",
+                        "band": 3
                       },
                       {
                         "id": "sa-bs-139-3",
@@ -34713,10 +34713,10 @@
                       {
                         "id": "prompt-bs-139-s4",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Turnover is high, so HR is weak.",
-                        "feedback": "A 2-mark response identifies two weaknesses from the scenario but does not evaluate the effectiveness of human resource management or recommend any strategy.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies two weaknesses from the scenario but does not evaluate the effectiveness of human resource management or recommend any strategy.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Coastal Freight Services, a regional courier with 240 staff, reports staff turnover of 60 per cent a year against an industry benchmark of about 40 per cent. Absenteeism rises during peak periods. It has a clear grievance procedure and few disputes, and its training is limited to induction."
@@ -34828,10 +34828,10 @@
                       {
                         "id": "sa-bs-140-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Human resources plans the staff the business will need in the future and trains them.",
-                        "feedback": "A 3-mark response describes one contribution with some accuracy. Explaining competitive advantage and alignment would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one contribution with some accuracy. Explaining competitive advantage and alignment would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-140-3",
@@ -34944,10 +34944,10 @@
                       {
                         "id": "sa-bs-141-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A decision to raise wages affects the business's costs and its finances.",
-                        "feedback": "A 3-mark response describes one effect with some accuracy. Explaining the dependence of human resources on other functions would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one effect with some accuracy. Explaining the dependence of human resources on other functions would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-141-3",
@@ -35727,10 +35727,10 @@
                       {
                         "id": "sa-bs-146-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The Fair Work Act sets employment standards, and anti-discrimination law prevents discrimination.",
-                        "feedback": "A 3-mark response describes two elements with some accuracy. Explaining safety law, common law and penalties would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two elements with some accuracy. Explaining safety law, common law and penalties would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-146-3",
@@ -35786,10 +35786,10 @@
                       {
                         "id": "prompt-bs-146-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The Fair Work Act protects workers, but subcontractors may not have the same rights, and the firm must follow anti-discrimination law when it hires.",
-                        "feedback": "A 5-mark response identifies relevant laws and makes a partial point about subcontractors, but the judgement on effectiveness is not developed. Link each law to the firm's hiring practices and weigh how well it protects workers.",
-                        "band": 4
+                        "feedback": "A 3-mark response identifies relevant laws and makes a partial point about subcontractors, but the judgement on effectiveness is not developed. Link each law to the firm's hiring practices and weigh how well it protects workers.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-146-n1-s3",
@@ -35905,10 +35905,10 @@
                       {
                         "id": "sa-bs-147-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "An employment contract sets pay and duties, and it must meet the minimum wage.",
-                        "feedback": "A 3-mark response describes the contract with some accuracy. Explaining the awards, enterprise agreements and common law would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the contract with some accuracy. Explaining the awards, enterprise agreements and common law would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-147-3",
@@ -36194,10 +36194,10 @@
                       {
                         "id": "sa-bs-148-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Employers must keep workplaces safe, and workers injured on the job can claim compensation.",
-                        "feedback": "A 3-mark response describes both responsibilities with some accuracy. Explaining the risk management and return to work would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes both responsibilities with some accuracy. Explaining the risk management and return to work would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-148-3",
@@ -36301,10 +36301,10 @@
                       {
                         "id": "sa-bs-149-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Employers must not discriminate against people because of their race, sex or disability.",
-                        "feedback": "A 3-mark response describes antidiscrimination with some accuracy. Explaining equal employment opportunity and fair processes would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes antidiscrimination with some accuracy. Explaining equal employment opportunity and fair processes would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-149-3",
@@ -36358,10 +36358,10 @@
                       {
                         "id": "prompt-bs-149-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Coolabah should advertise the graduate role more widely and use a structured interview to reduce bias.",
-                        "feedback": "A 3-mark response recommends relevant changes but gives generic justification. Link each change to the scenario, such as the referral-only pool, and explain how it reduces the legal risk.",
-                        "band": 3
+                        "feedback": "A 2-mark response recommends relevant changes but gives generic justification. Link each change to the scenario, such as the referral-only pool, and explain how it reduces the legal risk.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-149-n1-s3",
@@ -36528,9 +36528,9 @@
                       {
                         "id": "prompt-bs-150-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A downturn would mean less work, so Calder could stop hiring and use fewer staff for maintenance.",
-                        "feedback": "A 3-mark response describes an economic effect on staffing but does not link it to the skills shortage. Explain the trade-off between cost savings and the difficulty of replacing skilled fitters.",
+                        "feedback": "A 2-mark response describes an economic effect on staffing but does not link it to the skills shortage. Explain the trade-off between cost savings and the difficulty of replacing skilled fitters.",
                         "band": 2
                       },
                       {
@@ -36880,10 +36880,10 @@
                       {
                         "id": "prompt-bs-152-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "More staff want carer's leave and part-time hours, so the council should change its policies to allow this.",
-                        "feedback": "A 3-mark response identifies a social change and a policy response but does not discuss costs or the different roles. Weigh the benefits of flexibility against the constraints of outdoor and front-counter work.",
-                        "band": 3
+                        "feedback": "A 2-mark response identifies a social change and a policy response but does not discuss costs or the different roles. Weigh the benefits of flexibility against the constraints of outdoor and front-counter work.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-152-n1-s3",
@@ -37065,17 +37065,17 @@
                       {
                         "id": "sa-bs-153-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Ethical treatment, such as transparent pay and fair redundancy, builds employee trust. Corporate social responsibility also extends to suppliers' workers, affecting the business's reputation.",
-                        "feedback": "A 5-mark response analyses ethics and responsibility with accurate examples. Analysing the link to productivity and drawing a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses ethics and responsibility with accurate examples. Analysing the link to productivity and drawing a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-153-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Businesses should act ethically towards their employees.",
-                        "feedback": "A 2-mark response makes a general statement without analysing the effects.",
+                        "feedback": "A 1-mark response makes a general statement without analysing the effects.",
                         "band": 1
                       }
                     ],
@@ -37122,10 +37122,10 @@
                       {
                         "id": "prompt-bs-153-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The firm should pay the living wage because it is the right thing to do and customers expect it.",
-                        "feedback": "A 3-mark response takes a position and gives one reason but does not weigh the costs. Explain what the firm gives up by paying more and why the benefit outweighs it.",
-                        "band": 3
+                        "feedback": "A 2-mark response takes a position and gives one reason but does not weigh the costs. Explain what the firm gives up by paying more and why the benefit outweighs it.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-153-n1-s3",
@@ -37305,10 +37305,10 @@
                       {
                         "id": "prompt-bs-154-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Ironwood should write a job description, advertise the role and interview the best applicants.",
-                        "feedback": "A 3-mark response names the main stages but does not apply them to the supervisor's duties. Use the scenario's safety and CNC requirements in at least two stages.",
-                        "band": 3
+                        "feedback": "A 2-mark response names the main stages but does not apply them to the supervisor's duties. Use the scenario's safety and CNC requirements in at least two stages.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-154-n1-s3",
@@ -37598,9 +37598,9 @@
                       {
                         "id": "prompt-bs-156-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A pay rise will keep hygienists because they want more money, and flexible rosters help them balance work.",
-                        "feedback": "A 3-mark response describes both strategies but does not compare their effect on retention or cost. Compare the two against the budget constraint in the scenario.",
+                        "feedback": "A 2-mark response describes both strategies but does not compare their effect on retention or cost. Compare the two against the budget constraint in the scenario.",
                         "band": 2
                       },
                       {
@@ -37897,10 +37897,10 @@
                       {
                         "id": "sa-bs-158-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "An autocratic leader makes all the decisions, which can be fast but may demotivate staff.",
-                        "feedback": "A 3-mark response describes one style with some accuracy. Explaining democratic and laissez-faire styles would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one style with some accuracy. Explaining democratic and laissez-faire styles would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-158-3",
@@ -37954,18 +37954,18 @@
                       {
                         "id": "prompt-bs-158-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A participative style would let nurses have a say in rostering, which might make them more motivated and stay longer.",
-                        "feedback": "A 5-mark response discusses one effect with some scenario detail but does not weigh the risks during high-pressure shifts. Discuss the trade-off between participation and urgent decisions, and reach a view.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses one effect with some scenario detail but does not weigh the risks during high-pressure shifts. Discuss the trade-off between participation and urgent decisions, and reach a view.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-158-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Nurses like to be involved in decisions.",
-                        "feedback": "A 2-mark response states a general effect of participation without links to the ward or its risks. Identify a specific effect on the ward and one risk.",
-                        "band": 2
+                        "feedback": "A 1-mark response states a general effect of participation without links to the ward or its risks. Identify a specific effect on the ward and one risk.",
+                        "band": 1
                       }
                     ]
                   }
@@ -38013,10 +38013,10 @@
                       {
                         "id": "sa-bs-159-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Specific tasks make workers faster at one job, while general tasks give variety.",
-                        "feedback": "A 3-mark response describes both types with some accuracy. Explaining the effect on motivation and productivity would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes both types with some accuracy. Explaining the effect on motivation and productivity would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-159-3",
@@ -38129,10 +38129,10 @@
                       {
                         "id": "sa-bs-160-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Internal recruitment fills jobs from existing staff, and external recruitment brings in people from outside.",
-                        "feedback": "A 3-mark response describes both sources with some accuracy. Explaining the advantages and the choice for specific skills would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes both sources with some accuracy. Explaining the advantages and the choice for specific skills would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-160-3",
@@ -38363,10 +38363,10 @@
                       {
                         "id": "sa-bs-161-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Training teaches staff the skills needed for their current jobs.",
-                        "feedback": "A 3-mark response describes current skills with some accuracy. Explaining development for future skills and the benefits would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes current skills with some accuracy. Explaining development for future skills and the benefits would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-161-3",
@@ -38420,10 +38420,10 @@
                       {
                         "id": "prompt-bs-161-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Operators need training on the new line and supervisors need to learn how to manage it.",
-                        "feedback": "A 3-mark response identifies the two groups but gives no methods or priorities. Add methods, such as coaching, and identify the most important needs.",
-                        "band": 2
+                        "feedback": "A 2-mark response identifies the two groups but gives no methods or priorities. Add methods, such as coaching, and identify the most important needs.",
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-161-n1-s3",
@@ -38479,10 +38479,10 @@
                       {
                         "id": "sa-bs-162-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Performance management involves appraisals where managers give feedback on performance.",
-                        "feedback": "A 3-mark response describes the process with some accuracy. Explaining the two purposes would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the process with some accuracy. Explaining the two purposes would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-162-3",
@@ -38536,10 +38536,10 @@
                       {
                         "id": "prompt-bs-162-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The annual rating focuses on call volume, so agents may rush calls and avoid difficult customers.",
-                        "feedback": "A 3-mark response explains one link between the measure and behaviour but does not analyse the effect on complaints. Explain why infrequent feedback and a single measure fail to correct the behaviour.",
-                        "band": 3
+                        "feedback": "A 2-mark response explains one link between the measure and behaviour but does not analyse the effect on complaints. Explain why infrequent feedback and a single measure fail to correct the behaviour.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-162-n1-s3",
@@ -38656,10 +38656,10 @@
                       {
                         "id": "sa-bs-163-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Rewards include wages and bonuses, and performance pay links pay to results.",
-                        "feedback": "A 3-mark response describes two types of reward with some accuracy. Explaining non-monetary and group rewards would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two types of reward with some accuracy. Explaining non-monetary and group rewards would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-163-3",
@@ -38771,10 +38771,10 @@
                       {
                         "id": "sa-bs-164-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business may save money by employing staff in countries where wages are lower.",
-                        "feedback": "A 3-mark response describes the cost aspect with some accuracy. Explaining skills and supply would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the cost aspect with some accuracy. Explaining skills and supply would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-164-3",
@@ -39063,10 +39063,10 @@
                       {
                         "id": "sa-bs-166-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Disputes can be negotiated between the parties or resolved through a grievance procedure.",
-                        "feedback": "A 3-mark response describes two methods with some accuracy. Explaining mediation and tribunals would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two methods with some accuracy. Explaining mediation and tribunals would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-166-3",
@@ -39120,10 +39120,10 @@
                       {
                         "id": "prompt-bs-166-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The grievance procedure gives workers a route to raise problems, but supervisors may be involved and delays are a problem.",
-                        "feedback": "A 5-mark response identifies strengths and weaknesses with some scenario detail but reaches no firm judgement. Weigh them and conclude whether the procedure is effective and how it should change.",
-                        "band": 4
+                        "feedback": "A 3-mark response identifies strengths and weaknesses with some scenario detail but reaches no firm judgement. Weigh them and conclude whether the procedure is effective and how it should change.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-166-n1-s3",
@@ -39242,10 +39242,10 @@
                       {
                         "id": "prompt-bs-167-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Turnover is the best indicator because it shows whether staff stay at the business.",
-                        "feedback": "A 3-mark response describes an indicator with one strength but does not test it against the scenario's data pattern. Explain why the group-wide turnover figure could hide the problem in one store.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes an indicator with one strength but does not test it against the scenario's data pattern. Explain why the group-wide turnover figure could hide the problem in one store.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-167-n1-s3",
@@ -39363,10 +39363,10 @@
                       {
                         "id": "sa-bs-168-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Corporate culture is the values of a business, and staff who share them are more engaged.",
-                        "feedback": "A 3-mark response describes culture and one effect with some accuracy. Explaining how it is reinforced and its effect on retention would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes culture and one effect with some accuracy. Explaining how it is reinforced and its effect on retention would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-168-3",
@@ -39530,10 +39530,10 @@
                       {
                         "id": "sa-bs-169-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A business can compare its staff turnover with the industry average to see if it is high.",
-                        "feedback": "A 3-mark response describes one benchmark with some accuracy. Explaining the sources and the use of gaps would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes one benchmark with some accuracy. Explaining the sources and the use of gaps would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-169-3",
@@ -39645,10 +39645,10 @@
                       {
                         "id": "sa-bs-170-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A rise in turnover suggests problems with pay or management, and it is costly because of recruitment and lost knowledge. Some turnover is healthy.",
-                        "feedback": "A 5-mark response analyses changes in turnover with accurate examples. Analysing the limits of the indicator and reaching a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses changes in turnover with accurate examples. Analysing the limits of the indicator and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-170-3",
@@ -39701,10 +39701,10 @@
                       {
                         "id": "prompt-bs-170-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Cobalt should increase developers' salaries and offer them more career development.",
-                        "feedback": "A 3-mark response proposes one relevant change with a basic explanation. Explain how the change addresses the career path cause and add a measure of success.",
-                        "band": 3
+                        "feedback": "A 2-mark response proposes one relevant change with a basic explanation. Explain how the change addresses the career path cause and add a measure of success.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bs-170-n1-s3",
@@ -40146,9 +40146,9 @@
                       {
                         "id": "prompt-bs-174-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Staff like their supervisors and 71 per cent rated them well, but development was low.",
-                        "feedback": "A 3-mark response interprets two results but gives limited explanation of what they mean for effectiveness. Explain why the development result matters for retention and what the supervision result indicates.",
+                        "feedback": "A 2-mark response interprets two results but gives limited explanation of what they mean for effectiveness. Explain why the development result matters for retention and what the supervision result indicates.",
                         "band": 2
                       },
                       {

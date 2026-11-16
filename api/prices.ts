@@ -9,6 +9,10 @@
  * Quiet by design. An unconfigured Stripe, a price that cannot be read, or a
  * price that is not a plain AUD subscription price is simply left out, and the
  * client shows its env text for it. The response is 200 whatever happens here.
+ *
+ * `courseUnlock` is the one-off price for a single course unlock
+ * (projectDocs/course-unlocks.md). It is present only when STRIPE_COURSE_UNLOCK_PRICE_ID
+ * is set, and it is a one-time price, so it has no interval.
  */
 import type Stripe from 'stripe';
 import { getStripe } from './_lib/stripe';
@@ -24,10 +28,19 @@ export interface PublicPrice {
   taxBehavior: 'inclusive' | 'exclusive' | 'unspecified';
 }
 
+/** A one-off price: the same amount and display, with no interval. */
+export interface PublicOneOffPrice {
+  amount: number;
+  currency: 'aud';
+  display: string;
+  taxBehavior: 'inclusive' | 'exclusive' | 'unspecified';
+}
+
 export interface PublicPrices {
   plusMonthly?: PublicPrice;
   plusYearly?: PublicPrice;
   schoolSeat?: PublicPrice;
+  courseUnlock?: PublicOneOffPrice;
 }
 
 type PriceKey = keyof PublicPrices;
@@ -84,6 +97,7 @@ const configuredIds = (): Array<[PriceKey, string]> => {
     ['plusMonthly', process.env.STRIPE_PLUS_MONTHLY_PRICE_ID],
     ['plusYearly', process.env.STRIPE_PLUS_YEARLY_PRICE_ID],
     ['schoolSeat', process.env.STRIPE_SCHOOL_PRICE_ID],
+    ['courseUnlock', process.env.STRIPE_COURSE_UNLOCK_PRICE_ID],
   ];
   return slots.filter((slot): slot is [PriceKey, string] => !!slot[1]);
 };
@@ -104,6 +118,24 @@ export const toPublicPrice = (price: Stripe.Price): PublicPrice | null => {
     amount,
     currency: 'aud',
     interval,
+    display: formatAud(amount),
+    taxBehavior: price.tax_behavior ?? 'unspecified',
+  };
+};
+
+/**
+ * The public shape of a one-off price (a course unlock), or null when it cannot be shown
+ * as a plain one-time AUD price: inactive, not AUD, recurring, tiered, or no flat amount.
+ */
+export const toPublicOneOffPrice = (price: Stripe.Price): PublicOneOffPrice | null => {
+  if (!price.active) return null;
+  if (price.currency?.toLowerCase() !== 'aud') return null;
+  if (price.type !== 'one_time' || price.recurring) return null;
+  if (price.unit_amount == null || price.billing_scheme === 'tiered') return null;
+  const amount = price.unit_amount / 100;
+  return {
+    amount,
+    currency: 'aud',
     display: formatAud(amount),
     taxBehavior: price.tax_behavior ?? 'unspecified',
   };
@@ -142,6 +174,11 @@ const currentPrices = async (): Promise<PublicPrices> => {
       );
       return;
     }
+    if (key === 'courseUnlock') {
+      const oneOff = toPublicOneOffPrice(result.value);
+      if (oneOff) prices.courseUnlock = oneOff;
+      return;
+    }
     const price = toPublicPrice(result.value);
     if (price) prices[key] = price;
   });
@@ -178,6 +215,9 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   }
 
   const prices = await currentPrices();
-  res.setHeader?.('Cache-Control', CACHE_CONTROL);
+  // An empty answer means Stripe could not be read, so it must not sit in the CDN for
+  // the cache window. Only a real answer is cached.
+  const empty = Object.keys(prices).length === 0;
+  res.setHeader?.('Cache-Control', empty ? 'no-store' : CACHE_CONTROL);
   res.status(200).json({ prices });
 }

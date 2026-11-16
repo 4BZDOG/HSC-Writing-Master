@@ -297,16 +297,18 @@ describe('the answer and the commentary are kept apart', () => {
     ).toBeNull();
   });
 
-  it('labels the paper with its length and its source, on its own top bar', () => {
+  it('names the length and the source once, in the row header, and not again on the paper', () => {
     const { row } = renderOpen({
       sampleAnswers: [sample({ answer: 'Five words in this one.', source: 'USER' })],
     });
     const paper = zone(row, 'Model answer').querySelector<HTMLElement>(`[class="${SAMPLE_PAGE}"]`)!;
     const bar = paper.firstElementChild as HTMLElement;
     expect(within(bar).getByText('Model answer')).toBeTruthy();
-    expect(within(bar).getByText('5 words')).toBeTruthy();
-    expect(within(bar).getByText('Student')).toBeTruthy();
-    // The source moved out of the header, so it is named once, on the paper.
+    // The open row keeps the same meta line as the shut one, so the figures are
+    // read there, once, and the paper's bar does not repeat them.
+    expect(within(bar).queryByText('5 words')).toBeNull();
+    expect(within(bar).queryByText('Student')).toBeNull();
+    expect(within(row).getByText('5 words')).toBeTruthy();
     expect(within(row).getAllByText('Student')).toHaveLength(1);
   });
 
@@ -367,7 +369,8 @@ describe('a locked exemplar keeps its card in the answer zone, and shows no comm
       ],
     });
     const answer = zone(row, 'Model answer');
-    expect(within(answer).getByText('Locked')).toBeTruthy();
+    // The lock is named once, in the row's meta line, which is the same open or shut.
+    expect(within(row).getByText('Locked')).toBeTruthy();
     expect(answer.textContent).toMatch(/A Band \d exemplar at 4\/6/);
     expect(within(answer).getByRole('button', { name: /upgrade to band 6 plus/i })).toBeTruthy();
     expect(within(row).queryByRole('group', { name: "Marker's commentary" })).toBeNull();

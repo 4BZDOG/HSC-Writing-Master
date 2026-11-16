@@ -144,7 +144,9 @@ const makeSupabaseMock = () => ({
               ? { data: { last_event_at: lastEventAt } }
               : columns === 'plan'
                 ? { data: storedSubscriptionPlan ? { plan: storedSubscriptionPlan } : null }
-                : { data: { id: 'user-1' } },
+                : columns === 'status'
+                  ? { data: storedSubscriptionStatus ? { status: storedSubscriptionStatus } : null }
+                  : { data: { id: 'user-1' } },
           single: async () => ({ data: { id: 'user-1' } }),
         }),
       };
@@ -170,6 +172,8 @@ let isProduction = () => false;
 let priceToPlanImpl: (id: string) => string = () => 'plus';
 /** The plan already stored on the subscription row, if any. */
 let storedSubscriptionPlan: string | null = null;
+/** The status already stored on the subscription row. A row that holds a plan by default. */
+const storedSubscriptionStatus: string | null = 'active';
 
 import handler from '../../api/stripe-webhook';
 import { CLAIM_LEASE_MS } from '../../api/_lib/stripeLedger';

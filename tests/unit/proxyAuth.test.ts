@@ -6,9 +6,18 @@ vi.mock('@supabase/supabase-js', () => ({
   createClient: () => ({ auth: { getUser: getUserMock } }),
 }));
 
-import { verifyRequestAuth, isAuthEnabled } from '../../api/_lib/auth';
+import { verifyRequestAuth, isAuthEnabled, isUnguardedAiProxy } from '../../api/_lib/auth';
 
 const ORIGINAL_ENV = { ...process.env };
+
+const PROVIDER_KEYS = [
+  'GEMINI_API_KEY',
+  'API_KEY',
+  'ANTHROPIC_API_KEY',
+  'OPENROUTER_API_KEY',
+  'GROQ_API_KEY',
+  'KIMI_API_KEY',
+] as const;
 
 describe('AI proxy auth gate (verifyRequestAuth)', () => {
   beforeEach(() => {
@@ -19,6 +28,9 @@ describe('AI proxy auth gate (verifyRequestAuth)', () => {
     // has to be cleared too or a developer's .env leaks into these results.
     delete process.env.VITE_SUPABASE_URL;
     delete process.env.VITE_SUPABASE_ANON_KEY;
+    // Every provider key the proxy would spend, and the opt-out, cleared for the same reason.
+    for (const name of PROVIDER_KEYS) delete process.env[name];
+    delete process.env.ALLOW_ANONYMOUS_AI;
   });
 
   afterEach(() => {
@@ -84,6 +96,71 @@ describe('AI proxy auth gate (verifyRequestAuth)', () => {
       const result = await verifyRequestAuth(undefined);
       // 401 (needs a token), not 503 (misconfigured) — the fix takes effect.
       expect(result.status).toBe(401);
+    });
+  });
+
+  /**
+   * The unconfigured production deployment that holds a paid provider key. With
+   * no Supabase at all, nothing stops anonymous callers spending that key, so the
+   * gate fails closed unless the operator opts out in writing.
+   */
+  describe('production with a provider key and no Supabase', () => {
+    it('refuses every caller with a 503 that names the fix', async () => {
+      process.env.NODE_ENV = 'production';
+      process.env.GEMINI_API_KEY = 'server-key';
+      const result = await verifyRequestAuth(undefined);
+      expect(result.ok).toBe(false);
+      expect(result.status).toBe(503);
+      expect(result.error).toMatch(/SUPABASE_URL/);
+      expect(result.error).toMatch(/ALLOW_ANONYMOUS_AI/);
+      expect(getUserMock).not.toHaveBeenCalled();
+    });
+
+    it.each(PROVIDER_KEYS)('counts %s as a provider key', (name) => {
+      process.env.NODE_ENV = 'production';
+      process.env[name] = 'server-key';
+      expect(isUnguardedAiProxy()).toBe(true);
+    });
+
+    it('ignores a blank provider key', () => {
+      process.env.NODE_ENV = 'production';
+      process.env.GEMINI_API_KEY = '   ';
+      expect(isUnguardedAiProxy()).toBe(false);
+    });
+
+    it('lets a deliberate single-user or demo deployment through with ALLOW_ANONYMOUS_AI=true', async () => {
+      process.env.NODE_ENV = 'production';
+      process.env.GEMINI_API_KEY = 'server-key';
+      process.env.ALLOW_ANONYMOUS_AI = 'true';
+      await expect(verifyRequestAuth(undefined)).resolves.toEqual({ ok: true });
+    });
+
+    it('treats any other value of ALLOW_ANONYMOUS_AI as a refusal', async () => {
+      process.env.NODE_ENV = 'production';
+      process.env.GEMINI_API_KEY = 'server-key';
+      process.env.ALLOW_ANONYMOUS_AI = '1';
+      expect((await verifyRequestAuth(undefined)).status).toBe(503);
+    });
+
+    it('does not refuse in development, where the proxy is local only', async () => {
+      process.env.NODE_ENV = 'development';
+      process.env.GEMINI_API_KEY = 'server-key';
+      await expect(verifyRequestAuth(undefined)).resolves.toEqual({ ok: true });
+    });
+
+    it('still passes a production deploy with no provider key (mock mode)', async () => {
+      process.env.NODE_ENV = 'production';
+      expect(isUnguardedAiProxy()).toBe(false);
+      await expect(verifyRequestAuth(undefined)).resolves.toEqual({ ok: true });
+    });
+
+    it('enforces sign-in, not refusal, once the server pair is set', async () => {
+      process.env.NODE_ENV = 'production';
+      process.env.GEMINI_API_KEY = 'server-key';
+      process.env.SUPABASE_URL = 'https://example.supabase.co';
+      process.env.SUPABASE_ANON_KEY = 'anon-key';
+      expect(isUnguardedAiProxy()).toBe(false);
+      expect((await verifyRequestAuth(undefined)).status).toBe(401);
     });
   });
 

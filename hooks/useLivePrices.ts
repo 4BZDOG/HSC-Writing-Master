@@ -4,8 +4,10 @@ import {
   mergePlanPrices,
   peekLivePrices,
   type LivePrices,
+  type OneOffPrice,
   type PlanPriceText,
 } from '../services/livePrices';
+import { courseUnlocksEnabled } from '../services/courseAccess';
 
 /**
  * The price text for the screens: the live Stripe price where one has arrived,
@@ -33,4 +35,26 @@ export const useLivePrices = (): PlanPriceText => {
   }, []);
 
   return useMemo(() => mergePlanPrices(live), [live]);
+};
+
+/**
+ * The one-off course unlock price, or null when there is none to show. With unlocks
+ * off this asks for nothing: the price request is only made where a price is shown.
+ */
+export const useCourseUnlockPrice = (): OneOffPrice | null => {
+  const enabled = courseUnlocksEnabled();
+  const [live, setLive] = useState<LivePrices | null>(() => (enabled ? peekLivePrices() : null));
+
+  useEffect(() => {
+    if (!enabled) return;
+    let active = true;
+    void loadLivePrices().then((prices) => {
+      if (active) setLive(prices);
+    });
+    return () => {
+      active = false;
+    };
+  }, [enabled]);
+
+  return enabled ? (live?.courseUnlock ?? null) : null;
 };

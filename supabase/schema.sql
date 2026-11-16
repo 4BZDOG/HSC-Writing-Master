@@ -82,6 +82,7 @@ create table if not exists public.courses (
   created_at  timestamptz not null default now(),
   updated_at  timestamptz not null default now()
 );
+create index if not exists idx_courses_created_by on public.courses (created_by);
 
 create table if not exists public.course_outcomes (
   id          uuid primary key default gen_random_uuid(),
@@ -204,7 +205,9 @@ create index if not exists idx_dotpoints_subtopic  on public.dot_points (sub_top
 create index if not exists idx_prompts_dotpoint    on public.prompts (dot_point_id);
 create index if not exists idx_prompts_status      on public.prompts (status);
 create index if not exists idx_prompts_created_by  on public.prompts (created_by);
+create index if not exists idx_prompts_reviewed_by on public.prompts (reviewed_by);
 create index if not exists idx_answers_prompt      on public.sample_answers (prompt_id);
+create index if not exists idx_answers_created_by  on public.sample_answers (created_by);
 create index if not exists idx_responses_user      on public.responses (user_id);
 create index if not exists idx_responses_prompt    on public.responses (prompt_id);
 -- One row per (student, prompt): the latest attempt + AI feedback. Lets the
@@ -2172,6 +2175,41 @@ begin
     'allowed', true, 'used', v_used, 'limit', v_limit, 'unlimited', false);
 end; $$;
 
+-- Give back one evaluation spent by consume_evaluation() when the marking call
+-- then fails before an answer exists (AI quota refused, provider error). Takes
+-- one off today's counter for p_user, never below zero. A no-op when the user
+-- has no row today or is unlimited (never metered, so nothing to refund).
+--
+-- SERVER ONLY. Callable by service_role and nobody else: a refund an end user
+-- could call would let a free account mark an answer, refund it, and repeat
+-- for unlimited free evaluations. The API decides when a refund is owed and
+-- calls this with the service-role key (api/_lib/quota.ts refundEvaluation).
+drop function if exists public.refund_evaluation();
+create or replace function public.refund_evaluation(p_user uuid)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_used  integer;
+begin
+  if p_user is null then
+    raise exception 'refund_evaluation: p_user is required';
+  end if;
+
+  if public.has_unlimited_evaluations(p_user) then
+    return jsonb_build_object('refunded', false, 'used', 0, 'unlimited', true);
+  end if;
+
+  update public.evaluation_usage
+     set evaluations = greatest(evaluations - 1, 0)
+   where user_id = p_user and day = (now() at time zone 'utc')::date
+  returning evaluations into v_used;
+
+  return jsonb_build_object(
+    'refunded', v_used is not null, 'used', coalesce(v_used, 0), 'unlimited', false);
+end; $$;
+
+revoke all on function public.refund_evaluation(uuid) from public, anon, authenticated;
+grant execute on function public.refund_evaluation(uuid) to service_role;
+
 -- Read-only view of today's evaluation allowance (does not consume), so the
 -- client can show an accurate count instead of trusting localStorage.
 create or replace function public.get_evaluation_status()
@@ -2589,6 +2627,7 @@ create table if not exists public.classes (
 );
 create index if not exists classes_owner_idx  on public.classes (owner_id);
 create index if not exists classes_school_idx on public.classes (school_id);
+create index if not exists classes_course_idx on public.classes (course_id);
 
 create table if not exists public.class_members (
   class_id  uuid not null references public.classes (id) on delete cascade,
@@ -3254,6 +3293,9 @@ create table if not exists public.course_request_voices (
 
 create index if not exists course_request_voices_request_idx
   on public.course_request_voices (request_id);
+-- The primary key leads with request_id, so a lookup by voter needs its own index.
+create index if not exists course_request_voices_user_idx
+  on public.course_request_voices (user_id);
 
 alter table public.course_requests       enable row level security;
 alter table public.course_request_voices enable row level security;
@@ -4086,6 +4128,8 @@ create unique index if not exists licence_requests_one_pending_idx
 -- The per-user cap (more than 3 requests in 24 hours) counts by requester.
 create index if not exists licence_requests_requester_idx
   on public.licence_requests (requested_by, created_at);
+create index if not exists licence_requests_decided_by_idx
+  on public.licence_requests (decided_by);
 
 drop trigger if exists trg_licence_requests_updated on public.licence_requests;
 create trigger trg_licence_requests_updated before update on public.licence_requests
@@ -4440,6 +4484,7 @@ create table if not exists public.guardian_invites (
   constraint guardian_invites_code_shape check (code ~ '^[A-HJ-NP-Z2-9]{8}$')
 );
 create index if not exists guardian_invites_student_idx on public.guardian_invites (student_id);
+create index if not exists guardian_invites_redeemed_by_idx on public.guardian_invites (redeemed_by);
 
 -- One row per failed redeem, so the attempt limit can count them. Written for a bad,
 -- unknown, used, expired or own code alike. Rows older than a day are deleted by the
@@ -5009,6 +5054,369 @@ drop trigger if exists trg_profiles_block_entitlement_self_write on public.profi
 create trigger trg_profiles_block_entitlement_self_write
   before update on public.profiles
   for each row execute function public.prevent_entitlement_self_write();
+
+-- =============================================================================
+-- §33 · Sign-up limits, enforced by the database
+--
+--     services/signupPolicy.ts checks VITE_ENABLE_SIGNUP and the allowed domains in the
+--     browser, but the anon key ships in the bundle, so anyone can POST straight to
+--     /auth/v1/signup and skip the form. Every account is a student with a daily AI
+--     allowance that the operator pays for, so the limits have to hold on the server.
+--
+--     Supabase's "Before User Created" auth hook runs before each new account is
+--     written, for email, phone, OAuth and SSO sign-ups alike, and can refuse it.
+--     hook_before_user_created below is that hook. It reads one settings row, which
+--     an admin changes with set_signup_settings() (from the admin panel), so the limits
+--     are adjustable without a redeploy. None of this applies until the hook is switched
+--     on in the dashboard: Authentication → Hooks → Before User Created.
+--
+--     The domain rule therefore covers SSO as well as self-registration, because the
+--     hook fires for OAuth-created users too. VITE_ALLOWED_EMAIL_DOMAINS stays as the
+--     client-side hint and should list the same domains.
+--
+--     Defaults change nothing: enabled, any domain, no daily cap.
+-- =============================================================================
+
+create table if not exists public.signup_settings (
+  id                    boolean primary key default true check (id),
+  signups_enabled       boolean not null default true,
+  -- Bare domains, lowercase. Empty = any domain. Sub-domains of a listed domain pass.
+  allowed_email_domains text[] not null default '{}',
+  -- New accounts allowed per UTC day. Null = no cap.
+  daily_signup_cap      integer check (daily_signup_cap is null or daily_signup_cap >= 0),
+  updated_at            timestamptz,
+  updated_by            uuid references public.profiles (id) on delete set null
+);
+
+insert into public.signup_settings (id) values (true) on conflict do nothing;
+
+alter table public.signup_settings enable row level security;
+
+-- Admins read the row. There is no insert, update or delete policy: every write goes
+-- through set_signup_settings(), so the table cannot be edited around its checks.
+drop policy if exists "Admins read signup settings" on public.signup_settings;
+create policy "Admins read signup settings"
+  on public.signup_settings for select
+  using (public.is_admin());
+
+-- The settings row, read by the admin panel's RPC and by the auth hook.
+create or replace function public.get_signup_settings()
+returns jsonb language plpgsql stable security definer set search_path = public as $$
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can read sign-up settings';
+  end if;
+  return (
+    select jsonb_build_object(
+      'signups_enabled',       s.signups_enabled,
+      'allowed_email_domains', to_jsonb(s.allowed_email_domains),
+      'daily_signup_cap',      s.daily_signup_cap,
+      'updated_at',            s.updated_at
+    )
+    from public.signup_settings s
+    where s.id
+  );
+end; $$;
+
+-- Admin-only setter. Normalises the domains (lowercase, trimmed, a leading '@' dropped,
+-- empties and duplicates removed) so the hook compares like with like.
+create or replace function public.set_signup_settings(
+  p_enabled   boolean,
+  p_domains   text[],
+  p_daily_cap integer
+)
+returns jsonb language plpgsql security definer set search_path = public as $$
+declare
+  v_domains text[];
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can change sign-up settings';
+  end if;
+  if p_enabled is null then
+    raise exception 'Say whether sign-ups are enabled';
+  end if;
+  if p_daily_cap is not null and p_daily_cap < 0 then
+    raise exception 'The daily sign-up cap must be zero or more, or blank for no cap';
+  end if;
+
+  select coalesce(array_agg(distinct s.d order by s.d), '{}'::text[])
+    into v_domains
+    from (
+      select btrim(ltrim(btrim(lower(x)), '@')) as d
+        from unnest(coalesce(p_domains, '{}'::text[])) as x
+    ) s
+   where s.d <> '';
+
+  if exists (select 1 from unnest(v_domains) as d where d ~ '[[:space:]@/]') then
+    raise exception 'Allowed domains must be bare domain names, such as education.nsw.gov.au';
+  end if;
+
+  insert into public.signup_settings
+    (id, signups_enabled, allowed_email_domains, daily_signup_cap, updated_at, updated_by)
+  values (true, p_enabled, v_domains, p_daily_cap, now(), auth.uid())
+  on conflict (id) do update
+    set signups_enabled       = excluded.signups_enabled,
+        allowed_email_domains = excluded.allowed_email_domains,
+        daily_signup_cap      = excluded.daily_signup_cap,
+        updated_at            = excluded.updated_at,
+        updated_by            = excluded.updated_by;
+
+  return public.get_signup_settings();
+end; $$;
+
+-- The "Before User Created" hook. Supabase calls it with the event
+--     {"metadata": {...}, "user": {"email": "...", ...}}
+-- and reads the result: '{}' lets the account be created, and
+--     {"error": {"http_code": 403, "message": "..."}}
+-- refuses it with that message, which the sign-up form shows to the person.
+--
+-- It runs as supabase_auth_admin, which is why it is SECURITY INVOKER (the default)
+-- and reads the settings through the policy granted to that role below, rather than
+-- being a definer function. It is never callable by a signed-in user or anon: see the
+-- revoke after it.
+create or replace function public.hook_before_user_created(event jsonb)
+returns jsonb language plpgsql stable set search_path = public as $$
+declare
+  v_enabled boolean;
+  v_domains text[];
+  v_cap     integer;
+  v_email   text;
+  v_domain  text;
+  v_count   integer;
+  v_refuse  text;
+begin
+  -- No row (a database that never ran this section) reads as the defaults.
+  select s.signups_enabled, s.allowed_email_domains, s.daily_signup_cap
+    into v_enabled, v_domains, v_cap
+    from public.signup_settings s
+   where s.id;
+  v_enabled := coalesce(v_enabled, true);
+  v_domains := coalesce(v_domains, '{}'::text[]);
+
+  if not v_enabled then
+    v_refuse := 'Sign-ups are closed for this site.';
+  end if;
+
+  -- Domain rule. Case-insensitive; a sub-domain of an allowed domain passes, but a
+  -- domain that merely ends in the same letters does not (x@noteducation.nsw.gov.au).
+  -- An account with no email (a phone sign-up) cannot satisfy a domain list.
+  if v_refuse is null and cardinality(v_domains) > 0 then
+    v_email  := lower(btrim(event #>> '{user,email}'));
+    v_domain := substring(v_email from '@([^@]+)$');
+    if v_domain is null or not exists (
+         select 1 from unnest(v_domains) as d
+          where v_domain = d or right(v_domain, length(d) + 1) = '.' || d
+       ) then
+      v_refuse := 'That email address can''t be used to sign up here. Use your school email address.';
+    end if;
+  end if;
+
+  -- Daily cap. auth.users has no row for the account being created yet, so the count
+  -- is the accounts already made today; the cap is reached when that is >= the cap.
+  if v_refuse is null and v_cap is not null then
+    select count(*) into v_count
+      from auth.users
+     where created_at >= (date_trunc('day', now() at time zone 'UTC')) at time zone 'UTC';
+    if v_count >= v_cap then
+      v_refuse := 'Sign-ups are paused for today. Try again tomorrow.';
+    end if;
+  end if;
+
+  if v_refuse is null then
+    return '{}'::jsonb;
+  end if;
+  return jsonb_build_object('error', jsonb_build_object('http_code', 403, 'message', v_refuse));
+end; $$;
+
+-- ---- Grants ---------------------------------------------------------------------
+
+revoke all on public.signup_settings from anon, authenticated;
+grant select on public.signup_settings to authenticated;
+
+revoke all on function public.get_signup_settings() from public, anon;
+grant execute on function public.get_signup_settings() to authenticated;
+
+revoke all on function public.set_signup_settings(boolean, text[], integer) from public, anon;
+grant execute on function public.set_signup_settings(boolean, text[], integer) to authenticated;
+
+-- Nobody but the auth service may run the hook. Supabase's default privileges grant
+-- EXECUTE to anon and authenticated on new functions, so revoke both explicitly.
+revoke all on function public.hook_before_user_created(jsonb) from public, anon, authenticated;
+
+-- The hook's own access, granted only where the role exists. A real Supabase project
+-- always has supabase_auth_admin (and owns auth.users, so the grants below are no-ops
+-- there). A plain Postgres has no such role and skips them with a notice.
+do $$
+begin
+  if exists (select 1 from pg_roles where rolname = 'supabase_auth_admin') then
+    grant usage on schema public to supabase_auth_admin;
+    grant usage on schema auth to supabase_auth_admin;
+    grant select on auth.users to supabase_auth_admin;
+    grant select on public.signup_settings to supabase_auth_admin;
+    grant execute on function public.hook_before_user_created(jsonb) to supabase_auth_admin;
+
+    drop policy if exists "Auth admin reads signup settings" on public.signup_settings;
+    create policy "Auth admin reads signup settings"
+      on public.signup_settings for select
+      to supabase_auth_admin
+      using (true);
+  else
+    raise notice 'supabase_auth_admin not found: sign-up hook grants skipped (not a Supabase project)';
+  end if;
+end $$;
+
+-- =============================================================================
+-- §34 · Course unlocks: a one-off fee per course, on top of a plan
+--
+--     A plan (free, plus, school) governs how much a student can do. A course unlock
+--     governs which courses they can be MARKED in (projectDocs/course-unlocks.md). Two
+--     tables hold that: the catalogue says which courses need an unlock and at what price,
+--     and the unlocks say who has paid for one, or been granted one.
+--
+--     Only the server writes unlocks: the Stripe webhook on a paid checkout, and the admin
+--     RPCs below. Nothing a signed-in user sends can add a row or move one, so a tampered
+--     client cannot buy its way into a course it has not paid for. The catalogue is the
+--     one table an admin writes directly, under RLS.
+--
+--     Nothing here changes behaviour on its own. The gates live in api/_lib/courseAccess.ts
+--     and stay off until COURSE_UNLOCKS_ENABLED is set.
+-- =============================================================================
+
+create table if not exists public.course_catalogue (
+  course_id       text primary key check (length(btrim(course_id)) > 0),
+  -- false makes the course free to mark for everyone. A course with no row requires an unlock.
+  unlock_required boolean not null default true,
+  -- The per-course Stripe price. Null uses the default price from the server environment.
+  stripe_price_id text,
+  active          boolean not null default true,
+  updated_at      timestamptz
+);
+
+create table if not exists public.course_unlocks (
+  id                         uuid primary key default gen_random_uuid(),
+  user_id                    uuid not null references public.profiles (id) on delete cascade,
+  course_id                  text not null check (length(btrim(course_id)) > 0),
+  source                     text not null check (source in ('purchase', 'grant')),
+  -- One row per paid checkout, so a replayed webhook cannot add a second unlock.
+  stripe_checkout_session_id text unique,
+  stripe_payment_intent_id   text,
+  granted_at                 timestamptz not null default now(),
+  -- Null means the unlock never expires.
+  expires_at                 timestamptz,
+  -- Set by a refund or an admin revoke. A revoked row is kept, so the history stays.
+  revoked_at                 timestamptz
+);
+
+create index if not exists course_unlocks_user_course_idx
+  on public.course_unlocks (user_id, course_id);
+
+-- The refund path finds an unlock by its payment intent.
+create index if not exists course_unlocks_payment_intent_idx
+  on public.course_unlocks (stripe_payment_intent_id);
+
+alter table public.course_catalogue enable row level security;
+alter table public.course_unlocks   enable row level security;
+
+-- Any signed-in user reads the catalogue (the course picker shows prices). Only admins
+-- write it.
+drop policy if exists "Signed-in users read the course catalogue" on public.course_catalogue;
+create policy "Signed-in users read the course catalogue"
+  on public.course_catalogue for select
+  to authenticated
+  using (auth.uid() is not null);
+
+drop policy if exists "Admins write the course catalogue" on public.course_catalogue;
+create policy "Admins write the course catalogue"
+  on public.course_catalogue for all
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+-- A user reads their own unlocks, and an admin reads all of them. There is no insert,
+-- update or delete policy, and no write grant: rows come only from the service role
+-- (the webhook) or the admin RPCs below.
+drop policy if exists "Users read their own course unlocks" on public.course_unlocks;
+create policy "Users read their own course unlocks"
+  on public.course_unlocks for select
+  to authenticated
+  using (user_id = auth.uid() or public.is_admin());
+
+-- The caller's active course ids: not revoked, and not past expires_at. Scoped to
+-- auth.uid(), so a caller sees only its own. Security definer because the caller's
+-- row-level read is not what decides it.
+create or replace function public.my_course_unlocks()
+returns setof text language sql stable security definer set search_path = public as $$
+  select distinct u.course_id
+    from public.course_unlocks u
+   where u.user_id = auth.uid()
+     and u.revoked_at is null
+     and (u.expires_at is null or u.expires_at > now());
+$$;
+
+-- Admin-only. Hands an unlock out without payment (a scholarship, a mistaken purchase
+-- put right). Each grant is its own row, so the history stays. A null p_expires_at
+-- means it never expires.
+create or replace function public.grant_course_unlock(
+  p_user       uuid,
+  p_course     text,
+  p_expires_at timestamptz default null
+)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare
+  v_id uuid;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can grant a course unlock';
+  end if;
+  if p_user is null or p_course is null or btrim(p_course) = '' then
+    raise exception 'A course unlock needs a user and a course';
+  end if;
+
+  insert into public.course_unlocks (user_id, course_id, source, expires_at)
+  values (p_user, btrim(p_course), 'grant', p_expires_at)
+  returning id into v_id;
+
+  return v_id;
+end; $$;
+
+-- Admin-only. Takes back every active unlock the user holds for the course, and returns
+-- how many were revoked (0 when there was nothing to revoke).
+create or replace function public.revoke_course_unlock(p_user uuid, p_course text)
+returns integer language plpgsql security definer set search_path = public as $$
+declare
+  v_count integer;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can revoke a course unlock';
+  end if;
+
+  update public.course_unlocks
+     set revoked_at = now()
+   where user_id = p_user
+     and course_id = p_course
+     and revoked_at is null;
+  get diagnostics v_count = row_count;
+  return v_count;
+end; $$;
+
+-- ---- Grants ---------------------------------------------------------------------
+
+-- Supabase's default privileges grant anon and authenticated full access to new tables,
+-- so revoke it, then grant back only what the policies above allow.
+revoke all on public.course_catalogue from anon, authenticated;
+grant select, insert, update, delete on public.course_catalogue to authenticated;
+
+revoke all on public.course_unlocks from anon, authenticated;
+grant select on public.course_unlocks to authenticated;
+
+revoke all on function public.my_course_unlocks() from public, anon;
+grant execute on function public.my_course_unlocks() to authenticated;
+
+revoke all on function public.grant_course_unlock(uuid, text, timestamptz) from public, anon;
+grant execute on function public.grant_course_unlock(uuid, text, timestamptz) to authenticated;
+
+revoke all on function public.revoke_course_unlock(uuid, text) from public, anon;
+grant execute on function public.revoke_course_unlock(uuid, text) to authenticated;
 
 -- =============================================================================
 -- End of schema.

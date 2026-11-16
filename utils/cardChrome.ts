@@ -63,7 +63,7 @@ export const cardHeaderWash = (band: number): string =>
  *  gained a reading size above its bar, the rows differed, and the bars were 4px
  *  apart. The headings stay top-aligned either way (see `CARD_HEADER_ROW`). */
 export const CARD_HEADER_BOX =
-  'px-4 sm:px-6 py-3 text-white flex justify-between items-stretch relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
+  'px-4 sm:px-6 py-3 sm:py-2 text-white flex justify-between items-stretch relative overflow-hidden flex-shrink-0 rounded-t-surface-inner';
 
 /**
  * The row inside it. TOP-aligned, and it must stay that way: the two headers
@@ -90,9 +90,10 @@ export const CARD_HEADER_IDENTITY = 'flex items-start gap-3 min-w-0 max-sm:conte
 export const CARD_HEADER_ICON =
   'w-10 h-10 rounded-xl bg-white/20 backdrop-blur-xl flex items-center justify-center border border-white/30 shadow-lg group flex-shrink-0 max-sm:col-start-1 max-sm:row-start-1 max-sm:self-center';
 
-/** `pt-0.5` on both, so the two headings start on the same line. Below `sm` it is
+/** No padding of its own on either card, so the two headings start on the same
+ *  line: the top of the icon tile. Below `sm` it is
  *  `display: contents` for the same reason as `CARD_HEADER_IDENTITY`. */
-export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 pt-0.5 max-sm:contents';
+export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 max-sm:contents';
 
 /**
  * `min-h-7` with the text centred in it, rather than a bare line of type. The
@@ -119,20 +120,35 @@ export const CARD_HEADER_TITLE_BLOCK = 'min-w-0 pt-0.5 max-sm:contents';
  * thing this file exists to stop, and `workspace-chrome.spec.ts` catches it at
  * 1280.
  *
+ * The size has since stepped up again (28px from 1440; 24px from 1360 as before, and 20px in the two narrowest two-column widths), so the name
+ * stands nearly as tall as the 40px tile beside it, and the header around it
+ * was tightened to pay for that: 8px of padding instead of 12, a 2px gap to the
+ * meta line, and a 24px reading size in the corner over the bar, which keeps its
+ * 36px and its 32px tools. The header
+ * is 78px where it was 92.
+ *
+ * 28px is the ceiling, and it was measured against the widest toolbar there is:
+ * a free account's, which carries the Plus chip on Exam. At 30px that toolbar
+ * no longer fits beside "WRITTEN RESPONSE" even at the page's full width, the
+ * bar drops to its own line and both headers grow to about 120px. For the same
+ * reason 28px starts at 1440 and not 1360, the toolbar's labels wait for 1600
+ * (see Editor), and its gaps are 2px. The spare room beside the heading is
+ * never under 32px at any width from 1280 up.
+ *
  * So the full step is held until there is width for it. 1360 is not a round
  * number because it is not a guess: it is where the bar stops fitting. Below
  * it the heading takes `text-xl`, which is still a step up from before and
  * holds the bars level at every width down to the two-column breakpoint.
  */
 export const CARD_HEADER_TITLE =
-  'flex flex-wrap items-center gap-2 min-h-7 text-lg sm:text-xl min-[1360px]:text-2xl t-display tracking-normal uppercase italic leading-none drop-shadow-sm max-sm:col-start-2 max-sm:row-start-1 max-sm:self-center';
+  'flex flex-wrap items-center gap-2 min-h-7 sm:min-h-[2.125rem] text-lg sm:text-xl md:text-2xl xl:text-xl min-[1360px]:text-2xl min-[1440px]:text-[1.75rem] t-display tracking-normal uppercase italic leading-none drop-shadow-sm max-sm:col-start-2 max-sm:row-start-1 max-sm:self-center';
 
 /** The one line under the title — "Band 2 ceiling", the band + progress meter.
  *  Floored for the same reason: both cards put a chip on this line. Below `sm`
  *  it drops its top margin and centres on the row it lands in; the card says
  *  which row that is. */
 export const CARD_HEADER_META_ROW =
-  'flex flex-wrap items-center gap-2 min-h-6 mt-1 max-sm:mt-0 max-sm:self-center';
+  'flex flex-wrap items-center gap-2 min-h-6 mt-0.5 max-sm:mt-0 max-sm:self-center';
 
 /**
  * The meta line under a title ("No assistance", a band chip). Solid white, not
@@ -172,9 +188,9 @@ export const CARD_HEADER_TRAY =
  * thing in it, so it keeps the tray's job (top-aligned row, bar level with the
  * writing card's across the gap) and its shrink rules.
  *
- * Two rows cost a header 28px + 4px + the bar's 36px = 68px, inside the 72px the
- * heading block already occupies, so the header stays at its ~92px and under the
- * 96px ceiling `workspace-chrome.spec.ts` holds.
+ * Two rows cost a header 24px + 2px + the bar's 36px = 62px, about the same as the
+ * heading block beside it, so the header is 78px and well
+ * under the ceiling `workspace-chrome.spec.ts` holds.
  *
  * On a phone the corner is `display: contents`, so its reading size and its bar
  * become items of the header row. The reading size goes on the heading's line
@@ -182,11 +198,11 @@ export const CARD_HEADER_TRAY =
  * verb. Two lines in all, where a full row of its own used to cost a third.
  */
 export const CARD_HEADER_CORNER =
-  'self-stretch flex flex-col items-end justify-between gap-1 ml-auto min-w-0 shrink sm:shrink-0 max-sm:contents';
+  'self-stretch flex flex-col items-end justify-between gap-0.5 ml-auto min-w-0 shrink sm:shrink-0 max-sm:contents';
 
 /**
  * The reading size control in that corner. The bar's own fill and border, one step
- * smaller (28px against the bar's 36px, so the pair stack inside the heading's
+ * smaller (24px against the bar's 36px, so the pair stack inside the heading's
  * height), and 44px on a phone where its buttons are touch targets.
  *
  * On a phone it loses its box entirely: two plain icon buttons, with the figure
@@ -196,12 +212,12 @@ export const CARD_HEADER_CORNER =
  * heading's line (column 3 of the header row, see `CARD_HEADER_ROW`).
  */
 export const CARD_HEADER_ZOOM =
-  'flex items-center gap-0.5 h-7 px-0.5 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner max-sm:h-11 max-sm:gap-0 max-sm:px-0 max-sm:rounded-none max-sm:bg-transparent max-sm:backdrop-blur-none max-sm:border-0 max-sm:shadow-none max-sm:col-start-3 max-sm:row-start-1 max-sm:self-center';
+  'flex items-center gap-0.5 h-6 px-0.5 rounded-lg bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner max-sm:h-11 max-sm:gap-0 max-sm:px-0 max-sm:rounded-none max-sm:bg-transparent max-sm:backdrop-blur-none max-sm:border-0 max-sm:shadow-none max-sm:col-start-3 max-sm:row-start-1 max-sm:self-center';
 
 /** One of its two buttons. White on the band wash, like everything else in the
  *  header; disabled at the end of the range, which WCAG 1.4.3 exempts. */
 export const CARD_HEADER_ZOOM_BUTTON =
-  'flex items-center justify-center h-6 w-7 max-sm:h-11 max-sm:w-11 rounded-lg text-white hover:bg-white/15 active:scale-[0.98] transition-colors touch-manipulation disabled:cursor-not-allowed disabled:text-white/50 disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70';
+  'flex items-center justify-center h-5 w-7 max-sm:h-11 max-sm:w-11 rounded-lg text-white hover:bg-white/15 active:scale-[0.98] transition-colors touch-manipulation disabled:cursor-not-allowed disabled:text-white/50 disabled:hover:bg-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70';
 
 /**
  * The dark pill bar in that corner: stat pills on the question card, the
@@ -214,7 +230,7 @@ export const CARD_HEADER_BAR =
   // no scroll container is created at all. The fill and border are the same
   // at every width; the height is 44px below `sm`, where the writing tools are
   // 44px touch targets. Both cards take the same step, so the pair still matches.
-  'flex items-center h-9 max-sm:h-11 px-2 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';
+  'flex items-center h-9 max-sm:h-11 px-1.5 rounded-xl bg-black/20 backdrop-blur-xl border border-white/10 shadow-inner min-w-0 max-sm:overflow-x-auto max-sm:scrollbar-hide';
 
 /**
  * Focus Mode on a short desktop window: at least 1280px wide and no taller than
@@ -239,8 +255,8 @@ export const FOCUS_SHORT_CLASSES = {
   /** The title and what sits beside it share the row rather than stacking. */
   titleBlock:
     '[@media(min-width:1280px)_and_(max-height:819px)]:flex [@media(min-width:1280px)_and_(max-height:819px)]:flex-row [@media(min-width:1280px)_and_(max-height:819px)]:items-center [@media(min-width:1280px)_and_(max-height:819px)]:gap-3',
-  /** The title drops to the `xl` step; it is the same size at 1280 and 1366. */
-  title: '[@media(min-width:1280px)_and_(max-height:819px)]:!text-xl',
+  /** The title takes one fixed step; it is the same size at 1280 and 1366. */
+  title: '[@media(min-width:1280px)_and_(max-height:819px)]:!text-2xl',
   /** The meta line, kept on the title's row. */
   metaInline: '[@media(min-width:1280px)_and_(max-height:819px)]:mt-0',
   /** The writing card's band line, hidden so the header is one row. */

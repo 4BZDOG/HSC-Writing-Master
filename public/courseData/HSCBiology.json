@@ -1159,10 +1159,10 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The trial raised an ethical issue, because communities near the farms were not informed before the wheat was grown.",
-                        "feedback": "Meets the 3-mark row: one ethical issue is identified and briefly discussed. The answer does not address the use of the variety.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: one ethical issue is identified and briefly discussed. The answer does not address the use of the variety.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-2-6-n0-n1-s3",
@@ -1759,10 +1759,10 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The tables give quantitative mean masses, such as 3.9 g, and a qualitative observation about the seed coats.",
-                        "feedback": "Meets the 3-mark row by distinguishing the two types with an example from one resource. It does not use the clip.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by distinguishing the two types with an example from one resource. It does not use the clip.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-4-1-n0-n1-s3",
@@ -1779,119 +1779,7 @@
               {
                 "id": "dp-bio-11-year-11-working-scientifically-4-2",
                 "description": "Apply quantitative processes to data, including unit conversions",
-                "prompts": [
-                  {
-                    "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0",
-                    "question": "Calculate the actual length of the cell in micrometres (µm), showing each step of your working.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A student measures a plant cell in a printed micrograph and finds it is 18 mm long. The micrograph has a magnification of 400x. Magnification is the length of the image divided by the actual length of the object, and both lengths must be in the same units.",
-                    "markingCriteria": "3 marks: Calculates the actual length as 45 µm, with working for the division and the unit conversion\n2 marks: Calculates the actual length correctly in millimetres, with working\n1 mark: Identifies the magnification formula or one relevant step",
-                    "keywords": [
-                      "apply",
-                      "quantitative processes",
-                      "unit conversions",
-                      "data",
-                      "magnification",
-                      "calculate"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11WS-04"
-                    ],
-                    "markerNotes": [
-                      "A full answer shows the division and the unit conversion as separate steps, so the marker can see where any error occurs.",
-                      "Credit the answer in micrometres only when 0.045 mm has been multiplied by 1000; an answer left in millimetres earns the 2-mark row.",
-                      "Stating the formula alone does not earn the top row, because the question requires the calculated value."
-                    ],
-                    "commonStudentErrors": [
-                      "Multiplies the image length by the magnification, which gives a value 400 times too large.",
-                      "Converts 0.045 mm to 0.45 µm, using the wrong power of ten.",
-                      "Gives the answer without units, so the value cannot be checked."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "To calculate the actual length, apply the magnification formula, one of the quantitative processes: 18 mm ÷ 400 = 0.045 mm. Next, make the unit conversions: 0.045 mm × 1000 = 45 µm. As a check on the data, 45 µm × 400 = 18 mm, which matches the length in the image.",
-                        "feedback": "Meets the 3-mark row by showing the division and the unit conversion with working, and the final answer in micrometres.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "18 mm ÷ 400 = 0.045 mm, so the actual length is 0.045 mm.",
-                        "feedback": "Meets the 2-mark row with correct working in millimetres. The answer does not convert to micrometres.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "Actual length = image length ÷ magnification.",
-                        "feedback": "Meets the 1-mark row by identifying the formula. It gives no calculated value.",
-                        "band": 1
-                      }
-                    ]
-                  },
-                  {
-                    "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0-n1",
-                    "question": "Apply quantitative processes to the three trials to calculate the mean volume of gas and the rate of gas production in millilitres per minute.",
-                    "verb": "APPLY",
-                    "totalMarks": 5,
-                    "scenario": "Hypothetical: A group measured the oxygen gas produced when potato tissue was added to hydrogen peroxide solution at 25 degrees Celsius. The gas was collected in a gas syringe for 2 minutes 30 seconds in each of three trials. The volumes collected were 18.0 mL, 19.5 mL and 16.5 mL.",
-                    "markingCriteria": "5 marks: Applies the quantitative processes accurately, converting the time and giving a correct rate with units from the mean of the three trials\n4 marks: Applies most of the processes accurately, with a correct rate but some gaps in the working or units\n3 marks: Calculates the mean volume correctly, with an incorrect or incomplete rate\n2 marks: Converts the time correctly into minutes or seconds\n1 mark: Identifies the rate formula or one relevant step",
-                    "keywords": [
-                      "apply",
-                      "quantitative processes",
-                      "unit conversions",
-                      "data",
-                      "rate",
-                      "mean"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11WS-04",
-                      "BI-11WS-05"
-                    ],
-                    "markerNotes": [
-                      "The time of 2 minutes 30 seconds must not be treated as 2.30 minutes; 2.5 minutes is the correct decimal.",
-                      "Showing the mean of the three trials first, rather than using a single trial, is the quantitative process the question tests.",
-                      "A rate with no unit, or with the wrong unit, cannot reach the top row."
-                    ],
-                    "commonStudentErrors": [
-                      "Writes 2 minutes 30 seconds as 2.30 minutes and so calculates the wrong rate.",
-                      "Calculates the rate from one trial instead of the mean of the three trials.",
-                      "Gives the rate without units, or in millilitres per second when millilitres per minute were asked for."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0-n1-s1",
-                        "source": "AI",
-                        "mark": 5,
-                        "answer": "Apply the quantitative processes in order. The mean volume is (18.0 + 19.5 + 16.5) ÷ 3 = 18.0 mL. Before the rate is calculated, the time must be converted: 2 minutes 30 seconds is 2.5 minutes, or 150 seconds. The rate is therefore 18.0 mL ÷ 2.5 min = 7.2 mL per minute. As a check on the unit conversions, 18.0 mL ÷ 150 s = 0.12 mL per second, and 0.12 × 60 = 7.2 mL per minute, which matches. Using the mean rather than one trial reduces the effect of trial-to-trial variation on the rate, so the data give a more reliable rate.",
-                        "feedback": "Meets the 5-mark row by applying the processes in order, converting the time and giving a correct rate from the mean with a check.",
-                        "band": 4
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0-n1-s2",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Mean volume = 18.0 mL. Rate = 18.0 mL ÷ 2.30 min = 7.8 mL per minute.",
-                        "feedback": "Meets the 3-mark row by calculating the mean correctly, but the rate uses 2.30 minutes instead of 2.5 minutes.",
-                        "band": 3
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-4-2-n0-n1-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "Rate = volume ÷ time.",
-                        "feedback": "Meets the 1-mark row by identifying the rate formula. It gives no values.",
-                        "band": 1
-                      }
-                    ]
-                  }
-                ]
+                "prompts": []
               },
               {
                 "id": "dp-bio-11-year-11-working-scientifically-4-3",
@@ -2226,9 +2114,9 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The observations about grasses after a burn are based on long-term experience, which could suggest a hypothesis to test.",
-                        "feedback": "Meets the 3-mark row by describing a relevant observation with a limited link to scientific knowledge. It does not examine the testing process or any limitation.",
+                        "feedback": "Meets the 2-mark row by describing a relevant observation with a limited link to scientific knowledge. It does not examine the testing process or any limitation.",
                         "band": 2
                       },
                       {
@@ -2484,60 +2372,6 @@
                 "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
                 "prompts": [
                   {
-                    "id": "prompt-bio-11-year-11-working-scientifically-5-3-n0",
-                    "question": "CALCULATE the mean, range, percentage error and sample standard deviation of the measurements, showing your working.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 4,
-                    "scenario": "Hypothetical: A student measured the length of a leaf of a plant species five times with a ruler marked in millimetres. The lengths were 12.1 cm, 12.4 cm, 11.8 cm, 12.6 cm and 12.1 cm. The accepted value for the length of this leaf, measured by a more precise method, is 12.5 cm.",
-                    "markingCriteria": "4 marks: Calculates all four values accurately, with working shown and units stated\n3 marks: Calculates three values accurately, or all four with one arithmetic error carried through\n2 marks: Calculates two values accurately\n1 mark: Calculates one value correctly, or shows some relevant working",
-                    "keywords": [
-                      "percentage error",
-                      "range",
-                      "mean",
-                      "standard deviation",
-                      "accepted value"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11WS-04",
-                      "BI-11WS-05"
-                    ],
-                    "markerNotes": [
-                      "The top row needs all four values with units, and the working for the percentage error and the standard deviation must be visible.",
-                      "The stem asks for the sample standard deviation, so the divisor is n minus 1; a population value of 0.28 cm shows a method error.",
-                      "The percentage error uses the accepted value as the denominator; dividing by the measured mean gives 2.5 per cent instead of 2.4 per cent."
-                    ],
-                    "commonStudentErrors": [
-                      "Divides the percentage error by the measured mean instead of the accepted value, giving 2.5 per cent.",
-                      "Calculates the range as 12.6 minus 12.1 cm, using the wrong minimum value, instead of 11.8 cm."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-5-3-n0-s1",
-                        "source": "AI",
-                        "mark": 4,
-                        "answer": "Mean: (12.1 + 12.4 + 11.8 + 12.6 + 12.1) ÷ 5 = 61.0 ÷ 5 = 12.2 cm. Range: 12.6 − 11.8 = 0.8 cm. Percentage error: |12.2 − 12.5| ÷ 12.5 × 100 = 0.3 ÷ 12.5 × 100 = 2.4%, using the accepted value of 12.5 cm. Standard deviation: the deviations from the mean are −0.1, +0.2, −0.4, +0.4 and −0.1 cm, so the sum of squared deviations is 0.38 cm². Dividing by n − 1 = 4 gives 0.095 cm², and the square root is 0.31 cm.",
-                        "feedback": "Meets the 4-mark row by calculating all four values correctly with working and units. The percentage error uses the accepted value as the denominator, as required.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-5-3-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Mean = 12.2 cm and range = 0.8 cm. The percentage error is about 2.4%.",
-                        "feedback": "Meets the 2-mark row by calculating two values accurately. The percentage error is correct but the standard deviation is missing, and no working is shown.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-5-3-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "The mean is 12.2 cm.",
-                        "feedback": "Meets the 1-mark row by calculating one value correctly. The response does not show the working or calculate the other values.",
-                        "band": 1
-                      }
-                    ]
-                  },
-                  {
                     "id": "prompt-bio-11-year-11-working-scientifically-5-3-n0-n1",
                     "question": "ASSESS the error, uncertainty and limitations of the student's measurements, and explain how the student could reduce them.",
                     "verb": "ASSESS",
@@ -2578,10 +2412,10 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-5-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The mean is 48.2 g and the percentage error is 1.6%, so the result is not accurate. The range of 0.3 g shows random error, which reduces precision.",
-                        "feedback": "Meets the 4-mark row by assessing the error with reference to the data and identifying random error. The systematic error and the improvements are not addressed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing the error with reference to the data and identifying random error. The systematic error and the improvements are not addressed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-5-3-n0-n1-s3",
@@ -2692,10 +2526,10 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-5-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The investigation has poor validity because the ruler was dropped by different people and there is no quiet-room comparison. Each volunteer was tested only once, so the results have low reliability.",
-                        "feedback": "Meets the 4-mark row by assessing validity and reliability with reference to the design. The confounding variable and sample size are not explained.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing validity and reliability with reference to the design. The confounding variable and sample size are not explained.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-5-4-n0-n1-s3",
@@ -2921,18 +2755,18 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The design has a confound because the plant food pots were in the middle of the room and the control pots were near a window. Three pots per treatment is a small sample, so the conclusion is limited. Randomising the pot positions would help.",
-                        "feedback": "Meets the 5-mark row by evaluating the investigation with reference to the data, identifying a design flaw and suggesting an improvement. The sample size and the conclusion are not evaluated in depth.",
-                        "band": 4
+                        "feedback": "Meets the 4-mark row by evaluating the investigation with reference to the data, identifying a design flaw and suggesting an improvement. The sample size and the conclusion are not evaluated in depth.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-5-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The student should use more pots.",
-                        "feedback": "Meets the 2-mark row by identifying one limitation with limited explanation. The response does not name the flaw or link it to the conclusion.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one limitation with limited explanation. The response does not name the flaw or link it to the conclusion.",
+                        "band": 1
                       }
                     ]
                   }
@@ -3041,10 +2875,10 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Algae use oxygen at night through respiration, so dissolved oxygen falls. Warm summer water holds less oxygen to begin with, so by the early morning the fish run out. An aerator would add oxygen to the water.",
-                        "feedback": "Meets the 4-mark row by explaining the fall in dissolved oxygen using respiration and temperature, with reference to the scenario. The principles are stated briefly without full explanation.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the fall in dissolved oxygen using respiration and temperature, with reference to the scenario. The principles are stated briefly without full explanation.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-1-n0-n1-s3",
@@ -3062,60 +2896,6 @@
                 "id": "dp-bio-11-year-11-working-scientifically-6-2",
                 "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena and solve problems",
                 "prompts": [
-                  {
-                    "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0",
-                    "question": "PREDICT the number of cells in the culture after 2 hours, showing the number of doublings and your calculation.",
-                    "verb": "PREDICT",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A bacterium divides by binary fission every 20 minutes, so the number of cells doubles every 20 minutes. A laboratory culture starts with 500 cells.",
-                    "markingCriteria": "3 marks: Predicts the number of cells after 2 hours, showing six doublings and the calculation from 500 cells\n2 marks: Calculates the number of doublings in 2 hours, or shows the calculation with a minor error\n1 mark: Identifies the doubling time or the starting number of cells",
-                    "keywords": [
-                      "doubling",
-                      "binary fission",
-                      "exponential growth",
-                      "cells",
-                      "prediction"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11WS-06",
-                      "BI-11WS-04"
-                    ],
-                    "markerNotes": [
-                      "The top row needs the correct number of doublings (six) and the exponential calculation, with the final number of cells stated.",
-                      "Accept 32 000 cells, or the same answer from 500 multiplied by 2 to the power of 6 shown in working; a count of 500 × 6 = 3000 does not show doubling.",
-                      "A response that gives the answer without showing the doublings does not reach the top row, because the working is what the question assesses."
-                    ],
-                    "commonStudentErrors": [
-                      "Multiplies 500 by 6 instead of by 2 to the power of 6, giving 3000 cells.",
-                      "Treats 2 hours as 2 doublings, forgetting that doubling happens every 20 minutes."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "In 2 hours there are 120 minutes, so there are 120 ÷ 20 = 6 doublings. Using exponential growth, the number of cells is 500 × 2^6 = 500 × 64 = 32 000 cells. This prediction assumes that each binary fission produces a doubling every 20 minutes, with no cell death and unlimited nutrients.",
-                        "feedback": "Meets the 3-mark row by showing six doublings and the exponential calculation from 500 cells. The assumptions are stated, which strengthens the prediction.",
-                        "band": 3
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "There are six doublings in 2 hours, so the population multiplies by 2 six times.",
-                        "feedback": "Meets the 2-mark row by calculating the number of doublings in 2 hours. The final number of cells is not calculated.",
-                        "band": 2
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "The culture doubles in size every 20 minutes.",
-                        "feedback": "Meets the 1-mark row by identifying the doubling time. No doublings are counted and no prediction is made.",
-                        "band": 1
-                      }
-                    ]
-                  },
                   {
                     "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0-n1",
                     "question": "CONSTRUCT a cause-and-effect model, in words, to explain why the dam volume falls during the dry period, and use the model to predict the volume after 12 weeks.",
@@ -3155,10 +2935,10 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Hot weather increases evaporation, and irrigation releases water, with no inflow to replace it. Over 12 weeks the loss is 420 ML, so the predicted volume is 580 ML.",
-                        "feedback": "Meets the 4-mark row by constructing a chain of causes and effects and making a prediction. The chain is brief and the limitation is not discussed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing a chain of causes and effects and making a prediction. The chain is brief and the limitation is not discussed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-2-n0-n1-s3",
@@ -3269,10 +3049,10 @@
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Counting bubbles is unreliable because the bubbles vary in size. The student should use a gas syringe at each distance from the lamp and repeat each measurement.",
-                        "feedback": "Meets the 4-mark row by recommending a modification that addresses the bubble count problem, with some justification. The controlled variables and the independent variable are not named.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by recommending a modification that addresses the bubble count problem, with some justification. The controlled variables and the independent variable are not named.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-year-11-working-scientifically-6-3-n0-n1-s3",
@@ -3641,60 +3421,6 @@
                 "id": "dp-bio-11-year-11-working-scientifically-7-3",
                 "description": "Apply appropriate scientific notations, language and nomenclature",
                 "prompts": [
-                  {
-                    "id": "prompt-bio-11-year-11-working-scientifically-7-3-n0",
-                    "question": "CALCULATE the mean cell count of the three samples and express it in scientific notation with the appropriate units.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A student counts a hypothetical bacterium in three samples taken from the same culture, obtaining 4 200 000, 4 800 000 and 4 500 000 cells per mL. All three counts were made under the same conditions.",
-                    "markingCriteria": "3 marks: Calculates the mean as 4.5 × 10⁶ cells per mL, with correct scientific notation and units\n2 marks: Calculates the correct mean but omits either the scientific notation or the units\n1 mark: Shows a correct total of the three counts",
-                    "keywords": [
-                      "scientific notation",
-                      "units",
-                      "mean",
-                      "cell count",
-                      "per mL"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11WS-04"
-                    ],
-                    "markerNotes": [
-                      "The 3-mark row needs the correct mean with both scientific notation and units, since the question asks for both.",
-                      "Strong answers show the sum and the division, so the mean can be checked.",
-                      "Accept any correct form of scientific notation, such as 4.5 × 10⁶ or 4.5 × 10^6, as long as the units are given."
-                    ],
-                    "commonStudentErrors": [
-                      "Writes the mean as 4 500 000 without scientific notation.",
-                      "Divides the total by the wrong number, such as two instead of three.",
-                      "Gives the answer as 4.5 × 10⁶ with no units."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-7-3-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "The mean is the sum of the three counts divided by three: (4 200 000 + 4 800 000 + 4 500 000) ÷ 3 = 13 500 000 ÷ 3 = 4 500 000 cells per mL. In scientific notation, the mean cell count is 4.5 × 10⁶ cells mL⁻¹, which is the appropriate form for such a large number with units of cells per millilitre.",
-                        "feedback": "Meets the 3-mark row by calculating the correct mean, expressing it in scientific notation and giving the units. Showing the sum and division lets the marker check each step.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-7-3-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "The mean is 4.5 × 10⁶, found by dividing the sum of the three counts by three.",
-                        "feedback": "Meets the 2-mark row by calculating the correct mean in scientific notation. The units are omitted, so the answer cannot be fully correct.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-year-11-working-scientifically-7-3-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "The three counts total 13 500 000 cells per mL.",
-                        "feedback": "Meets the 1-mark row by showing a correct total. The mean is not calculated.",
-                        "band": 1
-                      }
-                    ]
-                  },
                   {
                     "id": "prompt-bio-11-year-11-working-scientifically-7-3-n0-n1",
                     "question": "APPLY the conventions of scientific notation, nomenclature and units to rewrite the draft paragraph, and state the reason for each change.",
@@ -4212,10 +3938,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The flagella rotate to push the cell towards the nutrients, which is why it moves steadily in one direction. The pili are hair-like structures that stick the cell to the rock surface.",
-                        "feedback": "Meets the 4-mark row by explaining how each structure enables one behaviour with relevant detail. The response does not analyse the links in depth.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how each structure enables one behaviour with relevant detail. The response does not analyse the links in depth.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-3-n0-n1-s3",
@@ -4328,10 +4054,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The chloroplasts are the site of photosynthesis, so the cell can make glucose from light. The vacuole pushes the chloroplasts towards the cell wall, which helps them receive light, and the cell wall keeps the cell rigid.",
-                        "feedback": "Meets the 4-mark row by explaining how the chloroplasts and the vacuole relate to photosynthesis. The links are real but brief, and the cell wall is not developed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how the chloroplasts and the vacuole relate to photosynthesis. The links are real but brief, and the cell wall is not developed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-4-n0-n1-s3",
@@ -4444,10 +4170,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The lysosomes fuse with the vesicle and release digestive enzymes that break down the bacterium. The mitochondria provide ATP, which is needed for the engulfing process.",
-                        "feedback": "Meets the 4-mark row by explaining the role of both organelles in destroying the bacterium. The explanation of the ATP's role is brief and does not name the energy-requiring stages.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the role of both organelles in destroying the bacterium. The explanation of the ATP's role is brief and does not name the energy-requiring stages.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-5-n0-n1-s3",
@@ -4465,61 +4191,6 @@
                 "id": "dp-bio-11-cells-as-the-basis-of-life-1-6",
                 "description": "Conduct a practical investigation to calculate the size of a variety of specialised cells under the microscope using a mini-grid and the equation Cell size = diameter of field of view / number of cells across the field of view",
                 "prompts": [
-                  {
-                    "id": "prompt-bio-11-cells-as-the-basis-of-life-1-6-n0",
-                    "question": "Calculate the size of one cell, showing your working and including units.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A student views a specialised cell under a light microscope, using a mini-grid. The diameter of the field of view is 400 µm, and 8 cells lie side by side across the diameter of the field of view.",
-                    "markingCriteria": "3 marks: Calculates the cell size as 50 µm, with the equation and working shown and units included\n2 marks: Substitutes the correct values into the equation, but the answer is wrong or the units are missing\n1 mark: Identifies the diameter of the field of view or the number of cells as a value needed",
-                    "keywords": [
-                      "cell size",
-                      "field of view",
-                      "mini-grid",
-                      "diameter",
-                      "number of cells",
-                      "equation"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11-01"
-                    ],
-                    "markerNotes": [
-                      "The top row needs the equation, the substitution and the units; a bare answer of 50 µm does not show the method.",
-                      "Accept 50 µm or 50 micrometres, but the equation must divide the diameter by the number of cells, not the reverse.",
-                      "A correct answer with no working shown does not meet the top row."
-                    ],
-                    "commonStudentErrors": [
-                      "Divides the number of cells by the diameter, giving 0.02 per µm, instead of dividing the diameter by the number of cells.",
-                      "Gives the answer without units, or with mm or cm instead of µm.",
-                      "Uses the diameter as the cell size without dividing it by the number of cells."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-cells-as-the-basis-of-life-1-6-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Using the equation, cell size = diameter of field of view ÷ number of cells across the field of view. The mini-grid shows a diameter of 400 µm for the field of view, with 8 cells across it, so cell size = 400 µm ÷ 8 = 50 µm. Each cell is therefore 50 µm in size.",
-                        "feedback": "Meets the 3-mark row by stating the equation, substituting both values, and giving the answer with units. The working is complete and clear.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-cells-as-the-basis-of-life-1-6-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Cell size = 400 ÷ 8 = 50",
-                        "feedback": "Meets the 2-mark row by substituting the correct values into the equation. The units are missing, so the answer does not reach the top row.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-cells-as-the-basis-of-life-1-6-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "Diameter is 400 µm.",
-                        "feedback": "Meets the 1-mark row by identifying the diameter as a value needed, but no calculation is shown.",
-                        "band": 1
-                      }
-                    ]
-                  },
                   {
                     "id": "prompt-bio-11-cells-as-the-basis-of-life-1-6-n0-n1",
                     "question": "Analyse the reliability of the cell size method, using the two students' results.",
@@ -4676,10 +4347,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Light microscopy can observe living cells, so it suits the movement of mitochondria. Electron microscopy has higher resolution, so it suits the fine structure of the membranes but needs dead specimens.",
-                        "feedback": "Meets the 4-mark row by explaining the suitability of both methods for the aims. The response does not develop the reasoning or conclude how the team should proceed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the suitability of both methods for the aims. The response does not develop the reasoning or conclude how the team should proceed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-1-7-n0-n1-s3",
@@ -4798,10 +4469,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Without the glycoproteins the cell would lose some cell recognition, but the phospholipid bilayer and protein channels would still function, so the membrane would still act as a selective barrier.",
-                        "feedback": "Meets the 4-mark row by explaining the effect on cell recognition and noting that the barrier is unaffected. The response does not develop the signalling role or name the transport functions.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the effect on cell recognition and noting that the barrier is unaffected. The response does not develop the signalling role or name the transport functions.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-1-n0-n1-s3",
@@ -4914,10 +4585,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Water moves out of the cell by osmosis, because the sucrose solution has a lower water concentration than the cell sap. The cytoplasm loses volume, so the cell membrane pulls away from the cell wall.",
-                        "feedback": "Meets the 4-mark row by explaining that water moves out by osmosis, with a reference to the change in volume. The concentration gradient is stated but not fully developed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining that water moves out by osmosis, with a reference to the change in volume. The concentration gradient is stated but not fully developed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-2-n0-n1-s3",
@@ -5263,10 +4934,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The macrophage engulfs the bacterium in a vesicle by endocytosis. The beta cell releases insulin by exocytosis when its vesicle fuses with the plasma membrane. Both processes need energy.",
-                        "feedback": "Describes both processes with links to vesicles and the plasma membrane, which meets the 4-mark row. The energy requirement is stated without any explanation of why.",
-                        "band": 3
+                        "feedback": "Describes both processes with links to vesicles and the plasma membrane, which meets the 3-mark row. The energy requirement is stated without any explanation of why.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-2-5-n0-n1-s3",
@@ -5503,10 +5174,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The mesophyll cell needs carbon dioxide and water for photosynthesis, and oxygen and glucose for respiration. The root hair cell needs water and ions from the soil, and the ion uptake uses energy from respiration.",
-                        "feedback": "Explains the requirements of both cells for several substances with links to function, which meets the 4-mark row. Amino acids are not addressed.",
-                        "band": 3
+                        "feedback": "Explains the requirements of both cells for several substances with links to function, which meets the 3-mark row. Amino acids are not addressed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-1-n0-n1-s3",
@@ -5619,10 +5290,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The carbon in glucose ends up in carbon dioxide, not water, so the claim is wrong. Oxygen is a reactant that is used up in the reaction. Energy is released in the reaction and captured as ATP.",
-                        "feedback": "Explains that the carbon ends up in carbon dioxide and that oxygen is a reactant, which meets the 4-mark row. The energy point is brief and the claim about glucose is not fully refuted.",
-                        "band": 3
+                        "feedback": "Explains that the carbon ends up in carbon dioxide and that oxygen is a reactant, which meets the 3-mark row. The energy point is brief and the claim about glucose is not fully refuted.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-2-n0-n1-s3",
@@ -5735,10 +5406,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Light is the energy source for photosynthesis, so fewer bubbles appear when the lamp is moved further away. In the dark, no bubbles are released because the plant does not photosynthesise, and cellular respiration uses oxygen.",
-                        "feedback": "Explains the role of light with reference to the lamp result and the dark result, which meets the 4-mark row. The proportional change and the role of chlorophyll are not explained.",
-                        "band": 3
+                        "feedback": "Explains the role of light with reference to the lamp result and the dark result, which meets the 3-mark row. The proportional change and the role of chlorophyll are not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-3-n0-n1-s3",
@@ -5852,10 +5523,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Enzymes lower the activation energy of reactions in cells. At 37 °C catalase works well and oxygen is produced at 10 cm³ per minute. At 80 °C the enzyme changes shape and stops working, so no oxygen is made.",
-                        "feedback": "Explains the role of enzymes and relates both results to enzyme activity, which meets the 4-mark row. The active site and the substrate binding are not explained.",
-                        "band": 3
+                        "feedback": "Explains the role of enzymes and relates both results to enzyme activity, which meets the 3-mark row. The active site and the substrate binding are not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-4-n0-n1-s3",
@@ -5968,10 +5639,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The lock and key model says the active site is rigid, so only a substrate with the right shape fits. The induced fit model says the active site changes shape when the substrate binds, so it fits more tightly.",
-                        "feedback": "Distinguishes the two models accurately and describes the induced fit model, which meets the 4-mark row. The position of the substrate in the active site is not explained.",
-                        "band": 3
+                        "feedback": "Distinguishes the two models accurately and describes the induced fit model, which meets the 3-mark row. The position of the substrate in the active site is not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-3-5-n0-n1-s3",
@@ -7300,10 +6971,10 @@
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-4-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Meiosis I reduces the chromosome number, because the homologous chromosomes are separated. Meiosis II does not.",
-                        "feedback": "Meets the 3-mark row by identifying meiosis I as the reduction division, with limited reference to homologous chromosomes.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by identifying meiosis I as the reduction division, with limited reference to homologous chromosomes.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-as-the-basis-of-life-4-9-n0-n1-s3",
@@ -7494,10 +7165,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Multicellular organisms have cells that are specialised into tissues and organs, such as the xylem and phloem in a eucalypt. Colonial organisms like Volvox have less specialisation, so they cannot grow as large or do as many different functions.",
-                        "feedback": "Meets the 4-mark row by explaining how multicellular organisation supports complexity, with a comparison to Volvox. The answer does not analyse how specialisation allows the body to grow larger.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how multicellular organisation supports complexity, with a comparison to Volvox. The answer does not analyse how specialisation allows the body to grow larger.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-1-n0-n1-s3",
@@ -7515,58 +7186,6 @@
                 "id": "dp-bio-11-cells-to-systems-1-2",
                 "description": "Explain the effect of the surface-area-to-volume ratio on the rate of movement of materials into and out of a cell",
                 "prompts": [
-                  {
-                    "id": "prompt-bio-11-cells-to-systems-1-2-n0",
-                    "question": "Calculate the surface-area-to-volume ratio of each cube and state which cube has the greater ratio.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: Two cube-shaped model cells are made for a classroom demonstration. Cube X has sides of 2 µm and cube Y has sides of 4 µm. Both cubes have the same shape and are treated as cells in the same way.",
-                    "markingCriteria": "3 marks: Calculates the surface area, volume and ratio of both cubes correctly and identifies the cube with the greater ratio\n2 marks: Calculates the surface area and volume of both cubes correctly, or the ratio of both cubes, with at most one error\n1 mark: Calculates the surface area or the volume of one cube correctly",
-                    "keywords": [
-                      "surface-area-to-volume ratio",
-                      "surface area",
-                      "volume",
-                      "cube",
-                      "cell"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11-02"
-                    ],
-                    "markerNotes": [
-                      "A full answer shows the surface area and volume for each cube before the ratio, so the working can be credited if a number is wrong.",
-                      "The ratio should be compared between cubes, and the larger cube has the smaller ratio, which links to the dot point."
-                    ],
-                    "commonStudentErrors": [
-                      "Calculates the volume as the sum of the sides instead of cubing the side length.",
-                      "Gives the ratio of the larger cube as the greater, reversing the relationship between size and surface-area-to-volume ratio."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-cells-to-systems-1-2-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Cube X has a surface area of 6 × 2² = 24 µm² and a volume of 2³ = 8 µm³, giving a surface-area-to-volume ratio of 3 : 1. Cube Y has a surface area of 6 × 4² = 96 µm² and a volume of 4³ = 64 µm³, giving a ratio of 1.5 : 1. The smaller cell model, cube X, has the greater surface-area-to-volume ratio.",
-                        "feedback": "Meets the 3-mark row by calculating surface area, volume and ratio for both cubes correctly and identifying cube X. The working is shown clearly.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-cells-to-systems-1-2-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Cube X has a surface area of 24 µm² and a volume of 8 µm³. Cube Y has a surface area of 96 µm² and a volume of 64 µm³.",
-                        "feedback": "Meets the 2-mark row by calculating the surface area and volume of both cubes correctly. It does not calculate the ratios or identify which cube has the greater ratio.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-cells-to-systems-1-2-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "Cube X has a surface area of 24 µm².",
-                        "feedback": "Calculates the surface area of one cube correctly, which meets the 1-mark row only.",
-                        "band": 1
-                      }
-                    ]
-                  },
                   {
                     "id": "prompt-bio-11-cells-to-systems-1-2-n0-n1",
                     "question": "Analyse how the surface-area-to-volume ratio limits the maximum size of a cell, and how one adaptation such as microvilli offsets this limit.",
@@ -7717,10 +7336,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The agar cube model shows the effect of surface-area-to-volume ratio on diffusion clearly. However, agar is not a living cell, so it has no membrane, organelles or active transport, which limits how well it represents a real cell.",
-                        "feedback": "Meets the 4-mark row by making a relevant point about usefulness and naming a limitation. The discussion is brief and the conclusion is not addressed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by making a relevant point about usefulness and naming a limitation. The discussion is brief and the conclusion is not addressed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-3-n0-n1-s3",
@@ -7829,10 +7448,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Gland cells contain organelles that make digestive enzymes. Epithelial tissue lines the stomach, and the stomach is an organ within the digestive system, so the whole organ works together to digest food.",
-                        "feedback": "Meets the 4-mark row by explaining how cells and tissues form an organ that digests food, with a reference to the system. The single-cell claim is not addressed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how cells and tissues form an organ that digests food, with a reference to the system. The single-cell claim is not addressed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-1-4-n0-n1-s3",
@@ -7946,10 +7565,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Photosynthesis uses carbon dioxide and water to make glucose and oxygen. Respiration uses glucose and oxygen and releases carbon dioxide and water, so the products of one process supply the other.",
-                        "feedback": "Meets the 4-mark row by explaining the link between the products of the two processes, with reference to gases. The role of water in the plant is not developed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the link between the products of the two processes, with reference to gases. The role of water in the plant is not developed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-1-n0-n1-s3",
@@ -8057,10 +7676,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Light and carbon dioxide both increase the rate of photosynthesis, so the grower can add lighting and enrich the air with carbon dioxide. Temperature must be kept within an optimum range, because high temperatures denature enzymes.",
-                        "feedback": "Meets the 4-mark row by discussing the effect of light, carbon dioxide and temperature with some management. The interaction between factors and the role of water are not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing the effect of light, carbon dioxide and temperature with some management. The interaction between factors and the role of water are not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-2-n0-n1-s3",
@@ -8169,10 +7788,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Bubbles vary in size, so counting them does not measure the volume of oxygen produced. The lamp may also heat the water, which changes the rate of enzyme activity.",
-                        "feedback": "Meets the 4-mark row by analysing one limitation in detail and giving a second limitation. No modification is suggested.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing one limitation in detail and giving a second limitation. No modification is suggested.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-3-n0-n1-s3",
@@ -8281,18 +7900,18 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Xylem vessels are dead and hollow, so water can flow through them upwards. Phloem is living, and its sieve plates allow sugars to move from leaves to roots.",
-                        "feedback": "Meets the 4-mark row by explaining the structure of both tissues with some link to function. The companion cell and the judgement of how well each structure suits its role are not included.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the structure of both tissues with some link to function. The companion cell and the judgement of how well each structure suits its role are not included.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Xylem carries water and phloem carries sugars.",
-                        "feedback": "Identifies the transport function of each tissue, which meets the 2-mark row, but does not explain the structure.",
-                        "band": 2
+                        "feedback": "Identifies the transport function of each tissue, which meets the 1-mark row, but does not explain the structure.",
+                        "band": 1
                       }
                     ]
                   }
@@ -8394,10 +8013,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sucrose is loaded into the phloem at the roots, which are the source, and water enters by osmosis. At the buds, the sink, sucrose is unloaded, so the pressure falls and the sap moves towards the buds.",
-                        "feedback": "Meets the 4-mark row by applying loading and unloading to the scenario, with some reference to the sink. The pressure gradient is named but not explained in full.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by applying loading and unloading to the scenario, with some reference to the sink. The pressure gradient is named but not explained in full.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-5-n0-n1-s3",
@@ -8625,9 +8244,9 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Plant Y loses more water because the higher temperature makes water evaporate faster from the leaves.",
-                        "feedback": "Meets the 3-mark row by explaining how temperature affects transpiration in the scenario. It does not consider wind or why the two factors cannot be separated, so it cannot reach 4 marks.",
+                        "feedback": "Meets the 2-mark row by explaining how temperature affects transpiration in the scenario. It does not consider wind or why the two factors cannot be separated, so it cannot reach 3 marks.",
                         "band": 2
                       },
                       {
@@ -8853,10 +8472,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Root hair cells absorb water and minerals from the soil, and the xylem carries them up into the stem.",
-                        "feedback": "Meets the 3-mark row by explaining the role of root hair cells and the xylem in transport. It does not describe the surface area or gas exchange, so it cannot reach 4 marks.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining the role of root hair cells and the xylem in transport. It does not describe the surface area or gas exchange, so it cannot reach 3 marks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-2-9-n0-n1-s3",
@@ -9203,9 +8822,9 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The concentration of urea rises as blood passes through the liver, because amino acids are broken down there.",
-                        "feedback": "Meets the 3-mark row by describing a change in one substance in one organ with a reason. It does not cover the kidneys or the other two substances, so it cannot reach 4 marks.",
+                        "feedback": "Meets the 2-mark row by describing a change in one substance in one organ with a reason. It does not cover the kidneys or the other two substances, so it cannot reach 3 marks.",
                         "band": 2
                       },
                       {
@@ -9432,9 +9051,9 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Platelets stick to the damaged blood vessel and help form a clot, which seals the wound.",
-                        "feedback": "Meets the 3-mark row by explaining the role of one component in the response to the injury. It does not describe the white blood cells or the fibrin, so it cannot reach 4 marks.",
+                        "feedback": "Meets the 2-mark row by explaining the role of one component in the response to the injury. It does not describe the white blood cells or the fibrin, so it cannot reach 3 marks.",
                         "band": 2
                       },
                       {
@@ -10303,10 +9922,10 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-4-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Cortisol is released more slowly than adrenaline and has longer effects. Both hormones can raise blood sugar levels.",
-                        "feedback": "Meets the 3-mark row by describing the effects of both hormones on blood sugar levels. The comparison is limited to speed and duration.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the effects of both hormones on blood sugar levels. The comparison is limited to speed and duration.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-cells-to-systems-4-4-n0-n1-s3",
@@ -10417,9 +10036,9 @@
                       {
                         "id": "prompt-bio-11-cells-to-systems-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Glucose in the urine draws water out of the body, so the patient urinates often and feels thirsty.",
-                        "feedback": "Meets the 3-mark row by describing a symptom of high blood glucose. The link to homeostasis is limited.",
+                        "feedback": "Meets the 2-mark row by describing a symptom of high blood glucose. The link to homeostasis is limited.",
                         "band": 2
                       },
                       {
@@ -11000,10 +10619,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Light pollution draws hatchlings away from the sea, so many die. Hatchlings that are less drawn to the lights are more likely to survive, so natural selection may change the population over time.",
-                        "feedback": "Discusses the effect of the lights on survival and links it to natural selection, with little reference to variation, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Discusses the effect of the lights on survival and links it to natural selection, with little reference to variation, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-3-n0-n1-s3",
@@ -11114,10 +10733,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Each island has different food, so natural selection favours different beak shapes. Over time, birds on different islands may stop recognising each other's songs, which is reproductive isolation.",
-                        "feedback": "Analyses the link between food and beak shape and mentions reproductive isolation, but does not explain how the variation arises, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses the link between food and beak shape and mentions reproductive isolation, but does not explain how the variation arises, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-4-n0-n1-s3",
@@ -11228,10 +10847,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The bones and stone tools in the same layer suggest they were deposited together. However, the age of the layer is uncertain, so the evidence is only partly convincing.",
-                        "feedback": "Discusses the strength of the shared layer with a limitation and reaches a tentative link to megafauna, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Discusses the strength of the shared layer with a limitation and reaches a tentative link to megafauna, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-5-n0-n1-s3",
@@ -11342,18 +10961,18 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The mole groups look alike because both dig in loose soil, and a cylindrical body and broad forelimbs help with burrowing. This is convergent evolution, because natural selection favours these traits in similar environments.",
-                        "feedback": "Links the convergent features to adaptation for burrowing and explains convergent evolution, but does not weigh isolation against adaptation, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Links the convergent features to adaptation for burrowing and explains convergent evolution, but does not weigh isolation against adaptation, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Both moles have cylindrical bodies.",
-                        "feedback": "Identifies a relevant feature without linking it to burrowing, which meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies a relevant feature without linking it to burrowing, which meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -11455,10 +11074,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The red discs had a lower survival rate than the green discs, so the predator removes red discs more often. The next generation has fewer red discs, which shows natural selection.",
-                        "feedback": "Analyses the difference in survival and links it to natural selection, with little reference to inheritance or variation, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses the difference in survival and links it to natural selection, with little reference to inheritance or variation, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-7-n0-n1-s3",
@@ -11569,10 +11188,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Model B includes inheritance and mutation, so it is more accurate for the mechanism. However, its predator assumptions make it less valid for a Year 11 class.",
-                        "feedback": "Discusses a strength and a limitation of Model B with some reference to natural selection, but does not weigh Model A, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Discusses a strength and a limitation of Model B with some reference to natural selection, but does not weigh Model A, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-8-n0-n1-s3",
@@ -11683,10 +11302,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sugar gliders and flying squirrels have gliding membranes that evolved separately, which is convergent evolution. Sugar gliders and kangaroos share forelimb bones, which shows divergent evolution from a common ancestor.",
-                        "feedback": "Analyses the two patterns and names the ancestry behind each, but gives little reasoning about natural selection, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses the two patterns and names the ancestry behind each, but gives little reasoning about natural selection, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-1-9-n0-n1-s3",
@@ -12093,10 +11712,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The bearded dragon is an ectotherm that basks in the morning, and the red kangaroo is an endotherm that rests in shade during the day. Each animal's body heat source shapes when it is active.",
                         "feedback": "Describes the behaviours of both animals and makes a general link to body heat, without explaining the mechanism.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-3-n0-n1-s3",
@@ -12327,10 +11946,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The marine fish drinks seawater and pumps salt out through its gills, while the freshwater fish does not drink and produces large volumes of dilute urine.",
                         "feedback": "Describes the adaptations of both fish and refers to salt and water movement, but does not analyse the osmotic gradient.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-5-n0-n1-s3",
@@ -12557,10 +12176,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The trees support punctuated equilibrium because each lineage stays nearly the same for millions of years and then branches quickly. Gradualism would show smooth change instead, which is not seen.",
                         "feedback": "Compares the two models and refers to the pattern in the trees, but the justification is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-7-n0-n1-s3",
@@ -12672,10 +12291,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Extract 1 shows resistance rising from 2% to 60% over a decade, and Extract 2 shows survival to a DDT dose rising from 5% to 80%, both linked to repeated use of the same treatment.",
                         "feedback": "Describes the trends in both extracts and links them to repeated pressure, but does not explain natural selection.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-8-n0-n1-s3",
@@ -12786,10 +12405,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Layer 1 holds fish-only fossils and Layer 3 holds four-legged animals, so the layers show an order of change. The transitional fossil in Layer 2 sits between them.",
                         "feedback": "Describes the fossils in two layers and links the order to change, without explaining relative dating in detail.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-9-n0-n1-s3",
@@ -12901,10 +12520,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Species R is more closely related to species Q because it has fewer DNA differences, 4 bases compared with 11 for species S.",
                         "feedback": "Compares the differences in one data set and links them to relationship, without the amino acid data.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-10-n0-n1-s3",
@@ -13016,10 +12635,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Biochemistry is stronger evidence than anatomy because DNA sequences are inherited. Anatomy can show similar structures that evolved separately.",
                         "feedback": "Compares the two kinds of evidence and names a limitation of anatomy, without developing the judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-2-11-n0-n1-s3",
@@ -13621,60 +13240,6 @@
                 "description": "Conduct a practical investigation to model the mark-release-recapture method and estimate abundance of mobile organisms",
                 "prompts": [
                   {
-                    "id": "prompt-bio-11-evolution-and-ecosystems-3-6-n0",
-                    "question": "Calculate the estimated population size of grasshoppers in the paddock using the Lincoln index, showing your working.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: In a paddock, 40 grasshoppers are caught, marked with a small dot of paint, and released. Later, a second sample of 30 grasshoppers is caught, and 6 of them carry the paint mark.",
-                    "markingCriteria": "3 marks: Calculates the population estimate correctly, showing the Lincoln index formula, substitution and answer\n2 marks: Uses the Lincoln index with correct substitution but an arithmetic error, or gives a correct estimate without the formula\n1 mark: Identifies one relevant value from the sampling, without estimating the population",
-                    "keywords": [
-                      "mark-release-recapture",
-                      "abundance",
-                      "mobile organisms",
-                      "Lincoln index",
-                      "population size"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-11-03"
-                    ],
-                    "markerNotes": [
-                      "Show the formula, the values and the answer; a correct figure with no working cannot earn full marks, because the working is the evidence.",
-                      "Check the arithmetic: 40 multiplied by 30 is 1200, and dividing by 6 gives 200.",
-                      "Naming M, C and R in words, as well as in the formula, makes the marker's check straightforward."
-                    ],
-                    "commonStudentErrors": [
-                      "Uses N = M ÷ R or (M + C) ÷ R instead of the Lincoln index formula.",
-                      "Uses the size of the first sample as C, instead of the total caught in the second sample.",
-                      "Gives an answer with the wrong units, such as a density per square metre, when the question asks for a population size."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-11-evolution-and-ecosystems-3-6-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "The Lincoln index estimates population size as N = (M × C) ÷ R, where M is the 40 grasshoppers marked and released, C is the 30 caught in the second sample, and R is the 6 marked grasshoppers recaptured. N = (40 × 30) ÷ 6 = 200 grasshoppers. Mark-release-recapture suits mobile organisms such as grasshoppers, so this is an estimate of the abundance of the paddock population.",
-                        "feedback": "Meets the 3-mark row by showing the formula, the substitution and the correct estimate of 200. The values are named, which makes the working easy to check.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-evolution-and-ecosystems-3-6-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Using M = 40, C = 30 and R = 6: N = (40 × 30) ÷ 6 = 240 grasshoppers.",
-                        "feedback": "Meets the 2-mark row because the formula and substitution are correct, but 1200 ÷ 6 is 200, not 240. The values are not named in words.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-11-evolution-and-ecosystems-3-6-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "The 6 recaptured grasshoppers carried paint marks.",
-                        "feedback": "Meets the 1-mark row by identifying one relevant value, without estimating the population.",
-                        "band": 1
-                      }
-                    ]
-                  },
-                  {
                     "id": "prompt-bio-11-evolution-and-ecosystems-3-6-n0-n1",
                     "question": "Assess how far the assumptions of the mark-release-recapture method are violated in this study, and the effect on the reliability of the population estimate.",
                     "verb": "ASSESS",
@@ -13713,10 +13278,10 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Faded marks and birds taking grasshoppers break the marking and closed population assumptions, so the estimate is less reliable.",
-                        "feedback": "Meets the 3-mark row by identifying two violated assumptions with a limited statement of the effect. The direction of the bias is not explained.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by identifying two violated assumptions with a limited statement of the effect. The direction of the bias is not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-3-6-n0-n1-s3",
@@ -14056,9 +13621,9 @@
                       {
                         "id": "prompt-bio-11-evolution-and-ecosystems-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The drought lowers carrying capacity because there is less food, so the population must fall.",
-                        "feedback": "Meets the 3-mark row by describing how the drought changes the herbivore population, with carrying capacity used. The disease is not addressed, and the distinction between the two effects is not made.",
+                        "feedback": "Meets the 2-mark row by describing how the drought changes the herbivore population, with carrying capacity used. The disease is not addressed, and the distinction between the two effects is not made.",
                         "band": 2
                       },
                       {
@@ -14414,10 +13979,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The prediction is reasonable because seedlings in darkness often show etiolation, with taller stems and pale leaves. The reason, that the seedling searches for light, is not scientific, because growth responses are caused by hormones and light-sensing pigments.",
-                        "feedback": "Judges the prediction with some scientific knowledge and comments on the reason, but offers no revision, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Judges the prediction with some scientific knowledge and comments on the reason, but offers no revision, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-1-2-n0-n1-s3",
@@ -14528,10 +14093,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The solvent alone produced a clear zone of 13 mm, close to the extract's 14 mm. The hypothesis should be modified to compare the extract with the solvent, because ethanol may inhibit bacteria by itself.",
-                        "feedback": "Analyses the new evidence and proposes a change to the hypothesis with some reference to the control, but the justification is brief, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses the new evidence and proposes a change to the hypothesis with some reference to the control, but the justification is brief, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-1-3-n0-n1-s3",
@@ -14769,10 +14334,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Source 1 is more reliable, because it has replicated trials and independent review, but its author may be biased. Source 2 uses only 12 plants in one trial and is outdated, so it is less reliable for planning.",
-                        "feedback": "Assesses each source using relevant features, but does not justify a clear choice for the investigation, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Assesses each source using relevant features, but does not justify a clear choice for the investigation, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-2-3-n0-n1-s3",
@@ -14892,10 +14457,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-2-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Ethanol is a flammable liquid.",
-                        "feedback": "Identifies a hazard from the practical without describing a risk, so it meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies a hazard from the practical without describing a risk, so it meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -15359,10 +14924,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The 72 mL reading is an outlier, because the other readings lie between 45 and 48 mL. The student should repeat the trial and report why any reading is excluded, so the findings can be checked.",
-                        "feedback": "Analyses one error and its effect on the findings, with a suggested correction, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses one error and its effect on the findings, with a suggested correction, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-3-3-n0-n1-s3",
@@ -15618,118 +15183,7 @@
               {
                 "id": "dp-bio-12-year-12-working-scientifically-4-2",
                 "description": "Apply quantitative processes to data, including unit conversions",
-                "prompts": [
-                  {
-                    "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0",
-                    "question": "CALCULATE the actual diameter of the cell in micrometres, then convert your answer to millimetres, showing your working.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A student photographs a stained onion epidermis cell through a microscope and prints the image. On the printed image, the cell measures 60 mm across. The scale bar on the image is 40 mm long and represents 20 micrometres (µm).",
-                    "markingCriteria": "3 marks: Calculates 30 micrometres from a correct scale ratio and converts the result correctly to 0.03 millimetres\n2 marks: Calculates 30 micrometres from a correct scale ratio, but does not convert it, or converts it incorrectly\n1 mark: Uses the scale bar to form a relevant ratio, but reaches an incorrect final answer",
-                    "keywords": [
-                      "unit conversions",
-                      "scale bar",
-                      "actual diameter",
-                      "micrometres",
-                      "millimetres",
-                      "scale ratio"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12WS-04"
-                    ],
-                    "markerNotes": [
-                      "The strongest answers set out the scale ratio before using it, so each unit can be checked.",
-                      "Unit conversion is a separate step: 30 micrometres is 0.03 millimetres because there are 1000 micrometres in a millimetre, not 100.",
-                      "State the units of the final answer, such as micrometres or millimetres, with each value."
-                    ],
-                    "commonStudentErrors": [
-                      "Divides 60 by 40 and gives 1.5 without using the 20 micrometre length represented by the scale bar.",
-                      "Converts 30 micrometres to 0.3 millimetres by dividing by 100 rather than 1000.",
-                      "Gives a final answer with no units, or with the wrong units."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Scale ratio: the scale bar, 40 mm long, represents 20 micrometres, so 1 mm on the image represents 20 ÷ 40 = 0.5 micrometres. Actual diameter: 60 mm × 0.5 micrometres per mm = 30 micrometres. Unit conversion: 30 micrometres ÷ 1000 = 0.03 millimetres.",
-                        "feedback": "Meets the 3-mark row by using a correct scale ratio to find 30 micrometres and converting it correctly to 0.03 millimetres, with units shown throughout.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Using the scale bar, 40 mm represents 20 micrometres, so 60 mm represents 30 micrometres. The actual diameter is 30 micrometres.",
-                        "feedback": "Meets the 2-mark row: the scale ratio and the answer are correct, but the answer is not converted to millimetres.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "Actual diameter: 60 mm ÷ 40 mm = 1.5.",
-                        "feedback": "Meets the 1-mark row by forming a ratio from the scale bar, but the answer ignores the 20 micrometre length and the units, so it is incorrect.",
-                        "band": 1
-                      }
-                    ]
-                  },
-                  {
-                    "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0-n1",
-                    "question": "APPLY unit conversions and molar mass to express the concentration of each solution in millimoles per litre (mmol/L), then identify the solution with the highest concentration.",
-                    "verb": "APPLY",
-                    "totalMarks": 6,
-                    "scenario": "Hypothetical: A student prepares three glucose solutions, X, Y and Z, and records their concentrations in different units. Solution X: 90 mg per 100 mL. Solution Y: 0.02 mol per litre. Solution Z: 4.5 g per litre. Glucose has a molar mass of 180 g/mol.",
-                    "markingCriteria": "6 marks: Converts all three concentrations correctly to mmol/L, uses the molar mass in a sound sequence of steps, and identifies solution Z as the most concentrated\n5 marks: Converts all three concentrations to mmol/L with one minor error, and correctly identifies solution Z as the most concentrated\n4 marks: Converts two concentrations correctly to mmol/L, with the third incomplete or not converted\n3 marks: Converts one concentration correctly and uses the molar mass in a relevant way to attempt another\n2 marks: Makes a relevant unit conversion, such as mg to g or g to mol, without completing the calculation\n1 mark: Provides some relevant information about unit conversion or the molar mass",
-                    "keywords": [
-                      "unit conversions",
-                      "molar mass",
-                      "millimoles per litre",
-                      "concentration",
-                      "glucose",
-                      "solution"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12WS-04"
-                    ],
-                    "markerNotes": [
-                      "Convert every value to the same unit before comparing them, and show the molar mass step as its own line.",
-                      "A check, such as multiplying the answer back by the molar mass, shows that a conversion is reasonable.",
-                      "Keep the units with each number, so the marker can follow the conversion from mg to g and from mol to mmol."
-                    ],
-                    "commonStudentErrors": [
-                      "Converts 90 mg per 100 mL to 90 mg per litre without multiplying by 10.",
-                      "Multiplies by the molar mass when converting from grams to moles, rather than dividing.",
-                      "Converts mol per litre to mmol per litre by dividing by 1000, rather than multiplying."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0-n1-s1",
-                        "source": "AI",
-                        "mark": 6,
-                        "answer": "Unit conversions and molar mass calculations are applied to each solution in turn, giving the concentrations in millimoles per litre (mmol/L).\n\nSolution X: 90 mg per 100 mL is 90 × 10 = 900 mg per litre, which is 0.900 g per litre. Dividing by the molar mass of 180 g/mol gives 0.900 ÷ 180 = 0.0050 mol per litre, or 5.0 mmol/L. Check: 5.0 mmol/L × 180 mg/mmol = 900 mg/L.\n\nSolution Y: 0.02 mol per litre × 1000 = 20 mmol/L.\n\nSolution Z: 4.5 g per litre ÷ 180 g/mol = 0.025 mol per litre, which is 25 mmol/L.\n\nSolution Z has the highest concentration of glucose, at 25 mmol/L, followed by solution Y at 20 mmol/L and solution X at 5.0 mmol/L. Mass per volume must be converted to moles per litre before the concentration of solutions in different units can be compared.",
-                        "feedback": "Converts all three concentrations correctly to mmol/L, uses the molar mass as a clear step, checks one result, and identifies solution Z as the most concentrated. The concluding comparison secures full marks.",
-                        "band": 4
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0-n1-s2",
-                        "source": "AI",
-                        "mark": 4,
-                        "answer": "Solution Y is 0.02 mol per litre, which is 20 mmol/L. Solution Z is 4.5 g per litre, so dividing by 180 g/mol gives 0.025 mol per litre, which is 25 mmol/L. Solution X is 90 mg per 100 mL, which is 900 mg per litre, but it is not yet converted to mmol/L.",
-                        "feedback": "Converts two concentrations correctly to mmol/L, but solution X is left as mg per litre, so the comparison of all three solutions is incomplete.",
-                        "band": 3
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-4-2-n0-n1-s3",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Solution Z is 4.5 g per litre, so divide 4.5 by the molar mass of 180 g/mol to convert the grams into moles.",
-                        "feedback": "Sets up a relevant unit conversion using the molar mass, but does not complete the calculation.",
-                        "band": 2
-                      }
-                    ]
-                  }
-                ]
+                "prompts": []
               },
               {
                 "id": "dp-bio-12-year-12-working-scientifically-4-3",
@@ -15831,10 +15285,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "1a. Leaf compound: specimen C.\n1b. Leaf simple: go to 2.\n2a. Leaves opposite: specimen B.\n2b. Leaves alternate: go to 3.\n3a. Edge looks smooth: specimen A.\n3b. Edge looks not smooth: specimen D.",
                         "feedback": "Separates all four specimens, but couplet 3 uses an unclear contrast ('looks smooth' and 'looks not smooth') that would not reliably separate the two specimens.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-4-3-n0-n1-s3",
@@ -15957,10 +15411,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-4-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Sources should be referenced to avoid plagiarism.",
-                        "feedback": "States that sources should be referenced, but does not link this to the student's report, so it meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "States that sources should be referenced, but does not link this to the student's report, so it meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -16067,10 +15521,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Traditional observations of eel habitat can inform scientific investigations, because they suggest where to look for eels. Students should test any such observations with their own data. The Gunditjmara knowledge of Budj Bim is one example of this.",
                         "feedback": "Explains that traditional observations can inform investigations and refers to the Gunditjmara example, but does not examine how the knowledge contributes or mention consultation.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-4-5-n0-n1-s3",
@@ -16196,10 +15650,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-1-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The cell count increases as time increases.",
-                        "feedback": "Identifies that cell count increases with time, without values, which meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies that cell count increases with time, without values, which meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -16304,10 +15758,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Experimental error could be the window placement, which is an uncontrolled variable. Biological variation could be seeds of low viability. The recount shows the counting was consistent.",
                         "feedback": "Describes a feature of each explanation with some reference to the data, but the two types are not distinguished clearly and no test is proposed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-2-n0-n1-s3",
@@ -16324,119 +15778,7 @@
               {
                 "id": "dp-bio-12-year-12-working-scientifically-5-3",
                 "description": "Assess error, uncertainty and limitations in data and include calculations of percentage error, range, mean and standard deviation",
-                "prompts": [
-                  {
-                    "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0",
-                    "question": "CALCULATE the mean, the range and the percentage error of the mean for these five readings. Use the unrounded mean for the percentage error, and give the percentage error to one decimal place.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A student uses a glucose sensor to measure the concentration of a standard glucose solution five times, obtaining 12.4, 13.1, 12.8, 12.6 and 13.4 mmol/L. The accepted (true) concentration of the standard solution is 12.0 mmol/L.",
-                    "markingCriteria": "3 marks: Calculates the mean as 12.86 mmol/L, the range as 1.0 mmol/L and the percentage error as 7.2 per cent, with correct units throughout\n2 marks: Calculates two of the three values correctly, with correct units\n1 mark: Calculates one value correctly, or uses a correct method with an incorrect final answer",
-                    "keywords": [
-                      "percentage error",
-                      "range",
-                      "mean",
-                      "accepted value",
-                      "readings",
-                      "unrounded mean"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12WS-05"
-                    ],
-                    "markerNotes": [
-                      "Show the sum and the divisor for the mean, so the marker can see that all five values were used.",
-                      "Percentage error uses the difference from the accepted value, divided by the accepted value and multiplied by 100.",
-                      "Follow the rounding instruction in the question: rounding the mean first changes the percentage error."
-                    ],
-                    "commonStudentErrors": [
-                      "Divides the sum by four, or leaves out one reading when summing.",
-                      "Uses the measured value rather than the accepted value as the denominator in the percentage error.",
-                      "Rounds the mean to 12.9 before calculating the percentage error, giving 7.5 per cent rather than 7.2 per cent."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Mean of the five readings: (12.4 + 13.1 + 12.8 + 12.6 + 13.4) ÷ 5 = 64.3 ÷ 5 = 12.86 mmol/L. Range: 13.4 − 12.4 = 1.0 mmol/L. Percentage error, using the unrounded mean: |12.86 − 12.0| ÷ 12.0 × 100 = 0.86 ÷ 12.0 × 100 = 7.2%.",
-                        "feedback": "Calculates the mean, range and percentage error correctly, using the unrounded mean and the accepted value, with units shown.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Mean: 64.3 ÷ 5 = 12.86 mmol/L. Range: 13.4 − 12.4 = 1.0 mmol/L.",
-                        "feedback": "Calculates the mean and range correctly, but the percentage error is not attempted, which meets the 2-mark row.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "Percentage error = 0.9 ÷ 12.0 × 100 = 7.5%.",
-                        "feedback": "Uses a correct method, but the rounded mean of 12.9 gives the wrong final answer, which meets the 1-mark row.",
-                        "band": 1
-                      }
-                    ]
-                  },
-                  {
-                    "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0-n1",
-                    "question": "APPLY the mean and standard deviation of the six replicate values to decide whether a seventh sample of 5.5 mg is consistent with the other six, and state what the student should do next.",
-                    "verb": "APPLY",
-                    "totalMarks": 6,
-                    "scenario": "Hypothetical: A student measures the dry mass of six replicate samples of dried pondweed, obtaining 4.2, 4.8, 5.1, 4.5, 5.0 and 4.6 mg. The sample standard deviation is calculated using s = √[Σ(x − mean)² ÷ (n − 1)]. A seventh sample gives 5.5 mg.",
-                    "markingCriteria": "6 marks: Calculates the mean as 4.7 mg and the standard deviation as 0.33 mg, shows that 5.5 mg lies more than two standard deviations above the mean, and states that a repeat measurement is needed before deciding whether it is an error\n5 marks: Calculates the mean and standard deviation correctly, and shows that 5.5 mg lies outside the expected range, with one minor error in the reasoning or units\n4 marks: Calculates the mean and standard deviation with one error, and compares 5.5 mg with the expected range\n3 marks: Calculates the mean or the standard deviation correctly, and makes a relevant comparison\n2 marks: Calculates either the mean or the standard deviation, without comparing 5.5 mg with the other samples\n1 mark: Provides some relevant information about the standard deviation or the replicate samples",
-                    "keywords": [
-                      "standard deviation",
-                      "mean",
-                      "replicate",
-                      "uncertainty",
-                      "consistent",
-                      "sample"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12WS-04",
-                      "BI-12WS-05"
-                    ],
-                    "markerNotes": [
-                      "Show each step of the standard deviation calculation, including the squared deviations and the division by n − 1, so the marker can check each stage.",
-                      "Judge the seventh value against the expected range, and say how many standard deviations it lies from the mean.",
-                      "An unusual value is not automatically wrong: recommend a check or repeat before deciding it is an error, and say what the uncertainty in the measurement might be."
-                    ],
-                    "commonStudentErrors": [
-                      "Divides by n rather than n − 1, giving a standard deviation of 0.31 mg instead of 0.33 mg.",
-                      "Rejects the 5.5 mg value as an error without checking or repeating the measurement.",
-                      "Uses the range of the six values as if it were the standard deviation."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0-n1-s1",
-                        "source": "AI",
-                        "mark": 6,
-                        "answer": "Mean = (4.2 + 4.8 + 5.1 + 4.5 + 5.0 + 4.6) ÷ 6 = 28.2 ÷ 6 = 4.7 mg. Squared deviations from the mean: 0.25, 0.01, 0.16, 0.04, 0.09 and 0.01, with a sum of 0.56. Sample standard deviation s = √(0.56 ÷ 5) = √0.112 = 0.33 mg. Two standard deviations either side of the mean gives 4.7 ± 0.67 mg, or 4.03 to 5.37 mg. The seventh sample of 5.5 mg lies outside this range, 0.8 mg above the mean and about 2.4 standard deviations away, so it is not consistent with the other six replicate samples. The student should not discard it as an error yet, but should repeat the weighing and check the balance and handling of the sample, to determine whether the value reflects a real difference or uncertainty in the measurement.",
-                        "feedback": "Calculates the mean and standard deviation correctly, places 5.5 mg more than two standard deviations from the mean, and recommends a repeat measurement before judging the value an error. The sample standard deviation is applied in full.",
-                        "band": 4
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0-n1-s2",
-                        "source": "AI",
-                        "mark": 4,
-                        "answer": "Mean = 4.7 mg and standard deviation = 0.5 mg. Two standard deviations gives 3.7 to 5.7 mg, so the 5.5 mg sample is within the range and is consistent with the other six samples.",
-                        "feedback": "The mean is correct, but the standard deviation is wrong, and the conclusion follows from it. This meets the 4-mark row: one error, with a comparison to the range.",
-                        "band": 3
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-5-3-n0-n1-s3",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "The mean of the six samples is 4.7 mg.",
-                        "feedback": "Calculates the mean without a standard deviation or comparison with 5.5 mg, which meets the 2-mark row.",
-                        "band": 2
-                      }
-                    ]
-                  }
-                ]
+                "prompts": []
               },
               {
                 "id": "dp-bio-12-year-12-working-scientifically-5-4",
@@ -16537,10 +15879,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The plants are in different light, so the investigation is not valid. The results could be reliable.",
-                        "feedback": "Identifies the difference in light and comments on validity, but the comment on reliability has no reason, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Identifies the difference in light and comments on validity, but the comment on reliability has no reason, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-4-n0-n1-s3",
@@ -16722,10 +16064,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Improvements: replicate each temperature three times and use a water bath to hold the temperature steady. Further investigation: test more temperatures between 30 °C and 50 °C to find where the activity drops.",
                         "feedback": "Two relevant improvements, but the justification is limited and the investigation does not test denaturation.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-5-6-n0-n1-s3",
@@ -16840,10 +16182,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Resistant beetles already exist in the population, so the insecticide selects for them. Rotating insecticides and leaving untreated refuge areas would slow the spread of resistance.",
                         "feedback": "Applies the principle to two relevant actions, but the justification is limited and monitoring is not included.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-1-n0-n1-s3",
@@ -16861,59 +16203,6 @@
                 "id": "dp-bio-12-year-12-working-scientifically-6-2",
                 "description": "Use modelling and cause-and-effect relationships, including mathematical examples, to make predictions, explain phenomena, and solve problems",
                 "prompts": [
-                  {
-                    "id": "prompt-bio-12-year-12-working-scientifically-6-2-n0",
-                    "question": "PREDICT the number of cells in the culture after 3 hours, using the model. State one assumption that this prediction makes.",
-                    "verb": "PREDICT",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A laboratory culture of a bacterium starts with 500 cells in a nutrient broth at a constant 37 °C and divides every 30 minutes under these conditions. A student uses the model N = N0 × 2^(t/g), where N0 is the starting number of cells, t is the time elapsed in minutes and g is the generation time in minutes.",
-                    "markingCriteria": "3 marks: Predicts the cell number correctly using six generations and states a relevant assumption\n2 marks: Predicts the cell number with a calculation error, or states an assumption without a prediction\n1 mark: Identifies the number of generations in three hours",
-                    "keywords": [
-                      "model",
-                      "generation time",
-                      "assumption",
-                      "cells",
-                      "exponential growth",
-                      "predictions"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12WS-06"
-                    ],
-                    "markerNotes": [
-                      "The working must show the number of generations (180 ÷ 30 = 6) before the value, so the mark can be traced.",
-                      "The assumption should be about the conditions that make the model valid, such as unlimited nutrients."
-                    ],
-                    "commonStudentErrors": [
-                      "Uses 3 hours as 3 generations, or 3 × 30 minutes instead of 180 minutes.",
-                      "States the assumption as 'the bacteria will grow' rather than the condition that makes the model valid."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-6-2-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Three hours is 180 minutes, which is 180 ÷ 30 = 6 generations at a generation time of 30 minutes. Using the model, N = 500 × 2^6 = 500 × 64 = 32 000 cells. One assumption is exponential growth with no lag phase and unlimited nutrients for the whole period, so these predictions apply only while those conditions hold.",
-                        "feedback": "Converts the time to six generations, applies the model correctly and states a suitable assumption of exponential growth.",
-                        "band": 3
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-6-2-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "The culture will have about 32 000 cells. One assumption is that the nutrients do not run out.",
-                        "feedback": "Gives the correct value but shows no working, so the calculation cannot be traced.",
-                        "band": 2
-                      },
-                      {
-                        "id": "prompt-bio-12-year-12-working-scientifically-6-2-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "There are six generations in three hours.",
-                        "feedback": "Identifies the number of generations but does not calculate the prediction or state an assumption.",
-                        "band": 1
-                      }
-                    ]
-                  },
                   {
                     "id": "prompt-bio-12-year-12-working-scientifically-6-2-n0-n1",
                     "question": "DISCUSS the reliability of this model as a prediction of the population after 24 hours, including the cause-and-effect factors that would limit growth.",
@@ -16953,10 +16242,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The predicted 1.4 × 10¹⁷ cells is too high because nutrients will run out. The population would level off at a carrying capacity, so the model is not reliable for 24 hours.",
                         "feedback": "Gives a reliability judgement with one limiting factor and a cause-and-effect link, but does not explain the lag phase or the early phase.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-2-n0-n1-s3",
@@ -17066,18 +16355,18 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Randomise the positions of the seedlings and measure the light at each position. Use more seedlings in each group so the results are more reliable.",
                         "feedback": "Two relevant changes, but the replication is not specified and the justification is limited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-3-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Use more seedlings and repeat the investigation.",
                         "feedback": "Identifies a general change with no link to the new evidence.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -17179,10 +16468,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The later study is better because it used more mice and blinded scoring, so the original hypothesis is probably wrong and the original scientists should have been more careful.",
                         "feedback": "Makes a judgement with reasons, but overstates it by concluding the hypothesis is wrong and blaming the original scientists.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-6-4-n0-n1-s3",
@@ -17298,10 +16587,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The club's conclusion is not well supported because the cows were not randomly allocated, so other differences between the groups could explain the result. The report should be peer reviewed before the claim is accepted.",
                         "feedback": "Gives an argument with one relevant limitation and a limited reference to peer review, without the stronger design recommendations.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-1-n0-n1-s3",
@@ -17410,10 +16699,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A 5-minute oral presentation is good for the faculty because they can ask questions. A written summary is good for the growers because they can read it again.",
                         "feedback": "Justifies the medium for each audience with limited reference to language and evidence.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-2-n0-n1-s3",
@@ -17523,10 +16812,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Escherichia coli cells measured 4.5 × 10⁻⁶ m in length after growth at 37 °C for 2 h in 30 mL of broth. The name should be italicised and the volume should use mL.",
                         "feedback": "Corrects the name, the length, the temperature and the volume, but explains the corrections only briefly.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-3-n0-n1-s3",
@@ -17636,10 +16925,10 @@
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The scientist should tell residents the toxin levels were below the guideline value at two sites and above it at one site, and explain what toxin means.",
                         "feedback": "Uses evidence and a definition for the community, but does not state the uncertainty or give a practical message.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-year-12-working-scientifically-7-4-n0-n1-s3",
@@ -17880,10 +17169,10 @@
                       {
                         "id": "prompt-bio-12-heredity-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The start codon AUG is read first, and its tRNA carries methionine. The next codons code phenylalanine and alanine, which are joined by peptide bonds. The UAA codon is a stop codon, so the polypeptide ends.",
                         "feedback": "Identifies the amino acids and the stop codon, but does not give the anticodons or show how each tRNA pairs with its codon.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-2-n0-n1-s3",
@@ -18301,10 +17590,10 @@
                       {
                         "id": "prompt-bio-12-heredity-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Valine replaces glutamic acid, so the primary structure is different. Valine is hydrophobic, which changes how the haemoglobin interacts. When oxygen is low, the molecules stick together and the red blood cells change shape, which reduces oxygen transport.",
                         "feedback": "Explains the change in primary structure and its effect on function, but does not show how the tertiary or quaternary structure is affected.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-6-n0-n1-s3",
@@ -18417,10 +17706,10 @@
                       {
                         "id": "prompt-bio-12-heredity-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Enzymes catalyse reactions, which is important for survival. However, other proteins also matter, such as collagen for structure and haemoglobin for transport. Insulin is a hormone and is also a protein.",
                         "feedback": "Gives accurate functions and a basic judgement, but the comparison of importance is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-7-n0-n1-s3",
@@ -18597,10 +17886,10 @@
                       {
                         "id": "prompt-bio-12-heredity-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Genotype determines the phenotype of a plant, but the hydrangea example shows that soil pH also changes flower colour. So phenotype is not determined only by genotype. Blood group is mainly determined by genotype.",
                         "feedback": "Uses an accurate example and a contrasting trait, but the judgement about the extent of the claim is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-9-n0-n1-s3",
@@ -18829,10 +18118,10 @@
                       {
                         "id": "prompt-bio-12-heredity-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "siRNA can be designed to match an mRNA and so silence a gene, which would reduce enzyme production in the fruit. It could be useful in agriculture. However, it may not work in every cell.",
                         "feedback": "Discusses one application with some accurate detail, but the limitation is vague and the judgement is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-11-n0-n1-s3",
@@ -18945,18 +18234,18 @@
                       {
                         "id": "prompt-bio-12-heredity-1-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Epigenetic changes can change which genes are expressed, so two identical twins can have different phenotypes. Methylation in the scenario may switch genes off. However, other factors also affect phenotype.",
                         "feedback": "Explains the link between methylation and phenotype, but does not weigh the extent of the epigenetic contribution.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-12-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Epigenetic changes can cause different phenotypes.",
                         "feedback": "Identifies an influence on phenotype with no assessment.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -19059,10 +18348,10 @@
                       {
                         "id": "prompt-bio-12-heredity-1-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "DNA stores genetic information, but that information is used through polypeptide synthesis to make proteins. Enzymes and haemoglobin made this way carry out essential functions in living things, so the claim that polypeptide synthesis is minor is not supported.",
-                        "feedback": "Meets the 5-mark row by making a judgement on the claim, supported by some relevant evidence about enzymes and haemoglobin. The evidence is general and the reasoning about storage versus expression is not developed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by making a judgement on the claim, supported by some relevant evidence about enzymes and haemoglobin. The evidence is general and the reasoning about storage versus expression is not developed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-1-13-n0-n1-s3",
@@ -19179,18 +18468,18 @@
                       {
                         "id": "prompt-bio-12-heredity-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Plant X has one gene for flower colour, with two alleles, P and p. Its genotype is Pp, but the purple colour is the phenotype, not the genotype.",
-                        "feedback": "Meets the 4-mark row by distinguishing the gene from the alleles and referring to the genotype. The answer does not explicitly correct the student's statement that P and p are two genes.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by distinguishing the gene from the alleles and referring to the genotype. The answer does not explicitly correct the student's statement that P and p are two genes.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-2-1-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Plant X has the genotype Pp.",
-                        "feedback": "Meets the 2-mark row by describing the genotype of plant X. The gene, the alleles and the errors in the notes are not addressed.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by describing the genotype of plant X. The gene, the alleles and the errors in the notes are not addressed.",
+                        "band": 1
                       }
                     ]
                   }
@@ -19355,10 +18644,10 @@
                       {
                         "id": "prompt-bio-12-heredity-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The heterozygote has medium leaves, an intermediate phenotype, so neither allele is fully dominant. This is not codominance, as the medium leaves are not both parental traits.",
-                        "feedback": "Meets the 4-mark row by identifying the intermediate phenotype and referring to codominance. The 1:2:1 ratio is not analysed, and the codominance comparison is brief.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by identifying the intermediate phenotype and referring to codominance. The 1:2:1 ratio is not analysed, and the codominance comparison is brief.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-2-3-n0-n1-s3",
@@ -19469,10 +18758,10 @@
                       {
                         "id": "prompt-bio-12-heredity-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The ABO blood group gene has three alleles, IA, IB and i, so people can have blood group A, B, AB or O. Two alleles would give fewer blood groups, so three alleles produce more phenotypes.",
-                        "feedback": "Meets the 4-mark row by describing the ABO alleles and phenotypes. The discussion of the genotype combinations and why the number of phenotypes rises is limited.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by describing the ABO alleles and phenotypes. The discussion of the genotype combinations and why the number of phenotypes rises is limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-2-4-n0-n1-s3",
@@ -19489,127 +18778,12 @@
               {
                 "id": "dp-bio-12-heredity-2-5",
                 "description": "Use Punnett squares to solve inheritance problems, including autosomal dominant/recessive, codominance, incomplete dominance, multiple alleles and sex-linked",
-                "prompts": [
-                  {
-                    "id": "prompt-bio-hsc-2022-22",
-                    "question": "Eggplant fruit comes in three colours: dark purple, white and violet. A genetic cross between the dark purple and white eggplants will always result in the violet phenotype. What phenotypic ratio would you expect to see when two violet offspring are crossed? Show your working.",
-                    "totalMarks": 3,
-                    "verb": "PREDICT",
-                    "linkedOutcomes": [
-                      "BI-12-01"
-                    ],
-                    "markerNotes": [
-                      "The ratio has to come from the cross: the parental genotypes first (PW crossed with PW, since both parents are violet), then the offspring genotypes, then the phenotype counts.",
-                      "A bare ratio with no genotypes or working earns one mark. The same ratio shown with genotypes and a Punnett square earns the full three.",
-                      "Violet is a third phenotype, not a dominant-recessive outcome, so the answer is three phenotypes in a 1 : 2 : 1 ratio. A 3 : 1 ratio shows the heterozygote was treated as dominant."
-                    ],
-                    "commonStudentErrors": [
-                      "Gives a 3 : 1 ratio, treating violet as the dominant phenotype of a dominant-recessive pair.",
-                      "Writes 1 : 2 : 1 without naming which phenotype each number refers to.",
-                      "Gives the ratio with no parental genotypes or Punnett square, so the working is missing."
-                    ],
-                    "keywords": [
-                      "incomplete dominance",
-                      "codominance",
-                      "Punnett square",
-                      "genotype",
-                      "phenotype",
-                      "phenotypic ratio",
-                      "heterozygote",
-                      "alleles"
-                    ],
-                    "markingCriteria": "3 marks: Provides the correct phenotypic ratio of the offspring; Provides correct parental genotypes and suitable working\n2 marks: Provides the correct phenotypic ratio of the offspring; Provides some suitable working OR Identifies correct parental genotypes; Provides suitable working OR Provides appropriate parental genotypes; Provides suitable working and relevant phenotypic ratio\n1 mark: Provides some relevant information",
-                    "sampleAnswers": [
-                      {
-                        "id": "sa-bio-hsc-2022-22-1",
-                        "source": "HSC_EXEMPLAR",
-                        "mark": 3,
-                        "answer": "Both colours are dominant due to blending/both being expressed.\nDark purple = PP\nWhite =WW\nViolet = PW\n[Punnett square: P and W across the top and down the side; PP, PW / PW, WW.]\nPhenotypic ratio\nDark purple : Violet : White\n1 : 2 : 1",
-                        "feedback": "Meets the 3-mark row with the correct phenotypic ratio, parental genotypes and a Punnett square. The printed sample keeps the typo \"White =WW\" and uses \"dominant\" loosely for a blend, so \"incomplete dominance\" is the precise term.",
-                        "band": 3
-                      },
-                      {
-                        "id": "sa-bio-hsc-2022-22-2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "The violet parents are both PW. Their offspring are 1 dark purple (PP) : 2 violet (PW) : 1 white (WW), so the phenotypic ratio is 1 : 2 : 1.",
-                        "feedback": "Meets the 2-mark row with the correct ratio and parental genotypes. The offspring genotypes are stated without a Punnett square or working, so it does not reach the 3-mark row.",
-                        "band": 2
-                      },
-                      {
-                        "id": "sa-bio-hsc-2022-22-3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "Violet is a blend of the two parent colours, so the ratio is probably 3 : 1.",
-                        "feedback": "Meets the 1-mark row by identifying violet as a blend of the parent colours. The 3 : 1 ratio is the dominant-recessive pattern, which does not fit a blend, and no genotypes or working are given.",
-                        "band": 1
-                      }
-                    ],
-                    "isPastHSC": true,
-                    "hscYear": 2022,
-                    "hscQuestionNumber": "22",
-                    "hscSection": "Section II (80 marks). Attempt Questions 21–32. Allow about 2 hours and 25 minutes for this section."
-                  }
-                ]
+                "prompts": []
               },
               {
                 "id": "dp-bio-12-heredity-2-6",
                 "description": "Explain the difference in genotype and phenotype ratios observed in Punnett squares for sex-linked and autosomal inheritance",
                 "prompts": [
-                  {
-                    "id": "prompt-bio-12-heredity-2-6-n0",
-                    "question": "Predict the genotype ratio of all the offspring, and the phenotype ratio of the sons, from this cross.",
-                    "verb": "PREDICT",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A sex-linked gene on the X chromosome has two alleles: XA for normal colour vision and Xa for the recessive allele that causes colour blindness. A female carrier with genotype XAXa is crossed with a male with genotype XAY.",
-                    "markingCriteria": "3 marks: Predicts both the genotype ratio of all offspring and the phenotype ratio of the sons, with the allele combination of each offspring genotype\n2 marks: Predicts one of the two ratios correctly, or identifies the offspring genotypes without both ratios\n1 mark: Identifies the X chromosome as the location of the gene in this cross",
-                    "keywords": [
-                      "genotype ratio",
-                      "phenotype ratio",
-                      "sex-linked",
-                      "X chromosome",
-                      "carrier",
-                      "offspring"
-                    ],
-                    "markerNotes": [
-                      "The top row needs both ratios, built from the female's two X alleles and the male's X and Y.",
-                      "A 1:2:1 genotype ratio is the autosomal pattern for a heterozygous cross; this sex-linked cross gives four genotypes, including two males.",
-                      "Sons receive their X chromosome from the mother, so the phenotype ratio is taken from the sons only."
-                    ],
-                    "commonStudentErrors": [
-                      "Gives a 1:2:1 genotype ratio, which applies to an autosomal cross of two heterozygotes, not to this sex-linked cross.",
-                      "Predicts the phenotype ratio from all offspring, rather than from the sons only."
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12-01"
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-heredity-2-6-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "The carrier mother produces XA and Xa eggs in equal numbers, and the male produces XA and Y sperm. The sex-linked genotype ratio of all offspring is 1 XAXA : 1 XAXa : 1 XAY : 1 XaY. Each son receives one X chromosome from the mother, so the phenotype ratio of the sons is 1 normal to 1 colour blind.",
-                        "feedback": "Meets the 3-mark row by predicting both ratios with the correct allele combinations. The sons are correctly taken as the basis for the phenotype ratio.",
-                        "band": 3
-                      },
-                      {
-                        "id": "prompt-bio-12-heredity-2-6-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "The sons have the genotypes XAY and XaY, so some sons will be colour blind.",
-                        "feedback": "Meets the 2-mark row by identifying the sons' genotypes but not predicting either ratio. The answer does not give a numerical ratio.",
-                        "band": 2
-                      },
-                      {
-                        "id": "prompt-bio-12-heredity-2-6-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "The gene is on the X chromosome.",
-                        "feedback": "Meets the 1-mark row by identifying the X chromosome as the location of the gene. No ratio is predicted.",
-                        "band": 1
-                      }
-                    ]
-                  },
                   {
                     "id": "prompt-bio-12-heredity-2-6-n0-n1",
                     "question": "Analyse both Punnett squares to explain the difference in their genotype and phenotype ratios.",
@@ -19649,10 +18823,10 @@
                       {
                         "id": "prompt-bio-12-heredity-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Cross 1 gives three genotypes in a 1:2:1 ratio, so the phenotype ratio is 3:1. Cross 2 gives four genotypes, because the mother has two different X alleles and the father passes on either an X or a Y.",
-                        "feedback": "Meets the 4-mark row by giving correct genotype and phenotype ratios for both crosses. The explanation of why the sex-linked cross differs is limited and does not discuss the sex-specific phenotypes.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by giving correct genotype and phenotype ratios for both crosses. The explanation of why the sex-linked cross differs is limited and does not discuss the sex-specific phenotypes.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-2-6-n0-n1-s3",
@@ -20343,18 +19517,18 @@
                       {
                         "id": "prompt-bio-12-heredity-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Individual P has a missense mutation, which changes one amino acid in the polypeptide. Individual Q has a frameshift mutation, which changes the codons after the deletion.",
-                        "feedback": "Meets the 4-mark row by identifying both mutations and describing their effects in general terms. Specific codon and amino acid detail is missing, so the answer does not reach the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by identifying both mutations and describing their effects in general terms. Specific codon and amino acid detail is missing, so the answer does not reach the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Individual Q has a frameshift mutation.",
-                        "feedback": "Meets the 2-mark row by identifying one mutation type. Its effect on the polypeptide is not described.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one mutation type. Its effect on the polypeptide is not described.",
+                        "band": 1
                       }
                     ]
                   }
@@ -20456,10 +19630,10 @@
                       {
                         "id": "prompt-bio-12-heredity-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The mutation is a translocation, because segments have moved between two chromosomes. Overall, no genetic material is gained or lost, because each segment is still present.",
-                        "feedback": "Meets the 4-mark row by deducing the translocation and explaining the genetic material involved. The consequences of breakpoints or meiosis are not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by deducing the translocation and explaining the genetic material involved. The consequences of breakpoints or meiosis are not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-5-n0-n1-s3",
@@ -20570,10 +19744,10 @@
                       {
                         "id": "prompt-bio-12-heredity-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Individual 1 has a point mutation that may change one amino acid in the protein. Individual 2 has a chromosomal mutation that deletes many genes, so the effect is likely to be larger.",
-                        "feedback": "Meets the 4-mark row by identifying both mutations and describing their likely effects in general terms. The reasoning about the number of amino acids and genes is limited.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by identifying both mutations and describing their likely effects in general terms. The reasoning about the number of amino acids and genes is limited.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-6-n0-n1-s3",
@@ -20870,10 +20044,10 @@
                       {
                         "id": "prompt-bio-12-heredity-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The C allele is in 60% of the disease alleles and 35% of control alleles, so it is more common in cases. This suggests a link.",
-                        "feedback": "Meets the 4-mark row by identifying the higher C allele frequency in cases. The comment on the association is limited and there is no limitation or comment on proof.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by identifying the higher C allele frequency in cases. The comment on the association is limited and there is no limitation or comment on proof.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-9-n0-n1-s3",
@@ -20984,10 +20158,10 @@
                       {
                         "id": "prompt-bio-12-heredity-3-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "SNP testing gives an association, not a certain diagnosis, and a SNP may only slightly increase risk. The database was built mostly from people of European ancestry, which is a constraint for this patient.",
-                        "feedback": "Meets the 4-mark row by identifying a limitation of SNP testing and a constraint of the database. The reasoning about their effect on treatment is limited.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by identifying a limitation of SNP testing and a constraint of the database. The reasoning about their effect on treatment is limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-heredity-3-10-n0-n1-s3",
@@ -22069,10 +21243,10 @@
                       {
                         "id": "prompt-bio-12-diseases-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Use broth cultures at 4 °C, 20 °C, 37 °C and 50 °C, held for an hour. Spread samples on agar plates and incubate them at 37 °C, then count the colonies. Wear gloves when handling the culture.",
-                        "feedback": "Meets the 4-mark row: several relevant steps are given, including temperatures, but there are no replicates and no dilution step.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: several relevant steps are given, including temperatures, but there are no replicates and no dilution step.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-7-n0-n1-s3",
@@ -22185,10 +21359,10 @@
                       {
                         "id": "prompt-bio-12-diseases-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Interleukin-12 from innate cells drives helper T cells towards Th1 responses, which activate macrophages against bacteria. Interleukin-4 drives helper T cells towards Th2 responses, which help against parasites. So the innate signals decide the type of adaptive response.",
-                        "feedback": "Meets the 4-mark row: both signals and their outcomes are discussed with some reasoning, but the link to each patient is brief.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: both signals and their outcomes are discussed with some reasoning, but the link to each patient is brief.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-8-n0-n1-s3",
@@ -22301,10 +21475,10 @@
                       {
                         "id": "prompt-bio-12-diseases-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Cytotoxic T cells keep killing infected liver cells, so the liver is damaged. Suppressor T cells normally stop this, so the patient may get autoimmune damage. The rising liver enzymes show that liver cells are being damaged.",
-                        "feedback": "Meets the 4-mark row: describes consequences with some links to the blood test, but the falling viral load is not discussed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: describes consequences with some links to the blood test, but the falling viral load is not discussed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-9-n0-n1-s3",
@@ -22675,10 +21849,10 @@
                       {
                         "id": "prompt-bio-12-diseases-2-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Immunoglobulin gives immediate passive protection, but the antibodies break down over time. The vaccine causes the patient to make their own antibodies and memory cells, which gives long-term active immunity.",
-                        "feedback": "Meets the 4-mark row: describes passive and active protection with a reason for using both, but does not explain why the timing matters.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: describes passive and active protection with a reason for using both, but does not explain why the timing matters.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-12-n0-n1-s3",
@@ -22980,10 +22154,10 @@
                       {
                         "id": "prompt-bio-12-diseases-2-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Laboratory results show the extract kills bacteria, but clinical trials in people are needed to show it heals wounds. The concentration and safety of the oil on skin must also be tested before any recommendation.",
-                        "feedback": "Meets the 4-mark row: discusses evidence from laboratory and clinical trials with some reasoning, but does not address consent or Aboriginal knowledge.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: discusses evidence from laboratory and clinical trials with some reasoning, but does not address consent or Aboriginal knowledge.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-15-n0-n1-s3",
@@ -23096,10 +22270,10 @@
                       {
                         "id": "prompt-bio-12-diseases-2-16-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Vaccination protects people through herd immunity, but 90% coverage is below the level needed to stop measles spreading. Isolating infected people helps, but measles is infectious before the rash appears, so isolation alone is limited.",
-                        "feedback": "Meets the 4-mark row: both measures are discussed with some reasoning about transmission, but the judgement on the outbreak is not developed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: both measures are discussed with some reasoning about transmission, but the judgement on the outbreak is not developed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-diseases-2-16-n0-n1-s3",
@@ -23328,10 +22502,10 @@
                       {
                         "id": "prompt-bio-12-diseases-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Experimental studies show cause better because participants are assigned at random. However, they are costly and may be unethical for a harmful habit. Analytical studies are cheaper but can only show association, and confounding may affect the result.",
-                        "feedback": "Describes features of both designs with some reasoning about their strengths and limitations, which meets the 4-mark row. It lacks a developed judgement about suitability.",
-                        "band": 3
+                        "feedback": "Describes features of both designs with some reasoning about their strengths and limitations, which meets the 3-mark row. It lacks a developed judgement about suitability.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-2-n0-n1-s3",
@@ -23533,59 +22707,6 @@
                 "description": "Distinguish between incidence, prevalence, morbidity and mortality as used in epidemiological studies",
                 "prompts": [
                   {
-                    "id": "prompt-bio-12-diseases-3-5-n0",
-                    "question": "Calculate the incidence rate, per 1000 people per year, and the mortality rate, per 100 000 people per year, for the disease in the scenario.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A town has 50 000 residents, and none of them had the disease at the start of the year. During the year, 300 new cases were diagnosed and 40 people died from the disease.",
-                    "markingCriteria": "3 marks: Calculates both rates correctly with units, showing the working\n2 marks: Calculates one rate correctly, or both rates with an error in units\n1 mark: Identifies the correct number of new cases or deaths for the calculation",
-                    "keywords": [
-                      "incidence",
-                      "mortality",
-                      "new cases",
-                      "per 1000",
-                      "per 100 000",
-                      "population"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12-02"
-                    ],
-                    "markerNotes": [
-                      "Show the working, because a correct final rate with units is needed for full marks and the working earns marks even if the rate is wrong.",
-                      "The denominator is the population at risk, which here is all residents because none had the disease at the start of the year."
-                    ],
-                    "commonStudentErrors": [
-                      "Uses the 40 deaths as the incidence, mixing up mortality with incidence.",
-                      "Expresses the mortality rate per 1000 people, so the units do not match the question."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-diseases-3-5-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Incidence = 300 new cases ÷ 50 000 people = 0.006, which is 6 new cases per 1000 people per year. Mortality rate = 40 deaths ÷ 50 000 people = 0.0008, which is 80 deaths per 100 000 people per year. The denominator is the whole population, because none of the residents had the disease at the start of the year, so all were at risk.",
-                        "feedback": "Both rates are calculated correctly with units and the working is shown, which meets the 3-mark row.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-diseases-3-5-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Incidence = 300 ÷ 50 000 = 6 per 1000 people per year.",
-                        "feedback": "Calculates one rate correctly, which meets the 2-mark row. The mortality rate is missing.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-diseases-3-5-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "The 300 new cases are used in the incidence calculation.",
-                        "feedback": "Identifies the correct number for the calculation, which meets the 1-mark row.",
-                        "band": 1
-                      }
-                    ]
-                  },
-                  {
                     "id": "prompt-bio-12-diseases-3-5-n0-n1",
                     "question": "Distinguish between incidence and prevalence, and between morbidity and mortality, using the data in the scenario.",
                     "verb": "DISTINGUISH",
@@ -23623,10 +22744,10 @@
                       {
                         "id": "prompt-bio-12-diseases-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Incidence is the 200 new cases each year, whereas prevalence is about 3 000 existing cases at any one time, so prevalence is much larger.",
-                        "feedback": "Distinguishes one pair accurately with reference to the scenario, which meets the 4-mark row. Morbidity and mortality are not addressed.",
-                        "band": 3
+                        "feedback": "Distinguishes one pair accurately with reference to the scenario, which meets the 3-mark row. Morbidity and mortality are not addressed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-5-n0-n1-s3",
@@ -23799,18 +22920,18 @@
                       {
                         "id": "prompt-bio-12-diseases-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Vaccinate the 1 200 residents aged 65 and over and the 600 children aged 6 months to under 5 first, because surveillance shows they are hospitalised most. Antiviral treatment should be kept for people with severe symptoms.",
-                        "feedback": "Applies some epidemiological information to a strategy with some reasoning, which meets the 4-mark row. The allocation of the remaining doses and the timing are not addressed.",
-                        "band": 3
+                        "feedback": "Applies some epidemiological information to a strategy with some reasoning, which meets the 3-mark row. The allocation of the remaining doses and the timing are not addressed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-7-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Give the vaccine to older residents first.",
-                        "feedback": "Identifies a relevant strategy from the information, which meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies a relevant strategy from the information, which meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -23985,10 +23106,10 @@
                       {
                         "id": "prompt-bio-12-diseases-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The rate rises with outdoor hours, from 200 to 1 100 per 100 000, so there is an association. However, this does not show a causal relationship because skin type, which may be a confounder, was not measured.",
-                        "feedback": "Describes the pattern and comments on whether it shows a causal relationship, which meets the 4-mark row. The conclusion is not developed.",
-                        "band": 3
+                        "feedback": "Describes the pattern and comments on whether it shows a causal relationship, which meets the 3-mark row. The conclusion is not developed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-9-n0-n1-s3",
@@ -24098,10 +23219,10 @@
                       {
                         "id": "prompt-bio-12-diseases-3-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Herpes is associated with cervical cancer, but adjusting for sexual partners reduces the difference from 60% against 40% to 52% against 48%, so confounding is likely. HPV is found in 98% of cases, which supports a causal role.",
-                        "feedback": "Describes the pattern in the data and comments on causation for both viruses, which meets the 4-mark row. The reasoning about HPV is brief.",
-                        "band": 4
+                        "feedback": "Describes the pattern in the data and comments on causation for both viruses, which meets the 3-mark row. The reasoning about HPV is brief.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-10-n0-n1-s3",
@@ -24424,10 +23545,10 @@
                       {
                         "id": "prompt-bio-12-diseases-3-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Reported cases rise from 40 to 240 per week, but admissions only rise from 12 to 17, so part of the rise may be due to testing. One limitation is that people with mild symptoms are not tested.",
-                        "feedback": "Describes the trend and identifies a limitation, which meets the 4-mark row. The comparison with admissions is not developed into a conclusion.",
-                        "band": 3
+                        "feedback": "Describes the trend and identifies a limitation, which meets the 3-mark row. The comparison with admissions is not developed into a conclusion.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-13-n0-n1-s3",
@@ -24537,10 +23658,10 @@
                       {
                         "id": "prompt-bio-12-diseases-3-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "An epidemiological study can find the source of a cluster, as Snow's mapping of cholera deaths in 1854 did, so control measures can target it. It can also show which groups are at higher risk, which helps prevention.",
-                        "feedback": "Discusses two benefits with a relevant example, which meets the 5-mark row. No limitation or judgement is offered.",
-                        "band": 4
+                        "feedback": "Discusses two benefits with a relevant example, which meets the 3-mark row. No limitation or judgement is offered.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-diseases-3-14-n0-n1-s3",
@@ -24664,10 +23785,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Cane toads are poisonous, so native predators that eat them can die, which allows their prey to increase. Cane toads also compete with native frogs for food, so frog numbers may fall. These effects change the food web.",
-                        "feedback": "Meets the 4-mark row: two effects are described with some links to the food web, but the chain of cause and effect is brief and the consequences are not analysed in depth.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: two effects are described with some links to the food web, but the chain of cause and effect is brief and the consequences are not analysed in depth.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-1-1-n0-n1-s3",
@@ -24800,60 +23921,6 @@
                 "id": "dp-bio-12-biodiversity-1-3",
                 "description": "Interpret data to demonstrate the effects of invasive species on the local environment",
                 "prompts": [
-                  {
-                    "id": "prompt-bio-12-biodiversity-1-3-n0",
-                    "question": "Calculate the mean number of native skinks per quadrat, and the percentage decrease in native skinks from quadrat 1 to quadrat 4.",
-                    "verb": "CALCULATE",
-                    "totalMarks": 3,
-                    "scenario": "Hypothetical: A student surveys four 10 m by 10 m quadrats along a creek in a national park, where an invasive grass has spread from nearby farmland. In each quadrat the student records the percentage of ground covered by the invasive grass, the number of native plant species, and the number of native skinks seen in a one-hour search. Quadrat 1: grass 5%, 14 native plant species, 8 native skinks. Quadrat 2: grass 22%, 11 native plant species, 6 native skinks. Quadrat 3: grass 48%, 7 native plant species, 4 native skinks. Quadrat 4: grass 71%, 4 native plant species, 2 native skinks.",
-                    "markingCriteria": "3 marks: Calculates both the mean and the percentage decrease correctly, with working shown\n2 marks: Calculates one value correctly with working, or calculates both values with one error\n1 mark: Calculates one value correctly without showing working",
-                    "keywords": [
-                      "mean",
-                      "percentage decrease",
-                      "native skinks",
-                      "quadrat 1",
-                      "quadrat 4"
-                    ],
-                    "linkedOutcomes": [
-                      "BI-12-03"
-                    ],
-                    "markerNotes": [
-                      "The percentage decrease uses the starting value from quadrat 1 as the base, so the answer should divide by 8, not by 2.",
-                      "Working should be shown for each value, because the mark for the method is awarded even where a final figure is wrong.",
-                      "Accept a mean of 5 with the working 20 divided by 4, as long as the units are skinks per quadrat."
-                    ],
-                    "commonStudentErrors": [
-                      "Divides the decrease by the final value of 2 instead of the starting value of 8, which gives a 300% decrease.",
-                      "Gives the decrease as 6 skinks and does not convert it to a percentage.",
-                      "Calculates the mean using only quadrats 1 and 4."
-                    ],
-                    "sampleAnswers": [
-                      {
-                        "id": "prompt-bio-12-biodiversity-1-3-n0-s1",
-                        "source": "AI",
-                        "mark": 3,
-                        "answer": "Mean number of native skinks per quadrat = (8 + 6 + 4 + 2) ÷ 4 = 20 ÷ 4 = 5 skinks. Percentage decrease from quadrat 1 to quadrat 4 = (8 − 2) ÷ 8 × 100 = 75%. The mean uses all four quadrats, and the decrease uses the counts in quadrats 1 and 4 only.",
-                        "feedback": "Meets the 3-mark row: both values are calculated correctly with working, using all four quadrats for the mean and the starting value for the percentage.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-biodiversity-1-3-n0-s2",
-                        "source": "AI",
-                        "mark": 2,
-                        "answer": "Mean = 20 ÷ 4 = 5 skinks. Decrease = 8 − 2 = 6 skinks.",
-                        "feedback": "Meets the 2-mark row: the mean is calculated correctly with working, but the decrease is given as a number of skinks rather than a percentage.",
-                        "band": 1
-                      },
-                      {
-                        "id": "prompt-bio-12-biodiversity-1-3-n0-s3",
-                        "source": "AI",
-                        "mark": 1,
-                        "answer": "The mean number of skinks per quadrat is 5.",
-                        "feedback": "Meets the 1-mark row: one value is correct, but no working is shown and the percentage decrease is not calculated.",
-                        "band": 1
-                      }
-                    ]
-                  },
                   {
                     "id": "prompt-bio-12-biodiversity-1-3-n0-n1",
                     "question": "Analyse the data in the table to explain what the pattern suggests about the effect of invasive grass on native plants and skinks, and identify what the data cannot establish.",
@@ -25126,10 +24193,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The student is partly right, because abundance does not always show importance. However, a rare species can be a keystone species, so removing a rare species may still have a large effect on ecosystem health.",
-                        "feedback": "Meets the 4-mark row: abundance is explained as not always showing importance, with a reference to the keystone concept, but the removal experiments are not applied in detail.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: abundance is explained as not always showing importance, with a reference to the keystone concept, but the removal experiments are not applied in detail.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-1-5-n0-n1-s3",
@@ -25362,10 +24429,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Patch X has the same number of species as patch Y but less genetic variation within each species. This means it has less biodiversity than patch Y, which has more alleles.",
-                        "feedback": "Meets the 4-mark row: species number is shown not to be the whole measure, and genetic variation is referred to, but the effect of low variation is not explained.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: species number is shown not to be the whole measure, and genetic variation is referred to, but the effect of low variation is not explained.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-2-1-n0-n1-s3",
@@ -25477,10 +24544,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A larger gene pool contains more alleles, so some individuals may survive a new disease. Population S has no allele R, so it would be at greater risk than population L.",
-                        "feedback": "Meets the 4-mark row: a relevant reason about alleles and survival is given, with some use of the data, but natural selection is not explained.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row: a relevant reason about alleles and survival is given, with some use of the data, but natural selection is not explained.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-2-2-n0-n1-s3",
@@ -25910,10 +24977,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Allele frequency changes from 0.60 to 0.85 after the flood, which could be due to genetic drift because the population was small. This is consistent with drift, but natural selection cannot be ruled out without more evidence.",
-                        "feedback": "Meets the 4-mark row: the change is explained as possibly due to drift in a small population, with a limited comment on natural selection, but the evidence needed is not stated.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row: the change is explained as possibly due to drift in a small population, with a limited comment on natural selection, but the evidence needed is not stated.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-2-6-n0-n1-s3",
@@ -27583,10 +26650,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Herbicide cut cover by 90 per cent and physical removal by 60 per cent, which suggests both were successful in the short term. However, removal did not stop seedlings re-establishing, so its success is limited.",
-                        "feedback": "Meets the 4-mark row by discussing two strategies with reference to the data and making a judgement of their success. The biological control is not discussed, and the judgement of removal needs more support.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing two strategies with reference to the data and making a judgement of their success. The biological control is not discussed, and the judgement of removal needs more support.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-3-5-n0-n1-s3",
@@ -27924,10 +26991,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Mean alleles per locus and mean observed heterozygosity both increased after the program, which suggests genetic diversity improved. However, there was no comparison population, so the change cannot be confirmed as caused by the seedlings.",
-                        "feedback": "Meets the 4-mark row by identifying the changes in both measures and making a judgement, with some reference to the data. It does not develop the limitation in detail.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by identifying the changes in both measures and making a judgement, with some reference to the data. It does not develop the limitation in detail.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-3-8-n0-n1-s3",
@@ -28037,10 +27104,10 @@
                       {
                         "id": "prompt-bio-12-biodiversity-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Flooding has fallen and frog species have declined, so biodiversity may fall further if these trends continue, because fewer floods mean less breeding habitat for frogs.",
-                        "feedback": "Meets the 4-mark row by describing two trends and making a prediction about biodiversity with some reasoning. It does not extend the grass trend or state the limits of the prediction.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing two trends and making a prediction about biodiversity with some reasoning. It does not extend the grass trend or state the limits of the prediction.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biodiversity-3-9-n0-n1-s3",
@@ -29111,10 +28178,10 @@
                       {
                         "id": "prompt-bio-12-biotechnology-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Luxturna is injected into the eye, while Zolgensma is given as an infusion. Both use viruses to deliver genes.",
                         "feedback": "Describes the delivery of each therapy but does not compare the outcomes or the target tissues.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biotechnology-2-4-n0-n1-s3",
@@ -29348,10 +28415,10 @@
                       {
                         "id": "prompt-bio-12-biotechnology-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Treated participants were more often symptom-free, but three treated participants had raised liver enzymes, which controls did not.",
                         "feedback": "Describes a benefit and a risk from the table, without evaluating the strength of the evidence.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-bio-12-biotechnology-2-6-n0-n1-s3",

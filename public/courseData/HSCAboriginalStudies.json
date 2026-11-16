@@ -1,0 +1,1083 @@
+[
+  {
+    "id": "course-hsc-aboriginal-studies",
+    "name": "Aboriginal Studies",
+    "outcomes": [
+      {
+        "code": "AST-11-01",
+        "description": "examines Knowledges and interpretations of the impacts of invasion and colonisation on NSW Aboriginal Peoples",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-02",
+        "description": "investigates consequences of invasion and colonisation for NSW Aboriginal Peoples",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-03",
+        "description": "investigates NSW Aboriginal Peoples’ responses to invasion and colonisation",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-04",
+        "description": "explains the role of the Dreaming in shaping NSW Aboriginal Peoples’ Culture and connection to Country",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-05",
+        "description": "describes the Cultural, political and social significance of Country for NSW Aboriginal Peoples",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-06",
+        "description": "explains the role and significance of government policies and legal decisions on NSW Aboriginal Peoples",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-07",
+        "description": "explains NSW Aboriginal Peoples’ initiatives in response to government policies, legislation and legal decisions",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-08",
+        "description": "examines a variety of sources to share information about Aboriginal and international Indigenous Peoples’ Knowledges, histories and Cultures",
+        "year": "year11"
+      },
+      {
+        "code": "AST-11-09",
+        "description": "plans, conducts and documents Community consultation that includes Indigenous Cultural and Intellectual Property (ICIP) protocols and Indigenous Data Sovereignty (IDSov)",
+        "year": "year11"
+      },
+      {
+        "code": "AST-12-01",
+        "description": "explains Knowledges and interpretations of the impacts of invasion and colonialism on Aboriginal Peoples"
+      },
+      {
+        "code": "AST-12-02",
+        "description": "explains consequences of invasion and colonialism for Aboriginal Peoples"
+      },
+      {
+        "code": "AST-12-03",
+        "description": "analyses responses of Aboriginal Peoples to social justice and human rights issues"
+      },
+      {
+        "code": "AST-12-04",
+        "description": "analyses the significance of Aboriginal Peoples’ Cultural Knowledges, Practices and Languages"
+      },
+      {
+        "code": "AST-12-05",
+        "description": "analyses the role of Country on Aboriginal Peoples’ social, Cultural and political lives"
+      },
+      {
+        "code": "AST-12-06",
+        "description": "evaluates the role and significance of government policies and legal decisions on Aboriginal Peoples"
+      },
+      {
+        "code": "AST-12-07",
+        "description": "analyses Aboriginal Peoples’ initiatives in response to government policies, legislation and legal decisions"
+      },
+      {
+        "code": "AST-12-08",
+        "description": "analyses a variety of sources to share information about Aboriginal and international Indigenous Peoples’ Knowledges, histories and Cultures"
+      },
+      {
+        "code": "AST-12-09",
+        "description": "plans, conducts and documents Community consultation that includes Indigenous Cultural and Intellectual Property (ICIP) protocols and Indigenous Data Sovereignty (IDSov)"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-abs-11-aboriginal-community-cultural-protocols-and-ethical-research",
+        "name": "Aboriginal Community cultural protocols and ethical research practices",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-1",
+            "name": "Aboriginal Community cultural protocols",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-1-1",
+                "description": "Respect for, and appreciation of, the voices, Cultural Knowledges and Practices of Aboriginal and Torres Strait Islander Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-1-2",
+                "description": "Aboriginal Community consultation protocols, including appropriate ways of behaving and communicating",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-1-3",
+                "description": "Respect for the diversity of history, Culture, standing and status of Aboriginal Communities",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-1-4",
+                "description": "The importance of reciprocal relationships with Aboriginal Peoples and Communities",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-1-5",
+                "description": "Principles of Cultural safety, including shared respect, shared meaning and shared Knowledges",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-2",
+            "name": "Ethical research practices and methodologies",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-2-1",
+                "description": "The importance of respecting and valuing Aboriginal voices, truth-telling, Cultural Knowledges and Practices in research",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-2-2",
+                "description": "Culturally responsive research practices and Indigenous research methodologies, including the significance of selecting research methodologies that promote understandings of Aboriginal histories and Cultures, Cultural Knowledges, Practices and experiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-2-3",
+                "description": "Indigenous Cultural and Intellectual Property (ICIP) protocols, including rights to maintain, control, protect and develop intellectual property",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-community-cultural-protocols-and-ethical-research-2-4",
+                "description": "Principles of Indigenous Data Sovereignty (IDSov), including Aboriginal Peoples’ right to manage the collection, ownership and use of data",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960",
+        "name": "Aboriginal Peoples’ connection to Country pre-contact to 1960",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-1",
+            "name": "The significance of Country to Aboriginal Peoples",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-1-1",
+                "description": "The role and significance of the Dreaming in shaping Aboriginal Peoples’ connection to Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-1-2",
+                "description": "The diversity and importance of Aboriginal Peoples’ connection to Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-1-3",
+                "description": "Aboriginal Peoples’ interrelated connections with Country, kinship, Customary Lore and Customary law",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-1-4",
+                "description": "The role of Country in shaping Aboriginal Peoples’ Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-1-5",
+                "description": "Aboriginal Peoples’ caring for Country Practices",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2",
+            "name": "The impacts of invasion and colonisation on Aboriginal Peoples’ connection to Country",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2-1",
+                "description": "The impacts of invasion and the concept of terra nullius on Aboriginal Peoples’ sovereignty and relationships to Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2-2",
+                "description": "The impacts of massacres on Aboriginal Peoples’ connection to Country, including immediate and long-term impacts",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2-3",
+                "description": "The impacts of the Frontier Wars on Aboriginal Peoples’ connection to Country, including immediate and long-term impacts",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2-4",
+                "description": "The consequences of disease on Aboriginal Peoples’ connection to Country, including immediate and long-term impacts",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2-5",
+                "description": "The impacts of government legislation including the Aborigines Protection Act 1909 (NSW) on Aboriginal Peoples’ connection to Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2-6",
+                "description": "Aboriginal Peoples’ and non-Aboriginal peoples’ knowledges of and interpretations of contact history",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-2-7",
+                "description": "Respect and value Aboriginal Peoples’ Knowledges of and interpretations of contact history",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-3",
+            "name": "Aboriginal Peoples’ responses to invasion and impacts of colonisation on Aboriginal Peoples’ connection to Country",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-peoples-connection-to-country-pre-contact-to-1960-3-1",
+                "description": "Ways Aboriginal resistance fighters, activists and Communities counteracted the impacts of invasion and colonisation, including diverse forms of resistance and preservation and maintenance of Culture",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-11-aboriginal-peoples-cultural-knowledges-practices-and",
+        "name": "Aboriginal Peoples’ Cultural Knowledges, Practices and Languages pre-contact to 1960",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-1",
+            "name": "The significance of Cultural Knowledges, Practices and Languages to Aboriginal Peoples",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-1-1",
+                "description": "Significance of the Dreaming in shaping Aboriginal Peoples’ Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-1-2",
+                "description": "The diversity and importance of Aboriginal Peoples’ Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-1-3",
+                "description": "The role of Cultural Knowledges, Practices and Languages in shaping Aboriginal Peoples’ Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-1-4",
+                "description": "The social and Cultural significance of Aboriginal kinship systems",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-2",
+            "name": "The impacts of invasion and colonisation on Cultural Knowledges, Practices and Languages",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-2-1",
+                "description": "The roles and impacts of racism as a justification for invasion and colonisation",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-2-2",
+                "description": "Impacts of invasion on Aboriginal Peoples’ Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-2-3",
+                "description": "Impacts of government legislation including the Aborigines Protection Act 1909 (NSW), with reference to the Stolen Generations",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-2-4",
+                "description": "The role and impacts of the Frontier Wars on Aboriginal Peoples’ Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-2-5",
+                "description": "Impacts of Christian missions on Aboriginal Peoples’ kinship systems",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-3",
+            "name": "Responses to invasion and colonisation",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-3-1",
+                "description": "Strategies Aboriginal activists and Knowledge Holders used to counteract the impact of colonisation on Aboriginal Peoples’ Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-3-2",
+                "description": "Achievements of Aboriginal activists in counteracting the impacts of colonisation on Aboriginal Peoples’ Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-aboriginal-peoples-cultural-knowledges-practices-and-3-3",
+                "description": "Significance of the Day of Mourning protest",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-11-experiences-of-the-international-indigenous-community-pre",
+        "name": "Experiences of the international Indigenous Community pre-contact to 1960 (comparative study)",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-11-experiences-of-the-international-indigenous-community-pre-1",
+            "name": "The importance of Country, Cultural Knowledges and Practices",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-1-1",
+                "description": "The importance of the relationship to Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-1-2",
+                "description": "The roles of Cultural Knowledges, Practices and Languages in caring for Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-1-3",
+                "description": "The roles of kinship and/or social organisation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-11-experiences-of-the-international-indigenous-community-pre-2",
+            "name": "The impacts of invasion and colonisation",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-2-1",
+                "description": "The experiences and impacts of invasion and colonisation",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-2-2",
+                "description": "The impacts of government policies and legislation including protection and assimilation",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-2-3",
+                "description": "The use and impact of systemic, overt and covert racism, including its role in colonisation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-11-experiences-of-the-international-indigenous-community-pre-3",
+            "name": "Responses to colonisation",
+            "dotPoints": [
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-3-1",
+                "description": "Strategies of a key individual or group to counteract the impacts of invasion and colonisation",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-3-2",
+                "description": "Achievements of a key individual or group to counteract the impacts of invasion and colonisation",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-11-experiences-of-the-international-indigenous-community-pre-3-3",
+                "description": "The significance of key protests and responses to the impacts of colonisation",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-aboriginal-community-cultural-protocols-and-ethical-research",
+        "name": "Aboriginal Community cultural protocols and ethical research practices",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-1",
+            "name": "Aboriginal Community cultural protocols",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-1-1",
+                "description": "Respect for, and appreciation of, the voices, Cultural Knowledges and Practices of Aboriginal and Torres Strait Islander Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-1-2",
+                "description": "Aboriginal Community consultation protocols, including appropriate ways of behaving and communicating",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-1-3",
+                "description": "Respect for the diversity of history, Culture, standing and status of Aboriginal Communities",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-1-4",
+                "description": "The importance of reciprocal relationships with Aboriginal Peoples and Communities",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-1-5",
+                "description": "Principles of Cultural safety, including shared respect, shared meaning and shared Knowledges",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-2",
+            "name": "Ethical research practices and methodologies",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-2-1",
+                "description": "The importance of respecting and valuing Aboriginal voices, truth-telling, Cultural Knowledges and Practices in research",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-2-2",
+                "description": "Culturally responsive research practices and Indigenous research methodologies, including the significance of selecting research methodologies that promote understandings of Aboriginal histories and Cultures, Cultural Knowledges, Practices and experiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-2-3",
+                "description": "Indigenous Cultural and Intellectual Property (ICIP) protocols, including rights to maintain, control, protect and develop intellectual property",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-cultural-protocols-and-ethical-research-2-4",
+                "description": "Principles of Indigenous Data Sovereignty (IDSov), including Aboriginal Peoples’ right to manage the collection, ownership and use of data",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-human-rights-1960-to-present",
+        "name": "Human rights 1960 to present",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-human-rights-1960-to-present-1",
+            "name": "Human rights progress",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-1-1",
+                "description": "Role and significance of human rights for Aboriginal and international Indigenous Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-1-2",
+                "description": "Purpose and impact of the United Nations Declaration on the Rights of Indigenous Peoples (UNDRIP)",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-1-3",
+                "description": "Aboriginal and international Indigenous Peoples’ progress towards land rights, citizenship, treaty(ies) and sovereignty",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-1-4",
+                "description": "Opportunities to improve human rights outcomes for Aboriginal and international Indigenous Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-1-5",
+                "description": "The impacts of racism on human rights progress for Aboriginal and international Indigenous Peoples",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-12-human-rights-1960-to-present-2",
+            "name": "Responses and initiatives to progress human rights",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-2-1",
+                "description": "Aboriginal and international Indigenous Peoples’ responses and initiatives to address racism",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-2-2",
+                "description": "Aboriginal and international Indigenous Peoples’ responses and initiatives to improve their legal and political status",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-2-3",
+                "description": "Role of Aboriginal and international Indigenous Peoples’ advocacy groups in progressing their human rights",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-human-rights-1960-to-present-2-4",
+                "description": "Government policies, legislation and inquiries to advance Aboriginal and international Indigenous Peoples’ human rights",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-social-justice-health",
+        "name": "Social justice: Health",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-social-justice-health-1",
+            "name": "Health",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-social-justice-health-1-1",
+                "description": "The impacts of dispossession on health status",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-health-1-2",
+                "description": "The role of autonomy in determining health outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-health-1-3",
+                "description": "The relationship between health and Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-health-1-4",
+                "description": "Aboriginal and international Indigenous Peoples’ strategies and initiatives to improve health outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-health-1-5",
+                "description": "Government health programs and strategies to improve health outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-health-1-6",
+                "description": "Social and political approaches to improving health outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-health-1-7",
+                "description": "Similarities and differences in health-related challenges",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-health-1-8",
+                "description": "The role of Cultural Knowledges, Country, Practices and Languages in health outcomes",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-social-justice-education",
+        "name": "Social justice: Education",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-social-justice-education-1",
+            "name": "Education",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-social-justice-education-1-1",
+                "description": "The impacts of dispossession on access to education",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-education-1-2",
+                "description": "The role of autonomy in determining education outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-education-1-3",
+                "description": "The relationship between education and Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-education-1-4",
+                "description": "Aboriginal and international Indigenous Peoples’ strategies and initiatives to improve education outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-education-1-5",
+                "description": "Government education programs and strategies to improve education outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-education-1-6",
+                "description": "Social and political approaches to improving education opportunities and outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-education-1-7",
+                "description": "Similarities and differences in education challenges",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-education-1-8",
+                "description": "The role of Cultural Knowledges, Country, Practices and Languages in education outcomes",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-social-justice-housing",
+        "name": "Social justice: Housing",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-social-justice-housing-1",
+            "name": "Housing",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-social-justice-housing-1-1",
+                "description": "The impacts of dispossession on access to housing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-housing-1-2",
+                "description": "The role of autonomy in determining housing outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-housing-1-3",
+                "description": "The relationship between housing and Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-housing-1-4",
+                "description": "Aboriginal and international Indigenous Peoples’ strategies and initiatives to improve housing outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-housing-1-5",
+                "description": "Government programs and strategies to address housing outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-housing-1-6",
+                "description": "Social and political approaches to improving housing outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-housing-1-7",
+                "description": "Similarities and differences in housing challenges",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-housing-1-8",
+                "description": "The role of Cultural Knowledges, Country, Practices and Languages in housing outcomes",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-social-justice-employment",
+        "name": "Social justice: Employment",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-social-justice-employment-1",
+            "name": "Employment",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-social-justice-employment-1-1",
+                "description": "The impacts of dispossession on work patterns and access to employment",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-employment-1-2",
+                "description": "The role of autonomy in determining employment outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-employment-1-3",
+                "description": "The relationship between employment and Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-employment-1-4",
+                "description": "Aboriginal and international Indigenous Peoples’ strategies and initiatives to improve employment outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-employment-1-5",
+                "description": "Government programs and strategies to improve employment outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-employment-1-6",
+                "description": "Social and political approaches to improving employment status",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-employment-1-7",
+                "description": "Similarities and differences in employment challenges",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-employment-1-8",
+                "description": "The role of Cultural Knowledges, Country, Practices and Languages in employment outcomes",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-social-justice-criminal-justice-system",
+        "name": "Social justice: Criminal justice system",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-social-justice-criminal-justice-system-1",
+            "name": "Criminal justice system",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-1",
+                "description": "The impacts of dispossession on contact with and over-representation in the criminal justice system",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-2",
+                "description": "The role of autonomy in determining criminal justice outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-3",
+                "description": "The relationship between the criminal justice system and Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-4",
+                "description": "Aboriginal and international Indigenous Peoples’ strategies and initiatives to address over-representation in the criminal justice system",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-5",
+                "description": "Government programs and strategies to address the over-representation in the criminal justice system",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-6",
+                "description": "Social and political approaches to addressing the over-representation in the criminal justice system",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-7",
+                "description": "Similarities and differences in challenges with the criminal justice system",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-criminal-justice-system-1-8",
+                "description": "The role of Cultural Knowledges, Country, Practices and Languages in criminal justice system outcomes",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-social-justice-economic-independence",
+        "name": "Social justice: Economic independence",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-social-justice-economic-independence-1",
+            "name": "Economic independence",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-1",
+                "description": "The impacts of dispossession on economic independence",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-2",
+                "description": "The role of autonomy in determining economic independence outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-3",
+                "description": "The relationship between economic independence and Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-4",
+                "description": "Aboriginal and international Indigenous Peoples’ strategies and initiatives to address economic status and their impact on social factors",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-5",
+                "description": "Government economic programs and strategies to minimise economic disparity",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-6",
+                "description": "Social and political approaches to improving economic status",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-7",
+                "description": "Similarities and differences in economic independence",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-social-justice-economic-independence-1-8",
+                "description": "The role of Cultural Knowledges, Country, Practices and Languages in economic independence",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to",
+        "name": "Land, water and sky Country: Aboriginal Peoples’ connection to Country 1960 to present",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1",
+            "name": "Country, land rights, water rights and native title",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1-1",
+                "description": "The roles and significance of Country for land rights, water rights and native title",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1-2",
+                "description": "The interrelationships between land rights, water rights, native title and sovereignty",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1-3",
+                "description": "Aboriginal initiatives and key events in securing land rights",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1-4",
+                "description": "Judicial decisions, precedents and the Mabo case",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1-5",
+                "description": "Aboriginal initiatives and key events in securing native title",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1-6",
+                "description": "The importance of land rights, water rights, High Court decisions and Native Title legislation for improving and strengthening Cultural wellbeing",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-1-7",
+                "description": "The impacts of land rights, water rights, High Court decisions and Native Title legislation on autonomy",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-2",
+            "name": "Overcoming challenges to land rights, water rights and native title",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-2-1",
+                "description": "The recognition and celebration of Aboriginal Peoples’ land rights, water rights and native title achievements",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-2-2",
+                "description": "Aboriginal Peoples’ initiatives in overcoming challenges relating to land rights, water rights and native title",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-2-3",
+                "description": "Social, political and legal changes necessary to progress land rights and water rights",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-connection-to-2-4",
+                "description": "Social, political and legal changes necessary to progress native title",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural",
+        "name": "Land, water and sky Country: Aboriginal Peoples’ Cultural Knowledges, Practices and Languages 1960 to present",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-1",
+            "name": "The importance of Cultural Knowledges, Practices and Languages to Aboriginal Peoples",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-1-1",
+                "description": "The significance of Cultural Knowledges, Practices and Languages to Aboriginal and Torres Strait Islander Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-1-2",
+                "description": "The diversity of ways that Aboriginal Peoples express and celebrate their Cultural Knowledges and Practices",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-1-3",
+                "description": "Aboriginal Peoples’ initiatives to reclaim, maintain and revitalise their Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-1-4",
+                "description": "The importance of regaining rights to Country for the reclamation and maintenance of Aboriginal Peoples’ Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-1-5",
+                "description": "The recognition and celebration of Aboriginal Peoples’ Cultural Knowledges, Practices and Languages achievements",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-2",
+            "name": "The protection of Aboriginal Peoples’ rights to their Cultural Knowledges, Practices and Languages",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-2-1",
+                "description": "Government legislation and policies to protect and maintain Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-2-2",
+                "description": "The impact and influence of Aboriginal and non-Aboriginal media in Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-2-3",
+                "description": "Social, political and legal changes necessary to overcome challenges relating to Cultural Knowledges, Practices and Languages",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-land-water-and-sky-country-aboriginal-peoples-cultural-2-4",
+                "description": "Reclamation of Aboriginal Languages and the implementation of the Aboriginal Languages Act 2017 (NSW)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-abs-12-aboriginal-community-engagement-research-project",
+        "name": "Aboriginal Community engagement research project",
+        "subTopics": [
+          {
+            "id": "subtopic-abs-12-aboriginal-community-engagement-research-project-1",
+            "name": "Engage with ethical research practices",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-1-1",
+                "description": "Apply appropriate Aboriginal Community(ies) consultation protocols throughout a research process",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-1-2",
+                "description": "Uphold the principles of Cultural safety throughout a research process",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-1-3",
+                "description": "Engage in developing reciprocal relationships with Aboriginal Peoples and Communities during a research process",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-1-4",
+                "description": "Apply the principles of Indigenous Cultural and Intellectual Property (ICIP) protocols and Indigenous Data Sovereignty (IDSov) and acknowledge all sources as part of a research process",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-12-aboriginal-community-engagement-research-project-2",
+            "name": "Plan and conduct a research investigation",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-2-1",
+                "description": "Investigate key themes and concepts of Aboriginal Studies",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-2-2",
+                "description": "Outline methods of investigation and assess potential resources",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-2-3",
+                "description": "Analyse risks to the successful completion of the project",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-2-4",
+                "description": "Select and interpret research data from primary and secondary sources",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-2-5",
+                "description": "Apply appropriate research methodologies to analyse information from a variety of sources",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-2-6",
+                "description": "Respect and value Aboriginal voices as evidence of ongoing Community consultation",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-2-7",
+                "description": "Document all planning, Community consultation, research methods and ethical matters encountered",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-abs-12-aboriginal-community-engagement-research-project-3",
+            "name": "Share results of a research investigation",
+            "dotPoints": [
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-3-1",
+                "description": "Document the conceptualisation, development and progression of the Aboriginal Community engagement research project in the process journal",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-3-2",
+                "description": "Reflect on the successes, challenges and experiences of the research process",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-3-3",
+                "description": "Assess research methods used to collect and analyse data from a variety of appropriate and relevant sources",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-3-4",
+                "description": "Explain the principles of Indigenous Cultural and Intellectual Property (ICIP) protocols and Indigenous Data Sovereignty (IDSov) as they apply to the completion of the Aboriginal Community research engagement project",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-3-5",
+                "description": "Explain how Aboriginal voices have been respected and valued throughout the research and project development process",
+                "prompts": []
+              },
+              {
+                "id": "dp-abs-12-aboriginal-community-engagement-research-project-3-6",
+                "description": "Share results of the research process through an appropriately chosen medium",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

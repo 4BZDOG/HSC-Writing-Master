@@ -108,6 +108,9 @@ interface PromptDisplayProps {
   /** Focus Mode only: the card's height bounds, set by the splitter. Ignored
    *  unless `condensed`, where the card is a flex item of the focus column. */
   focusFrame?: { height?: string; maxHeight: string };
+  /** Focus Mode, side by side: the card has the height of the window, so the
+   *  scenario stays open and its Show/Hide toggle is not offered. */
+  scenarioAlwaysOpen?: boolean;
   breadcrumb?: string[];
   /** The syllabus above this question. The filler list of terms marks the ones
    *  the question names itself, so it says the same thing as the Syllabus Terms
@@ -171,11 +174,11 @@ const FOOTER_TOOL =
  * The marks and the band as chips on the header's meta line, on a phone only. The
  * verb chip's ground, edge and type, without its underline: these are facts, and
  * only the verb opens its guide by looking like it does. From `sm` the marks and
- * band move to the corner bar, and the pastHsc chip beside the verb is 28px to
+ * band move to the corner bar, and the pastHsc chip beside the verb is 24px to
  * match it, so the row lines up.
  */
 const PHONE_STAT_CHIP =
-  't-label leading-none whitespace-nowrap inline-flex items-center gap-1 bg-black/20 px-2 max-sm:px-1.5 py-1 sm:min-h-7 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm';
+  't-label leading-none whitespace-nowrap inline-flex items-center gap-1 bg-black/20 px-2 max-sm:px-1.5 py-1 sm:min-h-6 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm';
 
 /** Half the preview panel's width (w-72), used to keep it on screen. */
 const OUTCOME_PREVIEW_HALF_WIDTH = 144;
@@ -432,6 +435,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   minTotalHeight,
   condensed = false,
   focusFrame,
+  scenarioAlwaysOpen = false,
   breadcrumb,
   syllabus,
   examMode = false,
@@ -507,7 +511,12 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
   // the full box.
   const hasScenario = !!prompt.scenario || !!prompt.scenarioImage;
   const scenarioCollapsed =
-    condensed && hasScenario && !scenarioOpen && !isEditingScenario && !isUploadingImage;
+    condensed &&
+    !scenarioAlwaysOpen &&
+    hasScenario &&
+    !scenarioOpen &&
+    !isEditingScenario &&
+    !isUploadingImage;
   const scenarioPreview = prompt.scenario
     ? prompt.scenario.replace(/\s+/g, ' ').trim()
     : 'Includes an image';
@@ -809,10 +818,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                     // one visual language means "this opens the verb guide" —
                     // and so this chip stops reading as another fact chip like
                     // the "4 Marks" and "Band 2" pills it sits beside.
-                    // 28px from `sm`, to match the pastHsc chip beside it. On a phone the
+                    // 24px from `sm`, to match the pastHsc chip beside it. On a phone the
                     // chip stays 26px so the header keeps its height; its tap area is
                     // stretched to 44px by the pseudo-element instead.
-                    className={`t-label relative sm:min-h-7 leading-none whitespace-nowrap bg-black/20 px-2.5 max-sm:px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all max-sm:before:absolute max-sm:before:inset-x-0 max-sm:before:-inset-y-[9px] max-sm:before:content-[''] ${
+                    className={`t-label relative sm:min-h-6 leading-none whitespace-nowrap bg-black/20 px-2.5 max-sm:px-2 py-1 rounded-lg border border-white/15 shadow-sm backdrop-blur-sm transition-all max-sm:before:absolute max-sm:before:inset-x-0 max-sm:before:-inset-y-[9px] max-sm:before:content-[''] ${
                       examMode
                         ? 'cursor-default'
                         : 'underline decoration-dotted decoration-white/50 underline-offset-[3px] hover:bg-black/30 hover:decoration-solid hover:decoration-white active:scale-[0.98]'
@@ -1186,7 +1195,7 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
                       {scenarioPreview}
                     </p>
                   )}
-                  {condensed && hasScenario && !isEditingScenario && (
+                  {condensed && !scenarioAlwaysOpen && hasScenario && !isEditingScenario && (
                     <button
                       type="button"
                       onClick={() => {

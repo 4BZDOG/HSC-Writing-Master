@@ -341,10 +341,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-02-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Storing error patterns could help students improve, but the student data is personal and could be seen by others. The developer must be transparent about what is stored and collect only what is needed.",
-                        "feedback": "Discusses a benefit and a concern of storing error patterns, with reference to the app, which meets the 4-mark row. To reach 5 marks, discuss both sides with social, ethical and legal points.",
-                        "band": 4
+                        "feedback": "Discusses a benefit and a concern of storing error patterns, with reference to the app, which meets the 3-mark row. To reach 4 marks, discuss both sides with social, ethical and legal points.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-02-n0-n1-s3",
@@ -462,10 +462,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-03-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Privacy is a risk because interviewees and families in the photographs may not have agreed to publication. Intellectual property also matters, since the society needs permission to publish photographs it did not take.",
-                        "feedback": "Discusses privacy and intellectual property risks with reasons linked to the scenario, which meets the 4-mark row. To reach 5 marks, assess ICIP in detail, given the place name and oral stories in the scenario.",
-                        "band": 4
+                        "feedback": "Discusses privacy and intellectual property risks with reasons linked to the scenario, which meets the 3-mark row. To reach 4 marks, assess ICIP in detail, given the place name and oral stories in the scenario.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-03-n0-n1-s3",
@@ -583,10 +583,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-04-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Simulation lets drivers practise routines safely before real deliveries. Gamification with points and badges can motivate drivers to complete their online training, which supports learning, though the benefit may fade.",
-                        "feedback": "Analyses two tools, simulation and gamification, with some links to training outcomes, which meets the 4-mark row. To reach 5 marks, analyse augmented reality as well, with a clear link to driver learning.",
-                        "band": 3
+                        "feedback": "Analyses two tools, simulation and gamification, with some links to training outcomes, which meets the 3-mark row. To reach 4 marks, analyse augmented reality as well, with a clear link to driver learning.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-04-n0-n1-s3",
@@ -704,10 +704,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-05-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The VR simulation needs a powerful graphics card and a high frame rate, while the kiosk only plays video. A single workstation could run both if it has a strong enough graphics card, so the choice is reasonable.",
-                        "feedback": "Compares the two projects' hardware needs and gives a choice with a brief reason, which meets the 4-mark row. To reach 5 marks, justify the choice with hardware reasons for both projects.",
-                        "band": 4
+                        "feedback": "Compares the two projects' hardware needs and gives a choice with a brief reason, which meets the 3-mark row. To reach 4 marks, justify the choice with hardware reasons for both projects.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-05-n0-n1-s3",
@@ -825,9 +825,9 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-06-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Social media gives the filmmaker feedback on early cuts, which helps her revise the documentary. The digital creative commons provides music she can use, but she must follow the licence conditions, such as attribution.",
-                        "feedback": "Compares social media feedback with the licence conditions for music, with some reasons, which meets the 4-mark row. To reach 5 marks, develop the licence conditions and feedback risks with relevant reasons.",
+                        "feedback": "Compares social media feedback with the licence conditions for music, with some reasons, which meets the 3-mark row. To reach 4 marks, develop the licence conditions and feedback risks with relevant reasons.",
                         "band": 2
                       },
                       {
@@ -948,10 +948,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-07-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Push notifications and step counts may encourage residents to walk regularly, though the effect may fade. Voice navigation lets residents with vision impairment explore the trails without a printed map.",
-                        "feedback": "Examines one influence on walking and one accessibility feature, with some reasoning, which meets the 4-mark row. To reach 5 marks, examine both with relevant reasons in more depth.",
-                        "band": 3
+                        "feedback": "Examines one influence on walking and one accessibility feature, with some reasoning, which meets the 3-mark row. To reach 4 marks, examine both with relevant reasons in more depth.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-07-n0-n1-s3",
@@ -1070,10 +1070,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-08-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Pop-ups create urgency with a limited-time discount, so the customer may decide quickly. Autofill makes checkout faster by filling in card details, which reduces effort.",
-                        "feedback": "Analyses two techniques, pop-up urgency and autofill, with some links to behaviour, which meets the 4-mark row. To reach 5 marks, link the two techniques more clearly to the purchase decision.",
-                        "band": 3
+                        "feedback": "Analyses two techniques, pop-up urgency and autofill, with some links to behaviour, which meets the 3-mark row. To reach 4 marks, link the two techniques more clearly to the purchase decision.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-08-n0-n1-s3",
@@ -1192,10 +1192,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-09-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A crowdsourcing app connects students with community members, which builds communication skills. However, the content may be inaccurate without moderation. Massive multiplayer online games encourage teamwork, though they raise cyber safety concerns.",
-                        "feedback": "Evaluates two options, each with a benefit and a risk, which meets the 4-mark row. To reach 5 marks, weigh those benefits and risks against connection.",
-                        "band": 4
+                        "feedback": "Evaluates two options, each with a benefit and a risk, which meets the 3-mark row. To reach 4 marks, weigh those benefits and risks against connection.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-09-n0-n1-s3",
@@ -4804,10 +4804,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-02-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The workflow tracks invoices, so the firm knows where each one is, and the audit trail shows who approved each invoice. This is a benefit. However, the supervisor's weak phone signal is a limitation, because approvals may be late.",
-                        "feedback": "Explains a benefit and a limitation with links to the firm, which meets the 4-mark row. To reach 5 marks, analyse the features that cause each one and link them to the firm's approvals.",
-                        "band": 3
+                        "feedback": "Explains a benefit and a limitation with links to the firm, which meets the 3-mark row. To reach 4 marks, analyse the features that cause each one and link them to the firm's approvals.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-02-n0-n1-s3",
@@ -5403,9 +5403,9 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-02-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Fibre-optic cable is better for a long link because it loses less signal over distance than copper cable.",
-                        "feedback": "Explains ONE advantage of fibre-optic cable for the link, referring to signal loss, which meets the 3-mark row. To reach 4 marks, explain why it suits the link and contrast it with twisted-pair cable.",
+                        "feedback": "Explains ONE advantage of fibre-optic cable for the link, referring to signal loss, which meets the 2-mark row. To reach 3 marks, explain why it suits the link and contrast it with twisted-pair cable.",
                         "band": 2
                       },
                       {
@@ -5643,10 +5643,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-04-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Moving the access point would help, because the tablets currently connect through a storeroom and behind metal shelving that block the signal. The wireless broadband option would give the tablets their own connection, but it adds a monthly cost.",
-                        "feedback": "Evaluates the access point move in detail and weighs the broadband option briefly against cost, which meets the 4-mark row. To reach 5 marks, evaluate both changes with sound reasons and reach a justified view.",
-                        "band": 4
+                        "feedback": "Evaluates the access point move in detail and weighs the broadband option briefly against cost, which meets the 3-mark row. To reach 4 marks, evaluate both changes with sound reasons and reach a justified view.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-04-n0-n1-s3",
@@ -5764,10 +5764,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-05-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Device C is central because it has four links, so the network depends on it. If C fails, devices D and E cannot reach the other devices, so the network is split.",
-                        "feedback": "Examines how device C's central position affects connectedness, linking it to devices D and E, which meets the 4-mark row. To reach 5 marks, propose a layout change linked to the graph.",
-                        "band": 3
+                        "feedback": "Examines how device C's central position affects connectedness, linking it to devices D and E, which meets the 3-mark row. To reach 4 marks, propose a layout change linked to the graph.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-05-n0-n1-s3",
@@ -5884,10 +5884,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-06-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Different data formats mean readings from the new sensors cannot be read by the older controllers without translation. The new sensors may also need gateways to connect, which adds cost and a point of failure.",
-                        "feedback": "Discusses two challenges, data formats and the need for gateways, with reasons, which meets the 4-mark row. To reach 5 marks, discuss at least three challenges and comment on how each affects the SCADA system.",
-                        "band": 4
+                        "feedback": "Discusses two challenges, data formats and the need for gateways, with reasons, which meets the 3-mark row. To reach 4 marks, discuss at least three challenges and comment on how each affects the SCADA system.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-06-n0-n1-s3",
@@ -6002,10 +6002,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-07-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "MQTT suits the sensors because it sends small messages and pushes alerts to subscribers. HTTP needs a new request each time, so it adds more load across 200 sensors.",
-                        "feedback": "Compares MQTT and HTTP on overhead and delivery, linked to the 200 sensors, which meets the 4-mark row. To reach 5 marks, justify the choice with reasons linked to the frequent readings and alerts.",
-                        "band": 4
+                        "feedback": "Compares MQTT and HTTP on overhead and delivery, linked to the 200 sensors, which meets the 3-mark row. To reach 4 marks, justify the choice with reasons linked to the frequent readings and alerts.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-07-n0-n1-s3",
@@ -6120,10 +6120,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-08-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Adaptive signal timing could cut queues at busy intersections, and some sensors can detect pedestrians. The council's concern about sensor faults is important, because bad counts would give poor timing, and privacy must also be considered.",
-                        "feedback": "Discusses the benefits and weighs the fault concern, which meets the 4-mark row. To reach 5 marks, evaluate the benefits with sound reasons and weigh the privacy and cost concerns.",
-                        "band": 4
+                        "feedback": "Discusses the benefits and weighs the fault concern, which meets the 3-mark row. To reach 4 marks, evaluate the benefits with sound reasons and weigh the privacy and cost concerns.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-08-n0-n1-s3",
@@ -6480,10 +6480,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-01-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A star topology is better because one broken cable affects only one device. In a bus topology, one break in the shared cable stops the whole network, so star layouts are more reliable in general.",
-                        "feedback": "Justifies the star topology with a clear reason and compares it with the bus topology in general terms, which meets the 4-mark row. To reach 5 marks, link the comparison to the studio's file transfers and to adding staff.",
-                        "band": 4
+                        "feedback": "Justifies the star topology with a clear reason and compares it with the bus topology in general terms, which meets the 3-mark row. To reach 4 marks, link the comparison to the studio's file transfers and to adding staff.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-01-n0-n1-s3",
@@ -6838,10 +6838,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-04-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The school should back up files and use strong passwords. Staff training would also help cybersecurity.",
-                        "feedback": "Proposes two measures with a general reason, which meets the 3-mark row. To reach 4 marks, propose several measures with a reason for each that is linked to ransomware.",
-                        "band": 4
+                        "feedback": "Proposes two measures with a general reason, which meets the 2-mark row. To reach 3 marks, propose several measures with a reason for each that is linked to ransomware.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-04-n0-n1-s3",
@@ -7082,10 +7082,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-06-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "A router forwards data across the network.",
-                        "feedback": "Identifies a router as a hardware device that forwards data, which meets the 2-mark row. To reach 3 marks, describe how hardware or software is used, with one reference to security.",
-                        "band": 2
+                        "feedback": "Identifies a router as a hardware device that forwards data, which meets the 1-mark row. To reach 2 marks, describe how hardware or software is used, with one reference to security.",
+                        "band": 1
                       }
                     ]
                   }
@@ -10262,10 +10262,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-06-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Informatics helps the retailer summarise its sales and estimate future demand with a predictive model. This helps it understand customers' buying patterns, but the answer does not judge how far this goes.",
-                        "feedback": "Explains how informatics supports descriptive and predictive analysis, linked to customers, which meets the 4-mark row. To reach 5 marks, judge how far this support goes and include a limitation.",
-                        "band": 4
+                        "feedback": "Explains how informatics supports descriptive and predictive analysis, linked to customers, which meets the 3-mark row. To reach 4 marks, judge how far this support goes and include a limitation.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-06-n0-n1-s3",
@@ -10804,10 +10804,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The survey is self-selected, so the average may not reflect every suburb's commuters, which makes the map less reliable.",
-                        "feedback": "Explains one limitation, self-selection, and its effect on the map, which meets the 3-mark row. To reach 4 marks, discuss two or more limitations and how they affect the map's accuracy.",
-                        "band": 3
+                        "feedback": "Explains one limitation, self-selection, and its effect on the map, which meets the 2-mark row. To reach 3 marks, discuss two or more limitations and how they affect the map's accuracy.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-10-n0-n1-s3",
@@ -14477,10 +14477,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A flowchart would help the staff because it shows the steps and decisions in order.",
-                        "feedback": "Recommends one format with a general reason, which meets the 3-mark row. To reach 4 marks, justify it by the logical process and the staff audience, and compare it with the other formats.",
-                        "band": 3
+                        "feedback": "Recommends one format with a general reason, which meets the 2-mark row. To reach 3 marks, justify it by the logical process and the staff audience, and compare it with the other formats.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-11-n0-n1-s3",
@@ -14595,10 +14595,10 @@
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Automation will reduce some repetitive jobs in the factory, which affects employment.",
-                        "feedback": "Describes automation with a general link to jobs, which meets the 3-mark row. To reach 4 marks, discuss the effects on employment and the factory processes, and weigh the evidence.",
-                        "band": 3
+                        "feedback": "Describes automation with a general link to jobs, which meets the 2-mark row. To reach 3 marks, discuss the effects on employment and the factory processes, and weigh the evidence.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-12-n0-n1-s3",

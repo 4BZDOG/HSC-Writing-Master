@@ -133,3 +133,73 @@ export const whenAncestorsSettle = (el: HTMLElement): Promise<void> => {
     () => undefined
   );
 };
+
+/**
+ * How Focus Mode arranges the question and the writing card on a wide window.
+ *
+ * - `stacked`: one reading-width column, question above the writing card. The
+ *   default, and the only arrangement on a phone.
+ * - `wide`: the same stack, but the column takes the width of the window.
+ * - `side`: question on the left, writing card on the right, both the height of
+ *   the window. For a long scenario or stimulus that must stay in view.
+ */
+export type FocusArrangement = 'stacked' | 'wide' | 'side';
+
+export const FOCUS_ARRANGEMENT_KEY = 'hsc.focus.arrangement';
+export const FOCUS_SIDE_FRACTION_KEY = 'hsc.focus.sideFraction';
+
+/** Below this window width two columns leave neither card room to read; `side` falls back to the stack. */
+export const FOCUS_SIDE_MIN_WIDTH = 1100;
+
+/** The question column's share of the row in the `side` arrangement, in percent. */
+export const FOCUS_SIDE_PERCENT_MIN = 25;
+export const FOCUS_SIDE_PERCENT_MAX = 60;
+export const FOCUS_SIDE_PERCENT_DEFAULT = 40;
+/** A keyboard step on the vertical splitter, in percent. */
+export const FOCUS_SIDE_PERCENT_STEP = 2;
+
+/**
+ * What the `side` arrangement stacks above and below its two cards: the exit
+ * pill, the page padding and the bottom margin. No splitter row, unlike the stack.
+ */
+export const FOCUS_SIDE_CHROME_RESERVE = 96;
+
+/** The height of both cards in the `side` arrangement. */
+export const FOCUS_SIDE_CARD_HEIGHT = `max(${FOCUS_WRITING_CARD_MIN}px, calc(100dvh - ${FOCUS_SIDE_CHROME_RESERVE}px))`;
+
+const ARRANGEMENTS: readonly FocusArrangement[] = ['stacked', 'wide', 'side'];
+
+export const readFocusArrangement = (): FocusArrangement => {
+  const raw = readItem(FOCUS_ARRANGEMENT_KEY);
+  return ARRANGEMENTS.includes(raw as FocusArrangement) ? (raw as FocusArrangement) : 'stacked';
+};
+
+export const writeFocusArrangement = (arrangement: FocusArrangement): void =>
+  writeItem(FOCUS_ARRANGEMENT_KEY, arrangement);
+
+/**
+ * The arrangement actually drawn: the chosen one, unless the window is too
+ * narrow for it. `side` needs two readable columns; `wide` and `stacked` are the
+ * same thing once the window is no wider than the reading column.
+ */
+export const effectiveFocusArrangement = (
+  chosen: FocusArrangement,
+  viewportWidth: number
+): FocusArrangement => {
+  if (viewportWidth < FOCUS_FILL_MIN_WIDTH) return 'stacked';
+  if (chosen === 'side' && viewportWidth < FOCUS_SIDE_MIN_WIDTH) return 'stacked';
+  return chosen;
+};
+
+export const clampFocusSidePercent = (percent: number): number =>
+  Math.round(Math.min(Math.max(percent, FOCUS_SIDE_PERCENT_MIN), FOCUS_SIDE_PERCENT_MAX));
+
+export const readFocusSidePercent = (): number => {
+  const raw = readItem(FOCUS_SIDE_FRACTION_KEY);
+  if (raw === null) return FOCUS_SIDE_PERCENT_DEFAULT;
+  const n = Number(raw);
+  return Number.isFinite(n) && n > 0 ? clampFocusSidePercent(n) : FOCUS_SIDE_PERCENT_DEFAULT;
+};
+
+export const writeFocusSidePercent = (percent: number | null): void =>
+  writeItem(FOCUS_SIDE_FRACTION_KEY, percent === null ? null : String(Math.round(percent)));

@@ -22,8 +22,15 @@ const makeSupabaseMock = () => ({
     calls.push(`from:${table}`);
     return {
       insert: async () => ({ error: null }),
+      // The payment-failure handler only marks a plan-holding row past_due, so the
+      // subscription row is one that holds the plan.
       select: () => ({
-        eq: () => ({ maybeSingle: async () => ({ data: null, error: null }) }),
+        eq: () => ({
+          maybeSingle: async () => ({
+            data: table === 'subscriptions' ? { status: 'active' } : null,
+            error: null,
+          }),
+        }),
       }),
       update: (values: Record<string, unknown>) => {
         writes.push({ table, values });

@@ -35,10 +35,13 @@ export const runAiProxy = async (request: unknown, keys: ProviderKeys): Promise<
   // a key it already holds — and the auth/quota gates upstream still apply.
   // `__feature` is the calling product feature (api/gemini.ts meters
   // evaluations against the free-tier allowance); like `__keyOverride` it is
-  // ours, not the provider's, so it is stripped here too.
+  // ours, not the provider's, so it is stripped here too. `__courseId` is the course a
+  // marking run is for (api/gemini.ts gates it, see _lib/courseAccess.ts); stripped for
+  // the same reason.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { provider, __keyOverride, __feature, ...rest } = request as any;
+  const { provider, __keyOverride, __feature, __courseId, ...rest } = request as any;
   void __feature;
+  void __courseId;
   const effective: ProviderKeys = {
     gemini: __keyOverride?.gemini || keys.gemini,
     anthropic: __keyOverride?.anthropic || keys.anthropic,

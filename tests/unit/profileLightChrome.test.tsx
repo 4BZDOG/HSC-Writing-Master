@@ -74,7 +74,7 @@ describe('the head scoreboard is part of the head, with no box of its own', () =
 describe('the tools popover is a step on the paper', () => {
   it('is the elevated rung with an edge and the lifted shadow, not a flat white', () => {
     expect(classes(HEADER_MENU_PANEL)).toEqual(
-      expect.arrayContaining(['bg-surface-elevated', 'border-slate-300', 'shadow-lg'])
+      expect.arrayContaining(['bg-surface-elevated', 'border-slate-500', 'shadow-lg'])
     );
     expect(classes(HEADER_MENU_PANEL)).not.toContain('bg-white');
   });

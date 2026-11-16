@@ -36,10 +36,26 @@ const call = async (url: string) => {
 };
 
 const stubPage = (html: string) => {
-  const fetchMock = vi.fn(async () => ({ ok: true, status: 200, text: async () => html }));
+  const fetchMock = vi.fn(async () => new Response(html, { status: 200 }));
   vi.stubGlobal('fetch', fetchMock);
   return fetchMock;
 };
+
+/** A fetch stub that answers each exact URL from a route, and fails loudly on any other. */
+const stubRoutes = (routes: Record<string, () => Response>) => {
+  const fetchMock = vi.fn(async (input: string | URL | Request, _init?: RequestInit) => {
+    const make = routes[String(input)];
+    if (!make) throw new Error(`unexpected fetch of ${String(input)}`);
+    return make();
+  });
+  vi.stubGlobal('fetch', fetchMock);
+  return fetchMock;
+};
+
+const redirect = (location: string) => new Response(null, { status: 302, headers: { location } });
+
+const ALLOWED_PAGE = `<html><body><p>${'Syllabus words. '.repeat(20)}</p></body></html>`;
+const ALLOWED_URL = 'https://educationstandards.nsw.edu.au/wps/portal/a';
 
 const hmsFixture = readFileSync(resolve(__dirname, '../fixtures/nesa/hms-year-12.html'), 'utf8');
 const HMS_URL =
@@ -114,5 +130,113 @@ describe('reading a curriculum.nsw.edu.au page', () => {
     const body = res.body as { text: string; nesa?: unknown };
     expect(body.text).toContain('Some syllabus words.');
     expect(body.nesa).toBeUndefined();
+  });
+});
+
+describe('following redirects', () => {
+  it('refuses a redirect from an allowed host to the cloud metadata address, and never fetches it', async () => {
+    const fetchMock = stubRoutes({
+      [ALLOWED_URL]: () => redirect('http://169.254.169.254/latest/meta-data/'),
+    });
+
+    const res = await call(ALLOWED_URL);
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body).toEqual({
+      error: expect.stringContaining('Only NESA/NSW Education syllabus URLs'),
+    });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(fetchMock.mock.calls.map((c) => String(c[0]))).toEqual([ALLOWED_URL]);
+  });
+
+  it('refuses a redirect to a host the reader does not allow, even over HTTPS', async () => {
+    const fetchMock = stubRoutes({
+      [ALLOWED_URL]: () => redirect('https://evil.example.com/page'),
+    });
+
+    const res = await call(ALLOWED_URL);
+
+    expect(res.statusCode).toBe(400);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('follows a redirect that stays on an allowed host, checking it first', async () => {
+    const fetchMock = stubRoutes({
+      [ALLOWED_URL]: () => redirect('/wps/portal/b'),
+      'https://educationstandards.nsw.edu.au/wps/portal/b': () => new Response(ALLOWED_PAGE),
+    });
+
+    const res = await call(ALLOWED_URL);
+
+    expect(res.statusCode).toBe(200);
+    expect(fetchMock.mock.calls.map((c) => String(c[0]))).toEqual([
+      ALLOWED_URL,
+      'https://educationstandards.nsw.edu.au/wps/portal/b',
+    ]);
+    // Redirects are followed by the reader, not the runtime.
+    expect(fetchMock.mock.calls[0][1]).toMatchObject({ redirect: 'manual' });
+  });
+
+  it('gives up after five redirects', async () => {
+    const fetchMock = stubRoutes({
+      [ALLOWED_URL]: () => redirect(ALLOWED_URL),
+    });
+
+    const res = await call(ALLOWED_URL);
+
+    expect(res.statusCode).toBe(400);
+    expect(fetchMock).toHaveBeenCalledTimes(6);
+  });
+});
+
+describe('which URLs the reader will fetch at all', () => {
+  it.each([
+    ['plain http', 'http://educationstandards.nsw.edu.au/wps/portal/a'],
+    ['a non-default port', 'https://educationstandards.nsw.edu.au:8443/wps/portal/a'],
+    ['credentials', 'https://user:pass@educationstandards.nsw.edu.au/wps/portal/a'],
+    ['a username alone', 'https://user@educationstandards.nsw.edu.au/wps/portal/a'],
+  ])('refuses %s without fetching', async (_label, url) => {
+    const fetchMock = stubPage(ALLOWED_PAGE);
+
+    const res = await call(url);
+
+    expect(res.statusCode).toBe(400);
+    expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  it('accepts an explicit default HTTPS port', async () => {
+    stubPage(ALLOWED_PAGE);
+    const res = await call('https://educationstandards.nsw.edu.au:443/wps/portal/a');
+    expect(res.statusCode).toBe(200);
+  });
+});
+
+describe('page size', () => {
+  it('refuses a page whose body runs past the cap, with a clear message', async () => {
+    stubPage('a'.repeat(8 * 1024 * 1024 + 1));
+
+    const res = await call(ALLOWED_URL);
+
+    expect(res.statusCode).toBe(502);
+    expect(res.body).toEqual({ error: expect.stringContaining('too large') });
+  });
+
+  it('refuses a page that declares a size over the cap without reading it', async () => {
+    stubRoutes({
+      [ALLOWED_URL]: () =>
+        new Response(ALLOWED_PAGE, { status: 200, headers: { 'content-length': '99999999' } }),
+    });
+
+    const res = await call(ALLOWED_URL);
+
+    expect(res.statusCode).toBe(502);
+    expect(res.body).toEqual({ error: expect.stringContaining('too large') });
+  });
+
+  it('reads a normal page in full', async () => {
+    stubPage(ALLOWED_PAGE);
+    const res = await call(ALLOWED_URL);
+    expect(res.statusCode).toBe(200);
+    expect((res.body as { text: string }).text).toContain('Syllabus words.');
   });
 });

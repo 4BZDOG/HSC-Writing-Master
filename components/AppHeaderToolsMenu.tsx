@@ -236,6 +236,21 @@ const AppHeaderToolsMenu: React.FC<AppHeaderToolsMenuProps> = ({
     return () => window.removeEventListener('keydown', onKey, true);
   }, [open, close]);
 
+  // Keyboard click-away. The panel is non-modal, so Tab is allowed to leave it,
+  // and a menu left open behind a focus that has moved on is a stale surface.
+  // Focus arriving anywhere outside the panel and its trigger closes it, with no
+  // focus restore: focus is already where the user sent it.
+  useEffect(() => {
+    if (!open) return;
+    const onFocusIn = (e: FocusEvent) => {
+      const target = e.target as Node;
+      if (panelRef.current?.contains(target) || triggerRef.current?.contains(target)) return;
+      setOpen(false);
+    };
+    document.addEventListener('focusin', onFocusIn);
+    return () => document.removeEventListener('focusin', onFocusIn);
+  }, [open]);
+
   // Click-away on `mousedown` rather than `click`, so the panel is gone before
   // the click lands on whatever was underneath it. The trigger is excluded: it
   // toggles the panel itself, and closing here first would make it a button that

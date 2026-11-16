@@ -5,7 +5,10 @@
  * table in sync. This is the single source of truth for plan state.
  *
  * Handled events:
- *   - checkout.session.completed — link Stripe customer to Supabase user
+ *   - checkout.session.completed — link Stripe customer to Supabase user. A session
+ *     with metadata.kind === 'course_unlock' is a one-off course unlock instead, and
+ *     is recorded in course_unlocks; it never reaches the subscription path
+ *     (projectDocs/course-unlocks.md, schema §34)
  *   - customer.subscription.created/updated/deleted — sync subscription state
  *   - invoice.payment_failed / invoice.payment_action_required — flag the
  *     profile for grace-period UI (SCA challenge is handled the same way)
@@ -33,6 +36,7 @@ import {
   priceToPlan,
 } from './_lib/stripe';
 import { claimEvent, markEventProcessed, releaseEvent } from './_lib/stripeLedger';
+import { unlockDurationDays } from './_lib/courseAccess';
 import { handleChargeRefunded, handleDisputeClosed, handleDisputeCreated } from './_lib/disputes';
 import {
   applySubscriptionUpsert,
@@ -221,6 +225,9 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
 
       case 'charge.refunded':
         await handleChargeRefunded(supabase, obj);
+        // A fully refunded course unlock is taken back. Runs after the incident is recorded,
+        // so a failure here is retried with the incident already on file.
+        await revokeCourseUnlockForRefund(supabase, obj);
         break;
 
       default:
@@ -262,6 +269,14 @@ async function handleCheckoutCompleted(
   session: Record<string, unknown>,
   eventCreated?: number
 ) {
+  // A one-off course unlock is not a subscription. Branch FIRST, so nothing below
+  // (the customer link, the eager subscription activation) runs for it.
+  const metadata = (session.metadata ?? {}) as Record<string, string | undefined>;
+  if (metadata.kind === 'course_unlock') {
+    await handleCourseUnlockCheckout(supabase, session);
+    return;
+  }
+
   const userId = session.client_reference_id as string | undefined;
   const customerId = session.customer as string | undefined;
   if (!userId || !customerId) {
@@ -292,6 +307,87 @@ async function handleCheckoutCompleted(
       );
     }
   }
+}
+
+/** A Stripe id that may arrive as a bare string or as an expanded object. */
+const stripeId = (value: unknown): string | undefined => {
+  if (typeof value === 'string') return value;
+  if (value && typeof value === 'object' && typeof (value as { id?: unknown }).id === 'string') {
+    return (value as { id: string }).id;
+  }
+  return undefined;
+};
+
+/**
+ * checkout.session.completed for a course unlock (metadata.kind === 'course_unlock').
+ *
+ * Records one `course_unlocks` row for the paid session. Idempotent on the session id: a
+ * replayed event hits the unique constraint and is ignored, so it cannot add a second
+ * unlock. It touches neither the subscription tables nor the profile's plan. A DB error
+ * is thrown, so Stripe retries the event.
+ *
+ * A session that is not yet paid (a delayed payment method) records nothing here. A
+ * session missing its user or course is acknowledged and logged, not retried: a retry
+ * cannot fix a session that was built without them.
+ */
+async function handleCourseUnlockCheckout(supabase: SB, session: Record<string, unknown>) {
+  if (session.payment_status !== 'paid') {
+    console.log(
+      `[stripe-webhook] course unlock session ${String(session.id)} is not paid yet (${String(session.payment_status)}); nothing recorded.`
+    );
+    return;
+  }
+
+  const metadata = (session.metadata ?? {}) as Record<string, string | undefined>;
+  const userId =
+    (typeof session.client_reference_id === 'string' && session.client_reference_id) ||
+    metadata.supabase_user_id ||
+    undefined;
+  const courseId = metadata.course_id?.trim() || undefined;
+  const sessionId = typeof session.id === 'string' ? session.id : undefined;
+  if (!userId || !courseId || !sessionId) {
+    console.warn(
+      '[stripe-webhook] course_unlock checkout missing its user, course or session id; nothing recorded.'
+    );
+    return;
+  }
+
+  const days = unlockDurationDays();
+  const expiresAt =
+    days === null ? null : new Date(Date.now() + days * 24 * 60 * 60 * 1000).toISOString();
+
+  const { error } = await supabase.from('course_unlocks').upsert(
+    {
+      user_id: userId,
+      course_id: courseId,
+      source: 'purchase',
+      stripe_checkout_session_id: sessionId,
+      stripe_payment_intent_id: stripeId(session.payment_intent) ?? null,
+      expires_at: expiresAt,
+    },
+    { onConflict: 'stripe_checkout_session_id', ignoreDuplicates: true }
+  );
+  if (error) throw error;
+}
+
+/**
+ * charge.refunded, for a course unlock. A FULL refund of the charge revokes the unlock that
+ * charge bought. The row is found by its payment intent. A partial refund leaves the unlock
+ * in place, as the incident handler already does, and a charge with no matching row (every
+ * subscription charge) is a no-op. Revoking is idempotent: a row already revoked is left
+ * alone.
+ */
+async function revokeCourseUnlockForRefund(supabase: SB, charge: Record<string, unknown>) {
+  if (charge.refunded !== true) return;
+  const paymentIntent = stripeId(charge.payment_intent);
+  if (!paymentIntent) return;
+
+  const { error } = await supabase
+    .from('course_unlocks')
+    .update({ revoked_at: new Date().toISOString() })
+    .eq('stripe_payment_intent_id', paymentIntent)
+    .is('revoked_at', null);
+  if (error) throw error;
 }
 
 /**
@@ -328,10 +424,16 @@ async function handleSubscriptionDeleted(
 
   // End any school licence backed by this subscription — members lose the
   // school plan at their next session refresh.
-  await supabase
+  const { error: schoolError } = await supabase
     .from('schools')
     .update({ plan_status: 'canceled', plan_period_end: null, plan_cancel_at_period_end: false })
     .eq('stripe_subscription_id', subId);
+  if (schoolError) {
+    // Thrown, not logged: the event is acknowledged with 200 otherwise and Stripe never
+    // retries, leaving the licence active. The handler's catch releases the claim.
+    console.error('[stripe-webhook] school licence cancel failed:', schoolError.message);
+    throw schoolError;
+  }
 
   // Find the user and downgrade their cached plan to free (unless they have
   // another active subscription, which resolve_stripe_plan handles). The customer
@@ -369,18 +471,28 @@ async function handleSubscriptionDeleted(
   }
   if (!userId) return;
 
-  // Use the DB function to resolve the correct plan (handles multiple subs).
-  const { data: resolvedPlan } = await supabase.rpc('resolve_stripe_plan', {
+  // Use the DB function to resolve the correct plan (handles multiple subs). An error
+  // here is thrown rather than defaulted to free: a failed lookup must not downgrade a
+  // user who still holds another live subscription.
+  const { data: resolvedPlan, error: resolveError } = await supabase.rpc('resolve_stripe_plan', {
     p_user_id: userId,
   });
+  if (resolveError) {
+    console.error('[stripe-webhook] resolve_stripe_plan failed:', resolveError.message);
+    throw resolveError;
+  }
 
-  await supabase
+  const { error: profileError } = await supabase
     .from('profiles')
     .update({
       stripe_plan: resolvedPlan ?? 'free',
       plan_period_end: null,
     })
     .eq('id', userId);
+  if (profileError) {
+    console.error('[stripe-webhook] profile downgrade failed:', profileError.message);
+    throw profileError;
+  }
 }
 
 /**
@@ -422,7 +534,30 @@ async function handlePaymentFailed(
     return;
   }
 
-  await supabase
+  // Only a subscription that already holds the plan can be past_due. A first charge
+  // that fails leaves a new subscription `incomplete`, and writing past_due over it
+  // would make openCheckout read a purchase that never completed as a live plan: the
+  // retry would be refused as "already subscribed", and the banner would promise access
+  // the customer never had. Any other status (or no row) is left as it is, unstamped,
+  // so the later subscription event still applies in order.
+  const { data: current, error: readError } = await supabase
+    .from('subscriptions')
+    .select('status')
+    .eq('id', subId)
+    .maybeSingle();
+  if (readError) {
+    console.error('[stripe-webhook] payment failure status read failed:', readError.message);
+    throw readError;
+  }
+  const currentStatus = current?.status as string | undefined;
+  if (!currentStatus || !PLAN_HOLDING_STATUSES.includes(currentStatus)) {
+    console.log(
+      `[stripe-webhook] payment failure for ${subId} left status '${currentStatus ?? 'missing'}' unchanged`
+    );
+    return;
+  }
+
+  const { error: updateError } = await supabase
     .from('subscriptions')
     .update({
       status: 'past_due',
@@ -430,7 +565,14 @@ async function handlePaymentFailed(
       ...eventStamp(eventCreated),
     })
     .eq('id', subId);
+  if (updateError) {
+    console.error('[stripe-webhook] past_due update failed:', updateError.message);
+    throw updateError;
+  }
 }
+
+/** Statuses that hold a paid plan, and so can move to past_due when a charge fails. */
+const PLAN_HOLDING_STATUSES = ['active', 'trialing', 'past_due'];
 
 // Vercel raw-body config: disable the default JSON parser so we get the raw
 // string for signature verification.

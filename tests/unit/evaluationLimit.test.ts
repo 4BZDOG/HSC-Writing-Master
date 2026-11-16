@@ -15,11 +15,14 @@ const runAiProxyMock = vi.fn();
 // is the `answerUpgrades` feature, gated on the plan rather than on the
 // free-tier feedback switch.
 const resolveCallerPlanMock = vi.fn();
+// Gives back a spent free evaluation when the marking call produces no answer.
+const refundEvaluationMock = vi.fn();
 
 vi.mock('../../api/_lib/quota', () => ({
   consumeEvaluation: (...args: unknown[]) => consumeEvaluationMock(...args),
   consumeAiQuota: (...args: unknown[]) => consumeAiQuotaMock(...args),
   resolveCallerPlan: (...args: unknown[]) => resolveCallerPlanMock(...args),
+  refundEvaluation: (...args: unknown[]) => refundEvaluationMock(...args),
   recordAiModelUsage: async () => undefined,
   // The request guard asks this only for an oversized call or an uncapped Gemini
   // one; these tests are about the gates, so the caller is a student.
@@ -68,6 +71,8 @@ beforeEach(() => {
   consumeAiQuotaMock.mockReset();
   runAiProxyMock.mockReset();
   resolveCallerPlanMock.mockReset();
+  refundEvaluationMock.mockReset();
+  refundEvaluationMock.mockResolvedValue(undefined);
   // Default to the free tier, matching the evaluation verdicts these tests
   // mock. The plan and the verdict describe the same caller, so pairing them
   // keeps the fixtures honest.
@@ -410,5 +415,128 @@ describe('the free-tier marking model (FREE_TIER_MARKING_MODEL)', () => {
     process.env.FREE_TIER_MARKING_MODEL = 'gemini-3-flash-preview';
     await handler(post({ provider: 'gemini', model: 'gemini-3.1-pro-preview' }), makeRes());
     expect(forwardedModel()).toBe('gemini-3.1-pro-preview');
+  });
+});
+
+describe('api/gemini gives back a spent free evaluation', () => {
+  const freeVerdict = { allowed: true, used: 1, limit: 5, unlimited: false };
+  const markingResult = {
+    overallMark: 7,
+    overallBand: 5,
+    overallFeedback: 'Sound response.',
+    quickTip: 'Name the term first.',
+    strengths: ['Clear thesis'],
+    improvements: ['Sustain the judgement'],
+    criteria: [{ criterion: 'Analysis', mark: 4, maxMark: 6, feedback: 'Secret paid detail.' }],
+    revisedAnswer: 'A band 6 rewrite…',
+  };
+  const markingTextFrom = (body: unknown): string =>
+    (body as { candidates: Array<{ content: { parts: Array<{ text: string }> } }> }).candidates[0]
+      .content.parts[0].text;
+
+  beforeEach(() => {
+    consumeEvaluationMock.mockResolvedValue(freeVerdict);
+    consumeAiQuotaMock.mockResolvedValue({ allowed: true, used: 1, limit: 300 });
+    vi.spyOn(console, 'warn').mockImplementation(() => {});
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+    delete process.env.MONETISATION_ENABLED;
+  });
+
+  it('refunds the free evaluation when the AI quota then refuses the call (429)', async () => {
+    consumeAiQuotaMock.mockResolvedValue({ allowed: false, used: 300, limit: 300, scope: 'user' });
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+
+    expect(res.statusCode).toBe(429);
+    expect(runAiProxyMock).not.toHaveBeenCalled();
+    expect(refundEvaluationMock).toHaveBeenCalledTimes(1);
+    expect(refundEvaluationMock).toHaveBeenCalledWith('user-1');
+  });
+
+  it('refunds the free evaluation when the provider call fails (non-200)', async () => {
+    runAiProxyMock.mockResolvedValue({ status: 502, body: { error: 'upstream down' } });
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+
+    expect(res.statusCode).toBe(502);
+    expect(refundEvaluationMock).toHaveBeenCalledTimes(1);
+    expect(refundEvaluationMock).toHaveBeenCalledWith('user-1');
+  });
+
+  it('does not refund a marking that came back with a 200', async () => {
+    runAiProxyMock.mockResolvedValue({
+      status: 200,
+      body: { candidates: [{ content: { parts: [{ text: JSON.stringify(markingResult) }] } }] },
+    });
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(refundEvaluationMock).not.toHaveBeenCalled();
+  });
+
+  it('never refunds an unlimited (paid, staff or school) evaluation', async () => {
+    resolveCallerPlanMock.mockResolvedValue('plus');
+    consumeEvaluationMock.mockResolvedValue({ allowed: true, used: 0, limit: -1, unlimited: true });
+
+    // Refused by the AI quota …
+    consumeAiQuotaMock.mockResolvedValueOnce({
+      allowed: false,
+      used: 300,
+      limit: 300,
+      scope: 'user',
+    });
+    await handler(post(evaluationRequest), makeRes());
+    // … and failed by the provider.
+    runAiProxyMock.mockResolvedValue({ status: 500, body: { error: 'boom' } });
+    await handler(post(evaluationRequest), makeRes());
+
+    expect(refundEvaluationMock).not.toHaveBeenCalled();
+  });
+
+  it('refunds when a paid feature is refused for a free caller (402), and only once', async () => {
+    // A marking request whose __feature tag names a paid feature: it is still
+    // metered as an evaluation (the schema fingerprint marks it), and the
+    // plan gate refuses it before anything is spent on the provider.
+    resolveCallerPlanMock.mockResolvedValue('free');
+    const res = makeRes();
+    await handler(
+      post({
+        provider: 'gemini',
+        model: 'gemini-3-flash-preview',
+        __feature: 'answerUpgrades',
+        config: {
+          responseSchema: { required: ['overallMark', 'overallBand', 'criteria'] },
+        },
+      }),
+      res
+    );
+
+    expect(res.statusCode).toBe(402);
+    expect(runAiProxyMock).not.toHaveBeenCalled();
+    expect(refundEvaluationMock).toHaveBeenCalledTimes(1);
+    expect(refundEvaluationMock).toHaveBeenCalledWith('user-1');
+  });
+
+  it('redacts a free caller result when the meter is unavailable and the plan says free', async () => {
+    // consume_evaluation missing (fail-open verdict null). The plan lookup
+    // stands in for the verdict, so the free caller still loses the paid detail.
+    consumeEvaluationMock.mockResolvedValue(null);
+    resolveCallerPlanMock.mockResolvedValue('free');
+    runAiProxyMock.mockResolvedValue({
+      status: 200,
+      body: { candidates: [{ content: { parts: [{ text: JSON.stringify(markingResult) }] } }] },
+    });
+    const res = makeRes();
+    await handler(post(evaluationRequest), res);
+
+    const text = markingTextFrom(res.body);
+    expect(text).not.toContain('Secret paid detail.');
+    expect(text).not.toContain('A band 6 rewrite');
+    expect(JSON.parse(text).overallMark).toBe(7);
+    // The meter was unavailable, so no evaluation was spent and none is refunded.
+    expect(refundEvaluationMock).not.toHaveBeenCalled();
   });
 });

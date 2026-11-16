@@ -38,7 +38,7 @@
 export const HEADER_BAR =
   'sticky top-0 z-header h-16 flex items-center ' +
   'bg-surface dark:bg-[rgb(var(--color-bg-surface))]/70 dark:backdrop-blur-2xl ' +
-  'border-b border-slate-300 dark:border-white/10 ' +
+  'border-b border-slate-500 dark:border-white/10 ' +
   'shadow-sm dark:shadow-lg dark:shadow-black/20';
 
 /** The content row, above the mesh and the hairline on `z-10`. It never wraps:
@@ -165,8 +165,8 @@ export const HEADER_ACTION =
  *  amber wash on the near-black rail. */
 export const HEADER_PLAN =
   't-label shrink-0 flex items-center justify-center gap-1.5 rounded-xl border transition-colors ' +
-  'w-11 h-11 sm:w-auto sm:h-9 sm:px-3 ' +
-  'bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100 ' +
+  'w-11 h-11 sm:w-auto sm:h-10 sm:px-3 ' +
+  'bg-amber-50 text-amber-800 border-amber-600 hover:bg-amber-100 ' +
   'dark:bg-amber-400/10 dark:text-amber-300 dark:border-amber-400/30 dark:hover:bg-amber-400/20';
 
 /** Appended to `HEADER_ACTION` on the tools trigger while its popover is open.
@@ -184,7 +184,7 @@ export const HEADER_ACTION_OPEN = 'bg-slate-100 text-slate-900 dark:bg-white/10 
  *  step, `shadow-lg`, which is what says it floats. */
 export const HEADER_MENU_PANEL =
   'fixed z-popover w-64 p-1.5 rounded-2xl shadow-lg animate-fade-in text-left ' +
-  'bg-surface-elevated border border-slate-300 ' +
+  'bg-surface-elevated border border-slate-500 ' +
   'dark:border-white/10';
 
 /** One tool inside the popover. Painted on `HEADER_MENU_PANEL`.
@@ -248,9 +248,9 @@ export const HEADER_MENU_STATUS =
  *  buttons, so `sm` would only have moved the fault rather than fixed it.
  *  On the rail, so it carries the pair. */
 export const HEADER_STORAGE_ALERT =
-  't-label flex items-center gap-2 px-2 lg:px-3 h-9 rounded-xl font-mono ' +
+  't-label flex items-center gap-2 px-2 lg:px-3 h-10 rounded-xl font-mono ' +
   'border ' +
-  'bg-red-100 text-red-700 border-red-200 ' +
+  'bg-red-100 text-red-700 border-red-500 ' +
   'dark:bg-red-500/15 dark:text-red-300 dark:border-red-500/30';
 
 /** Library / Moderation / AI. Painted on the panel.
@@ -267,6 +267,6 @@ export const HEADER_MENU_GROUP_LABEL =
  *  The chip's own `bg-indigo-500` is brand-solid by intent and is not part of
  *  this constant. */
 export const HEADER_PROFILE =
-  'flex items-center gap-3 pl-3 pr-1.5 h-11 rounded-2xl transition-colors ' +
-  'border border-slate-200 hover:bg-slate-100 ' +
+  'flex items-center gap-3 pl-3 pr-1.5 h-11 sm:h-10 rounded-xl transition-colors ' +
+  'border border-slate-500 hover:bg-slate-100 ' +
   'dark:border-white/10 dark:hover:bg-white/10';

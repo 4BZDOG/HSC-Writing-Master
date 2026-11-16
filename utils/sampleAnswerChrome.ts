@@ -62,12 +62,6 @@ export const SAMPLE_ZOOM_VALUE =
 export const SAMPLE_DISCLOSURE_OPEN =
   'flex flex-1 min-w-0 flex-col justify-center min-h-11 sm:min-h-0 px-3 sm:px-4 py-1 sm:py-1.5 text-left select-none touch-manipulation transition-colors duration-200 can-hover:hover:bg-slate-900/[0.04] dark:can-hover:hover:bg-white/[0.05] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-slate-900/40 dark:focus-visible:ring-white/60';
 
-/** The summary line on a phone, in an open row's header: the mark, the band and the
- *  length. The desktop header shows the flag and the count instead, so this is hidden
- *  from `sm`. Painted on the row's band fill. */
-export const SAMPLE_ROW_SUMMARY =
-  'sm:hidden t-label tabular-nums text-slate-800 dark:text-slate-200';
-
 /** The header line of a row: the badges and figures on the left, the chevron on the
  *  right. The chevron is its own column, so it stays on the first line when the badges
  *  wrap rather than dropping to a line of its own. It is inside the disclosure, so it
@@ -153,11 +147,6 @@ export const SAMPLE_PAGE =
  *  container for the jump's label. Painted on the band's solid fill. */
 export const SAMPLE_PAGE_BAR =
   'sample-page-bar flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-slate-900/25 px-4 py-2.5 sm:px-6 dark:border-black/40';
-
-/** A figure on the paper's head (the word count): a caption-sized tabular figure. It
- *  sets no colour, so it takes the solid's near-black ink. Painted on the band's solid
- *  fill. */
-export const SAMPLE_PAGE_BAR_FIGURE = 't-label tabular-nums whitespace-nowrap';
 
 /** A chip on the paper's head (the source, the lock): a white pill with slate ink and a
  *  slate edge, so it keeps its own contrast whichever of the six hues is beneath it. The

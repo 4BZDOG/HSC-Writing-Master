@@ -17,7 +17,7 @@
 
 This guide walks through deploying the **HSC AI Evaluator** — a React 19 + TypeScript + Vite single-page application — to [Vercel](https://vercel.com).
 
-The app is a **React SPA** served as static assets from Vercel's global CDN, plus **five serverless functions** under `api/` — chief among them `api/gemini.ts`, which proxies the AI provider so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).
+The app is a **React SPA** served as static assets from Vercel's global CDN, plus **eleven serverless functions** under `api/` — chief among them `api/gemini.ts`, which proxies the AI provider so the API key stays server-side. User data is stored client-side in IndexedDB by default; an **optional Supabase** backend can be enabled for real multi-user auth and a shared library (see section 3).
 
 ---
 
@@ -138,11 +138,44 @@ This is a client-side SPA. A [`vercel.json`](./vercel.json) is already committed
 
 - **`installCommand`** uses `npm ci` (not `npm install`) so the deploy builds the lockfile's exact tree, with `--legacy-peer-deps` for React 19's peer ranges.
 - **`regions`** pins the functions to Sydney. Without it they default to Washington DC, so every marking call would round-trip Sydney → US → Sydney against an Australian database. This is a latency and data-path decision, not a preference.
-- **`functions`** raises `maxDuration` to 60s — a long marking call exceeds the 10s default. The glob is `api/*.ts`, deliberately not `api/**/*.ts`: the recursive form pulls in `api/_lib/`, which would declare 15 functions against the Hobby plan's 12-function ceiling and fail the deploy.
+- **`functions`** raises `maxDuration` to 60s — a long marking call exceeds the 10s default. The glob is `api/*.ts`, deliberately not `api/**/*.ts`: the recursive form pulls in `api/_lib/`, which would declare 36 functions (the 11 routes plus 25 shared modules) against the Hobby plan's 12-function ceiling and fail the deploy.
 - **`rewrites`** sends any deep link to the SPA shell **except** `/api/*`, so the serverless functions stay reachable instead of being swallowed by the SPA fallback.
 - **`headers`** caches Vite's content-hashed `assets/*` aggressively (immutable per build), while `index.html` is revalidated every load so new deploys are picked up immediately.
 
-> **Serverless functions:** any file directly under `api/` is deployed by Vercel as a serverless function automatically. Here that is five — `gemini.ts` (the AI proxy), `fetch-url.ts`, `create-checkout.ts`, `customer-portal.ts` and `stripe-webhook.ts`. `api/_lib/` is shared code and is ignored as a route because of the leading underscore.
+### Content-Security-Policy
+
+The global `/(.*)` block sets an **enforcing** `Content-Security-Policy`. Each directive, and why it is there:
+
+| Directive                          | What it allows                                                                                                                                                                                                                   |
+| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default-src 'self'`               | Anything without a more specific rule loads from this origin only. This is the floor for every fetch type not listed below.                                                                                                      |
+| `script-src 'self' 'sha256-…'`     | The bundle and the two inline scripts in `index.html` (the theme preload and the boot watchdog), each by hash. No `'unsafe-inline'` and no `'unsafe-eval'`. A changed inline script fails until its hash is updated (see below). |
+| `style-src 'self' 'unsafe-inline'` | Vite's CSS file, plus inline styles. React `style={}` props and the watchdog's styling need `'unsafe-inline'`; it is the accepted cost for styles only.                                                                          |
+| `font-src 'self' data:`            | Fonts are self-hosted through `@fontsource` and bundled, so there is no Google Fonts origin. `data:` covers small fonts Vite inlines.                                                                                            |
+| `img-src 'self' data: blob:`       | Favicon and bundled images, scenario stimulus images (stored as `data:` URLs), and `blob:` previews from the image uploader.                                                                                                     |
+| `connect-src …`                    | Same-origin `/api/*` and course data, Supabase (HTTPS and realtime WebSocket), and the AI hosts `aiDirect` calls when runtime keys are used (see below).                                                                         |
+| `frame-ancestors 'self'`           | The app can only be framed by itself. This replaces `X-Frame-Options` for modern browsers, which is why both are set.                                                                                                            |
+| `base-uri 'self'`                  | An injected `<base href>` cannot redirect relative URLs to another origin.                                                                                                                                                       |
+| `form-action 'self'`               | Forms can only submit to this origin. Stripe checkout is a top-level redirect (`window.location.href`), not a form post, so it needs no entry here.                                                                              |
+| `object-src 'none'`                | No `<object>`, `<embed>` or Flash-style plugin content.                                                                                                                                                                          |
+| `upgrade-insecure-requests`        | Any `http:` subresource is upgraded to `https:`.                                                                                                                                                                                 |
+
+`connect-src` lists the AI hosts (`generativelanguage.googleapis.com`, `api.anthropic.com`, `openrouter.ai`, `api.groq.com`, `api.moonshot.ai`) because `services/aiDirect.ts` can call a provider from the browser on static hosting or when an admin has pasted runtime keys. On Vercel the normal path is the same-origin `/api/gemini` proxy, so these hosts are used only by that fallback.
+
+**Adding a host.** If the project moves Supabase behind a custom domain, add that origin (both `https://` and `wss://`) to `connect-src`. A new AI provider host also goes in `connect-src`, and only if the browser calls it directly. A request that is blocked shows up in the browser console as `Refused to connect to …`, and the same event is recorded as a `securitypolicyviolation`.
+
+**Changing an inline script in `index.html`.** The policy names each inline script by hash, so editing one changes its hash. Recompute it from the built file, then update `script-src` in `vercel.json`:
+
+```bash
+npm run build
+node -e "const h=require('fs').readFileSync('dist/index.html','utf8');for(const m of h.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*type=\"module\")[^>]*>([\s\S]*?)<\/script>/g))console.log(\"'sha256-\"+require('crypto').createHash('sha256').update(m[1]).digest('base64')+\"'\")"
+```
+
+`tests/unit/vercelCsp.test.ts` fails if the hashes in `script-src` do not match the inline scripts in source `index.html`.
+
+**Debugging a blocked resource.** To see what would be blocked without breaking the page, switch the header key from `Content-Security-Policy` to `Content-Security-Policy-Report-Only` in `vercel.json`, deploy, and watch the browser console. Nothing is blocked in that mode; violations are logged as `[Report Only]` messages. Switch back to `Content-Security-Policy` once the list is clean. The Playwright run in `tests/e2e` does not use `vercel.json` (the dev server ignores it), so a CSP problem only shows up on a deployed or `vite preview` build.
+
+> **Serverless functions:** any file directly under `api/` is deployed by Vercel as a serverless function automatically. Here that is eleven — `gemini.ts` (the AI proxy), `fetch-url.ts`, `create-checkout.ts`, `customer-portal.ts`, `prices.ts`, `stripe-webhook.ts`, `sync-checkout.ts`, `issue-invoice.ts`, `request-invoice.ts`, `screen-contribution.ts` and `prepare-account-deletion.ts`. `api/_lib/` is shared code and is ignored as a route because of the leading underscore.
 
 ---
 

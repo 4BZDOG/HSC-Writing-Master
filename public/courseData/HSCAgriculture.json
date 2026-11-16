@@ -1,0 +1,964 @@
+[
+  {
+    "id": "course-hsc-agriculture",
+    "name": "Agriculture",
+    "outcomes": [
+      {
+        "code": "AG-11-01",
+        "description": "explains factors that contribute to ethical and sustainable commercial agricultural production",
+        "year": "year11"
+      },
+      {
+        "code": "AG-11-02",
+        "description": "explains the influence of natural capital on agricultural production",
+        "year": "year11"
+      },
+      {
+        "code": "AG-11-03",
+        "description": "applies a research methodology in agricultural investigations",
+        "year": "year11"
+      },
+      {
+        "code": "AG-11-04",
+        "description": "interprets and analyses data and information from a range of sources",
+        "year": "year11"
+      },
+      {
+        "code": "AG-11-05",
+        "description": "explains features of plants, animals and microbes used for agricultural production",
+        "year": "year11"
+      },
+      {
+        "code": "AG-11-06",
+        "description": "analyses management decisions in commercial agricultural production",
+        "year": "year11"
+      },
+      {
+        "code": "AG-11-07",
+        "description": "communicates agricultural concepts using evidence from a range of sources",
+        "year": "year11"
+      },
+      {
+        "code": "AG-12-01",
+        "description": "analyses factors that contribute to ethical and sustainable commercial agricultural production"
+      },
+      {
+        "code": "AG-12-02",
+        "description": "analyses the influence of natural capital on agricultural production"
+      },
+      {
+        "code": "AG-12-03",
+        "description": "justifies and applies a research methodology in agricultural investigations"
+      },
+      {
+        "code": "AG-12-04",
+        "description": "interprets and analyses data and information from a range of sources"
+      },
+      {
+        "code": "AG-12-05",
+        "description": "explains features of and interactions between plants, animals and microbes used for agricultural production"
+      },
+      {
+        "code": "AG-12-06",
+        "description": "evaluates management decisions in commercial agricultural production"
+      },
+      {
+        "code": "AG-12-07",
+        "description": "communicates agricultural concepts using evidence from a range of sources"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-ag-11-agriculture-in-australia",
+        "name": "Agriculture in Australia",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ag-11-agriculture-in-australia-1",
+            "name": "The nature of agriculture",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-agriculture-in-australia-1-1",
+                "description": "Describe how Aboriginal and Torres Strait Islander Peoples have practised sustainable agricultural production for millennia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-1-2",
+                "description": "Identify key food and fibre commodities grown in Australia for domestic and export markets",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-1-3",
+                "description": "Describe Australia’s agricultural sectors: food, fibre, forestry, and fisheries",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-1-4",
+                "description": "Explain the economic, social, ethical and environmental issues influencing sustainable agricultural production in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-1-5",
+                "description": "Explain the influence of climate, soil type and topography on the location of agricultural enterprises within local regions and across NSW",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-1-6",
+                "description": "Compare key production data for an agricultural enterprise over the past 5 years, including total output and export value",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-1-7",
+                "description": "Explain the purpose of sample size, randomisation, replication, variables and experimental controls in agricultural research",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-agriculture-in-australia-2",
+            "name": "Agricultural production systems",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-agriculture-in-australia-2-1",
+                "description": "Describe inputs, processes and outputs as key elements of agricultural production systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-2-2",
+                "description": "Explain traditional ecological management techniques used by Aboriginal and Torres Strait Islander Peoples to maintain biodiversity and resource sustainability",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-2-3",
+                "description": "Explain how interconnected subsystems of soils, microbes, plants, animals and markets are required for food and fibre production and consumption",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-2-4",
+                "description": "Compare the features of intensive and extensive agricultural production methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-2-5",
+                "description": "Use data to compare land use capability",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-agriculture-in-australia-3",
+            "name": "Soils and biodiversity",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-1",
+                "description": "Outline the influence of a farm’s natural capital including air, water, soil, native plants and animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-2",
+                "description": "Outline the physical properties of soil, including parent material, horizons, colour, texture, structure, organic matter, water-holding capacity, porosity and bulk density",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-3",
+                "description": "Describe the chemical properties of soil, including pH, ion exchange capacity, electrical conductivity and soil carbon content",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-4",
+                "description": "Explain how farming practices contribute to productive soil, including the retention and addition of organic matter",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-5",
+                "description": "Explain the role of humus in improving soil structure, fertility and moisture retention",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-6",
+                "description": "Conduct a practical investigation to determine soil types using a soil texture triangle and clay ribbon test",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-7",
+                "description": "Conduct a practical investigation to determine soil structure, including ped shape and size, slaking and dispersion",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-3-8",
+                "description": "Evaluate the role of natural capital in the provision of biodiversity, shelter, wildlife corridors, and habitats for pollinators and pests",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-agriculture-in-australia-4",
+            "name": "Water",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-agriculture-in-australia-4-1",
+                "description": "Identify sources of water for use in agricultural production, including underground water, riparian water, municipal water supplies, and captured and stored rain run-off",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-4-2",
+                "description": "Explain water licensing requirements for irrigation in NSW",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-4-3",
+                "description": "Describe how Aboriginal and Torres Strait Islander Peoples’ Cultural and ecological management of water has influenced water conservation and sustainable water management practices",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-4-4",
+                "description": "Analyse strategies for the sustainable management of land around waterways to protect riparian zones and prevent water pollution",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-4-5",
+                "description": "Calculate the difference between total rainfall and effective rainfall",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-agriculture-in-australia-5",
+            "name": "Climate and the atmosphere",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-agriculture-in-australia-5-1",
+                "description": "Outline the influences on Australian climate and weather",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-5-2",
+                "description": "Identify greenhouse gas (GHG) sources and GHG sinks associated with agricultural practices",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-5-3",
+                "description": "Describe how Aboriginal and Torres Strait Islander Peoples observe and interpret climate and seasonal patterns through environmental indicators, animal behaviour, plant cycles and celestial movements",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-5-4",
+                "description": "Explain how climate influences plant and animal growth and production, including the effects of light, temperature, and available moisture, oxygen and carbon dioxide",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-agriculture-in-australia-5-5",
+                "description": "Use data to analyse the difference between seasonal variability and climate change",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ag-11-plant-production",
+        "name": "Plant production",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ag-11-plant-production-1",
+            "name": "Plant anatomy and physiology",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-plant-production-1-1",
+                "description": "Describe the structures and functions of xylem and phloem in plants",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-1-2",
+                "description": "Describe how osmotic pressure and transpiration control the movement of water and dissolved minerals through the xylem and phloem",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-1-3",
+                "description": "Describe how Aboriginal and Torres Strait Islander Peoples use and manage plant parts for medicinal and food consumption",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-1-4",
+                "description": "Conduct a practical investigation to determine how the structures of leaves, stems and roots support their functions in gas exchange, and water and nutrient transport",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-plant-production-2",
+            "name": "Plant genetics, growth and development",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-plant-production-2-1",
+                "description": "Identify the abiotic factors that affect the growth of plants, including light, atmospheric gases, soil type, the available moisture and nutrients, temperature and wind",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-2",
+                "description": "Describe the purposes of genetic selection in plants, including disease resistance, drought resilience, increased yield and enhanced quality",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-3",
+                "description": "Compare the phases of growth in a monocotyledon and a dicotyledon used in commercial agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-4",
+                "description": "Explain the use of a technology designed to monitor plant growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-5",
+                "description": "Use the summary equation 6CO₂ + 6H₂O —(light, chlorophyll)→ C₆H₁₂O₆ + 6O₂ to describe the process of photosynthesis",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-6",
+                "description": "Use the summary equation C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energy to describe the process of cellular respiration",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-7",
+                "description": "Evaluate the impact of genetics on plant production in an agricultural enterprise",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-8",
+                "description": "Explain how Aboriginal and Torres Strait Islander Peoples influence plant genetics through fire management, and seed selection and dispersal",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-2-9",
+                "description": "Conduct a practical investigation to demonstrate how different treatments affect plant growth",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-plant-production-3",
+            "name": "Beneficial and harmful organisms in plant production",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-plant-production-3-1",
+                "description": "Identify a pest and a disease found in plant production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-2",
+                "description": "Describe the symbiotic relationships between plant roots and soil microbes, including bacteria and fungi",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-3",
+                "description": "Explain the role of soil microbes and invertebrates in breaking down soil organic matter",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-4",
+                "description": "Explain the role of biosecurity in plant production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-5",
+                "description": "Explain on-farm practices used to manage biosecurity risks in plant production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-6",
+                "description": "Conduct a practical investigation to examine legume root nodules caused by Rhizobium bacteria",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-7",
+                "description": "Identify locally significant weeds in plant production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-8",
+                "description": "Analyse the impact of weed management on plant production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-plant-production-3-9",
+                "description": "Analyse management and treatment strategies to control a harmful organism in commercial plant production using the disease triangle",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ag-11-animal-production",
+        "name": "Animal production",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ag-11-animal-production-1",
+            "name": "Animal anatomy and physiology",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-animal-production-1-1",
+                "description": "Describe the structure and function of parts in a ruminant digestive system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-1-2",
+                "description": "Describe the structure and function of parts in a monogastric digestive system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-1-3",
+                "description": "Describe the function of parts in the reproductive system of a mammalian production animal",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-1-4",
+                "description": "Describe the function of parts in the reproductive system of an avian production animal",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-1-5",
+                "description": "Explain the roles of testosterone, oestrogen and progesterone in animal reproduction",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-1-6",
+                "description": "Analyse the effect of photoperiod changes on animal reproduction",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-animal-production-2",
+            "name": "Animal welfare",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-animal-production-2-1",
+                "description": "Explain legislation and regulations for ethical animal care and management practices, including providing water, feed, shelter, adequate space, socialisation and a safe environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-2-2",
+                "description": "Describe the physical and behavioural characteristics of production animals that can assist with safe management, including herding instinct, and maternal and territorial behaviours",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-2-3",
+                "description": "Explain how a technology has improved animal welfare outcomes",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-animal-production-3",
+            "name": "Animal genetics, growth and development",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-animal-production-3-1",
+                "description": "Describe the phases of growth and development of a commercial production animal from conception to maturity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-3-2",
+                "description": "Describe how Aboriginal and Torres Strait Islander Peoples use and manage animals, including as totems and through Cultural burns",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-3-3",
+                "description": "Describe patterns of inheritance, including dominant, recessive, codominance and incomplete dominance, in the traits of commercial production animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-3-4",
+                "description": "Explain genotype and phenotype",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-3-5",
+                "description": "Explain how the proportions of bone, muscle and fat change at various stages of development in a production animal",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-3-6",
+                "description": "Explain the interaction of genotype, environment and nutrition on the growth and development of production animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-3-7",
+                "description": "Explain the use of a technology designed to monitor growth in production animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-3-8",
+                "description": "Evaluate the impact of genetics on animal production in an agricultural enterprise",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-11-animal-production-4",
+            "name": "Beneficial and harmful organisms in animal production",
+            "dotPoints": [
+              {
+                "id": "dp-ag-11-animal-production-4-1",
+                "description": "Identify a pest and a disease found in animal production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-4-2",
+                "description": "Explain the symbiotic relationship between ruminant animals and rumen microbes",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-4-3",
+                "description": "Use the disease triangle to analyse management and treatment strategies for controlling a harmful organism in commercial animal production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-4-4",
+                "description": "Explain the impact of toxic weeds on animal production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-11-animal-production-4-5",
+                "description": "Analyse on-farm practices used to manage biosecurity risks in animal production",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ag-12-commercial-food-and-fibre-production",
+        "name": "Commercial food and fibre production",
+        "subTopics": [
+          {
+            "id": "subtopic-ag-12-commercial-food-and-fibre-production-1",
+            "name": "Plant production for food and fibre systems",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-1",
+                "description": "Identify the micronutrients essential for plant growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-2",
+                "description": "Identify available and unavailable forms of essential macronutrients for plants in the soil and atmosphere",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-3",
+                "description": "Describe the effect of soil pH on the availability of aluminium (Al), nitrogen (N), calcium (Ca), potassium (K), and phosphorous (P)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-4",
+                "description": "Explain how Aboriginal and Torres Strait Islander Peoples manage soil nutrient status through firestick farming and cool burning",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-5",
+                "description": "Explain the processes of self-pollination, cross-pollination and artificial pollination, and their impacts on agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-6",
+                "description": "Describe quality characteristics of a plant product for human use",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-7",
+                "description": "Explain the process of flower fertilisation and impact on seed production and fruit set",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-8",
+                "description": "Compare the features of native and introduced pastures used in agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-9",
+                "description": "Assess strategies for sustainable pasture management to support animal production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-10",
+                "description": "Evaluate influences on crop establishment, including seed selection, seed spacing, planting depth, soil moisture content, soil temperature, time of year, seasonal conditions, presence of pests and previous crop waste material",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-1-11",
+                "description": "Conduct a practical investigation to measure feed on offer",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-12-commercial-food-and-fibre-production-2",
+            "name": "Animal production for food and fibre systems",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-2-1",
+                "description": "Describe techniques to manipulate reproduction efficiency in animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-2-2",
+                "description": "Describe quality characteristics of an animal product for human use",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-2-3",
+                "description": "Explain how the nutritional needs of a production animal change over its life cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-2-4",
+                "description": "Explain a method of genetic selection to improve productivity",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-2-5",
+                "description": "Explain how estimated breeding values (EBVs) inform management decisions about desirable traits in animals used for commercial food or fibre production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-2-6",
+                "description": "Justify a selection decision for desirable traits using EBV data of 2 or more animals",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-2-7",
+                "description": "Evaluate management strategies to support animal welfare during periods of drought, including early culling, management of drinking water supply and confinement feeding",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-12-commercial-food-and-fibre-production-3",
+            "name": "Management of food and fibre production systems",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-3-1",
+                "description": "Describe constraints on plant and animal production, including genotype, climate, water availability, pests and diseases",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-3-2",
+                "description": "Describe objective measurement techniques used to evaluate the existing quality criteria of a food product and a fibre product",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-3-3",
+                "description": "Describe the physical changes of an agricultural plant and animal in response to a pest or disease",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-3-4",
+                "description": "Explain agricultural management practices that influence soil health",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-3-5",
+                "description": "Analyse an integrated pest and disease management (IPDM) plan for a pest or disease in agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-3-6",
+                "description": "Evaluate the use of a seasonal outlook technology",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-3-7",
+                "description": "Evaluate the impact of management decisions on the quality and yield of an agricultural product",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-12-commercial-food-and-fibre-production-4",
+            "name": "Agroecosystems and environmental sustainability",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-4-1",
+                "description": "Describe the carbon cycle in agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-4-2",
+                "description": "Explain the role of carbon sequestration and emissions reduction in agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-4-3",
+                "description": "Describe the nitrogen cycle in agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-4-4",
+                "description": "Describe waste management strategies in plant and animal production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-4-5",
+                "description": "Analyse the influences of environmental factors that determine the available growing season, including frost-free days, maximum and minimum daily temperatures, seasonal photoperiod, and annual and monthly rainfall distribution",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-4-6",
+                "description": "Evaluate ways to mitigate the constraints of climatic conditions, including protected cropping and intensive animal production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-4-7",
+                "description": "Assess the use of a technology designed to monitor water use in irrigated agricultural production",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-12-commercial-food-and-fibre-production-5",
+            "name": "Economic sustainability for agricultural production",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-5-1",
+                "description": "Explain economic sustainability in agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-5-2",
+                "description": "Calculate the gross margin budget for an unprocessed food product",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-5-3",
+                "description": "Calculate the gross margin budget for an unprocessed fibre product",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-5-4",
+                "description": "Explain supplementary sources of income, including agritourism, water trading and land leasing for energy projects",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-5-5",
+                "description": "Explain precision agriculture techniques",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-commercial-food-and-fibre-production-5-6",
+                "description": "Analyse the impact of a farm’s natural capital on cost savings, income generation, risk management and access to government incentives",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ag-12-opportunities-and-challenges-for-australian-agriculture",
+        "name": "Opportunities and challenges for Australian agriculture",
+        "subTopics": [
+          {
+            "id": "subtopic-ag-12-opportunities-and-challenges-for-australian-agriculture-1",
+            "name": "Agriculture in the Australian economy",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-1-1",
+                "description": "Identify the contribution of agricultural production to Australia’s export earnings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-1-2",
+                "description": "Identify major agricultural export competitors for beef, grain and horticultural produce",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-1-3",
+                "description": "Explain Australia’s counter-seasonal agricultural production timelines",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-1-4",
+                "description": "Explain the purposes of Australia’s traceability system, including to establish ownership, and for disease mitigation and food safety",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-1-5",
+                "description": "Use captured traceability data to analyse feedback provided to Australian producers",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-1-6",
+                "description": "Analyse the advantages and disadvantages of constraints on the development and use of genetically modified organisms (GMOs) in Australian agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-1-7",
+                "description": "Analyse how consumer preferences influence the development of market specifications for agricultural products",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-12-opportunities-and-challenges-for-australian-agriculture-2",
+            "name": "Australian agriculture in a global context",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-1",
+                "description": "Identify risks to Australian agriculture, including biosecurity, energy and fertiliser supply and climate change",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-2",
+                "description": "Describe the influence of supply and demand on commercial agricultural enterprises",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-3",
+                "description": "Explain the market specification for a plant product and an animal product for an export market",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-4",
+                "description": "Explain the impact of product perishability, seasonal climatic conditions and production timeframes on supply and demand",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-5",
+                "description": "Describe methods to reduce the methane (CH₄), carbon dioxide (CO₂) and nitrous oxide (N₂O) emissions of Australian agricultural enterprises",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-6",
+                "description": "Describe the role of research on emissions mitigation for Australian agricultural enterprises",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-7",
+                "description": "Explain the impact of policies on agricultural enterprises and production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-8",
+                "description": "Explain the impact of trade tariffs on agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-9",
+                "description": "Compare domestic and export market options for a food product and a fibre product",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-10",
+                "description": "Explain Australian traceability requirements for cold chain management",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-2-11",
+                "description": "Evaluate the impact of severe weather events on Australian agricultural exports",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-12-opportunities-and-challenges-for-australian-agriculture-3",
+            "name": "Agricultural research and innovation",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-3-1",
+                "description": "Describe the role of government agencies and research organisations in research and innovation for food and fibre producers",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-3-2",
+                "description": "Explain how biofuels reduce use of fossil fuels on farm",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-3-3",
+                "description": "Explain the role of carbon trading and biodiversity trading for Australian farmers",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-3-4",
+                "description": "Analyse the role of agricultural technology (Agtech) innovation and adoption in Australian agriculture",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-3-5",
+                "description": "Evaluate the role of technology in risk mitigation in agricultural production",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-opportunities-and-challenges-for-australian-agriculture-3-6",
+                "description": "Evaluate the impact of research on the efficiency of agricultural production",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ag-12-agricultural-research",
+        "name": "Agricultural research",
+        "subTopics": [
+          {
+            "id": "subtopic-ag-12-agricultural-research-1",
+            "name": "Plan and conduct a practical investigation",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-agricultural-research-1-1",
+                "description": "Plan, conduct and report on a practical investigation to demonstrate the effect of a crop establishment factor on plant growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-agricultural-research-1-2",
+                "description": "Identify potential hazards and develop a risk mitigation plan",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-agricultural-research-1-3",
+                "description": "Assess ethical issues in a practical investigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-agricultural-research-1-4",
+                "description": "Justify the use of sample size, randomisation, replication, variables and experimental controls in a practical investigation",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ag-12-agricultural-research-2",
+            "name": "Evaluate and communicate results of a practical investigation",
+            "dotPoints": [
+              {
+                "id": "dp-ag-12-agricultural-research-2-1",
+                "description": "Calculate the mean and standard deviation of firsthand data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-agricultural-research-2-2",
+                "description": "Use mean and standard deviation values to determine the validity and reliability of data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-agricultural-research-2-3",
+                "description": "Identify patterns and trends in the data",
+                "prompts": []
+              },
+              {
+                "id": "dp-ag-12-agricultural-research-2-4",
+                "description": "Select and use a range of media to communicate findings",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

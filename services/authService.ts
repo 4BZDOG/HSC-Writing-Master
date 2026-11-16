@@ -558,7 +558,11 @@ const isObfuscatedExistingUser = (user: { identities?: unknown[] | null } | null
   Array.isArray(user?.identities) && user.identities.length === 0;
 
 /** Supabase's raw auth errors, restated for someone creating a school account. */
-const describeSignUpError = (message: string): string => {
+const describeSignUpError = (message: string, status?: number): string => {
+  // A 403 here is the server refusing the account: the "Before User Created" hook
+  // (supabase/schema.sql §33) returns its own wording for a closed site, a disallowed
+  // domain or a full day. That wording is the one to show, not a generic failure.
+  if (status === 403 && message.trim()) return message;
   const m = message.toLowerCase();
   if (m.includes('already registered') || m.includes('already been registered')) {
     return 'An account already exists for that email address. Sign in instead.';
@@ -730,7 +734,7 @@ export const authService = {
       },
     });
 
-    if (error) throw new Error(describeSignUpError(error.message));
+    if (error) throw new Error(describeSignUpError(error.message, error.status));
     if (!data.user) throw new Error('Account creation failed. Try again.');
     if (isObfuscatedExistingUser(data.user)) {
       throw new Error('An account already exists for that email address. Sign in instead.');

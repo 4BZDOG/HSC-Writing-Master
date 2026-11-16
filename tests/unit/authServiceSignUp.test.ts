@@ -228,5 +228,33 @@ describe('authService.signUp', () => {
         'Database is on fire'
       );
     });
+
+    it("shows the Before User Created hook's own refusal on a 403, not a generic failure", async () => {
+      // schema.sql §33: the hook refuses with http_code 403 and a message written for the
+      // student. A closed site, a disallowed domain and a full day all arrive this way.
+      signUpMock.mockResolvedValue({
+        data: { user: null, session: null },
+        error: {
+          message:
+            "That email address can't be used to sign up here. Use your school email address.",
+          status: 403,
+        },
+      });
+      await expect(authService.signUp('a@example.com', 'correct-horse')).rejects.toThrow(
+        "That email address can't be used to sign up here. Use your school email address."
+      );
+    });
+
+    it('keeps the 403 wording even when it contains a phrase the mapper would rewrite', async () => {
+      // "Sign-ups are closed" carries no keyword the mapper rewrites, but a 403 must never be
+      // rewritten into the generic project-level message, whatever the hook says.
+      signUpMock.mockResolvedValue({
+        data: { user: null, session: null },
+        error: { message: 'Sign-ups are closed for this site.', status: 403 },
+      });
+      await expect(authService.signUp('a@example.com', 'correct-horse')).rejects.toThrow(
+        'Sign-ups are closed for this site.'
+      );
+    });
   });
 });

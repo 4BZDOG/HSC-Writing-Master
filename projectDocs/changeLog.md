@@ -1,5 +1,146 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Sample answers: marks that match their length)
+
+- **Changed (DATA_VERSION 2.55.0).** 1,407 middle and bottom sample answers across 16 courses were awarded more than
+  their length could earn: for example a 34-word answer at 4 of 6 on a DISCUSS question. A sample now holds a mark only
+  if it has at least half the words a full answer worth that mark needs (`getFullMarkWordRange`); otherwise it moves
+  down to the highest mark its length supports.
+  - It never drops past the next sample down, so every ladder keeps its highest-first order and its shorter-at-lower-
+    marks rule. 25 samples with no room between them and the next sample stay as they were.
+  - The feedback follows the mark ("meets the 3-mark row. To reach 4 marks, …"), and bands are re-derived.
+  - Full-mark exemplars and past HSC questions are not touched.
+
+## [Unreleased] - 2026-11-16 (Science questions, final batch)
+
+- **Added (DATA_VERSION 2.54.0).** The last 412 written-response questions for the three science courses, on the same
+  rules: Chemistry 533 questions (90% of dot points), Physics 660 (84%), Earth and Environmental Science 514 (100%).
+  The 30 Chemistry and 62 Physics dot points left without questions are, almost all, the purely numeric ones
+  ("Solve problems using …") skipped on purpose under the written-only rule.
+
+## [Unreleased] - 2026-11-16 (Science questions, second batch)
+
+- **Added (DATA_VERSION 2.53.0).** 332 more written-response questions for the three science courses, on the same
+  rules (no calculation, two per dot point, validated): Chemistry 435 questions (74% of dot points covered),
+  Physics 454 (58%), Earth and Environmental Science 406 (80%). The rest follows in a later batch.
+
+## [Unreleased] - 2026-11-16 (Science questions, written only; course unlocks)
+
+- **Added (DATA_VERSION 2.52.0).** Written-response questions for the three science courses that had only past HSC
+  questions (922 new), two per dot point, written by agents to `author_brief.md` and validated:
+  - **Chemistry** 355 questions (61% of dot points covered, from 6%), **Physics** 304 (40%, from 5%), **Earth and
+    Environmental Science** 304 (60%, from 6%).
+  - Science questions are written only: no CALCULATE verb and no numeric working. A formula is tested by explaining or
+    predicting in words. The rule is now in `author_brief.md`. Dot points that are purely calculation (25 in
+    Chemistry, 58 in Physics) are skipped on purpose.
+  - The rest of the three courses is not authored yet; the job files can be regenerated with `make_jobs.py`.
+- **Removed.** 34 calculation questions from the science courses (17 Biology, 6 Chemistry, 11 Physics; 18 of them
+  past HSC questions), for example pH, titration, projectile and Lincoln-index calculations. Ten questions with a
+  minor numeric step and a mainly written answer were kept.
+- **Added (course unlocks).** A one-off fee per course on top of a plan, off by default
+  (`projectDocs/course-unlocks.md`): a lock badge and price in the course picker, an unlock prompt before marking a
+  locked course, and the checkout return. The server side landed earlier in this branch.
+
+## [Unreleased] - 2026-11-16 (Three more structure-only courses: Aboriginal Studies, Agriculture, Engineering Studies)
+
+- **Added (DATA_VERSION 2.51.0).** Three structure-only courses whose HSC exam is all written, chosen from
+  `projectDocs/course-roadmap.md`. Each is the 2026 syllabus from NESA's page data (Year 11 from 2028, first HSC 2029;
+  the older syllabus is examined until then), as the app does for Visual Arts, Biology and others. Year 11 and Year 12,
+  unticked in the first-run picker, no questions yet:
+  - **Aboriginal Studies** (146 dot points; AST-11-01 to AST-12-09). The Year 12 comparative study's six areas are
+    option topics, "Social justice: …" (students study two), and the Country study's two are "Land, water and sky
+    Country: …" (students study one). NESA's defined terms keep their capitals: Aboriginal, Peoples, Country,
+    Community, Cultural Knowledges.
+  - **Agriculture** (144 dot points; AG-11-01 to AG-12-07). The 2026 syllabus has no electives.
+  - **Engineering Studies** (369 dot points; ES-11-01 to ES-12-08). Seven focus areas, no options.
+  - Configs are in `.claude/skills/build-course-data/configs/`. Agriculture's photosynthesis equation was written by
+    hand, because `fetch_nesa.py` flattens a labelled stacked arrow ("⟶lightchlorophyll").
+
+## [Unreleased] - 2026-11-16 (Five new courses, structure only: the roadmap's first wave)
+
+- **Added (DATA_VERSION 2.50.0).** Five structure-only courses from `projectDocs/course-roadmap.md` Wave 1, unticked
+  in the first-run picker (teachers fill them with the Starter questions tool or a later authoring pass), Year 11 and
+  Year 12, in NESA's own words, every dot point with no questions yet:
+  - **Studies of Religion I** (242 dot points) and **Studies of Religion II** (296): the 2009 syllabus, still the
+    newest NESA publishes for the course, built from NESA's DOC. Outcomes P1–P9 and H1–H9. The five religious
+    traditions are option topics, "Religious tradition study: …" (Year 11) and "Depth study: …" (Year 12); students
+    study two (SoR I) or three (SoR II). Religions of Ancient Origin, Religion in Australia pre-1945, Religion and
+    Peace and Religion and Non-Religion are SoR II only.
+  - **Visual Arts** (60 dot points): the 2026 syllabus from NESA's page data (Year 11 from 2028, first HSC 2029; the
+    2016 syllabus is examined until then), as the app already does for Biology and others. Only what the written
+    paper assesses is in: Practice, Artworld concepts, Viewpoints, and Art criticism and art history. Art making and
+    the "In Art making, …" paragraphs are left out, because the body of work is practical.
+  - **Investigating Science** (145 dot points): the 2017 syllabus from NESA's DOCX; the 2023 draft is in
+    consultation, not in force. NESA's INS codes are written in the app's form (IS-11-08, and IS-11WS-01 to 07 for
+    each year's copy of the Working Scientifically outcomes), as Biology does.
+  - **Food Technology** (107 dot points): the 2013 syllabus from NESA's DOCX, P1.1–H5.1. A Food Technology 11–12 draft
+    is in consultation. "Learn to" statements are kept as dot points, as in CAFS and Society and Culture.
+  - Configs are in `.claude/skills/build-course-data/configs/`; the courses are listed in the manifest under their
+    faculties (HSIE, Creative Arts, TAS, Science).
+
+## [Unreleased] - 2026-11-15 (Card headers, page header, feedback PDF and profile: bugs and polish)
+
+- **Changed (workspace card headers).**
+  - **Shorter, and the same height.** The Writing Prompt and Written Response headers are 78px (from 92) and
+    equal at every width. `workspace-chrome.spec.ts` now holds them under 84px.
+  - **A larger title.** 28px from 1440 wide (was 24px) and 24px in one column (was 20px). It stays 24px from 1360
+    and 20px at the two narrowest two-column widths, where a free account's toolbar leaves no more room beside it.
+  - **Paid for in the chrome:** 8px of header padding instead of 12, a 24px reading size and tighter gaps. The
+    toolbar keeps its 32px tools; its Coach, Exam and Focus labels now appear from 1600px wide, not 1536.
+- **Changed (page header).**
+  - **One height and radius** for the plan chip, the storage chip and the profile control (40px from `sm`).
+  - **Light-theme edges clear 3:1** on the bar, the profile control, the plan and storage chips and the tools menu.
+  - **Fixed: the tools menu stayed open** after keyboard focus left it.
+- **Changed (feedback PDF).**
+  - **Fixed: an empty Response cell.** The score summary no longer prints the heading over nothing when there is
+    no word or key-term count; the band cell takes the width.
+  - **Fixed: characters that vanished.** Scripts the embedded font cannot draw (CJK, Arabic, Thai and similar)
+    print as "?" instead of being dropped.
+  - **A file name that sorts:** `HSC-Feedback-<course>-<VERB>-<yyyy-mm-dd>.pdf`, the same shape as the progress
+    report. No student name and no band.
+- **Changed (profile).**
+  - **The body shows when there is more.** A fade at the top or bottom edge while content is scrolled out of view.
+  - **A new student is told what will appear**, and how to start, in place of empty charts. The average reads "–"
+    until something is marked.
+  - **Fixed: a guest was offered "Delete my account"** with copy about deleting a profile and progress. A guest
+    sees "Clear guest session", with what that actually clears.
+  - **The summary is three short sentences**: what has been marked, where it stands, what to do next.
+
+## [Unreleased] - 2026-11-15 (Focus layouts, reference panels as one family, a new front door)
+
+- **Added (Focus Mode on a desktop).**
+  - **Three layouts, chosen beside the exit pill:** Stacked (the reading-width column, as before), Wide (the same
+    stack across the window) and Side by side (question on the left, answer on the right). The choice is
+    remembered per browser. Works the same in Coach and Exam Mode.
+  - **Side by side fits the window.** Both cards are exactly the height of the window at any size, the scenario
+    stays open, and the question stays pinned while the page scrolls on to the reference panels.
+  - **A vertical splitter** between the two columns sets the question's share (25 to 60 per cent) by drag, or by
+    Left, Right, Home and End. Double-click returns it to 40 per cent.
+  - **Side by side needs 1100px.** On a narrower window the stack is drawn instead, and the choice is kept for
+    when the window is wide again.
+- **Changed (the panels under the writing card).**
+  - **One header for all five.** Draft check, the timer, Syllabus terms, Marking guide and Sample answers share a
+    40px tile, the same title and caption type and a 61px row (`components/ReferencePanelHeader.tsx`).
+  - **One gap.** 16px between every panel, in the rail and in Focus Mode.
+  - **Sample answers.** The reading-size control sits on the panel's intro line rather than a row of its own. A
+    row's source, word count and chevron are in the same place open or shut, and the open paper no longer
+    repeats them.
+  - **Light theme.** Neutral panel edges clear 3:1 (`edge-ink`, and slate-500 in `PANEL_SURFACE`).
+- **Changed (sign-in).**
+  - **Two columns from 1024px:** the brand, a headline and a three-step "How it works" on the left, the form on
+    the right. One column below that, with Sign in above the fold at 390x844 and 1280x720.
+  - **The form.** Placeholders that repeated their labels are gone, the username takes focus on arrival, a wrong
+    sign-in marks both fields, and every control has a focus ring.
+  - **"Try it as a guest"** says what a guest gets: no account, work kept in this browser.
+  - **One legal line** under the card instead of a footer link and a sentence.
+- **Changed (first run).**
+  - **The agreement opens at the top.** The focus trap focused the checkbox at the foot of the list and scrolled
+    it into view, hiding the first items. The title takes focus instead, without scrolling.
+  - **The agreement shows there is more below**, and the disabled button says why ("Tick the box above to
+    continue.").
+  - **Quick start reads at a glance:** a title and one sentence per step, the detail behind "Show the detail",
+    and a shorter student track.
+
 ## [Unreleased] - 2026-11-14 (Exam and Focus Mode: clock, sitting and keyboard fixes)
 
 - **Changed (Exam Mode).**

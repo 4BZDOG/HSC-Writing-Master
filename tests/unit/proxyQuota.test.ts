@@ -40,6 +40,7 @@ const realQuota =
   await vi.importActual<typeof import('../../api/_lib/quota')>('../../api/_lib/quota');
 const realConsume = realQuota.consumeAiQuota;
 const realRecord = realQuota.recordAiModelUsage;
+const realRefund = realQuota.refundEvaluation;
 
 describe('consumeAiQuota (proxy quota module)', () => {
   beforeEach(() => {
@@ -132,6 +133,107 @@ describe('recordAiModelUsage (proxy model-tally module)', () => {
     it('swallows a thrown client error', async () => {
       rpcMock.mockRejectedValue(new Error('network down'));
       await expect(realRecord('token', 'gemini-3.1-pro-preview')).resolves.toBeUndefined();
+    });
+
+    it('stops waiting on a hung write after 1500ms, so the request is not held', async () => {
+      vi.useFakeTimers();
+      try {
+        rpcMock.mockReturnValue(new Promise(() => {}));
+        let settled = false;
+        const done = realRecord('token', 'claude-sonnet-4-6').then(() => {
+          settled = true;
+        });
+        await vi.advanceTimersByTimeAsync(1499);
+        expect(settled).toBe(false);
+        await vi.advanceTimersByTimeAsync(1);
+        await done;
+        expect(settled).toBe(true);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+  });
+});
+
+describe('refundEvaluation (give back a spent free evaluation)', () => {
+  // getSupabaseAdmin caches its service-role client in a module-level variable,
+  // so a client built by an earlier test would leak into the "unconfigured"
+  // cases. Each test therefore gets a fresh copy of the quota module (and with
+  // it a fresh, empty cache). The mocked createClient and rpcMock are hoisted,
+  // so they survive the registry reset.
+  let refund: typeof realRefund;
+  beforeEach(async () => {
+    rpcMock.mockReset();
+    vi.resetModules();
+    refund = (await vi.importActual<typeof import('../../api/_lib/quota')>('../../api/_lib/quota'))
+      .refundEvaluation;
+    delete process.env.SUPABASE_URL;
+    delete process.env.SUPABASE_ANON_KEY;
+    delete process.env.SUPABASE_SERVICE_ROLE_KEY;
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+    process.env = { ...ORIGINAL_ENV };
+  });
+
+  it('no-ops (no RPC) when Supabase is unconfigured', async () => {
+    await refund('user-1');
+    expect(rpcMock).not.toHaveBeenCalled();
+  });
+
+  it('no-ops (no RPC) when only the anon key is set, never falling back to it', async () => {
+    // The refund is service-role only; the anon key must not be a substitute.
+    process.env.SUPABASE_URL = 'https://example.supabase.co';
+    process.env.SUPABASE_ANON_KEY = 'anon-key';
+    await refund('user-1');
+    expect(rpcMock).not.toHaveBeenCalled();
+  });
+
+  it('no-ops (no RPC) when the URL is set but SUPABASE_SERVICE_ROLE_KEY is not', async () => {
+    process.env.SUPABASE_URL = 'https://example.supabase.co';
+    await refund('user-1');
+    expect(rpcMock).not.toHaveBeenCalled();
+  });
+
+  describe('when the service-role client IS configured', () => {
+    beforeEach(() => {
+      process.env.SUPABASE_URL = 'https://example.supabase.co';
+      process.env.SUPABASE_SERVICE_ROLE_KEY = 'service-role-key';
+    });
+
+    it('calls refund_evaluation with the user id as p_user', async () => {
+      rpcMock.mockResolvedValue({ data: { refunded: true }, error: null });
+      await refund('user-1');
+      expect(rpcMock).toHaveBeenCalledTimes(1);
+      expect(rpcMock).toHaveBeenCalledWith('refund_evaluation', { p_user: 'user-1' });
+    });
+
+    it('swallows an RPC error (best-effort, never throws)', async () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => {});
+      rpcMock.mockResolvedValue({ error: { message: 'function does not exist' } });
+      await expect(refund('user-1')).resolves.toBeUndefined();
+    });
+
+    it('swallows a thrown client error', async () => {
+      vi.spyOn(console, 'warn').mockImplementation(() => {});
+      rpcMock.mockRejectedValue(new Error('network down'));
+      await expect(refund('user-1')).resolves.toBeUndefined();
+    });
+
+    it('stops waiting on a hung refund after 5000ms, so the request is not held', async () => {
+      vi.useFakeTimers();
+      vi.spyOn(console, 'warn').mockImplementation(() => {});
+      rpcMock.mockReturnValue(new Promise(() => {}));
+      let settled = false;
+      const done = refund('user-1').then(() => {
+        settled = true;
+      });
+      await vi.advanceTimersByTimeAsync(4999);
+      expect(settled).toBe(false);
+      await vi.advanceTimersByTimeAsync(1);
+      await done;
+      expect(settled).toBe(true);
     });
   });
 });

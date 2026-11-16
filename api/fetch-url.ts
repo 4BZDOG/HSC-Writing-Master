@@ -45,9 +45,31 @@ const NESA_ON_NSW_GOV = { host: 'www.nsw.gov.au', pathPrefix: '/education-and-tr
 const USER_AGENT =
   'Mozilla/5.0 (compatible; HSCWritingMaster/1.0; +https://github.com/4BZDOG/HSC-Writing-Master)';
 
+const OUT_OF_SCOPE_MESSAGE =
+  'Only NESA/NSW Education syllabus URLs are supported. Paste the page URL from educationstandards.nsw.edu.au or curriculum.nsw.edu.au.';
+
+const MAX_REDIRECTS = 5;
+const FETCH_TIMEOUT_MS = 15000;
+/** Syllabus pages run 2–3 MB. This is generous, and stops a runaway response filling memory. */
+const MAX_BODY_BYTES = 8 * 1024 * 1024;
+
+/** A URL the reader will not fetch, or a redirect to one. Answered with a 400. */
+class RefusedUrlError extends Error {}
+/** A page over MAX_BODY_BYTES. */
+class PageTooLargeError extends Error {}
+
+const PAGE_HEADERS = {
+  'User-Agent': USER_AGENT,
+  Accept: 'text/html,application/xhtml+xml',
+};
+
 function isAllowedUrl(url: string): boolean {
   try {
     const parsed = new URL(url);
+    // HTTPS on the default port only, and no credentials in the URL. `port` is ''
+    // for the default port, so an explicit ":443" is still accepted.
+    if (parsed.protocol !== 'https:' || parsed.port !== '') return false;
+    if (parsed.username || parsed.password) return false;
     if (parsed.hostname === NESA_ON_NSW_GOV.host) {
       // The path is checked after URL normalisation, so a "../" cannot climb out of the section.
       return parsed.pathname.startsWith(NESA_ON_NSW_GOV.pathPrefix);
@@ -56,6 +78,66 @@ function isAllowedUrl(url: string): boolean {
   } catch {
     return false;
   }
+}
+
+/**
+ * `fetch` that follows redirects itself, checking each hop against the same host
+ * rules as the URL the caller gave. With `redirect: 'follow'` the runtime would
+ * follow a Location header to any host, including the cloud metadata address, and
+ * the text of that response would come back to the caller. An open redirect on an
+ * allowed host is enough to do that.
+ */
+async function fetchAllowed(url: string): Promise<Response> {
+  let current = url;
+  for (let hop = 0; ; hop++) {
+    const response = await fetch(current, {
+      headers: PAGE_HEADERS,
+      redirect: 'manual',
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
+    const location = response.headers.get('location');
+    if (response.status < 300 || response.status > 399 || !location) return response;
+
+    if (hop >= MAX_REDIRECTS)
+      throw new RefusedUrlError('That page redirects too many times to read.');
+    let next: string;
+    try {
+      next = new URL(location, current).toString();
+    } catch {
+      throw new RefusedUrlError(OUT_OF_SCOPE_MESSAGE);
+    }
+    if (!isAllowedUrl(next)) throw new RefusedUrlError(OUT_OF_SCOPE_MESSAGE);
+    await response.body?.cancel().catch(() => undefined);
+    current = next;
+  }
+}
+
+/** The response body as text, read in full but never beyond MAX_BODY_BYTES. */
+async function readBodyCapped(response: Response): Promise<string> {
+  const declared = Number(response.headers.get('content-length'));
+  if (declared > MAX_BODY_BYTES) throw new PageTooLargeError();
+
+  const reader = response.body?.getReader();
+  if (!reader) return '';
+  const chunks: Uint8Array[] = [];
+  let total = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.byteLength;
+    if (total > MAX_BODY_BYTES) {
+      await reader.cancel();
+      throw new PageTooLargeError();
+    }
+    chunks.push(value);
+  }
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return new TextDecoder().decode(bytes);
 }
 
 function stripHtmlToText(html: string): string {
@@ -129,22 +211,12 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
   }
 
   if (!isAllowedUrl(url)) {
-    res.status(400).json({
-      error:
-        'Only NESA/NSW Education syllabus URLs are supported. Paste the page URL from educationstandards.nsw.edu.au or curriculum.nsw.edu.au.',
-    });
+    res.status(400).json({ error: OUT_OF_SCOPE_MESSAGE });
     return;
   }
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        'User-Agent': USER_AGENT,
-        Accept: 'text/html,application/xhtml+xml',
-      },
-      redirect: 'follow',
-      signal: AbortSignal.timeout(15000),
-    });
+    const response = await fetchAllowed(url);
 
     if (!response.ok) {
       // 401/403/429 is the page refusing an automated reader, which is what
@@ -162,21 +234,19 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
 
     // The whole document goes to the parser: the CMS record is most of a 2–3 MB page,
     // and slicing first could cut it off before the end.
-    let html = await response.text();
+    let html = await readBodyCapped(response);
     let pageUrl = url;
 
     if (new URL(url).hostname === 'curriculum.nsw.edu.au') {
       // A syllabus's own address holds no content; follow it, once, to the first focus
-      // area, whose sibling list then offers the rest of the syllabus.
+      // area, whose sibling list then offers the rest of the syllabus. Best effort: any
+      // failure keeps the page already fetched.
       const start = nesaStartPage(html, url);
       if (start && isAllowedUrl(start)) {
-        const next = await fetch(start, {
-          headers: { 'User-Agent': USER_AGENT, Accept: 'text/html,application/xhtml+xml' },
-          redirect: 'follow',
-          signal: AbortSignal.timeout(15000),
-        }).catch(() => null);
-        if (next?.ok) {
-          html = await next.text();
+        const next = await fetchAllowed(start).catch(() => null);
+        const nextHtml = next?.ok ? await readBodyCapped(next).catch(() => null) : null;
+        if (nextHtml !== null) {
+          html = nextHtml;
           pageUrl = start;
         }
       }
@@ -202,6 +272,17 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // Cap at 100k chars to avoid absurdly large responses
     res.status(200).json({ text: text.slice(0, 100000) });
   } catch (err: unknown) {
+    if (err instanceof RefusedUrlError) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+    if (err instanceof PageTooLargeError) {
+      res.status(502).json({
+        error:
+          'That page is too large for the reader. Open it in your browser, select the syllabus text and paste it in below.',
+      });
+      return;
+    }
     const msg = err instanceof Error ? err.message : 'Unknown error';
     if (msg.includes('timeout') || msg.includes('abort')) {
       res.status(504).json({ error: 'The syllabus page took too long to respond.' });

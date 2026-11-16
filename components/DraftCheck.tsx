@@ -14,7 +14,12 @@ import {
   summariseChecklist,
   type DraftChecklistRow,
 } from '../utils/draftChecklist';
-import { PANEL_NAME, PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import { PanelReadChip, useOpenedOnce } from './PanelDisclosure';
+import {
+  REFERENCE_TILE,
+  REFERENCE_TILE_NEUTRAL,
+  ReferencePanelHeader,
+} from './ReferencePanelHeader';
 import WordChip from './WordChip';
 
 const NO_TERMS: string[] = [];
@@ -188,37 +193,42 @@ const DraftCheck: React.FC<DraftCheckProps> = React.memo(
     );
 
     return (
-      <div className={`${PANEL_SURFACE} band-surface animate-fade-in`}>
+      <div className={`${PANEL_SURFACE} edge-ink animate-fade-in`}>
         <button
           onClick={() => setIsCollapsed((c) => !c)}
           disabled={resting}
           aria-expanded={resting ? undefined : !isCollapsed}
           aria-controls={resting ? undefined : panelId}
-          className={`w-full ${PANEL_ROW_MIN_H} py-3 px-5 flex items-center gap-4 text-left transition-all ${
+          className={`w-full ${PANEL_ROW_MIN_H} py-2.5 px-5 flex items-center justify-between gap-4 text-left transition-all ${
             resting ? 'cursor-default' : isCollapsed ? PANEL_HEADER_CLOSED : PANEL_HEADER_OPEN
           }`}
         >
-          <ClearRing cleared={cleared} total={total} todo={todo.length} resting={resting} />
-          {/* The panel's NAME takes the heading voice and the line under it stays
-              `.t-label`: the heading and its caption, as on every other panel in
-              this column. The name is in the primary ink shut or open, as the
-              reference panels' names are, so the column does not dim one of its
-              headers. A span rather than a heading element is still right,
-              because the row IS the disclosure. */}
-          <span className="text-left">
-            <span className={`${PANEL_NAME} text-slate-900 dark:text-white`}>Draft check</span>
-            <span className="t-label block text-slate-600 dark:text-slate-400">{summary}</span>
-          </span>
-          <div className="flex items-center gap-2.5 shrink-0 ml-auto">
-            <PanelReadChip show={opened && isCollapsed} />
-            {!resting && (
-              <ChevronDown
-                className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 motion-reduce:transition-none ${
-                  isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
-                }`}
-              />
-            )}
-          </div>
+          {/* The name is in the heading voice and the caption under it is `.t-label`,
+              as on every panel in this column. The name stays in the primary ink
+              shut or open, so the column does not dim one of its headers. A span
+              rather than a heading element is still right, because the row IS the
+              disclosure. */}
+          <ReferencePanelHeader
+            tile={
+              <div className={`${REFERENCE_TILE} ${REFERENCE_TILE_NEUTRAL}`}>
+                <ClearRing cleared={cleared} total={total} todo={todo.length} resting={resting} />
+              </div>
+            }
+            title="Draft check"
+            subtitle={summary}
+            trailing={
+              <>
+                <PanelReadChip show={opened && isCollapsed} />
+                {!resting && (
+                  <ChevronDown
+                    className={`w-4 h-4 shrink-0 text-slate-400 transition-transform duration-500 motion-reduce:transition-none ${
+                      isCollapsed ? '' : 'rotate-180 text-slate-900 dark:text-white'
+                    }`}
+                  />
+                )}
+              </>
+            }
+          />
         </button>
 
         <div

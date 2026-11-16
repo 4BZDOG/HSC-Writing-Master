@@ -355,7 +355,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         if (holding.length > 0) {
           // A live subscription takes precedence over a pending one in the wording.
           const live = holding.some((row) => isLiveStatus(row.status));
-          res.status(409).json({ error: live ? ALREADY_SUBSCRIBED : PURCHASE_PENDING });
+          res
+            .status(409)
+            .json(
+              live
+                ? { error: ALREADY_SUBSCRIBED }
+                : { code: 'purchase_pending', error: PURCHASE_PENDING }
+            );
           return;
         }
 
@@ -525,7 +531,7 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
         // The same request is still in flight in another invocation. That invocation
         // returns the session to the customer, so this one steps aside.
         console.warn('[create-checkout] an identical checkout request is still in flight.');
-        res.status(409).json({ error: CHECKOUT_STARTING });
+        res.status(409).json({ code: 'checkout_starting', error: CHECKOUT_STARTING });
         return;
       }
       throw e;
@@ -565,9 +571,13 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
             });
             return;
           }
-          res.status(409).json({
-            error: displaced.status === 'incomplete' ? PURCHASE_PENDING : ALREADY_SUBSCRIBED,
-          });
+          res
+            .status(409)
+            .json(
+              displaced.status === 'incomplete'
+                ? { code: 'purchase_pending', error: PURCHASE_PENDING }
+                : { error: ALREADY_SUBSCRIBED }
+            );
           return;
         }
       }

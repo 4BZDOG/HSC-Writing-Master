@@ -146,7 +146,16 @@ import {
 // questions, from 277).
 // 2.49.0: Legal Studies filled in: 266 new questions so every Year 11 and Year 12 dot point has at least one (607
 // questions, from 341).
-export const DATA_VERSION = '2.49.0';
+// 2.50.0: Five structure-only courses from the roadmap's first wave: Studies of Religion I and II, Visual Arts,
+// Food Technology and Investigating Science.
+// 2.51.0: Three more structure-only courses: Aboriginal Studies, Agriculture and Engineering Studies.
+// 2.52.0: Written-response questions for Chemistry, Physics and Earth and Environmental Science (922 new);
+// calculation questions removed from the science courses.
+// 2.53.0: 332 more written-response science questions (Chemistry 74%, Physics 58%, EES 80% of dot points).
+// 2.54.0: 412 more written-response science questions; Chemistry 90%, Physics 84%, EES 100% of dot points
+// (the rest are calculation-only dot points, skipped on purpose).
+// 2.55.0: 1,407 sample answers that were too short for their mark moved down to a mark their length supports.
+export const DATA_VERSION = '2.55.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

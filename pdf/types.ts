@@ -450,6 +450,12 @@ export interface ContentBlock {
    */
   bandScaleMax?: number;
   /**
+   * Heading over the score summary's third cell. Absent when there is nothing
+   * to say (no word count, no key-term count): the cell is then not drawn at
+   * all, rather than printing its heading over an empty space.
+   */
+  metricLabel?: string;
+  /**
    * Draw this list item's marker as an empty tick box rather than a bullet —
    * for the next steps, which are meant to be worked through and ticked off.
    */

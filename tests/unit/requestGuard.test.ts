@@ -61,12 +61,61 @@ describe('the model list', () => {
     expect(verdict.ok).toBe(false);
   });
 
-  it('lets a caller who brings their own key for that provider use any model, since they pay', async () => {
+  it('lets a STAFF caller who brings their own key for that provider use any model, since they pay', async () => {
+    const verdict = await guardAiRequest(
+      call({ model: 'gemini-4-argon', __keyOverride: { gemini: 'their-key' } }),
+      staff
+    );
+    expect(verdict.ok).toBe(true);
+  });
+});
+
+describe('the runtime-key override', () => {
+  it('is discarded for a non-staff caller, so a model the app does not offer is still refused', async () => {
     const verdict = await guardAiRequest(
       call({ model: 'gemini-4-argon', __keyOverride: { gemini: 'their-key' } }),
       notStaff
     );
+    expect(verdict).toMatchObject({ ok: false, status: 400 });
+  });
+
+  it('is removed from the body a non-staff call forwards, so the provider never sees it', async () => {
+    const verdict = await guardAiRequest(
+      call({ __keyOverride: { gemini: 'their-key' } }),
+      notStaff
+    );
     expect(verdict.ok).toBe(true);
+    if (verdict.ok) expect(verdict.body).not.toHaveProperty('__keyOverride');
+  });
+
+  it('does not let a non-staff caller lift the student size limits', async () => {
+    const verdict = await guardAiRequest(
+      call({
+        contents: { parts: [{ text: 'x'.repeat(STUDENT_MAX_INPUT_CHARS * 2) }] },
+        __keyOverride: { gemini: 'their-key' },
+      }),
+      notStaff
+    );
+    expect(verdict).toMatchObject({ ok: false, status: 413 });
+  });
+
+  it('keeps the override for staff, who are the only callers the admin modal serves', async () => {
+    const verdict = await guardAiRequest(call({ __keyOverride: { gemini: 'their-key' } }), staff);
+    expect(verdict.ok).toBe(true);
+    if (verdict.ok) expect(verdict.body).toHaveProperty('__keyOverride');
+  });
+
+  it('is checked for the caller only when an override is present', async () => {
+    const lookup = vi.fn(async () => false);
+    // An explicit output limit, so the only reason to ask about the role is the override.
+    await guardAiRequest(call({ config: { maxOutputTokens: 2048 } }), lookup);
+    expect(lookup).not.toHaveBeenCalled();
+  });
+
+  it('does not alter the object the caller passed in', async () => {
+    const raw = call({ __keyOverride: { gemini: 'their-key' } });
+    await guardAiRequest(raw, notStaff);
+    expect(raw).toHaveProperty('__keyOverride');
   });
 });
 

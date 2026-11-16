@@ -65,6 +65,16 @@ interface ImportMetaEnv {
   /** `false` opens every paid feature — pilots and demos. Unset means ON. */
   readonly VITE_MONETISATION_ENABLED?: string;
   /**
+   * `'true'` turns on the per-course one-off unlock (projectDocs/course-unlocks.md).
+   * Unset or anything else leaves every course open exactly as before. The server
+   * copy, COURSE_UNLOCKS_ENABLED, is the one that enforces.
+   */
+  readonly VITE_COURSE_UNLOCKS_ENABLED?: string;
+  /** Plans that include every course, comma-separated. Unset means `school`; empty means every plan pays. */
+  readonly VITE_COURSE_UNLOCK_INCLUDED_PLANS?: string;
+  /** Course ids that never need an unlock, comma-separated. */
+  readonly VITE_COURSE_UNLOCK_FREE_COURSES?: string;
+  /**
    * Plan policy overrides for this deployment — `feature:plan` pairs, e.g.
    * `sampleAnswers:free,aiContentStudio:plus`. Set the unprefixed
    * PLAN_FEATURE_OVERRIDES to the same value so the API enforces what the UI

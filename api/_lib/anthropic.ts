@@ -13,6 +13,11 @@
  */
 
 import type { ProxyResult } from './generate';
+import {
+  PROVIDER_TIMEOUT_MESSAGE,
+  PROVIDER_TIMEOUT_MS,
+  isProviderTimeout,
+} from './providerTimeout';
 
 const ANTHROPIC_ENDPOINT = 'https://api.anthropic.com/v1/messages';
 const ANTHROPIC_VERSION = '2023-06-01';
@@ -174,8 +179,12 @@ export const runAnthropicProxy = async (
           : {}),
       },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
     });
   } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     const message = error instanceof Error ? error.message : 'Anthropic request failed.';
     return { status: 502, body: { error: message } };
   }
@@ -183,7 +192,10 @@ export const runAnthropicProxy = async (
   let json: unknown;
   try {
     json = await res.json();
-  } catch {
+  } catch (error: unknown) {
+    if (isProviderTimeout(error)) {
+      return { status: 504, body: { error: PROVIDER_TIMEOUT_MESSAGE } };
+    }
     return {
       status: res.status || 502,
       body: { error: 'Anthropic returned a non-JSON response.' },

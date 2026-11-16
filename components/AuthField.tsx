@@ -19,8 +19,14 @@ interface AuthFieldProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   type: string;
-  placeholder: string;
+  /** Optional. A placeholder that only repeats the label is left out. */
+  placeholder?: string;
   icon: LucideIcon;
+  /** Focus this field when the screen opens. */
+  autoFocus?: boolean;
+  /** Paint the field as wrong without a message: the card-level message says
+   *  what happened, and this marks which fields it applies to. */
+  invalid?: boolean;
   autoComplete: string;
   /** Shown under the field, and what `aria-describedby` points at. */
   error?: string;
@@ -45,8 +51,11 @@ const AuthField: React.FC<AuthFieldProps> = ({
   error,
   hint,
   revealable,
+  autoFocus,
+  invalid,
 }) => {
   const errorId = `${id}-error`;
+  const flagged = Boolean(error) || Boolean(invalid);
   const hintId = `${id}-hint`;
   const isPassword = type === 'password';
   const canReveal = Boolean(revealable) && isPassword;
@@ -68,16 +77,16 @@ const AuthField: React.FC<AuthFieldProps> = ({
           {label}
         </label>
         <div
-          className={`relative group/input flex items-center border-2 rounded-2xl transition-[border-color,background-color] duration-300 ease-out ${
-            error
-              ? 'bg-red-500/[0.06] light:bg-red-50 border-red-500/50 light:border-red-400'
-              : 'bg-black/50 light:bg-surface-inset border-white/10 light:border-slate-300 hover:border-white/20 light:hover:border-slate-400 focus-within:border-indigo-500 focus-within:bg-black/70 light:focus-within:bg-white'
+          className={`relative group/input flex items-center border-2 rounded-2xl transition-[border-color,background-color,box-shadow] duration-300 ease-out focus-within:ring-4 focus-within:ring-indigo-500/25 ${
+            flagged
+              ? 'bg-red-500/[0.06] light:bg-red-50 border-red-500/50 light:border-red-600'
+              : 'bg-black/50 light:bg-surface-inset border-white/10 light:border-slate-500 hover:border-white/20 light:hover:border-slate-600 focus-within:border-indigo-500 focus-within:bg-black/70 light:focus-within:bg-white'
           }`}
         >
           <Icon
             aria-hidden="true"
             className={`ml-4 h-4 w-4 shrink-0 transition-colors duration-300 ${
-              error
+              flagged
                 ? 'text-red-400 light:text-red-600'
                 : 'text-slate-500 group-focus-within/input:text-indigo-400'
             }`}
@@ -88,7 +97,8 @@ const AuthField: React.FC<AuthFieldProps> = ({
             value={value}
             onChange={onChange}
             autoComplete={autoComplete}
-            aria-invalid={error ? true : undefined}
+            autoFocus={autoFocus}
+            aria-invalid={flagged ? true : undefined}
             aria-describedby={describedBy}
             // Caps Lock is tracked on the key events; blur clears it, because a
             // key released in another window never reaches this field.
@@ -109,7 +119,7 @@ const AuthField: React.FC<AuthFieldProps> = ({
               aria-label="Show password"
               aria-pressed={revealed}
               aria-controls={id}
-              className="mr-1.5 min-w-11 min-h-11 sm:min-w-9 sm:min-h-9 rounded-xl flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900"
+              className="mr-1.5 min-w-11 min-h-11 sm:min-w-9 sm:min-h-9 rounded-xl flex items-center justify-center text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 light:focus-visible:ring-indigo-600"
             >
               {revealed ? (
                 <EyeOff className="w-4 h-4" aria-hidden="true" />
@@ -131,7 +141,7 @@ const AuthField: React.FC<AuthFieldProps> = ({
       ) : showCapsLock || hint ? (
         <p
           id={hintId}
-          className="text-xs text-slate-500 light:text-slate-600 leading-relaxed mt-2 ml-1"
+          className="text-xs text-slate-400 light:text-slate-600 leading-relaxed mt-2 ml-1"
         >
           {showCapsLock ? 'Caps Lock is on.' : hint}
         </p>

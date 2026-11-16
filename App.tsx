@@ -25,6 +25,8 @@ import { useSyllabusData } from './hooks/useSyllabusData';
 import { registerCalibrationLibrary } from './utils/pastPaperCalibration';
 import { useGemini } from './hooks/useGemini';
 import { useModalManager } from './hooks/useModalManager';
+import { useCourseUnlockSession } from './hooks/useCourseUnlocks';
+import { getOwnedCourseUnlocks, isCourseLocked } from './services/courseAccess';
 import { useToast } from './hooks/useToast';
 import { usePlanFreshness } from './hooks/usePlanFreshness';
 import { applyPlanFields } from './utils/planFreshness';
@@ -66,6 +68,7 @@ import {
 import { guardianCheckoutSuccessMessage } from './services/guardianService';
 import { readStoredWritingMode, writeStoredWritingMode } from './utils/writingModeStore';
 import { showsVerbReference } from './utils/verbReferenceVisibility';
+import FocusArrangementSwitch from './components/FocusArrangementSwitch';
 import { Compass, Sparkles, Layers, UploadCloud, Minimize, ChevronUp, Pencil } from 'lucide-react';
 import { apiMonitor } from './services/geminiService';
 import CommandVerbHierarchy from './components/CommandVerbHierarchy';
@@ -396,6 +399,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     cancelConfirmation,
     showQualityCheck,
     closeQualityCheck,
+    requestCourseUnlock,
   } = useModalManager({
     /**
      * Rename, then drop any Active Focus the new wording no longer offers.
@@ -512,6 +516,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     ),
     user,
     onUpdateUser,
+    onCourseLocked: requestCourseUnlock,
   });
 
   const globalLoadingMessage = useMemo(() => {
@@ -577,8 +582,18 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
     return () => clearTimeout(timer);
   }, [newlyAddedIds]);
 
+  // Loads the viewer's course unlocks, and handles the #/course-unlocked return from
+  // checkout. Does nothing while course unlocks are off (projectDocs/course-unlocks.md).
+  useCourseUnlockSession({ user, courses, showToast });
+
   const handleEvaluate = useCallback(() => {
     if (!currentPrompt || !userAnswer.trim()) return;
+    // A locked course is refused before any quota is spent, so the unlock prompt
+    // opens here rather than after a server 402. With unlocks off this is never true.
+    if (currentCourse && isCourseLocked(currentCourse.id, user, getOwnedCourseUnlocks())) {
+      requestCourseUnlock(currentCourse.id);
+      return;
+    }
     if (isEvalLimitReached(user)) {
       // Shared with the server-refusal path in useGemini, so the same event is
       // described the same way whichever side catches it. Reads the live figure
@@ -592,7 +607,13 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       return;
     }
     evaluate(userAnswer, currentPrompt);
-  }, [currentPrompt, userAnswer, user, showToast, evaluate]);
+  }, [currentPrompt, currentCourse, userAnswer, user, showToast, evaluate, requestCourseUnlock]);
+
+  // The course turned out to be included after all (the server's 409 course_included):
+  // the marking the student asked for simply goes ahead.
+  const proceedAfterCourseIncluded = useCallback(() => {
+    if (currentPrompt && userAnswer.trim()) evaluate(userAnswer, currentPrompt);
+  }, [currentPrompt, userAnswer, evaluate]);
 
   // The local free-evaluation mirror is spent inside useGemini, at the point
   // the marking call returns. It is deliberately NOT an effect on
@@ -745,6 +766,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       cancelConfirmation,
       showQualityCheck,
       closeQualityCheck,
+      requestCourseUnlock,
     }),
     [
       openModal,
@@ -760,6 +782,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
       cancelConfirmation,
       showQualityCheck,
       closeQualityCheck,
+      requestCourseUnlock,
     ]
   );
   const syllabusHandlers = useMemo(
@@ -936,29 +959,34 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
         className={`relative max-w-[1600px] mx-auto ${isFocusMode ? 'p-2 sm:p-4 pt-2' : 'p-4 sm:p-6 lg:p-8'} flex flex-col gap-6 transition-[padding] duration-500`}
       >
         {isFocusMode && (
-          // The way out of Focus Mode, as a row above the cards. It is not pinned
-          // to the window: a fixed pill sat over the question text and the card
-          // toolbar as either scrolled beneath it, at 390px and at 1440px alike.
-          // In the flow it cannot cover a control, and it scrolls away with the
-          // page. Escape and the card's own Normal button also exit, so the pill
-          // is never the only way out.
-          <button
-            type="button"
-            onClick={() => setIsFocusMode(false)}
-            aria-label="Exit focus mode"
-            title="Exit focus mode (Esc)"
-            className="mx-auto max-sm:min-h-11 shrink-0 flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-lg hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
-          >
-            <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-              <Minimize className="w-3.5 h-3.5 text-white" />
-            </span>
-            <span className="t-label whitespace-nowrap">Focus Mode</span>
-            {/* There is no Escape key on a phone, so the hint is a desktop-only
-                affordance. */}
-            <kbd className="max-sm:hidden text-[9px] font-bold px-1.5 py-0.5 rounded-lg bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
-              ESC
-            </kbd>
-          </button>
+          // The exit pill and, on a desktop, the layout choice beside it. One
+          // centred row above the cards, in the flow (see the pill's note).
+          <div className="mx-auto shrink-0 flex flex-wrap items-center justify-center gap-3">
+            {/* The way out of Focus Mode, as a row above the cards. It is not pinned
+                to the window: a fixed pill sat over the question text and the card
+                toolbar as either scrolled beneath it, at 390px and at 1440px alike.
+                In the flow it cannot cover a control, and it scrolls away with the
+                page. Escape and the card's own Normal button also exit, so the pill
+                is never the only way out. */}
+            <button
+              type="button"
+              onClick={() => setIsFocusMode(false)}
+              aria-label="Exit focus mode"
+              title="Exit focus mode (Esc)"
+              className="max-sm:min-h-11 shrink-0 flex items-center gap-2.5 pl-3 pr-4 py-2 rounded-full bg-black/40 light:bg-white/70 backdrop-blur-xl border border-white/15 light:border-slate-300 text-white light:text-slate-700 shadow-lg hover:bg-black/60 light:hover:bg-white transition-all animate-fade-in group"
+            >
+              <span className="w-6 h-6 rounded-full bg-amber-500/90 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                <Minimize className="w-3.5 h-3.5 text-white" />
+              </span>
+              <span className="t-label whitespace-nowrap">Focus Mode</span>
+              {/* There is no Escape key on a phone, so the hint is a desktop-only
+                  affordance. */}
+              <kbd className="max-sm:hidden text-[9px] font-bold px-1.5 py-0.5 rounded-lg bg-white/10 light:bg-slate-200 border border-white/10 light:border-slate-300 tracking-widest">
+                ESC
+              </kbd>
+            </button>
+            {currentPrompt && <FocusArrangementSwitch />}
+          </div>
         )}
         {!isFocusMode && <BillingAlertBanner />}
         {!isFocusMode && <SeatOverageNotice user={user} />}
@@ -1041,6 +1069,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
               >
                 <PromptSelector
                   courses={navigatorCourses}
+                  user={user}
                   statePath={statePath}
                   onPathChange={handlePathChange}
                   onAddCourse={() => openModal('courseCreator')}
@@ -1288,6 +1317,7 @@ const AuthenticatedApp: React.FC<AuthenticatedAppProps> = ({
           user={user}
           onUpdateUser={onUpdateUser}
           onLogout={handleLogout}
+          onCourseIncluded={proceedAfterCourseIncluded}
         />
         <UpgradeModal showToast={showToast} user={user} />
         <CourseRequestModal

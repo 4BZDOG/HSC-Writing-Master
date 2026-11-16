@@ -22,6 +22,7 @@ import {
   QuotaExceededError,
   EvaluationLimitError,
   FeatureLockedError,
+  CourseLockedError,
   ERROR_THRESHOLD,
 } from './aiCore';
 import {
@@ -80,10 +81,12 @@ export {
   QuotaExceededError,
   EvaluationLimitError,
   FeatureLockedError,
+  CourseLockedError,
   ERROR_THRESHOLD,
 };
 
 import { resolveTarget } from './aiConfig';
+import { courseUnlocksEnabled } from './courseAccess';
 import { getSupabase } from './supabaseClient';
 
 // Resolves a logical role to the active provider + model, spread onto each
@@ -228,6 +231,13 @@ export interface EvaluateOptions {
    * changing anything the student sees. Defaults to true.
    */
   withRewrite?: boolean;
+  /**
+   * The course the question sits in. Sent as `__courseId` so the proxy can refuse
+   * a locked course (projectDocs/course-unlocks.md). Only sent while course
+   * unlocks are switched on: with them off the request is byte-for-byte what it
+   * was before.
+   */
+  courseId?: string;
 }
 
 export const evaluateAnswer = async (
@@ -235,7 +245,7 @@ export const evaluateAnswer = async (
   prompt: Prompt,
   tierInfo?: CommandTermInfo,
   syllabus?: SyllabusKeywordContext,
-  { withRewrite = true }: EvaluateOptions = {}
+  { withRewrite = true, courseId }: EvaluateOptions = {}
 ): Promise<EvaluationResult> => {
   const termInfo = tierInfo || getPromptTermInfo(prompt);
 
@@ -325,6 +335,9 @@ ${buildUpgradeStyleRules(answer, revisionCeiling)}
     // client-side counter in entitlements.ts is only for display — this tag is
     // what makes the free-tier limit real. Stripped before the provider call.
     __feature: 'evaluation',
+    // Only when unlocks are on: a deployment that has not opted in sends exactly
+    // the request it always has.
+    ...(courseId && courseUnlocksEnabled() ? { __courseId: courseId } : {}),
     contents: {
       parts: [
         {

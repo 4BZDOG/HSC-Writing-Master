@@ -326,8 +326,8 @@ verb guide, and is not repeated by either.
   reason through `aria-describedby`. A disabled button leaves the tab order and takes its
   reason with it, so a keyboard or screen-reader user would not learn why it is off.
 - **Header toolbar buttons are 32px from `sm`,** and 44px below, which is the touch size.
-  The mode labels "Coach" and "Exam" are spelt out from `2xl`; below that they are icons,
-  so the tray stays on one line and the header keeps its height.
+  The mode labels "Coach", "Exam" and "Focus" are spelt out from 1600px wide; below that they
+  are icons, so the tray stays on one line and the header keeps its height.
 
 ### Focus Mode and Exam Mode on desktop
 
