@@ -5266,6 +5266,159 @@ begin
 end $$;
 
 -- =============================================================================
+-- §34 · Course unlocks: a one-off fee per course, on top of a plan
+--
+--     A plan (free, plus, school) governs how much a student can do. A course unlock
+--     governs which courses they can be MARKED in (projectDocs/course-unlocks.md). Two
+--     tables hold that: the catalogue says which courses need an unlock and at what price,
+--     and the unlocks say who has paid for one, or been granted one.
+--
+--     Only the server writes unlocks: the Stripe webhook on a paid checkout, and the admin
+--     RPCs below. Nothing a signed-in user sends can add a row or move one, so a tampered
+--     client cannot buy its way into a course it has not paid for. The catalogue is the
+--     one table an admin writes directly, under RLS.
+--
+--     Nothing here changes behaviour on its own. The gates live in api/_lib/courseAccess.ts
+--     and stay off until COURSE_UNLOCKS_ENABLED is set.
+-- =============================================================================
+
+create table if not exists public.course_catalogue (
+  course_id       text primary key check (length(btrim(course_id)) > 0),
+  -- false makes the course free to mark for everyone. A course with no row requires an unlock.
+  unlock_required boolean not null default true,
+  -- The per-course Stripe price. Null uses the default price from the server environment.
+  stripe_price_id text,
+  active          boolean not null default true,
+  updated_at      timestamptz
+);
+
+create table if not exists public.course_unlocks (
+  id                         uuid primary key default gen_random_uuid(),
+  user_id                    uuid not null references public.profiles (id) on delete cascade,
+  course_id                  text not null check (length(btrim(course_id)) > 0),
+  source                     text not null check (source in ('purchase', 'grant')),
+  -- One row per paid checkout, so a replayed webhook cannot add a second unlock.
+  stripe_checkout_session_id text unique,
+  stripe_payment_intent_id   text,
+  granted_at                 timestamptz not null default now(),
+  -- Null means the unlock never expires.
+  expires_at                 timestamptz,
+  -- Set by a refund or an admin revoke. A revoked row is kept, so the history stays.
+  revoked_at                 timestamptz
+);
+
+create index if not exists course_unlocks_user_course_idx
+  on public.course_unlocks (user_id, course_id);
+
+-- The refund path finds an unlock by its payment intent.
+create index if not exists course_unlocks_payment_intent_idx
+  on public.course_unlocks (stripe_payment_intent_id);
+
+alter table public.course_catalogue enable row level security;
+alter table public.course_unlocks   enable row level security;
+
+-- Any signed-in user reads the catalogue (the course picker shows prices). Only admins
+-- write it.
+drop policy if exists "Signed-in users read the course catalogue" on public.course_catalogue;
+create policy "Signed-in users read the course catalogue"
+  on public.course_catalogue for select
+  to authenticated
+  using (auth.uid() is not null);
+
+drop policy if exists "Admins write the course catalogue" on public.course_catalogue;
+create policy "Admins write the course catalogue"
+  on public.course_catalogue for all
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+-- A user reads their own unlocks, and an admin reads all of them. There is no insert,
+-- update or delete policy, and no write grant: rows come only from the service role
+-- (the webhook) or the admin RPCs below.
+drop policy if exists "Users read their own course unlocks" on public.course_unlocks;
+create policy "Users read their own course unlocks"
+  on public.course_unlocks for select
+  to authenticated
+  using (user_id = auth.uid() or public.is_admin());
+
+-- The caller's active course ids: not revoked, and not past expires_at. Scoped to
+-- auth.uid(), so a caller sees only its own. Security definer because the caller's
+-- row-level read is not what decides it.
+create or replace function public.my_course_unlocks()
+returns setof text language sql stable security definer set search_path = public as $$
+  select distinct u.course_id
+    from public.course_unlocks u
+   where u.user_id = auth.uid()
+     and u.revoked_at is null
+     and (u.expires_at is null or u.expires_at > now());
+$$;
+
+-- Admin-only. Hands an unlock out without payment (a scholarship, a mistaken purchase
+-- put right). Each grant is its own row, so the history stays. A null p_expires_at
+-- means it never expires.
+create or replace function public.grant_course_unlock(
+  p_user       uuid,
+  p_course     text,
+  p_expires_at timestamptz default null
+)
+returns uuid language plpgsql security definer set search_path = public as $$
+declare
+  v_id uuid;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can grant a course unlock';
+  end if;
+  if p_user is null or p_course is null or btrim(p_course) = '' then
+    raise exception 'A course unlock needs a user and a course';
+  end if;
+
+  insert into public.course_unlocks (user_id, course_id, source, expires_at)
+  values (p_user, btrim(p_course), 'grant', p_expires_at)
+  returning id into v_id;
+
+  return v_id;
+end; $$;
+
+-- Admin-only. Takes back every active unlock the user holds for the course, and returns
+-- how many were revoked (0 when there was nothing to revoke).
+create or replace function public.revoke_course_unlock(p_user uuid, p_course text)
+returns integer language plpgsql security definer set search_path = public as $$
+declare
+  v_count integer;
+begin
+  if not public.is_admin() then
+    raise exception 'Only admins can revoke a course unlock';
+  end if;
+
+  update public.course_unlocks
+     set revoked_at = now()
+   where user_id = p_user
+     and course_id = p_course
+     and revoked_at is null;
+  get diagnostics v_count = row_count;
+  return v_count;
+end; $$;
+
+-- ---- Grants ---------------------------------------------------------------------
+
+-- Supabase's default privileges grant anon and authenticated full access to new tables,
+-- so revoke it, then grant back only what the policies above allow.
+revoke all on public.course_catalogue from anon, authenticated;
+grant select, insert, update, delete on public.course_catalogue to authenticated;
+
+revoke all on public.course_unlocks from anon, authenticated;
+grant select on public.course_unlocks to authenticated;
+
+revoke all on function public.my_course_unlocks() from public, anon;
+grant execute on function public.my_course_unlocks() to authenticated;
+
+revoke all on function public.grant_course_unlock(uuid, text, timestamptz) from public, anon;
+grant execute on function public.grant_course_unlock(uuid, text, timestamptz) to authenticated;
+
+revoke all on function public.revoke_course_unlock(uuid, text) from public, anon;
+grant execute on function public.revoke_course_unlock(uuid, text) to authenticated;
+
+-- =============================================================================
 -- End of schema.
 -- Next: run supabase/seed.mjs to import courseData/*.json as approved content.
 -- =============================================================================

@@ -10,6 +10,11 @@ import {
   type QuotaVerdict,
 } from './_lib/quota';
 import { corsHeadersFor } from './_lib/cors';
+import {
+  courseIdFromRequest,
+  courseUnlocksEnabled,
+  resolveCourseAccess,
+} from './_lib/courseAccess';
 import { freeTierMarkingModel, guardAiRequest } from './_lib/requestGuard';
 import { isEvaluationRequest, redactEvaluationResponse } from './_lib/entitlements';
 import {
@@ -148,6 +153,38 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
       planLookup ??= resolveCallerPlan(token);
       return planLookup;
     };
+
+    // Course gate (projectDocs/course-unlocks.md). A marking run for a course the caller
+    // has not unlocked is refused here, before the evaluation meter or the AI budget is
+    // touched, so a refused call costs nothing. Staff and the included plans pass inside
+    // resolveCourseAccess. Off unless COURSE_UNLOCKS_ENABLED is set. It fails open on a
+    // lookup error, so a broken database never takes marking down.
+    // With unlocks on, a marking run must name its course: a request that leaves the
+    // tag off would otherwise skip the gate entirely. The app always sends it when
+    // unlocks are on (services/courseAccess.ts). Naming a different, open course is
+    // still possible from a tampered client; the server holds no question → course map.
+    const unlocksOn = courseUnlocksEnabled();
+    const courseId = unlocksOn ? courseIdFromRequest(req.body) : null;
+    if (token && unlocksOn && !courseId && isEvaluationRequest(req.body)) {
+      res.status(400).json({
+        error:
+          'This marking request did not say which course it is for. Reload the page and try again.',
+        code: 'course_required',
+      });
+      return;
+    }
+    if (token && courseId && isEvaluationRequest(req.body)) {
+      const access = await resolveCourseAccess(token, courseId);
+      if (!access.open) {
+        res.status(402).json({
+          error: 'This course is locked. Unlock it to have your answers marked in this course.',
+          code: 'course_locked',
+          courseId,
+          upgradeRequired: true,
+        });
+        return;
+      }
+    }
 
     // Paywall gate: marking an answer is the metered product feature (schema
     // §14). Checked BEFORE the AI budget so a refused evaluation doesn't spend

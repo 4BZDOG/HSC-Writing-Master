@@ -61,6 +61,7 @@ const STEPS = [
   { file: 'supabase/tests/progress_report_tests.sql', what: 'progress report tests', tests: true },
   { file: 'supabase/tests/guardian_tests.sql', what: 'guardian (parent) tests', tests: true },
   { file: 'supabase/tests/signup_settings_tests.sql', what: 'sign-up limit tests', tests: true },
+  { file: 'supabase/tests/course_unlock_tests.sql', what: 'course unlock tests', tests: true },
 ];
 
 const psql = (args, over = env) => spawnSync('psql', args, { env: over, encoding: 'utf8' });
