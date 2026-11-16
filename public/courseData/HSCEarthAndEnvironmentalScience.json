@@ -324,10 +324,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Hypothesis X is good because algae needs nutrients from fertiliser, which is scientific. Hypothesis Y is weaker because it is not clearly linked to algae and could be tested by counting visitors.",
-                        "feedback": "Meets the 4-mark row by assessing both hypotheses with some reference to scientific knowledge and reaching a judgement. The grounding of Hypothesis X is stated briefly and the testability of Hypothesis Y is not developed, so it does not reach the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing both hypotheses with some reference to scientific knowledge and reaching a judgement. The grounding of Hypothesis X is stated briefly and the testability of Hypothesis Y is not developed, so it does not reach the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-1-2-n0-n1-s3",
@@ -441,10 +441,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The question should include sunlight as well as nutrients. The hypothesis is that more sunlight means more algae. Shade one part of the pond and compare the algae with the part in full sun.",
-                        "feedback": "Meets the 4-mark row by revising the question and hypothesis using the new evidence, with a relevant way to test them. The design does not say what is kept constant, so it does not reach the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by revising the question and hypothesis using the new evidence, with a relevant way to test them. The design does not say what is kept constant, so it does not reach the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-1-3-n0-n1-s3",
@@ -563,10 +563,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Controlled variables must be kept the same so that the soil erosion comes from the mulch. The bare section is the experimental control, so the mulched section can be compared with it.",
-                        "feedback": "Meets the 4-mark row by justifying why the controlled variables must stay constant and linking the bare section to a comparison. It does not explain what goes wrong if the water rate or slope changes, so it does not reach the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying why the controlled variables must stay constant and linking the bare section to a comparison. It does not explain what goes wrong if the water rate or slope changes, so it does not reach the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-1-n0-n1-s3",
@@ -678,10 +678,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The gauge should be placed in an open area, away from the wall. Readings should be taken after each storm, not once a week.",
-                        "feedback": "Meets the 4-mark row by explaining two steps that improve the gauge plan, with reference to the scenario. It does not explain how each step improves reliability, so it does not reach the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining two steps that improve the gauge plan, with reference to the scenario. It does not explain how each step improves reliability, so it does not reach the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-2-n0-n1-s3",
@@ -795,10 +795,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The database is more reliable because its methods are listed. The blog post reports only a smell, so it is less reliable for planning.",
-                        "feedback": "Meets the 4-mark row by assessing both sources with some reference to methods or evidence. It does not discuss bias or explain why a smell is weak evidence, so it does not reach the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing both sources with some reference to methods or evidence. It does not discuss bias or explain why a smell is weak evidence, so it does not reach the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-3-n0-n1-s3",
@@ -912,10 +912,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Hazard: wet, sloped ground. Risk: slipping. Control measure: walk on the flat path. Hazard: the road. Risk: being hit by a car. Control measure: stay behind the fence.",
-                        "feedback": "Meets the 4-mark row by constructing a risk assessment with two hazards, their risks and some control measures. The controls are brief and are not matched to the seriousness of each risk, so it does not reach the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing a risk assessment with two hazards, their risks and some control measures. The controls are brief and are not matched to the seriousness of each risk, so it does not reach the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-4-n0-n1-s3",
@@ -1029,10 +1029,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The team should use the kick net and the universal indicator paper because they are cheap and quick. Both suit the afternoon available for fieldwork.",
-                        "feedback": "Meets the 4-mark row by recommending two appropriate materials with reasons linked to the investigation. It does not weigh the alternatives or address the validity of the results, so it does not reach the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by recommending two appropriate materials with reasons linked to the investigation. It does not weigh the alternatives or address the validity of the results, so it does not reach the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-5-n0-n1-s3",
@@ -1145,10 +1145,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Publishing results before the council reviews them could cause unnecessary alarm. The factory has not been given a chance to respond, which is unfair.",
-                        "feedback": "Meets the 4-mark row by discussing two ethical issues linked to the scenario, with some reasoning. It does not weigh the developer's use of the data or reach a conclusion, so it does not reach the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing two ethical issues linked to the scenario, with some reasoning. It does not weigh the developer's use of the data or reach a conclusion, so it does not reach the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-2-6-n0-n1-s3",
@@ -1618,10 +1618,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The article describes the damage well. The agency report gives measured river heights, which makes it more reliable.",
-                        "feedback": "Meets the 3-mark row by describing features of both sources, with some reference to reliability. The assessment is not developed against named criteria.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing features of both sources, with some reference to reliability. The assessment is not developed against named criteria.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-3-4-n0-n1-s3",
@@ -1859,10 +1859,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Group B's values were plotted in the wrong unit, so the hillside sites appear shallower than they really are.",
-                        "feedback": "Meets the 3-mark row by describing the unit error with a basic link to the conclusion about the hillside sites. The effect on the comparison is not assessed.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the unit error with a basic link to the conclusion about the hillside sites. The effect on the comparison is not assessed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-4-2-n0-n1-s3",
@@ -2685,18 +2685,18 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-5-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The readings are precise because they agree closely, but one site cannot show the pH of the whole river. The meter's calibration two weeks ago also means the accuracy of the readings is uncertain.",
-                        "feedback": "Meets the 4-mark row by judging the validity of the data, with reference to accuracy. It does not discuss reliability or the sampling design in depth, so it does not reach the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by judging the validity of the data, with reference to accuracy. It does not discuss reliability or the sampling design in depth, so it does not reach the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-5-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The meter was calibrated two weeks ago.",
-                        "feedback": "Meets the 2-mark row by identifying one feature of the data, the calibration date. It does not justify whether the data show the pH of the river, so it does not reach the 3-mark row.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one feature of the data, the calibration date. It does not justify whether the data show the pH of the river, so it does not reach the 3-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -2802,10 +2802,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-5-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The species count falls with distance from the creek at most quadrats, so the results partly support the conclusion.",
-                        "feedback": "Meets the 3-mark row by describing the trend and commenting on whether the conclusion is supported. It does not address the outlier or the word always, so it does not reach the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the trend and commenting on whether the conclusion is supported. It does not address the outlier or the word always, so it does not reach the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-5-5-n0-n1-s3",
@@ -2920,10 +2920,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The class could compare ponds with and without paddock runoff. This would test whether the pattern holds.",
-                        "feedback": "Meets the 3-mark row by recommending an investigation that tests the pattern, with a limited reason. It recommends only one investigation and does not separate rain from runoff, so it does not reach the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by recommending an investigation that tests the pattern, with a limited reason. It recommends only one investigation and does not separate rain from runoff, so it does not reach the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-5-6-n0-n1-s3",
@@ -3044,10 +3044,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Permeable paving has gaps that let some rain soak through the surface.",
-                        "feedback": "Meets the 3-mark row by describing a design feature and linking it to infiltration. It does not apply the principle to runoff, so it does not reach the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing a design feature and linking it to infiltration. It does not apply the principle to runoff, so it does not reach the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-6-1-n0-n1-s3",
@@ -3277,10 +3277,10 @@
                       {
                         "id": "prompt-ees-11-working-scientifically-6-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The class should fix the sprinkler to a constant rate, because its uneven rate is an uncontrolled variable that the new evidence has revealed.",
-                        "feedback": "Meets the 4-mark row by justifying one change to the method with a sound link to the new evidence. It does not justify further changes or explain how the results become valid, so it does not reach the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying one change to the method with a sound link to the new evidence. It does not justify further changes or explain how the results become valid, so it does not reach the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-working-scientifically-6-3-n0-n1-s3",
@@ -4678,10 +4678,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The lithosphere is a rigid layer near the surface, and the asthenosphere is beneath it.",
-                        "feedback": "Meets the 3-mark row by describing the lithosphere with a limited contrast to the asthenosphere. It gives no temperature or physical property for the asthenosphere, so it stays below the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the lithosphere with a limited contrast to the asthenosphere. It gives no temperature or physical property for the asthenosphere, so it stays below the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-1-7-n0-n1-s3",
@@ -5030,10 +5030,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The fossils found on separated continents and the rift valley mapped by Tharp both suggest the continents and seafloor have moved. These pieces of evidence show that the matching coastlines are not the only evidence against the claim.",
-                        "feedback": "Meets the 4-mark row by explaining how evidence from both scientists responds to the claim, with some analysis. It needs to say how the fossils and rift valley together show movement to reach the higher rows.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how evidence from both scientists responds to the claim, with some analysis. It needs to say how the fossils and rift valley together show movement to reach the higher rows.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-1-n0-n1-s3",
@@ -5142,10 +5142,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "With less heat, the warm syrup is less buoyant and rises more slowly. Gravity still pulls the cooler syrup down, but the convection currents in the model become weaker.",
-                        "feedback": "Meets the 4-mark row by explaining how reduced heating weakens convection, with some application to the model. It needs to explain the density difference more fully to reach the higher rows.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how reduced heating weakens convection, with some application to the model. It needs to explain the density difference more fully to reach the higher rows.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-2-n0-n1-s3",
@@ -5254,10 +5254,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The experiment shows the basic idea of convection, because warm fluid rises and cooler fluid sinks. However, water flows much more easily than the mantle, so the model does not match the mantle in speed.",
-                        "feedback": "Meets the 4-mark row by discussing one strength and one limitation with reference to the mantle. It needs to weigh more limitations and reach a judgement to move higher.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing one strength and one limitation with reference to the mantle. It needs to weigh more limitations and reach a judgement to move higher.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-3-n0-n1-s3",
@@ -5366,10 +5366,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The sea floor is youngest at the ridge and older further out, which suggests it has moved outwards. Magnetic reversal stripes are symmetrical on either side of the ridge, which also supports movement.",
-                        "feedback": "Meets the 4-mark row by explaining how the age pattern and magnetic reversals respond to the claim. It needs to explain why the trenches matter to reach the higher rows.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how the age pattern and magnetic reversals respond to the claim. It needs to explain why the trenches matter to reach the higher rows.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-4-n0-n1-s3",
@@ -5477,10 +5477,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Seafloor spreading pushes new crust outwards from the ridge, which moves the tectonic plates. The older crust then reaches the subduction zone, where it sinks into the mantle.",
-                        "feedback": "Meets the 4-mark row by explaining how seafloor spreading moves the plates, with reference to the subduction zone. It does not yet link the ridge and the trench as one cycle.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how seafloor spreading moves the plates, with reference to the subduction zone. It does not yet link the ridge and the trench as one cycle.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-5-n0-n1-s3",
@@ -5589,10 +5589,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Hotspot volcanoes form a chain that shows the direction a plate has moved over time. However, they do not push the plate, so the claim is not fully correct.",
-                        "feedback": "Meets the 4-mark row by discussing the role of hotspot volcanoes with some assessment of the claim. It needs to explain what the chain can measure to reach the higher rows.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing the role of hotspot volcanoes with some assessment of the claim. It needs to explain what the chain can measure to reach the higher rows.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-6-n0-n1-s3",
@@ -5702,10 +5702,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Basal drag is one force on plates, but slab pull and ridge push are probably more important to plate velocity. Mantle convection drives the system, so the claim is partly right.",
-                        "feedback": "Meets the 4-mark row by discussing the forces acting on plate velocity with some assessment of the claim. It does not yet weigh the relative contributions in detail.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing the forces acting on plate velocity with some assessment of the claim. It does not yet weigh the relative contributions in detail.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-7-n0-n1-s3",
@@ -5814,10 +5814,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A scientific theory is a well-supported explanation, not a guess. Geological evidence such as magnetic stripes and matching fossils supports plate tectonics, so the claim is not accurate.",
-                        "feedback": "Meets the 4-mark row by discussing the evidence for plate tectonics with some reference to the claim. It needs more than one line of evidence and a justified judgement to move higher.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing the evidence for plate tectonics with some reference to the claim. It needs more than one line of evidence and a justified judgement to move higher.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-2-8-n0-n1-s3",
@@ -5933,10 +5933,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The earthquake depths increase inland, which suggests one plate is sinking beneath another. The volcanoes on the continent indicate a subduction zone, so this is a convergent boundary.",
-                        "feedback": "Meets the 4-mark row by deducing a plausible boundary type with reference to the earthquake depths. It needs to explain how the slab produces the depth pattern to reach the higher rows.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by deducing a plausible boundary type with reference to the earthquake depths. It needs to explain how the slab produces the depth pattern to reach the higher rows.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-1-n0-n1-s3",
@@ -6045,10 +6045,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The rock unit is offset by about 80 km along the fault, so the crust has moved sideways. The earthquakes line up along the fault, which points to a transform boundary rather than a convergent boundary.",
-                        "feedback": "Deduces a transform boundary with some reasoning from the evidence. It does not explain why the other boundary types are ruled out, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Deduces a transform boundary with some reasoning from the evidence. It does not explain why the other boundary types are ruled out, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-2-n0-n1-s3",
@@ -6269,10 +6269,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The trench and the islands show a subduction zone, and the earthquakes deepening away from the trench show a plate sinking. There is no continental crust, so the islands are an ocean-ocean volcanic island arc.",
-                        "feedback": "Analyses two features and deduces the subduction type with some support, which meets the 4-mark row but gives no mechanism.",
-                        "band": 3
+                        "feedback": "Analyses two features and deduces the subduction type with some support, which meets the 3-mark row but gives no mechanism.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-4-n0-n1-s3",
@@ -6492,10 +6492,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Boundary X is convergent, with the plate sinking and a volcanic arc forming on land. Boundary Y is a transform boundary, with shallow earthquakes along the fault but no volcanoes.",
-                        "feedback": "Describes both processes with a feature for each, but the links are brief, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Describes both processes with a feature for each, but the links are brief, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-6-n0-n1-s3",
@@ -6604,10 +6604,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The model reproduces the upward movement of a reverse fault and the sideways movement of a strike-slip fault. However, dry sand does not behave like deeper rock, so the model is limited.",
-                        "feedback": "Assesses the movements and names one limitation, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Assesses the movements and names one limitation, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-7-n0-n1-s3",
@@ -6828,10 +6828,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The valley is bounded by normal faults, which form as the crust is stretched and the floor drops. Lava flows and volcanic cones sit on the valley floor, and shallow earthquakes occur along the faults.",
-                        "feedback": "Labels the rift valley and faults and links the faults to stretching, which meets the 4-mark row. The volcanic and earthquake features are named but not explained.",
-                        "band": 3
+                        "feedback": "Labels the rift valley and faults and links the faults to stretching, which meets the 3-mark row. The volcanic and earthquake features are named but not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-9-n0-n1-s3",
@@ -6940,10 +6940,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The continents move together and the sediments fold along thrust faults, which thickens the crust and forms mountains.",
-                        "feedback": "Describes the collision and the faulting with a feature named, which meets the 4-mark row but does not give the stages in full.",
-                        "band": 3
+                        "feedback": "Describes the collision and the faulting with a feature named, which meets the 3-mark row but does not give the stages in full.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-10-n0-n1-s3",
@@ -7054,10 +7054,10 @@
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Continental drift used matching coastlines and fossils as evidence but lacked a mechanism. Seafloor spreading explained how the continents move, with magnetic stripes showing new crust forming at ridges. Together these ideas support plate tectonics as an explanation of geological features.",
-                        "feedback": "Explains how continental drift and seafloor spreading contribute to plate tectonics, with some evidence, which meets the 5-mark row but does not evaluate the strengths of each.",
-                        "band": 4
+                        "feedback": "Explains how continental drift and seafloor spreading contribute to plate tectonics, with some evidence, which meets the 4-mark row but does not evaluate the strengths of each.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-dynamic-earth-3-11-n0-n1-s3",
@@ -7178,10 +7178,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Sample A is a rock made of several minerals, while sample B is a single mineral, quartz.",
-                        "feedback": "Distinguishes two samples by composition, which meets the 3-mark row but does not reach the ore.",
-                        "band": 3
+                        "feedback": "Distinguishes two samples by composition, which meets the 2-mark row but does not reach the ore.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-1-n0-n1-s3",
@@ -7290,10 +7290,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Rock Y comes from an island arc above an ocean-ocean subduction zone, and rock Z comes from a continental arc above an ocean-continent subduction zone.",
-                        "feedback": "Deduces the plate boundary for both rocks with limited support, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Deduces the plate boundary for both rocks with limited support, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-2-n0-n1-s3",
@@ -7402,10 +7402,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Olivine is a mafic mineral with less silica than quartz, so it forms from a magma with less silica.",
-                        "feedback": "Describes the composition of one mineral and links it to a magma, which meets the 3-mark row.",
-                        "band": 3
+                        "feedback": "Describes the composition of one mineral and links it to a magma, which meets the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-3-n0-n1-s3",
@@ -7514,10 +7514,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The mineral is pale, so the key goes to step 1b and it is felsic.",
-                        "feedback": "Applies the key and classifies the mineral with little explanation, which meets the 3-mark row.",
-                        "band": 3
+                        "feedback": "Applies the key and classifies the mineral with little explanation, which meets the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-4-n0-n1-s3",
@@ -7626,10 +7626,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Heat from the intrusion changes the shale into hornfels in a narrow zone, while regional compression in the mountain belt produces foliated slate or schist over a large area.",
-                        "feedback": "Describes both processes and names a rock for each with limited explanation, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes both processes and names a rock for each with limited explanation, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-5-n0-n1-s3",
@@ -7738,18 +7738,18 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Crystal size and texture show how fast the rock cooled, so they separate intrusive and extrusive rocks. Colour alone can be misleading, as a dark coarse rock can be intrusive.",
-                        "feedback": "Explains the cooling link and the weakness of colour with limited justification, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Explains the cooling link and the weakness of colour with limited justification, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-1-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Crystal size can help tell rocks apart.",
-                        "feedback": "Identifies one property that could be used in a key, which meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies one property that could be used in a key, which meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -7856,10 +7856,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Stretching formed a sedimentary basin, and later folding and faulting let hot fluids move through the rock and deposit lead, zinc and silver.",
-                        "feedback": "Analyses two factors and links them to the ore deposit with limited explanation, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses two factors and links them to the ore deposit with limited explanation, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-1-n0-n1-s3",
@@ -8080,10 +8080,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Lithium and rare earths can support a renewable energy economy, but their deposits are concentrated in few places and cobalt reserves are small.",
-                        "feedback": "Assesses two minerals and identifies a limitation, which meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Assesses two minerals and identifies a limitation, which meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-4-n0-n1-s3",
@@ -8192,10 +8192,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Remote sensing covers the region cheaply and shows altered rock, and the geological map narrows where the drilling should go.",
-                        "feedback": "Describes two methods focusing the search with a link to cost, which meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Describes two methods focusing the search with a link to cost, which meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-5-n0-n1-s3",
@@ -8530,10 +8530,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Progressive rehabilitation is more effective, because it stops erosion where the sediment starts. Sediment ponds are useful during mining, but they miss the finest clay particles.",
-                        "feedback": "Meets the 4-mark row by justifying a choice with relevant reasons, but the comparison of the two practices is limited.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying a choice with relevant reasons, but the comparison of the two practices is limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-2-8-n0-n1-s3",
@@ -8872,10 +8872,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The conclusion is not valid, because the hair dryer and the tap produce different flows and the test changes more than the energy source. The blades and the distance to the outlet may also have differed between trials.",
-                        "feedback": "Meets the 4-mark row by identifying why the conclusion is invalid and two uncontrolled variables, but no improvement is suggested.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by identifying why the conclusion is invalid and two uncontrolled variables, but no improvement is suggested.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-2-n0-n1-s3",
@@ -9209,10 +9209,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Site A's strong wind and high sunshine give it good capacity for wind and solar power, and its flat terrain makes construction easier. Site B's heavy rain suits hydro-electric power, but its steep slopes limit the other options.",
-                        "feedback": "Meets the 4-mark row by assessing both sites with a strength and a limitation for each, though the judgement stays limited.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing both sites with a strength and a limitation for each, though the judgement stays limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-5-n0-n1-s3",
@@ -9430,10 +9430,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "I recommend batteries beside the solar farm, because they can store daytime electricity for use in the evening. Batteries also cost less to build than a pumped hydro scheme, which suits the council's limited funds.",
-                        "feedback": "Recommends an option with two relevant reasons linked to the scenario, but does not weigh limitations, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Recommends an option with two relevant reasons linked to the scenario, but does not weigh limitations, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-7-n0-n1-s3",
@@ -9541,10 +9541,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Transport relies on liquid fuels, so cars and trucks still need fossil fuels. Households and services use electricity, so renewable electricity can replace more of their energy use more easily.",
-                        "feedback": "Discusses two uses and how they relate to the choice of energy source, with some reasoning, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Discusses two uses and how they relate to the choice of energy source, with some reasoning, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-8-n0-n1-s3",
@@ -9651,10 +9651,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The council should choose the wind farm, because wind power is renewable and produces no carbon dioxide while it runs. However, it only produces power when the wind blows, so the town may need backup power.",
-                        "feedback": "Justifies a choice with relevant reasons linked to the scenario, but gives less weighing of the alternative, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Justifies a choice with relevant reasons linked to the scenario, but gives less weighing of the alternative, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-9-n0-n1-s3",
@@ -9761,10 +9761,10 @@
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Demand is highest in the evening, but solar power stops at dusk, so the solar farm alone cannot meet demand. Wind power also varies, so a mix of sources is needed to cover gaps in supply.",
-                        "feedback": "Discusses the need for more than one source with some links to the scenario, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Discusses the need for more than one source with some links to the scenario, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-australia-s-geological-and-energy-resources-3-10-n0-n1-s3",
@@ -9886,10 +9886,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The oceans hold most of Earth's water and are salty. Ice caps hold a large share of freshwater, but they are a small share of all water. The lakes, rivers and atmosphere each hold only a small share.",
-                        "feedback": "Distinguishes between reservoirs with some relevant detail, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Distinguishes between reservoirs with some relevant detail, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-1-n0-n1-s3",
@@ -10107,10 +10107,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Ice caps hold the largest share of freshwater, but the water is frozen. Groundwater and surface water are much more accessible to terrestrial organisms, so the town's wells and river matter.",
-                        "feedback": "Analyses the relative amounts with some links to the scenario, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses the relative amounts with some links to the scenario, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-3-n0-n1-s3",
@@ -10217,10 +10217,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Cultural water flows matter because they sustain water Country and cultural sites, so low flows would harm the community's relationship with the river. The farmers also need irrigation water, so the case is not one-sided.",
-                        "feedback": "Makes a judgement on the case with some relevant reasons linked to the scenario, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Makes a judgement on the case with some relevant reasons linked to the scenario, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-4-n0-n1-s3",
@@ -10328,10 +10328,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Less evaporation means less water vapour in the atmosphere, so there is less rain over the land. Lower rainfall also reduces runoff into rivers.",
-                        "feedback": "Analyses one chain of effects with some reasoning, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses one chain of effects with some reasoning, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-5-n0-n1-s3",
@@ -10438,18 +10438,18 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Water's high thermal capacity means the surface warms slowly. Warm water is less dense, so it stays on top of the colder water and the layers do not mix.",
-                        "feedback": "Analyses one property and its effect on the layers with some reasoning, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses one property and its effect on the layers with some reasoning, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Water has a high thermal capacity.",
-                        "feedback": "Identifies a property of water with limited link to the lake, so it meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies a property of water with limited link to the lake, so it meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -10548,18 +10548,18 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The egg floats higher as the salt concentration increases, which shows that the solution is becoming denser. The egg rises as the density of the solution increases.",
-                        "feedback": "Interprets the trend and links it to density, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Interprets the trend and links it to density, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-7-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The egg floats higher at higher concentrations.",
-                        "feedback": "Identifies a result with limited interpretation, so it meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies a result with limited interpretation, so it meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -10659,18 +10659,18 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Warm water is less dense than cold water, so it stays on top. In the second tank, stirring mixes the warm and cold water, so the layers disappear.",
-                        "feedback": "Analyses the link between temperature, density and layering with some reference to the tanks, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses the link between temperature, density and layering with some reference to the tanks, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-8-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Temperature affects the water in the tanks.",
-                        "feedback": "Identifies temperature with limited link to the layers, so it meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies temperature with limited link to the layers, so it meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -10770,10 +10770,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Lower salinity lowers the density of the surface water, so it sinks less readily. This would weaken the conveyor belt, which may change climate in some regions.",
-                        "feedback": "Makes a judgement on the effect of freshwater with some reasoning, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Makes a judgement on the effect of freshwater with some reasoning, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-9-n0-n1-s3",
@@ -10880,10 +10880,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "In El Niño, the trade winds weaken and warm water moves east. The air above the warm water rises, which changes atmospheric pressure, so the pressure gradient that drives the trade winds weakens further.",
-                        "feedback": "Analyses one link between ocean currents and atmospheric pressure with some reasoning, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses one link between ocean currents and atmospheric pressure with some reasoning, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-10-n0-n1-s3",
@@ -10990,10 +10990,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "In El Niño years, lower rainfall reduces dam levels, so water availability for farmers falls. In La Niña years, higher rainfall refills dams, which raises water availability.",
-                        "feedback": "Analyses one link between an ENSO phase and water availability with some reference to the source, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses one link between an ENSO phase and water availability with some reference to the source, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-11-n0-n1-s3",
@@ -11100,18 +11100,18 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Changes in the ENSO pattern could reduce river flows for irrigated farming and increase the risk of bushfire in spring. The projections are uncertain, so councils should plan for a range of outcomes.",
-                        "feedback": "Discusses two impacts of ENSO change on human activity with some links to the scenario, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Discusses two impacts of ENSO change on human activity with some links to the scenario, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-12-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "ENSO change could affect farming in Australia.",
-                        "feedback": "Identifies a human activity with limited link to the change, so it meets the 2-mark row.",
-                        "band": 2
+                        "feedback": "Identifies a human activity with limited link to the change, so it meets the 1-mark row.",
+                        "band": 1
                       }
                     ]
                   }
@@ -11320,10 +11320,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Irrigating a sports field needs the full set of stages, because people may come into contact with the water. Cooling water for a factory may need only primary and secondary treatment.",
-                        "feedback": "Analyses one link between an end use and treatment stages with some reasoning, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses one link between an end use and treatment stages with some reasoning, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-14-n0-n1-s3",
@@ -11430,10 +11430,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sewage is a continuous source in dry weather, while run-off is a larger source after heavy rain, so both sources contribute to the blooms.",
-                        "feedback": "Makes a judgement on the sources with some reasons linked to the data, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Makes a judgement on the sources with some reasons linked to the data, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-15-n0-n1-s3",
@@ -11541,10 +11541,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-16-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The likely source is sewage near the town, because nitrate is high in wet and dry weather and dissolved oxygen falls overnight. Stormwater may carry the E. coli after rain.",
-                        "feedback": "Deduces a likely source with some reference to the data, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Deduces a likely source with some reference to the data, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-16-n0-n1-s3",
@@ -11651,10 +11651,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-1-17-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The guidelines protect swimmers by limiting bacteria, and most sites meet them, so they are partly effective. However, algal blooms and fish deaths show that meeting individual values does not fully protect the environment.",
-                        "feedback": "Makes a judgement on effectiveness with some reasons linked to the scenario, so it meets the 4-mark row.",
-                        "band": 4
+                        "feedback": "Makes a judgement on effectiveness with some reasons linked to the scenario, so it meets the 3-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-1-17-n0-n1-s3",
@@ -11768,10 +11768,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "High winter rainfall causes leaching, which washes clay out of the upper layer. The steep slope also causes erosion, so the topsoil is thinner.",
-                        "feedback": "Analyses one factor and its effect on the horizons with some reasoning, so it meets the 4-mark row.",
-                        "band": 3
+                        "feedback": "Analyses one factor and its effect on the horizons with some reasoning, so it meets the 3-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-1-n0-n1-s3",
@@ -12106,10 +12106,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A loam sits near the centre of the triangle, while a clay loam sits nearer the clay corner.",
-                        "feedback": "Meets the 3-mark row: describes where each soil sits on the triangle. It does not explain what this shows about water or drainage.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes where each soil sits on the triangle. It does not explain what this shows about water or drainage.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-4-n0-n1-s3",
@@ -12218,10 +12218,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A laboratory experiment uses small trays, so its results may not apply to the field conditions on a farm.",
-                        "feedback": "Meets the 3-mark row: explains one limitation of applying the results to a farm. It does not discuss further limitations.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one limitation of applying the results to a farm. It does not discuss further limitations.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-5-n0-n1-s3",
@@ -12330,10 +12330,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Heavy rain can wash contaminated soil into a creek as runoff, which exposes wildlife downstream.",
-                        "feedback": "Meets the 3-mark row: explains one pathway by which contamination spreads from the site. It does not analyse the risk to people.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one pathway by which contamination spreads from the site. It does not analyse the risk to people.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-6-n0-n1-s3",
@@ -12442,10 +12442,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The grasses probably reduce soil loss, but the report has no measurements to show it.",
-                        "feedback": "Meets the 3-mark row: explains whether the strategy is effective, with one reason from the source. It does not weigh the evidence further.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains whether the strategy is effective, with one reason from the source. It does not weigh the evidence further.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-7-n0-n1-s3",
@@ -12666,10 +12666,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Irrigation adds water to a cleared catchment, which can raise the water table and bring salt to the surface.",
-                        "feedback": "Meets the 3-mark row: explains how irrigation affects the water table. It does not analyse the combined effect of clearing.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains how irrigation affects the water table. It does not analyse the combined effect of clearing.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-9-n0-n1-s3",
@@ -12778,10 +12778,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Growth falls as salinity increases, because salt makes it harder for roots to take up water.",
-                        "feedback": "Meets the 3-mark row: describes the trend with a reason. It does not interpret the unexpected seedling.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes the trend with a reason. It does not interpret the unexpected seedling.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-10-n0-n1-s3",
@@ -12890,10 +12890,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The strategy looks effective because the water table fell after planting, but the report does not show why.",
-                        "feedback": "Meets the 3-mark row: explains whether the strategy is effective, with one reason. It does not weigh the evidence further.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains whether the strategy is effective, with one reason. It does not weigh the evidence further.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-11-n0-n1-s3",
@@ -13002,10 +13002,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Clearing vegetation removes the plants that protect the soil, so rain can wash the soil away more easily.",
-                        "feedback": "Meets the 3-mark row: explains how one practice affects the rate of erosion. It does not analyse the timing of tillage.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains how one practice affects the rate of erosion. It does not analyse the timing of tillage.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-12-n0-n1-s3",
@@ -13114,10 +13114,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Soil erosion causes sedimentation in waterways, which makes them shallow and cloudy.",
-                        "feedback": "Meets the 3-mark row: explains one impact on waterways. It does not discuss the land or the timescale.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one impact on waterways. It does not discuss the land or the timescale.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-13-n0-n1-s3",
@@ -13226,10 +13226,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-2-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "One storm is a single event, so the result may not show that the strategy is effective.",
-                        "feedback": "Meets the 3-mark row: explains one limitation for judging effectiveness. It does not weigh replication or field conditions.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one limitation for judging effectiveness. It does not weigh replication or field conditions.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-2-14-n0-n1-s3",
@@ -13344,10 +13344,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Endemic species occur only in one area, while native species occur across a wider range within Australia.",
-                        "feedback": "Meets the 3-mark row: explains the difference between the terms. It gives no examples.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the difference between the terms. It gives no examples.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-1-n0-n1-s3",
@@ -13456,10 +13456,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Less rain and a spreading grass both reduce the native reeds, which lowers the habitat for animals.",
-                        "feedback": "Meets the 3-mark row: explains how the changes affect flora and fauna. It does not analyse how they interact.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains how the changes affect flora and fauna. It does not analyse how they interact.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-2-n0-n1-s3",
@@ -13568,10 +13568,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The survey data suggest the decline, but the drought also happened, so the cause is not certain.",
-                        "feedback": "Meets the 3-mark row: explains whether the data support the claim, with one reason. It does not assess the comparison site.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains whether the data support the claim, with one reason. It does not assess the comparison site.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-3-n0-n1-s3",
@@ -13680,10 +13680,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Carp disturb the bottom sediments, which increases turbidity, an abiotic effect of the introduction.",
-                        "feedback": "Meets the 3-mark row: explains one abiotic effect of the introduction. It does not analyse the biotic effects.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one abiotic effect of the introduction. It does not analyse the biotic effects.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-4-n0-n1-s3",
@@ -13792,10 +13792,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Native plants on Country are used in cultural practices, so losing them weakens those practices.",
-                        "feedback": "Meets the 3-mark row: explains how native plants contribute to cultural practices. It does not analyse the interconnections with Place.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains how native plants contribute to cultural practices. It does not analyse the interconnections with Place.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-5-n0-n1-s3",
@@ -13904,10 +13904,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Grazing removes native grasses and compacts the soil, which lets introduced species establish.",
-                        "feedback": "Meets the 3-mark row: explains how grazing affects native species and the ground. It does not analyse the competition.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains how grazing affects native species and the ground. It does not analyse the competition.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-6-n0-n1-s3",
@@ -14016,10 +14016,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Eradication is suitable for a small population, but it must be planned carefully on the island.",
-                        "feedback": "Meets the 3-mark row: explains whether one strategy is suitable, with one reason. It does not assess the other two.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains whether one strategy is suitable, with one reason. It does not assess the other two.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-7-n0-n1-s3",
@@ -14128,10 +14128,10 @@
                       {
                         "id": "prompt-ees-11-human-impacts-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Feral cats prey on small native mammals, which contributes to their decline.",
-                        "feedback": "Meets the 3-mark row: explains one mechanism by which invasive species contribute to decline. It gives no second mechanism.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one mechanism by which invasive species contribute to decline. It gives no second mechanism.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-11-human-impacts-3-8-n0-n1-s3",
@@ -14255,10 +14255,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "She could compare her insect counts with the council's rainfall totals to see whether they match. Her hypothesis would be that more rain means fewer insects, which she could test by counting insects after different rainfall levels.",
-                        "feedback": "Meets the 4-mark row by explaining how the insect counts and rainfall totals could support a hypothesis about rain and insects. It does not weigh primary against secondary data or use the scientific knowledge of runoff, so it stays below the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how the insect counts and rainfall totals could support a hypothesis about rain and insects. It does not weigh primary against secondary data or use the scientific knowledge of runoff, so it stays below the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-1-1-n0-n1-s3",
@@ -14369,10 +14369,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The hypothesis is based on scientific knowledge that water flows faster on steep slopes and so erodes more soil. However, the student has not yet chosen how to measure the soil lost, so it is not yet testable.",
-                        "feedback": "Meets the 4-mark row by explaining the scientific knowledge behind the hypothesis and noting that it is not yet testable. It does not assess the variables in detail or judge whether the hypothesis is a sound basis, so it stays below the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the scientific knowledge behind the hypothesis and noting that it is not yet testable. It does not assess the variables in detail or judge whether the hypothesis is a sound basis, so it stays below the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-1-2-n0-n1-s3",
@@ -14484,10 +14484,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A revised hypothesis could say that tadpoles need food as well as fresh water, which would explain why numbers rose after the flood, while the first survey's fall may reflect high salinity.",
-                        "feedback": "Meets the 4-mark row by explaining how a revised hypothesis could account for both surveys. It does not justify the variables in full or describe how each could be tested, so it stays below the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how a revised hypothesis could account for both surveys. It does not justify the variables in full or describe how each could be tested, so it stays below the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-1-3-n0-n1-s3",
@@ -14604,10 +14604,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The unfertilised pots show how the seedlings grow without fertiliser, so the student has something to compare against.",
-                        "feedback": "Meets the 3-mark row by explaining that the unfertilised pots give a baseline for comparison. It does not explain how the shared conditions make the comparison fair, so it stays below the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that the unfertilised pots give a baseline for comparison. It does not explain how the shared conditions make the comparison fair, so it stays below the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-2-1-n0-n1-s3",
@@ -14718,10 +14718,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Repeating the survey each year shows whether a pattern is consistent, which makes the primary data more reliable.",
-                        "feedback": "Meets the 3-mark row by explaining how repeating the survey makes the primary data more reliable. It does not separate the effect of random placement from the effect of repeat sampling, so it stays below the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining how repeating the survey makes the primary data more reliable. It does not separate the effect of random placement from the effect of repeat sampling, so it stays below the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-2-2-n0-n1-s3",
@@ -14832,10 +14832,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The council report is more reliable, because it gives dates and a method. The website gives no source details, so its nitrate values should not decide where the student samples.",
-                        "feedback": "Meets the 4-mark row by explaining the reliability of the council report and how it bears on the sampling sites. It does not weigh the limits of the report or plan the sites in detail, so it stays below the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the reliability of the council report and how it bears on the sampling sites. It does not weigh the limits of the report or plan the sites in detail, so it stays below the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-2-3-n0-n1-s3",
@@ -14946,10 +14946,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The main risks are wading into the creek and walking on steep banks, both of which could cause falls. Control measures include a buddy system and life jackets, but the storm forecast raises the risk.",
-                        "feedback": "Meets the 4-mark row by explaining the main risks and some control measures. It does not rate likelihood and consequence or judge whether the plan should change, so it stays below the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the main risks and some control measures. It does not rate likelihood and consequence or judge whether the plan should change, so it stays below the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-2-4-n0-n1-s3",
@@ -15126,18 +15126,18 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The team faces ethical issues about publishing results that the council may use. It should explain the limits of the scientific knowledge from one wetland, and tell the landowner how the results will be shared.",
-                        "feedback": "Meets the 4-mark row by explaining ethical issues in using the scientific knowledge from the study. It does not weigh confidentiality against the public interest in any depth, so it stays below the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining ethical issues in using the scientific knowledge from the study. It does not weigh confidentiality against the public interest in any depth, so it stays below the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-2-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The landowner wants the results kept confidential.",
-                        "feedback": "Meets the 2-mark row by identifying an ethical issue in the study. It does not discuss how the issue affects the council's decision or the team's choice.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying an ethical issue in the study. It does not discuss how the issue affects the council's decision or the team's choice.",
+                        "band": 1
                       }
                     ]
                   }
@@ -15416,10 +15416,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "An uncalibrated probe may read high or low, so the sites cannot be compared fairly.",
-                        "feedback": "Meets the 3-mark row: explains one reason why calibration must be consistent. It does not link to the method or the conclusion.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one reason why calibration must be consistent. It does not link to the method or the conclusion.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-3-3-n0-n1-s3",
@@ -15528,10 +15528,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The peer-reviewed study is reliable, because other scientists have checked its methods.",
-                        "feedback": "Meets the 3-mark row: explains whether one source is reliable, with one reason. It does not assess the other sources.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains whether one source is reliable, with one reason. It does not assess the other sources.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-3-4-n0-n1-s3",
@@ -15647,10 +15647,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The database gives measured readings over time, which is a clear advantage for quantitative information.",
-                        "feedback": "Meets the 3-mark row: explains one advantage of the database. It does not compare the graph or the article.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one advantage of the database. It does not compare the graph or the article.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-4-1-n0-n1-s3",
@@ -15760,10 +15760,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A unit conversion error would make one station's values look far larger, which could change a comparison.",
-                        "feedback": "Meets the 3-mark row: explains how the error could affect a comparison. It does not discuss the conclusion or prevention.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains how the error could affect a comparison. It does not discuss the conclusion or prevention.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-4-2-n0-n1-s3",
@@ -15872,10 +15872,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A line graph suits the audience because it makes the decline in water quality easy to see.",
-                        "feedback": "Meets the 3-mark row: explains why one representation suits the audience. It does not compare the other representations.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains why one representation suits the audience. It does not compare the other representations.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-4-3-n0-n1-s3",
@@ -15984,10 +15984,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-4-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A wide range of sources can be more reliable, because errors in one source can be checked against another.",
-                        "feedback": "Meets the 3-mark row: explains one reason the wide range may be more reliable. It does not weigh the quality of the sources.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one reason the wide range may be more reliable. It does not weigh the quality of the sources.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-4-4-n0-n1-s3",
@@ -16097,10 +16097,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Cultural Knowledge records how plants regrow after burning over many seasons, which adds to scientific knowledge.",
-                        "feedback": "Meets the 3-mark row: explains one way Cultural Knowledge adds to scientific knowledge. It does not examine the combination with scientific methods.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains one way Cultural Knowledge adds to scientific knowledge. It does not examine the combination with scientific methods.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-4-5-n0-n1-s3",
@@ -16216,10 +16216,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-5-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The relationship is strong, because oxygen falls in a clear pattern as temperature rises.",
-                        "feedback": "Meets the 3-mark row: explains the strength of the relationship. It does not examine other variables.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the strength of the relationship. It does not examine other variables.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-5-1-n0-n1-s3",
@@ -16329,10 +16329,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-5-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The student should not ignore the inconsistent reading, because it may change the trend if it is real.",
-                        "feedback": "Meets the 3-mark row: explains why the inconsistent result should not be ignored. It gives no method for checking it.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains why the inconsistent result should not be ignored. It gives no method for checking it.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-5-2-n0-n1-s3",
@@ -16736,10 +16736,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The sensor is in one place, so the data are unrepresentative. A second sensor upstream would help.",
-                        "feedback": "Meets the 3-mark row by identifying a limitation and suggesting a change. The change is not justified by the data and no further investigation is recommended, so it does not reach the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by identifying a limitation and suggesting a change. The change is not justified by the data and no further investigation is recommended, so it does not reach the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-5-6-n0-n1-s3",
@@ -16853,9 +16853,9 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Storm waves carry energy and remove sand from the beach. Dune grass roots bind the sand, which reduces erosion.",
-                        "feedback": "Meets the 3-mark row by identifying a principle and describing the erosion problem with some reference to the grass option. It does not apply the principle to the wall or justify which option is better.",
+                        "feedback": "Meets the 2-mark row by identifying a principle and describing the erosion problem with some reference to the grass option. It does not apply the principle to the wall or justify which option is better.",
                         "band": 2
                       },
                       {
@@ -17640,10 +17640,10 @@
                       {
                         "id": "prompt-ees-12-working-scientifically-7-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The board report can use technical terms like groundwater. The news article should explain groundwater in simple words.",
-                        "feedback": "Meets the 3-mark row by identifying the audience of each version with a basic reference to terminology. It does not use the evidence or explain why the content must stay accurate.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by identifying the audience of each version with a basic reference to terminology. It does not use the evidence or explain why the content must stay accurate.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-working-scientifically-7-4-n0-n1-s3",
@@ -17875,10 +17875,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The shells lying the same way up suggest a stable seabed, and the burrows show that animals lived in the sediment after the shells were deposited. Together these suggest ecosystem interactions among seabed animals.",
-                        "feedback": "Meets the 4-mark row by interpreting two observations to infer an ecosystem interaction, with environmental conditions only partly covered.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by interpreting two observations to infer an ecosystem interaction, with environmental conditions only partly covered.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-2-n0-n1-s3",
@@ -17986,10 +17986,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Quaternary period is much longer than the Pleistocene and Holocene epochs, and the Holocene is the shortest. Periods show broad geological changes, while epochs show more specific features, such as the ice sheets of the Pleistocene.",
-                        "feedback": "Meets the 4-mark row by distinguishing the divisions by length and features, with limited development of the biological differences.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by distinguishing the divisions by length and features, with limited development of the biological differences.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-3-n0-n1-s3",
@@ -18098,10 +18098,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Index fossils are widespread and short-lived, so the same species in two basins shows that the layers formed in the same interval. Rock thickness is local and changes between basins, so it cannot match the layers.",
-                        "feedback": "Meets the 4-mark row by justifying index fossils with reasons and a limited comparison with rock thickness.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying index fossils with reasons and a limited comparison with rock thickness.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-4-n0-n1-s3",
@@ -18209,10 +18209,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Uniformitarianism means that the same natural processes operate through time. The Chicxulub impact was an extreme event and the Deccan Traps volcanism was a long process, so their timing can be explained as an event conjunction.",
-                        "feedback": "Meets the 4-mark row by linking extreme events and event conjunctions to uniformitarianism, with limited discussion of whether they fit.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by linking extreme events and event conjunctions to uniformitarianism, with limited discussion of whether they fit.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-5-n0-n1-s3",
@@ -18385,10 +18385,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Carbon-14 suits recent fossils because its half-life is short, while uranium-238 suits very old rocks because its half-life is long. The method depends on the half-life matching the age of the material.",
-                        "feedback": "Meets the 4-mark row by assessing the suitability of two isotopes with some reasons, with limited reference to assumptions.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing the suitability of two isotopes with some reasons, with limited reference to assumptions.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-7-n0-n1-s3",
@@ -18609,18 +18609,18 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Zircon crystals contain uranium, which decays to lead, so their ages date when each crystal formed. Meteorites are also dated by radiometric dating, and together the two give evidence for the age of the Earth.",
-                        "feedback": "Meets the 4-mark row by analysing the zircon and meteorite evidence with some reasons, but the difference between the two ages is not explained.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing the zircon and meteorite evidence with some reasons, but the difference between the two ages is not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-9-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Zircon crystals are dated using radioactive isotopes.",
                         "feedback": "Identifies one piece of evidence, without analysing how it estimates the age of the Earth.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -18721,18 +18721,18 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The dyke cuts the sandstone and the fault, so it is younger than both. The limestone is not cut by the dyke, so it is younger than the dyke.",
-                        "feedback": "Meets the 4-mark row by applying one principle to order some events, with a limited explanation of the full sequence.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by applying one principle to order some events, with a limited explanation of the full sequence.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-10-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The limestone contains an index fossil.",
                         "feedback": "Identifies one feature of the cross-section, without applying it to the order of the events.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -18832,10 +18832,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The zircon ages and the meteorite ages both point to about 4.5 billion years, which supports a conclusion about the age of the Earth. The zircon ages are minimum estimates, so they set a lower limit.",
-                        "feedback": "Meets the 4-mark row by justifying the conclusion with some reasons from the evidence, with limited reference to uncertainty.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the conclusion with some reasons from the evidence, with limited reference to uncertainty.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-1-11-n0-n1-s3",
@@ -18952,10 +18952,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The gas mixture may not match the early atmosphere, and the products were trapped, so the experiment does not copy the early Earth. Its short timescale is also a limitation of the model.",
-                        "feedback": "Meets the 4-mark row by examining two limitations with some reasons, with limited reference to the early Earth.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by examining two limitations with some reasons, with limited reference to the early Earth.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-2-1-n0-n1-s3",
@@ -19064,10 +19064,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Meteorites show that organic molecules such as amino acids could arrive from space, though they do not show how molecules formed on Earth. Deep-sea hydrothermal vents provide a plausible setting, supported by laboratory experiments under vent-like conditions. Hot springs have been proposed, but the evidence for them is more speculative.",
-                        "feedback": "Meets the 5-mark row by assessing the evidence from each source with relevant reasons, with some judgement of which is strongest.",
-                        "band": 4
+                        "feedback": "Meets the 4-mark row by assessing the evidence from each source with relevant reasons, with some judgement of which is strongest.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-2-2-n0-n1-s3",
@@ -19240,10 +19240,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Stromatolites and cyanobacteria fossils show that photosynthetic life existed before the great oxidation event. Banded iron formations record the oxygen that was released into the oceans.",
-                        "feedback": "Meets the 4-mark row by discussing two lines of evidence with some reasons, with limited reference to the great oxidation event.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing two lines of evidence with some reasons, with limited reference to the great oxidation event.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-2-4-n0-n1-s3",
@@ -19351,18 +19351,18 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Photosynthetic life produced oxygen, and oxygen in the atmosphere formed the ozone layer. The ozone layer absorbed ultraviolet light, which made land easier to live on.",
-                        "feedback": "Meets the 4-mark row by analysing the link for most steps, with a limited explanation of why land colonisation was possible.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing the link for most steps, with a limited explanation of why land colonisation was possible.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-2-5-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Oxygen in the atmosphere formed ozone.",
                         "feedback": "Identifies one step in the link, without analysing it or its effect on land.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -19467,10 +19467,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The frond-like form suggests sessile organisms that relied on currents for food. The flat quilted form suggests organisms that absorbed nutrients over the body surface.",
-                        "feedback": "Meets the 4-mark row by deducing two ecosystem features from the characteristics, with some reasons.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by deducing two ecosystem features from the characteristics, with some reasons.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-3-1-n0-n1-s3",
@@ -20580,10 +20580,10 @@
                       {
                         "id": "prompt-ees-12-evolving-earth-3-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Rocks are eroded over time, so some evidence of the biosphere is lost, and the record is incomplete.",
                         "feedback": "Describes one limitation, incompleteness, with a link to the biosphere, but does not discuss preservation bias or the student's claim.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-evolving-earth-3-11-n0-n1-s3",
@@ -21035,10 +21035,10 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A hazard map of past eruptions shows where volcanoes have been active, so it can indicate zones of activity.",
                         "feedback": "Describes how the map indicates zones of activity, with some link to prediction, but does not assess its limitations.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-1-4-n0-n1-s3",
@@ -21987,7 +21987,7 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "L waves have a larger amplitude than P waves, and they shake the ground sideways. This can damage buildings.",
                         "feedback": "Describes the motion of L waves with some link to damage, but does not analyse the effect on structures or compare them with P waves in depth.",
                         "band": 2
@@ -22502,10 +22502,10 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Warning systems give people some time to act before the shaking arrives. Seismometers detect the earthquake quickly.",
                         "feedback": "Describes a detection feature and its effect on people, with a link to warning time, but does not assess effectiveness for distant populations.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-2-10-n0-n1-s3",
@@ -22616,10 +22616,10 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-2-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Seismometers and deep-ocean pressure sensors give the warning system early information about a tsunami, so alerts can be issued quickly. However, the tide gauge is far from the beach, so arrival times for the main beach are less certain.",
-                        "feedback": "Meets the 4-mark row by explaining how the technologies reduce impacts and giving some judgement of the tide gauge's limits. It does not weigh the gaps in phone alerts or propose an action.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how the technologies reduce impacts and giving some judgement of the tide gauge's limits. It does not weigh the gaps in phone alerts or propose an action.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-2-11-n0-n1-s3",
@@ -22734,10 +22734,10 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A tropical cyclone forms over warm water, while a hailstorm forms in a thunderstorm. The cyclone causes flooding from heavy rain, but the hailstorm damages roofs and crops.",
-                        "feedback": "Meets the 4-mark row by explaining a difference in cause and a difference in physical impact. It does not explain the mechanisms or the difference in scale.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining a difference in cause and a difference in physical impact. It does not explain the mechanisms or the difference in scale.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-3-1-n0-n1-s3",
@@ -22912,10 +22912,10 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "During El Niño, the trade winds weaken and less rain falls over eastern Australia, which raises the frequency of drought. During La Niña, extra rain saturates the catchments and increases the chance of floods.",
-                        "feedback": "Meets the 4-mark row by explaining how each phase changes rainfall in eastern Australia. It does not discuss the bushfire link or judge how far the phases explain variation.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how each phase changes rainfall in eastern Australia. It does not discuss the bushfire link or judge how far the phases explain variation.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-3-3-n0-n1-s3",
@@ -23026,18 +23026,18 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Hotter, drier summers from climate change raise the frequency of extreme fire weather. Cutting hazard reduction burning lets fuel build up, so fires that start are more severe.",
-                        "feedback": "Meets the 4-mark row by explaining how each influence affects bushfire frequency or severity, linked to the scenario. It does not weigh one influence against the other.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how each influence affects bushfire frequency or severity, linked to the scenario. It does not weigh one influence against the other.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-3-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Climate change makes summers hotter and drier.",
-                        "feedback": "Meets the 2-mark row by identifying one influence that affects bushfire risk. It gives no effect on frequency or severity.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one influence that affects bushfire risk. It gives no effect on frequency or severity.",
+                        "band": 1
                       }
                     ]
                   }
@@ -23142,10 +23142,10 @@
                       {
                         "id": "prompt-ees-12-natural-hazards-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Cultural burning removes dead fuel from the ground, which can reduce the impact of a bushfire.",
-                        "feedback": "Meets the 3-mark row by describing a benefit of Cultural burning. Explaining how removing fuel slows the fire, and noting a limit in extreme weather, would lift it to the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing a benefit of Cultural burning. Explaining how removing fuel slows the fire, and noting a limit in extreme weather, would lift it to the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-natural-hazards-3-5-n0-n1-s3",
@@ -23382,10 +23382,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A weaker circulation would move less heat energy from the tropics, so the upper ocean would warm near the equator. Coastal areas that receive warm currents would cool, and their winters would become colder.",
-                        "feedback": "Meets the 4-mark row by explaining how the change moves heat energy and how coastal regions would be affected. It does not weigh the effects on rainfall or the time over which they build.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how the change moves heat energy and how coastal regions would be affected. It does not weigh the effects on rainfall or the time over which they build.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-1-n0-n1-s3",
@@ -23495,10 +23495,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "El Niño weakens the trade winds and moves warm water east, so ocean currents change and eastern Australia becomes drier. Its timescales are irregular, so the next event cannot be forecast precisely.",
-                        "feedback": "Meets the 4-mark row by explaining how ENSO changes ocean currents and affects the Australian climate. It does not assess the scenario's models or weigh their strength.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how ENSO changes ocean currents and affects the Australian climate. It does not assess the scenario's models or weigh their strength.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-2-n0-n1-s3",
@@ -23722,10 +23722,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Drake Passage opened and let a current flow around Antarctica. Closing the Isthmus of Panama redirected warm water into the Atlantic, which changed the ocean currents that carry heat northwards.",
-                        "feedback": "Meets the 4-mark row by explaining how each gateway opening or closure changes ocean currents. It does not compare the two effects or link them to the plate tectonic supercycle.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how each gateway opening or closure changes ocean currents. It does not compare the two effects or link them to the plate tectonic supercycle.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-4-n0-n1-s3",
@@ -23834,10 +23834,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Moving continents change ocean currents, which can keep warm water away from the poles and favour an icehouse climate. Changes in carbon dioxide can also shift the planet between greenhouse and icehouse states.",
-                        "feedback": "Meets the 4-mark row by explaining how ocean currents and continental position influence the climate state. It does not assess the scenario's two periods.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how ocean currents and continental position influence the climate state. It does not assess the scenario's two periods.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-5-n0-n1-s3",
@@ -24059,10 +24059,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Obliquity affects summer sunlight at high latitudes, so it changes global climate through the poles. Precession shifts the timing of the seasons between hemispheres, which changes climate in the tropics.",
-                        "feedback": "Meets the 4-mark row by explaining how two orbital changes affect sunlight and global climate. It does not weigh them against each other or use the glacial cycles.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how two orbital changes affect sunlight and global climate. It does not weigh them against each other or use the glacial cycles.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-7-n0-n1-s3",
@@ -24238,18 +24238,18 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Carbon dioxide builds up when its natural sinks weaken, because the natural sources keep releasing it. Methane is removed within about a decade, so changes in its sources show quickly.",
-                        "feedback": "Meets the 4-mark row by explaining how natural sinks and sources control the amount of two gases. It does not compare all four gases or the stratospheric sinks.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how natural sinks and sources control the amount of two gases. It does not compare all four gases or the stratospheric sinks.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-9-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Wetlands are a natural source of methane.",
-                        "feedback": "Meets the 2-mark row by identifying one natural source of one gas. It does not explain the effect on the amount in the atmosphere.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one natural source of one gas. It does not explain the effect on the amount in the atmosphere.",
+                        "band": 1
                       }
                     ]
                   }
@@ -24350,10 +24350,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Permafrost thawing is a positive feedback loop, because warming releases carbon and methane that warm the planet further. A feedback loop of this kind can also push a region past a tipping point.",
-                        "feedback": "Meets the 4-mark row by explaining how a positive feedback loop changes the rate of warming. It does not discuss the ocean circulation example or judge irreversibility.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how a positive feedback loop changes the rate of warming. It does not discuss the ocean circulation example or judge irreversibility.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-10-n0-n1-s3",
@@ -24462,10 +24462,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Ice reflects sunlight, so when glacier and sea ice melt, the darker surface absorbs more heat. This extra warming melts more ice, which amplifies global climate change.",
-                        "feedback": "Meets the 4-mark row by explaining how a change in surface reflectivity feeds back into warming. It does not use the two cases or analyse the scale of the amplification.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how a change in surface reflectivity feeds back into warming. It does not use the two cases or analyse the scale of the amplification.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-11-n0-n1-s3",
@@ -24574,10 +24574,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The black card absorbs more energy, so its tray warms faster. The lamp and starting temperatures were kept the same, so the card colour is the likely cause of the difference.",
-                        "feedback": "Meets the 4-mark row by explaining why the temperature difference can be linked to the card colour. It does not state the limits of the model or the need for repeats.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining why the temperature difference can be linked to the card colour. It does not state the limits of the model or the need for repeats.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-12-n0-n1-s3",
@@ -24688,10 +24688,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-1-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sea ice floats, so its melting changes sea level very little. Land ice from glaciers and ice sheets adds water to the ocean, so it raises sea level directly.",
-                        "feedback": "Meets the 4-mark row by explaining why melting sea ice changes sea level less than melting land ice. It does not weigh the claim against the sources or reach a conclusion.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining why melting sea ice changes sea level less than melting land ice. It does not weigh the claim against the sources or reach a conclusion.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-1-13-n0-n1-s3",
@@ -24806,10 +24806,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Direct measurement records temperature itself, so it is precise. Proxy data respond only indirectly to temperature, so they carry more uncertainty.",
-                        "feedback": "Meets the 4-mark row by explaining a difference between proxy data and direct measurement of temperature. It does not use the overlap in the scenario or reach a judgement.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining a difference between proxy data and direct measurement of temperature. It does not use the overlap in the scenario or reach a judgement.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-1-n0-n1-s3",
@@ -24918,10 +24918,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Wind can carry pollen from distant hills, so the record may show regional plants more than the local site. Some species produce little pollen, so they may be underrepresented in the record.",
-                        "feedback": "Meets the 4-mark row by explaining how pollen dispersal and production affect the record. It does not discuss how the limits are reduced in practice.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how pollen dispersal and production affect the record. It does not discuss how the limits are reduced in practice.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-2-n0-n1-s3",
@@ -25030,10 +25030,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Colder water and a larger ice sheet both raise the oxygen-18 share of seawater, so a rise in the record does not show temperature alone. A second proxy is needed to separate the two causes.",
-                        "feedback": "Meets the 4-mark row by explaining how both temperature and ice volume change the ratio. It does not name the independent proxy or the sea level record.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how both temperature and ice volume change the ratio. It does not name the independent proxy or the sea level record.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-3-n0-n1-s3",
@@ -25142,18 +25142,18 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Oxygen isotope ratios in marine microfossils record seawater composition, so they show ancient climate. However, the record also reflects ice volume, so the temperature signal is not isolated.",
-                        "feedback": "Meets the 4-mark row by explaining a strength and a limitation of the isotope ratio. It does not discuss the missing age model or the regional mix.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining a strength and a limitation of the isotope ratio. It does not discuss the missing age model or the regional mix.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Marine microfossils can show ancient climate.",
-                        "feedback": "Meets the 2-mark row by identifying marine microfossils as evidence of ancient climate. It gives no judgement.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying marine microfossils as evidence of ancient climate. It gives no judgement.",
+                        "band": 1
                       }
                     ]
                   }
@@ -25254,10 +25254,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Gas bubbles give a direct sample of past carbon dioxide, while oxygen isotopes record the temperature when the snow fell. Together they link atmospheric composition to climate.",
-                        "feedback": "Meets the 4-mark row by explaining how each kind of evidence supports the link to atmospheric composition and climate. It does not identify the age offset as a limitation.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how each kind of evidence supports the link to atmospheric composition and climate. It does not identify the age offset as a limitation.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-5-n0-n1-s3",
@@ -25479,10 +25479,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Cross-dating matches the ring patterns of several trees, so the record is more reliable than one tree alone. A missing ring could affect the dating of older rings.",
-                        "feedback": "Meets the 4-mark row by explaining how cross-dating and a missing ring affect reliability. It does not discuss the wider strengthening of the record.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how cross-dating and a missing ring affect reliability. It does not discuss the wider strengthening of the record.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-7-n0-n1-s3",
@@ -25591,10 +25591,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The paintings show a marsupial that no longer lives there, and a wetter environment, so the art suggests climate variation. The pollen record could confirm whether the vegetation matches the painted scene.",
-                        "feedback": "Meets the 4-mark row by explaining how the painted species and environment indicate past climate, with reference to the pollen record. It identifies no limitation.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how the painted species and environment indicate past climate, with reference to the pollen record. It identifies no limitation.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-8-n0-n1-s3",
@@ -25702,10 +25702,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The thermometer readings are direct measurements and so are accurate, but the proxy data depend on the isotopes responding to temperature, so the combined record is less certain.",
-                        "feedback": "Meets the 4-mark row by explaining a strength and a limitation for each record. It does not assess the combined record in full.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining a strength and a limitation for each record. It does not assess the combined record in full.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-2-9-n0-n1-s3",
@@ -25819,10 +25819,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The natural greenhouse effect is the warming that occurs without humans. The anthropogenic greenhouse effect is extra warming caused by gases from fossil fuels and farming, so it adds to the natural effect.",
-                        "feedback": "Meets the 4-mark row by explaining the difference between the two effects, with some reference to human sources. It names no gases.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the difference between the two effects, with some reference to human sources. It names no gases.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-1-n0-n1-s3",
@@ -25931,10 +25931,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The dry glass shows water vapour because droplets form on it. The limewater shows carbon dioxide because it turns cloudy. The student should keep hair and clothing away from the flame.",
-                        "feedback": "Meets the 4-mark row by explaining the purpose of both tests with some reference to safety. It does not justify the design as a whole.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the purpose of both tests with some reference to safety. It does not justify the design as a whole.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-2-n0-n1-s3",
@@ -26043,10 +26043,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The ice core shows a steady concentration before the Industrial Revolution, and the Mauna Loa record shows a steep rise since 1958 with a seasonal pattern. Combining them gives a continuous record.",
-                        "feedback": "Meets the 4-mark row by explaining the change in each record and a reason for combining them. It does not analyse the trend in depth.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the change in each record and a reason for combining them. It does not analyse the trend in depth.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-3-n0-n1-s3",
@@ -26154,10 +26154,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The carbon dioxide cylinder warms more than the air cylinder, which matches the greenhouse effect. However, a small glass cylinder is not the same as the atmosphere, so the model has limits.",
-                        "feedback": "Meets the 4-mark row by explaining the match with the greenhouse effect and a limitation. It does not assess the model in depth.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the match with the greenhouse effect and a limitation. It does not assess the model in depth.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-4-n0-n1-s3",
@@ -26266,10 +26266,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "GWP compares the warming effect of each gas with carbon dioxide over 100 years. Methane and nitrous oxide have much higher GWP values, so the council needs GWP to add the anthropogenic emissions together.",
-                        "feedback": "Meets the 4-mark row by explaining what GWP measures and why the gases differ. It does not discuss lifetime or the scale in depth.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining what GWP measures and why the gases differ. It does not discuss lifetime or the scale in depth.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-5-n0-n1-s3",
@@ -26378,10 +26378,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Clearing forest releases carbon dioxide and removes a carbon sink. Draining wetlands releases carbon from peat, so the concentration of greenhouse gases increases over time.",
-                        "feedback": "Meets the 4-mark row by explaining how land use changes alter the concentration of greenhouse gases. It covers only two changes and no nitrous oxide.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how land use changes alter the concentration of greenhouse gases. It covers only two changes and no nitrous oxide.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-6-n0-n1-s3",
@@ -26488,10 +26488,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The beakers are identical, so the change in pH can be attributed to the carbon dioxide. A limitation is that breath contains other gases, so the amount of dissolved carbon dioxide is not known.",
-                        "feedback": "Meets the 4-mark row by explaining the fair comparison and naming a limitation. It names no variable to control.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the fair comparison and naming a limitation. It names no variable to control.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-7-n0-n1-s3",
@@ -26600,10 +26600,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Ocean acidification weakens the shells of plankton and the skeletons of corals, so the fish that feed on them decline. This affects the reef food web and the species that depend on it.",
-                        "feedback": "Meets the 4-mark row by explaining the effect on shells and one flow-on effect. It does not trace the link to the biosphere.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the effect on shells and one flow-on effect. It does not trace the link to the biosphere.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-8-n0-n1-s3",
@@ -26712,10 +26712,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The model shows the chemistry of acid reacting with calcium carbonate, so it is valid for the process. However, vinegar is much more acidic than seawater, so the results exaggerate the effect.",
-                        "feedback": "Meets the 4-mark row by explaining what the model shows and one limitation of its validity. It does not assess the shell material.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining what the model shows and one limitation of its validity. It does not assess the shell material.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-3-9-n0-n1-s3",
@@ -26828,10 +26828,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Mitigation cuts emissions, but its results take decades, while adaptation such as sea walls protects homes now. Both are needed for effectiveness.",
-                        "feedback": "Meets the 4-mark row by explaining the timing of each response. It does not weigh their effectiveness or recommend a course of action.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the timing of each response. It does not weigh their effectiveness or recommend a course of action.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-4-1-n0-n1-s3",
@@ -27005,10 +27005,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Both model houses are in the same garden and week, so the difference in energy use is due to orientation and insulation. The results may not apply to urban design, because model houses are small.",
-                        "feedback": "Meets the 4-mark row by explaining why the comparison is fair and naming a limitation. It names no variable to control.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining why the comparison is fair and naming a limitation. It names no variable to control.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-4-3-n0-n1-s3",
@@ -27116,10 +27116,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-4-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Solar and wind power replace coal-fired electricity and so lower carbon dioxide emissions, but their output varies, so the grid needs storage or other supply.",
-                        "feedback": "Meets the 4-mark row by explaining how both reduce emissions and identifying one limitation. It does not weigh the wider role in depth.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how both reduce emissions and identifying one limitation. It does not weigh the wider role in depth.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-4-4-n0-n1-s3",
@@ -27360,10 +27360,10 @@
                       {
                         "id": "prompt-ees-12-climate-science-4-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The Kyoto Protocol set binding emission targets for some developed countries, while the Paris Agreement asks every country to set its own targets. This widens international cooperation, but the targets may be weaker.",
-                        "feedback": "Meets the 4-mark row by explaining how each agreement sets targets and the effect on cooperation. It does not assess the effect on emissions.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how each agreement sets targets and the effect on cooperation. It does not assess the effect on emissions.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-climate-science-4-7-n0-n1-s3",
@@ -27484,10 +27484,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The compost program helps the environment by reducing landfill and methane, but it costs ratepayers more in the first year, so the economic pillar is a trade-off.",
-                        "feedback": "Meets the 4-mark row by explaining the environmental benefit and the economic cost. It does not address the social pillar or governance.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the environmental benefit and the economic cost. It does not address the social pillar or governance.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-1-n0-n1-s3",
@@ -27595,10 +27595,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Coal provides jobs and income, but it is non-renewable and adds emissions. A wind farm is renewable, but it needs storage to supply power when the wind is calm.",
-                        "feedback": "Meets the 4-mark row by explaining a benefit and drawback of each option. It does not weigh the transition as a whole.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining a benefit and drawback of each option. It does not weigh the transition as a whole.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-2-n0-n1-s3",
@@ -27835,10 +27835,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Compost and biogas can be produced from separated household waste, but plastic contamination adds sorting costs, so the program is viable only with clean waste.",
-                        "feedback": "Meets the 4-mark row by explaining the products and one factor affecting viability. It does not weigh supply or give a judgement on the pilot.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the products and one factor affecting viability. It does not weigh supply or give a judgement on the pilot.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-5-n0-n1-s3",
@@ -27946,18 +27946,18 @@
                       {
                         "id": "prompt-ees-12-sustainability-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Returning glass bottles for reuse and repairing appliances keep materials in use, so fewer new products must be made and less waste goes to landfill.",
-                        "feedback": "Meets the 4-mark row by explaining how two programs keep materials in use. It does not trace the effect in depth or note what the benefit depends on.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how two programs keep materials in use. It does not trace the effect in depth or note what the benefit depends on.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Reusing bottles and repairing appliances reduces waste.",
-                        "feedback": "Meets the 2-mark row by identifying two programs from the scenario. It gives no explanation of their effect.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying two programs from the scenario. It gives no explanation of their effect.",
+                        "band": 1
                       }
                     ]
                   }
@@ -28057,10 +28057,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A traditional landfill is cheaper to run but may leak leachate into groundwater. A bioreactor produces methane for energy but needs more monitoring.",
-                        "feedback": "Meets the 4-mark row by explaining one strength and limitation of each strategy. It does not reach a conclusion.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining one strength and limitation of each strategy. It does not reach a conclusion.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-7-n0-n1-s3",
@@ -28169,10 +28169,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-1-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Lithium-ion batteries can catch fire and mercury is toxic, so the council should provide drop-off points for these problem wastes.",
-                        "feedback": "Meets the 4-mark row by explaining two hazards and a matching strategy. It does not justify the choice against alternatives.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining two hazards and a matching strategy. It does not justify the choice against alternatives.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-8-n0-n1-s3",
@@ -28280,10 +28280,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The food waste campaign reduces methane from landfill, which helps the atmosphere, and the bag ban reduces plastic in waterways, which helps the hydrosphere. The deposit scheme needs trucks, which add emissions, so the net effect is less clear.",
-                        "feedback": "Meets the 5-mark row by analysing the effect of the strategies on two spheres. It does not evaluate the overall effect.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by analysing the effect of the strategies on two spheres. It does not evaluate the overall effect.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-sustainability-1-9-n0-n1-s3",
@@ -28397,10 +28397,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Lithium and rare earth elements are needed for batteries and electric motors, but mining uses water and recycling is limited, so the supply is not fully sustainable.",
-                        "feedback": "Meets the 4-mark row by explaining the environmental issue of mining and the limit of recycling. It does not weigh the benefits of the technologies.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the environmental issue of mining and the limit of recycling. It does not weigh the benefits of the technologies.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-1-n0-n1-s3",
@@ -28629,10 +28629,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Demand for fossil fuels keeps a non-renewable energy economy running, and burning them releases carbon dioxide.",
-                        "feedback": "Meets the 3-mark row: explains the drivers of demand and emissions, with no analysis of how the link could change.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the drivers of demand and emissions, with no analysis of how the link could change.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-3-n0-n1-s3",
@@ -28745,10 +28745,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Copper and critical minerals are used in renewable energy, so demand for them rises as the energy mix shifts.",
-                        "feedback": "Meets the 3-mark row: explains the change in demand, with limited reference to mining in Australia.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the change in demand, with limited reference to mining in Australia.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-4-n0-n1-s3",
@@ -28861,10 +28861,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Nuclear and hydroelectric generation are dispatchable, while a wind farm depends on the wind, so its output varies.",
-                        "feedback": "Meets the 3-mark row: explains dispatchability for two methods, with no clear emissions comparison or fuel sustainability.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains dispatchability for two methods, with no clear emissions comparison or fuel sustainability.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-5-n0-n1-s3",
@@ -28978,10 +28978,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Solar and wind output varies with the weather, so the mix may not always meet demand.",
-                        "feedback": "Meets the 3-mark row: explains variable output, with limited assessment of reliability.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains variable output, with limited assessment of reliability.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-6-n0-n1-s3",
@@ -29094,10 +29094,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Hydrogen can replace fossil fuels in some uses, and green hydrogen comes from renewable electricity.",
-                        "feedback": "Meets the 3-mark row: explains a potential role for hydrogen, with limited assessment of blue hydrogen.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains a potential role for hydrogen, with limited assessment of blue hydrogen.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-7-n0-n1-s3",
@@ -29210,10 +29210,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Hydrogen is flammable, so a flame should not be brought near the gas that has been collected.",
-                        "feedback": "Meets the 3-mark row: describes one risk with a control, but without the other hazards.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: describes one risk with a control, but without the other hazards.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-8-n0-n1-s3",
@@ -29326,10 +29326,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Reducing dependence on crude oil lowers exposure to fuel price shocks, which helps fuel security. Electric vehicles also cut spending on imported fuel, but they add costs for batteries and charging. Emissions fall only if the electricity comes from renewable sources, so the impact on greenhouse gases depends on the source of the power.",
                         "feedback": "Meets the 5 row: discusses fuel security, the economy and emissions with a link to the source of the electricity, but without a full judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-9-n0-n1-s3",
@@ -29442,10 +29442,10 @@
                       {
                         "id": "prompt-ees-12-sustainability-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The manufacturer's report has a commercial purpose, so its claims about technologies may be biased.",
-                        "feedback": "Meets the 3-mark row: explains the reliability of one source for technologies, with limited assessment of the academic review.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row: explains the reliability of one source for technologies, with limited assessment of the academic review.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ees-12-sustainability-2-10-n0-n1-s3",

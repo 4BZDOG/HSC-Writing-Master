@@ -432,10 +432,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The bakery raised its prices, so customers bought less bread. The government could give the bakery a subsidy, which would lower its costs and could affect the price customers pay.",
                         "feedback": "Analyses two links between the agents with some reference to the scenario, but the feedback between them is not fully developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-3-n0-n1-s3",
@@ -546,10 +546,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The budget is limited, so the government cannot fund both projects. If it builds the hospital wing, the rail upgrade is delayed, and the commuting benefits are lost.",
                         "feedback": "Analyses the trade-off with some reference to the opportunity cost, but does not weigh the two options against each other.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-4-n0-n1-s3",
@@ -660,10 +660,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The levee costs $80 million to build, which is a short-term cost. Its benefits last for many years because it reduces flood damage, so the long-term benefits matter.",
                         "feedback": "Analyses the short-term and long-term costs and benefits with some reference to the principle, but does not apply marginal reasoning.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-5-n0-n1-s3",
@@ -775,10 +775,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The bonus gives staff an incentive to answer more calls, which the company intended. Staff may end calls early, which is an unintended consequence that customers would notice.",
                         "feedback": "Analyses one intended and one unintended consequence with some reference to the scenario, but the effect on the company is not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-6-n0-n1-s3",
@@ -1003,10 +1003,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The model assumes other factors stay constant. If incomes rise, people may keep buying petrol even when the price rises, so the tax may not reduce demand by as much as the model predicts.",
                         "feedback": "Analyses one key assumption and its effect on the model with some reference to the scenario, but does not weigh the usefulness of the model.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-8-n0-n1-s3",
@@ -1117,10 +1117,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Behavioural economics says people are affected by biases such as inertia, so they may not act in their own interest. A default option could keep people enrolled, which raises the concern that individual choice is limited.",
                         "feedback": "Discusses the challenge to rational behaviour with some reference to a bias and to the ethical concern, but the argument is less developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-1-9-n0-n1-s3",
@@ -1468,10 +1468,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The loan is not a factor of production because money itself does not make bread. The bakery uses the loan to buy the oven, which is capital and does the producing.",
                         "feedback": "The distinction between money and capital is explained and applied, but the answer does not discuss the interest payment or reach a fuller conclusion.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-1-n0-n1-s3",
@@ -1583,10 +1583,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Profit is a residual, so it absorbs the whole $60,000 fall in revenue. Rent, wages and interest are fixed in the short run, so profit falls from $125,000 to $65,000 while the other factor incomes stay the same.",
                         "feedback": "The reason profit falls more than the other factor incomes is explained with accurate figures, but the answer does not calculate total factor incomes.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-2-n0-n1-s3",
@@ -1698,10 +1698,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The town chooses to produce solar electricity rather than other goods, and it uses machines rather than workers. Selling the power cheaply shows how the benefits are distributed.",
                         "feedback": "Three key questions are identified with accurate reference to the scenario, but the answers are not linked to one another.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-3-n0-n1-s3",
@@ -1813,10 +1813,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "In Country F, higher bread prices encourage bakeries to increase output, whereas in Country P a central agency sets the output target.",
                         "feedback": "One key question is contrasted accurately, but the distribution question is not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-4-n0-n1-s3",
@@ -1928,10 +1928,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Money as a medium of exchange removes the need for a double coincidence of wants, because the potter can sell pots for salt and then buy grain from another farmer.",
                         "feedback": "The medium of exchange is explained as a solution to barter, but the other functions are not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-2-5-n0-n1-s3",
@@ -2050,10 +2050,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Resources are not equally suited to food and manufactured goods, so producing more food means using resources that are less suited to it. Each extra tonne therefore costs more manufactured goods, as the schedule shows.",
                         "feedback": "The reason opportunity cost rises is explained, but the answer does not use figures from the schedule.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-3-1-n0-n1-s3",
@@ -2165,10 +2165,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The new net is a technological improvement, so the PPF shifts outward and the economy can catch more fish from the same boats.",
                         "feedback": "The outward shift is explained, but the unchanged timber intercept and the conclusion are not addressed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-3-2-n0-n1-s3",
@@ -3198,7 +3198,7 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Investment falls by $10 billion, so injections fall to $190 billion, which is less than leakages.",
                         "feedback": "The fall in injections is described with its value, but the rise in savings and its effect on national income are not analysed.",
                         "band": 2
@@ -3549,10 +3549,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The business adds $500,000 to GDP, and its $300,000 in wages raises household incomes. Local spending of those wages may lift GDP further through the multiplier effect, and government revenue rises from taxes on wages and profit.",
                         "feedback": "The effects on GDP, household incomes and government revenue are identified with accurate figures, but the links and the leakages are not developed.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-3-n0-n1-s3",
@@ -3777,10 +3777,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Usually unemployment falls and inflation rises in a late expansion, so the pattern can guide policy. However, a supply shock can raise inflation while unemployment is still falling, so the pattern is not always reliable.",
                         "feedback": "The usual pattern and one limitation are identified, but the limitation is not developed and the policy implications are not discussed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-5-n0-n1-s3",
@@ -3892,10 +3892,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Lower business confidence causes firms to cut business investment, so aggregate demand falls. Firms reduce employment, so household incomes fall and consumption declines, which reduces GDP further.",
                         "feedback": "The chain is described from investment to employment and incomes, but the multiplier is not explained and the link to the business cycle is not made.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-6-n0-n1-s3",
@@ -4006,10 +4006,10 @@
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Tax revenue falls by $20 billion and income support payments rise by $15 billion, so the budget balance worsens by $35 billion. Automatic stabilisers help households and businesses by cushioning falls in income and spending.",
                         "feedback": "The budget change is quantified accurately and the role of automatic stabilisers is identified, but the effects on households and businesses are not explained in detail and no judgement is made.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-introduction-to-economics-5-7-n0-n1-s3",
@@ -4700,7 +4700,7 @@
                       {
                         "id": "prompt-eco-11-household-and-business-sector-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "When all households save more at once, consumption falls and firms sell less, so household income may fall too.",
                         "feedback": "Describes the effect of higher saving on consumption and firms but does not trace the effect on total saving.",
                         "band": 2
@@ -4814,10 +4814,10 @@
                       {
                         "id": "prompt-eco-11-household-and-business-sector-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Targeted advertising and a pre-selected premium plan influence what customers buy, which limits consumer sovereignty to some extent.",
                         "feedback": "Explains one influence on sovereignty but does not weigh it against the factors that preserve it.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-household-and-business-sector-1-7-n0-n1-s3",
@@ -5624,10 +5624,10 @@
                       {
                         "id": "prompt-eco-11-household-and-business-sector-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A public enterprise is owned by the government, while a private enterprise is owned by individuals or shareholders. Public enterprises can provide services that are not profitable, but private enterprises are mainly concerned with profit.",
                         "feedback": "Distinguishes ownership and objectives accurately, but does not refer to the scenario or explain funding.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-household-and-business-sector-3-3-n0-n1-s3",
@@ -5738,10 +5738,10 @@
                       {
                         "id": "prompt-eco-11-household-and-business-sector-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Higher productivity lowers the cost of each chair, so Ferncliff can earn more profit or cut prices to sell more. If workers share in the gains through higher wages, their living standards can improve because their wages buy more.",
                         "feedback": "Explains the link to profitability and living standards, but does not discuss how gains may be distributed or whether the link is automatic.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-household-and-business-sector-3-4-n0-n1-s3",
@@ -6200,10 +6200,10 @@
                       {
                         "id": "prompt-eco-11-household-and-business-sector-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Supporters argue that a fairer distribution reduces poverty and supports social cohesion. Opponents argue that pay differences reward effort and skill, and that narrowing them may weaken incentives to train. Both views have merit, depending on the jobs involved.",
                         "feedback": "Discusses both sides with a reasonable view, but the reasoning is brief and does not develop the Marlow scenario.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-household-and-business-sector-4-2-n0-n1-s3",
@@ -6445,10 +6445,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Redistribution and reallocation compete for the same tax revenue. Raising taxes to pay for the pension increase may reduce work effort, while the hospital uses resources that could fund other services. The government must balance equity against efficiency.",
-                        "feedback": "A 4-mark response discusses the trade-off with some accuracy but gives little weighing of the effects and no clear conclusion.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses the trade-off with some accuracy but gives little weighing of the effects and no clear conclusion.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-government-sector-1-1-n0-n1-s3",
@@ -6562,10 +6562,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The advisory body shares local knowledge, which can make the program more suitable. Employment rose faster in Town A, so the advisory body probably helped, but the towns are different, so this is not certain.",
-                        "feedback": "A 4-mark response analyses one mechanism with some accuracy, but the judgement is not developed and the comparison is only partly examined.",
-                        "band": 4
+                        "feedback": "A 3-mark response analyses one mechanism with some accuracy, but the judgement is not developed and the comparison is only partly examined.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-government-sector-1-2-n0-n1-s3",
@@ -6793,10 +6793,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Income tax falls and income support rises during the downturn, so the budget moves into deficit without any new policy. This helps to support disposable income.",
-                        "feedback": "A 4-mark response explains the effect on the budget balance with some accuracy but does not use the figures in full.",
-                        "band": 3
+                        "feedback": "A 3-mark response explains the effect on the budget balance with some accuracy but does not use the figures in full.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-government-sector-1-4-n0-n1-s3",
@@ -6907,10 +6907,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Regulation can eliminate harm, as a ban would, but it may close factories and cost jobs. A tax lets firms choose how to reduce harm, but the estimate of the damage may be wrong.",
-                        "feedback": "A 4-mark response analyses the strengths and weaknesses of both approaches with some accuracy but does not reach a judgement.",
-                        "band": 4
+                        "feedback": "A 3-mark response analyses the strengths and weaknesses of both approaches with some accuracy but does not reach a judgement.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-government-sector-1-5-n0-n1-s3",
@@ -7138,10 +7138,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A private owner may cut costs, but it may also close routes that lose money, so the public interest may suffer. Public ownership protects service but may reduce the pressure to cut costs.",
-                        "feedback": "A 4-mark response discusses both options with some accuracy but does not link the natural monopoly to the choice.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses both options with some accuracy but does not link the natural monopoly to the choice.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-government-sector-1-7-n0-n1-s3",
@@ -7260,10 +7260,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The tax raises revenue, but if consumption falls the revenue falls too, so the purposes conflict. It also falls most heavily on low-income households, which is a redistribution cost to weigh.",
-                        "feedback": "A 4-mark response discusses one trade-off with some accuracy but does not reach a conclusion.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses one trade-off with some accuracy but does not reach a conclusion.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-government-sector-2-1-n0-n1-s3",
@@ -7374,10 +7374,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Personal income tax falls by $10 billion and company tax by $4.5 billion, so total revenue falls. Expenditure does not change, so the budget moves into deficit.",
-                        "feedback": "A 4-mark response analyses the fall in two sources with accurate calculations but does not calculate the shares.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the fall in two sources with accurate calculations but does not calculate the shares.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-government-sector-2-2-n0-n1-s3",
@@ -7937,10 +7937,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Shifting towards consumption taxes could reduce the disincentive to save, so it may be more efficient. However, these taxes are regressive, because poorer households spend more of their income, so it may be unfair.",
                         "feedback": "Discusses both sides briefly with accurate reasoning, but the answer is underdeveloped and the view on the trade-off is not reached.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-government-sector-2-7-n0-n1-s3",
@@ -8055,10 +8055,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Transfer payments provide income support, helping low-income households meet basic needs. Infrastructure spending is long term and helps the economy grow over time.",
                         "feedback": "Explains one objective for each type of spending with some accuracy, but the answer does not analyse the timing or the trade-off.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-government-sector-3-1-n0-n1-s3",
@@ -8279,10 +8279,10 @@
                       {
                         "id": "prompt-eco-11-government-sector-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Spending on aged care and health is growing quickly, so the budget may face deficits. Subsidy programs that have never been evaluated should be reviewed, since their value for money is unknown.",
                         "feedback": "Discusses one reason for reform with some reference to the scenario, but the answer does not weigh the effects on services or reach a fuller judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-government-sector-3-3-n0-n1-s3",
@@ -8406,7 +8406,7 @@
                       {
                         "id": "prompt-eco-11-financial-sector-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Firms cannot borrow, so they delay building new factories. This means less investment and slower growth in the economy.",
                         "feedback": "Describes one effect on firms accurately, but does not link it to productivity, employment or wider outcomes.",
                         "band": 2
@@ -8988,10 +8988,10 @@
                       {
                         "id": "prompt-eco-11-financial-sector-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Debt suits Cedar because its owners keep control, but the interest must be paid every year.",
                         "feedback": "Identifies the control benefit and the fixed cost, but does not weigh them against Cedar's modest profits.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-financial-sector-3-1-n0-n1-s3",
@@ -9102,7 +9102,7 @@
                       {
                         "id": "prompt-eco-11-financial-sector-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "When yields rise in the secondary market, the government has to pay more to borrow in the primary market.",
                         "feedback": "Accurate link between secondary yields and borrowing costs, but no analysis of the wider economy or of causes.",
                         "band": 2
@@ -9329,7 +9329,7 @@
                       {
                         "id": "prompt-eco-11-financial-sector-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Households borrowing less reduces the demand for funds, so the interest rate tends to fall.",
                         "feedback": "Accurate for the household shift, but does not consider the government's borrowing or reach a conclusion.",
                         "band": 2
@@ -9443,10 +9443,10 @@
                       {
                         "id": "prompt-eco-11-financial-sector-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A surplus means the government borrows less, so demand for funds falls and interest rates fall.",
                         "feedback": "Accurate for the demand effect, but does not consider the supply effect of public saving or the limits of the view.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-financial-sector-3-5-n0-n1-s3",
@@ -9557,7 +9557,7 @@
                       {
                         "id": "prompt-eco-11-financial-sector-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Less government borrowing and more saving both push the interest rate down on the graph.",
                         "feedback": "Identifies both shifts and the direction of the rate change, but does not state the new equilibrium or explain the quantity change.",
                         "band": 2
@@ -9671,10 +9671,10 @@
                       {
                         "id": "prompt-eco-11-financial-sector-3-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Lower rates reduce repayments, so buyers can borrow more and afford a home more easily.",
                         "feedback": "Accurately describes the direct effect, but does not consider how house prices may rise in response.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-financial-sector-3-7-n0-n1-s3",
@@ -10963,10 +10963,10 @@
                       {
                         "id": "prompt-eco-11-markets-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The rise from $8 to $12 increases quantity supplied from 400 to 700 punnets, which is an expansion of supply. The fall to $6 reduces quantity supplied to 250 punnets, a contraction. Both are movements along the same curve.",
-                        "feedback": "A 4-mark response uses the schedule and names both changes correctly, but does not explain why the changes are not shifts of the supply curve.",
-                        "band": 3
+                        "feedback": "A 3-mark response uses the schedule and names both changes correctly, but does not explain why the changes are not shifts of the supply curve.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-3-3-n0-n1-s3",
@@ -11079,10 +11079,10 @@
                       {
                         "id": "prompt-eco-11-markets-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Expected higher future prices make storing the crop more attractive, so current supply falls. This is a shift of the supply curve to the left, because the change is in a non-price factor, not the current price of $300.",
-                        "feedback": "A 4-mark response explains the effect of expected future prices and identifies the shift, but does not fully discuss the risk of a wrong forecast or why the storage decision matters.",
-                        "band": 3
+                        "feedback": "A 3-mark response explains the effect of expected future prices and identifies the shift, but does not fully discuss the risk of a wrong forecast or why the storage decision matters.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-3-4-n0-n1-s3",
@@ -11195,10 +11195,10 @@
                       {
                         "id": "prompt-eco-11-markets-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Plot price on the vertical axis and quantity on the horizontal axis, then join the points from the schedule. The curve slopes upwards, which shows that the grower supplies more at higher prices.",
-                        "feedback": "A 4-mark response constructs the curve with labelled axes and interprets the upward slope in general terms, but does not interpret the steepening.",
-                        "band": 3
+                        "feedback": "A 3-mark response constructs the curve with labelled axes and interprets the upward slope in general terms, but does not interpret the steepening.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-3-5-n0-n1-s3",
@@ -11314,10 +11314,10 @@
                       {
                         "id": "prompt-eco-11-markets-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Both shifts push the equilibrium market price up, because the lower supply and higher demand each increase the price. The effect on equilibrium quantity depends on which shift is larger, so it is uncertain.",
-                        "feedback": "A 4-mark response explains the price effect and notes that the quantity effect is uncertain, but does not explain why the two shifts pull in opposite directions.",
-                        "band": 3
+                        "feedback": "A 3-mark response explains the price effect and notes that the quantity effect is uncertain, but does not explain why the two shifts pull in opposite directions.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-4-1-n0-n1-s3",
@@ -11429,10 +11429,10 @@
                       {
                         "id": "prompt-eco-11-markets-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The demand curve shifts right because the heatwave increases demand at each price. The new equilibrium is higher, at $6.00 and 400 cones per day, than the original $5.00 and 300 cones per day.",
-                        "feedback": "A 4-mark response describes the demand shift and states both equilibria, but does not interpret the shortage that drives the price change.",
-                        "band": 3
+                        "feedback": "A 3-mark response describes the demand shift and states both equilibria, but does not interpret the shortage that drives the price change.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-4-2-n0-n1-s3",
@@ -11544,10 +11544,10 @@
                       {
                         "id": "prompt-eco-11-markets-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The $10 price does not include the $2 external cost, so the factory produces more than the efficient output. The market outcome is therefore not allocatively efficient, because a deadweight loss arises.",
-                        "feedback": "A 4-mark response explains why output is too high and concludes that the outcome is inefficient, but does not compare the marginal social cost with the marginal benefit.",
-                        "band": 4
+                        "feedback": "A 3-mark response explains why output is too high and concludes that the outcome is inefficient, but does not compare the marginal social cost with the marginal benefit.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-markets-4-3-n0-n1-s3",
@@ -11665,10 +11665,10 @@
                       {
                         "id": "prompt-eco-11-markets-5-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The medicine's PED of 0.1 is relatively inelastic, so total revenue rises after the price increase. The chocolate's PED of 2.0 is relatively elastic, so total revenue falls by 28 per cent.",
-                        "feedback": "A 4-mark response explains how each PED determines the revenue effect and uses the scenario figures, but does not test the values against the benchmarks or show the calculations.",
-                        "band": 3
+                        "feedback": "A 3-mark response explains how each PED determines the revenue effect and uses the scenario figures, but does not test the values against the benchmarks or show the calculations.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-5-1-n0-n1-s3",
@@ -11779,18 +11779,18 @@
                       {
                         "id": "prompt-eco-11-markets-5-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Elasticity changes along the curve: demand is relatively elastic at high prices and relatively inelastic at low prices. Unit elasticity occurs at $10 and 20 pizzas.",
-                        "feedback": "A 4-mark response explains the change in elasticity and identifies the point of unit elasticity, but does not calculate the elasticity between points.",
-                        "band": 3
+                        "feedback": "A 3-mark response explains the change in elasticity and identifies the point of unit elasticity, but does not calculate the elasticity between points.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-5-2-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Elasticity changes along a straight-line demand curve.",
-                        "feedback": "A 2-mark response identifies the change in elasticity without interpreting the curve or naming the point of unit elasticity.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies the change in elasticity without interpreting the curve or naming the point of unit elasticity.",
+                        "band": 1
                       }
                     ]
                   }
@@ -12119,10 +12119,10 @@
                       {
                         "id": "prompt-eco-11-markets-5-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Demand is relatively inelastic at 0.6, so the price rise increases total revenue. The price rise is justified.",
                         "feedback": "The elasticity and its effect on revenue are correct, but the answer does not consider output, product differentiation or any risk. The conclusion is stated without reasons.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-eco-11-markets-5-5-n0-n1-s3",
@@ -13748,10 +13748,10 @@
                       {
                         "id": "prompt-eco-11-markets-8-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Collusion means firms agree on prices, so buyers pay more for as long as the agreement lasts. Predatory pricing gives buyers lower prices at first, but the predator may raise prices later. Collusion probably harms consumers more over time.",
-                        "feedback": "A 4-mark response compares the strategies with some accuracy and reaches a view, but the justification is brief and market power is not explained.",
-                        "band": 4
+                        "feedback": "A 3-mark response compares the strategies with some accuracy and reaches a view, but the justification is brief and market power is not explained.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-eco-11-markets-8-6-n0-n1-s3",
@@ -15688,10 +15688,10 @@
                       {
                         "id": "sa-ec-1-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Nominal GDP uses current prices and real GDP uses constant prices from a base year.",
-                        "feedback": "A 3-mark response states the distinction with some accuracy. Explaining why it matters and giving an example would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response states the distinction with some accuracy. Explaining why it matters and giving an example would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-1-3",
@@ -16034,10 +16034,10 @@
                       {
                         "id": "sa-ec-2-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "GDP excludes unpaid household work and the informal economy, so some valuable activity is not counted. It also ignores income distribution, so growth may not improve most households' living standards.",
-                        "feedback": "A 5-mark response analyses two limitations with accurate evidence. Analysing environmental degradation and linking the limitations to wellbeing would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two limitations with accurate evidence. Analysing environmental degradation and linking the limitations to wellbeing would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-2-3",
@@ -16492,10 +16492,10 @@
                       {
                         "id": "prompt-ec-1-1-n7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A lower terms of trade means export prices have fallen relative to import prices. Export receipts therefore fall while the cost of imports is unchanged, so net exports decline. Lower net exports reduce aggregate demand, which reduces economic activity.",
                         "feedback": "The mechanism from lower export prices to lower net exports and aggregate demand is explained accurately, without the longer-run adjustment.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-1-1-n7-n0-n1-s3",
@@ -16781,10 +16781,10 @@
                       {
                         "id": "sa-ec-4-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Aggregate supply depends on how much firms produce, and higher productivity means more output.",
-                        "feedback": "A 3-mark response describes aggregate supply and one factor with some accuracy. Explaining the quality and quantity of inputs would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes aggregate supply and one factor with some accuracy. Explaining the quality and quantity of inputs would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-4-3",
@@ -17010,10 +17010,10 @@
                       {
                         "id": "sa-ec-5-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Potential output is the sustainable level of production, and actual output can be above or below it.",
-                        "feedback": "A 3-mark response describes both concepts with some accuracy. Explaining the implications for unemployment and inflation would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes both concepts with some accuracy. Explaining the implications for unemployment and inflation would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-5-3",
@@ -17124,10 +17124,10 @@
                       {
                         "id": "sa-ec-6-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "An increase in aggregate demand shifts the AD curve to the right, which raises real GDP and the price level. A fall in aggregate supply shifts SRAS left, which lowers real GDP and raises prices.",
-                        "feedback": "A 5-mark response analyses shifts of both curves with accurate effects. Explaining why the effects on prices differ and reaching a conclusion would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses shifts of both curves with accurate effects. Explaining why the effects on prices differ and reaching a conclusion would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-6-3",
@@ -17239,10 +17239,10 @@
                       {
                         "id": "sa-ec-7-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Growth raises household incomes and business profits, and it increases government tax revenue. Decline causes job losses and reduces the revenue the government receives.",
-                        "feedback": "A 5-mark response analyses effects on several groups with accurate examples. Explaining the unequal distribution of costs would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses effects on several groups with accurate examples. Explaining the unequal distribution of costs would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-7-3",
@@ -17295,18 +17295,18 @@
                       {
                         "id": "prompt-ec-7-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Low-income households lose the most because they lose jobs and income. Businesses have lower sales and profits, and the government collects less tax, so the budget deficit grows.",
-                        "feedback": "A 4-mark response describes the effects on each group with some accuracy, but it does not weigh which group bears the greatest cost or reach a judgement. Adding that comparison would lift it.",
-                        "band": 4
+                        "feedback": "A 3-mark response describes the effects on each group with some accuracy, but it does not weigh which group bears the greatest cost or reach a judgement. Adding that comparison would lift it.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-7-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Households lose income and businesses lose sales.",
-                        "feedback": "A 2-mark response identifies effects for two groups without explaining them or comparing their scale.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies effects for two groups without explaining them or comparing their scale.",
+                        "band": 1
                       }
                     ]
                   }
@@ -17354,10 +17354,10 @@
                       {
                         "id": "sa-ec-8-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The mining boom raised Australia's income because commodity prices rose.",
-                        "feedback": "A 3-mark response explains one reason with some accuracy. Explaining a second factor, such as productivity or population, would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one reason with some accuracy. Explaining a second factor, such as productivity or population, would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-8-3",
@@ -17409,10 +17409,10 @@
                       {
                         "id": "prompt-ec-8-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Rising commodity prices improved the terms of trade, which increased national income. Population growth also helped growth.",
-                        "feedback": "A 3-mark response describes the commodity price effect and names a second driver, but it does not weigh the two against each other or test the claim. Adding that comparison would move it up.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes the commodity price effect and names a second driver, but it does not weigh the two against each other or test the claim. Adding that comparison would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-8-n1-s3",
@@ -17702,10 +17702,10 @@
                       {
                         "id": "sa-ec-11-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "In a recession fewer people look for work, and the ageing population means fewer people are of working age.",
-                        "feedback": "A 3-mark response describes factors with some accuracy but does not distinguish cyclical from structural influences.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes factors with some accuracy but does not distinguish cyclical from structural influences.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-11-3",
@@ -17989,10 +17989,10 @@
                       {
                         "id": "sa-ec-12-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "An ageing population raises the dependency ratio. Fewer workers pay tax, while spending on pensions and health rises, which affects the budget.",
-                        "feedback": "A 5-mark response assesses two implications with accurate evidence. Assessing the policy responses and their limits would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses two implications with accurate evidence. Assessing the policy responses and their limits would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-12-3",
@@ -18044,10 +18044,10 @@
                       {
                         "id": "prompt-ec-12-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A higher dependency ratio means fewer workers pay tax for each older person. Spending on health and aged care will rise, so the government may need to borrow more or cut other services.",
-                        "feedback": "A 4-mark response explains the effect on revenue and spending with limited use of the figures, but it does not weigh any factor that could change the outcome. Adding productivity or policy choices would lift it.",
-                        "band": 4
+                        "feedback": "A 3-mark response explains the effect on revenue and spending with limited use of the figures, but it does not weigh any factor that could change the outcome. Adding productivity or policy choices would lift it.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-12-n1-s3",
@@ -18217,10 +18217,10 @@
                       {
                         "id": "sa-ec-14-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "When demand falls, firms reduce staff, which causes unemployment. New technology can also replace some workers.",
-                        "feedback": "A 3-mark response describes two causes with some accuracy. Explaining structural change and frictions would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two causes with some accuracy. Explaining structural change and frictions would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-14-3",
@@ -18272,10 +18272,10 @@
                       {
                         "id": "prompt-ec-14-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The government could fund a training program for underemployed workers to fill health and aged care vacancies, since many already have relevant skills. A wage subsidy for retail employers could also add hours for staff who want more, which would help quickly, but it may be costly.",
-                        "feedback": "A 5-mark response proposes two measures and gives some justification for each, but it does not weigh their costs or limits against each other. Adding that comparison would lift it.",
-                        "band": 4
+                        "feedback": "A 4-mark response proposes two measures and gives some justification for each, but it does not weigh their costs or limits against each other. Adding that comparison would lift it.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-14-n1-s3",
@@ -18554,10 +18554,10 @@
                       {
                         "id": "sa-ec-15-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The unemployment rate excludes hidden unemployed people who have stopped looking for work. Underemployed workers are counted as employed, so the rate does not show their lack of hours.",
-                        "feedback": "A 5-mark response analyses two limitations with accurate evidence. Linking them to policy decisions would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two limitations with accurate evidence. Linking them to policy decisions would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-15-3",
@@ -18609,10 +18609,10 @@
                       {
                         "id": "prompt-ec-15-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "I recommend underemployment because it shows people who want more hours and are counted as employed. I also recommend participation because it shows people who have stopped looking for work.",
-                        "feedback": "A 4-mark response recommends two indicators with some justification, but it does not link each to a specific policy decision or weigh the cost of the third option. Adding those links would lift it.",
-                        "band": 4
+                        "feedback": "A 3-mark response recommends two indicators with some justification, but it does not link each to a specific policy decision or weigh the cost of the third option. Adding those links would lift it.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-15-n1-s3",
@@ -18783,18 +18783,18 @@
                       {
                         "id": "sa-ec-16-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Unemployment reduces output and tax revenue and increases welfare spending. Unemployed people may suffer financial stress and poorer mental health.",
-                        "feedback": "A 5-mark response discusses economic and social effects with accurate evidence. Discussing the long-term nature of social effects would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses economic and social effects with accurate evidence. Discussing the long-term nature of social effects would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-16-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Unemployment makes people poorer.",
-                        "feedback": "A 2-mark response describes one effect without discussion.",
-                        "band": 2
+                        "feedback": "A 1-mark response describes one effect without discussion.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: In the town of Bramwell, a factory closure has left many residents without full-time work. Some remain in part-time jobs, and a local social services group reports rising stress, family breakdown and demand for mental health support among affected residents."
@@ -18897,10 +18897,10 @@
                       {
                         "id": "sa-ec-17-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Unemployment fell during the mining boom because firms hired more workers.",
-                        "feedback": "A 3-mark response explains one driver with some accuracy. Explaining a structural driver and a policy response would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one driver with some accuracy. Explaining a structural driver and a policy response would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-17-3",
@@ -18952,10 +18952,10 @@
                       {
                         "id": "prompt-ec-17-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The fall in full-time manufacturing jobs shows structural change, because technology reduces the demand for factory workers. Part-time work has grown alongside services, which is also a structural shift.",
-                        "feedback": "A 4-mark response explains the structural shift with some use of the figures, but it does not examine the cyclical explanation or weigh the two forces against each other.",
-                        "band": 3
+                        "feedback": "A 3-mark response explains the structural shift with some use of the figures, but it does not examine the cyclical explanation or weigh the two forces against each other.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-17-n1-s3",
@@ -19360,10 +19360,10 @@
                       {
                         "id": "sa-ec-20-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Headline inflation includes all prices, and underlying inflation leaves out some items that change a lot.",
-                        "feedback": "A 3-mark response describes both rates with some accuracy. Explaining why policy makers focus on the underlying rate would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes both rates with some accuracy. Explaining why policy makers focus on the underlying rate would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-20-3",
@@ -19474,10 +19474,10 @@
                       {
                         "id": "sa-ec-21-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Demand-pull inflation happens when demand is high, and cost-push inflation happens when costs rise.",
-                        "feedback": "A 3-mark response describes two types with some accuracy. Explaining expectations and imported inflation would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two types with some accuracy. Explaining expectations and imported inflation would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-21-3",
@@ -19588,17 +19588,17 @@
                       {
                         "id": "sa-ec-22-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Demand-pull inflation shifts aggregate demand to the right, raising prices and real GDP. Cost-push inflation shifts aggregate supply to the left, raising prices and reducing real GDP.",
-                        "feedback": "A 5-mark response analyses both types with accurate shifts and effects. Explaining the policy implications would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses both types with accurate shifts and effects. Explaining the policy implications would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-22-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Demand-pull inflation happens when demand rises.",
-                        "feedback": "A 2-mark response describes one type without the graph analysis or the cost-push case.",
+                        "feedback": "A 1-mark response describes one type without the graph analysis or the cost-push case.",
                         "band": 1
                       }
                     ],
@@ -19702,10 +19702,10 @@
                       {
                         "id": "sa-ec-23-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "When unemployment is low, inflation tends to be higher, because the economy is operating close to capacity.",
-                        "feedback": "A 3-mark response describes the short-run trade-off with some accuracy. Explaining potential output and the breakdown of the trade-off would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the short-run trade-off with some accuracy. Explaining potential output and the breakdown of the trade-off would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-23-3",
@@ -19757,10 +19757,10 @@
                       {
                         "id": "prompt-ec-23-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The Phillips curve suggests that low unemployment and higher inflation go together, so the central bank might raise its cash rate to reduce inflation. However, the trade-off may not hold in the long run, so the bank must also consider inflation expectations and whether the high inflation comes from supply shocks.",
-                        "feedback": "A 5-mark response explains the trade-off and two limits with a conclusion, but it does not test the curve against the Caldera figures in detail or weigh its usefulness. Adding that evaluation would move it up.",
-                        "band": 4
+                        "feedback": "A 4-mark response explains the trade-off and two limits with a conclusion, but it does not test the curve against the Caldera figures in detail or weigh its usefulness. Adding that evaluation would move it up.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-23-n1-s3",
@@ -19816,18 +19816,18 @@
                       {
                         "id": "sa-ec-24-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "High inflation reduces the real value of savings and fixed incomes, and makes it hard for businesses to plan. Deflation can cause households to delay spending.",
-                        "feedback": "A 5-mark response assesses the effects on households and businesses with accurate evidence. Assessing the government effects and reaching a judgement would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses the effects on households and businesses with accurate evidence. Assessing the government effects and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-24-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "High inflation makes everything more expensive.",
-                        "feedback": "A 2-mark response identifies an effect without assessing its impact on any group.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies an effect without assessing its impact on any group.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: In the economy of Eastmoor, inflation has been above 8 per cent for a year. Households on fixed pensions and savers hold large amounts in bank deposits, and commentators warn that a deflation scare could follow if spending collapses."
@@ -19871,9 +19871,9 @@
                       {
                         "id": "prompt-ec-24-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "High inflation helps borrowers because the loan is worth less in real terms, and hurts savers because their money buys less. Deflation reverses this, so borrowers pay more in real terms and savers gain.",
-                        "feedback": "A 4-mark response compares the effects on borrowers and savers qualitatively, but it does not calculate the real rates for the Brackenridge figures. Adding the calculations would lift it.",
+                        "feedback": "A 3-mark response compares the effects on borrowers and savers qualitatively, but it does not calculate the real rates for the Brackenridge figures. Adding the calculations would lift it.",
                         "band": 2
                       },
                       {
@@ -19930,10 +19930,10 @@
                       {
                         "id": "sa-ec-25-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Inflation rose in 2022 because energy and food prices went up.",
-                        "feedback": "A 3-mark response explains one driver with some accuracy. Explaining the monetary policy response or housing costs would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one driver with some accuracy. Explaining the monetary policy response or housing costs would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-25-3",
@@ -20219,10 +20219,10 @@
                       {
                         "id": "prompt-ec-27-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Group Y's wealth earns income, such as rent and dividends, so it can save more. Group X depends on wages and may find it hard to build assets, which limits its opportunities.",
-                        "feedback": "A 4-mark response explains how asset income affects the two groups with some evidence, but it does not weigh the limits of the averages or the policy options. Adding these would lift it.",
-                        "band": 3
+                        "feedback": "A 3-mark response explains how asset income affects the two groups with some evidence, but it does not weigh the limits of the averages or the policy options. Adding these would lift it.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-27-n1-s3",
@@ -20616,10 +20616,10 @@
                       {
                         "id": "sa-ec-31-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Educational disparities leave children in Harwell's outer suburbs with fewer skills and lower incomes. Asset price inflation has raised house prices, which benefits owners while making home ownership harder for renters. Wealth transfers also matter, because families that own property can pass it to their children.",
-                        "feedback": "A 5-mark response analyses three causes with accurate evidence from the scenario but makes little link between them. Showing how asset prices and transfers reinforce each other, and how policy shapes them, would move it up.",
-                        "band": 3
+                        "feedback": "A 4-mark response analyses three causes with accurate evidence from the scenario but makes little link between them. Showing how asset prices and transfers reinforce each other, and how policy shapes them, would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-31-3",
@@ -20963,10 +20963,10 @@
                       {
                         "id": "sa-ec-34-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Aboriginal and Torres Strait Islander residents of Mirrabee often have lower school completion, which limits their incomes.",
-                        "feedback": "A 3-mark response explains one reason with some accuracy. Explaining dispossession and discrimination would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one reason with some accuracy. Explaining dispossession and discrimination would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-34-3",
@@ -21069,18 +21069,18 @@
                       {
                         "id": "sa-ec-35-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "In Greyport, inequality reduces mobility, so talent is wasted, and residents of the lowest-income suburbs have lower life expectancy. On balance, the social effects seem more serious, although the economic effects matter too.",
-                        "feedback": "A 5-mark response assesses effects on two dimensions with accurate evidence and attempts a judgement. Weighing the economic effects more carefully and explaining why the social effects are more serious would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses effects on two dimensions with accurate evidence and attempts a judgement. Weighing the economic effects more carefully and explaining why the social effects are more serious would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-35-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "In Greyport, inequality makes some residents unhappy.",
-                        "feedback": "A 2-mark response identifies an effect without assessing it.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies an effect without assessing it.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A government inquiry into the regional city of Greyport (Hypothetical) finds that the top fifth of households hold most of the city's wealth. Residents of its lowest-income suburbs have a lower life expectancy and report lower trust in local institutions than residents elsewhere, and many young people from low-income families do not go on to university study. The inquiry asks what effects this inequality has on the economy and on society."
@@ -21255,10 +21255,10 @@
                       {
                         "id": "sa-ec-36-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Wealth inequality in Carrow has grown because house prices have risen faster than wages.",
-                        "feedback": "A 3-mark response explains one driver with some accuracy. Distinguishing income from wealth and explaining a second driver would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one driver with some accuracy. Distinguishing income from wealth and explaining a second driver would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-36-3",
@@ -21370,17 +21370,17 @@
                       {
                         "id": "sa-ec-37-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The scatterplot shows that regions with higher Gini coefficients tend to have lower life expectancy, so the relationship is negative. The table gives the values behind this pattern, and the points are widely spread around the trend.",
-                        "feedback": "A 5-mark response analyses the relationship with accurate reference to the data. Distinguishing correlation from causation would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the relationship with accurate reference to the data. Distinguishing correlation from causation would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-37-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The scatterplot shows points for different regions.",
-                        "feedback": "A 2-mark response describes the data without analysing the relationship.",
+                        "feedback": "A 1-mark response describes the data without analysing the relationship.",
                         "band": 1
                       }
                     ],
@@ -21834,10 +21834,10 @@
                       {
                         "id": "sa-ec-41-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Intergenerational equity means future generations should inherit a healthy environment. In Brightwater, the coal expansion would impose climate and reef costs on residents who cannot take part in the forum.",
-                        "feedback": "A 5-mark response discusses the principle and its link to degradation with accurate examples. Discussing the discounting problem and the trade-off would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses the principle and its link to degradation with accurate examples. Discussing the discounting problem and the trade-off would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-41-3",
@@ -22178,10 +22178,10 @@
                       {
                         "id": "sa-ec-44-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Drought damages farm output in Ocean Reach, and heat reduces labour productivity. The power station's closure will also cost jobs, so transition costs matter, although the physical costs are likely to be larger over time.",
-                        "feedback": "A 5-mark response assesses at least two costs with accurate evidence and attempts a judgement. Weighing the reef damage and explaining why the transition cost is front-loaded would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses at least two costs with accurate evidence and attempts a judgement. Weighing the reef damage and explaining why the transition cost is front-loaded would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-44-3",
@@ -22293,10 +22293,10 @@
                       {
                         "id": "sa-ec-45-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Electricity emissions in Coalbrook have fallen as coal-fired generators closed and wind and solar capacity was added.",
-                        "feedback": "A 3-mark response explains one driver with some accuracy. Explaining transport, land use or policy would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one driver with some accuracy. Explaining transport, land use or policy would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-45-3",
@@ -22408,10 +22408,10 @@
                       {
                         "id": "sa-ec-46-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The line graph shows total emissions falling from year five, while the column chart shows output rising, which suggests some decoupling. The scatterplot shows that higher-output years tend to have higher emissions.",
-                        "feedback": "A 5-mark response analyses the relationship from two presentations with accurate reference to the data. Distinguishing correlation from causation would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses the relationship from two presentations with accurate reference to the data. Distinguishing correlation from causation would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-46-3",
@@ -22464,10 +22464,10 @@
                       {
                         "id": "prompt-ec-46-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Mining produces $400 million of output and 800 kilotonnes of emissions, while services produce $1,050 million and 210 kilotonnes.",
-                        "feedback": "A 3-mark response describes the figures for two sectors with some accuracy, but it does not compare emissions with output or draw a conclusion.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes the figures for two sectors with some accuracy, but it does not compare emissions with output or draw a conclusion.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-46-n1-s3",
@@ -22641,10 +22641,10 @@
                       {
                         "id": "sa-ec-48-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Reducing inflation can raise unemployment in the short run, so Aldoria faces a trade-off. The proposed mine would boost growth but add emissions.",
-                        "feedback": "A 5-mark response analyses two constraints with accurate examples from the scenario. Discussing policy lags or the limited number of instruments would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two constraints with accurate examples from the scenario. Discussing policy lags or the limited number of instruments would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-48-3",
@@ -22697,10 +22697,10 @@
                       {
                         "id": "prompt-ec-48-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Inflation at 4.5 per cent is above the target band, so the government should prioritise price stability, but unemployment is also rising at 6.0 per cent and the trade-off matters.",
-                        "feedback": "A 5-mark response justifies a priority with reasons from the figures and acknowledges a trade-off. It does not rebut the alternative priority or assess the limits of the deficit constraint, which would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response justifies a priority with reasons from the figures and acknowledges a trade-off. It does not rebut the alternative priority or assess the limits of the deficit constraint, which would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-48-n1-s3",
@@ -22882,10 +22882,10 @@
                       {
                         "id": "prompt-ec-49-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A rise in taxes reduces household spending and so lowers aggregate demand, which would slow the economy.",
-                        "feedback": "A 3-mark response describes the effect of a tax rise on aggregate demand accurately, but it does not apply the measure to the boom in Mirrow or compare it with spending on roads.",
-                        "band": 3
+                        "feedback": "A 2-mark response describes the effect of a tax rise on aggregate demand accurately, but it does not apply the measure to the boom in Mirrow or compare it with spending on roads.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-49-n1-s3",
@@ -23276,10 +23276,10 @@
                       {
                         "id": "sa-ec-53-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "In Kestral, the rail scheme is discretionary, while the rise in unemployment benefits changes with the economy.",
-                        "feedback": "A 3-mark response describes the components with some accuracy. Explaining the automatic effect with the figures would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the components with some accuracy. Explaining the automatic effect with the figures would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-53-3",
@@ -23332,9 +23332,9 @@
                       {
                         "id": "prompt-ec-53-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "In Pelham, the housing scheme is discretionary, while the rise in unemployment benefits changes with the economy.",
-                        "feedback": "A 3-mark response describes the components with some accuracy. Explaining the automatic effect and calculating each change would move it up.",
+                        "feedback": "A 2-mark response describes the components with some accuracy. Explaining the automatic effect and calculating each change would move it up.",
                         "band": 2
                       },
                       {
@@ -23391,10 +23391,10 @@
                       {
                         "id": "sa-ec-54-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Debt financing in Norwynd creates interest payments that rise with the level of debt of 40 per cent of GDP. Borrowing can also crowd out private investment by raising interest rates.",
-                        "feedback": "A 5-mark response analyses two limitations of debt financing with accurate evidence from the scenario. Analysing monetary financing and asset sales would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two limitations of debt financing with accurate evidence from the scenario. Analysing monetary financing and asset sales would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-54-3",
@@ -23447,10 +23447,10 @@
                       {
                         "id": "prompt-ec-54-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Tarn should borrow mainly overseas because its interest rate of 3 per cent is one percentage point below the domestic rate, although the debt would be in foreign currency, which creates exchange rate risk.",
-                        "feedback": "A 5-mark response recommends a method with reasons from the figures and acknowledges a limitation. It does not weigh crowding out or state the conditions under which the choice would change.",
-                        "band": 4
+                        "feedback": "A 3-mark response recommends a method with reasons from the figures and acknowledges a limitation. It does not weigh crowding out or state the conditions under which the choice would change.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-54-n1-s3",
@@ -23850,10 +23850,10 @@
                       {
                         "id": "sa-ec-58-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "A progressive tax takes a larger share of income from higher earners. Welfare spending transfers income to low-income households, so the budget reduces inequality. The goods and services tax is regressive, because lower-income households spend more of their income on it. Bracket creep also raises tax for some middle-income earners.",
                         "feedback": "The progressive, welfare and regressive mechanisms are described accurately, which reaches the 5-6 band. Weigh whether the net effect is strong or limited, and explain why bracket creep matters for middle-income earners, to reach 7-8 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-58-3",
@@ -23965,10 +23965,10 @@
                       {
                         "id": "sa-ec-59-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Subsidies and tax concessions can keep resources in declining industries, which protects jobs but slows adjustment. Spending on research can draw resources into growing industries, such as renewable energy equipment. The overall effect on resources depends on which industries the budget supports and how long the support lasts.",
                         "feedback": "Both mechanisms are identified with accurate examples, which reaches the 5-6 band. The answer does not explain why slower adjustment reduces efficiency or weigh the short-run and long-run effects, so it does not reach 7-8 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-59-3",
@@ -24193,10 +24193,10 @@
                       {
                         "id": "sa-ec-61-2",
                         "source": "AI",
-                        "mark": 6,
+                        "mark": 5,
                         "answer": "Fiscal policy appears to have helped the economy meet its objectives. Unemployment fell from 6.5 per cent to 5.2 per cent, and growth averaged 2.8 per cent, so employment and growth improved. Inflation rose to 2.9 per cent, which is still inside the target band. However, the stimulus cost $30 billion and added to government debt, and the recovery may have happened anyway.",
                         "feedback": "The answer uses the data for growth, employment and inflation, which places it in the 6 band. Weigh the lags, the role of the recovery and the cost in debt against the benefits to reach 9 or 10 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-61-3",
@@ -24209,10 +24209,10 @@
                       {
                         "id": "prompt-ec-61-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The stimulus worked because government spending rose.",
-                        "feedback": "A general claim with no data earns 2 marks at most. Use the figures for unemployment, growth and inflation to judge each objective.",
-                        "band": 2
+                        "feedback": "A general claim with no data earns 1 marks at most. Use the figures for unemployment, growth and inflation to judge each objective.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: After unemployment rose to 6.5 per cent in a downturn, the Australian Government delivered a $30 billion fiscal stimulus over two years, while the Reserve Bank's cash rate was already low. Over the next two years, unemployment fell to 5.2 per cent, economic growth averaged 2.8 per cent a year, and inflation rose from 2.1 per cent to 2.9 per cent."
@@ -25801,10 +25801,10 @@
                       {
                         "id": "prompt-ec-73-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Medicare gives Household X access to doctors, and bulk-billing reduces the cost of visits. Commonwealth Rent Assistance helps Household X meet its rent. The private health insurance rebate mainly reduces the cost of cover for households that can already afford it, such as Household Y, so it does little for Household X.",
                         "feedback": "Two policies are examined with accurate reference to both households, which places the answer in the 5 band. Weigh the overall effect on inequality and wellbeing, and explain the housing effect for Household Y, to reach the full 6 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-73-n1-s3",
@@ -25974,10 +25974,10 @@
                       {
                         "id": "sa-ec-75-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Competition reform has supported lower prices in some sectors. Infrastructure investment supports growth, but the review's productivity gain is slight, and the effects of the package varied between regions. Microeconomic reform is effective in principle, but its effect on productivity may take years to appear fully, so a three-year review may understate its benefit.",
                         "feedback": "The answer assesses the price and productivity evidence with some accuracy, and it considers the lags, which places it in the 5-6 band. Weigh the distribution of gains and the strength of the evidence to reach 7-8 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-75-3",
@@ -26369,10 +26369,10 @@
                       {
                         "id": "prompt-ec-78-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A centralised minimum would protect low-paid workers in the care industry, because it sets a floor that individual employers cannot undercut. This matters because many of these workers have little bargaining power against their employers.",
-                        "feedback": "The protection for low-paid workers is explained accurately, which earns 4 marks. Add the risk to jobs from a rate set above what some employers can pay, and weigh the two, to reach 5 or 6 marks.",
-                        "band": 4
+                        "feedback": "The protection for low-paid workers is explained accurately, which earns 3 marks. Add the risk to jobs from a rate set above what some employers can pay, and weigh the two, to reach 5 or 6 marks.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-78-n1-s3",
@@ -26953,10 +26953,10 @@
                       {
                         "id": "sa-ec-83-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response assesses effectiveness against one objective with accurate reasoning and suggests a conclusion, but it does not assess the policies against the other objectives.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response assesses effectiveness against one objective with accurate reasoning and suggests a conclusion, but it does not assess the policies against the other objectives.",
                         "answer": "Apprenticeship support can increase the number of skilled workers, which supports productivity growth. Because the skills stay in the economy for years, this policy is effective against that objective. Its effect on unemployment in the short term is smaller, so the policy is partly effective overall.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-83-3",
@@ -27647,18 +27647,18 @@
                       {
                         "id": "sa-ec-89-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response assesses one advantage and one disadvantage with accurate evidence and suggests a conclusion, but it does not weigh the instruments against each other on several criteria.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response assesses one advantage and one disadvantage with accurate evidence and suggests a conclusion, but it does not weigh the instruments against each other on several criteria.",
                         "answer": "Market-based instruments are cost-effective because plants choose their own cheapest way to reduce emissions, and the charge region reduced emissions at lower cost. However, their results are less certain, as the review found. Command-and-control instruments give more certainty but cost more. On balance, the charge is better where cost is the main concern.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-89-3",
                         "source": "AI",
-                        "mark": 2,
-                        "feedback": "A 2-mark response identifies one advantage without assessing it.",
+                        "mark": 1,
+                        "feedback": "A 1-mark response identifies one advantage without assessing it.",
                         "answer": "Market-based instruments are cheaper for firms.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A national review compares two regions that control air pollution from manufacturing plants. One region charges plants for each tonne of emissions, and the other sets emission limits and requires a specified technology. The review reports that the charge region has reduced emissions at lower cost but that its results are less certain."
@@ -27877,10 +27877,10 @@
                       {
                         "id": "sa-ec-91-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response assesses the effectiveness of one policy with evidence and suggests a conclusion, but it does not weigh the policies against each other or assess progress across sectors.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response assesses the effectiveness of one policy with evidence and suggests a conclusion, but it does not weigh the policies against each other or assess progress across sectors.",
                         "answer": "The Safeguard Mechanism is effective because it sets a binding limit on large facilities, which means their emissions must fall over time. The Emissions Reduction Fund is less certain, because it does not set a limit. On balance, the policies have helped Australia move towards its target, but progress depends on more binding requirements.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-91-3",
@@ -28104,10 +28104,10 @@
                       {
                         "id": "sa-ec-93-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response discusses the need for coordination with accurate examples of how the two types of policy complement one another, but it gives a less developed view of the inflation constraint.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response discusses the need for coordination with accurate examples of how the two types of policy complement one another, but it gives a less developed view of the inflation constraint.",
                         "answer": "Macroeconomic policy can stimulate demand during a slowdown, for example by lowering interest rates. Microeconomic policy, such as skills and infrastructure investment, improves productivity over the longer term. The two need to be coordinated, because a demand stimulus alone may add to inflation if the economy's capacity has not grown.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-93-3",
@@ -28219,10 +28219,10 @@
                       {
                         "id": "sa-ec-94-2",
                         "source": "AI",
-                        "mark": 6,
-                        "feedback": "A 6-mark response proposes and evaluates one option with some reasoning and attempts a recommendation, but the evaluation of the other options is uneven and the inflation constraint is not built into the reasoning.",
+                        "mark": 5,
+                        "feedback": "A 5-mark response proposes and evaluates one option with some reasoning and attempts a recommendation, but the evaluation of the other options is uneven and the inflation constraint is not built into the reasoning.",
                         "answer": "The government could fund a jobs program in the region to reduce unemployment, which would help people in the affected area quickly. It could also invest in training so that workers have the skills employers want, which would improve productivity over time. Both options cost money. The jobs program works faster, but the training takes longer to have an effect, so the government could use both.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-94-3",
@@ -28639,10 +28639,10 @@
                       {
                         "id": "prompt-ec-97-n1-s2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response analyses the main benefits with accurate reasoning and mentions one adjustment cost, but the chains of reasoning are shorter and the conclusion is less developed.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response analyses the main benefits with accurate reasoning and mentions one adjustment cost, but the chains of reasoning are shorter and the conclusion is less developed.",
                         "answer": "Removing the tariffs lowers the price of imported clothing and electronics, so consumers can buy more for the same income. Imports also increase competition for domestic clothing firms, which must lower costs or improve quality. However, clothing workers may lose their jobs when firms close, so the government should consider support for them.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ec-97-n1-s3",
@@ -28698,10 +28698,10 @@
                       {
                         "id": "sa-ec-98-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response assesses one benefit and one cost with accurate evidence and suggests a conclusion, but it does not weigh the costs and benefits in depth or consider how risk can be managed.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response assesses one benefit and one cost with accurate evidence and suggests a conclusion, but it does not weigh the costs and benefits in depth or consider how risk can be managed.",
                         "answer": "Global supply chains lower costs and prices for consumers. However, they are vulnerable to disruption, as shown by shortages during the COVID-19 pandemic in 2021. On balance, the benefits are large, but firms need to reduce their reliance on single suppliers.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-98-3",
@@ -29035,18 +29035,18 @@
                       {
                         "id": "sa-ec-101-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response assesses the effects on the domestic economy with accurate evidence and suggests a conclusion, but it gives only limited attention to the global effects.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response assesses the effects on the domestic economy with accurate evidence and suggests a conclusion, but it gives only limited attention to the global effects.",
                         "answer": "Protected producers gain higher prices and sales, and workers keep their jobs. However, consumers pay more and lower-income households are affected most. Overall, the domestic costs are likely to be larger than the gains, so protection may not be the best policy.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-101-3",
                         "source": "AI",
-                        "mark": 2,
-                        "feedback": "A 2-mark response identifies an effect of protection without assessing it.",
+                        "mark": 1,
+                        "feedback": "A 1-mark response identifies an effect of protection without assessing it.",
                         "answer": "Protection increases the prices that consumers pay.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A government introduces tariffs to protect a domestic industry that produces a specialised agricultural product. The industry employs many workers in one region, and the country's main exporters of the product are affected by the change in demand from the protecting economy."
@@ -29787,10 +29787,10 @@
                       {
                         "id": "sa-ec-107-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response discusses arguments for and against both types of agreement with accurate examples, but the discussion of sovereignty and unequal outcomes is less developed.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response discusses arguments for and against both types of agreement with accurate examples, but the discussion of sovereignty and unequal outcomes is less developed.",
                         "answer": "Trade agreements reduce tariffs between partners, so trade and access to markets increase. However, they can cause trade diversion, where trade shifts to higher-cost partners. A regional bloc gives access to more markets, but it limits the policy choices of members. Bilateral agreements are simpler, but the larger partner may gain more.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-107-3",
@@ -29901,18 +29901,18 @@
                       {
                         "id": "sa-ec-108-2",
                         "source": "AI",
-                        "mark": 5,
-                        "feedback": "A 5-mark response assesses the WTO's role in dispute resolution with accurate evidence and suggests a conclusion, but it does not weigh its record in negotiation.",
+                        "mark": 4,
+                        "feedback": "A 4-mark response assesses the WTO's role in dispute resolution with accurate evidence and suggests a conclusion, but it does not weigh its record in negotiation.",
                         "answer": "The WTO resolves many trade disputes through consultations and panels, which gives members a legal forum. However, the Appellate Body has been unable to hear appeals since December 2019, which weakens the finality of rulings. On balance, the WTO is still useful as a forum, but its effectiveness in enforcing rulings is limited.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ec-108-3",
                         "source": "AI",
-                        "mark": 2,
-                        "feedback": "A 2-mark response identifies a WTO function without assessing it.",
+                        "mark": 1,
+                        "feedback": "A 1-mark response identifies a WTO function without assessing it.",
                         "answer": "The WTO helps members negotiate trade agreements.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A review of the WTO's record covers two roles: negotiating multilateral trade agreements among its members, and resolving disputes between them. The review must weigh the WTO's achievements in both areas against the difficulties it faces in reaching consensus among members and enforcing rulings."
@@ -30016,10 +30016,10 @@
                       {
                         "id": "sa-ec-109-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Global trade grew after 1945 because countries reduced tariffs through the GATT and WTO.",
-                        "feedback": "A 3-mark response explains one trend with some accuracy. Explaining the role of technology and recent protectionism would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one trend with some accuracy. Explaining the role of technology and recent protectionism would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-109-3",
@@ -30131,10 +30131,10 @@
                       {
                         "id": "sa-ec-110-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Australia has reduced tariffs since the 1970s and signed free trade agreements with major partners. However, some industries still receive assistance.",
-                        "feedback": "A 5-mark response assesses the policies with accurate evidence. Weighing the continuing protection and reaching a judgement would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses the policies with accurate evidence. Weighing the continuing protection and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-110-3",
@@ -30366,18 +30366,18 @@
                       {
                         "id": "sa-ec-112-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "FDI brings capital, jobs and technology to host countries. However, profits may be repatriated, which reduces the benefit to the host economy.",
-                        "feedback": "A 5-mark response discusses benefits and a cost with accurate examples. Discussing transfer pricing and market power would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses benefits and a cost with accurate examples. Discussing transfer pricing and market power would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-112-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Foreign companies bring jobs to countries.",
-                        "feedback": "A 2-mark response describes one benefit without discussion.",
-                        "band": 2
+                        "feedback": "A 1-mark response describes one benefit without discussion.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A state government is deciding whether to offer incentives to attract a foreign-owned battery manufacturer that would build a large plant and employ local workers. Officials want to understand the likely benefits and costs for the local economy, including how the firm's profits, tax payments and supply chains would affect the region."
@@ -30481,10 +30481,10 @@
                       {
                         "id": "sa-ec-113-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Portfolio investment improves liquidity and gives countries access to capital. However, flows are volatile and can be withdrawn quickly, which can cause sharp falls in asset prices.",
-                        "feedback": "A 5-mark response discusses two benefits and a cost with accurate examples. Discussing contagion and how the risks can be managed would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses two benefits and a cost with accurate examples. Discussing contagion and how the risks can be managed would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-113-3",
@@ -30596,10 +30596,10 @@
                       {
                         "id": "sa-ec-114-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The IMF monitors member economies and lends to countries facing payment problems. Its loans are conditional on reforms, which can deepen recessions.",
-                        "feedback": "A 5-mark response assesses the IMF's role with accurate evidence. Assessing its governance and resources and reaching a judgement would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses the IMF's role with accurate evidence. Assessing its governance and resources and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-114-3",
@@ -30813,9 +30813,9 @@
                       {
                         "id": "sa-ec-116-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The exchange rate is where demand for the Australian dollar meets its supply.",
-                        "feedback": "A 3-mark response describes the equilibrium with some accuracy. Constructing the graph and interpreting a shift would move it up.",
+                        "feedback": "A 2-mark response describes the equilibrium with some accuracy. Constructing the graph and interpreting a shift would move it up.",
                         "band": 2
                       },
                       {
@@ -30927,10 +30927,10 @@
                       {
                         "id": "sa-ec-117-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The Reserve Bank can buy and sell Australian dollars to affect its value.",
-                        "feedback": "A 3-mark response describes the mechanism with some accuracy. Explaining the purpose during disorder and the limits would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes the mechanism with some accuracy. Explaining the purpose during disorder and the limits would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-117-3",
@@ -31108,10 +31108,10 @@
                       {
                         "id": "sa-ec-118-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Higher Australian interest rates attract foreign investment, raising demand for the dollar. Higher commodity prices increase demand for the dollar because exports earn more foreign currency.",
-                        "feedback": "A 5-mark response analyses two domestic factors with accurate examples. Adding global factors and their effects would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two domestic factors with accurate examples. Adding global factors and their effects would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-118-3",
@@ -31281,17 +31281,17 @@
                       {
                         "id": "sa-ec-119-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A depreciation makes exports cheaper, helping exporters, but imports become dearer for households. An appreciation makes imports cheaper, which helps households and importers.",
-                        "feedback": "A 5-mark response analyses effects on several groups with accurate examples. Analysing the inflation effect and the government's position would move it up.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses effects on several groups with accurate examples. Analysing the inflation effect and the government's position would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-119-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "A weaker dollar is good for exporters.",
-                        "feedback": "A 2-mark response identifies one effect without analysing others.",
+                        "feedback": "A 1-mark response identifies one effect without analysing others.",
                         "band": 1
                       }
                     ],
@@ -31455,10 +31455,10 @@
                       {
                         "id": "sa-ec-120-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The Australian dollar rose during the mining boom because commodity prices were high.",
-                        "feedback": "A 3-mark response explains one trend with some accuracy. Explaining another trend and a second factor would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one trend with some accuracy. Explaining another trend and a second factor would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-120-3",
@@ -31513,10 +31513,10 @@
                       {
                         "id": "prompt-ec-120-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "The Australian dollar rose during the mining boom because commodity prices increased export income. It fell in the global financial crisis when investors moved to safer assets. Interest rates also affect the dollar, but the answer does not test which of these factors is more important.",
-                        "feedback": "A 5-mark response investigates the commodity link with accurate evidence and notes the role of interest rates, but it does not weigh the two influences against each other.",
-                        "band": 4
+                        "feedback": "A 4-mark response investigates the commodity link with accurate evidence and notes the role of interest rates, but it does not weigh the two influences against each other.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-ec-120-n1-s3",
@@ -31578,10 +31578,10 @@
                       {
                         "id": "sa-ec-121-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Economic development includes changes in the structure of the economy and improvements in education.",
-                        "feedback": "A 3-mark response describes two features with some accuracy. Explaining health and sustainability would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response describes two features with some accuracy. Explaining health and sustainability would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-121-3",
@@ -31693,10 +31693,10 @@
                       {
                         "id": "sa-ec-122-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Economic growth can help development because it gives governments more money to spend on health and education.",
-                        "feedback": "A 3-mark response explains one link with some accuracy. Explaining why growth is not sufficient and the importance of inclusion would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one link with some accuracy. Explaining why growth is not sufficient and the importance of inclusion would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-122-3",
@@ -32089,10 +32089,10 @@
                       {
                         "id": "sa-ec-125-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Strong institutions encourage investment and innovation. Natural resources can help development, but they can also weaken institutions through corruption.",
-                        "feedback": "A 5-mark response analyses two factors with accurate examples and a link. Analysing human capital, infrastructure and geography would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two factors with accurate examples and a link. Analysing human capital, infrastructure and geography would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-125-3",
@@ -32204,18 +32204,18 @@
                       {
                         "id": "sa-ec-126-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Developing countries suffer more from climate damage but have contributed less to emissions. Wealthy countries can afford adaptation more easily, which creates an equity problem.",
-                        "feedback": "A 5-mark response discusses the equity issue with accurate evidence. Discussing international responses and reaching a view on compensation would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response discusses the equity issue with accurate evidence. Discussing international responses and reaching a view on compensation would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-126-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Climate change costs more for poor countries.",
-                        "feedback": "A 2-mark response identifies an issue without discussing equity or the link to emissions.",
-                        "band": 2
+                        "feedback": "A 1-mark response identifies an issue without discussing equity or the link to emissions.",
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: A low-lying island nation in the Pacific faces rising sea levels and more frequent storm surges. Its government has contributed very little to global emissions. A wealthy country nearby, with high emissions and strong sea defences, has offered limited support, which has prompted debate about who should pay for adaptation."
@@ -32319,10 +32319,10 @@
                       {
                         "id": "sa-ec-127-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Rapid growth in East Asia has lifted many people out of extreme poverty. However, sub-Saharan Africa now has a larger share of the world's extreme poor.",
-                        "feedback": "A 5-mark response assesses the effect on the level and distribution with accurate evidence. Assessing the causes and reaching a judgement would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses the effect on the level and distribution with accurate evidence. Assessing the causes and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-127-3",
@@ -32433,10 +32433,10 @@
                       {
                         "id": "sa-ec-128-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "The World Bank lends for infrastructure, health and education, which can raise living standards. However, its loans are conditional on policy reforms, which some countries find difficult.",
-                        "feedback": "A 5-mark response assesses the role with accurate evidence. Assessing the evidence of outcomes and reaching a judgement would move it up.",
-                        "band": 4
+                        "feedback": "A 3-mark response assesses the role with accurate evidence. Assessing the evidence of outcomes and reaching a judgement would move it up.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-128-3",
@@ -32554,17 +32554,17 @@
                       {
                         "id": "sa-ec-129-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "Australia's exports are concentrated in commodities, so a slowdown in demand from China reduces export income. Reliance on foreign capital also makes the economy vulnerable.",
-                        "feedback": "A 5-mark response analyses two factors with accurate examples. Analysing the exchange rate and trade dependence would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses two factors with accurate examples. Analysing the exchange rate and trade dependence would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-129-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Australia depends on trade with other countries.",
-                        "feedback": "A 2-mark response identifies one factor without analysing its effect on business cycles.",
+                        "feedback": "A 1-mark response identifies one factor without analysing its effect on business cycles.",
                         "band": 1
                       }
                     ],
@@ -32668,10 +32668,10 @@
                       {
                         "id": "sa-ec-130-2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The floating exchange rate lets the dollar fall when there is a shock, which helps exports.",
-                        "feedback": "A 3-mark response explains one factor with some accuracy. Explaining monetary policy and institutions would move it up.",
-                        "band": 2
+                        "feedback": "A 2-mark response explains one factor with some accuracy. Explaining monetary policy and institutions would move it up.",
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-130-3",
@@ -32785,17 +32785,17 @@
                       {
                         "id": "sa-ec-131-2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 3,
                         "answer": "A stronger global economy raises demand for Australian exports and supports growth. Global competition has contributed to the decline of manufacturing and the growth of services.",
-                        "feedback": "A 5-mark response analyses effects on performance and structure with accurate examples. Analysing commodity prices and the exchange rate would move it into the top band.",
-                        "band": 3
+                        "feedback": "A 3-mark response analyses effects on performance and structure with accurate examples. Analysing commodity prices and the exchange rate would move it into the top band.",
+                        "band": 2
                       },
                       {
                         "id": "sa-ec-131-3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Changes in the world economy affect Australia.",
-                        "feedback": "A 2-mark response makes a general statement without analysing effects on performance or structure.",
+                        "feedback": "A 1-mark response makes a general statement without analysing effects on performance or structure.",
                         "band": 1
                       }
                     ],

@@ -1,5 +1,16 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Sample answers: marks that match their length)
+
+- **Changed (DATA_VERSION 2.55.0).** 1,407 middle and bottom sample answers across 16 courses were awarded more than
+  their length could earn: for example a 34-word answer at 4 of 6 on a DISCUSS question. A sample now holds a mark only
+  if it has at least half the words a full answer worth that mark needs (`getFullMarkWordRange`); otherwise it moves
+  down to the highest mark its length supports.
+  - It never drops past the next sample down, so every ladder keeps its highest-first order and its shorter-at-lower-
+    marks rule. 25 samples with no room between them and the next sample stay as they were.
+  - The feedback follows the mark ("meets the 3-mark row. To reach 4 marks, …"), and bands are re-derived.
+  - Full-mark exemplars and past HSC questions are not touched.
+
 ## [Unreleased] - 2026-11-16 (Science questions, final batch)
 
 - **Added (DATA_VERSION 2.54.0).** The last 412 written-response questions for the three science courses, on the same

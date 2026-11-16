@@ -326,10 +326,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Mass is not the reason metals react at different rates. Reactivity depends on how easily a metal's atoms lose electrons. The hypothesis should say that magnesium reacts faster because it has a lower ionisation energy than zinc.",
-                        "feedback": "Meets the 4-mark row by identifying that the mass reasoning is not supported and stating a revised hypothesis with limited justification. Adding why a lower ionisation energy means electrons are lost more easily would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by identifying that the mass reasoning is not supported and stating a revised hypothesis with limited justification. Adding why a lower ionisation energy means electrons are lost more easily would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-1-2-n0-n1-s3",
@@ -442,10 +442,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The powder reacted faster, so surface area affects the rate. The hypothesis should say that the rate changes but the total volume does not.",
-                        "feedback": "Meets the 4-mark row by giving one justified change using the new evidence. A revised question and a reason for the same total volume would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by giving one justified change using the new evidence. A revised question and a reason for the same total volume would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-1-3-n0-n1-s3",
@@ -564,10 +564,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Keeping the acid volume the same means the amount of acid does not change the result. Repeating each trial three times lets the student check the results, which makes the test more reliable.",
-                        "feedback": "Meets the 4-mark row by justifying two controls with some reasons for each. Linking the metal mass to a fair comparison would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying two controls with some reasons for each. Linking the metal mass to a fair comparison would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-2-1-n0-n1-s3",
@@ -798,10 +798,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Source A is better because its author is a chemistry expert and it has a references list. Source B is unsigned and has no date, so it is less reliable.",
-                        "feedback": "Meets the 4-mark row by justifying the choice with reasons about the author and references. Comparing the currency of each source and the conflicting reactivity orders would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the choice with reasons about the author and references. Comparing the currency of each source and the conflicting reactivity orders would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-2-3-n0-n1-s3",
@@ -914,10 +914,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The lit splint is a potential hazard with an associated risk of burns. The likelihood is moderate and the severity is high. The acid is a second hazard, with a lower severity of skin irritation.",
-                        "feedback": "Meets the 4-mark row by assessing the risk from two hazards, with some reference to how likely and severe each is. A specific control measure would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by assessing the risk from two hazards, with some reference to how likely and severe each is. A specific control measure would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-2-4-n0-n1-s3",
@@ -1032,10 +1032,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A data logger with a gas pressure sensor is a suitable technology because it records readings at fixed times. Equal masses of magnesium ribbon are also suitable materials.",
-                        "feedback": "Meets the 4-mark row by recommending materials and technologies, with a reason for the data logger. Explaining why the other equipment is less suitable would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by recommending materials and technologies, with a reason for the data logger. Explaining why the other equipment is less suitable would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-2-5-n0-n1-s3",
@@ -1149,18 +1149,18 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Withholding the bee data is an ethical issue, because farmers may keep using the pesticide without knowing the risk to bees.",
-                        "feedback": "Meets the 4-mark row by discussing one ethical issue about the test data, with reference to who is affected. Discussing a second issue and the regulators' role would lift it to the 5-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing one ethical issue about the test data, with reference to who is affected. Discussing a second issue and the regulators' role would lift it to the 5-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-2-6-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The company should publish its test data.",
-                        "feedback": "Meets the 2-mark row by identifying one ethical issue about the data, but it is not discussed or linked to those affected.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one ethical issue about the data, but it is not discussed or linked to those affected.",
+                        "band": 1
                       }
                     ]
                   }
@@ -1515,10 +1515,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Reading the burette from above the scale is a systematic error that shifts every reading in one direction. Leaving out units when recording the data can also cause mistakes in the findings.",
-                        "feedback": "Meets the 4-mark row by naming two sources of error and linking them to the findings, but the judgement about their significance is limited.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by naming two sources of error and linking them to the findings, but the judgement about their significance is limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-3-3-n0-n1-s3",
@@ -1635,10 +1635,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The textbook is reliable because it is written for students. The website is less reliable because it has no author, so its data cannot be checked.",
-                        "feedback": "Meets the 4-mark row by analysing two sources with a relevant criterion each, but does not judge all three sources.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing two sources with a relevant criterion each, but does not judge all three sources.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-3-4-n0-n1-s3",
@@ -1875,10 +1875,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The graph would show the trials on different scales, so the apparent trend would be wrong.",
-                        "feedback": "Meets the 3-mark row by explaining that the trials would be on different scales, but does not analyse the consequences for the reader or the report.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that the trials would be on different scales, but does not analyse the consequences for the reader or the report.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-4-2-n0-n1-s3",
@@ -1994,10 +1994,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A line graph shows change over time, and a column graph compares separate categories. Both show the data clearly.",
-                        "feedback": "Meets the 3-mark row by describing both graph types, but does not link either one to the two data sets or justify the choice.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing both graph types, but does not link either one to the two data sets or justify the choice.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-4-3-n0-n1-s3",
@@ -2113,10 +2113,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-4-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Readers cannot check the data against the original sources, so the findings are less reliable.",
-                        "feedback": "Meets the 3-mark row by explaining the effect on checking and reliability, but does not analyse plagiarism or the credibility of the report.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining the effect on checking and reliability, but does not analyse plagiarism or the credibility of the report.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-4-4-n0-n1-s3",
@@ -2231,10 +2231,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-4-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Cultural Knowledges, such as seasonal observations of plant flowering, can contribute to scientific knowledge about timing in ecosystems. Scientists can test these observations using their own methods.",
-                        "feedback": "Meets the 4-mark row by discussing one way Cultural Knowledges contribute to scientific knowledge, with one example and no discussion of protocols.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing one way Cultural Knowledges contribute to scientific knowledge, with one example and no discussion of protocols.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-4-5-n0-n1-s3",
@@ -2948,9 +2948,9 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-5-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The powder reacts faster than the chips, which fits a larger surface area. The result comes from one trial each, so it is not reliable, and the balance is not precise enough. Repeating the trials would help.",
-                        "feedback": "Identifies a weakness in the data and a suggested improvement, which meets the 3-4 mark row. It does not judge how far the weaknesses affect the conclusion, so it cannot reach 5 marks.",
+                        "feedback": "Identifies a weakness in the data and a suggested improvement, which meets the 3-4 mark row. It does not judge how far the weaknesses affect the conclusion, so it cannot reach 4 marks.",
                         "band": 3
                       },
                       {
@@ -4006,10 +4006,10 @@
                       {
                         "id": "prompt-chem-11-working-scientifically-7-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The product is copper(II) chloride. CuO is (s), HCl is (aq), CuCl₂ is (aq) and H₂O is (l).",
                         "feedback": "Names the product correctly and gives correct state symbols for all substances, but gives no justification for them.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-working-scientifically-7-3-n0-n1-s3",
@@ -4478,10 +4478,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Incomplete drying is one source of error. If the sand still holds water when it is weighed, its recorded mass is too high, so the percentage composition by mass of the sand is overstated.",
-                        "feedback": "Meets the 4-mark row by explaining one source of error and the direction of its effect. A second source and an overall judgement on reliability would be needed for the 6-mark row.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining one source of error and the direction of its effect. A second source and an overall judgement on reliability would be needed for the 6-mark row.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-1-3-n0-n1-s3",
@@ -5177,10 +5177,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Granite in Town A contains more uranium-238, thorium-232 and potassium-40, which emit radiation as they decay, so the background radiation is higher. Uranium-238 also forms radon-222, which can collect in buildings and add to the radiation people receive.",
-                        "feedback": "Meets the 4-mark row by explaining how the radioisotopes in the granite raise background radiation in Town A, with some reference to radon-222. Cosmic radiation is not addressed, so it stops short of the 5-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining how the radioisotopes in the granite raise background radiation in Town A, with some reference to radon-222. Cosmic radiation is not addressed, so it stops short of the 5-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-7-n0-n1-s3",
@@ -5411,10 +5411,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Radon-222 decays to polonium-218 and an alpha particle, written ²²²₈₆Rn → ²¹⁸₈₄Po + ⁴₂He. For fission, uranium-235 and a neutron form barium-141 and krypton-92 with three neutrons, but the atomic numbers are left out of the equation.",
-                        "feedback": "Meets the 4-mark row by constructing one balanced equation correctly, with the fission equation only partly correct because its atomic numbers are missing. Adding them and explaining the conservation would lift it higher.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing one balanced equation correctly, with the fission equation only partly correct because its atomic numbers are missing. Adding them and explaining the conservation would lift it higher.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-9-n0-n1-s3",
@@ -5993,10 +5993,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Chromium is 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁵ 4s¹ because a half-filled sublevel is more stable. The Fe²⁺ ion is 1s² 2s² 2p⁶ 3s² 3p⁶ 3d⁴ 4s².",
-                        "feedback": "Meets the 4-mark row by writing both configurations with an error in the ion, and giving a partial explanation of the chromium exception. The 4s electrons are lost first in the ion, which this sample does not show.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by writing both configurations with an error in the ion, and giving a partial explanation of the chromium exception. The 4s electrons are lost first in the ion, which this sample does not show.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-14-n0-n1-s3",
@@ -6110,10 +6110,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-15-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Both elements are in Period 4 of the periodic table. Element 2 is in the d-block because it has d electrons.",
-                        "feedback": "Meets the 4-mark row by deducing the period of both elements and one correct block, with a partial explanation. Element 1 is not placed in its block, and the sublevel reasoning is missing.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by deducing the period of both elements and one correct block, with a partial explanation. Element 1 is not placed in its block, and the sublevel reasoning is missing.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-15-n0-n1-s3",
@@ -6568,10 +6568,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-19-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Emission spectroscopy can identify several metals at once, but the equipment is expensive and needs trained staff.",
-                        "feedback": "Meets the 3-mark row by identifying an advantage and a limitation. It does not weigh them or justify its suitability, which the higher rows require.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by identifying an advantage and a limitation. It does not weigh them or justify its suitability, which the higher rows require.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-2-19-n0-n1-s3",
@@ -6807,10 +6807,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Different sources may give different atomic radii for the same element, so the student should check the definition used.",
-                        "feedback": "Meets the 3-mark row by identifying a limitation in the source data. It does not assess the investigation's overall reliability or justify a judgement, which the higher rows require.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by identifying a limitation in the source data. It does not assess the investigation's overall reliability or justify a judgement, which the higher rows require.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-3-3-n0-n1-s3",
@@ -6921,10 +6921,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Ionisation energy increases across Period 2 overall, but boron and oxygen show dips where the trend is broken.",
-                        "feedback": "Meets the 3-mark row by describing the overall rise and identifying the dips. It does not explain either dip, which the 4-mark row requires.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the overall rise and identifying the dips. It does not explain either dip, which the 4-mark row requires.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-3-4-n0-n1-s3",
@@ -7035,10 +7035,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Electronegativity decreases down Group 16, so element X attracts shared electrons less strongly than oxygen.",
-                        "feedback": "Meets the 3-mark row by identifying the fall in electronegativity down Group 16. It does not link this to atomic radius or shielding, which the 4-mark row requires.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by identifying the fall in electronegativity down Group 16. It does not link this to atomic radius or shielding, which the 4-mark row requires.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-3-5-n0-n1-s3",
@@ -7725,10 +7725,10 @@
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-4-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Strontium is in group 2 and forms Sr2+, while selenium is in group 16 and forms Se2-.",
-                        "feedback": "Meets the 3-mark row by predicting two of the ions from their group numbers, but does not predict iodine or explain the electron loss and gain.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by predicting two of the ions from their group numbers, but does not predict iodine or explain the electron loss and gain.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-properties-and-structure-of-matter-4-6-n0-n1-s3",
@@ -11171,10 +11171,10 @@
                       {
                         "id": "prompt-chem-11-quantitative-chemistry-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Pressure rises when volume falls, because the particles have less space and strike the walls more often.",
-                        "feedback": "Meets the 3-mark row by interpreting the inverse trend with some reference to particles and collisions, but it does not explain why the change is larger at small volumes.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by interpreting the inverse trend with some reference to particles and collisions, but it does not explain why the change is larger at small volumes.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-quantitative-chemistry-4-3-n0-n1-s3",
@@ -11285,10 +11285,10 @@
                       {
                         "id": "prompt-chem-11-quantitative-chemistry-4-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Heating the can increases the average kinetic energy of the gas particles, so they strike the walls more often and harder. This increases the pressure inside the can, which may be enough to burst it.",
-                        "feedback": "Meets the 4-mark row by explaining the rise in pressure with some reference to particle collisions, but it does not justify the proportionality to absolute temperature.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the rise in pressure with some reference to particle collisions, but it does not justify the proportionality to absolute temperature.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-quantitative-chemistry-4-4-n0-n1-s3",
@@ -11530,10 +11530,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The acid reacts with the base to form sodium chloride and water: HCl + NaOH → NaCl + H2O.",
-                        "feedback": "Meets the 3-mark row with the correct products in a formula equation. It omits the state symbols and so does not reach the 4-mark row.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row with the correct products in a formula equation. It omits the state symbols and so does not reach the 4-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-1-n0-n1-s3",
@@ -11756,10 +11756,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The toxic component breaks down into simpler substances during preparation, which is the defining feature of a decomposition reaction.",
-                        "feedback": "Meets the 3-mark row by explaining the breakdown into simpler substances. It does not apply the definition to the reactant and the products in detail.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining the breakdown into simpler substances. It does not apply the definition to the reactant and the products in detail.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-3-n0-n1-s3",
@@ -11983,10 +11983,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Solubility rules identify which product is insoluble, so a student can predict the precipitate quickly. This prediction is useful because it can be checked before any experiment is done.",
-                        "feedback": "Meets the 4-mark row by analysing how the rules identify insoluble products and why the prediction is useful. It does not assess the limitations of the rules.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by analysing how the rules identify insoluble products and why the prediction is useful. It does not assess the limitations of the rules.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-5-n0-n1-s3",
@@ -12662,10 +12662,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The class series agrees with the textbook for most metals, so it is broadly reliable. However, it places copper above zinc, which is a difference that suggests an error in the investigation, such as a poorly cleaned zinc strip.",
-                        "feedback": "Meets the 4-mark row by analysing the agreement and giving a reason for the difference. It does not weigh the reliability of the series in full.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by analysing the agreement and giving a reason for the difference. It does not weigh the reliability of the series in full.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-11-n0-n1-s3",
@@ -12889,10 +12889,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Lime neutralises the acid in the soil, which raises the pH and can increase crop growth. However, adding too much can make the soil too alkaline, which may reduce some nutrients, so the impact is not simply positive.",
-                        "feedback": "Meets the 4-mark row by analysing how neutralisation changes soil acidity and its effect on growth. It does not weigh the sources or reach a conclusion.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by analysing how neutralisation changes soil acidity and its effect on growth. It does not weigh the sources or reach a conclusion.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-1-13-n0-n1-s3",
@@ -13121,10 +13121,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A catalyst lowers the activation energy, so more collisions are successful and the reaction rate increases. A larger surface area exposes more reactant particles, so collisions happen more often and the reaction rate increases.",
-                        "feedback": "Meets the 4-mark row by analysing how each factor changes the reaction rate using collision theory. It does not distinguish the two mechanisms clearly.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by analysing how each factor changes the reaction rate using collision theory. It does not distinguish the two mechanisms clearly.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-2-2-n0-n1-s3",
@@ -13355,10 +13355,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The reactants are at a higher energy than the products, so the reaction releases energy and is exothermic.",
-                        "feedback": "Meets the 3-mark row by describing the profile with reactants above products. It does not explain the activation energy.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the profile with reactants above products. It does not explain the activation energy.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-3-1-n0-n1-s3",
@@ -13469,10 +13469,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Heat escapes through the open lid of the cup, so the temperature rise recorded in an exothermic reaction is smaller than the true energy change. This is one limitation of the polystyrene cup for measuring energy changes.",
-                        "feedback": "Meets the 4-mark row by analysing one limitation and its effect on the measured energy change. It does not assess several limitations or judge the overall accuracy.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by analysing one limitation and its effect on the measured energy change. It does not assess several limitations or judge the overall accuracy.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-3-2-n0-n1-s3",
@@ -14047,10 +14047,10 @@
                       {
                         "id": "prompt-chem-11-chemical-reactions-3-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A catalyst lowers the activation energy peak on the energy profile diagram of both reactions, so more particles can react. The enthalpy change stays the same because the reactants and products stay at the same levels.",
-                        "feedback": "Meets the 4-mark row by explaining that a catalyst lowers the activation energy in both reactions with reference to the diagrams. It does not analyse the rate in depth.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining that a catalyst lowers the activation energy in both reactions with reference to the diagrams. It does not analyse the rate in depth.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-11-chemical-reactions-3-9-n0-n1-s3",
@@ -15379,10 +15379,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The student connects the flask to the gas syringe, adds the catalyst, and reads the volume at set times.",
-                        "feedback": "Meets the 3-mark row by describing the set-up and readings with some sequence. It does not include controls for repeatability.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by describing the set-up and readings with some sequence. It does not include controls for repeatability.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-3-2-n0-n1-s3",
@@ -15493,10 +15493,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Reading the syringe at a slant gives inaccurate volumes, and reading before the reaction finishes gives a volume that is too low. The student should read at eye level and wait until the volume stops changing before recording.",
-                        "feedback": "Meets the 4-mark row by explaining how the parallax and early-reading errors affect the evidence, with a change to the method. It does not address the recording error.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining how the parallax and early-reading errors affect the evidence, with a change to the method. It does not address the recording error.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-3-3-n0-n1-s3",
@@ -15728,10 +15728,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The table gives the quantitative information the student needs, so it should be the primary source. The multimedia yield and the database value appear to conflict, so the student should check them before using either one.",
-                        "feedback": "Meets the 4-mark row by selecting quantitative information and identifying a conflict between sources. It does not explain the qualitative information from the flow chart.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by selecting quantitative information and identifying a conflict between sources. It does not explain the qualitative information from the flow chart.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-4-1-n0-n1-s3",
@@ -16937,10 +16937,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-5-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The concentration should be rounded to match the least precise measurement, because the burette readings cannot support eight digits. Reporting the full calculator display implies a precision that the method does not have.",
-                        "feedback": "Meets the 4-mark row by explaining that the result should match the least precise measurement, with a relevant reason.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining that the result should match the least precise measurement, with a relevant reason.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-5-7-n0-n1-s3",
@@ -17169,10 +17169,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-6-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Finely ground limestone reacts faster because its particles have a greater surface area, so the soil pH rises sooner. The farmer should weigh this speed against the higher cost of the finer product.",
-                        "feedback": "Meets the 4-mark row by applying reaction rate to explain why particle size matters, with a relevant reason.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by applying reaction rate to explain why particle size matters, with a relevant reason.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-6-1-n0-n1-s3",
@@ -17282,10 +17282,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-6-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The particle model assumes that particles have negligible volume and no attractive forces. These assumptions hold reasonably well at moderate pressure and temperature, but fail when the gas is compressed to high pressure or cooled to low temperature.",
-                        "feedback": "Meets the 4-mark row by explaining the assumptions and linking them to the conditions where they break down.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the assumptions and linking them to the conditions where they break down.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-6-2-n0-n1-s3",
@@ -17510,10 +17510,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-6-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Thomson's plum pudding model was revised when Rutherford's gold foil experiment showed that the atom has a small, dense nucleus. This shows that models are contestable when new evidence does not fit them, and testable because they make predictions.",
-                        "feedback": "Meets the 4-mark row by explaining one revision driven by new evidence, with a reference to testable predictions.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining one revision driven by new evidence, with a reference to testable predictions.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-6-4-n0-n1-s3",
@@ -17743,10 +17743,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-7-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The judges would be best served by an oral presentation with a visual display, since they can ask questions. The colleague needs a written report with the full method, so the experiment can be repeated.",
-                        "feedback": "Meets the 4-mark row by justifying the choice of medium for two audiences with relevant reasons.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the choice of medium for two audiences with relevant reasons.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-7-2-n0-n1-s3",
@@ -17856,10 +17856,10 @@
                       {
                         "id": "prompt-chem-12-working-scientifically-7-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Add 25 mL of hydrochloric acid, HCl(aq), to a conical flask, then record the time taken for the colour change. The reagent is now named precisely, and the vague 'the stuff' has been removed.",
-                        "feedback": "Meets the 4-mark row by applying correct nomenclature and a relevant change to the step.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by applying correct nomenclature and a relevant change to the step.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-working-scientifically-7-3-n0-n1-s3",
@@ -19255,10 +19255,10 @@
                       {
                         "id": "prompt-chem-12-equilibrium-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A moderate temperature is used because a lower temperature favours ammonia but makes the reaction too slow. High pressure favours ammonia because there are fewer gas molecules on that side, and it also increases the rate of reaction.",
-                        "feedback": "Meets the 4-mark row by justifying the temperature and pressure choices with one reference to yield and one to rate.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by justifying the temperature and pressure choices with one reference to yield and one to rate.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-2-7-n0-n1-s3",
@@ -19454,10 +19454,10 @@
                       {
                         "id": "prompt-chem-12-equilibrium-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The mixture is darker in hot water and paler in ice water, so more nitrogen dioxide is present at higher temperature. Heating shifts the equilibrium towards nitrogen dioxide, so Keq increases with temperature for the endothermic forward reaction.",
-                        "feedback": "Meets the 4-mark row by analysing the colour changes to show that Keq increases with temperature, with one reference to the shift.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by analysing the colour changes to show that Keq increases with temperature, with one reference to the shift.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-3-4-n0-n1-s3",
@@ -19566,10 +19566,10 @@
                       {
                         "id": "prompt-chem-12-equilibrium-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Prepare standard solutions and plot a calibration graph of absorbance against concentration, because absorbance is proportional to concentration. Read the equilibrium concentration of the complex from the graph, using the absorbance of the mixtures.",
-                        "feedback": "Meets the 4-mark row by constructing a method using absorbance and a calibration series, with one justified step.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing a method using absorbance and a calibration series, with one justified step.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-3-5-n0-n1-s3",
@@ -20265,10 +20265,10 @@
                       {
                         "id": "prompt-chem-12-equilibrium-4-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The chloride ions from the sodium chloride reduce how much silver chloride dissolves, because the equilibrium is affected.",
-                        "feedback": "Meets the 3-mark row by explaining the effect of chloride ions, with limited reference to the equilibrium. It does not explain the shift or use the Ksp expression.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining the effect of chloride ions, with limited reference to the equilibrium. It does not explain the shift or use the Ksp expression.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-4-7-n0-n1-s3",
@@ -20500,10 +20500,10 @@
                       {
                         "id": "prompt-chem-12-equilibrium-4-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Precipitation tests are quick and cheap, and the solids are insoluble, so they can detect lead and phosphate. However, other ions can interfere, and a precipitate only appears at higher concentrations, so trace amounts may be missed.",
-                        "feedback": "Meets the 4-mark row by discussing strengths and limitations of the tests. It gives little reference to the equilibrium and no use of secondary sources.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing strengths and limitations of the tests. It gives little reference to the equilibrium and no use of secondary sources.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-equilibrium-4-10-n0-n1-s3",
@@ -20738,10 +20738,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The acid reacts with magnesium, which is a metal, but it also reacts with sodium carbonate, which is not a metal. So the claim that only metals react is incorrect. The answer does not discuss bases.",
-                        "feedback": "Meets the 4-mark row by explaining that the acid reacts with a carbonate, which is not a metal. It does not discuss the reaction with bases in any detail.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining that the acid reacts with a carbonate, which is not a metal. It does not discuss the reaction with bases in any detail.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-1-2-n0-n1-s3",
@@ -20851,10 +20851,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Universal indicator shows more colours than the natural indicator, so it is more detailed.",
-                        "feedback": "Meets the 3-mark row by distinguishing the indicators by the number of colours. It does not refer to precision or to the pH range.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by distinguishing the indicators by the number of colours. It does not refer to precision or to the pH range.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-1-3-n0-n1-s3",
@@ -21080,10 +21080,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-1-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Arrhenius's theory needs water, but hydrogen chloride and ammonia react as gases, so the Brønsted–Lowry view explains the reaction.",
-                        "feedback": "Meets the 3-mark row by explaining that the reaction occurs without water. It does not name the donor and acceptor or the proton transfer.",
-                        "band": 3
+                        "feedback": "Meets the 2-mark row by explaining that the reaction occurs without water. It does not name the donor and acceptor or the proton transfer.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-1-5-n0-n1-s3",
@@ -21200,9 +21200,9 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The hydrogen carbonate ion can act as an acid by donating a proton to hydroxide ions, forming carbonate ions.",
-                        "feedback": "Describes one role of the ion with limited reference to equations, meeting the 3-mark row.",
+                        "feedback": "Describes one role of the ion with limited reference to equations, meeting the 2-mark row.",
                         "band": 2
                       },
                       {
@@ -21427,9 +21427,9 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "As a strong acid is diluted, its pH rises towards 7 because the hydrogen ion concentration falls.",
-                        "feedback": "Describes the trend for one strong solution with a brief explanation, meeting the 3-mark row.",
+                        "feedback": "Describes the trend for one strong solution with a brief explanation, meeting the 2-mark row.",
                         "band": 2
                       },
                       {
@@ -21540,10 +21540,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A one-unit difference in pH means the hydrogen ion concentrations differ tenfold, so one sample is much more acidic than the other.",
-                        "feedback": "Meets the 4-mark row by explaining the tenfold difference. It gives limited reference to why the size of the change matters for acidity.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the tenfold difference. It gives limited reference to why the size of the change matters for acidity.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-4-n0-n1-s3",
@@ -21662,10 +21662,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The hydroxide ion concentration falls as the hydrogen ion concentration rises, because the two change in opposite directions.",
-                        "feedback": "Explains the opposite change with limited reference to Kw, meeting the 3-mark row.",
-                        "band": 3
+                        "feedback": "Explains the opposite change with limited reference to Kw, meeting the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-7-n0-n1-s3",
@@ -21783,10 +21783,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Hydrochloric acid has a lower pH than ethanoic acid, which suggests that the hydrochloric acid ionises more.",
-                        "feedback": "Describes the pH difference with limited reference to ionisation and no limitations, meeting the 3-mark row.",
-                        "band": 3
+                        "feedback": "Describes the pH difference with limited reference to ionisation and no limitations, meeting the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-9-n0-n1-s3",
@@ -21896,10 +21896,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The first ionisation of sulfuric acid is almost complete, with its position of equilibrium lying far to the right.",
-                        "feedback": "Describes the first ionisation with limited reference to the second, meeting the 3-mark row.",
-                        "band": 3
+                        "feedback": "Describes the first ionisation with limited reference to the second, meeting the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-10-n0-n1-s3",
@@ -22010,10 +22010,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Hydrogen carbonate ions react with water to form hydroxide ions, so the solution is basic.",
-                        "feedback": "Explains the hydroxide production with limited reference to the acid reaction, meeting the 3-mark row.",
-                        "band": 3
+                        "feedback": "Explains the hydroxide production with limited reference to the acid reaction, meeting the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-11-n0-n1-s3",
@@ -22125,9 +22125,9 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "Hydrochloric acid and sodium hydroxide form sodium chloride, a neutral salt.",
-                        "feedback": "Describes the salt produced with limited explanation of its neutral nature, meeting the 3-mark row.",
+                        "feedback": "Describes the salt produced with limited explanation of its neutral nature, meeting the 2-mark row.",
                         "band": 2
                       },
                       {
@@ -22302,10 +22302,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "A single pH measurement with an uncalibrated probe may give an inaccurate Ka value.",
-                        "feedback": "Describes a source of error with limited reference to the Ka value, meeting the 3-mark row.",
-                        "band": 3
+                        "feedback": "Describes a source of error with limited reference to the Ka value, meeting the 2-mark row.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-14-n0-n1-s3",
@@ -22654,10 +22654,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-18-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Hydroxide ions react with carbonic acid to form hydrogencarbonate ions and water. The equilibrium then shifts so that more carbonic acid dissociates, which limits the change in pH.",
-                        "feedback": "Meets the 4-mark row by describing the reaction of the base with carbonic acid, with some explanation of the equilibrium response. It does not explain why the pH change is small or the limit of the buffer.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the reaction of the base with carbonic acid, with some explanation of the equilibrium response. It does not explain why the pH change is small or the limit of the buffer.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-2-18-n0-n1-s3",
@@ -22776,10 +22776,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sodium hydroxide absorbs water vapour and carbon dioxide from the air, so the mass weighed is not pure sodium hydroxide. Anhydrous sodium carbonate is a suitable primary standard because it is stable and pure when dried.",
-                        "feedback": "Meets the 4-mark row by explaining the absorption of water and carbon dioxide and naming a suitable substance. The properties of the preferred standard are not justified in detail.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the absorption of water and carbon dioxide and naming a suitable substance. The properties of the preferred standard are not justified in detail.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-1-n0-n1-s3",
@@ -23006,10 +23006,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The water in the tip dilutes the sodium hydroxide, so more volume is needed to neutralise the acid. The calculated concentration of the hydrochloric acid is therefore too high.",
-                        "feedback": "Meets the 4-mark row by describing the dilution and its effect on the calculated concentration. It does not explain how the recorded volume overstates the amount of acid, or that the error is systematic.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the dilution and its effect on the calculated concentration. It does not explain how the recorded volume overstates the amount of acid, or that the error is systematic.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-3-n0-n1-s3",
@@ -23188,10 +23188,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The magnesium hydroxide is the limiting reagent because the hydrochloric acid is in excess. The acid left over is titrated with sodium hydroxide, so the amount that reacted can be found and linked back to the antacid.",
-                        "feedback": "Meets the 4-mark row by identifying the limiting reagent and describing the titration of the unreacted acid. The link back to the antacid through the reaction ratio is only brief.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by identifying the limiting reagent and describing the titration of the unreacted acid. The link back to the antacid through the reaction ratio is only brief.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-6-n0-n1-s3",
@@ -23419,10 +23419,10 @@
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The probe is more accurate and gives a numerical reading, but it needs calibration and costs more. Universal indicator paper is cheaper and quicker, but its colour is judged by eye, so it is less precise.",
-                        "feedback": "Meets the 4-mark row by comparing the two methods on accuracy and cost, with some limitations. The conclusion about suitability for a purpose is not developed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by comparing the two methods on accuracy and cost, with some limitations. The conclusion about suitability for a purpose is not developed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-acid-base-reactions-3-8-n0-n1-s3",
@@ -23547,10 +23547,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The condensed formula is CH₃CH(CH₃)CH₂CH₃, with a methyl branch on the second carbon. The expanded and skeletal forms show the same molecule with different levels of detail.",
-                        "feedback": "Meets the 4-mark row by writing a condensed formula that shows the branch and relating the representations. The reason the branch position matters is not explained.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by writing a condensed formula that shows the branch and relating the representations. The reason the branch position matters is not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-1-n0-n1-s3",
@@ -23663,10 +23663,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The longest chain has four carbon atoms, so the parent is butane. There are two methyl groups on carbons 2 and 3, giving 2,3-dimethylbutane.",
-                        "feedback": "Meets the 4-mark row by naming the alkane correctly with its parent and substituents. The IUPAC justification for the longest chain is not given.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by naming the alkane correctly with its parent and substituents. The IUPAC justification for the longest chain is not given.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-2-n0-n1-s3",
@@ -23779,17 +23779,17 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Butane is long and straight, so its molecules can touch along a large surface. 2-methylpropane is branched and compact, so it has less surface contact between its molecules.",
-                        "feedback": "Meets the 4-mark row by describing both shapes and stating that branching changes the surface area. The link to dispersion forces and boiling point is not made.",
+                        "feedback": "Meets the 3-mark row by describing both shapes and stating that branching changes the surface area. The link to dispersion forces and boiling point is not made.",
                         "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-3-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Butane is straight and 2-methylpropane is branched.",
-                        "feedback": "Meets the 2-mark row by identifying one difference in shape. The molecules are not compared on surface contact or forces.",
+                        "feedback": "Meets the 1-mark row by identifying one difference in shape. The molecules are not compared on surface contact or forces.",
                         "band": 1
                       }
                     ]
@@ -23895,10 +23895,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Alkanes have only single carbon–carbon bonds and are saturated, so they do not react with bromine water. Alkenes have a pi bond that bromine can attack, so the bromine adds across the double bond and the orange colour disappears.",
-                        "feedback": "Meets the 4-mark row by describing the bonding and the reaction of alkenes, with a reason why alkanes do not react. The pi bond's role is only briefly explained.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the bonding and the reaction of alkenes, with a reason why alkanes do not react. The pi bond's role is only briefly explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-4-n0-n1-s3",
@@ -24127,10 +24127,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The flammability of hexane means its vapour can build up in the pipes, so the sink method is unsafe. The labelled container for hazardous waste collection keeps the hydrocarbon out of the drains and limits the risk of fire.",
-                        "feedback": "Meets the 4-mark row by comparing the methods on flammability and environmental harm, with a brief conclusion. Ventilation and why the film persists are not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by comparing the methods on flammability and environmental harm, with a brief conclusion. Ventilation and why the film persists are not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-6-n0-n1-s3",
@@ -24242,10 +24242,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Sunlight can start a substitution reaction between hexane and bromine, which would change the colour of the alkane tube. The tubes should therefore be kept in the dark, with equal volumes of each hydrocarbon and bromine water.",
-                        "feedback": "Meets the 4-mark row by explaining the light-driven reaction and naming conditions of a fair test. The control tube and the validity of the comparison are not developed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the light-driven reaction and naming conditions of a fair test. The control tube and the validity of the comparison are not developed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-7-n0-n1-s3",
@@ -24358,10 +24358,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Ethanol is polar and can form hydrogen bonding between molecules, while ethane is nonpolar and has only London dispersion forces. The stronger hydrogen bonds in ethanol need more energy to break, so it has a higher boiling point.",
-                        "feedback": "Meets the 4-mark row by describing the forces in both molecules and explaining the higher boiling point. The role of shape is not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by describing the forces in both molecules and explaining the higher boiling point. The role of shape is not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-8-n0-n1-s3",
@@ -24474,10 +24474,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Boiling point rises with chain length because London dispersion forces get stronger. Butane boils below room temperature, so it is a gas, while pentane boils above it, so it is a liquid.",
-                        "feedback": "Meets the 4-mark row by describing the trend and linking boiling points to physical states. The link between surface area and dispersion forces is not developed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the trend and linking boiling points to physical states. The link between surface area and dispersion forces is not developed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-9-n0-n1-s3",
@@ -24590,10 +24590,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The condensed formula is BrCH₂CHClCH₃, with bromine on carbon 1 and chlorine on carbon 2. Numbering from the bromine end gives the lowest locants, so the name is 1-bromo-2-chloropropane.",
-                        "feedback": "Meets the 4-mark row by writing the correct formula and applying the lowest locant rule. The alphabetical ordering of the prefixes is not explained.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by writing the correct formula and applying the lowest locant rule. The alphabetical ordering of the prefixes is not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-10-n0-n1-s3",
@@ -24830,10 +24830,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Propene has a pi bond that hydrogen bromide can attack, so an addition reaction occurs. Propane has only single bonds, so it does not add reagents, but bromine can substitute a hydrogen atom under ultraviolet light.",
-                        "feedback": "Meets the 4-mark row by describing the addition of propene and the substitution of propane, with a reason for the bonding difference. The free radical mechanism is only named.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the addition of propene and the substitution of propane, with a reason for the bonding difference. The free radical mechanism is only named.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-13-n0-n1-s3",
@@ -24946,18 +24946,18 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Ethene is used to make polyethene by addition polymerisation, because its double bond opens to join molecules. It is also used to make ethanol through an addition reaction with water.",
-                        "feedback": "Meets the 4-mark row by describing two uses and linking both to the reactive double bond. Safety and physical state are not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by describing two uses and linking both to the reactive double bond. Safety and physical state are not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-1-14-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Ethene is used to make polyethene.",
-                        "feedback": "Meets the 2-mark row by identifying one use. It is not linked to any property.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying one use. It is not linked to any property.",
+                        "band": 1
                       }
                     ]
                   }
@@ -25073,10 +25073,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The condensed formula is (CH₃)₃COH, with three methyl groups and an –OH group on the central carbon. In the skeletal structure, the –OH group is shown as a label on the central carbon.",
-                        "feedback": "Meets the 4-mark row by writing the correct condensed formula and describing the skeletal structure. The reason the position matters for classification is not explained.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by writing the correct condensed formula and describing the skeletal structure. The reason the position matters for classification is not explained.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-1-n0-n1-s3",
@@ -25189,10 +25189,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The longest chain containing the –OH group has four carbon atoms, so the parent is butan-1-ol. The methyl branch is on carbon 3, giving 3-methylbutan-1-ol.",
-                        "feedback": "Meets the 4-mark row by naming the alcohol correctly with its parent chain and numbering. The justification for the lowest locant is not given.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by naming the alcohol correctly with its parent chain and numbering. The justification for the lowest locant is not given.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-2-n0-n1-s3",
@@ -25305,10 +25305,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Butan-1-ol has a larger surface area and forms hydrogen bonding between molecules, so its boiling point is higher. 2-methylpropan-2-ol is compact, so its boiling point is lower and it dissolves more readily in water.",
-                        "feedback": "Meets the 4-mark row by describing hydrogen bonding in both and the effect of shape on boiling point. The solubility is stated without explaining the exposed –OH group.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing hydrogen bonding in both and the effect of shape on boiling point. The solubility is stated without explaining the exposed –OH group.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-3-n0-n1-s3",
@@ -25421,10 +25421,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Boiling point rises along the series because the molecules get bigger and London dispersion forces get stronger. Solubility in water falls as the chain gets longer, because the hydrocarbon part is non-polar. Both trends are linked to chain length.",
-                        "feedback": "Meets the 4-mark row by describing both trends with a partial explanation of the forces. Hydrogen bonding and the constant hydroxyl group are not discussed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing both trends with a partial explanation of the forces. Hydrogen bonding and the constant hydroxyl group are not discussed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-4-n0-n1-s3",
@@ -25536,10 +25536,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Pentan-1-ol is CH3CH2CH2CH2CH2OH and is a primary alcohol. Pentan-2-ol is CH3CH(OH)CH2CH2CH3 and is a secondary alcohol.",
-                        "feedback": "Meets the 4-mark row by constructing correct formulas and names for two isomers, with their classification given.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing correct formulas and names for two isomers, with their classification given.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-5-n0-n1-s3",
@@ -25652,10 +25652,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The blocked stove has less oxygen, so the fuel undergoes incomplete combustion. This gives carbon monoxide and soot, which make the flame yellow.",
-                        "feedback": "Meets the 4-mark row by explaining the link between restricted oxygen and incomplete combustion, with some reference to products. The conditions are not discussed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the link between restricted oxygen and incomplete combustion, with some reference to products. The conditions are not discussed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-6-n0-n1-s3",
@@ -25768,18 +25768,18 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-7-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The balanced symbol equation is C8H17OH + 12O2 → 8CO2 + 9H2O. The products are carbon dioxide and water because the alcohol burns completely.",
-                        "feedback": "Meets the 4-mark row by constructing a correct balanced equation, with some explanation of the products.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing a correct balanced equation, with some explanation of the products.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-7-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The products are carbon dioxide and water.",
-                        "feedback": "Meets the 2-mark row by identifying both products without a symbol equation.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying both products without a symbol equation.",
+                        "band": 1
                       }
                     ]
                   }
@@ -25882,10 +25882,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-8-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Enthalpy of combustion becomes more negative as the chain gets longer, so more energy is released. Longer molecules have more bonds that are broken and formed when they burn.",
-                        "feedback": "Meets the 4-mark row by describing the trend with some reference to bonds. The hydroxyl group and the data are not discussed.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the trend with some reference to bonds. The hydroxyl group and the data are not discussed.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-8-n0-n1-s3",
@@ -25995,18 +25995,18 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-9-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Heat loss to the surroundings is the main error, because less heat reaches the water. A draught shield would reduce this heat loss.",
-                        "feedback": "Meets the 4-mark row by identifying heat loss and outlining one way to reduce it. The judgement of the method is limited.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by identifying heat loss and outlining one way to reduce it. The judgement of the method is limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-9-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The thermometer might not be accurate.",
-                        "feedback": "Meets the 2-mark row by identifying a measurement that could be inaccurate. Heat loss is not mentioned.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying a measurement that could be inaccurate. Heat loss is not mentioned.",
+                        "band": 1
                       }
                     ]
                   }
@@ -26110,18 +26110,18 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-10-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Butan-1-ol forms but-1-ene and water when heated with concentrated sulfuric acid. The balanced symbol equation is C4H9OH → C4H8 + H2O.",
-                        "feedback": "Meets the 4-mark row by constructing a correct balanced equation with the conditions stated. The reason for the single alkene is not given.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing a correct balanced equation with the conditions stated. The reason for the single alkene is not given.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-10-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The organic product is but-1-ene.",
-                        "feedback": "Meets the 2-mark row by identifying the alkene without a balanced equation.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying the alkene without a balanced equation.",
+                        "band": 1
                       }
                     ]
                   }
@@ -26225,10 +26225,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Primary alcohols give an aldehyde, which can be oxidised further, because the carbon bearing the -OH group has two hydrogen atoms. Secondary alcohols give a ketone because that carbon has one hydrogen atom. Tertiary alcohols do not react.",
-                        "feedback": "Meets the 4-mark row by describing the products of primary and secondary alcohols with a reason for the difference. The tertiary case has no reason.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by describing the products of primary and secondary alcohols with a reason for the difference. The tertiary case has no reason.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-11-n0-n1-s3",
@@ -26341,10 +26341,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-12-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Ethanol reacts with HBr to form bromoethane and water: C2H5OH + HBr → C2H5Br + H2O. The conditions are heating with concentrated hydrogen bromide.",
-                        "feedback": "Meets the 4-mark row by constructing one balanced equation with the product named and the conditions stated.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing one balanced equation with the product named and the conditions stated.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-12-n0-n1-s3",
@@ -26456,10 +26456,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-13-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The test separates tertiary alcohols because they do not change colour. Primary and secondary alcohols both turn the solution green, so this test cannot separate them, which is a limitation.",
-                        "feedback": "Meets the 4-mark row by describing how the test distinguishes the tertiary alcohol, with a limitation identified.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by describing how the test distinguishes the tertiary alcohol, with a limitation identified.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-13-n0-n1-s3",
@@ -26571,10 +26571,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-14-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The balanced symbol equation is C4H9Br + NaOH → C4H9OH + NaBr. The route works well in the laboratory, although the haloalkane must be prepared first.",
-                        "feedback": "Meets the 4-mark row by constructing a correct balanced symbol equation, with some comment on the usefulness of the route.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by constructing a correct balanced symbol equation, with some comment on the usefulness of the route.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-14-n0-n1-s3",
@@ -26692,10 +26692,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-16-n0-n1-s2",
                         "source": "AI",
-                        "mark": 5,
+                        "mark": 4,
                         "answer": "Fermentation uses plant sugars and yeast, so its feedstock is renewable. However, the product is dilute and must be purified, while hydration of ethene from crude oil gives a purer product from a non-renewable source. Fermentation is the better choice for a renewable fuel, although hydration gives a purer product.",
-                        "feedback": "Meets the 5-mark row by comparing both processes on renewability and purity, with a conclusion that is only partly supported.",
-                        "band": 4
+                        "feedback": "Meets the 4-mark row by comparing both processes on renewability and purity, with a conclusion that is only partly supported.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-2-16-n0-n1-s3",
@@ -26813,10 +26813,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The molecular formula is C4H8O2 and the condensed structural formula is CH3CH2CH2COOH, which shows the carboxyl group. The acid is butanoic acid.",
-                        "feedback": "Meets the 4-mark row by constructing two of the three formulas correctly, with the acid identified as butanoic acid.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing two of the three formulas correctly, with the acid identified as butanoic acid.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-1-n0-n1-s3",
@@ -26927,10 +26927,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "CH3CH2CH2CH2COOH is pentanoic acid. CH3CH2CH(CH3)COOH is 2-methylbutanoic acid. (CH3)2CHCH2COOH is 3-methylbutanoic acid.",
-                        "feedback": "Meets the 4-mark row by constructing and naming three of the four isomers.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing and naming three of the four isomers.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-2-n0-n1-s3",
@@ -27042,10 +27042,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Solubility in water falls as the hydrocarbon chain grows, which is a reasonable explanation. However, the data sources may use different temperatures, so the trend should be checked.",
-                        "feedback": "Meets the 4-mark row by analysing the trend with a reason and commenting briefly on the reliability of the data.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by analysing the trend with a reason and commenting briefly on the reliability of the data.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-3-n0-n1-s3",
@@ -27156,18 +27156,18 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "CH3CH2CH2OH + [O] → CH3CH2CHO + H2O, then CH3CH2CHO + [O] → CH3CH2COOH. The mixture is heated under reflux.",
-                        "feedback": "Meets the 4-mark row by constructing both equations correctly, without explaining the role of excess oxidant or reflux.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing both equations correctly, without explaining the role of excess oxidant or reflux.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Propan-1-ol is oxidised to propanoic acid.",
-                        "feedback": "Meets the 2-mark row by identifying propanoic acid as the product. No equations or intermediate are given.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying propanoic acid as the product. No equations or intermediate are given.",
+                        "band": 1
                       }
                     ]
                   }
@@ -27269,18 +27269,18 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-5-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Effervescence shows that an acid is present, but a strong mineral acid would also fizz, so the test cannot confirm a carboxylic acid alone. Phenols do not react, so the test does separate them.",
-                        "feedback": "Meets the 4-mark row by explaining that effervescence shows an acid and noting one limit of the test.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining that effervescence shows an acid and noting one limit of the test.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-5-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The fizzing shows the liquid is acidic.",
-                        "feedback": "Meets the 2-mark row by identifying that the liquid is acidic from the fizzing. No limit or further test is given.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying that the liquid is acidic from the fizzing. No limit or further test is given.",
+                        "band": 1
                       }
                     ]
                   }
@@ -27385,10 +27385,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-6-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Pentane has only London dispersion forces, so it does not mix with water. Pentan-1-ol and pentanoic acid can form hydrogen bonds with water, so they dissolve slightly.",
-                        "feedback": "Meets the 4-mark row by explaining the difference between pentane and the two polar compounds in terms of intermolecular forces.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by explaining the difference between pentane and the two polar compounds in terms of intermolecular forces.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-3-6-n0-n1-s3",
@@ -27510,10 +27510,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-1-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The condensed structural formula is CH3CH2CH2COOCH3. The expanded structure shows the C=O double bond and the C-O-C linkage, but the ester linkage is not named.",
-                        "feedback": "Meets the 4-mark row by constructing the correct condensed formula and describing the expanded structure, with the ester linkage not identified.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing the correct condensed formula and describing the expanded structure, with the ester linkage not identified.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-1-n0-n1-s3",
@@ -27624,10 +27624,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Butyl ethanoate is CH3COOCH2CH2CH2CH3. The other ester is CH3CH2CH2COOCH(CH3)2, made from butanoic acid.",
-                        "feedback": "Meets the 4-mark row by constructing both formulas correctly, with only one name given.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing both formulas correctly, with only one name given.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-2-n0-n1-s3",
@@ -27739,10 +27739,10 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-3-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Butanoic acid, CH3CH2CH2COOH, and 2-methylpropanoic acid, (CH3)2CHCOOH, are the carboxylic acids. Methyl propanoate, CH3CH2COOCH3, and ethyl ethanoate, CH3COOCH2CH3, are the esters.",
-                        "feedback": "Meets the 4-mark row by constructing and naming four of the six isomers.",
-                        "band": 3
+                        "feedback": "Meets the 3-mark row by constructing and naming four of the six isomers.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-3-n0-n1-s3",
@@ -27855,18 +27855,18 @@
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Butan-1-ol boils higher than methyl propanoate because it has hydrogen bonding between its molecules, while the ester has only dipole-dipole and dispersion forces.",
-                        "feedback": "Meets the 4-mark row by explaining the order for two of the three compounds with reference to intermolecular forces. The acid's position is not justified.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by explaining the order for two of the three compounds with reference to intermolecular forces. The acid's position is not justified.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-organic-chemistry-4-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Propanoic acid boils higher than methyl propanoate.",
-                        "feedback": "Meets the 2-mark row by identifying that the acid boils higher than the ester, without a justification.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying that the acid boils higher than the ester, without a justification.",
+                        "band": 1
                       }
                     ]
                   }
@@ -29450,10 +29450,10 @@
                       {
                         "id": "prompt-chem-12-applying-chemical-ideas-1-11-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Polytetrafluoroethylene persists in the environment because its carbon-fluorine bonds resist breakdown, and its manufacture has used fluorinated processing aids of concern. Polypropylene is low in toxicity in use, but as plastic waste it can fragment into microplastics.",
-                        "feedback": "Meets the 4-mark row by discussing the environmental and health impacts of both polymers. The judgement is limited and the disposal evidence is not weighed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing the environmental and health impacts of both polymers. The judgement is limited and the disposal evidence is not weighed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-applying-chemical-ideas-1-11-n0-n1-s3",
@@ -30089,10 +30089,10 @@
                       {
                         "id": "prompt-chem-12-applying-chemical-ideas-2-2-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Drilling a small number of core samples may miss variation in the ore grade, so the estimate of metal content may be wrong. An over-optimistic estimate could lead to a poor investment decision.",
-                        "feedback": "Meets the 4-mark row by discussing one sampling limitation with a link to the investment decision. The assay uncertainty is not discussed.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing one sampling limitation with a link to the investment decision. The assay uncertainty is not discussed.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-applying-chemical-ideas-2-2-n0-n1-s3",
@@ -30313,18 +30313,18 @@
                       {
                         "id": "prompt-chem-12-applying-chemical-ideas-2-4-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The mine would create jobs and export revenue, but its dust and wastewater could harm the nearby residential area and the environment.",
-                        "feedback": "Meets the 4-mark row by discussing an economic benefit and environmental and social issues. The judgement is limited.",
-                        "band": 4
+                        "feedback": "Meets the 3-mark row by discussing an economic benefit and environmental and social issues. The judgement is limited.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-chem-12-applying-chemical-ideas-2-4-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "Mining can cause environmental damage through wastewater.",
-                        "feedback": "Meets the 2-mark row by identifying an environmental issue. No judgement is reached.",
-                        "band": 2
+                        "feedback": "Meets the 1-mark row by identifying an environmental issue. No judgement is reached.",
+                        "band": 1
                       }
                     ]
                   }

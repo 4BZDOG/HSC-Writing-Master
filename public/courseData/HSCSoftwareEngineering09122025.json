@@ -2265,9 +2265,9 @@
                       {
                         "id": "prompt-swe-11-12-cp-pmc-umhs-stg11-07-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A microcontroller pin supplies only a small current, so it cannot run the drive motor directly. A motor driver is therefore used.",
-                        "feedback": "States that the pins cannot supply the motor current, with a reason, which meets the 4-mark row. To reach 5 marks, explain how the motor driver supplies the motor's current.",
+                        "feedback": "States that the pins cannot supply the motor current, with a reason, which meets the 3-mark row. To reach 4 marks, explain how the motor driver supplies the motor's current.",
                         "band": 2
                       },
                       {
@@ -2387,18 +2387,18 @@
                       {
                         "id": "prompt-swe-11-12-cp-pmc-umhs-stg11-08-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "The joystick suits the client, and the emergency stop lets the client halt the arm. The battery may be too short for a full day.",
-                        "feedback": "Assesses a strength and a limitation of the arm against the client's needs, which meets the 4-mark row. To reach 5 marks, weigh the speed limit or the mounting against the limitations as well.",
-                        "band": 4
+                        "feedback": "Assesses a strength and a limitation of the arm against the client's needs, which meets the 3-mark row. To reach 4 marks, weigh the speed limit or the mounting against the limitations as well.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-umhs-stg11-08-n0-n1-s3",
                         "source": "AI",
-                        "mark": 2,
+                        "mark": 1,
                         "answer": "The arm has a joystick control.",
-                        "feedback": "Describes one feature of the arm, which meets the 2-mark row. To reach 3 marks, describe some features with a brief link to the client's needs.",
-                        "band": 2
+                        "feedback": "Describes one feature of the arm, which meets the 1-mark row. To reach 2 marks, describe some features with a brief link to the client's needs.",
+                        "band": 1
                       }
                     ]
                   }
@@ -3836,10 +3836,10 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-sdev-stg11-01-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Skipping requirements definition means the team may build features the council does not need, such as a map that was never requested. The rework to fix these features adds time and cost to the project.",
-                        "feedback": "Discusses two consequences, with rework explained more fully than unneeded features, which meets the 4-mark row. To reach 5 marks, develop the second consequence and link it to the council's needs.",
-                        "band": 4
+                        "feedback": "Discusses two consequences, with rework explained more fully than unneeded features, which meets the 3-mark row. To reach 4 marks, develop the second consequence and link it to the council's needs.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-sdev-stg11-01-n0-n1-s3",
@@ -3955,10 +3955,10 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-sdev-stg11-02-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Online code collaboration tools are common in industry, and they help a team share code and review changes. For students, however, the tools add a learning curve, so the teacher should introduce them gradually.",
-                        "feedback": "Discusses a benefit and a drawback with a link to industry, which meets the 4-mark row. To reach 5 marks, explain why the learning curve matters for this class.",
-                        "band": 4
+                        "feedback": "Discusses a benefit and a drawback with a link to industry, which meets the 3-mark row. To reach 4 marks, explain why the learning curve matters for this class.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-sdev-stg11-02-n0-n1-s3",
@@ -4081,10 +4081,10 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-01-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Data should be planned in design because the canteen program's variables and decisions depend on what is stored, such as stock counts. If the team codes first, the sequence, selection and iteration may need to be rewritten later.",
-                        "feedback": "Gives a clear reason with a link to the canteen program, which meets the 4-mark row. To reach 5 marks, develop how changing the data after coding affects the algorithm.",
-                        "band": 4
+                        "feedback": "Gives a clear reason with a link to the canteen program, which meets the 3-mark row. To reach 4 marks, develop how changing the data after coding affects the algorithm.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-01-n0-n1-s3",
@@ -4200,9 +4200,9 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-02-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Divide and conquer splits a problem into parts that are solved and then combined, as in merge sort. Unlike this, backtracking tries a choice and returns to an earlier step when it reaches a dead end.",
-                        "feedback": "Compares the strategies by describing how each works, with a clear difference, which meets the 4-mark row. To reach 5 marks, add a similarity and a suitable example for each.",
+                        "feedback": "Compares the strategies by describing how each works, with a clear difference, which meets the 3-mark row. To reach 4 marks, add a similarity and a suitable example for each.",
                         "band": 2
                       },
                       {
@@ -4320,9 +4320,9 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-03-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "A flowchart shows the dice game's steps and decisions, and pseudocode writes the same steps precisely. A subprogram for rolling the die can be written as its own block, so the main algorithm stays simple.",
-                        "feedback": "Explains the roles of the flowchart and pseudocode, with a relevant description of the subprogram, which meets the 4-mark row. To reach 5 marks, explain why a subprogram improves the design.",
+                        "feedback": "Explains the roles of the flowchart and pseudocode, with a relevant description of the subprogram, which meets the 3-mark row. To reach 4 marks, explain why a subprogram improves the design.",
                         "band": 2
                       },
                       {
@@ -4439,10 +4439,10 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-04-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Abstraction shows the main modules of a system, and refinement adds detail to each module. Top-down design uses both in a new project with clear requirements, while bottom-up design suits existing tested components.",
-                        "feedback": "Explains the role of abstraction and refinement, with a link to the new project, which meets the 4-mark row. To reach 5 marks, develop when bottom-up design suits the second project.",
-                        "band": 3
+                        "feedback": "Explains the role of abstraction and refinement, with a link to the new project, which meets the 3-mark row. To reach 4 marks, develop when bottom-up design suits the second project.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-04-n0-n1-s3",
@@ -4558,10 +4558,10 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-05-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Desk checking traces the algorithm with test marks to confirm its logic. Peer checking asks a classmate to look for mistakes the author has missed, such as an error in the call to the Average function.",
-                        "feedback": "Explains what each checking method does, with an example of an error peer checking could catch, which meets the 4-mark row. To reach 5 marks, explain how the call and the returned value must match.",
-                        "band": 3
+                        "feedback": "Explains what each checking method does, with an example of an error peer checking could catch, which meets the 3-mark row. To reach 4 marks, explain how the call and the returned value must match.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-05-n0-n1-s3",
@@ -4799,10 +4799,10 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-07-n0-n1-s2",
                         "source": "AI",
-                        "mark": 4,
+                        "mark": 3,
                         "answer": "Object-oriented programming models each book and member as an object, with data and behaviour together. Logic programming uses facts and rules to state which members may borrow which books.",
-                        "feedback": "Explains how objects and facts and rules represent the library, with a relevant link to the scenario, which meets the 4-mark row. To reach 5 marks, assess which paradigm suits the borrowing rules and why.",
-                        "band": 4
+                        "feedback": "Explains how objects and facts and rules represent the library, with a relevant link to the scenario, which meets the 3-mark row. To reach 4 marks, assess which paradigm suits the borrowing rules and why.",
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-07-n0-n1-s3",
@@ -5861,10 +5861,10 @@
                       {
                         "id": "prompt-swe-11-12-cp-prf-scd-stg11-04-n0-n1-s2",
                         "source": "AI",
-                        "mark": 3,
+                        "mark": 2,
                         "answer": "The program works because it passes every functional test. It is slow, though, which is a problem for performance.",
-                        "feedback": "Describes functionality and one weakness, which meets the 3-mark row. To reach 4 marks, evaluate readability or documentation and give a judgement.",
-                        "band": 3
+                        "feedback": "Describes functionality and one weakness, which meets the 2-mark row. To reach 3 marks, evaluate readability or documentation and give a judgement.",
+                        "band": 2
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-scd-stg11-04-n0-n1-s3",
