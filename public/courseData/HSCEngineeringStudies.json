@@ -1,0 +1,2361 @@
+[
+  {
+    "id": "course-hsc-engineering-studies",
+    "name": "Engineering Studies",
+    "outcomes": [
+      {
+        "code": "ES-11-01",
+        "description": "investigates the scope and history of engineering and its implications in specific fields",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-02",
+        "description": "explains the structure, properties and application of materials in engineering",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-03",
+        "description": "investigates the structures of materials in relation to forming processes and in-service performance",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-04",
+        "description": "solves engineering problems using mathematical, scientific and graphical methodologies",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-05",
+        "description": "applies engineering principles and problem-solving processes to develop solutions across a range of contexts",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-06",
+        "description": "interprets and creates engineering drawings and graphical representations using Australian Standard for Technical Drawing (AS 1100)",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-07",
+        "description": "explains and applies Australian engineering standards and practices across a range of applications",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-08",
+        "description": "communicates knowledge of engineering principles and processes using technical terminology and concepts",
+        "year": "year11"
+      },
+      {
+        "code": "ES-11-09",
+        "description": "applies technical concepts and solutions to an engineering report",
+        "year": "year11"
+      },
+      {
+        "code": "ES-12-01",
+        "description": "analyses the application and implications of technological advancements in engineering"
+      },
+      {
+        "code": "ES-12-02",
+        "description": "justifies the selection of materials for specific engineering applications based on structure–property relationships"
+      },
+      {
+        "code": "ES-12-03",
+        "description": "explains the structures and uses of a range of materials in relation to forming processes and in-service performance"
+      },
+      {
+        "code": "ES-12-04",
+        "description": "solves and analyses engineering problems using mechanical and graphical methodologies"
+      },
+      {
+        "code": "ES-12-05",
+        "description": "applies engineering principles and problem-solving processes to develop solutions across a range of contexts"
+      },
+      {
+        "code": "ES-12-06",
+        "description": "interprets and creates engineering drawings and graphical representations using Australian Standard for Technical Drawing (AS 1100)"
+      },
+      {
+        "code": "ES-12-07",
+        "description": "analyses and applies Australian engineering standards and practices across a range of applications"
+      },
+      {
+        "code": "ES-12-08",
+        "description": "communicates knowledge of engineering principles and processes using technical terminology and concepts"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-es-11-engineering-materials",
+        "name": "Engineering materials",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-es-11-engineering-materials-1",
+            "name": "Developments in engineering over time",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-1-1",
+                "description": "Outline the significance of material advancements in engineering metallurgy of bronze, iron, cast iron, Bessemer-processed steel, aluminium, stainless steel and titanium",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-1-2",
+                "description": "Identify the significance of clay-body ceramics, concrete, bakelite, polyethylene (PE), vulcanised rubber, polytetrafluoroethylene (PTFE) and glass laminated aluminium reinforced epoxy (GLARE) as advancements in engineering non-metals",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-1-3",
+                "description": "Describe the evolution of an engineered product over time, considering advancements in structure, materials and manufacturing methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-1-4",
+                "description": "Describe the development and application of sustainable design for low-powered and recycled material products",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-2",
+            "name": "Classification of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-2-1",
+                "description": "Compare natural elements, compounds and mixtures used by Aboriginal and Torres Strait Islander Peoples to contemporary engineered materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-2-2",
+                "description": "Classify engineering materials as metals, polymers, ceramics or composites",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-3",
+            "name": "Atomic interaction and structure of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-3-1",
+                "description": "Compare the mechanisms of ionic, covalent and metallic primary bonding in materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-3-2",
+                "description": "Explain the impact of bond strength on the hardness, strength and melting point of metals and ceramics",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-3-3",
+                "description": "Explain the role of electrons in the transfer of heat and electricity through materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-3-4",
+                "description": "Describe the atomic arrangements in body-centred cubic (BCC) crystal structures, face-centred cubic (FCC) crystal structures and hexagonal close-packed (HCP) crystal structures",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-3-5",
+                "description": "Compare the atomic structure of crystalline and amorphous materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-3-6",
+                "description": "Describe carbon, titanium, tin and iron as allotropic materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-3-7",
+                "description": "Describe the role of a materials selection diagram (MSD) in choosing a material for an application",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-3-8",
+                "description": "Justify the choice of materials based on in-service properties, forming processes and shaping requirements",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-4",
+            "name": "Physical properties of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-4-1",
+                "description": "Differentiate between categories of physical properties, including density, thermal conductivity and electrical conductivity",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-4-2",
+                "description": "Compare transparent, translucent and opaque materials by light transmission and appearance",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-5",
+            "name": "Mechanical properties of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-5-1",
+                "description": "Contrast the elastic and plastic behaviour of materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-5-2",
+                "description": "Compare ductility and malleability in relation to workability as mechanical properties of metals",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-5-3",
+                "description": "Compare how tensile, compressive, shear, torsion and bending forces act on a material",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-5-4",
+                "description": "Describe strength as a material’s ability to withstand stress from an applied load without failure",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-5-5",
+                "description": "Describe stiffness as a material’s resistance to deformation under an applied load",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-5-6",
+                "description": "Describe toughness as a material’s ability to absorb energy before fracturing, referencing the stress-strain curve and comparing typical metals, polymers and ceramics",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-5-7",
+                "description": "Describe the relationship between hardness or resistance to indentation and tensile strength in a material",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-6",
+            "name": "Metallic phases",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-6-1",
+                "description": "Describe the meaning of a phase in metallic systems and identify single-phase and 2-phase regions in binary-phase diagrams",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-6-2",
+                "description": "Explain the eutectic point in a binary-phase diagram as the composition at which an alloy melts and solidifies at a single temperature",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-6-3",
+                "description": "Identify liquid, solid and liquid-solid phase regions and the phase changes that occur during cooling in a copper-nickel binary-phase diagram",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-6-4",
+                "description": "Identify the eutectic point in the lead-tin binary-phase diagram and relate it to the melting behaviour of solder alloys",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-7",
+            "name": "Metal structure–property relationships",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-7-1",
+                "description": "Compare the ease of dislocation motion in a BCC, FCC or HCP metal",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-7-2",
+                "description": "Describe dislocations as line defects in metallic crystal structures and explain their role in plastic deformation",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-7-3",
+                "description": "Explain how solid solution hardening, work hardening and grain size strengthening restricts dislocation motion in metals",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-8",
+            "name": "Metallic materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-8-1",
+                "description": "Distinguish between ferrous and non-ferrous metals",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-8-2",
+                "description": "Compare carbon content, properties and uses of mild steels, plain medium carbon steels and plain high carbon steels",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-8-3",
+                "description": "Identify and distinguish between cast irons including grey, nodular (spheroidal graphite) and white cast irons",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-8-4",
+                "description": "Outline the differences between stainless steel and tool steel",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-8-5",
+                "description": "Compare the composition and properties of bronze and brass as non-ferrous alloys",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-8-6",
+                "description": "Describe the composition and properties of the nonferrous alloys Ti-6Al-4V, 2000 series aluminium and 6000 series aluminium",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-9",
+            "name": "Polymeric materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-9-1",
+                "description": "Represent the structure of thermoplastic, thermosetting and elastomeric polymers using labelled sketches, including the degree of crosslinking and the role of secondary bonding",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-9-2",
+                "description": "Compare the behaviour of a thermoset and thermoplastic polymer when heated in relation to their structure",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-9-3",
+                "description": "Assess the uses and applications of thermoplastic polymers, including polyethylene (PE), polypropylene (PP), polyvinyl chloride (PVC), polyaramid (PA), acrylonitrile butadiene styrene (ABS) and polylactic acid (PLA)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-9-4",
+                "description": "Explain how Aboriginal Peoples use natural polymers in the manufacture of tools, structures and other engineering applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-9-5",
+                "description": "Outline uses and applications of epoxides, polyurethanes (PU) and phenol formaldehyde (PF) as thermosetting polymers",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-9-6",
+                "description": "Explain the uses and applications of shellac and cellulose as natural polymers",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-9-7",
+                "description": "Explain the uses and applications of silicone rubber and vulcanised rubber",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-10",
+            "name": "Ceramic materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-10-1",
+                "description": "Compare natural and engineered ceramics",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-10-2",
+                "description": "Identify the types of bonds present in ceramic materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-10-3",
+                "description": "Outline the general properties of ceramics used in engineering",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-10-4",
+                "description": "Identify the categories of ceramic classification, including clays, glasses, cements, electronic ceramics and engineering ceramics",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-10-5",
+                "description": "Explain how Aboriginal and Torres Strait Islander Peoples use ceramics for engineering purposes",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-10-6",
+                "description": "Describe the application of a ceramic insulator for spark plugs and electrical transmission lines",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-11",
+            "name": "Composite materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-11-1",
+                "description": "Compare common composites, including natural and engineered timbers, fibre reinforced polymers (FRPs) and agglomerated composites",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-11-2",
+                "description": "Describe how composites provide different material properties and design flexibility, highlighting the importance of constituent materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-11-3",
+                "description": "Describe how timber can be classified as a natural composite material, combining cellulose fibres and lignin resin",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-11-4",
+                "description": "Describe the composition of concrete, focusing on the role of the cement binder and aggregates",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-11-5",
+                "description": "Compare the composition of natural binders used by Aboriginal and Torres Strait Islander Peoples in artefacts, tools and building materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-11-6",
+                "description": "Explain how the compressive strength of concrete and the tensile strength of steel reinforcement are combined in reinforced concrete to improve structural performance",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-11-7",
+                "description": "Use labelled sketches to represent macrostructures of composites with a focus on concrete and an FRP",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-12",
+            "name": "Material stress-strain behaviour",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-12-1",
+                "description": "Describe the application of tensile tests in engineering",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-12-2",
+                "description": "Represent a load-extension diagram using a labelled sketch that shows the elastic region, plastic region, fracture point, ultimate tensile strength (UTS), necking region, yield point and the limit of proportionality",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-12-3",
+                "description": "Identify the elastic range of a material and explain why engineers typically design within this range",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-12-4",
+                "description": "Represent the form of a typical stress-strain diagram using a sketch of annealed mild steel, annealed copper, a ceramic and an elastomer",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-engineering-materials-13",
+            "name": "Forming processes of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-engineering-materials-13-1",
+                "description": "Describe the effect of rolling and drop forging on the grain structure of a metal",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-13-2",
+                "description": "Compare sand casting, investment casting and permanent mould casting processes and resulting grain structure",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-13-3",
+                "description": "Describe the suitability of laser, water, flame, plasma and mechanical shearing as cutting processes for different materials",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-13-4",
+                "description": "Compare the effectiveness of bolting and riveting as cold joining methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-13-5",
+                "description": "Differentiate between brazing and welding in terms of process, temperature and the properties of the resulting joint",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-13-6",
+                "description": "Compare thread rolling and thread cutting (using a tap and die) processes, explaining their effects on grain flow and resulting material properties",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-13-7",
+                "description": "Describe how additive manufacturing is used to produce concrete, polymer and metal components for engineering purposes",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-engineering-materials-13-8",
+                "description": "Describe sustainable practices in material selection and processing in engineering, considering ethical responsibilities related to resource use, waste reduction and long-term environmental impact",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-es-11-applied-engineering-analysis",
+        "name": "Applied engineering analysis",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-es-11-applied-engineering-analysis-1",
+            "name": "Developments in engineering over time",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-applied-engineering-analysis-1-1",
+                "description": "Outline key engineering advancements that characterise the major industrial revolutions from mechanisation to digital systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-1-2",
+                "description": "Investigate the environmental and structural engineering practices of the Brewarrina fish traps",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-1-3",
+                "description": "Outline the impact of the work of selected engineers on significant engineering development",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-1-4",
+                "description": "Identify examples of engineering failures and evaluate their impact on society and the environment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-1-5",
+                "description": "Explain how Aboriginal Peoples have developed sustainable engineering practices through adaptation",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-1-6",
+                "description": "Describe the subtractive manufacturing process of computer numerical control (CNC) machining to produce components to final size",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-1-7",
+                "description": "Outline the use of 3-dimensional (3D) scanning and additive manufacturing methods used in engineering applications",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-applied-engineering-analysis-2",
+            "name": "Foundations of mechanics",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-1",
+                "description": "Identify the International System of Units (SI), symbols and quantities, and demonstrate the use of dimensionally sound equations and formulas",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-2",
+                "description": "Calculate unknown sides in right-angled triangles using Pythagoras’ theorem",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-3",
+                "description": "Calculate unknown sides or angles in triangles using trigonometric ratios",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-4",
+                "description": "Apply the sine rule to calculate unknown sides or angles in triangles using a / sin A = b / sin B = c / sin C",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-5",
+                "description": "Calculate horizontal and vertical components of forces using trigonometric ratios",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-6",
+                "description": "Apply the formulas A = πr² or A = πD² / 4 to solve problems involving the area of a circle",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-7",
+                "description": "Describe and identify scalar and vector quantities",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-8",
+                "description": "Represent vectors graphically using a suitable scale",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-2-9",
+                "description": "Apply the formula F = ma to solve problems involving force, where F is the force with units in Newtons (N), m is the mass with units in kilograms (kg) and a is acceleration with units in metres per second squared (m/s²), using the standard acceleration due to gravity of 10 m/s² as recommended for engineering calculations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-applied-engineering-analysis-3",
+            "name": "Equilibrium in mechanics",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-1",
+                "description": "Identify forces as causing tension, compression, shear, bending or torsion",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-2",
+                "description": "Represent active and reactive forces using space and free body diagrams (FBD)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-3",
+                "description": "Resolve forces into vertical and horizontal components using graphical and analytical methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-4",
+                "description": "Solve vector addition problems both graphically and analytically",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-5",
+                "description": "Calculate resultant and equilibrant forces both graphically and analytically",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-6",
+                "description": "Identify and apply the conditions needed for equilibrium, specifically referencing ƩMindicated point = 0↻⁺; ƩFx = 0 → ⁺; ƩFy = 0↑⁺",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-7",
+                "description": "Explain the principle of transmissibility of forces",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-8",
+                "description": "Recognise conditions of equilibrium of concurrent coplanar forces",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-9",
+                "description": "Solve concurrent coplanar-force problems both graphically and analytically",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-10",
+                "description": "Apply the three-force rule for equilibrium to find unknown forces",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-11",
+                "description": "Describe the concept of moments in engineering",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-12",
+                "description": "Calculate moments using the formula M = Fd where M is the moment with units in Newton metres (Nm), F is the force applied with units in Newtons (N) and d is the perpendicular distance with units in metres (m) from the line of action of the force to the pivot, and using the sign convention of clockwise moments as positive",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-3-13",
+                "description": "Solve problems of equilibrium with vertical, horizontal and inclined forces using moments",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-applied-engineering-analysis-4",
+            "name": "Friction in mechanics",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-applied-engineering-analysis-4-1",
+                "description": "Explain the concept of friction using examples from engineering applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-4-2",
+                "description": "Compare the static and dynamic coefficient of friction",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-4-3",
+                "description": "Represent static friction using FBDs showing weight force, normal force, friction force and moving force",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-4-4",
+                "description": "Solve problems relating to static friction on a horizontal plane using the formula Ff = μsN, where Ff is frictional force with units in Newtons (N), μs is the coefficient of static friction (frictional resistance ratio) and N is the normal reaction force with units in Newtons (N)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-applied-engineering-analysis-5",
+            "name": "Mechanical strength of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-applied-engineering-analysis-5-1",
+                "description": "Explain the purpose of converting load-extension diagrams to stress-strain diagrams to standardise results",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-5-2",
+                "description": "Compare the mechanical properties of the stress-strain diagrams for steels, copper, aluminium, polymers and ceramics, and identify the difference in yield strength, ultimate tensile strength (UTS), stiffness, toughness and extension, by using the diagram without calculations",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-5-3",
+                "description": "Compare the toughness of annealed copper and annealed mild steel by comparing areas under the stress-strain curve, without calculations",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-5-4",
+                "description": "Solve problems related to stress using the formula σ = P / A, where σ is stress with units in Pascals (Pa), P is the applied load with units in Newtons (N) and A is the cross-sectional area with units in metres squared (m²)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-5-5",
+                "description": "Solve problems related to strain using the formula ε = changeinlength / originallength = (ΔL / Lo)or e / L, where ε is strain (no units as strain is a ratio), ΔL (or e) is the change in length with units in metres (m) and Lo (or L) is the original length with units in metres (m)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-5-6",
+                "description": "Solve problems using the formula E = σ / ε, where E is Young’s modulus with units in Pascals (Pa), σ is stress with units in Pascals (Pa) and ε is strain (no units)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-applied-engineering-analysis-6",
+            "name": "Mechanics of simple machines",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-applied-engineering-analysis-6-1",
+                "description": "Explain the function of simple machines including levers, pulleys, inclined planes, gears and screw threads",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-6-2",
+                "description": "Classify the order of levers using FBDs",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-6-3",
+                "description": "Calculate mechanical advantage (MA) for levers with known forces acting both perpendicular and at an angle to the lever, using the formula MA = L / E, where MA is mechanical advantage with no units, L is load with units in Newtons (N) and E is effort with units in Newtons (N)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-6-4",
+                "description": "Calculate the velocity ratio of levers using the formula VR = DE / DL, where VR is velocity ratio, DE is distance moved by the effort with units in metres (m) and DL is the distance moved by the load with units in metres (m)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-6-5",
+                "description": "Calculate efficiency using the formula η = MA / VR, where η is efficiency (expressed as a percentage or decimal, showing the relationship between MA and VR), MA is the mechanical advantage and VR is the velocity ratio",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-6-6",
+                "description": "Explain the changes in mechanical advantage and efficiency while the velocity ratio remains constant",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-applied-engineering-analysis-7",
+            "name": "Electronic concepts",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-1",
+                "description": "Describe the electrical terms of voltage, resistance and current",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-2",
+                "description": "Identify and apply standard symbols and units for voltage, resistance and current",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-3",
+                "description": "Apply Ohm’s law using the formula V = IR where V is voltage with units in volts (V), I is current with units in amps (A) and R is resistance with units in ohms (Ω) to determine the relationship between voltage, current and resistance in electrical circuits",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-4",
+                "description": "Calculate the total resistance of resistors in series circuits using the formula Rt = R₁ + R₂ + R₃ +…, where Rt is total resistance with units in ohms (Ω) and R₁, R₂, R₃,… are individual resistances with units in ohms (Ω)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-5",
+                "description": "Calculate the total resistance of resistors in parallel circuits using the formula 1 / Rt = 1 / R₁ + 1 / R₂ + 1 / R₃ + …, where Rt is total resistance with units in ohms (Ω) and 1 / R₁,1 / R₂,1 / R₃,… are individual resistances with units in ohms (Ω)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-6",
+                "description": "Compare alternating current (AC) and direct current (DC) applications and waveforms",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-7",
+                "description": "Draw symbols for fixed resistors, general switches, light-emitting diodes (LEDs), general diodes, general capacitors, earthing, cells and batteries using the Australian Standard for Graphical Symbols for Electrotechnical Documentation (AS 1102)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-8",
+                "description": "Draw simple series and parallel circuits using the Australian Standard for Graphical Symbols for Electrotechnical Documentation (AS 1102) incorporating cells or batteries to represent switching and lighting applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-applied-engineering-analysis-7-9",
+                "description": "Investigate electrical risks and safety hazards when working with electrical components",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-es-11-technical-graphics-and-communication",
+        "name": "Technical graphics and communication",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-es-11-technical-graphics-and-communication-1",
+            "name": "Engineering graphics – orthogonal drawing",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-1-1",
+                "description": "Apply third-angle projections to communicate size, detail and orthogonal views in engineering drawings using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-1-2",
+                "description": "Use the Australian Standard for Technical Drawing (AS 1100) to interpret and draw centre-lines, construction lines, outlines, break lines, cutting planes and hidden detail lines in engineering drawings",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-1-3",
+                "description": "Read and draw projection and dimension lines, applying the aligned method and conventions specified in the Australian Standard for Technical Drawing (AS 1100) for linear, angular and auxiliary dimensions, including radii and diameter",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-1-4",
+                "description": "Produce orthogonal assembly and sectioned drawings in third-angle projection from pictorial representations",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-1-5",
+                "description": "Apply the dimensions of plain, general-purpose metric bolts and nuts using Australian Standard for Technical Drawing (AS 1100), and washers based on the nominal diameter",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-1-6",
+                "description": "Integrate material lists specified in the Australian Standard for Technical Drawing (AS 1100) to communicate essential information in engineering drawings",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-technical-graphics-and-communication-2",
+            "name": "Engineering graphics – pictorial representation",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-2-1",
+                "description": "Produce isometric drawings from orthogonal drawings using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-2-2",
+                "description": "Sketch isometric circles using the four-centre method",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-technical-graphics-and-communication-3",
+            "name": "Engineering computer-aided drafting graphics",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-3-1",
+                "description": "Compare the use of computer-aided drafting (CAD) with technical graphics and freehand sketches, with reference to accuracy, efficiency, communication and industry application",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-3-2",
+                "description": "Describe how CAD and associated digital technologies improve engineering design processes, including editing and modification, digital storage, file transmission, collaborative practices and integration of data from 3-dimensional (3D) scanning and modern surveying tools",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-3-3",
+                "description": "Outline how CAD is used in computer-aided manufacturing (CAM) processes including computer numerical control (CNC) machining and additive manufacturing techniques",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-technical-graphics-and-communication-4",
+            "name": "Engineering practices and communication",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-1",
+                "description": "Outline the roles and responsibilities of professional engineers and how areas of practice and competency standards define professional expectations",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-2",
+                "description": "Explain how innovation in specialised subfields of engineering can be developed from existing products, techniques and knowledge",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-3",
+                "description": "Outline the individual and collaborative roles of an engineering team comprising of professional engineers, engineering technologists and engineering associates",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-4",
+                "description": "Explain how cultural factors, evaluation and analytical tools influence engineering design and development processes",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-5",
+                "description": "Describe ethical responsibilities in engineering practice",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-6",
+                "description": "Outline the role of the Australian Standard for Technical Drawing (AS 1100), including samples from AS 3000, AS 3600 and AS 4100, and how this ensures consistency, quality and compatibility in engineering practice",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-7",
+                "description": "Evaluate how engineers apply life cycle analysis to assess environmental impacts and support sustainability, including greenhouse gas emissions and resource use",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-8",
+                "description": "Assess the role of communication in engineering practice, professional standards and project outcomes, including the need for accurate and reliable technical information",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-9",
+                "description": "Evaluate the role of collaboration between engineers, stakeholders and communities to achieve project outcomes",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-4-10",
+                "description": "Investigate the use of timelines and project stages in the administration of engineering projects and strategies for managing changes",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-11-technical-graphics-and-communication-5",
+            "name": "Technical communication (engineering report)",
+            "dotPoints": [
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-5-1",
+                "description": "Assess the role and function of an engineering report, including as a legal record and to document and communicate technical information",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-5-2",
+                "description": "Construct an engineering report using digital tools and accepted formatting conventions, including a title page, abstract, introduction, technical contents page, methodology/testing, results, conclusions, recommendations, acknowledgements, references and appendices",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-11-technical-graphics-and-communication-5-3",
+                "description": "Investigate how engineers contribute to the development of reports within a team context, including the use of collaborative work practices to meet professional expectations",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-es-12-civil-and-structural-engineering",
+        "name": "Civil and structural engineering",
+        "subTopics": [
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-1",
+            "name": "Testing of engineering materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-1-1",
+                "description": "Explain the process for tensile testing of ferrous metals in civil engineering",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-1-2",
+                "description": "Describe the purpose and loading set-up of a transverse beam test used in structural research",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-1-3",
+                "description": "Describe the process for radiographic and ultrasonic testing of structural welds",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-1-4",
+                "description": "Outline the relationship between concrete slump workability and final compressive strength of concrete when cured",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-1-5",
+                "description": "Justify the importance of compression tests of multiple samples from the same batch when working with concrete",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-2",
+            "name": "Phases in ferrous metals",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-2-1",
+                "description": "Interpret the phase changes of 0% to 2% carbon steel in an iron-carbon phase diagram between 0°C to 910°C",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-2-2",
+                "description": "Describe the phases of austenite, ferrite, cementite, pearlite and martensite in steel",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-2-3",
+                "description": "Explain the effect of the cooling rate on the formation of martensitic or ferritic microstructure development in a plain medium carbon steel",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-2-4",
+                "description": "Compare the effect of quenching on the microstructure of a mild steel and a plain medium carbon steel",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-2-5",
+                "description": "Analyse the eutectoid transformation of steel as a reversible process",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-2-6",
+                "description": "Classify plain carbon steels as hypoeutectoid, eutectoid or hypereutectoid based on their carbon content",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-2-7",
+                "description": "Produce labelled microstructures of hypoeutectoid, eutectoid and hypereutectoid plain carbon steels",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-3",
+            "name": "Engineering materials – ceramics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-3-1",
+                "description": "Compare the properties and applications of soda-lime glass with toughened glass in civil engineering",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-3-2",
+                "description": "Explain the effect of the manufacturing process on toughened glass in relation to localised tensile and compressive strength",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-3-3",
+                "description": "Describe the function of Portland cement as the main binder in mortar and concrete",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-3-4",
+                "description": "Contrast the processes of extrusion and pressing in the manufacture of clay bricks",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-4",
+            "name": "Engineering materials – composites",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-1",
+                "description": "Identify engineering techniques used by Aboriginal and Torres Strait Islander Peoples for the construction of traditional and contemporary shelters and housing",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-2",
+                "description": "Explain the use of laminated veneer lumber (LVL), glulam beams and plywood in civil engineering relating to the unidirectional tensile strength of timber and compensation for natural defects",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-3",
+                "description": "Assess the applications of timber treated to hazard class H2 and H6",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-4",
+                "description": "Describe the properties and uses of concrete in civil structures",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-5",
+                "description": "Explain the effects hydration and time have on the strength development of the setting of concrete",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-6",
+                "description": "Analyse the use of formwork and steel reinforcement in concrete slabs and long concrete beams",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-7",
+                "description": "Compare concrete strengthening methods, including reinforced, pre-tensioned and post-tensioned prestressing techniques",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-8",
+                "description": "Draw a sectional macrostructure of reinforced concrete",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-9",
+                "description": "Compare the uses of asphalt and concrete for paved road surfaces",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-10",
+                "description": "Investigate the use of carbon fibre reinforced polymer (CFRP) as a stiffening material in the maintenance and conservation of bridges",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-4-11",
+                "description": "Explain the role of permeability in a geotextile in relation to silt entrapment",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-5",
+            "name": "Crack theory",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-5-1",
+                "description": "Describe the role of stress raisers in creating localised stress above the yield or fracture point that contribute to deformation and propagation of cracks",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-5-2",
+                "description": "Explain how crack propagation can be minimised through mechanical intervention",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-6",
+            "name": "Degradation of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-6-1",
+                "description": "Describe the process of metallic corrosion as the loss of electrons from a metal",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-6-2",
+                "description": "Compare the behaviour of metals in electrochemical corrosion using the anode, cathode and galvanic series",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-6-3",
+                "description": "Compare the corrosion resistance of mild steel and stainless steel",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-6-4",
+                "description": "Describe the impact of salt attack on bricks and spalling in concrete",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-6-5",
+                "description": "Describe how Aboriginal and Torres Strait Islander Peoples maintain their traditional and contemporary homes",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-6-6",
+                "description": "Explain the importance of selecting corrosion-resistant materials and evaluate protective methods, including painting, galvanising, anodising, electroplating, sacrificial anodes, cladding and impressed current cathodic protection (ICCP) in civil engineering",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-6-7",
+                "description": "Describe environmental and societal considerations in managing the degradation and maintenance of civil structures",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-7",
+            "name": "Engineering mechanics – truss analysis",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-1",
+                "description": "Identify static loads and calculate reactions of pin-jointed trusses",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-2",
+                "description": "Generate free body diagrams (FBD) to solve civil engineering problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-3",
+                "description": "Apply Bow’s Notation to label forces in truss systems for graphical analysis",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-4",
+                "description": "Develop force polygons in truss analysis to find the reaction in a fixed member",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-5",
+                "description": "Describe the differences between fixed, pin and roller support, and illustrate their representation in structural systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-6",
+                "description": "Analyse and graphically represent horizontal, vertical and angled components of forces",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-7",
+                "description": "Calculate external reaction forces on a single beam supported by a pinned reaction and a roller reaction",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-8",
+                "description": "Apply the method of joints to analyse forces in members of a truss structure using analytical and graphical methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-9",
+                "description": "Apply the method of sections to calculate forces in members of a truss structure using analytical and graphical methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-10",
+                "description": "Analyse internal reactions of tensile and compressive forces within pin-jointed members",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-11",
+                "description": "Determine redundant members in a truss",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-7-12",
+                "description": "Construct scaled shear force and bending moment diagrams for simply supported and cantilever beams involving point loads only",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-8",
+            "name": "Engineering mechanics – strength and testing of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-1",
+                "description": "Describe the Factor of Safety (FoS) as a design criterion and apply calculations to compare maximum allowable working stress with yield or ultimate material strength",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-2",
+                "description": "Describe the ethical responsibilities of engineers to protect public safety when determining appropriate FoS in design",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-3",
+                "description": "Calculate bending stress in relation to the neutral axis and a given second moment of area using the formula σ = My / I, where σ is bending stress with units in Pascals (Pa), M is the bending moment with units in Newton metres (Nm), y is the distance from the neutral axis with units in metres (m) and I is the second moment of area with units in metres to the fourth power (m⁴)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-4",
+                "description": "Describe the effect of uniformly distributed loads on a simple beam supported at 2 points, using shear force and bending moment diagrams, without calculations",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-5",
+                "description": "Solve problems involving elastic stress and strain, recognising it as an indication of the stiffness of a material",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-6",
+                "description": "Identify the key characteristics of a stress-strain diagram, representing them visually and calculating the yield or proof stress of a material",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-7",
+                "description": "Calculate tensile and compressive stress using the formula σ = P / A, where σ is tensile or compressive stress with units in Pascals (Pa), P is the applied load with units in Newtons (N) and A is the cross‑sectional area with units in metres squared (m²)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-8",
+                "description": "Calculate tensile and compressive strain using the formula ε = e / L, where ε is strain (no units), e (or ΔL) is the extension or compression with units in metres (m) and L (or Lo) is the original length with units in metres (m)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-9",
+                "description": "Calculate the modulus of elasticity using the formula E = σ / ε = P / A / e / L = PL / eA where E is Young’s modulus with units in Pascals (Pa), P is the applied load with units in Newtons (N), L (or Lo) is the original length with units in metres (m), e (or ΔL) is the extension or compression with units in metres (m) and A is the cross-sectional area with units in metres squared (m²)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-10",
+                "description": "Calculate shear stress using the formula σs = P / A where σs is shear stress with units in Pascals (Pa), P is applied shear force with units in Newtons (N) and A is the shear plane area over which the force acts with units in metres squared (m²); for double shear, the area is doubled",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-11",
+                "description": "Calculate punching shear stress using the formula σs = P / A where σs is shear stress with units in Pascals (Pa), P is applied shear force with units in Newtons (N) and A is the punching shear perimeter multiplied by the thickness with units in metres squared (m²)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-8-12",
+                "description": "Compare tensile and compressive stresses for materials, including concrete, steel, polymers and ceramics, without calculations",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-civil-and-structural-engineering-9",
+            "name": "Engineering graphics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-9-1",
+                "description": "Apply the relevant Australian Standard for Technical Drawing (AS 1100) line types, symbols and conventions to produce a range of engineering drawings using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-9-2",
+                "description": "Draw pictorial representations, including isometric representations, with a suitable scale using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-9-3",
+                "description": "Identify basic surface texture symbols: ‘basic surface texture’, ‘surface machining is mandatory’ and ‘material removal is not permitted’",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-9-4",
+                "description": "Use the Australian Standard for Technical Drawing (AS 1100) engineering conventions to indicate welds on arrow side, other side and both sides of a fillet weld and a square butt weld",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-civil-and-structural-engineering-9-5",
+                "description": "Use technical drawing equipment to apply the Australian Standard for Technical Drawing (AS 1100) and produce internal, external and assembled plain and structural fasteners within a scaled, sectioned orthogonal assembly drawing containing multiple parts",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-es-12-aeronautical-and-aerospace-engineering",
+        "name": "Aeronautical and aerospace engineering",
+        "subTopics": [
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-1",
+            "name": "Properties of engineering materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-1-1",
+                "description": "Determine the strength-to-weight ratio (yield or proof stress divided by density) for Ti-6Al-4V, high tensile steel, 2024 aluminium alloy and carbon fibre reinforced polymer (in an epoxy matrix) using provided data",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-1-2",
+                "description": "Explain why operating at a temperature above a metal’s recrystallisation temperature affects its strength",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-1-3",
+                "description": "Describe the function of nickel superalloys in the combustion chamber of jet engines",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-1-4",
+                "description": "Justify the selection of aerospace materials using materials selection diagrams (MSDs) that compare strength to density and toughness to strength",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-2",
+            "name": "Application of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-2-1",
+                "description": "Justify suitable insulating materials for spacecraft during re-entry",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-2-2",
+                "description": "Explain reasons for the use of the nickel superalloy 625 in aerospace applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-2-3",
+                "description": "Justify the selection of carbon fibre reinforced polymer (CFRP) blades with a titanium leading edge for the intake of a turbofan",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-2-4",
+                "description": "Explain the choice of Alclad aluminium alloy in aeronautical engineering",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-2-5",
+                "description": "Justify the use of composite materials, including CFRPs, glass laminated aluminium reinforced epoxy (GLARE), fibre metal laminates (FML) and metal matrix composites (MMC), and the contribution that each constituent material makes to these composites",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-2-6",
+                "description": "Evaluate the use of materials, including metallic alloys, composites and fibre-optic systems in aerospace applications and their impact on weight reduction, thermal management, structural integrity and data transmission",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-2-7",
+                "description": "Describe the ethical, environmental and societal responsibilities engineers consider when adopting new materials in aerospace engineering",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-3",
+            "name": "Material structure–property relationships",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-3-1",
+                "description": "Explain how the anisotropic properties of carbon fibre composites enhance aircraft design",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-3-2",
+                "description": "Compare the mechanical behaviour of CFRPs and aluminium alloy 2024 under tensile, compressive and fatigue stress",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-3-3",
+                "description": "Explain precipitation hardening and how the heat treatment procedure, used to produce precipitates in aluminium-copper alloys, alters the strength of components, including aircraft rivets",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-4",
+            "name": "Forming processes of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-4-1",
+                "description": "Describe hand and vacuum layup of a fibre epoxy resin composite component",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-4-2",
+                "description": "Describe the manufacturing process of carbon fibre filament",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-4-3",
+                "description": "Explain the process of additive manufacturing of titanium alloys for aerospace applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-4-4",
+                "description": "Describe the process of investment casting turbine blades for aircraft applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-4-5",
+                "description": "Explain the manufacturing process of compression moulding in aircraft applications",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-5",
+            "name": "Degradation of materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-5-1",
+                "description": "Explain the impact of fatigue on the service life of aircraft structures with reference to historical examples and engineering strategies for mitigation",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-5-2",
+                "description": "Compare non-destructive testing (NDT) methods in terms of their application and suitability, including visual inspection, dye penetration, radiography (X-ray), gamma ray, ultrasonic and magnetic particle testing",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-5-3",
+                "description": "Describe the need for impact-resistant materials in aerospace components, with a focus on turbofan intake blades",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-6",
+            "name": "Flight mechanics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-1",
+                "description": "Outline the aerodynamic principles of a boomerang",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-2",
+                "description": "Explain, using labelled sketches, how lift is generated by airflow over an aerofoil using Bernoulli’s principle and Newton’s third law",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-3",
+                "description": "Describe how angle of attack influences lift and how excessive angle of attack can lead to airflow separation and stall",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-4",
+                "description": "Explain the purpose of the aircraft fuselage, wings, winglets and empennage",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-5",
+                "description": "Describe the function of primary control surfaces, including ailerons, rudder, elevator and elevons, in controlling the roll, pitch and yaw of an aircraft",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-6",
+                "description": "Describe how the forces of weight, lift, thrust and drag act on aircraft using acceleration due to gravity as 10 m/s²",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-7",
+                "description": "Apply graphical solutions and analytical calculations involving the lift, thrust and drag of an aircraft in steady flight conditions, including constant velocity, straight and level flight, and climbing and descending flight, given its angle of attack and mass",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-6-8",
+                "description": "Calculate and interpret the lift-to-drag ratio in steady flight conditions to assess aircraft efficiency and performance",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-7",
+            "name": "Propulsion and measurement systems",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-7-1",
+                "description": "Describe the 4 stages of combustion in jet and four-stroke engines",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-7-2",
+                "description": "Describe the influence of low air pressure at increasing altitude on the power output of piston engines in aircraft",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-7-3",
+                "description": "Compare the use of turbojet, turboprop and high-bypass turbofan engines",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-7-4",
+                "description": "Apply Pascal’s principle to calculate force in a confined incompressible fluid system",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-7-5",
+                "description": "Explain how a Pitot tube and static port measure aircraft speed using the difference between total pressure and static pressure",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-7-6",
+                "description": "Explain how an altimeter determines altitude from changes in atmospheric pressure measured at the static port",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-8",
+            "name": "Aerospace positioning systems",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-8-1",
+                "description": "Justify the use of phase modulation in satellite communication using comparisons of frequency modulation (FM) and phase modulation techniques",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-8-2",
+                "description": "Compare common satellite orbits and describe their applications, including low earth orbit (LEO), medium earth orbit (MEO), geostationary orbit and geosynchronous orbit",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-8-3",
+                "description": "Justify the use of LEO satellite constellations and evaluate their impact on technologies, with a focus on global positioning systems (GPS)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-8-4",
+                "description": "Describe how trilateration is used by satellites to locate a position on earth",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-8-5",
+                "description": "Compare how different radio frequency bands, including microwave frequencies, affect satellite communication",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-9",
+            "name": "Engineering graphics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-9-1",
+                "description": "Use the Australian Standard for Technical Drawing (AS 1100) engineering conventions for radius, diameter, pitch circle diameter and centre-line on scaled orthogonal drawings",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-9-2",
+                "description": "Develop engineering drawings using the appropriate Australian Standard for Technical Drawing (AS 1100) symbols and conventions",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-9-3",
+                "description": "Apply dimensioned tolerances to shafts and holes",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-9-4",
+                "description": "Draw scaled, dimensioned orthogonal drawings applying the Australian Standard for Technical Drawing (AS 1100) using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-9-5",
+                "description": "Apply hatching to sections of single and adjoining parts, identifying exceptions for webs, ribs, bolts, rivets, nuts, shafts, keys, pins and similar components",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-9-6",
+                "description": "Draw pictorial representations of aeronautical components",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-9-7",
+                "description": "Interpret engineering drawings to determine key features",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-aeronautical-and-aerospace-engineering-10",
+            "name": "Descriptive geometry",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-10-1",
+                "description": "Distinguish between true length and non-true length lines and apply graphical methods to determine true length",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-10-2",
+                "description": "Apply triangulation and auxiliary plane methods to produce the true shape of a surface using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-aeronautical-and-aerospace-engineering-10-3",
+                "description": "Analyse developments of transition pieces and describe their use in the fabrication of components",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-es-12-transport-engineering-and-automation",
+        "name": "Transport engineering and automation",
+        "subTopics": [
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-1",
+            "name": "Testing of engineering materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-1-1",
+                "description": "Describe the applications of hardness and impact testing of materials in vehicle design",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-1-2",
+                "description": "Compare the indenters of Rockwell, Brinell and Vickers hardness tests",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-1-3",
+                "description": "Describe how the Charpy impact test, as a destructive test (DT), is used to determine the toughness of materials",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-2",
+            "name": "Heat treatment of engineering materials",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-2-1",
+                "description": "Differentiate the mechanisms occurring during full annealing, normalising, quench hardening and tempering of plain carbon steels and represent the resulting microstructural changes, including the formation of martensite during quench hardening, using labelled sketches",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-2-2",
+                "description": "Explain how carbon content influences the hardenability of plain carbon steels during quenching in water or oil",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-2-3",
+                "description": "Compare carburising and nitriding processes used to achieve case (surface) hardening in low‑carbon steel components, including gears",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-2-4",
+                "description": "Compare the impact of adding nickel and chromium to plain carbon steel used for case hardening and in the production of stainless steel",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-2-5",
+                "description": "Discuss induction hardening as a selective surface hardening process used in the manufacture of plain carbon steel engine components containing greater than 0.3% carbon",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-3",
+            "name": "Forming processes of metals",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-1",
+                "description": "Use sketches to illustrate how the microstructure and mechanical properties differ between machined and drop-forged components",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-2",
+                "description": "Describe the processes of sand casting, die casting and investment casting used in the manufacture of engine components",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-3",
+                "description": "Justify the use of 0.1% carbon sheet steel in the press forming of automotive panels",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-4",
+                "description": "Use sketches to represent the changes in microstructure, mechanical properties, thickness tolerance and surface finish that occur when a material undergoes hot and cold rolling",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-5",
+                "description": "Describe the manufacture of aluminium 6063 tubing through direct extrusion",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-6",
+                "description": "Describe the advantages of powder forming in the manufacture of mechanical components",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-7",
+                "description": "Explain the compacting, cold welding and sintering stages of powder forming",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-8",
+                "description": "Represent the weld zone and heat affected zone (HAZ) of a weld using a labelled macrostructure to identify features, including columnar grains, equiaxed grains, recrystallised grains and grain growth",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-3-9",
+                "description": "Compare the advantages of ferrous and non-ferrous metals in the manufacture of vehicle components, with respect to corrosion resistance, density and strength",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-4",
+            "name": "Ceramics and glasses",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-4-1",
+                "description": "Distinguish between the properties, characteristics and applications of toughened and laminated glass in vehicles",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-4-2",
+                "description": "Describe the process of manufacturing laminated glass",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-4-3",
+                "description": "Outline the service properties obtained from ceramic coatings on engine components",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-5",
+            "name": "Polymers",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-5-1",
+                "description": "Justify the use of carbon fibre-reinforced epoxy instead of 0.1% carbon steel for vehicle bonnets",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-5-2",
+                "description": "Explain mechanical property changes that occur when rubber is vulcanised",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-5-3",
+                "description": "Describe the properties of polymers, including polycarbonate and acrylic, that make them suitable for vehicle lighting applications, including headlights and taillights",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-5-4",
+                "description": "Justify the use of acrylonitrile butadiene styrene (ABS) as a possible material for the manufacture of vehicle bumpers",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-5-5",
+                "description": "Compare the injection moulding and extrusion processes used for the manufacturing of thermoplastic polymers",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-6",
+            "name": "Simple machines",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-1",
+                "description": "Calculate the mechanical advantage (MA) of simple machines using forces",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-2",
+                "description": "Analyse the movement and force of a woomera used by Aboriginal Peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-3",
+                "description": "Calculate the velocity ratio for pulley systems using the formula VRpulleys = falls of rope (based on effort direction)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-4",
+                "description": "Calculate the velocity ratio for simple gears using the formula VRgears = driven / driver, where VR is the velocity ratio, driven is the number of teeth on the driven gear and driver is the number of teeth on the driver gear",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-5",
+                "description": "Calculate the velocity ratio for an inclined plane using the formula VRinclined plane = DE / DL = 1 / sin θ, where VR is the velocity ratio, DE is the distance moved by the effort along the inclined plane with units in metres (m), DL is the distance the load is raised or vertical height with units in metres (m) and θ is the angle of inclination",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-6",
+                "description": "Calculate the velocity ratio for a screw mechanism using the formula VRscrews = DE / DL = πD / Pitch, where VR is the velocity ratio, DE is the distance moved by the effort, DL is the distance moved by the load, D is the diameter of the screw and Pitch is the distance advanced per turn",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-7",
+                "description": "Calculate the velocity ratio for a wheel and axle using the formula VRwheel&axle = Rwheel / raxle = DE / DL where VR is the velocity ratio, Rwheel is the radius of the wheel, raxle is the radius of the axle, DE is the distance the effort moves and DL is the distance the load moves",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-8",
+                "description": "Apply the principles of mechanical advantage, velocity ratio and efficiency in engineering contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-6-9",
+                "description": "Identify screw threads using a thread gauge and compare common thread types used in engineering applications",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-7",
+            "name": "Friction",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-7-1",
+                "description": "Explain the role of friction that enables traction and braking in practical engineering contexts",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-7-2",
+                "description": "Explain the relationship between friction reduction and improved efficiency in engineering systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-7-3",
+                "description": "Illustrate the normal reaction force as being perpendicular to the sliding surface",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-7-4",
+                "description": "Perform calculations for friction examples on horizontal surfaces",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-7-5",
+                "description": "Solve problems relating to limiting friction on an inclined plane using the formula tan θ = μs, where θ is the angle of inclination and μs is the coefficient of static friction",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-7-6",
+                "description": "Calculate and analyse the angle of friction using the formula tan ϕ = μs where ϕ is the angle of friction and μs is the coefficient of static friction",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-8",
+            "name": "Mechanics systems (work, energy and power)",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-1",
+                "description": "Apply the formula W = Fs to solve problems related to work in mechanical systems, where W is the work done with units in Joules (J), F is the force with units in Newtons (N) and s is the distance with units in metres (m)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-2",
+                "description": "Apply the formula P = work / time = W / t = Fs / t = Fv to solve problems related to power in mechanical systems, where P is the power with units in Watts (W), W is the work with units in Joules (J), t is time with units in seconds (s), F is force with units in Newtons (N) and v is the velocity, which is equal to displacement divided by time or s / t with units in metres per second (m/s)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-3",
+                "description": "Apply the formula KE = (1 / 2)mv² to solve problems related to kinetic energy, where KE is kinetic energy with units in Joules (J), m is mass with units in kilograms (kg) and v is velocity with units in metres per second (m/s)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-4",
+                "description": "Apply the formula PE = mgh to solve problems related to potential energy, where PE is potential energy with units in Joules (J), m is mass with units in kilograms (kg), g is acceleration due to gravity (10 m/s²) and h is the height of the object with units in metres (m)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-5",
+                "description": "Explain the conservation of energy principle in engineering problems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-6",
+                "description": "Apply the conservation of the energy principle using the formula W = Fs = ΔKE + ΔPE to solve engineering problems, where W is the work done with units in Joules (J), F is the force with units in Newtons (N), s is the distance moved in the direction of the force with units in metres (m), ΔKE is the change in kinetic energy with units in Joules (J) and ΔPE is the change in potential energy with units in Joules (J)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-7",
+                "description": "Calculate and analyse the relationships between velocity, kinetic energy and potential energy in engineering applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-8-8",
+                "description": "Calculate vehicle stopping distances on level surfaces and inclined planes given velocity and coefficient of friction",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-9",
+            "name": "Control technology and automation",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-9-1",
+                "description": "Describe the structure and function of diodes and transistors as semiconductors",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-9-2",
+                "description": "Explain the role of transistors as switches and their use in constructing logic gates",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-9-3",
+                "description": "Construct truth tables and determine outputs of control systems based on logic gate arrangements using AND, OR, NAND, NOT and NOR gates",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-9-4",
+                "description": "Explain the function and application of sensors and actuators in automation systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-9-5",
+                "description": "Describe the ethical and societal considerations in designing automated systems that support accessibility, equity and inclusion",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-transport-engineering-and-automation-10",
+            "name": "Engineering graphics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-10-1",
+                "description": "Communicate the symbols and conventions of third-angle projection, including chamfer, fillet, bush, spotface and keyway",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-10-2",
+                "description": "Use the dimensions of plain, structural metric bolts and nuts using the Australian Standard for Technical Drawing (AS 1100), and washers based on the nominal diameter",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-10-3",
+                "description": "Produce scaled pictorial and orthogonal drawings in third-angle projection using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-10-4",
+                "description": "Apply hatching, hidden detail, centre-lines and section lines in single components and multi-part assemblies using line types specified in the Australian Standard for Technical Drawing (AS 1100)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-10-5",
+                "description": "Provide dimensions to orthogonal drawings using the aligned method specified by the Australian Standard for Technical Drawing (AS 1100)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-10-6",
+                "description": "Interpret a parts list in assembly drawings",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-transport-engineering-and-automation-10-7",
+                "description": "Outline the impact of computer-aided drafting (CAD) in engineering analysis, simulation, virtual testing and computer-aided manufacture (CAM)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-es-12-environmental-engineering-and-energy-systems",
+        "name": "Environmental engineering and energy systems",
+        "subTopics": [
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-1",
+            "name": "Environmental considerations in engineering",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-1-1",
+                "description": "Investigate Aboriginal and Torres Strait Islander Peoples techniques for managing water resources and developing materials and structures suited to diverse environments",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-1-2",
+                "description": "Investigate Aboriginal and Torres Strait Islander Peoples’ use of firestick farming including its environmental benefits, systematic approach and relationship to contemporary fire mitigation strategies",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-1-3",
+                "description": "Outline the waste hierarchy (avoid, reduce, reuse, recycle, recover and dispose) and its role in supporting ethical and sustainable engineering practice",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-1-4",
+                "description": "Explain the environmental impacts of hydro-electric water storage and pumping stations on-Country",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-1-5",
+                "description": "Evaluate environmental impacts and sustainable alternatives of concrete production",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-1-6",
+                "description": "Evaluate the environmental implications of steel manufacture using coke and limestone",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-1-7",
+                "description": "Evaluate the environmental impacts and energy requirements of aluminium and alumina production, and engineering controls used to minimise risk",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-2",
+            "name": "Materials for environmental and energy systems applications",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-2-1",
+                "description": "Describe specialised materials used in water engineering, specifically sulphate-resisting cement and geotextile fabric",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-2-2",
+                "description": "Describe the properties and applications of low-heat concrete in the construction of hydroelectric dams",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-2-3",
+                "description": "Evaluate the requirements of a polymer for external use regarding ultraviolet (UV) resistance, ozone resistance, thermal stability and weather resistance",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-2-4",
+                "description": "Describe the process of cable extrusion used to apply insulating polymer onto an electrical conductor",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-2-5",
+                "description": "Outline the recyclability of energy systems infrastructure at the end of its working life",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-3",
+            "name": "Energy systems and storage",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-3-1",
+                "description": "Describe historical and current challenges for the distribution of sustainable electrical energy to residential, rural and remote areas of NSW",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-3-2",
+                "description": "Investigate the engineering challenges faced with the introduction of sustainable alternatives to conventional coal-fired electricity generation, including nuclear, wind, hydro, solar and biogas",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-3-3",
+                "description": "Describe electrical and non-electrical large-scale energy storage solutions, including batteries as electrical methods, and thermal and gravitational storage as non-electrical methods",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-3-4",
+                "description": "Describe the function of domestic solar energy system components, including solar panels, inverters and battery storage systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-3-5",
+                "description": "Describe key challenges associated with electrical energy storage, including capacity, efficiency, battery life and environmental impact",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-4",
+            "name": "Energy transmission infrastructure",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-4-1",
+                "description": "Compare resistance and energy loss in aluminium, steel and copper transmission cables of an identical cross-section",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-4-2",
+                "description": "Justify the use of aluminium as an alternative in overhead power transmission cables",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-4-3",
+                "description": "Outline conductor production methods and performance, specific to all aluminium alloy conductor (AAAC) and aluminium conductor steel reinforced (ACSR) cable applications",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-4-4",
+                "description": "Explain the effect of annealing on the strength and conductivity of copper conductors",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-5",
+            "name": "Electrical systems",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-5-1",
+                "description": "Analyse electrical circuits by applying Kirchhoff’s laws, including Kirchhoff’s Current Law ƩI = 0, where the total current entering a junction equals the total current leaving, and Kirchhoff’s Voltage Law ƩV = 0, where the sum of voltages around a closed loop is zero",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-5-2",
+                "description": "Investigate how a multimeter is used to analyse current and voltage in electrical circuits",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-5-3",
+                "description": "Calculate power, efficiency and battery capacity in sustainable electrical systems, using the relationship between energy input and energy output",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-5-4",
+                "description": "Evaluate the power demands and energy consumption of data centres, and their infrastructure requirements and contribution to national electricity consumption",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-5-5",
+                "description": "Evaluate the impact of artificial intelligence (AI) on electricity consumption and examine how sustainable energy sources are used to support data centre operations",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-5-6",
+                "description": "Describe the function of alternating current (AC) and direct current (DC) circuits and motors, comparing their use in energy systems",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-6",
+            "name": "Energy distribution",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-6-1",
+                "description": "Compare the safety considerations for different types of overhead wiring (OHW), including their performance in relation to mechanical failure, environmental impacts from weather events and electrocution risk",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-6-2",
+                "description": "Compare the use of residual current devices (RCD), fuses, circuit breakers and surge protection devices in providing electrical safety for engineers and end users",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-6-3",
+                "description": "Examine the sustainable use of copper and copper alloys in power transmission",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-7",
+            "name": "Sensors and electronics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-7-1",
+                "description": "Explain how transistors function as temperature sensors in environmental monitoring",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-7-2",
+                "description": "Draw and identify circuit diagrams using Australian Standard for Graphical Symbols for Electrotechnical Documentation (AS 1102) including AC and DC power supplies, electric motors in DC-powered systems, rectifier diodes (P-N junction diode), potentiometers, electrolytic capacitors, transistors, photodiodes, fuses and circuit breakers",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-8",
+            "name": "Fluid mechanics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-8-1",
+                "description": "Calculate the density of a fluid using the formula ρ = m / V where ρ is density with units in kilograms per cubic metre (kg/m³), m is mass with units in kilograms (kg) and V is volume with units in cubic metres (m³)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-8-2",
+                "description": "Calculate hydrostatic pressure in a fluid using the formula P = ρgh where P is hydrostatic pressure with units in Pascals (Pa), ρ is fluid density with units in kilograms per cubic metre (kg/m³), g is acceleration due to gravity (10 m/s²) and h is the height or depth of fluid with units in metres (m)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-8-3",
+                "description": "Apply Pascal’s principle to calculate absolute pressure in confined incompressible fluids using the formula Pabs = Patm + ρgh where Pabs is absolute pressure with units in Pascals (Pa), Patm is atmospheric pressure with units in Pascals (Pa), ρ is fluid density with units in kilograms per cubic metre (kg/m³), g is acceleration due to gravity (10 m/s²) and h is the height or depth of fluid with units in metres (m)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-8-4",
+                "description": "Calculate fluid height using the formula h = P / ρg where h is the height of the fluid column with units in metres (m), P is pressure with units in Pascals (Pa), ρ is the fluid density with units in kilograms per cubic metre (kg/m³) and g is acceleration due to gravity (10 m/s²) when applied to systems, including manometers and pumped fluid systems",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-9",
+            "name": "Hydraulics and pneumatics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-9-1",
+                "description": "Differentiate between hydraulics and pneumatics used in engineering systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-9-2",
+                "description": "Describe advantages of hydraulics in engineering systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-9-3",
+                "description": "Identify the components of simple hydraulic systems, including a pump, reservoir, valves and actuators (motor, cylinder or brake)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-9-4",
+                "description": "Explain the concept of pressure in enclosed fluids as outlined by Pascal’s principle",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-9-5",
+                "description": "Calculate pressure using the formula P = force / area = F / A where P is pressure with units in Pascals (Pa), F is force with units in Newtons (N) and A is area with units in metres squared (m²)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-9-6",
+                "description": "Apply the relationship in hydraulic systems using the formula F₁ / A₁ = F₂ / A₂ where F₁ and F₂ are the forces with units in Newtons (N) and A₁ and A₂ are the areas with units in metres squared (m²) recognising that pressure is transmitted equally in all directions in an incompressible fluid",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-es-12-environmental-engineering-and-energy-systems-10",
+            "name": "Engineering graphics",
+            "dotPoints": [
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-10-1",
+                "description": "Use engineering drawing conventions to indicate taper, square, knurling, counterbore, countersink, depth of hole, a flat on a shaft and surface roughness, in accordance with the Australian Standard for Technical Drawing (AS 1100)",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-10-2",
+                "description": "Apply the Australian Standard for Technical Drawing (AS 1100) engineering conventions to orthographic drawings using technical drawing equipment",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-10-3",
+                "description": "Create a pictorial drawing of a component used in environmental engineering and energy systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-10-4",
+                "description": "Produce full-section and half-section drawings with hatching, revolved sections, fasteners, thin sections, holes, breaks, threads and shafts",
+                "prompts": []
+              },
+              {
+                "id": "dp-es-12-environmental-engineering-and-energy-systems-10-5",
+                "description": "Produce sectioned drawings where holes and thin elements not on the cutting plane are rotated at true pitch as though on the cutting plane",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

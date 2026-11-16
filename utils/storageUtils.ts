@@ -146,7 +146,10 @@ import {
 // questions, from 277).
 // 2.49.0: Legal Studies filled in: 266 new questions so every Year 11 and Year 12 dot point has at least one (607
 // questions, from 341).
-export const DATA_VERSION = '2.49.0';
+// 2.50.0: Five structure-only courses from the roadmap's first wave: Studies of Religion I and II, Visual Arts,
+// Food Technology and Investigating Science.
+// 2.51.0: Three more structure-only courses: Aboriginal Studies, Agriculture and Engineering Studies.
+export const DATA_VERSION = '2.51.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

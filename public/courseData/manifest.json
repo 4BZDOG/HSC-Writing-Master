@@ -127,6 +127,54 @@
       "selected": false
     },
     {
+      "file": "HSCStudiesOfReligion1.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": false
+    },
+    {
+      "file": "HSCStudiesOfReligion2.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": false
+    },
+    {
+      "file": "HSCVisualArts.json",
+      "type": "course",
+      "subject": "Creative Arts",
+      "selected": false
+    },
+    {
+      "file": "HSCFoodTechnology.json",
+      "type": "course",
+      "subject": "TAS",
+      "selected": false
+    },
+    {
+      "file": "HSCInvestigatingScience.json",
+      "type": "course",
+      "subject": "Science",
+      "selected": false
+    },
+    {
+      "file": "HSCAboriginalStudies.json",
+      "type": "course",
+      "subject": "HSIE",
+      "selected": false
+    },
+    {
+      "file": "HSCAgriculture.json",
+      "type": "course",
+      "subject": "TAS",
+      "selected": false
+    },
+    {
+      "file": "HSCEngineeringStudies.json",
+      "type": "course",
+      "subject": "TAS",
+      "selected": false
+    },
+    {
       "file": "topics/software-engineering-secure-architecture-topic.json",
       "type": "topic",
       "subject": "TAS",

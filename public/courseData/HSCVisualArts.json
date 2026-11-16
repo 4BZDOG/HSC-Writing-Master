@@ -1,0 +1,542 @@
+[
+  {
+    "id": "course-hsc-visual-arts",
+    "name": "Visual Arts",
+    "outcomes": [
+      {
+        "code": "VA-11-07",
+        "description": "investigates and applies conventions of Practice in art criticism and art history",
+        "year": "year11"
+      },
+      {
+        "code": "VA-11-08",
+        "description": "analyses the roles and relationships of Artworld concepts in art criticism and art history",
+        "year": "year11"
+      },
+      {
+        "code": "VA-11-09",
+        "description": "uses Viewpoints to interpret meaning in art criticism and art history",
+        "year": "year11"
+      },
+      {
+        "code": "VA-11-10",
+        "description": "investigates and interprets a range of accounts and representations in art criticism and art history",
+        "year": "year11"
+      },
+      {
+        "code": "VA-12-07",
+        "description": "evaluates and applies conventions of Practice in art criticism and art history"
+      },
+      {
+        "code": "VA-12-08",
+        "description": "evaluates the roles and relationships of Artworld concepts in art criticism and art history"
+      },
+      {
+        "code": "VA-12-09",
+        "description": "adopts Viewpoints to critically analyse meaning in art criticism and art history"
+      },
+      {
+        "code": "VA-12-10",
+        "description": "analyses a range of representations of visual arts to construct arguments in critical interpretations and historical accounts"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-va-11-practice",
+        "name": "Practice",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-va-11-practice-1",
+            "name": "Practice",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-practice-1-1",
+                "description": "Practice is both the conceptual and material understanding of what it means to be an artist, art critic and art historian. It involves understanding what these practitioners do and how they do it. It relates to the positions, actions and conventions that affect the intentionality of choices, strategies, procedures and judgements in the making of artworks and the construction of written and critical analyses of Artworld concepts. Students learn about Practice, and learn how to practice, through investigations into the way that practitioners work and what they produce within the world of art. Practitioners can include artists, craftspeople, designers, architects, art critics, art historians and curators",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-practice-1-2",
+                "description": "The nature of practice involves art making techniques, conventions and representations and the integration of concepts, materiality and conditions in the making of artworks. In Art criticism and art history students learn about the conventions of critical writing through the analysis of artworks and their understanding of the key roles and relationships of the Artworld concepts. Through Viewpoints students explain and justify points of view by framing understanding and development of perspectives in the application and development of art forms and techniques. Students learn about visual arts, its history and that it is continuously transformed by new knowledge, technologies and agents but also the re-emergence of existing or traditional conventions",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-practice-1-3",
+                "description": "Students learn about how procedures, strategies, conventions, routines and habits are used to make art and that these are informed by an artist’s beliefs, ideas, motives and actions. These beliefs are positioned within the Artworld concepts and investigated through strategic framing of Viewpoints that direct students’ interpretations of practice through Subjective, Structural, Cultural or Contemporary positions. Students explore the actions of a range of artists, their contributions to the visual arts, and the dynamic and evolving nature of practice and the artworld at a certain time and over time. Judgement in practice is a reflective action central to making informed decisions and students’ curatorial choices are enacted in the material and technical choices they make in relation to their conceptualisation of an artwork’s meaning and value",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-practice-1-4",
+                "description": "Students investigate traditions and conventions of practice that inform and shape their understanding of the conditions of practice and the art forms that they work within. Students learn how the conceptual strength and meaning in artworks and bodies of work can represent artistic intentions and hold an interpretative position. They learn how audiences interact with and respond to the strength of concepts and layers of meaning in their works. Students learn how the interpretations of meaning of their artworks can be different from their own intentions as artists",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-practice-1-5",
+                "description": "Practice requires an understanding of how networks of procedures used by critics and historians can consider, explain and interpret meanings in artworks, critical interpretations and significant histories. Students examine the traditions and conventions of Practice through research investigations to make, create, construct and represent points of view and arguments in the form of essays, narratives and reviews",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-va-11-artworld-concepts",
+        "name": "Artworld concepts",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-va-11-artworld-concepts-1",
+            "name": "Artworld concepts",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-artworld-concepts-1-1",
+                "description": "The Artworld concepts of Artist, Artwork, World and Audience provide a conceptual framework for investigating the world of art and how it is ever changing in its function and values. The key roles of Artwork, Artist, Audience and World provide a foundation for the study of the complex and intentional relationships between these four roles to shape students’ developing understanding of artistic practice in the visual arts. The Artworld concepts are distinct, but function in relationships of cause and effect, providing insights into understanding and explaining how art functions in the artworld. The Artworld concepts are considered in the context in which artworks are made and viewed, and according to the changing interpretations of the artworks over time by audiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-artworld-concepts-1-2",
+                "description": "In Art criticism and art history, students explain and evaluate the significance of particular artists, artworks, audience engagements and representations of the world at a certain time and over time. Changes to interpretation of the relationships are conditional to time, place and Viewpoint",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-artworld-concepts-2",
+            "name": "Artist",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-artworld-concepts-2-1",
+                "description": "The artist is understood as a maker of artworks, individually, collaboratively or as a collective, and includes a range of practitioners such as animators, architects, craftspeople, designers, filmmakers, photographers and performers. The agency of the artist includes a person making artworks individually, collaboratively as a group, school, movement or enlisting others to produce their work",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-artworld-concepts-2-2",
+                "description": "The artist has a functional relationship to Artist, Artwork, World and Audience in Artworld concepts that is not fixed, and the relationships between Artist, Artwork, World and Audience are informed by the intentions and habits of an artist’s practice",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-artworld-concepts-3",
+            "name": "Artwork",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-artworld-concepts-3-1",
+                "description": "Artworks are intentionally conceived and made by artists working individually or collaboratively. Artworks can be considered as physical, digital, hybrid or ephemeral, and as 2D, 3D and 4D works. Artworks have properties and forms that are material, virtual, physical and symbolic that exist in combinations of materials, technical skills, concepts and subjects. Artworks exist as representations of ideas that can reflect personal responses, cultural views, lived experiences, symbolic interpretations and critical reinterpretations of other ideas constructed by artists when interpreted by audiences. The form of production or reproduction affects how audiences infer meaning about the work",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-artworld-concepts-4",
+            "name": "World",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-artworld-concepts-4-1",
+                "description": "The world of visual arts refers to a wide range of subject matter that is multifaceted, dynamic and shaped by community, time, context, theories, beliefs and the changing relationships of these aspects. The world is a source of interests, ideas, concepts, conditions and events represented by artists in artworks. It influences how artists, practitioners and audiences engage with representations of experiences, ideologies and significant events. Artists interpret the world in artworks and represent it through subject matter, and conceptual and material properties and perspectives",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-artworld-concepts-5",
+            "name": "Audience",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-artworld-concepts-5-1",
+                "description": "Audiences play an integral role in interpreting and ascribing meanings to artworks and art practices. Audiences include art critics, art historians, curators, writers, theorists, students, teachers and members of the public. They adopt different points of view in their interpretations of artworks. Audiences engage with the display of artworks, their interaction with artworks and can inhabit different histories, worlds, identities and beliefs",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-va-11-viewpoints",
+        "name": "Viewpoints",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-va-11-viewpoints-1",
+            "name": "Viewpoints",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-viewpoints-1-1",
+                "description": "Viewpoints are tools of inquiry and explanations that frame investigations in Artworld concepts and making artworks, by providing a distinct language to position a student’s persuasive dialogue for creative representations in Art making and Art criticism and art history",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-viewpoints-1-2",
+                "description": "Students adopt Viewpoints to frame the intentions, representations, actions and choices in their art making and shape their interpretations and support their explanations in Art criticism and art history. Viewpoints are an orientation to meaning through the relationship of an artwork to the circumstances in which it was produced, the context in which it was viewed and how interpretations change over time",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-viewpoints-2",
+            "name": "Structural viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-viewpoints-2-1",
+                "description": "The Structural viewpoint frames the way art is understood as a system of signs and communication through which particular art forms, information and ideas are circulated and exchanged. Meaning can be communicated through systematic representations using formal and conventional structures of visual and multisensory languages. From this Viewpoint, students explore how ideas about the world are represented in artworks as a system of coded relationships between signs, symbols, and visual and multisensory language. Artists and audiences interpret and understand the formal and conventional structure of visual and multisensory language in artworks",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-viewpoints-2-2",
+                "description": "In Art criticism and art history, students interpret and explain how visual information is organised and transmitted in artworks. They study how the practice of art criticism and art history categorises, values and explains artworks through their use of formal language. Students identify and explain the relationship of the formal organisation and visual qualities in an artwork and how the visual arts operate as a visual and multisensory language, both at a certain time and over time",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-viewpoints-3",
+            "name": "Subjective viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-viewpoints-3-1",
+                "description": "The Subjective viewpoint frames the ways art may be thought about and represents experiences and perceptions of the world. Students explore how personal experiences of emotion, imagination and senses are represented in artworks. They explore how the unconscious, intuition, memories and the imagination can be used as a source of ideas to provide insights into the ways human experiences are shared and recreated between artists and audiences. Meaning is interpreted and understood by artists and audiences who investigate how a shared understanding of their sense of self and perception can shape their interpretation of an artwork",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-viewpoints-3-2",
+                "description": "In Art criticism and art history, students explore artworks as expressive and unique objects by studying explanations of artworks and practices that are based on the personal experiences of the artist. They investigate how critics and historians represent personal accounts of art practices",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-viewpoints-4",
+            "name": "Cultural viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-viewpoints-4-1",
+                "description": "The Cultural viewpoint frames the ways art can represent the conditions and understandings of shared social life in the society in which it is produced. Meaning can be shaped by social and cultural contexts, traditions, ideologies, beliefs, rituals and values. Students explore the individual and collective interests of cultural groups in the world, as well as their understanding of power, social attitudes, social life and ideologies, to examine how artists work with and are influenced by their context. From this Viewpoint, students engage with artworks and artists to explore ideas and consider how artists are influenced by, reproduce, participate in, reflect, contribute to or challenge structures of social identity and cohesion",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-viewpoints-4-2",
+                "description": "In Art criticism and art history, students explore the ways cultural and social contexts inform artistic practice and the production of artworks. They investigate a range of cultural attitudes towards the visual arts and the effects of scientific and technological innovations, politics, and economics. Students explore concepts of social and cultural context and identity, and their impact on artistic practices in particular places, both at a certain time and over time. They explore the reconstruction of meaning of an artwork in and for the society in which it was produced and how art practitioners have constructed social histories of art. Through this Viewpoint, students investigate how art critical practice can be regarded as socially significant. They apply their understanding of significant narratives about the social history of art to their understanding of artworks",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-11-viewpoints-5",
+            "name": "Contemporary viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-viewpoints-5-1",
+                "description": "The Contemporary viewpoint frames the way that art is responsive to philosophies, theories, practices and technologies that challenge or recontextualise established views and conventions, hierarchies, histories and narratives. Through this viewpoint, students consider the visual arts across time and histories, to learn about how artists question and reveal contradictions in grand narratives. Students engage with artworks and artists that consider systems of representation where appropriation, disruption, interrogation, scepticism, humour, irony and parody inform and question interpretations and practices",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-viewpoints-5-2",
+                "description": "From this Viewpoint students engage with artworks and artists that challenge assumptions in the visual arts through exposing patterns of authority to reveal ironies, inconsistencies and fluidities represented in the world. Students explore artworks and artists that provoke and critique the world, as collaborators, storytellers, and innovators. The Contemporary viewpoint represents shifting relations to power, culture, technology, ecology and the post human. In this Viewpoint the roles of artists, artworks and audiences are relational and ambiguous. Audiences confront, curate, interact with, and participate in, processes of collaboration and co-creation that can develop artworks to shape meaning in dynamic ways beyond conventional art forms",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-viewpoints-5-3",
+                "description": "In Art criticism and art history, students question assumptions about what art is, including the classification of artists, artworks, materials, movements and styles. Students engage with theories from the Contemporary viewpoint to evaluate conventions and histories to reveal the power relationships in artworks. Students also examine artistic practices whose impact has been marginalised by dominant narratives of value in art. They recognise artists that reflect, challenge, and shape our understanding of the world through contextual political, social and cultural commentary in artworks",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-va-11-art-criticism-and-art-history",
+        "name": "Art criticism and art history",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-va-11-art-criticism-and-art-history-1",
+            "name": "Art criticism and art history",
+            "dotPoints": [
+              {
+                "id": "dp-va-11-art-criticism-and-art-history-1-1",
+                "description": "Investigate how Viewpoints provide ways to generate and shape critical and historical investigations of concepts and meanings in the visual arts",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-art-criticism-and-art-history-1-2",
+                "description": "Investigate case studies examining Viewpoints to develop positions about meaning and value that engage subjective, cultural, structural and contemporary interpretations",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-art-criticism-and-art-history-1-3",
+                "description": "Apply an understanding of Viewpoints to build and shape investigations of concepts and meanings in art criticism and art history",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-art-criticism-and-art-history-1-4",
+                "description": "Apply knowledge of the variations in the relationships between the Artworld concepts through Viewpoints to create different accounts of practice",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-art-criticism-and-art-history-1-5",
+                "description": "Adopt a reflective understanding of the practices that inform how writers and critics develop intentions, choices and judgements when interpreting art",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-art-criticism-and-art-history-1-6",
+                "description": "Adopt an understanding of how the Artworld concepts and the relational networks among them can be explained critically and historically",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-11-art-criticism-and-art-history-1-7",
+                "description": "Analyse how critical interpretations and historical accounts represent a range of meanings and judgements to support an informed point of view",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-va-12-practice",
+        "name": "Practice",
+        "subTopics": [
+          {
+            "id": "subtopic-va-12-practice-1",
+            "name": "Practice",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-practice-1-1",
+                "description": "Practice is both the conceptual and material understanding of what it means to be an artist, art critic and art historian. It involves understanding what these practitioners do and how they do it. It relates to the positions, actions and conventions that affect the intentionality of choices, strategies, procedures and judgements in the making of artworks and the construction of written and critical analyses of Artworld concepts. Students learn about Practice, and learn how to practice, through investigations into the way that practitioners work and what they produce within the world of art. Practitioners can include artists, craftspeople, designers, architects, art critics, art historians and curators",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-practice-1-2",
+                "description": "The nature of practice involves art making techniques, conventions and representations and the integration of concepts, materiality and conditions in the making of artworks. In Art criticism and art history students learn about the conventions of critical writing through the analysis of artworks and their understanding of the key roles and relationships of the Artworld concepts. Through Viewpoints students explain and justify points of view by framing understanding and development of perspectives in the application and development of art forms and techniques. Students learn about visual arts, its history and that it is continuously transformed by new knowledge, technologies and agents but also the re-emergence of existing or traditional conventions",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-practice-1-3",
+                "description": "Students learn about how procedures, strategies, conventions, routines and habits are used to make art and that these are informed by an artist’s beliefs, ideas, motives and actions. These beliefs are positioned within the Artworld concepts and investigated through strategic framing of Viewpoints that direct students’ interpretations of practice through Subjective, Structural, Cultural or Contemporary positions. Students explore the actions of a range of artists, their contributions to the visual arts, and the dynamic and evolving nature of practice and the artworld at a certain time and over time. Judgement in practice is a reflective action central to making informed decisions and students’ curatorial choices are enacted in the material and technical choices they make in relation to their conceptualisation of an artwork’s meaning and value",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-practice-1-4",
+                "description": "Students investigate traditions and conventions of practice that inform and shape their understanding of the conditions of practice and the art forms that they work within. Students learn how the conceptual strength and meaning in artworks and bodies of work can represent artistic intentions and hold an interpretative position. They learn how audiences interact with and respond to the strength of concepts and layers of meaning in their works. Students learn how the interpretations of meaning of their artworks can be different from their own intentions as artists",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-practice-1-5",
+                "description": "Practice requires an understanding of how networks of procedures used by critics and historians can consider, explain and interpret meanings in artworks, critical interpretations and significant histories. Students examine the traditions and conventions of Practice through research investigations to make, create, construct and represent points of view and arguments in the form of essays, narratives and reviews",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-va-12-artworld-concepts",
+        "name": "Artworld concepts",
+        "subTopics": [
+          {
+            "id": "subtopic-va-12-artworld-concepts-1",
+            "name": "Artworld concepts",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-artworld-concepts-1-1",
+                "description": "The Artworld concepts of Artist, Artwork, World and Audience provide a conceptual framework for investigating the world of art and how it is ever changing in its function and values. The key roles of Artwork, Artist, Audience and World provide a foundation for the study of the complex and intentional relationships between these four roles to shape students’ developing understanding of artistic practice in the visual arts. The Artworld concepts are distinct, but function in relationships of cause and effect, providing insights into understanding and explaining how art functions in the artworld. The Artworld concepts are considered in the context in which artworks are made and viewed, and according to the changing interpretations of the artworks over time by audiences",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-artworld-concepts-1-2",
+                "description": "In Art criticism and art history, students explain and evaluate the significance of particular artists, artworks, audience engagements and representations of the world at a certain time and over time. Changes to interpretation of the relationships are conditional to time, place and Viewpoint",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-artworld-concepts-2",
+            "name": "Artist",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-artworld-concepts-2-1",
+                "description": "The artist is understood as a maker of artworks, individually, collaboratively or as a collective, and includes a range of practitioners such as animators, architects, craftspeople, designers, filmmakers, photographers and performers. The agency of the artist includes a person making artworks individually, collaboratively as a group, school, movement or enlisting others to produce their work",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-artworld-concepts-2-2",
+                "description": "The artist has a functional relationship to Artist, Artwork, World and Audience in Artworld concepts that is not fixed, and the relationships between Artist, Artwork, World and Audience are informed by the intentions and habits of an artist’s practice",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-artworld-concepts-3",
+            "name": "Artwork",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-artworld-concepts-3-1",
+                "description": "Artworks are intentionally conceived and made by artists working individually or collaboratively. Artworks can be considered as physical, digital, hybrid or ephemeral, and as 2D, 3D and 4D works. Artworks have properties and forms that are material, virtual, physical and symbolic that exist in combinations of materials, technical skills, concepts and subjects. Artworks exist as representations of ideas that can reflect personal responses, cultural views, lived experiences, symbolic interpretations and critical reinterpretations of other ideas constructed by artists when interpreted by audiences. The form of production or reproduction affects how audiences infer meaning about the work",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-artworld-concepts-4",
+            "name": "World",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-artworld-concepts-4-1",
+                "description": "The world of visual arts refers to a wide range of subject matter that is multifaceted, dynamic and shaped by community, time, context, theories, beliefs and the changing relationships of these aspects. The world is a source of interests, ideas, concepts, conditions and events represented by artists in artworks. It influences how artists, practitioners and audiences engage with representations of experiences, ideologies and significant events. Artists interpret the world in artworks and represent it through subject matter, and conceptual and material properties and perspectives",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-artworld-concepts-5",
+            "name": "Audience",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-artworld-concepts-5-1",
+                "description": "Audiences play an integral role in interpreting and ascribing meanings to artworks and art practices. Audiences include art critics, art historians, curators, writers, theorists, students, teachers and members of the public. They adopt different points of view in their interpretations of artworks. Audiences engage with the display of artworks, their interaction with artworks and can inhabit different histories, worlds, identities and beliefs",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-va-12-viewpoints",
+        "name": "Viewpoints",
+        "subTopics": [
+          {
+            "id": "subtopic-va-12-viewpoints-1",
+            "name": "Viewpoints",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-viewpoints-1-1",
+                "description": "Viewpoints are tools of inquiry and explanations that frame investigations in Artworld concepts and making artworks, by providing a distinct language to position a student’s persuasive dialogue for creative representations in Art making and Art criticism and art history",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-viewpoints-1-2",
+                "description": "Students adopt Viewpoints to frame the intentions, representations, actions and choices in their art making and shape their interpretations and support their explanations in Art criticism and art history. Viewpoints are an orientation to meaning through the relationship of an artwork to the circumstances in which it was produced, the context in which it was viewed and how interpretations change over time",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-viewpoints-2",
+            "name": "Structural viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-viewpoints-2-1",
+                "description": "The Structural viewpoint frames the way art is understood as a system of signs and communication through which particular art forms, information and ideas are circulated and exchanged. Meaning can be communicated through systematic representations using formal and conventional structures of visual and multisensory languages. From this Viewpoint, students explore how ideas about the world are represented in artworks as a system of coded relationships between signs, symbols, and visual and multisensory language. Artists and audiences interpret and understand the formal and conventional structure of visual and multisensory language in artworks",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-viewpoints-2-2",
+                "description": "In Art criticism and art history, students interpret and explain how visual information is organised and transmitted in artworks. They study how the practice of art criticism and art history categorises, values and explains artworks through their use of formal language. Students identify and explain the relationship of the formal organisation and visual qualities in an artwork and how the visual arts operate as a visual and multisensory language, both at a certain time and over time",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-viewpoints-3",
+            "name": "Subjective viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-viewpoints-3-1",
+                "description": "The Subjective viewpoint frames the ways art may be thought about and represents experiences and perceptions of the world. Students explore how personal experiences of emotion, imagination and senses are represented in artworks. They explore how the unconscious, intuition, memories and the imagination can be used as a source of ideas to provide insights into the ways human experiences are shared and recreated between artists and audiences. Meaning is interpreted and understood by artists and audiences who investigate how a shared understanding of their sense of self and perception can shape their interpretation of an artwork",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-viewpoints-3-2",
+                "description": "In Art criticism and art history, students explore artworks as expressive and unique objects by studying explanations of artworks and practices that are based on the personal experiences of the artist. They investigate how critics and historians represent personal accounts of art practices",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-viewpoints-4",
+            "name": "Cultural viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-viewpoints-4-1",
+                "description": "The Cultural viewpoint frames the ways art can represent the conditions and understandings of shared social life in the society in which it is produced. Meaning can be shaped by social and cultural contexts, traditions, ideologies, beliefs, rituals and values. Students explore the individual and collective interests of cultural groups in the world, as well as their understanding of power, social attitudes, social life and ideologies, to examine how artists work with and are influenced by their context. From this Viewpoint, students engage with artworks and artists to explore ideas and consider how artists are influenced by, reproduce, participate in, reflect, contribute to or challenge structures of social identity and cohesion",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-viewpoints-4-2",
+                "description": "In Art criticism and art history, students explore the ways cultural and social contexts inform artistic practice and the production of artworks. They investigate a range of cultural attitudes towards the visual arts and the effects of scientific and technological innovations, politics, and economics. Students explore concepts of social and cultural context and identity, and their impact on artistic practices in particular places, both at a certain time and over time. They explore the reconstruction of meaning of an artwork in and for the society in which it was produced and how art practitioners have constructed social histories of art. Through this Viewpoint, students investigate how art critical practice can be regarded as socially significant. They apply their understanding of significant narratives about the social history of art to their understanding of artworks",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-va-12-viewpoints-5",
+            "name": "Contemporary viewpoint",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-viewpoints-5-1",
+                "description": "The Contemporary viewpoint frames the way that art is responsive to philosophies, theories, practices and technologies that challenge or recontextualise established views and conventions, hierarchies, histories and narratives. Through this viewpoint, students consider the visual arts across time and histories, to learn about how artists question and reveal contradictions in grand narratives. Students engage with artworks and artists that consider systems of representation where appropriation, disruption, interrogation, scepticism, humour, irony and parody inform and question interpretations and practices",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-viewpoints-5-2",
+                "description": "From this Viewpoint students engage with artworks and artists that challenge assumptions in the visual arts through exposing patterns of authority to reveal ironies, inconsistencies and fluidities represented in the world. Students explore artworks and artists that provoke and critique the world, as collaborators, storytellers, and innovators. The Contemporary viewpoint represents shifting relations to power, culture, technology, ecology and the post human. In this Viewpoint the roles of artists, artworks and audiences are relational and ambiguous. Audiences confront, curate, interact with, and participate in, processes of collaboration and co-creation that can develop artworks to shape meaning in dynamic ways beyond conventional art forms",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-viewpoints-5-3",
+                "description": "In Art criticism and art history, students question assumptions about what art is, including the classification of artists, artworks, materials, movements and styles. Students engage with theories from the Contemporary viewpoint to evaluate conventions and histories to reveal the power relationships in artworks. Students also examine artistic practices whose impact has been marginalised by dominant narratives of value in art. They recognise artists that reflect, challenge, and shape our understanding of the world through contextual political, social and cultural commentary in artworks",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-va-12-art-criticism-and-art-history",
+        "name": "Art criticism and art history",
+        "subTopics": [
+          {
+            "id": "subtopic-va-12-art-criticism-and-art-history-1",
+            "name": "Art criticism and art history",
+            "dotPoints": [
+              {
+                "id": "dp-va-12-art-criticism-and-art-history-1-1",
+                "description": "Investigate historical and critical case studies that include a range of artworks, artists and practices to focus on relations between practice, the Artworld concepts and Viewpoints",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-art-criticism-and-art-history-1-2",
+                "description": "Evaluate how Viewpoints provide ways to generate critical and historical arguments about the concepts and meanings in the visual arts",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-art-criticism-and-art-history-1-3",
+                "description": "Adopt an understanding of Viewpoints to provide ways to shape arguments about concepts and meanings in art criticism and art history",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-art-criticism-and-art-history-1-4",
+                "description": "Construct different accounts of practice and the development of their practice through Viewpoints by applying knowledge of the variations in the relationships between the Artworld concepts",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-art-criticism-and-art-history-1-5",
+                "description": "Adopt the role of the art critic and art historian to construct critical interpretations and art historical explanations and accounts",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-art-criticism-and-art-history-1-6",
+                "description": "Evaluate how the Artworld concepts and the relationship networks they form are critically and historically evaluated and explained",
+                "prompts": []
+              },
+              {
+                "id": "dp-va-12-art-criticism-and-art-history-1-7",
+                "description": "Evaluate how critical and historical accounts represent a range of meanings and judgements to support an informed argument",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,56 @@
+{
+  "syllabus": "Aboriginal Studies 11–12 Syllabus (2026); Year 11 from Term 1 2028, Year 12 from Term 4 2028, first HSC examination 2029. It replaces the Aboriginal Studies Stage 6 Syllabus (2010), which is taught for Year 12 until Term 4 2028 and is the examined syllabus until then",
+  "source": "https://curriculum.nsw.edu.au/learning-areas/hsie/aboriginal-studies-11-12-2026",
+  "id": "course-hsc-aboriginal-studies",
+  "name": "Aboriginal Studies",
+  "prefix": "abs",
+  "outcomePattern": "^AST-1[12]-\\d\\d$",
+  "topics": [
+    {
+      "title": "Aboriginal Community Cultural protocols and ethical research practices",
+      "year": "year11",
+      "name": "Aboriginal Community cultural protocols and ethical research practices"
+    },
+    {
+      "title": "Aboriginal Peoples’ connection to Country pre-contact to 1960",
+      "year": "year11",
+      "name": "Aboriginal Peoples’ connection to Country pre-contact to 1960"
+    },
+    {
+      "title": "Aboriginal Peoples’ Cultural Knowledges, Practices and Languages pre-contact to 1960",
+      "year": "year11",
+      "name": "Aboriginal Peoples’ Cultural Knowledges, Practices and Languages pre-contact to 1960"
+    },
+    {
+      "title": "Experiences of the international Indigenous Community pre-contact to 1960: comparative study",
+      "year": "year11",
+      "name": "Experiences of the international Indigenous Community pre-contact to 1960 (comparative study)"
+    },
+    {
+      "title": "Aboriginal Community Cultural protocols and ethical research practices",
+      "year": "year12",
+      "name": "Aboriginal Community cultural protocols and ethical research practices"
+    },
+    {
+      "title": "Human rights 1960 to present",
+      "year": "year12",
+      "name": "Human rights 1960 to present"
+    },
+    {
+      "optionsList": "Social justice 1960 to present: comparative study",
+      "year": "year12",
+      "nameFormat": "Social justice: {title}"
+    },
+    {
+      "optionsList": "Aboriginal Peoples’ connections to land, water and sky Country 1960 to present",
+      "year": "year12",
+      "strip": " (option)",
+      "nameFormat": "Land, water and sky Country: {title}"
+    },
+    {
+      "title": "Aboriginal Community engagement research project",
+      "year": "year12",
+      "name": "Aboriginal Community engagement research project"
+    }
+  ]
+}

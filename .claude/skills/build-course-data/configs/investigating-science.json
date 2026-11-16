@@ -1,0 +1,59 @@
+{
+  "syllabus": "Investigating Science Stage 6 Syllabus (2017), Years 11 and 12 (NESA, current Stage 6 syllabus; the nsw.gov.au page and syllabus give no implementation or first-HSC date)",
+  "source": "https://www.nsw.gov.au/education-and-training/nesa/curriculum/science/investigating-science-stage-6-2017 (syllabus DOCX: investigating-science-stage-6-syllabus-2017.docx)",
+  "id": "course-hsc-investigating-science",
+  "name": "Investigating Science",
+  "prefix": "is",
+  "outcomePattern": "^IS-1[12](WS)?-\\d\\d$",
+  "topics": [
+    {
+      "title": "Working Scientifically Skills",
+      "year": "year11",
+      "name": "Working scientifically"
+    },
+    {
+      "title": "Cause and Effect – Observing",
+      "year": "year11",
+      "name": "Cause and effect – observing"
+    },
+    {
+      "title": "Cause and Effect – Inferences and Generalisations",
+      "year": "year11",
+      "name": "Cause and effect – inferences and generalisations"
+    },
+    {
+      "title": "Scientific Models",
+      "year": "year11",
+      "name": "Scientific models"
+    },
+    {
+      "title": "Theories and Laws",
+      "year": "year11",
+      "name": "Theories and laws"
+    },
+    {
+      "title": "Working Scientifically Skills",
+      "year": "year12",
+      "name": "Working scientifically"
+    },
+    {
+      "title": "Scientific Investigations",
+      "year": "year12",
+      "name": "Scientific investigations"
+    },
+    {
+      "title": "Technologies",
+      "year": "year12"
+    },
+    {
+      "title": "Fact or Fallacy?",
+      "year": "year12",
+      "name": "Fact or fallacy?"
+    },
+    {
+      "title": "Science and Society",
+      "year": "year12",
+      "name": "Science and society"
+    }
+  ]
+}

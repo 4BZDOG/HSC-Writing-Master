@@ -1,0 +1,1487 @@
+[
+  {
+    "id": "course-hsc-studies-of-religion-1",
+    "name": "Studies of Religion I",
+    "outcomes": [
+      {
+        "code": "H1",
+        "description": "explains aspects of religion and belief systems"
+      },
+      {
+        "code": "H2",
+        "description": "describes and analyses the influence of religion and belief systems on individuals and society"
+      },
+      {
+        "code": "H3",
+        "description": "examines the influence and expression of religion and belief systems in Australia"
+      },
+      {
+        "code": "H4",
+        "description": "describes and analyses how aspects of religious traditions are expressed by their adherents"
+      },
+      {
+        "code": "H5",
+        "description": "evaluates the influence of religious traditions in the life of adherents"
+      },
+      {
+        "code": "H6",
+        "description": "organises, analyses and synthesises relevant information about religion from a variety of sources, considering usefulness, validity and bias"
+      },
+      {
+        "code": "H7",
+        "description": "conducts effective research about religion and evaluates the findings from the research"
+      },
+      {
+        "code": "H8",
+        "description": "applies appropriate terminology and concepts related to religion and belief systems"
+      },
+      {
+        "code": "H9",
+        "description": "coherently and effectively communicates complex information, ideas and issues using appropriate written, oral and graphic forms"
+      },
+      {
+        "code": "P1",
+        "description": "describes the characteristics of religion and belief systems",
+        "year": "year11"
+      },
+      {
+        "code": "P2",
+        "description": "identifies the influence of religion and belief systems on individuals and society",
+        "year": "year11"
+      },
+      {
+        "code": "P3",
+        "description": "investigates religious traditions and belief systems",
+        "year": "year11"
+      },
+      {
+        "code": "P4",
+        "description": "examines significant aspects of religious traditions",
+        "year": "year11"
+      },
+      {
+        "code": "P5",
+        "description": "describes the influence of religious traditions in the life of adherents",
+        "year": "year11"
+      },
+      {
+        "code": "P6",
+        "description": "selects and uses relevant information about religion from a variety of sources",
+        "year": "year11"
+      },
+      {
+        "code": "P7",
+        "description": "undertakes effective research about religion, making appropriate use of time and resources",
+        "year": "year11"
+      },
+      {
+        "code": "P8",
+        "description": "uses appropriate terminology related to religion and belief systems",
+        "year": "year11"
+      },
+      {
+        "code": "P9",
+        "description": "effectively communicates information, ideas and issues using appropriate written, oral and graphic forms",
+        "year": "year11"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-sr1-11-nature-of-religion-and-beliefs",
+        "name": "Nature of religion and beliefs",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-11-nature-of-religion-and-beliefs-1",
+            "name": "The nature of religion; Australian Aboriginal beliefs and spiritualities – the Dreaming",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-1",
+                "description": "Religion as a worldview that: (acknowledges the supernatural dimension)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-2",
+                "description": "Has a belief in a divine being or powers beyond the human and/or dwelling within the individual",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-3",
+                "description": "Characteristics of religion: (beliefs and believers; sacred texts and writings; ethics; rituals and ceremonies; the contribution of religion)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-4",
+                "description": "Define the supernatural dimension",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-5",
+                "description": "Discuss a transcendent religious worldview which has a belief in a divine power and/or powers beyond the human",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-6",
+                "description": "Discuss an immanent religious worldview which has a belief in a divine being or powers dwelling within the individual",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-7",
+                "description": "Define the characteristics of religion",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-8",
+                "description": "Explore the ways in which these characteristics interact to create a dynamic, living religion",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-1-9",
+                "description": "Appreciate the contribution of religion to: (individuals; society and culture)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sr1-11-nature-of-religion-and-beliefs-2",
+            "name": "Nature of the Dreaming",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-2-1",
+                "description": "Nature of the Dreaming",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-2-2",
+                "description": "The inextricable connection of the Dreaming, the land and identity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-2-3",
+                "description": "Outline the nature of the Dreaming in relation to: (origins of the universe; sacred sites; stories of the Dreaming; symbolism and art)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-2-4",
+                "description": "Discuss the diversity of the Dreaming for Aboriginal peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-2-5",
+                "description": "Recognise the importance of the Dreaming for the life of Aboriginal peoples",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-nature-of-religion-and-beliefs-2-6",
+                "description": "Investigate the inextricable connection of the Dreaming, the land and identity",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-11-buddhism",
+        "name": "Religious tradition study: Buddhism",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-11-buddhism-1",
+            "name": "Origins",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-buddhism-1-1",
+                "description": "The historical and cultural context in which Buddhism began",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-2",
+                "description": "The Buddha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-3",
+                "description": "The formation of the Sangha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-4",
+                "description": "The early councils, including the first council at Rajagaha and the second council at Vesali",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-5",
+                "description": "Outline the historical and cultural context in which Buddhism began",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-6",
+                "description": "Examine the principal events of the Buddha’s life, including the enlightenment",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-7",
+                "description": "Explain why the Buddha is the model of Buddhist life",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-8",
+                "description": "Describe the early formation of the Sangha within the first five years, including Mahapajapati’s request for a female Sangha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-1-9",
+                "description": "Identify the importance of the first two councils in the development of Buddhism",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sr1-11-buddhism-2",
+            "name": "Principal beliefs; sacred texts and writings; core ethical teachings; personal devotion in the home",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-buddhism-2-1",
+                "description": "Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-2",
+                "description": "Theravada Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-3",
+                "description": "Mahayana Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-4",
+                "description": "Vajrayana Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-5",
+                "description": "The Three Jewels",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-6",
+                "description": "Buddha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-7",
+                "description": "Dharma",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-8",
+                "description": "Sangha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-9",
+                "description": "The Four Noble Truths",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-10",
+                "description": "The marks of existence",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-11",
+                "description": "Anicca",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-12",
+                "description": "Duhkka",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-13",
+                "description": "Anatta",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-14",
+                "description": "Karma, Samsara, Nirvana",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-15",
+                "description": "Tripitaka",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-16",
+                "description": "Lotus of the Good Law",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-17",
+                "description": "Tibetan Book of the Dead",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-18",
+                "description": "The Five Precepts",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-19",
+                "description": "The Vinaya",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-20",
+                "description": "Puja",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-21",
+                "description": "Outline the unique features of: (Theravada Buddhism; Mahayana Buddhism; Vajrayana Buddhism)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-22",
+                "description": "Define The Three Jewels",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-23",
+                "description": "Buddha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-24",
+                "description": "Dharma",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-25",
+                "description": "Sangha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-26",
+                "description": "Describe the significance of The Four Noble Truths",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-27",
+                "description": "Examine the beliefs of (Anicca; Duhkka; Anatta)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-28",
+                "description": "Recognise the connection between Karma and Samsara",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-29",
+                "description": "Outline the importance of Nirvana in Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-30",
+                "description": "Identify the importance of: (Tripitaka; Lotus of the Good Law; Tibetan book of the Dead)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-31",
+                "description": "Examine extracts from the Tripitaka, the Lotus of the Good Law and the Tibetan Book of the Dead which demonstrate the principal beliefs of Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-32",
+                "description": "Outline the principal ethical teachings in Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-33",
+                "description": "Describe the importance of ethical teachings in the life of adherents",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-buddhism-2-34",
+                "description": "Outline puja as celebrated in the home",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-11-christianity",
+        "name": "Religious tradition study: Christianity",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-11-christianity-1",
+            "name": "Origins",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-christianity-1-1",
+                "description": "The historical and cultural context in which Christianity began",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-2",
+                "description": "Jesus Christ",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-3",
+                "description": "The development of early Christian communities",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-4",
+                "description": "Christianity: (Anglicanism; Catholicism; Orthodoxy; Pentecostalism; Protestantism)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-5",
+                "description": "Outline the historical and cultural context in which Christianity began",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-6",
+                "description": "Examine the principal events of Jesus’ life",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-7",
+                "description": "Explain why Jesus is the model for Christian life",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-8",
+                "description": "Describe the early development of Christian communities after the death of Jesus",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-1-9",
+                "description": "Outline the unique features of: (Anglicanism; Catholicism; Orthodoxy; Pentecostalism; Protestantism)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sr1-11-christianity-2",
+            "name": "Principal beliefs; sacred texts and writings; core ethical teachings; personal devotion",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-christianity-2-1",
+                "description": "The divinity and humanity of Jesus Christ",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-2",
+                "description": "The death and resurrection of Jesus Christ",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-3",
+                "description": "The nature of God and the Trinity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-4",
+                "description": "Revelation",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-5",
+                "description": "Salvation",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-6",
+                "description": "Bible",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-7",
+                "description": "The Ten Commandments",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-8",
+                "description": "New Testament ethics",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-9",
+                "description": "The Beatitudes",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-10",
+                "description": "Jesus’ commandment of love",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-11",
+                "description": "Prayer",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-12",
+                "description": "Outline the principal beliefs regarding the divinity and humanity of Jesus Christ",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-13",
+                "description": "Explain the importance of the death and resurrection of Jesus Christ for Christians",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-14",
+                "description": "Outline the beliefs about the nature of God and of the Trinity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-15",
+                "description": "Examine the Christian understanding of revelation",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-16",
+                "description": "Describe the Christian understanding of salvation",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-17",
+                "description": "Identify the importance of the Bible in Christianity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-18",
+                "description": "Examine extracts from the Bible which demonstrate the principal beliefs of Christianity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-19",
+                "description": "Outline the principal ethical teachings in: (the Ten Commandments; the Beatitudes; Jesus’ commandment of love)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-20",
+                "description": "Describe the importance of ethical teachings in the life of adherents",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-christianity-2-21",
+                "description": "Describe the different types of personal prayer",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-11-hinduism",
+        "name": "Religious tradition study: Hinduism",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-11-hinduism-1",
+            "name": "Origins",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-hinduism-1-1",
+                "description": "The early inhabitants of the Indus Valley: (the Harappan civilisation; the Aryans; the Vedic period; Hinduism as Sanatana Dharma; the main features of devotion to:; Vaishnava; Shaiva)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-1-2",
+                "description": "Discuss the civilisation of the early inhabitants of the Indus Valley: (the Harappan civilisation; the Aryans)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-1-3",
+                "description": "Describe the Vedic period",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-1-4",
+                "description": "Outline the early development of Hinduism to the era of the Upanishads",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-1-5",
+                "description": "Outline Hinduism as the Eternal Religion – Sanatana Dharma",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-1-6",
+                "description": "Describe the main features of devotion to the Gods: (Vishnu; Shiva)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sr1-11-hinduism-2",
+            "name": "Principal beliefs; sacred texts and writings; ethical systems; personal devotion in the home",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-hinduism-2-1",
+                "description": "Atman and Brahman",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-2",
+                "description": "Gods and Goddesses",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-3",
+                "description": "Dharma, Karma and Moksha",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-4",
+                "description": "Union with God through: (Karma Yoga; Bhakti Yoga; Raja Yoga; Jñana Yoga; the Vedas, including the Upanishads; the Epics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-5",
+                "description": "Ramayana and Mahabharata, including the Bhagavad Gita",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-6",
+                "description": "The four Varnas",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-7",
+                "description": "Ashramas or stages of life",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-8",
+                "description": "Puja",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-9",
+                "description": "Define Atman and Brahman",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-10",
+                "description": "Examine the principal Gods and Goddesses of Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-11",
+                "description": "Investigate the connection between Dharma and Karma",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-12",
+                "description": "Outline the importance of Moksha for a Hindu devotee",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-13",
+                "description": "Recognise union with God through: (Karma Yoga; Bhakti Yoga; Raja Yoga; Jñana Yoga)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-14",
+                "description": "Identify the importance for Hinduism of: (the Vedas, including the Upanishads)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-15",
+                "description": "The Ramayana and Mahabharata, including the Bhagavad Gita",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-16",
+                "description": "Examine extracts from the Vedas and the Epics which demonstrate the principal beliefs of Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-17",
+                "description": "Outline the principal ethical teachings in Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-18",
+                "description": "Describe the importance of ethical teachings in the life of adherents",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-hinduism-2-19",
+                "description": "Outline puja as celebrated in the home",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-11-islam",
+        "name": "Religious tradition study: Islam",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-11-islam-1",
+            "name": "Origins",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-islam-1-1",
+                "description": "Pre-Islamic Arabia as the cultural and historical context for the development of Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-1-2",
+                "description": "The Prophet Muhammad",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-1-3",
+                "description": "The development of Islam under the leadership of the Four Rightly Guided Caliphs",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-1-4",
+                "description": "Outline the social conditions and religious practices that existed in pre-Islamic Arabia",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-1-5",
+                "description": "Examine the principal events in Muhammad’s life",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-1-6",
+                "description": "Explain why the Prophet Muhammad as the final messenger is the model for Muslim life",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-1-7",
+                "description": "Describe the development of Islam after the death of Muhammad under the leadership of the Four Rightly Guided Caliphs, accounting for the emergence of the Sunni and the Shi’a",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sr1-11-islam-2",
+            "name": "Principal beliefs; sacred texts and writings; core ethical teachings; expression of faith",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-islam-2-1",
+                "description": "The articles of faith explained in the Aqida as: (Tawhid; Angels; Books of Allah; Rusul; Akhira; Fate/predestination; the Qur’an and Hadith; Islamic jurisprudence; the Qur’an; the Sunna and Hadith; ijma’ – consensus among religious leaders)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-2",
+                "description": "Qiyas – comparison with teachings of the Qur’an or Hadith",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-3",
+                "description": "The Five Pillars as the expression of the faith of Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-4",
+                "description": "Outline the implications of Tawhid for Muslim belief",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-5",
+                "description": "Examine the role of the Books of Allah and prophecy in Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-6",
+                "description": "Outline the principal beliefs about Angels, life after death and fate/predestination",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-7",
+                "description": "Identify the importance of: (the Qur’an; the Hadith)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-8",
+                "description": "Examine extracts from the Qur’an and Hadith which demonstrate the principal beliefs of Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-9",
+                "description": "Outline the principal ethical teachings within Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-10",
+                "description": "Outline the process of Islamic jurisprudence",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-11",
+                "description": "Describe the importance of ethical teachings in determining that which is: (halal; haraam)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-islam-2-12",
+                "description": "Outline each of the Five Pillars",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-11-judaism",
+        "name": "Religious tradition study: Judaism",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-11-judaism-1",
+            "name": "Origins",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-judaism-1-1",
+                "description": "Abraham and the Covenant",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-2",
+                "description": "Moses, the Exodus and the giving of the Torah",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-3",
+                "description": "Modern Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-4",
+                "description": "Conservative Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-5",
+                "description": "Orthodox Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-6",
+                "description": "Progressive Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-7",
+                "description": "Outline the life of Abraham",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-8",
+                "description": "Describe the Covenant with the Patriarchs, including the promises of a People and a Land",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-9",
+                "description": "Outline the story of the Exodus and the giving of the Law at Sinai, including the Ten Commandments",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-1-10",
+                "description": "Outline the unique features of: (Conservative Judaism; Orthodox Judaism; Progressive Judaism)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-sr1-11-judaism-2",
+            "name": "Principal beliefs; sacred texts and writings; core ethical teachings; observance",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-11-judaism-2-1",
+                "description": "Belief in a single God who is the creator and ruler of the universe",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-2",
+                "description": "The concept of a moral law prescribed by God",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-3",
+                "description": "The idea of the Covenant",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-4",
+                "description": "The Hebrew Scriptures",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-5",
+                "description": "The Hebrew Bible",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-6",
+                "description": "The Talmud",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-7",
+                "description": "The Commandments of the Torah",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-8",
+                "description": "The Prophetic Vision",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-9",
+                "description": "The Book of Proverbs – wisdom, righteousness, purity and generosity of spirit",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-10",
+                "description": "Shabbat",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-11",
+                "description": "Discuss the belief in the one God and the attributes of God",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-12",
+                "description": "Outline the concept of a divinely inspired moral law",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-13",
+                "description": "Identify the importance of the Covenant for the Jewish people",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-14",
+                "description": "Identify the importance of the: (the Hebrew Bible; the Talmud)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-15",
+                "description": "Examine extracts from the Hebrew Scriptures which demonstrate the principal beliefs of Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-16",
+                "description": "Outline the principal ethical teachings of Judaism: (the Commandments of the Torah)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-17",
+                "description": "The Prophetic Vision, including social justice and Tikkun Olam – the repair of the world",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-18",
+                "description": "The Book of Proverbs – wisdom, righteousness, purity and generosity of spirit",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-19",
+                "description": "Describe the importance of ethical teachings in the life of adherents",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-11-judaism-2-20",
+                "description": "Describe the importance of Shabbat",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-12-religion-and-belief-systems-in-australia-post-1945",
+        "name": "Religion and belief systems in Australia post-1945",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-12-religion-and-belief-systems-in-australia-post-1945-1",
+            "name": "Contemporary Aboriginal spiritualities; religious expression in Australia – 1945 to the present",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-1",
+                "description": "Aboriginal spirituality as determined by the Dreaming",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-2",
+                "description": "Issues for Aboriginal spiritualities in relation to: (the effect of dispossession; the Land Rights movement)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-3",
+                "description": "The religious landscape from 1945 to the present in relation to: (changing patterns of religious adherence; the current religious landscape; religious dialogue in multi-faith Australia; ecumenical movements within Christianity; Interfaith dialogue)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-4",
+                "description": "The relationship between Aboriginal spiritualities and religious traditions in the process of Reconciliation",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-5",
+                "description": "Discuss how Aboriginal spirituality is determined by the Dreaming",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-6",
+                "description": "Kinship",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-7",
+                "description": "Ceremonial life",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-8",
+                "description": "Obligations to the land and people",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-9",
+                "description": "Discuss the continuing effect of dispossession on Aboriginal spiritualities in relation to: (separation from the land; separation from kinship groups; the Stolen Generations)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-10",
+                "description": "Outline the importance of the following for the Land Rights movement: (Native Title; Mabo; Wik)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-11",
+                "description": "Analyse the importance of the Dreaming for the Land Rights movement",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-12",
+                "description": "Outline changing patterns of religious adherence from 1945 to the present using census data",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-13",
+                "description": "Account for the present religious landscape in Australia in relation to: (Christianity as the major religious tradition; immigration; denominational switching; rise of New Age religions; secularism)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-14",
+                "description": "Describe the impact of Christian ecumenical movements in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-15",
+                "description": "The National Council of Churches",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-religion-and-belief-systems-in-australia-post-1945-1-16",
+                "description": "NSW Ecumenical Council (evaluate the importance of interfaith dialogue in multifaith Australia; examine the relationship between Aboriginal spiritualities and religious traditions in the process of Reconciliation)",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-12-buddhism",
+        "name": "Depth study: Buddhism",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-12-buddhism-1",
+            "name": "Significant people and ideas; ethics; significant practices in the life of adherents",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-12-buddhism-1-1",
+                "description": "The contribution to Buddhism of ONE significant person or school of thought other than the Buddha drawn from: (Asoka; Nargajuna; Vasubandhu; Guru Rinpoche (Padmasambhava); Sister Dhammadinna; Tenzin Palmo; XIVth Dalai Lama; Pure Land; Soto Zen; Won Buddhism)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-2",
+                "description": "Another person or school of thought significant to Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-3",
+                "description": "The effect of that person OR school of thought on Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-4",
+                "description": "ONE of the following areas of ethical teaching in Buddhism: (bioethics; environmental ethics; sexual ethics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-5",
+                "description": "ONE significant practice within Buddhism other than daily prayer drawn from: (Pilgrimage; Temple Puja; Wesak)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-6",
+                "description": "Explain the contribution to the development and expression of Buddhism of ONE significant person or school of thought, other than the Buddha, drawn from: (Asoka; Nargajuna; Vasubandhu; Guru Rinpoche (Padmasambhava); Sister Dhammadinna; Tenzin Palmo; XIVth Dalai Lama; Pure Land; Soto Zen; Won Buddhism)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-7",
+                "description": "Another person or school of thought significant to Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-8",
+                "description": "Analyse the impact of this person OR school of thought on Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-9",
+                "description": "Describe and explain Buddhist ethical teachings on bioethics OR environmental ethics OR sexual ethics",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-10",
+                "description": "Describe ONE significant practice within Buddhism drawn from: (Pilgrimage; Temple Puja; Wesak)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-11",
+                "description": "Demonstrate how the chosen practice expresses the beliefs of Buddhism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-buddhism-1-12",
+                "description": "Analyse the significance of this practice for both the individual and the Buddhist community",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-12-christianity",
+        "name": "Depth study: Christianity",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-12-christianity-1",
+            "name": "Significant people and ideas; ethics; significant practices in the life of adherents",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-12-christianity-1-1",
+                "description": "The contribution to Christianity of ONE significant person OR school of thought, other than Jesus, drawn from: (Paul of Tarsus; Hildegard of Bingen; Martin Luther; Catherine Booth; Pope John XXIII; Billy Graham; Dennis Bennett; Sarah Maitland; Liberation Theology; Feminist Theology)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-2",
+                "description": "Another person or school of thought significant to Christianity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-3",
+                "description": "The effect of that person OR school of thought on Christianity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-4",
+                "description": "ONE of the following areas of ethical teaching in Christianity: (bioethics; environmental ethics; sexual ethics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-5",
+                "description": "ONE significant practice within Christianity drawn from: (Baptism; Marriage ceremony; Saturday/Sunday worship)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-6",
+                "description": "Explain the contribution to the development and expression of Christianity of ONE significant person OR school of thought, other than Jesus, drawn from: (Paul of Tarsus; Hildegard of Bingen; Martin Luther; Catherine Booth; Pope John XXIII; Billy Graham; Dennis Bennett; Sarah Maitland; Liberation Theology; Feminist Theology)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-7",
+                "description": "Another person or school of thought significant to Christianity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-8",
+                "description": "Analyse the impact of this person OR school of thought on Christianity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-9",
+                "description": "Describe and explain Christian ethical teachings on bioethics OR environmental ethics OR sexual ethics",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-10",
+                "description": "Describe ONE significant practice within Christianity drawn from: (Baptism; Marriage ceremony; Saturday/Sunday worship)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-11",
+                "description": "Demonstrate how the chosen practice expresses the beliefs of Christianity",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-christianity-1-12",
+                "description": "Analyse the significance of this practice for both the individual and the Christian community",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-12-hinduism",
+        "name": "Depth study: Hinduism",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-12-hinduism-1",
+            "name": "Significant people and ideas; ethics; significant practices in the lives of adherents",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-12-hinduism-1-1",
+                "description": "The contribution to Hinduism of ONE significant person OR school of thought, other than the Vedas, drawn from: (Shankara; Ramanuja; Madhva; Mirabai (Mira Bai); Bhakti Movement; Ram Mohan Roy; Ramakrishna; Mohandas Gandhi; Purva Mimamsa school of thought; Vedanta school of thought)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-2",
+                "description": "Another person or school of thought significant to Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-3",
+                "description": "The effect of that person OR school of thought on Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-4",
+                "description": "ONE of the following areas of ethical teaching in Hinduism: (bioethics; environmental ethics; sexual ethics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-5",
+                "description": "ONE significant practice within Hinduism other than daily prayer drawn from: (Marriage ceremony; Pilgrimage; Temple Worship)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-6",
+                "description": "Explain the contribution to the development and expression of Hinduism of ONE significant person OR school of thought, other than the Vedas, drawn from: (Shankara; Ramanuja; Madhva; Mirabai (Mira Bai); Bhakti Movement; Ram Mohan Roy; Ramakrishna; Mohandas Gandhi; Purva Mimamsa school of thought; Vedanta school of thought)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-7",
+                "description": "Another person or school of thought significant to Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-8",
+                "description": "Analyse the impact of this person OR school of thought on Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-9",
+                "description": "Describe and explain Hindu ethical teachings on bioethics OR environmental ethics OR sexual ethics",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-10",
+                "description": "Describe ONE significant practice within Hinduism drawn from: (Marriage ceremony; Pilgrimage; Temple Worship)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-11",
+                "description": "Demonstrate how the chosen practice expresses the beliefs of Hinduism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-hinduism-1-12",
+                "description": "Analyse the significance of this practice for both the individual and the Hindu community",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-12-islam",
+        "name": "Depth study: Islam",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-12-islam-1",
+            "name": "Significant people and ideas; ethics; significant practices in the life of adherents",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-12-islam-1-1",
+                "description": "The contribution to Islam of ONE significant person OR school of thought, other than Muhammad and the Four Rightly Guided Caliphs, drawn from: (Khadijah Bint Khuwaylid; A’isha Bint AbuBakar; Fatima Al Zahra; Imam Malik; Imam Abu Hanifa; Imam Al-Shafi; Abu ali Hussein Ibn Sina; Rabi’a al-Adawiyya; Al-Ghazali; Sayyid Maududi; Sayyid Qutb)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-2",
+                "description": "Another person or school of thought significant to Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-3",
+                "description": "The effect of that person OR school of thought on Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-4",
+                "description": "ONE of the following areas of ethical teaching in Islam: (bioethics; environmental ethics; sexual ethics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-5",
+                "description": "ONE significant practice within Islam drawn from: (Friday prayer at the mosque; Funeral ceremony; Hajj)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-6",
+                "description": "Explain the contribution to the development and expression of Islam of ONE significant person OR school of thought, other than Muhammad and the Four Rightly Guided Caliphs, drawn from: (Khadijah Bint Khuwaylid; A’isha Bint AbuBakar; Fatima Al Zahra; Imam Malik; Imam Abu Hanifa; Imam Al-Shafi; Abu ali Hussein Ibn Sina; Rabi’a al-Adawiyya; Al-Ghazali; Sayyid Maududi; Sayyid Qutb)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-7",
+                "description": "Another person or school of thought significant to Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-8",
+                "description": "Analyse the impact of this person OR school of thought on Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-9",
+                "description": "Describe and explain Islamic ethical teachings on bioethics OR environmental ethics OR sexual ethics",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-10",
+                "description": "Describe ONE significant practice within Islam drawn from: (Friday prayer at the mosque; Funeral ceremony; Hajj)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-11",
+                "description": "Demonstrate how this practice expresses the beliefs of Islam",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-islam-1-12",
+                "description": "Analyse the significance of this practice for both the individual and the Muslim community",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-sr1-12-judaism",
+        "name": "Depth study: Judaism",
+        "subTopics": [
+          {
+            "id": "subtopic-sr1-12-judaism-1",
+            "name": "Significant people and ideas; ethics; significant practices in the life of adherents",
+            "dotPoints": [
+              {
+                "id": "dp-sr1-12-judaism-1-1",
+                "description": "The contribution to Judaism of ONE significant person or school of thought, other than Abraham or Moses, drawn from: (Isaiah; Hillel (and Shamai); Beruriah; Rabbi Solomon Isaac (Rashi); Moses Maimonides; Kabbalah; The Hassidim; Moses Mendelssohn; Abraham Geiger)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-2",
+                "description": "Rabbi Isaac Abraham Hacohen Kook (Rav Kook)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-3",
+                "description": "Jewish Feminism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-4",
+                "description": "Another person or school of thought significant to Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-5",
+                "description": "The effect of that person OR school of thought on Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-6",
+                "description": "ONE of the following areas of ethical teaching in Judaism: (bioethics; environmental ethics; sexual ethics)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-7",
+                "description": "ONE significant practice within Judaism drawn from: (death and mourning; marriage; Synagogue services)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-8",
+                "description": "Explain the contribution to the development and expression of Judaism of ONE significant person OR school of thought, other than Abraham or Moses, drawn from: (Isaiah; Hillel (and Shamai); Beruriah; Rabbi Solomon Isaac (Rashi); Moses Maimonides; Kabbalah; The Hassidim; Moses Mendelssohn; Abraham Geiger)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-9",
+                "description": "Rabbi Isaac Abraham Hacohen Kook (Rav Kook)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-10",
+                "description": "Jewish Feminism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-11",
+                "description": "Another person or school of thought significant to Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-12",
+                "description": "Analyse the impact of this person OR school of thought on Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-13",
+                "description": "Describe and explain Jewish ethical teachings on bioethics OR environmental ethics OR sexual ethics",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-14",
+                "description": "Describe ONE significant practice within Judaism drawn from: (death and mourning; marriage; Synagogue services)",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-15",
+                "description": "Demonstrate how this practice expresses the beliefs of Judaism",
+                "prompts": []
+              },
+              {
+                "id": "dp-sr1-12-judaism-1-16",
+                "description": "Analyse the significance of this practice for both the individual and the Jewish community",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

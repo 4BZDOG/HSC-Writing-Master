@@ -1,0 +1,805 @@
+[
+  {
+    "id": "course-hsc-food-technology",
+    "name": "Food Technology",
+    "outcomes": [
+      {
+        "code": "H1.1",
+        "description": "explains manufacturing processes and technologies used in the production of food products"
+      },
+      {
+        "code": "H1.2",
+        "description": "examines the nature and extent of the Australian food industry"
+      },
+      {
+        "code": "H1.3",
+        "description": "justifies processes of food product development and manufacture in terms of market, technological and environmental considerations"
+      },
+      {
+        "code": "H1.4",
+        "description": "evaluates the impact of the operation of an organisation within the Australian food industry on the individual, society and environment"
+      },
+      {
+        "code": "H2.1",
+        "description": "evaluates the relationship between food, its production, consumption, promotion and health"
+      },
+      {
+        "code": "H3.1",
+        "description": "investigates operations of one organisation within the Australian food industry."
+      },
+      {
+        "code": "H3.2",
+        "description": "independently investigates contemporary nutrition issues"
+      },
+      {
+        "code": "H4.1",
+        "description": "develops, prepares and presents food using product development processes."
+      },
+      {
+        "code": "H4.2",
+        "description": "applies principles of food preservation to extend the life of food and maintain safety."
+      },
+      {
+        "code": "H5.1",
+        "description": "develops, realises and evaluates solutions for a range of food situations."
+      },
+      {
+        "code": "P1.1",
+        "description": "identifies and discusses a range of historical and contemporary factors which influence the availability of particular foods",
+        "year": "year11"
+      },
+      {
+        "code": "P1.2",
+        "description": "accounts for individual and group food selection patterns in terms of physiological, psychological, social and economic factors",
+        "year": "year11"
+      },
+      {
+        "code": "P2.1",
+        "description": "explains the role of food nutrients in human nutrition",
+        "year": "year11"
+      },
+      {
+        "code": "P2.2",
+        "description": "identifies and explains the sensory characteristics and functional properties of food",
+        "year": "year11"
+      },
+      {
+        "code": "P3.1",
+        "description": "assesses the nutrient value of meals/diets for particular individuals and groups",
+        "year": "year11"
+      },
+      {
+        "code": "P3.2",
+        "description": "presents ideas in written, graphic and oral form using computer software where appropriate",
+        "year": "year11"
+      },
+      {
+        "code": "P4.1",
+        "description": "selects appropriate equipment, applies suitable techniques and utilises safe and hygienic practices when handling food",
+        "year": "year11"
+      },
+      {
+        "code": "P4.2",
+        "description": "plans, prepares and presents foods which reflect a range of the influences on food selection.",
+        "year": "year11"
+      },
+      {
+        "code": "P4.3",
+        "description": "selects foods, plans and prepares meals/diets to achieve optimum nutrition for individuals and groups",
+        "year": "year11"
+      },
+      {
+        "code": "P4.4",
+        "description": "applies an understanding of the sensory characteristics and functional properties of food to the preparation of food products.",
+        "year": "year11"
+      },
+      {
+        "code": "P5.1",
+        "description": "generates ideas and develops solutions to a range of food situations.",
+        "year": "year11"
+      }
+    ],
+    "topics": [
+      {
+        "id": "topic-ft-11-food-availability-and-selection",
+        "name": "Food availability and selection",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ft-11-food-availability-and-selection-1",
+            "name": "Influences on food availability",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-food-availability-and-selection-1-1",
+                "description": "Historical changes to the availability of food, including (global migration of cultural groups; use of foods native to Australia; technological developments influential on food availability, including; production and manufacturing processes and equipment techniques; storage and distribution techniques; marketplace practices; social, economic and political influences on food availability, including; effects of poverty and affluence; type and state of the economy; government policy, eg taxation, embargoes, subsidies, war, export strategies)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-availability-and-selection-1-2",
+                "description": "Outline the historical changes to food availability in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-availability-and-selection-1-3",
+                "description": "Debate the issue of social justice in relation to food consumption in developed and developing regions of the world",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-11-food-availability-and-selection-2",
+            "name": "Factors affecting food selection",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-food-availability-and-selection-2-1",
+                "description": "Physiological factors, including (hunger, appetite, satiety; nutritional requirements, eg age, gender, size, activity level; reactions to food, eg appearance, odour, taste, allergy)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-availability-and-selection-2-2",
+                "description": "Psychological factors, including (values, beliefs, habits, attitudes, emotions, self-concept, experiences; social factors, including; traditions and culture; lifestyle, eg employment, education, household structures, roles, geographic location, interests; social interaction, eg peer group, family hospitality; media; economic factors, including; the marketplace (retail and purchasing practices); resource availability such as food processing equipment and food preparation skills; occupation and finances)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-availability-and-selection-2-3",
+                "description": "Explain how various factors influence selection of food by individuals and groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-availability-and-selection-2-4",
+                "description": "Prepare foods that reflect various factors influencing food selection",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-availability-and-selection-2-5",
+                "description": "Investigate current food consumption and expenditure patterns in Australia",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-availability-and-selection-2-6",
+                "description": "Analyse the eating patterns of a selected group to identify influences on food selection",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ft-11-food-quality",
+        "name": "Food quality",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ft-11-food-quality-1",
+            "name": "Safe storage of food",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-food-quality-1-1",
+                "description": "Methods of storing foods to maintain quality such as dry storage, cold storage and freezing",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-1-2",
+                "description": "Describe methods of storing foods to maintain sensory characteristics and ensure safety",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-11-food-quality-2",
+            "name": "Safe preparation and presentation of food",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-food-quality-2-1",
+                "description": "Equipment and utensils to produce quality food products across a range of settings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-2-2",
+                "description": "Safe and hygienic work practices when handling food",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-2-3",
+                "description": "Preparation methods to produce food products across a range of settings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-2-4",
+                "description": "Layout of food for visual appeal, including styling for photography and plating for service",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-2-5",
+                "description": "Select appropriate equipment and utensils to produce quality food products across a range of settings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-2-6",
+                "description": "Implement safe and hygienic work practices when handling food",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-2-7",
+                "description": "Select and apply suitable preparation methods to produce quality food products and plate meals for service across a range of settings",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-2-8",
+                "description": "Style foods for photography",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-11-food-quality-3",
+            "name": "Sensory characteristics of food",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-food-quality-3-1",
+                "description": "Sensory characteristics of foods, including appearance, odour, taste (flavour) and texture (mouth feel)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-3-2",
+                "description": "Sensory assessment of a variety of foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-3-3",
+                "description": "Identify sensory characteristics that constitute quality in a variety of foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-3-4",
+                "description": "Evaluate the appeal of foods using sensory assessment",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-11-food-quality-4",
+            "name": "Functional properties of food",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-food-quality-4-1",
+                "description": "Functional properties of food, including (the role of proteins in denaturing, coagulation, gelation, foaming and browning; the role of carbohydrates in gelatinising, dextrinising, caramelising and crystallising; the role of fats in emulsifying and aerating)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-4-2",
+                "description": "Explain some of the functional properties of food",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-4-3",
+                "description": "Identify the factors that affect the functional properties of food",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-4-4",
+                "description": "Factors that affect the functional properties of food, including (oxygen; temperature; acidity; agitation; enzymes; addition of other ingredients)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-4-5",
+                "description": "Investigate through experimentation the factors that affect the functional properties of foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-food-quality-4-6",
+                "description": "Prepare a range of foods which demonstrate the functional properties of food",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ft-11-nutrition",
+        "name": "Nutrition",
+        "year": "year11",
+        "subTopics": [
+          {
+            "id": "subtopic-ft-11-nutrition-1",
+            "name": "Food nutrients",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-nutrition-1-1",
+                "description": "Food nutrients: carbohydrates, proteins, lipids, vitamins, minerals and water",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-2",
+                "description": "Structure of carbohydrates, proteins and lipids",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-3",
+                "description": "Sources of carbohydrates, proteins, lipids, vitamins, minerals and water",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-4",
+                "description": "Functions of carbohydrates, proteins, lipids, vitamins, minerals and water in the body",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-5",
+                "description": "Significant interrelationships between nutrients, including (iron and vitamin C; iron and fibre; calcium and phosphorous; calcium and vitamin D; calcium and fibre; calcium and lactose; folate and vitamin B12; sodium and potassium)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-6",
+                "description": "Identify food nutrients",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-7",
+                "description": "Identify types of carbohydrates, proteins, lipids and vitamins",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-8",
+                "description": "Identify the nutrient composition of various foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-9",
+                "description": "Explain the functions of food nutrients in human nutrition",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-10",
+                "description": "Combine foods to demonstrate nutritionally beneficial interrelationships between foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-11",
+                "description": "Digestion, absorption and metabolism of food",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-1-12",
+                "description": "Describe the process of digestion, absorption and metabolism of food",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-11-nutrition-2",
+            "name": "Diets for optimum nutrition",
+            "dotPoints": [
+              {
+                "id": "dp-ft-11-nutrition-2-1",
+                "description": "Nutritional requirements throughout the life cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-2-2",
+                "description": "Investigate the recommended dietary intake of energy, protein, vitamins and minerals for particular individuals and groups using appropriate data such as RDI tables in print or electronic format",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-2-3",
+                "description": "Current food selection guides and nutritional information that assist in planning and evaluating meals/diets",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-2-4",
+                "description": "Select foods to provide a balanced intake of nutrients for particular individuals and groups to meet a variety of nutritional needs",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-2-5",
+                "description": "Preparation techniques to produce nutritious foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-2-6",
+                "description": "Use suitable preparation methods to optimise the nutritional value of foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-2-7",
+                "description": "Assess meals/diets in regard to meeting nutritional needs throughout the life cycle",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-11-nutrition-2-8",
+                "description": "Plan, prepare, present and evaluate meals/diets that address the needs for optimal nutrition throughout the life cycle",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ft-12-the-australian-food-industry",
+        "name": "The Australian food industry",
+        "subTopics": [
+          {
+            "id": "subtopic-ft-12-the-australian-food-industry-1",
+            "name": "Sectors of the Australian food industry",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-the-australian-food-industry-1-1",
+                "description": "Sectors of the agri-food chain in the Australian food industry, including agriculture and fisheries, food processing/manufacturing, food service and catering, food retail",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-1-2",
+                "description": "Identify sectors within the Australian food industry",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-1-3",
+                "description": "Plan and prepare foods/meals that reflect sectors of the Australian food industry",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-1-4",
+                "description": "Emerging technologies in food production, manufacturing and packaging including biotechnology in genetically modified foods, ecologically sustainable production methods, such as organic farming",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-1-5",
+                "description": "Investigate an emerging technology in ONE sector of the Australian food industry",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-1-6",
+                "description": "Discuss the potential risks and benefits of using emerging technologies in food production and manufacture",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-the-australian-food-industry-2",
+            "name": "Aspects of the Australian food industry",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-the-australian-food-industry-2-1",
+                "description": "Operation of organisations within the Australian food industry with particular attention to (levels of operation and mechanisation, including household, small business, large companies, multinationals; research and development; quality assurance; consumer influences such as value added foods; impact on the; environment including waste management, packaging practices, production techniques, and transportation; economy, eg generation of profit and changes in employment; society including lifestyle changes,; career opportunities and working conditions)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-2-2",
+                "description": "Describe the activities carried out in ONE organisation within the food industry",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-2-3",
+                "description": "Evaluate the impact of the operation of an organisation on individuals, society and the environment",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-the-australian-food-industry-3",
+            "name": "Policy and legislation",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-the-australian-food-industry-3-1",
+                "description": "Advisory groups that have a role in formulating and implementing policy and legislation",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-3-2",
+                "description": "Government policies and legislation (local, state, federal) that impact on the Australian food industry including legislative requirements for labelling",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-3-3",
+                "description": "Explain career opportunities and working conditions, including gender issues within the Australian food industry",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-the-australian-food-industry-3-4",
+                "description": "Identify significant government policies and legislation and explain their impact upon the Australian food industry",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ft-12-food-manufacture",
+        "name": "Food manufacture",
+        "subTopics": [
+          {
+            "id": "subtopic-ft-12-food-manufacture-1",
+            "name": "Production and processing of food",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-food-manufacture-1-1",
+                "description": "Quality and quantity control in the selection of raw materials for food processing",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-2",
+                "description": "Role of food additives in the manufacturing process",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-3",
+                "description": "Characteristics of equipment used in different types of production and the factors influencing their selection",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-4",
+                "description": "Production systems used in the manufacture of food, eg small scale, large scale, manual, automated, computerised",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-5",
+                "description": "Describe processes that transform raw materials into manufactured food products",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-6",
+                "description": "Describe the processing techniques, equipment, storage and distribution systems used in industry and compare with those used domestically",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-7",
+                "description": "Quality management considerations in industrial practices to achieve safe foods for public consumption, eg hazard analysis and critical control point (HACCP); work health and safety and hygiene",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-8",
+                "description": "Identify critical control points and describe quality control procedures in food production systems",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-1-9",
+                "description": "Identify food safety hazards and risks",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-food-manufacture-2",
+            "name": "Preservation",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-food-manufacture-2-1",
+                "description": "Reasons for preserving foods, eg safety, acceptability, nutritive value, availability and economic viability",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-2-2",
+                "description": "Causes of food deterioration and spoilage (environmental factors (infestation, oxygen, light and water); enzymatic activity; microbial contamination (mould, yeast and bacteria); principles behind food preservation techniques, including temperature control and restriction of moisture, exclusion of air and pH; preservation processes, including canning, drying, pasteurising, freezing and fermenting)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-2-3",
+                "description": "Prepare food using the principles of food preservation to ensure a safe product",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-food-manufacture-3",
+            "name": "Packaging, storage and distribution",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-food-manufacture-3-1",
+                "description": "Functions of packaging and types of materials available",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-3-2",
+                "description": "Current developments in packaging, including active packaging; modified atmosphere packaging; sous vide",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-3-3",
+                "description": "Storage conditions and distribution systems at various stages of food manufacture",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-manufacture-3-4",
+                "description": "Investigate, through experimentation, the suitability of packaging materials for different food products",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ft-12-food-product-development",
+        "name": "Food product development",
+        "subTopics": [
+          {
+            "id": "subtopic-ft-12-food-product-development-1",
+            "name": "Factors which impact on food product development",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-food-product-development-1-1",
+                "description": "External factors (macro-environment) that impact on food product development, including the (economic environment; political environment; ecological environment; technological environment; internal factors (micro-environment) that impact on food product development, including; personnel expertise; production facilities; financial position; company image)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-1-2",
+                "description": "Analyse commercial practices in terms of a food company’s response to the macro and micro environments",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-1-3",
+                "description": "Conduct a SWOT analysis to identify strengths, weaknesses, opportunities and threats",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-food-product-development-2",
+            "name": "Reasons for and types of food product development",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-food-product-development-2-1",
+                "description": "Drivers of the development of food products (market concerns such as health, dietary considerations and the environment; consumer demands such as convenience foods and cost; societal changes including increasing ageing population, single person households and longer working hours; technological developments such as processing equipment and packaging materials; company profitability such as increasing market share; types of food product development; line extensions; me toos; new to world)",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-food-product-development-3",
+            "name": "Steps in food product development",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-food-product-development-3-1",
+                "description": "Design brief based on project aims and development criteria (idea generation and screening; market research; product specifications; feasibility study; production process development; development of a prototype; testing product prototype, eg sensory evaluation, consumer testing, packaging tests, storage trials)",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-3-2",
+                "description": "Describe different types of food products on the market",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-3-3",
+                "description": "Develop a food product that meets a consumer need",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-food-product-development-4",
+            "name": "Marketing plans",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-food-product-development-4-1",
+                "description": "Product planning",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-4-2",
+                "description": "Price structure",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-4-3",
+                "description": "Place and distribution system",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-4-4",
+                "description": "Promotional program",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-food-product-development-4-5",
+                "description": "Plan suitable strategies for the marketing of a specific food product",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "topic-ft-12-contemporary-nutrition-issues",
+        "name": "Contemporary nutrition issues",
+        "subTopics": [
+          {
+            "id": "subtopic-ft-12-contemporary-nutrition-issues-1",
+            "name": "Diet and health in Australia",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-1",
+                "description": "Physical effects and economic costs of malnutrition (under and over nutrition) and diet related disorders",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-2",
+                "description": "Nutritional considerations for specific groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-3",
+                "description": "The role of the individual, community groups, the food industry, government organisations and private agencies in promoting health",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-4",
+                "description": "The production/manufacture of nutritionally modified foods to meet consumer demand including a range of functional foods such as fortified foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-5",
+                "description": "The role of ‘active non-nutrients’ in the diet, eg phytochemicals, probiotics and fibre",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-6",
+                "description": "The role of supplements in the diet",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-7",
+                "description": "Explain the consequences of malnutrition",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-8",
+                "description": "Independently investigate and report on the health of a group in Australia and develop a strategy to promote optimum health through good nutrition for this group",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-9",
+                "description": "Plan diets and prepare foods/meals to address dietary requirements of specific groups",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-10",
+                "description": "Discuss the relationship between nutritionally modified foods and health",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-11",
+                "description": "Discuss the role of ‘active non-nutrients’ in the diet",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-1-12",
+                "description": "Debate the role of dietary supplements in a balanced diet",
+                "prompts": []
+              }
+            ]
+          },
+          {
+            "id": "subtopic-ft-12-contemporary-nutrition-issues-2",
+            "name": "Influences on nutritional status",
+            "dotPoints": [
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-2-1",
+                "description": "Health and the role of diet in the development of conditions, including obesity, diabetes, cardiovascular disease, food sensitivity/intolerance/allergies",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-2-2",
+                "description": "Lifestyle and the effect of cultural and social practices on nutritional status",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-2-3",
+                "description": "Media and ethical issues related to advertising practices on food consumption such as the promotion of ‘health’ foods and ‘fast’ foods",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-2-4",
+                "description": "Describe the relationship between nutrient intake and dietary disorders",
+                "prompts": []
+              },
+              {
+                "id": "dp-ft-12-contemporary-nutrition-issues-2-5",
+                "description": "Discuss ethical issues related to the responsible advertising of food products",
+                "prompts": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

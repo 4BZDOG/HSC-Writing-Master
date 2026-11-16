@@ -1,0 +1,49 @@
+{
+  "syllabus": "Studies of Religion Stage 6 Syllabus (2009); Preliminary and HSC; in force from 2010 (first HSC 2011, inferred from the syllabus file name and the two-year course; NESA's course page gives no in-force date)",
+  "source": "https://www.nsw.gov.au/education-and-training/nesa/curriculum/hsie/studies-of-religion-2-stage-6-2009",
+  "id": "course-hsc-studies-of-religion-2",
+  "name": "Studies of Religion II",
+  "prefix": "sr2",
+  "outcomePattern": "^[PH][1-9]$",
+  "topics": [
+    {
+      "title": "Nature of Religion and Beliefs",
+      "year": "year11",
+      "name": "Nature of religion and beliefs"
+    },
+    {
+      "optionsList": "Religious tradition studies",
+      "year": "year11",
+      "nameFormat": "Religious tradition study: {title}"
+    },
+    {
+      "title": "Religions of Ancient Origin",
+      "year": "year11",
+      "name": "Religions of ancient origin"
+    },
+    {
+      "title": "Religion in Australia pre-1945",
+      "year": "year11"
+    },
+    {
+      "title": "Religion and Belief Systems in Australia post-1945",
+      "year": "year12",
+      "name": "Religion and belief systems in Australia post-1945"
+    },
+    {
+      "optionsList": "Religious tradition depth studies",
+      "year": "year12",
+      "nameFormat": "Depth study: {title}"
+    },
+    {
+      "title": "Religion and Peace",
+      "year": "year12",
+      "name": "Religion and peace"
+    },
+    {
+      "title": "Religion and Non-Religion",
+      "year": "year12",
+      "name": "Religion and non-religion"
+    }
+  ]
+}
