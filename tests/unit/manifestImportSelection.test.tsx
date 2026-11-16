@@ -125,3 +125,57 @@ describe('picking syllabuses', () => {
     expect(screen.getByRole('button', { name: /Add 1 syllabus$/ })).toBeTruthy();
   });
 });
+
+describe('picking a faculty at a time', () => {
+  it('ticks every syllabus in a faculty, then unticks them all', () => {
+    open();
+    const boxes = () =>
+      ['Biology (Advanced)', 'Chemistry (Advanced)'].map(
+        (name) =>
+          screen.getByRole('checkbox', {
+            name: new RegExp(name.replace(/[()]/g, '\\$&')),
+          }) as HTMLInputElement
+      );
+    fireEvent.click(screen.getByRole('button', { name: 'Tick every Science syllabus' }));
+    expect(boxes().every((b) => b.checked)).toBe(true);
+    fireEvent.click(screen.getByRole('button', { name: 'Untick every Science syllabus' }));
+    expect(boxes().some((b) => b.checked)).toBe(false);
+  });
+
+  it('says how many in each faculty are ticked', () => {
+    open();
+    fireEvent.click(screen.getByRole('button', { name: 'Tick every Science syllabus' }));
+    expect(screen.getByText('4 of 4 ticked')).toBeTruthy();
+  });
+});
+
+describe('a course offered once', () => {
+  it('does not list a shipped course again under "Not carried yet"', () => {
+    render(
+      <ManifestImportModal
+        isOpen
+        onClose={vi.fn()}
+        discoveredDocs={[
+          doc({ id: 'phys', name: 'Physics' }),
+          doc({ id: 'va', name: 'Visual Arts', subject: 'Creative Arts' }),
+        ]}
+        onImport={vi.fn(async () => true)}
+      />
+    );
+    expect(screen.getByRole('checkbox', { name: /Physics/ })).toBeTruthy();
+    expect(screen.getByText('Earth and Environmental Science')).toBeTruthy();
+    expect(screen.getByText('Music 1, Drama')).toBeTruthy();
+  });
+
+  it('says how many questions a course has, or that it is structure only', () => {
+    render(
+      <ManifestImportModal
+        isOpen
+        onClose={vi.fn()}
+        discoveredDocs={[doc({ id: 'va', name: 'Visual Arts', subject: 'Creative Arts' })]}
+        onImport={vi.fn(async () => true)}
+      />
+    );
+    expect(screen.getByText('Structure only, no questions yet')).toBeTruthy();
+  });
+});

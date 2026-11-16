@@ -72,6 +72,7 @@ import {
   GraduationCap,
   Eye,
   EyeOff,
+  Library,
   type LucideIcon,
 } from 'lucide-react';
 import {
@@ -125,6 +126,11 @@ interface PromptSelectorProps {
    * searching for. Absent when the caller has no backend to log demand into.
    */
   onRequestCourse?: (prefillName?: string) => void;
+  /**
+   * Open the course library: the shipped courses not in this library yet. Absent
+   * where the library is the shared Supabase one, which a local add would not reach.
+   */
+  onOpenCourseLibrary?: () => void;
   /** Admin-only publication toggle — flips a course between draft and published. */
   onToggleCourseStatus: (courseId: string, status: 'draft' | 'published') => void;
   onAddSubTopic: () => void;
@@ -647,6 +653,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   onPathChange,
   onAddCourse,
   onRequestCourse,
+  onOpenCourseLibrary,
   onToggleCourseStatus,
   onAddSubTopic,
   onGeneratePrompt,
@@ -1731,12 +1738,20 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
                       : undefined
                   }
                   emptyAction={
-                    canRequestCourse
+                    // A search that finds nothing may name a shipped course this
+                    // library left out, which the course library adds at once; a
+                    // course the app does not ship is still one link below.
+                    onOpenCourseLibrary && !isLoading
                       ? {
-                          label: "Can't find it? Request this course",
-                          onAction: (query) => onRequestCourse?.(query),
+                          label: 'Look for it in the course library',
+                          onAction: () => onOpenCourseLibrary(),
                         }
-                      : undefined
+                      : canRequestCourse
+                        ? {
+                            label: "Can't find it? Request this course",
+                            onAction: (query) => onRequestCourse?.(query),
+                          }
+                        : undefined
                   }
                 />
               </div>
@@ -1835,14 +1850,31 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
               because the search box only appears once there are seven or more
               courses (Combobox's SEARCH_THRESHOLD) — below that a user scans a
               short list, finds nothing, and would have had nowhere to click. */}
-          {canRequestCourse && (
-            <button
-              type="button"
-              onClick={() => onRequestCourse?.()}
-              className="mt-2 block text-left text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
-            >
-              Can’t find your course? Request it
-            </button>
+          {((onOpenCourseLibrary && !isLoading) || canRequestCourse) && (
+            <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
+              {/* Every shipped course the library does not hold, at any time. The
+                  first-run picker was the only place to add one, so a course left
+                  unticked there could never be added afterwards. */}
+              {onOpenCourseLibrary && !isLoading && (
+                <button
+                  type="button"
+                  onClick={onOpenCourseLibrary}
+                  className="inline-flex items-center gap-1.5 text-left text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+                >
+                  <Library className="w-3 h-3" aria-hidden="true" />
+                  Add a course from the library
+                </button>
+              )}
+              {canRequestCourse && (
+                <button
+                  type="button"
+                  onClick={() => onRequestCourse?.()}
+                  className="block text-left text-[11px] font-bold text-indigo-400 light:text-indigo-600 hover:underline"
+                >
+                  Can’t find your course? Request it
+                </button>
+              )}
+            </div>
           )}
         </div>
       </div>

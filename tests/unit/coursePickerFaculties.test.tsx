@@ -275,3 +275,40 @@ describe('course picker: a single faculty', () => {
     expect(list.getAllByRole('option')).toHaveLength(7);
   });
 });
+
+describe('course picker: the course library', () => {
+  it('offers the course library under the picker, to every role', () => {
+    const onOpenCourseLibrary = vi.fn();
+    render(
+      <PromptSelector
+        {...baseProps}
+        statePath={{} as StatePath}
+        onOpenCourseLibrary={onOpenCourseLibrary}
+      />
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Add a course from the library' }));
+    expect(onOpenCourseLibrary).toHaveBeenCalledTimes(1);
+  });
+
+  it('points a search that finds nothing at the course library', async () => {
+    const onOpenCourseLibrary = vi.fn();
+    render(
+      <PromptSelector
+        {...baseProps}
+        statePath={{} as StatePath}
+        onOpenCourseLibrary={onOpenCourseLibrary}
+      />
+    );
+    const list = openCourses();
+    fireEvent.change(screen.getByRole('combobox', { name: /search/i }), {
+      target: { value: 'visual arts' },
+    });
+    fireEvent.click(await list.findByRole('button', { name: 'Look for it in the course library' }));
+    expect(onOpenCourseLibrary).toHaveBeenCalledTimes(1);
+  });
+
+  it('is not offered where the caller has no course library (a Supabase library)', () => {
+    renderAt();
+    expect(screen.queryByRole('button', { name: 'Add a course from the library' })).toBeNull();
+  });
+});

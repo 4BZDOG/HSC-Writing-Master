@@ -21,6 +21,7 @@ export type ModalName =
   | 'databaseDashboard'
   | 'billingOverview'
   | 'manifestImport'
+  | 'courseLibrary'
   | 'manualPrompt'
   | 'quickStart'
   | 'courseRequest'
