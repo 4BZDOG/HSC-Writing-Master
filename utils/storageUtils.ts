@@ -152,7 +152,9 @@ import {
 // 2.52.0: Written-response questions for Chemistry, Physics and Earth and Environmental Science (922 new);
 // calculation questions removed from the science courses.
 // 2.53.0: 332 more written-response science questions (Chemistry 74%, Physics 58%, EES 80% of dot points).
-export const DATA_VERSION = '2.53.0';
+// 2.54.0: 412 more written-response science questions; Chemistry 90%, Physics 84%, EES 100% of dot points
+// (the rest are calculation-only dot points, skipped on purpose).
+export const DATA_VERSION = '2.54.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

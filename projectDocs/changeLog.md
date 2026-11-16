@@ -1,5 +1,12 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Science questions, final batch)
+
+- **Added (DATA_VERSION 2.54.0).** The last 412 written-response questions for the three science courses, on the same
+  rules: Chemistry 533 questions (90% of dot points), Physics 660 (84%), Earth and Environmental Science 514 (100%).
+  The 30 Chemistry and 62 Physics dot points left without questions are, almost all, the purely numeric ones
+  ("Solve problems using …") skipped on purpose under the written-only rule.
+
 ## [Unreleased] - 2026-11-16 (Science questions, second batch)
 
 - **Added (DATA_VERSION 2.53.0).** 332 more written-response questions for the three science courses, on the same
