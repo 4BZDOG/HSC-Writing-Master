@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Live feedback colour calibrated against the sample answers)
+
+- **Changed.** The live feedback button's colour (and the meter, caret and glow, which share it) never shows a band
+  above the sample answer a draft matches. Every shipped sample (19,409) was run through the readiness model as the
+  writing space runs a draft; 272 showed a colour above their own band, all middle or bottom samples.
+  - Below "Ready to submit" the colour now follows `CHROMA_CEILING` in `utils/draftReadiness.ts`: for each target
+    band and readiness level, the lowest band any sample at that level holds. Completeness cannot see quality, so
+    the ceilings are low: on a Band 6 question "Nearly ready" is orange, because band-2 samples reach it.
+  - "Ready to submit" keeps the top colour. Three Software Engineering samples one mark below full reach it too,
+    being as long and term-complete as a full answer; they are pinned by count.
+  - The word and the percentage are unchanged. `tests/unit/readinessCalibration.test.ts` re-runs the check over the
+    shipped data, so a new question that breaks it fails CI.
+
 ## [Unreleased] - 2026-11-16 (Sample answers: marks that match their length)
 
 - **Changed (DATA_VERSION 2.55.0).** 1,407 middle and bottom sample answers across 16 courses were awarded more than
