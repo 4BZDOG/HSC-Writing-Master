@@ -1273,7 +1273,15 @@ const ContentAuditModal: React.FC<ContentAuditModalProps> = ({
         const calibrationPrompt = { ...current, sampleAnswers: [] };
 
         // 2. Ask AI to evaluate the Mark (quality), passing the Tier context
-        const result = await evaluateAnswer(liveSample.answer, calibrationPrompt, verbInfo);
+        const result = await evaluateAnswer(
+          liveSample.answer,
+          calibrationPrompt,
+          verbInfo,
+          undefined,
+          {
+            courseId: node.path.courseId,
+          }
+        );
 
         // 3. Enforce STRICT band calculation based on the AI's Mark and the Question's guide.
         // This overrides any band hallucinated by the AI, ensuring structural consistency across the dataset.

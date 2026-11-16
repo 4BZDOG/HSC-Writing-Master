@@ -19,10 +19,21 @@ export interface LivePrice {
   taxBehavior: TaxBehavior;
 }
 
+/** A one-off charge, such as a course unlock. It has no interval. */
+export interface OneOffPrice {
+  amount: number;
+  currency: 'aud';
+  /** Ready to show, e.g. 'A$20'. */
+  display: string;
+  taxBehavior: TaxBehavior;
+}
+
 export interface LivePrices {
   plusMonthly?: LivePrice;
   plusYearly?: LivePrice;
   schoolSeat?: LivePrice;
+  /** The default one-off course unlock, when the server has one configured. */
+  courseUnlock?: OneOffPrice;
 }
 
 /**
@@ -188,16 +199,39 @@ const parseLivePrice = (raw: unknown): LivePrice | undefined => {
   };
 };
 
+/**
+ * A one-off price, or undefined. Like parseLivePrice, but with no interval: the
+ * tax note is optional, so an answer without one is still a price to show.
+ */
+const parseOneOffPrice = (raw: unknown): OneOffPrice | undefined => {
+  if (!raw || typeof raw !== 'object') return undefined;
+  const r = raw as Record<string, unknown>;
+  if (typeof r.amount !== 'number' || !Number.isFinite(r.amount) || r.currency !== 'aud') {
+    return undefined;
+  }
+  if (typeof r.display !== 'string' || r.display.length === 0) return undefined;
+  return {
+    amount: r.amount,
+    currency: 'aud',
+    display: r.display,
+    taxBehavior: isTaxBehavior(r.taxBehavior) ? r.taxBehavior : 'unspecified',
+  };
+};
+
 /** Reads the endpoint's body. Anything that is not the expected shape is null. */
 export const parseLivePrices = (body: unknown): LivePrices | null => {
   if (!body || typeof body !== 'object' || !('prices' in body)) return null;
   const prices = (body as { prices: unknown }).prices;
   if (!prices || typeof prices !== 'object') return null;
   const p = prices as Record<string, unknown>;
+  const courseUnlock = parseOneOffPrice(p.courseUnlock);
   return {
     plusMonthly: parseLivePrice(p.plusMonthly),
     plusYearly: parseLivePrice(p.plusYearly),
     schoolSeat: parseLivePrice(p.schoolSeat),
+    // Only present when the server sent one, so a screen that checks for it is
+    // not handed an `undefined` key it did not ask for.
+    ...(courseUnlock ? { courseUnlock } : {}),
   };
 };
 

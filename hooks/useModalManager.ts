@@ -25,7 +25,8 @@ export type ModalName =
   | 'quickStart'
   | 'courseRequest'
   | 'legalDocuments'
-  | 'progressReport';
+  | 'progressReport'
+  | 'courseUnlock';
 
 export type RenameTarget = {
   type: 'course' | 'topic' | 'subTopic' | 'dotPoint' | 'prompt';
@@ -61,6 +62,8 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
   const [deleteTarget, setDeleteTarget] = useState<DeleteTarget | null>(null);
   const [confirmationProps, setConfirmationProps] = useState<ConfirmationProps | null>(null);
   const [qualityCheckProps, setQualityCheckProps] = useState<QualityCheckProps | null>(null);
+  /** The course the unlock prompt is for. Kept after close, as the dialog's own state is. */
+  const [courseUnlockCourseId, setCourseUnlockCourseId] = useState<string | null>(null);
 
   const openModal = useCallback((name: ModalName) => {
     setActiveModals((prev) => new Set(prev).add(name));
@@ -158,6 +161,14 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
     closeModal('qualityCheck');
   }, [closeModal]);
 
+  const requestCourseUnlock = useCallback(
+    (courseId: string) => {
+      setCourseUnlockCourseId(courseId);
+      openModal('courseUnlock');
+    },
+    [openModal]
+  );
+
   return {
     activeModals,
     modalProps: {
@@ -165,6 +176,7 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
       deleteTarget,
       confirmationProps,
       qualityCheckProps,
+      courseUnlockCourseId,
     },
     openModal,
     closeModal,
@@ -180,5 +192,6 @@ export const useModalManager = ({ onRename, onDelete }: ModalManagerOptions) => 
     cancelConfirmation,
     showQualityCheck,
     closeQualityCheck,
+    requestCourseUnlock,
   };
 };

@@ -70,6 +70,9 @@ const QualityCheckModal = lazy(() => import('./QualityCheckModal'));
 const UserProfileModal = lazy(() => import('./UserProfileModal'));
 const ManifestImportModal = lazy(() => import('./ManifestImportModal'));
 const ProgressReportModal = lazy(() => import('./ProgressReportModal'));
+// The one-off unlock for a locked course (projectDocs/course-unlocks.md). Lazy: it is
+// opened only when a student marks a locked course, never on the first screen.
+const CourseUnlockModal = lazy(() => import('./CourseUnlockModal'));
 
 interface AppModalsProps {
   activeModals: Set<string>;
@@ -90,6 +93,8 @@ interface AppModalsProps {
   user: User | null;
   onUpdateUser: (user: User) => void;
   onLogout: () => void;
+  /** Carries on with the marking that asked for a course the server found already included. */
+  onCourseIncluded?: () => void;
 }
 
 const AppModals: React.FC<AppModalsProps> = ({
@@ -107,6 +112,7 @@ const AppModals: React.FC<AppModalsProps> = ({
   user,
   onUpdateUser,
   onLogout,
+  onCourseIncluded,
 }) => {
   const { currentCourse, currentTopic, currentSubTopic, currentDotPoint } = currentSelection;
 
@@ -654,6 +660,24 @@ const AppModals: React.FC<AppModalsProps> = ({
                 closeModal('userProfile');
                 modalHandlers.openModal('progressReport');
               }}
+            />
+          )}
+        </Suspense>
+      )}
+
+      {user && (
+        <Suspense fallback={null}>
+          {mounted('courseUnlock') && (
+            <CourseUnlockModal
+              isOpen={isModalOpen('courseUnlock')}
+              onClose={() => closeModal('courseUnlock')}
+              courseId={modalProps.courseUnlockCourseId}
+              courseName={
+                courses.find((c) => c.id === modalProps.courseUnlockCourseId)?.name ?? 'this course'
+              }
+              user={user}
+              showToast={showToast}
+              onIncluded={onCourseIncluded}
             />
           )}
         </Suspense>

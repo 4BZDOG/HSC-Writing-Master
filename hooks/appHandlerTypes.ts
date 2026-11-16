@@ -39,6 +39,7 @@ export type AppModalHandlers = Pick<
   | 'cancelConfirmation'
   | 'showQualityCheck'
   | 'closeQualityCheck'
+  | 'requestCourseUnlock'
 >;
 
 /** Syllabus-tree mutations plus import/reset/library orchestration. */

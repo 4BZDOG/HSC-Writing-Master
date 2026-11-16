@@ -37,3 +37,19 @@ cd /home/user/HSC-Writing-Master && npx tsx .claude/skills/build-course-data/too
 ## Reporting
 
 Final message (under 100 words): patch path, dot points done of dot points listed, validator result (errors/warnings), anything not done. Do not paste the patch.
+
+## Science courses: written responses only
+
+Chemistry, Physics, Earth and Environmental Science, Biology and Investigating Science questions test understanding
+in WRITING. The owner does not want calculation questions in this app.
+
+- Never use the CALCULATE verb, and never write a question whose answer needs numeric working, a formula
+  rearrangement or a computed value. No "find the …", "determine the value of …", unit conversions or worked
+  problems in the stem or the samples.
+- Where a dot point names an equation or a quantitative relationship, test the idea behind it in words: EXPLAIN
+  what the relationship means and why it holds, PREDICT and justify the direction of a change ("what happens to the
+  current if the resistance doubles, and why"), INTERPRET a described trend or graph in words, ASSESS a method, its
+  validity or its limitations, or COMPARE two models. Numbers may appear in a scenario as context, but the answer
+  must not require arithmetic.
+- If a dot point is purely a calculation with no idea to explain in words, skip it, and list its id in your final
+  report as skipped.
