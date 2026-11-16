@@ -155,7 +155,8 @@ import {
 // 2.54.0: 412 more written-response science questions; Chemistry 90%, Physics 84%, EES 100% of dot points
 // (the rest are calculation-only dot points, skipped on purpose).
 // 2.55.0: 1,407 sample answers that were too short for their mark moved down to a mark their length supports.
-export const DATA_VERSION = '2.55.0';
+// 2.56.0: Health and Movement Science ticked by default, and re-offered to browsers that left it unticked.
+export const DATA_VERSION = '2.56.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and

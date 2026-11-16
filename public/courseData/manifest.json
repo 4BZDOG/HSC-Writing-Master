@@ -88,7 +88,7 @@
       "file": "HSCHealthAndMovementScience.json",
       "type": "course",
       "subject": "PDHPE",
-      "selected": false
+      "selected": true
     },
     {
       "file": "HSCBiology.json",

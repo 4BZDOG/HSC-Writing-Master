@@ -1,5 +1,14 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Health and Movement Science reaches every library)
+
+- **Fixed (DATA_VERSION 2.56.0).** Health and Movement Science is complete (138 questions, every dot point covered)
+  but shipped unticked in the first-run picker. A course left unticked there is recorded as offered and never added
+  later, and a returning library has no picker to add one from, so most people never saw it.
+  - It is now ticked by default for new users.
+  - Browsers older than 2.56.0 drop it from their offered record (`REOFFERED_SHIPPED` in `hooks/useSyllabusData.ts`),
+    so the next load adds it. The list is reusable for any other course that needs offering again.
+
 ## [Unreleased] - 2026-11-16 (Live feedback colour calibrated against the sample answers)
 
 - **Changed.** The live feedback button's colour (and the meter, caret and glow, which share it) never shows a band

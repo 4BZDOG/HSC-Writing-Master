@@ -154,6 +154,31 @@ const readOfferedShipped = (): ReadonlySet<string> | undefined => {
   return ids ? new Set(ids) : undefined;
 };
 
+/**
+ * Shipped courses offered again to browsers that saw them before a given data
+ * version. A course left unticked in the first-run picker is recorded as offered
+ * and never added later, and a returning library has no picker to add it from,
+ * so a course that was wrongly unticked by default stayed out of reach. Listing
+ * it here re-offers it once: browsers older than `since` drop it from their
+ * offered record, and the sync adds it.
+ */
+const REOFFERED_SHIPPED: ReadonlyArray<{ since: string; ids: readonly string[] }> = [
+  // Health and Movement Science shipped unticked although complete (138 questions).
+  { since: '2.56.0', ids: ['course-hsc-health-and-movement-science'] },
+];
+
+/** The offered record with any course re-offered since `savedVersion` taken out. */
+export const withReofferedShipped = (
+  offered: ReadonlySet<string> | undefined,
+  savedVersion: string
+): ReadonlySet<string> | undefined => {
+  if (!offered) return offered;
+  const next = new Set(offered);
+  for (const { since, ids } of REOFFERED_SHIPPED)
+    if (isOlderThan(savedVersion, since)) ids.forEach((id) => next.delete(id));
+  return next;
+};
+
 /** Adds to the offered record; never removes, so a course offered once stays declined. */
 const recordOfferedShipped = (ids: string[]): void => {
   const known = readOfferedShipped() ?? new Set<string>();
@@ -517,7 +542,7 @@ export const useSyllabusData = ({ showToast }: { showToast: ShowToast }) => {
           // alongside it, and a bump that missed it shipped courses no returning browser saw.
           let libraryReady = true;
           if (isOlderThan(savedVersion, DATA_VERSION)) {
-            const offered = readOfferedShipped();
+            const offered = withReofferedShipped(readOfferedShipped(), savedVersion);
             const synced = await syncShippedCourses(dataToLoad, offered);
             dataToLoad = synced.courses;
             libraryReady = synced.complete;
