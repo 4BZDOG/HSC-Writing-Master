@@ -1,5 +1,11 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Science questions, second batch)
+
+- **Added (DATA_VERSION 2.53.0).** 332 more written-response questions for the three science courses, on the same
+  rules (no calculation, two per dot point, validated): Chemistry 435 questions (74% of dot points covered),
+  Physics 454 (58%), Earth and Environmental Science 406 (80%). The rest follows in a later batch.
+
 ## [Unreleased] - 2026-11-16 (Science questions, written only; course unlocks)
 
 - **Added (DATA_VERSION 2.52.0).** Written-response questions for the three science courses that had only past HSC
