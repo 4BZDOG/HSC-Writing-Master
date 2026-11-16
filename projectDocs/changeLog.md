@@ -1,5 +1,22 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-16 (Science questions, written only; course unlocks)
+
+- **Added (DATA_VERSION 2.52.0).** Written-response questions for the three science courses that had only past HSC
+  questions, two per dot point, written by agents to `author_brief.md` and validated:
+  - **Chemistry** 355 questions (61% of dot points covered, from 6%), **Physics** 304 (40%, from 5%), **Earth and
+    Environmental Science** 304 (60%, from 6%).
+  - Science questions are written only: no CALCULATE verb and no numeric working. A formula is tested by explaining or
+    predicting in words. The rule is now in `author_brief.md`. Dot points that are purely calculation (25 in
+    Chemistry, 58 in Physics) are skipped on purpose.
+  - The rest of the three courses is not authored yet; the job files can be regenerated with `make_jobs.py`.
+- **Removed.** 34 calculation questions from the science courses (17 Biology, 6 Chemistry, 11 Physics; 18 of them
+  past HSC questions), for example pH, titration, projectile and Lincoln-index calculations. Ten questions with a
+  minor numeric step and a mainly written answer were kept.
+- **Added (course unlocks).** A one-off fee per course on top of a plan, off by default
+  (`projectDocs/course-unlocks.md`): a lock badge and price in the course picker, an unlock prompt before marking a
+  locked course, and the checkout return. The server side landed earlier in this branch.
+
 ## [Unreleased] - 2026-11-16 (Three more structure-only courses: Aboriginal Studies, Agriculture, Engineering Studies)
 
 - **Added (DATA_VERSION 2.51.0).** Three structure-only courses whose HSC exam is all written, chosen from

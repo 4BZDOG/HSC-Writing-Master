@@ -149,7 +149,9 @@ import {
 // 2.50.0: Five structure-only courses from the roadmap's first wave: Studies of Religion I and II, Visual Arts,
 // Food Technology and Investigating Science.
 // 2.51.0: Three more structure-only courses: Aboriginal Studies, Agriculture and Engineering Studies.
-export const DATA_VERSION = '2.51.0';
+// 2.52.0: Written-response questions for Chemistry, Physics and Earth and Environmental Science (about 960 new);
+// calculation questions removed from the science courses.
+export const DATA_VERSION = '2.52.0';
 
 /**
  * Built-in courses retired from the shared library in 2.11.0: the Biology and
