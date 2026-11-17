@@ -22,6 +22,7 @@ vi.mock('../../api/_lib/quota', () => ({
   consumeEvaluation: (...args: unknown[]) => consumeEvaluationMock(...args),
   consumeAiQuota: (...args: unknown[]) => consumeAiQuotaMock(...args),
   resolveCallerPlan: (...args: unknown[]) => resolveCallerPlanMock(...args),
+  resolveCallerUnlimited: async () => null,
   refundEvaluation: (...args: unknown[]) => refundEvaluationMock(...args),
   recordAiModelUsage: async () => undefined,
   // The request guard asks this only for an oversized call or an uncapped Gemini

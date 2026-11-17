@@ -14,12 +14,14 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const consumeEvaluationMock = vi.fn();
 const consumeAiQuotaMock = vi.fn();
 const resolveCallerPlanMock = vi.fn();
+const resolveCallerUnlimitedMock = vi.fn();
 const runAiProxyMock = vi.fn();
 
 vi.mock('../../api/_lib/quota', () => ({
   consumeEvaluation: (...args: unknown[]) => consumeEvaluationMock(...args),
   consumeAiQuota: (...args: unknown[]) => consumeAiQuotaMock(...args),
   resolveCallerPlan: (...args: unknown[]) => resolveCallerPlanMock(...args),
+  resolveCallerUnlimited: (...args: unknown[]) => resolveCallerUnlimitedMock(...args),
   recordAiModelUsage: async () => undefined,
   // The request guard asks this only for an oversized call or an uncapped Gemini
   // one; these tests are about the gates, so the caller is a student.
@@ -67,6 +69,8 @@ beforeEach(() => {
   consumeEvaluationMock.mockReset();
   consumeAiQuotaMock.mockReset();
   resolveCallerPlanMock.mockReset();
+  resolveCallerUnlimitedMock.mockReset();
+  resolveCallerUnlimitedMock.mockResolvedValue(null);
   runAiProxyMock.mockReset();
   consumeAiQuotaMock.mockResolvedValue({ allowed: true, used: 1, limit: 300 });
   runAiProxyMock.mockResolvedValue({ status: 200, body: { text: 'ok' } });
@@ -164,10 +168,32 @@ describe('api/gemini paid-feature gate', () => {
     }
   });
 
-  it('fails open when the plan cannot be resolved', async () => {
+  it('refuses a free caller when the plan lookup fails but the back-up check answers', async () => {
+    resolveCallerPlanMock.mockResolvedValue(null);
+    resolveCallerUnlimitedMock.mockResolvedValue(false);
+    const res = makeRes();
+    await handler(post(call('answerUpgrades')), res);
+
+    expect(res.statusCode).toBe(402);
+    expect(runAiProxyMock).not.toHaveBeenCalled();
+    expect(consumeAiQuotaMock).not.toHaveBeenCalled();
+  });
+
+  it('keeps a paying caller served when the plan lookup fails', async () => {
+    resolveCallerPlanMock.mockResolvedValue(null);
+    resolveCallerUnlimitedMock.mockResolvedValue(true);
+    const res = makeRes();
+    await handler(post(call('answerUpgrades')), res);
+
+    expect(res.statusCode).toBe(200);
+    expect(runAiProxyMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('fails open only when both the plan and the back-up check fail', async () => {
     // A billing lookup that breaks must never take the product down with it:
     // an unmigrated database or a transient Supabase failure returns null.
     resolveCallerPlanMock.mockResolvedValue(null);
+    resolveCallerUnlimitedMock.mockResolvedValue(null);
     const res = makeRes();
     await handler(post(call('aiContentStudio')), res);
 

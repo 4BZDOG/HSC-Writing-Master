@@ -7,6 +7,7 @@ import {
   refundEvaluation,
   resolveCallerIsStaff,
   resolveCallerPlan,
+  resolveCallerUnlimited,
   type QuotaVerdict,
 } from './_lib/quota';
 import { corsHeadersFor } from './_lib/cors';
@@ -251,7 +252,17 @@ export default async function handler(req: RequestLike, res: ResponseLike): Prom
     // the AI budget so a refused call costs the caller nothing.
     const feature = monetisationEnabled() ? featureFromRequest(req.body) : null;
     if (feature && token) {
-      const plan = await callerPlan();
+      // When the plan cannot be read, ask a second, read-only question before
+      // letting the call through: an unlimited evaluation allowance means a paid
+      // plan or staff, so a paying caller keeps the feature and a free caller is
+      // refused. Only when BOTH lookups fail does the gate stay open, as marking
+      // and the quota do, so a database outage never takes paid features from
+      // paying users.
+      let plan = await callerPlan();
+      if (!plan) {
+        const unlimited = await resolveCallerUnlimited(token);
+        if (unlimited === false) plan = 'free';
+      }
       if (plan && !planUnlocks(plan, feature)) {
         const required = featureMinPlan(feature);
         await refundIfSpent();

@@ -205,6 +205,40 @@ export const resolveCallerPlan = async (
 };
 
 /**
+ * The back-up plan check for the paid-feature gate, used only when
+ * `resolveCallerPlan` cannot answer. `get_evaluation_status()` is read-only (it
+ * spends nothing) and reports `unlimited: true` for staff, paid plans and
+ * licensed schools, which is enough to tell a paying caller from a free one.
+ * Returns null when this lookup fails too, so the caller decides what a double
+ * failure means.
+ */
+export const resolveCallerUnlimited = async (accessToken: string): Promise<boolean | null> => {
+  const url = process.env.SUPABASE_URL;
+  const anonKey = process.env.SUPABASE_ANON_KEY;
+  if (!url || !anonKey) return null;
+
+  try {
+    const client = createClient(url, anonKey, {
+      auth: { persistSession: false },
+      global: { headers: { Authorization: `Bearer ${accessToken}` }, fetch: timedFetch },
+    });
+    const { data, error } = await client.rpc('get_evaluation_status');
+    const unlimited = (data as { unlimited?: unknown } | null)?.unlimited;
+    if (error || typeof unlimited !== 'boolean') {
+      console.warn(
+        '[quota] get_evaluation_status unavailable as the back-up plan check:',
+        error?.message ?? 'malformed response'
+      );
+      return null;
+    }
+    return unlimited;
+  } catch (e) {
+    console.warn('[quota] get_evaluation_status failed as the back-up plan check:', e);
+    return null;
+  }
+};
+
+/**
  * Best-effort per-model usage tally for the admin dashboard's cost breakdown.
  * REPORTING ONLY: this is completely separate from the budget above — the
  * model a call uses doesn't change the allowance it spends — so any failure
