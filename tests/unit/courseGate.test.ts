@@ -26,6 +26,7 @@ vi.mock('../../api/_lib/quota', () => ({
   consumeEvaluation: (...args: unknown[]) => consumeEvaluationMock(...args),
   consumeAiQuota: (...args: unknown[]) => consumeAiQuotaMock(...args),
   resolveCallerPlan: (...args: unknown[]) => resolveCallerPlanMock(...args),
+  resolveCallerUnlimited: async () => null,
   recordAiModelUsage: async () => undefined,
   refundEvaluation: async () => undefined,
   resolveCallerIsStaff: async () => false,

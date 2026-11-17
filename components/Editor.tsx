@@ -94,6 +94,8 @@ interface EditorProps {
   maxBand?: number; // Cap for color progression (1-6)
   /** The question's course band ceiling (see `Prompt.bandCeiling`). */
   bandCeiling?: number;
+  /** The question's marks: at 6 or fewer it stops at Band 5 (see `getQuestionBandCeiling`). */
+  totalMarks?: number;
   onHeaderResize?: (height: number) => void;
   minHeaderHeight?: number;
   minTotalHeight?: number;
@@ -331,6 +333,7 @@ const Editor = forwardRef<
       onFontSizeChange,
       maxBand = 6,
       bandCeiling,
+      totalMarks,
       onHeaderResize,
       minHeaderHeight,
       minTotalHeight,
@@ -400,7 +403,10 @@ const Editor = forwardRef<
     // dead and the two cards drifted apart.
     const internalFontSize = syncedFontSize || READING_SIZE_DEFAULT;
 
-    const verbInfo = useMemo(() => getPromptTermInfo({ verb, bandCeiling }), [verb, bandCeiling]);
+    const verbInfo = useMemo(
+      () => getPromptTermInfo({ verb, bandCeiling, totalMarks }),
+      [verb, bandCeiling, totalMarks]
+    );
     const verbTier = verbInfo.tier;
 
     // Exam Mode has no strategy at all, so it must not be reported as a support
@@ -489,7 +495,8 @@ const Editor = forwardRef<
     // so the glow/caret never climb past the best colour the question can be
     // awarded — reusing the canonical band palette (no new band hex).
     const readinessAccent = useMemo(() => {
-      if (isExamMode || !readiness || readiness.isNeutral) return null;
+      if (isExamMode || !readiness || readiness.isNeutral || readiness.chromaLevel === 0)
+        return null;
       const { hex, config } = getReadinessChroma(readiness.chromaLevel);
       return { hex, glow: config.glow };
     }, [isExamMode, readiness]);
@@ -1098,6 +1105,7 @@ const Editor = forwardRef<
                 compact={isFocusMode}
                 verb={verb}
                 bandCeiling={bandCeiling}
+                totalMarks={totalMarks}
                 open={showStrategy}
                 onToggle={() => setShowStrategy((s) => !s)}
                 read={strategyOpened}

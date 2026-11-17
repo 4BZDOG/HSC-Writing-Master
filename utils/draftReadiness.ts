@@ -94,14 +94,12 @@ export interface ReadinessResult {
    */
   level: ReadinessLevel;
   /**
-   * The level used for COLOUR, derived from `level` and placed on the question's
-   * OWN palette, capped at its target band, so a Band-4 (green) question never
-   * shows blue or purple. Below the top it follows `CHROMA_CEILING`, calibrated
-   * so the colour never sits above the band of a shipped sample answer that is
-   * just as complete. The top colour appears only at level 6, so "Ready to
-   * submit" and the top hue always agree. 0 whenever `level` is 0. Every colour
-   * surface (meter, button, caret, glow) resolves its hue from THIS via
-   * `getReadinessChroma`.
+   * The level used for COLOUR. Neutral (0) for every level below "Ready to
+   * submit", and the question's target band (capped, so a Band-4 question never
+   * shows blue or purple) at level 6. So the button never shows a band colour a
+   * draft has not reached, and "Ready to submit" and the band hue always agree.
+   * Every colour surface (meter, button, caret, glow) resolves its hue from
+   * THIS via `getReadinessChroma`.
    */
   chromaLevel: ReadinessLevel;
   /** True when `level === 0`. */
@@ -156,30 +154,6 @@ const CHROMA_SPAN = 60;
 
 /** Highest `percent` a draft can show while it is held short of level 6. */
 const NEARLY_READY_CEILING = 83;
-
-/**
- * The colour each readiness level may show below "Ready to submit", by the
- * question's target band (the cap). Row `cap` gives levels 1..5.
- *
- * CALIBRATED AGAINST THE SHIPPED SAMPLE ANSWERS (19,409 of them, November
- * 2026): every sample was run through this model exactly as the writing space
- * runs a draft, and each cell is the LOWEST band any sample at that level
- * holds, made non-decreasing. So the button never shows a colour above the
- * sample answer it matches: a draft as complete as a band-2 sample cannot glow
- * band 3 or higher. Completeness cannot see quality, which is why the ceilings
- * sit low: long, keyword-rich samples that were marked down reach "Nearly
- * ready" too. `tests/unit/readinessCalibration.test.ts` re-derives the check
- * from the shipped data, so a new course or question that breaks it fails CI.
- * Re-run the calibration (that test prints the table) after a large data change.
- */
-const CHROMA_CEILING: Record<number, readonly [number, number, number, number, number]> = {
-  1: [1, 1, 1, 1, 1],
-  2: [1, 1, 1, 1, 1],
-  3: [1, 1, 1, 1, 2],
-  4: [1, 1, 1, 2, 2],
-  5: [1, 1, 2, 2, 3],
-  6: [1, 1, 2, 2, 2],
-};
 
 const clamp01 = (n: number): number => Math.max(0, Math.min(1, n));
 
@@ -277,9 +251,12 @@ export const computeDraftReadiness = (input: ReadinessInput): ReadinessResult =>
   let chromaLevel: ReadinessLevel;
   if (level === 0) chromaLevel = 0;
   else if (level === 6) chromaLevel = cap as ReadinessLevel;
-  // Below the top, the calibrated ceiling (see CHROMA_CEILING): never a colour
-  // above the band of a sample answer that is just as complete.
-  else chromaLevel = CHROMA_CEILING[cap][level - 1] as ReadinessLevel;
+  // Below the top, the calm neutral slate. Readiness measures completeness, not
+  // quality, so no band colour is shown until the draft is ready to submit: a
+  // band hue on the way up would either over-promise (a long, keyword-rich draft
+  // is not a good one) or, held below every sample at that level, read as
+  // failing. The word and the percentage carry the progress instead.
+  else chromaLevel = 0;
 
   return {
     score,

@@ -233,7 +233,7 @@ describe('Syllabus Terms: the toolbar, by role', () => {
 describe('Syllabus Terms: the caption and the empty state', () => {
   it('carries one quiet caption that names the band the terms are for', () => {
     renderPanel();
-    expect(screen.getByText('Weave the key terms into a Band 6 response.')).toBeTruthy();
+    expect(screen.getByText('Weave the key terms into a Band 5 response.')).toBeTruthy();
   });
 
   it('gives an empty panel the guide’s empty well, and says what closes the gap for a curator', () => {

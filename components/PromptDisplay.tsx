@@ -547,7 +547,10 @@ const PromptDisplay: React.FC<PromptDisplayProps> = ({
       ...supporting.map((term) => ({ term, isKeyTerm: false })),
     ];
   }, [prompt.keywords, prompt.question, prompt.scenario, syllabus]);
-  const verbInfo = useMemo(() => getPromptTermInfo(prompt), [prompt.verb, prompt.bandCeiling]);
+  const verbInfo = useMemo(
+    () => getPromptTermInfo(prompt),
+    [prompt.verb, prompt.bandCeiling, prompt.totalMarks]
+  );
   // The suggested time the card states, from the one function the metrics strip
   // and the exam line use (a past paper's share of its section allowance), so
   // the card never quotes two numbers for one question.

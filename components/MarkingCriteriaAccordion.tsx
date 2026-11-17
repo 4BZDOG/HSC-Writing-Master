@@ -118,7 +118,7 @@ const MarkingCriteriaManager: React.FC<MarkingCriteriaAccordionProps> = ({
   const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(
     () => getPromptTermInfo(prompt),
-    [prompt.verb, prompt.bandCeiling]
+    [prompt.verb, prompt.bandCeiling, prompt.totalMarks]
   );
 
   const maxPossibleBand = useMemo(() => {

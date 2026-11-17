@@ -267,7 +267,7 @@
                         "mark": 2,
                         "answer": "Power is the ability to make others do things. The principal has authority in the school.",
                         "feedback": "Describes power in general terms and gives a brief example of authority, but the example is not linked to the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-1-2-n0-s3",
@@ -381,7 +381,7 @@
                         "mark": 2,
                         "answer": "Socialisation is learning how to behave in society, such as at school. A social construct is something that society makes up.",
                         "feedback": "Defines both terms with some accuracy, but the definitions are brief and the examples are general.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-1-3-n0-s3",
@@ -740,7 +740,7 @@
                         "mark": 2,
                         "answer": "A multicultural society has people from many cultures. Hybrid means mixed, such as the fusion cafe.",
                         "feedback": "Describes the concepts with some accuracy but the explanations are brief and the examples are limited.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-3-1-n0-s3",
@@ -856,7 +856,7 @@
                         "mark": 2,
                         "answer": "Sam talks to the manager at work, which is micro. The youth council is meso.",
                         "feedback": "Describes two levels but does not give an interaction at the macro level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-3-2-n0-s3",
@@ -1087,7 +1087,7 @@
                         "mark": 2,
                         "answer": "Younger people are expected to help at home. The teenager clears the table because of this.",
                         "feedback": "Describes an expectation with some accuracy and links it to the behaviour, but the explanation is brief.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-3-4-n0-s3",
@@ -1203,7 +1203,7 @@
                         "mark": 2,
                         "answer": "The school teaches students rules and how to behave, which shapes them as individuals. Students can also influence the school through their feedback and behaviour.",
                         "feedback": "Describes both directions, but the mechanisms are general and the link to individuals is brief.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-3-5-n0-s3",
@@ -1320,7 +1320,7 @@
                         "mark": 2,
                         "answer": "Culture is shown in the school's traditions and values, which students learn. The layout of classrooms and the playground affects how students interact.",
                         "feedback": "Applies culture and environment to the school, but each application is brief and the link to the concepts is not named.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-3-6-n0-s3",
@@ -1443,7 +1443,7 @@
                         "mark": 2,
                         "answer": "Researchers must get informed consent from participants before collecting data. They should also keep participants' information confidential.",
                         "feedback": "Outlines two principles briefly, but does not explain how each one is applied in practice.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-1-n0-s3",
@@ -1560,7 +1560,7 @@
                         "mark": 2,
                         "answer": "First the researcher chooses a topic. Then they read background information, such as books and articles, before writing a focus question.",
                         "feedback": "Describes all three stages in order, but with limited detail for the hypothesis and no explanation of why the order matters.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-2-n0-s3",
@@ -1677,7 +1677,7 @@
                         "mark": 2,
                         "answer": "A researcher should choose a topic they find interesting and that is relevant to the course. They should also check that they can access participants.",
                         "feedback": "Outlines two relevant factors with some explanation, but does not develop either one.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-3-n0-s3",
@@ -1909,7 +1909,7 @@
                         "mark": 2,
                         "answer": "A researcher can read textbooks and journal articles to find out what is already known about the topic.",
                         "feedback": "Outlines two source types with limited explanation and does not address how sources are checked.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-5-n0-s3",
@@ -2025,7 +2025,7 @@
                         "mark": 2,
                         "answer": "A researcher must decide who will take part in the study and how long it will take.",
                         "feedback": "Describes two design decisions briefly, without reasons or a link to the wider research design.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-6-n0-s3",
@@ -2141,7 +2141,7 @@
                         "mark": 2,
                         "answer": "A survey and an interview both collect new data, so they are primary research. A review of census data is secondary research.",
                         "feedback": "Classifies the methods correctly, but the reasons are brief and the focus group is not addressed.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-7-n0-s3",
@@ -2372,7 +2372,7 @@
                         "mark": 2,
                         "answer": "The student could put the interview responses into themes. This makes the information easier to look at.",
                         "feedback": "One strategy is described with some reference to manageability. A second strategy is needed for full marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-9-n0-s3",
@@ -2604,7 +2604,7 @@
                         "mark": 2,
                         "answer": "The teacher needs a formal report and the council needs a short summary. The language should suit each reader.",
                         "feedback": "A difference in format is identified and linked to the audience in general terms. Name the specific format or language change for each reader.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-4-11-n0-s3",
@@ -2953,7 +2953,7 @@
                         "mark": 2,
                         "answer": "Interviews let the researcher ask follow-up questions. However, the results may not apply to all young people.",
                         "feedback": "A strength and a weakness are identified, but the link to this scenario is limited. Refer directly to leaving school early.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-1-5-2-n0-s3",
@@ -3905,7 +3905,7 @@
                         "mark": 2,
                         "answer": "A contemporary example is weekend sport in Australian towns. It shows culture because people share it.",
                         "feedback": "Outlines the practice with some reference to culture, but the feature is not precisely identified.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-2-1-n0-s3",
@@ -4624,7 +4624,7 @@
                         "mark": 2,
                         "answer": "The nature position says identity is inherited through genes. The nurture position says identity comes from the environment, such as family and schooling.",
                         "feedback": "Meets the 2-mark row: outlines both positions accurately, but does not apply them to Mei, so the answer stays general.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-3-5-n0-s3",
@@ -4743,7 +4743,7 @@
                         "mark": 2,
                         "answer": "Adolescence is the period between childhood and adulthood. It is shaped by society, so its length differs from place to place.",
                         "feedback": "Meets the 2-mark row: outlines the stage and notes a social influence, but does not explain the construct idea or use the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-3-6-n0-s3",
@@ -4861,7 +4861,7 @@
                         "mark": 2,
                         "answer": "Piaget described four stages of cognitive development, including the formal operational stage. This stage is reached in adolescence.",
                         "feedback": "Meets the 2-mark row: identifies the stages and links adolescence to the formal operational stage, but gives no ages or features.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-3-7-n0-s3",
@@ -4980,7 +4980,7 @@
                         "mark": 2,
                         "answer": "A young person gains the right to vote at 18 in federal elections in Australia. Driving rights are gained in stages, starting with a learner licence.",
                         "feedback": "Meets the 2-mark row: identifies two changes accurately, but does not explain how they mark the transition to adulthood.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-3-8-n0-s3",
@@ -5106,7 +5106,7 @@
                         "mark": 2,
                         "answer": "It compares generations in the same culture, so change over time can be seen.",
                         "feedback": "Meets the 2-mark row: identifies one reason, but does not explain what the comparison reveals or name a second reason.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-4-1-n0-s3",
@@ -5223,7 +5223,7 @@
                         "mark": 2,
                         "answer": "A young person takes on household responsibilities at around fourteen, which marks the start of adult life in that group.",
                         "feedback": "Meets the 2-mark row: identifies the transition and a ceremony, but does not explain the change in role or its meaning.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-4-2-n0-s3",
@@ -5340,7 +5340,7 @@
                         "mark": 2,
                         "answer": "Item (a) is closed because it asks for a number. Item (b) is open because it asks for an opinion.",
                         "feedback": "Meets the 2-mark row: classifies two items with a brief reason, but item (c) is not classified.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-2-4-3-n0-s3",
@@ -5762,7 +5762,7 @@
                         "mark": 4,
                         "answer": "Cultural relativism encourages students to understand a classmate's choices by the standards of their own culture, which supports respect for cultural diversity. Stereotypes, such as assuming a rural student holds conservative views, reduce individuals to a category and hinder understanding. Relativism alone may not address practices that conflict with shared values.",
                         "feedback": "Assesses the effect of each concept in a sound way, but the judgement is brief and the limits of relativism are only noted.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-11-3-1-3-n0-n1-s3",
@@ -5997,7 +5997,7 @@
                         "mark": 4,
                         "answer": "Online borrowing and free public computers widen participation, so the library serves groups that once found it hard to visit. Younger residents use online services for study. Some long-standing patrons miss face-to-face contact with staff, which reduces the library's personal role in the community. Overall, the impact is mixed.",
                         "feedback": "Discusses the impact on the library in a sound way, with a benefit and a drawback, but the weighing of the two is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-11-3-2-2-n0-n1-s3",
@@ -6342,7 +6342,7 @@
                         "mark": 4,
                         "answer": "Informal communication, such as gossip among the older workers, conveys which behaviours are approved without any formal sanction. Because workers want to avoid social disapproval, the expectation is powerful. Formal hygiene rules set out what is expected but are enforced only when someone checks. Informal communication also strengthens social relationships.",
                         "feedback": "Justifies the view in a sound way with reasons, but does not weigh the formal rules against the informal communication in any depth.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-11-3-3-3-n0-n1-s3",
@@ -6456,7 +6456,7 @@
                         "mark": 4,
                         "answer": "The group has the right to publish news about its programs and to express views, which is part of citizenship. However, sharing an unverified rumour about a teacher breaches the responsibility to check claims. Encouraging members to criticise a classmate also breaches respect for others. Responsibility should be balanced with the right to communicate.",
                         "feedback": "Discusses rights and responsibilities in a sound way with reference to the scenario, but the balance is stated rather than weighed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-11-3-3-4-n0-n1-s3",
@@ -6517,7 +6517,7 @@
                         "mark": 2,
                         "answer": "Messaging apps let young people in the same age group talk more often, which increases intra-generational interaction.",
                         "feedback": "Meets the 2-mark row: identifies one relevant effect, but does not explain how the change operates or add a second effect.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-3-3-5-n0-s3",
@@ -6572,7 +6572,7 @@
                         "mark": 4,
                         "answer": "Video calls and the family chat help grandparents stay in regular contact with their grandchildren, which increases social interaction across generations. However, grandparents who are less confident with the technology may take part less, so the benefit is not shared equally. The shorthand and short videos used by teenagers also create language differences that older relatives may not understand. The impact is therefore positive for contact but uneven for understanding.",
                         "feedback": "Meets the 4-mark row: assesses effects on both areas with relevant detail and makes some judgement. The limitations are noted, but the judgement is not developed or sustained.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-11-3-3-5-n0-n1-s3",
@@ -6870,7 +6870,7 @@
                         "mark": 2,
                         "answer": "The theory says that anxiety is a feeling of discomfort when meeting people from other cultures. Uncertainty is not knowing what another person will do.",
                         "feedback": "Meets the 2-mark row: identifies both concepts with a brief account, but does not explain how each affects communication.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-11-3-4-3-n0-s3",
@@ -6925,7 +6925,7 @@
                         "mark": 4,
                         "answer": "The theory is useful because it shows that the student's silence may be caused by anxiety rather than by a lack of ability. However, it focuses on individual feelings and may not explain the school's language support or assessment practices.",
                         "feedback": "Meets the 4-mark row: discusses one strength and one limitation with relevant reference to the scenario, but the judgement is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-11-3-4-3-n0-n1-s3",
@@ -7047,7 +7047,7 @@
                         "mark": 4,
                         "answer": "The disagreement over the greeting is a misunderstanding, because one student sees it as inclusive and the other as exclusive. Intercultural dialogue, where the students explain their views and listen, can help them resolve it. Intercultural exchange, where they share what the greeting means to each of them, builds understanding of each other's values.",
                         "feedback": "Meets the 4-mark row: discusses dialogue and exchange with relevant reference to the scenario and identifies a strategy, but the strategy is only implied and the discussion is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-11-3-5-1-n0-n1-s3",
@@ -7295,7 +7295,7 @@
                         "mark": 4,
                         "answer": "The research question is clear and focused on Year 9 students, so it is a suitable question. However, surveying every student in four weeks is not realistic, because permission and consent must come first. Mei should reduce the survey to a few classes so that the research proposal can be completed on time. The topic and the problem would then still be addressed.",
                         "feedback": "Makes a sound judgement about feasibility with reasons linked to the scenario, but the justification of the reduced plan is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-1-1-1-n0-n1-s3",
@@ -7593,7 +7593,7 @@
                         "mark": 2,
                         "answer": "The survey is primary research because Tomas collected it himself. The newspaper article is secondary research because it reports on others' work.",
                         "feedback": "Classifies two sources accurately with brief reasons, but does not address the website.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-1-1-4-n0-s3",
@@ -7888,7 +7888,7 @@
                         "mark": 4,
                         "answer": "The log records the research process, including decisions and reflections, so the reader can see how the project developed. It supports the introduction and the conclusion by showing whether the research question changed. It also supports the central material, because the reader can check how the data were gathered.",
                         "feedback": "Discusses the log's role with some links to other formal requirements. The links are brief and the reasoning is only partly developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-1-1-6-n0-n1-s3",
@@ -8005,7 +8005,7 @@
                         "mark": 4,
                         "answer": "Publishing quotes that name the club or coach may identify participants, which raises concerns about anonymity. The interviewees agreed to take part in research, but they may not have agreed to their words being published, so informed consent is needed. Tomas should remove names and get permission before he publishes anything in his central material.",
                         "feedback": "Assesses some ethical implications with relevant reasons. The analysis of the club's interests is missing, and the judgement is only partly developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-1-1-7-n0-n1-s3",
@@ -8066,7 +8066,7 @@
                         "mark": 2,
                         "answer": "Tomas could present the findings orally to his class. He could also use a chart.",
                         "feedback": "Describes two ways of communicating the findings with limited detail and no link to the audience.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-1-1-8-n0-s3",
@@ -8122,7 +8122,7 @@
                         "mark": 4,
                         "answer": "A written report allows the teacher to see the full detail of the survey and its limitations. An oral presentation suits the class, because Tomas can highlight the main findings and answer questions. The club would benefit from a one-page summary with a simple chart that shows how often members meet friends.",
                         "feedback": "Recommends forms with some reasons linked to the audiences. The limitations of the findings are not referred to, and the justification is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-1-1-8-n0-n1-s3",
@@ -8313,7 +8313,7 @@
                         "mark": 2,
                         "answer": "Most senior roles at the hospital are held by men, while nursing staff are mostly women. Managers approve the shift swaps.",
                         "feedback": "Describes some way gender shapes working lives, with a reference to the scenario, but does not explain how power is involved.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-1-2-n0-s3",
@@ -8368,7 +8368,7 @@
                         "mark": 4,
                         "answer": "The online marketplace lets the business sell overseas, so globalisation has increased demand. The grandchildren who run digital sales now have authority over orders, which shifts power within the business. Some craftspeople may feel their identity as traditional makers is threatened, although others see the new sales as valuable.",
                         "feedback": "Meets the 4-mark row: explains ways globalisation and technologies affect working life, with reference to the scenario, but the discussion of balance is limited.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-2-1-2-n0-n1-s3",
@@ -8546,7 +8546,7 @@
                         "mark": 2,
                         "answer": "Families still hold Christmas dinner together. Some relatives join by video call.",
                         "feedback": "Outlines a relevant example with a basic link to change, but does not explain what has continued or how the example illustrates continuity and change.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-2-1-n0-s3",
@@ -8772,7 +8772,7 @@
                         "mark": 2,
                         "answer": "Conflict theory says that groups compete for power. It can be applied to a country with land reform.",
                         "feedback": "Outlines a central assumption with a basic link to a selected country, but the application is not developed.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-2-3-n0-s3",
@@ -9450,7 +9450,7 @@
                         "mark": 2,
                         "answer": "Modernisation has made South Korea richer because it has more factories. Many people moved to cities for jobs, which is a form of progress. Some people have not benefited.",
                         "feedback": "Meets the 2-mark row by showing some understanding and making reference to South Korea. The points are general and the progress is asserted rather than explained, so the answer does not reach the sound-understanding row.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": true,
@@ -9685,7 +9685,7 @@
                         "mark": 2,
                         "answer": "The evolutionary theory says societies develop gradually through stages, from simple to complex forms.",
                         "feedback": "Identifies one key feature accurately, but the description is brief and does not explain direction.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-4-5-n0-s3",
@@ -9809,7 +9809,7 @@
                         "mark": 2,
                         "answer": "Traditional society is based on family and community, and its customs are passed down across generations.",
                         "feedback": "Identifies features of traditional society, but the example is missing.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-5-1-n0-s3",
@@ -9925,7 +9925,7 @@
                         "mark": 2,
                         "answer": "Power is the ability to make others do something. Authority is power that people accept as right.",
                         "feedback": "Defines both terms with some accuracy, but the examples are missing.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-5-2-n0-s3",
@@ -10043,7 +10043,7 @@
                         "mark": 2,
                         "answer": "An individual who moves to a city may feel continuity and change in family expectations. A sports club may lose members as younger residents move away.",
                         "feedback": "Identifies an impact at each level, but the explanation of each is limited.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-5-3-n0-s3",
@@ -10162,7 +10162,7 @@
                         "mark": 5,
                         "answer": "Globalisation has changed family life in South Korea by challenging traditional structures. Western ideals of individualism and gender equality spread through media and contact with other countries, and pressure from international feminist movements led to changes in family law. The hojuje system, which registered families through the male line, was replaced by individual registration. These changes gave women more equal standing within families. However, the changes have also weakened the traditional family, and some families now experience strain as a result. Overall, globalisation has had both positive and negative effects on family life.",
                         "feedback": "Meets the 4–5 mark row: a sound discussion of globalisation’s effects on family life in one country, referring to one aspect. The evidence is one law and the strain is asserted without an example, and population change is absent, so it does not integrate detailed references.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-sac-hsc-2025-10-3",
@@ -10406,7 +10406,7 @@
                         "mark": 2,
                         "answer": "Fast internet has benefited young workers in the town. Older residents who lack digital skills may be left behind.",
                         "feedback": "Identifies the change and both groups, but the mechanism is not described.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-5-10-n0-s3",
@@ -10523,7 +10523,7 @@
                         "mark": 2,
                         "answer": "Access to the internet has speeded up change because information spreads quickly. Social movements can now organise faster.",
                         "feedback": "Identifies an effect on the rate of change, but the example is general.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-5-11-n0-s3",
@@ -10640,7 +10640,7 @@
                         "mark": 2,
                         "answer": "The functionalist theory sees society as interdependent parts. Schools change to meet the needs of the economy.",
                         "feedback": "Identifies the theory and the change, but the explanation of stability is missing.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-5-12-n0-s3",
@@ -10830,7 +10830,7 @@
                         "mark": 2,
                         "answer": "One trend is an ageing population. Another is the growth of online services.",
                         "feedback": "Identifies two trends but does not outline them or relate them to one aspect.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-6-1-n0-s3",
@@ -10947,7 +10947,7 @@
                         "mark": 2,
                         "answer": "Faster rail may change how people commute. Family-run shops are likely to remain part of local life.",
                         "feedback": "Identifies a likely change and a probable continuity, but the impact is not described.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-2-6-2-n0-s3",
@@ -11474,7 +11474,7 @@
                         "mark": 4,
                         "answer": "The media company owns the newspaper and sponsors the festival, so it has institutional power over which heroes are promoted. The murals show volunteers who helped during the flood, which promotes community values. Both sources of influence affect the values.",
                         "feedback": "Meets the 4-mark row: explains how institutional power and ideology influence the values with some scenario evidence. The extent of influence is not weighed, so the answer does not reach the 5-mark row.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-3-1-3-n0-n1-s3",
@@ -12065,7 +12065,7 @@
                         "mark": 2,
                         "answer": "The show is live-streamed to cinemas, so more people can see it.",
                         "feedback": "Meets the 2-mark row: describes a media technology assisting access with some scenario reference, but the effect on consumers is not developed.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-3-3-3-n0-s3",
@@ -12820,7 +12820,7 @@
                         "mark": 4,
                         "answer": "Folk music is a genre rather than a single text, so the student can study patterns across many recordings and performers. It also shows how music shapes identity. Option one is a single novel, so it does not meet the requirement for a genre. Option two is a genre of fashion, but it is less suitable for this study.",
                         "feedback": "Meets the middle row: a choice is justified and the genre requirement is referred to. The reasons for rejecting option two are not developed, so the judgement is only partly argued.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-3-4-6-n0-n1-s3",
@@ -12888,7 +12888,7 @@
                         "mark": 2,
                         "answer": "Audiences watch short clips on phones rather than on scheduled television. Fans also share their own versions of popular culture.",
                         "feedback": "Describes two trends but gives little detail and does not explain how each affects the culture. This keeps the answer in the middle row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-3-5-1-n0-s3",
@@ -13024,7 +13024,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: A focus study on a television series has identified three likely changes. Its audience will shift to streaming on personal devices, fan communities will shape its storylines through online platforms, and its production will become increasingly global. Two probable continuities have also been identified. Its core themes of family and belonging will persist, and its characters will remain the focus of merchandise and fan events.",
-                    "markingCriteria": "7-8 marks: Evaluates thoroughly the impact and implications for the popular culture of the likely changes and probable continuities, with a sustained and logical judgement about their relative significance; Supports the evaluation with a breadth of accurate and relevant evidence from the scenario and integrates examples effectively; Presents a cohesive response that effectively applies course concepts and language\n6 marks: Evaluates the impact and implications of the likely changes and probable continuities for the popular culture, with a logical judgement; Supports the response with relevant evidence and examples; Presents an organised response that applies course concepts and language\n5 marks: Analyses the impact and implications of likely changes and probable continuities for the popular culture; Supports the response with relevant evidence; Uses course concepts and language\n3-4 marks: Describes likely changes or probable continuities for the popular culture; Refers to impact or implications; Uses some course language\n2 marks: Identifies a likely change or probable continuity; Refers to the popular culture\n1 mark: Refers to the popular culture or to a change",
+                    "markingCriteria": "8 marks: Evaluates thoroughly the impact and implications for the popular culture of the likely changes and probable continuities, with a sustained and logical judgement about their relative significance; Supports the evaluation with a breadth of accurate and relevant evidence from the scenario and integrates examples effectively; Presents a cohesive response that effectively applies course concepts and language\n7 marks: Evaluates the impact and implications of the likely changes and probable continuities for the popular culture, with a logical judgement; Supports the response with relevant evidence and examples; Presents an organised response that applies course concepts and language\n5-6 marks: Analyses the impact and implications of likely changes and probable continuities for the popular culture; Supports the response with relevant evidence; Uses course concepts and language\n3-4 marks: Describes likely changes or probable continuities for the popular culture; Refers to impact or implications; Uses some course language\n2 marks: Identifies a likely change or probable continuity; Refers to the popular culture\n1 mark: Refers to the popular culture or to a change",
                     "keywords": [
                       "popular culture",
                       "likely changes",
@@ -13180,7 +13180,7 @@
                         "mark": 4,
                         "answer": "Young people discover music through peer networks, so the culture forms part of their identity. Older residents value live performance at community events, which shows the culture connects people. These effects will probably continue in the near future. However, the answer does not explain how the culture might also divide groups.",
                         "feedback": "Meets the middle row: some importance is discussed and linked to a social group. The answer does not consider limits or more than one perspective.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-3-5-3-n0-n1-s3",
@@ -13370,7 +13370,7 @@
                         "mark": 2,
                         "answer": "Power matters because a small group of leaders decides about festivals. Globalisation brings overseas funding and ideas to the belief system.",
                         "feedback": "Describes both concepts accurately but does not explain how adherents are affected.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-4-1-2-n0-s3",
@@ -14727,7 +14727,7 @@
                         "mark": 2,
                         "answer": "Buddhism began in India with Siddhartha Gautama. Its teachings include the Four Noble Truths.",
                         "feedback": "Gives an accurate origin and names a core teaching, without describing either.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-4-4-5-n0-s3",
@@ -14967,7 +14967,7 @@
                         "mark": 2,
                         "answer": "Growing public concern about climate change is a current trend affecting Environmentalism.",
                         "feedback": "Meets the 2-mark row: one current trend is described, but no second trend is given and no evidence is offered.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-4-5-1-n0-s3",
@@ -15391,7 +15391,7 @@
                         "mark": 4,
                         "answer": "Lena's childhood was shaped mainly by the environment, since the distance to high school limited her education. As she has aged, society and culture have become more important, for example through the community centre's services in several languages, and her access to employment and health care depends on institutions and attitudes.",
                         "feedback": "Meets the 4-mark row: assesses the influence of the environment, society and culture with a relevant example, but the weighing is brief and not sustained.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-5-1-1-n0-n1-s3",
@@ -15506,7 +15506,7 @@
                         "mark": 4,
                         "answer": "Newly arrived families may depend on the library for internet access and job-search help, so closing it could affect their inclusion. Globalisation has brought more diverse families to the town, and their identity can include language and cultural links to other countries.",
                         "feedback": "Meets the 4-mark row: discusses some effects of globalisation and identity with reference to the scenario, but does not weigh both sides.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-5-1-2-n0-n1-s3",
@@ -15699,7 +15699,7 @@
                         "mark": 2,
                         "answer": "Aboriginal and Torres Strait Islander people in remote areas face unequal access to health care, as Closing the Gap reporting shows.",
                         "feedback": "Meets the 2-mark row: names a contemporary example and its resource, but says little about how it excludes people.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-5-2-1-n0-s3",
@@ -15753,7 +15753,7 @@
                         "mark": 4,
                         "answer": "The NDIS is a contemporary example of social exclusion in Australia because access to its supports depends on eligibility and on where people live. Services are unevenly spread, so people in regional areas may have different access from people in cities.",
                         "feedback": "Meets the 4-mark row: gives some justification and refers to the scheme, but the reasons for choosing it are not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-5-2-1-n0-n1-s3",
@@ -16115,7 +16115,7 @@
                         "mark": 2,
                         "answer": "Both teams use the club's facilities, but the older team has played together for much longer.",
                         "feedback": "Meets the 2-mark row: identifies a similarity and a difference, with reference to the scenario, but no link to interaction.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-5-3-2-n0-s3",
@@ -16231,7 +16231,7 @@
                         "mark": 2,
                         "answer": "Socially valued resources are things a society considers important, such as education or housing.",
                         "feedback": "Meets the 2-mark row: gives a definition and an example, but does not link them to access or social inclusion.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-5-3-3-n0-s3",
@@ -16900,7 +16900,7 @@
                         "mark": 2,
                         "answer": "The White Australia policy restricted migration from non-European countries, which limited the growth of some communities in regional towns.",
                         "feedback": "Outlines one historical force and how it limited a community, but gives no legal force and makes only a general link to the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-5-4-5-n0-s3",
@@ -16956,7 +16956,7 @@
                         "mark": 4,
                         "answer": "Economic forces keep residents in casual work because the estate is far from major employers. Political decisions about where the estate was built and which services it receives also maintain exclusion. The planning rules that blocked the training centre add a legal dimension to this disadvantage.",
                         "feedback": "Discusses economic and political forces in maintaining exclusion, and adds a legal force, but does not explain how the forces interact.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-5-4-5-n0-n1-s3",
@@ -17091,7 +17091,7 @@
                         "mark": 2,
                         "answer": "Essential services are moving online, so older people may find it harder to get government forms and jobs.",
                         "feedback": "Describes a relevant trend and refers to a future effect in general terms, without developing the direction.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-5-5-1-n0-s3",
@@ -17519,7 +17519,7 @@
                         "mark": 2,
                         "answer": "The leaders are all men, so players who want selection may follow the expectations the leaders set. The team name gives players a shared identity.",
                         "feedback": "Outlines gender and identity with a brief link to conformity, but does not explain authority or power within the club.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-6-1-2-n0-s3",
@@ -17573,7 +17573,7 @@
                         "mark": 4,
                         "answer": "The messaging platform gives younger players a voice, so the captains' power is less absolute than before. Globalisation has brought players from several countries, which makes conformity to one set of expectations harder to enforce. However, the captains still make the final decisions and keep their authority over selection.",
                         "feedback": "Explains how technologies and globalisation affect power and authority, with some reference to conformity, but the judgement about how far things have changed is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-6-1-2-n0-n1-s3",
@@ -17632,7 +17632,7 @@
                         "mark": 2,
                         "answer": "Deindividuation is when people lose their personal identity in a crowd. Social cohesion is the bonding between members of a group.",
                         "feedback": "Defines two concepts accurately, but stereotype is omitted and no example from the scenario is given.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-6-1-3-n0-s3",
@@ -17751,7 +17751,7 @@
                         "mark": 2,
                         "answer": "The young adults stop posting photos of meals on social media and eat together without phones. This is a contemporary example of nonconformity.",
                         "feedback": "Describes the example clearly but does not explain the social norm it challenges.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-6-2-1-n0-s3",
@@ -17805,7 +17805,7 @@
                         "mark": 4,
                         "answer": "A contemporary example shows nonconformity as it happens, rather than as it was in the past. Skateboarders who use a disused car park challenge the council's view of public space, which shows how a subcultural group defies current social norms. Such examples let the analysis test claims about the group's influence on residents.",
                         "feedback": "Justifies the use of a contemporary example with a clear reason, but does not develop the link to residents' attitudes or the risk of relying on stereotypes.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-6-2-1-n0-n1-s3",
@@ -17919,7 +17919,7 @@
                         "mark": 4,
                         "answer": "The platform spreads the sport's standards, so surfers are encouraged to conform to them. Public comment threads add peer pressure, because surfers who break from the style are visible to many people. Some nonconformists find supporters online, which allows new styles to spread, so nonconformity can gain ground.",
                         "feedback": "Explains the effects of the platform and comment threads on conformity, with some reference to nonconformity, but the answer does not reach a judgement about overall impact.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-6-2-2-n0-n1-s3",
@@ -18180,7 +18180,7 @@
                         "mark": 2,
                         "answer": "Acquiescence means going along with a group to avoid punishment, while privately disagreeing. Identification means copying a group to keep a relationship.",
                         "feedback": "Defines two responses accurately, but internalisation is omitted and social influence is not referred to.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-6-3-2-n0-s3",
@@ -18293,7 +18293,7 @@
                         "mark": 2,
                         "answer": "Anonymity under masks means people feel less identifiable. This can make people in a crowd act differently from when they are alone.",
                         "feedback": "Outlines the link between anonymity and behaviour, but does not explain deindividuation or accountability.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-sac-12-6-3-3-n0-s3",
@@ -18592,7 +18592,7 @@
                         "mark": 4,
                         "answer": "The local paper's weekly feature raises the salience of the shopping centre, so residents may see jobs as the key issue. The social media group offers a different agenda about threats to local businesses, which means attitudes are shaped by competing messages. Groups are influenced by whichever issues they see most often.",
                         "feedback": "Explains the effect of agenda setting and the competing agenda, but the assessment of how far attitudes are shaped is not made clear.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-sac-12-6-3-6-n0-n1-s3",

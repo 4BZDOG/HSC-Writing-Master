@@ -513,7 +513,7 @@ describe('computeDraftReadiness — colour caps at, and is calibrated within, th
     expect(half.chromaLevel).toBeLessThan(4);
   });
 
-  it('holds a weak, thin draft near the bottom of the palette (red)', () => {
+  it('shows a weak, thin draft in the neutral colour, not a band', () => {
     const thin = computeDraftReadiness(
       makeInput({
         analysis: analysis({ wordCount: 40, sentenceCount: 2, paragraphCount: 1 }),
@@ -524,8 +524,8 @@ describe('computeDraftReadiness — colour caps at, and is calibrated within, th
         maxBand: 6,
       })
     );
-    expect(thin.chromaLevel).toBe(1); // red — barely on the palette
-    expect(thin.chromaLevel).toBeLessThan(6);
+    expect(thin.chromaLevel).toBe(0); // neutral below "Ready to submit"
+    expect(thin.level).toBeGreaterThan(0); // still on the way up, not "Start writing"
   });
 
   it('is monotonic: more complete never means a lower colour', () => {
@@ -681,10 +681,13 @@ describe('word, number and colour agree', () => {
 
       if (r.label !== READINESS_LABELS[r.level]) violations.push(`label mismatch: ${tag}`);
       const neutral = r.level === 0;
-      if (neutral !== (r.percent === 0) || neutral !== (r.chromaLevel === 0))
-        violations.push(`level 0 ⇔ percent 0 ⇔ chroma 0 broken: ${tag}`);
+      if (neutral !== (r.percent === 0)) violations.push(`level 0 ⇔ percent 0 broken: ${tag}`);
+      // Neutral colour below "Ready to submit"; the target band's colour at it.
+      if (r.level < 6 !== (r.chromaLevel === 0))
+        violations.push(`neutral colour ⇔ below level 6 broken: ${tag}`);
+      if (r.level === 6 && r.chromaLevel !== cap)
+        violations.push(`level 6 not the target band's colour: ${tag}`);
       if (r.chromaLevel > cap) violations.push(`chroma above target band: ${tag}`);
-      if (!neutral && r.chromaLevel < 1) violations.push(`non-neutral chroma below 1: ${tag}`);
       if (cap > 1 && (r.chromaLevel === cap) !== (r.level === 6))
         violations.push(`top colour ⇔ level 6 broken: ${tag}`);
       if (r.level === 6 && r.percent < 84) violations.push(`level 6 below 84%: ${tag}`);

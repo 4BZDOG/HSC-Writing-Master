@@ -20,6 +20,8 @@ interface HowToAnswerProps {
   verb: PromptVerb;
   /** The question's course band ceiling (see `Prompt.bandCeiling`). */
   bandCeiling?: number;
+  /** The question's marks (see `getQuestionBandCeiling`). */
+  totalMarks?: number;
   /** Whether the method card is showing. The caller holds it, because the
    *  editor also reports opening it to the marking report. */
   open: boolean;
@@ -53,13 +55,17 @@ interface HowToAnswerProps {
 const HowToAnswer: React.FC<HowToAnswerProps> = ({
   verb,
   bandCeiling,
+  totalMarks,
   open,
   onToggle,
   read,
   compact = false,
 }) => {
   const panelId = useId();
-  const info = useMemo(() => getPromptTermInfo({ verb, bandCeiling }), [verb, bandCeiling]);
+  const info = useMemo(
+    () => getPromptTermInfo({ verb, bandCeiling, totalMarks }),
+    [verb, bandCeiling, totalMarks]
+  );
   const moves = useMemo(() => groupStrategyMoves(parseStrategyTip(info.tip)), [info.tip]);
   const { method, watch } = useMemo(() => splitMethodMoves(moves), [moves]);
   const { terms, examples } = useMemo(() => collectStrategyDetail(moves), [moves]);

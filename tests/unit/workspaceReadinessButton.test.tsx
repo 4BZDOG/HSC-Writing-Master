@@ -48,6 +48,18 @@ const SUBSTANTIAL_DRAFT =
   'Polymerase then reads each template strand and adds complementary nucleotides. ' +
   'The outcome is two identical daughter molecules, each carrying one original strand.';
 
+// A draft that is ready to submit: full length for a 4-mark question (80+ words),
+// the question's term used, several sentences and none of them a run-on.
+const READY_DRAFT =
+  'DNA replication begins when the enzyme helicase unwinds the double helix at an origin of replication, ' +
+  'breaking the hydrogen bonds between complementary base pairs. ' +
+  'Each separated strand then acts as a template for a new strand. ' +
+  'DNA polymerase reads the template and adds free nucleotides that pair with the exposed bases, ' +
+  'adenine with thymine and cytosine with guanine. ' +
+  'On the lagging strand the new DNA is made in short fragments that ligase later joins. ' +
+  'The result is two identical molecules, each holding one original strand and one new strand, ' +
+  'which is why replication is called semi-conservative.';
+
 const geminiHandlers = {
   improvement: null,
   showImprovementReview: false,
@@ -136,8 +148,14 @@ describe('the Evaluate button + readiness meter (step 4)', () => {
     expect(screen.getByRole('button', { name: /evaluate/i })).toBeTruthy();
   });
 
-  it('paints a substantial draft in the band fill, labelled in its own ink', () => {
+  it('keeps a substantial but unfinished draft neutral: no band colour before it is ready', () => {
     renderPanel({ userAnswer: SUBSTANTIAL_DRAFT });
+    const button = screen.getByRole('button', { name: /draft readiness/i });
+    expect(button.className).not.toContain('band-solid');
+  });
+
+  it('paints a ready draft in the band fill, labelled in its own ink', () => {
+    renderPanel({ userAnswer: READY_DRAFT });
     const button = screen.getByRole('button', { name: /draft readiness/i });
     // `band-solid` carries the ink that clears AA on every band; white on the
     // band fill measured 3.1:1 in the dark theme, so the label must not set it.

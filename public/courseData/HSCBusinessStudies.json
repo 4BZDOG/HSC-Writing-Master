@@ -204,7 +204,7 @@
                         "mark": 4,
                         "answer": "Global expansion would let the business sell to more customers and spread its risk across two markets. However, shipping perishable drinks overseas creates a risk of spoilage, and the distributor's share of sales would reduce income. Cash flow could also be strained by paying for stock before overseas payment arrives.",
                         "feedback": "Discusses both benefits and risks, but the reasoning is partly developed and the link to the business's savings is missing.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-1-1-n0-n1-s3",
@@ -264,7 +264,7 @@
                         "mark": 2,
                         "answer": "Nordvik Tea Co. could open stores in Australia to reach new customers. Its European profits may pay for the stores.",
                         "feedback": "Identifies two factors with limited explanation of how they would encourage the expansion.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-1-2-n0-s3",
@@ -318,7 +318,7 @@
                         "mark": 4,
                         "answer": "Opening its own stores would need investment in leases and staff, which is expensive for a company with no experience in Australia. It could instead partner with an Australian retailer, which would share the profits but reduce control over the brand. A trial in one city would limit the risk.",
                         "feedback": "Assesses challenges with partly developed reasoning, and the link to the company's experience is only implied.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-1-2-n0-n1-s3",
@@ -378,7 +378,7 @@
                         "mark": 2,
                         "answer": "Rising household incomes have increased demand for services in Australia, which has helped tertiary industries grow.",
                         "feedback": "Outlines a change with limited explanation of how it has affected the growth of tertiary industries.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-1-3-n0-s3",
@@ -492,7 +492,7 @@
                         "mark": 2,
                         "answer": "Employees lose their jobs and income. They may also be owed unpaid leave.",
                         "feedback": "Identifies two problems with limited explanation of how they affect the employees.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-1-4-n0-s3",
@@ -546,7 +546,7 @@
                         "mark": 4,
                         "answer": "Liquidation means the bank can recover its loan from the workshop equipment, but timber suppliers are unsecured and may receive only part of what they are owed. Employees lose their jobs, and their unpaid leave is usually given priority, so they are more likely to be paid. Owners who invested their savings are usually paid last and may lose most of it.",
                         "feedback": "Assesses problems for two groups with partly developed reasoning about their legal priority.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-1-1-4-n0-n1-s3",
@@ -612,7 +612,7 @@
                         "mark": 2,
                         "answer": "Mira's Mobile Hairdressing is a sole trader and Lakeview Bakers is a partnership.",
                         "feedback": "Classifies two businesses correctly, without reasons for either.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-2-1-n0-s3",
@@ -840,7 +840,7 @@
                         "mark": 2,
                         "answer": "Market research could show Marlow which products to make. Owner funding could pay for the equipment.",
                         "feedback": "Identifies two strategies with limited explanation of how they suit the establishment stage.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-2-3-n0-s3",
@@ -960,7 +960,7 @@
                         "mark": 2,
                         "answer": "A business is an organisation that sells goods or services. It aims to make a profit.",
                         "feedback": "Defines a business in general terms and outlines one distinguishing feature.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-3-1-n0-s3",
@@ -1074,7 +1074,7 @@
                         "mark": 2,
                         "answer": "A dining table is a good and a dental check-up is a service.",
                         "feedback": "Classifies two outputs correctly without reasons for either.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-3-2-n0-s3",
@@ -1308,7 +1308,7 @@
                         "mark": 2,
                         "answer": "Coastline Prawns is a primary industry business and Kestrel Apps is a quaternary industry business. Riverside Supermarket is a partnership.",
                         "feedback": "Two sector classifications are correct, but Riverside is not classified by industry sector.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-4-1-n0-s3",
@@ -1422,7 +1422,7 @@
                         "mark": 2,
                         "answer": "An SME is a business with a small number of employees. Ashgrove Plumbing has 14 employees, so it is an SME.",
                         "feedback": "Gives a basic definition and applies one size measure, but does not compare SMEs with large businesses.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-4-2-n0-s3",
@@ -1536,7 +1536,7 @@
                         "mark": 2,
                         "answer": "Greenleaf Cafe is a local business because it serves one suburb. Metro Bike Parts is a national business because it sells across Australia.",
                         "feedback": "Two levels are outlined accurately, but the global business is not described.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-4-3-n0-s3",
@@ -1878,7 +1878,7 @@
                         "mark": 2,
                         "answer": "The owners' personal liability is a factor, because a sole trader is fully liable for debts. Control is also a factor for the owners.",
                         "feedback": "Two factors are identified, but the link to Lantern Studio is limited and control is not explained.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-4-6-n0-s3",
@@ -1992,7 +1992,7 @@
                         "mark": 2,
                         "answer": "Family ownership means the owners provide much of the finance from their savings. The business also has a bank loan.",
                         "feedback": "Identifies the link between ownership and finance accurately but does not explain why the business is limited in raising funds.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-4-7-n0-s3",
@@ -2570,7 +2570,7 @@
                         "mark": 2,
                         "answer": "Establishment is when the founders plan the business and borrow money. Sales are often low.",
                         "feedback": "A 2-mark response describes two features with some accuracy but does not link them to the business.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-6-2-n0-s3",
@@ -2910,7 +2910,7 @@
                         "mark": 2,
                         "answer": "Sales fall over several years, and competition from streaming services increases.",
                         "feedback": "A 2-mark response describes two signs with some accuracy.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-6-5-n0-s3",
@@ -3137,7 +3137,7 @@
                         "mark": 2,
                         "answer": "Online retailers sell at lower prices, and the owner has not updated the stock.",
                         "feedback": "A 2-mark response outlines two factors with some accuracy.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-1-6-7-n0-s3",
@@ -4526,7 +4526,7 @@
                         "mark": 2,
                         "answer": "Sam needs interpersonal skills to talk to staff about rosters. Problem-solving is needed when orders are late.",
                         "feedback": "Outlines two skills with links to the scenario but does not explain how each applies, and omits the supplier decision.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-3-3-n0-s3",
@@ -4579,7 +4579,7 @@
                         "mark": 4,
                         "answer": "Brewery owners want sales growth, while staff want predictable rosters and residents want less noise after 9 pm. The manager should consider each group's interests before deciding on Sunday trading, because a decision that suits the owners may upset residents and staff. Communication with residents, such as a noise plan, could reduce conflict. Decision-making that ignores one group is unlikely to be sustainable.",
                         "feedback": "Discusses the interests of several groups with relevant reference to the scenario, but the reasoning towards a recommendation is not fully developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-2-3-3-n0-n1-s3",
@@ -4638,7 +4638,7 @@
                         "mark": 2,
                         "answer": "The owners can compare summer bookings with last summer to see whether bookings have increased.",
                         "feedback": "Describes one measure of the bookings goal but does not address cancelled bookings or how the result is checked against the goal.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-3-4-n0-s3",
@@ -4916,7 +4916,7 @@
                         "mark": 4,
                         "answer": "The co-op should aim for a mix of goals because its members are stakeholders with different interests. Profit should cover repairs and wages so that the workshop stays open and staff are paid. Social goals, such as employing local young people, build community support. Environmental goals, such as recycling parts, reduce costs and suit members' values. A mix is therefore sensible, but the co-op needs to review the balance each year.",
                         "feedback": "Justifies the mix with reasons for each goal, but does not extend the justification to the trade-offs or to a clear priority among the goals.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-2-3-6-n0-n1-s3",
@@ -4975,7 +4975,7 @@
                         "mark": 2,
                         "answer": "Mentoring lets experienced operators share ideas with newer staff, which encourages them to take part.",
                         "feedback": "Describes one link between mentoring and involvement, but does not address training or the paper waste problem.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-3-7-n0-s3",
@@ -5092,7 +5092,7 @@
                         "mark": 2,
                         "answer": "The factory uses time-and-motion studies to set a standard time for each task, which makes work more efficient.",
                         "feedback": "Describes one feature of the classical approach clearly, but does not describe a second feature from the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-1-n0-s3",
@@ -5257,7 +5257,7 @@
                         "mark": 4,
                         "answer": "Planning depends on forecasts, so an inaccurate forecast would affect the chair purchase and the staffing needed. Organising turns the plan into action by arranging staff and schedules. Controlling then checks patient numbers against the target, which shows whether the plan and organising are working. The management functions therefore depend on each other.",
                         "feedback": "Discusses one dependence with relevant reference to the scenario, but the discussion of how controlling feeds back into planning is limited.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-2-4-2-n0-n1-s3",
@@ -5316,7 +5316,7 @@
                         "mark": 2,
                         "answer": "The managing director is at the top of the business, and team leaders supervise the drivers and warehouse staff.",
                         "feedback": "Describes the top and bottom levels accurately but does not describe the departmental managers or how authority passes between levels.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-3-n0-s3",
@@ -5427,7 +5427,7 @@
                         "mark": 2,
                         "answer": "The owner makes the decisions on her own and staff follow her instructions without discussion.",
                         "feedback": "A 2-mark response describes the style accurately but does not link it to the scenario in detail or add a second feature.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-4-n0-s3",
@@ -5539,7 +5539,7 @@
                         "mark": 2,
                         "answer": "The behavioural approach says staff need social contact and feel motivated when managers notice their work.",
                         "feedback": "A 2-mark response outlines one idea clearly but does not link it to the scenario or add a second idea.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-5-n0-s3",
@@ -5652,7 +5652,7 @@
                         "mark": 2,
                         "answer": "The manager should tell staff about the new system and answer their questions, which keeps them informed.",
                         "feedback": "A 2-mark response outlines one communication action but does not link it to leading or motivating.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-6-n0-s3",
@@ -5764,7 +5764,7 @@
                         "mark": 2,
                         "answer": "A cross-functional team has members from different departments working together on one task.",
                         "feedback": "A 2-mark response describes one feature accurately but does not identify a benefit for Ironbark Solar.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-7-n0-s3",
@@ -5876,7 +5876,7 @@
                         "mark": 2,
                         "answer": "The manager asks staff for their ideas before deciding what to do.",
                         "feedback": "A 2-mark response describes consultation accurately but does not outline a second feature or link to the studio.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-8-n0-s3",
@@ -5987,7 +5987,7 @@
                         "mark": 2,
                         "answer": "The contingency approach means managers should change their style depending on the situation.",
                         "feedback": "A 2-mark response describes the approach accurately, but it does not contrast it with one best way or give an example.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-9-n0-s3",
@@ -6098,7 +6098,7 @@
                         "mark": 2,
                         "answer": "The owner could send staff to training so they can repair e-bikes.",
                         "feedback": "A 2-mark response outlines one adaptation but does not link it to managing the change.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-4-10-n0-s3",
@@ -6215,7 +6215,7 @@
                         "mark": 2,
                         "answer": "The sales team and the workshop could meet each week to plan the hotel order.",
                         "feedback": "A 2-mark response outlines one coordination action but does not explain how it coordinates resources or involves accounts.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-5-1-n0-s3",
@@ -6326,7 +6326,7 @@
                         "mark": 2,
                         "answer": "Operations makes bread from flour and butter using bakers and ovens.",
                         "feedback": "A 2-mark response describes the transformation accurately but does not link it to daily production or delivery.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-5-2-n0-s3",
@@ -6776,7 +6776,7 @@
                         "mark": 2,
                         "answer": "Marketing helps a business sell its products. Lakeview could use marketing to find out what customers want.",
                         "feedback": "A 2-mark response gives a general purpose for marketing with one link to the business.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-5-6-n0-s3",
@@ -7566,7 +7566,7 @@
                         "mark": 2,
                         "answer": "Recruitment of physiotherapists and receptionists is a human resources function, because the practice needs qualified staff. Training keeps staff skills up to date.",
                         "feedback": "Outlines two functions with some link to the practice, but does not add a third, so it earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-5-13-n0-s3",
@@ -7620,7 +7620,7 @@
                         "mark": 4,
                         "answer": "Coastal Crate Co's human resources is weak because hiring is done only by the production manager, and this may explain the rise in staff turnover. Without induction, new workers may not learn the safety and quality standards, so productivity may suffer. A formal approach would help the business.",
                         "feedback": "Explains two links to performance with accurate detail, but the assessment is thin and reaches no clear view, so it earns 4 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-2-5-13-n0-n1-s3",
@@ -7962,7 +7962,7 @@
                         "mark": 4,
                         "answer": "A part-time employment contract gives the driver regular hours and paid leave, which suits the bakery's Monday to Friday runs. A casual employment contract is more flexible in summer but gives no guaranteed hours. A fixed-term contract could work for a short trial.",
                         "feedback": "Discusses options with accurate features but does not reach a clearly reasoned recommendation, so it earns 4 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-2-5-16-n0-n1-s3",
@@ -8022,7 +8022,7 @@
                         "mark": 2,
                         "answer": "Voluntary separation is when an employee chooses to leave, as the supervisor did when resigning. Involuntary separation is when the employer ends employment for reasons such as misconduct.",
                         "feedback": "Defines both types, but the involuntary example is not linked to the centre, so it earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-5-17-n0-s3",
@@ -8483,7 +8483,7 @@
                         "mark": 2,
                         "answer": "Falling sales of new bicycles suggest the business may need to change. The resignation of two mechanics is also a sign, as the staff may be unhappy.",
                         "feedback": "Two relevant signs are identified, but the second is only briefly explained and the performance gap is not stated.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-6-3-n0-s3",
@@ -8931,7 +8931,7 @@
                         "mark": 2,
                         "answer": "A management consultant is an outside adviser who can help with the change. They could suggest a new store layout.",
                         "feedback": "One role of a consultant is described, with limited reference to the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-2-6-7-n0-s3",
@@ -9056,7 +9056,7 @@
                         "mark": 2,
                         "answer": "Food safety rules add training and inspection costs for the bakery, which affects its daily operations.",
                         "feedback": "Outlines one way government regulation affects the bakery with a relevant example, but gives no second way.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-1-1-n0-s3",
@@ -9403,7 +9403,7 @@
                         "mark": 2,
                         "answer": "Exporting through an overseas agent lets the business sell abroad without owning a factory there.",
                         "feedback": "Outlines one method with some accuracy, but gives no second method and no link to long-term growth.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-2-2-n0-s3",
@@ -9636,7 +9636,7 @@
                         "mark": 2,
                         "answer": "The business plan should state the services offered and where the business will operate.",
                         "feedback": "Describes two details accurately, but does not link them to the rest of the plan or to the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-3-1-n0-s3",
@@ -9870,7 +9870,7 @@
                         "mark": 2,
                         "answer": "A small business has fewer than 20 employees and a medium business has more than that.",
                         "feedback": "Defines both categories with some accuracy, but gives no upper limit for medium business and does not name the ABS.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-4-1-n0-s3",
@@ -10098,7 +10098,7 @@
                         "mark": 2,
                         "answer": "Harbour Pantry employs eight staff, so it provides jobs in Newcastle. It also buys flour and coffee from local suppliers, which supports other businesses.",
                         "feedback": "Two contributions are outlined with some reference to the scenario. A third distinct contribution is needed for full marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-4-3-n0-s3",
@@ -10152,7 +10152,7 @@
                         "mark": 4,
                         "answer": "Ridgeway Electrical employs six people, including two apprentices, and buys cable and fittings from local suppliers, so it supports the local economy. A large national contractor could employ many more people across several states, so Ridgeway's contribution is smaller in scale. Its growth is also limited by the owner's time.",
                         "feedback": "The contribution and the comparison are both addressed with some detail. The discussion is brief and no overall judgement is reached.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-4-3-n0-n1-s3",
@@ -10266,7 +10266,7 @@
                         "mark": 4,
                         "answer": "Corner Espresso has a tight budget and a loan, so finance is its bigger threat to success. Brightside's owner is slow to respond to feedback, which is a management weakness, but its budgets are detailed. Both cafes could face failure.",
                         "feedback": "Both cafes are assessed for their threats, but the comparison is brief and the judgement is not fully supported.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-4-4-n0-n1-s3",
@@ -10332,7 +10332,7 @@
                         "mark": 2,
                         "answer": "Her qualifications as an accountant give her technical knowledge. Her motivation helps her keep going.",
                         "feedback": "Two qualities are identified with some link to the decision, but the explanation is brief.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-5-1-n0-s3",
@@ -10446,7 +10446,7 @@
                         "mark": 2,
                         "answer": "Maya could survey local pet owners to test demand. She could also visit competing groomers to see their prices.",
                         "feedback": "Two sources are outlined with some link to demand. A third, distinct source is needed for full marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-5-2-n0-s3",
@@ -10560,7 +10560,7 @@
                         "mark": 2,
                         "answer": "The two Thai restaurants are direct competition because they sell similar food. The fast-food outlet is also a competitor.",
                         "feedback": "Two competitors are identified and one is explained, but the difference between direct and indirect competition is not drawn.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-5-3-n0-s3",
@@ -10674,7 +10674,7 @@
                         "mark": 2,
                         "answer": "The franchisor gives Jasmine a brand and training. She must pay fees and royalties.",
                         "feedback": "Two features are identified, but the contrast with starting a new studio is not drawn.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-5-4-n0-s3",
@@ -10728,7 +10728,7 @@
                         "mark": 4,
                         "answer": "A franchise gives Jasmine a known brand and training, which helps with her limited experience. However, the upfront fee and royalties reduce profit, and she would have less control than an independent owner. The franchise is probably the better option.",
                         "feedback": "Advantages and disadvantages are weighed and a view is reached, but the reasoning is brief.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-4-n0-n1-s3",
@@ -10788,7 +10788,7 @@
                         "mark": 2,
                         "answer": "A station location suits commuters who want a cheap breakfast. A shopping centre suits families and office workers.",
                         "feedback": "Two locations and their customers are described, but the effect on price is not explained.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-5-5-n0-s3",
@@ -11016,7 +11016,7 @@
                         "mark": 2,
                         "answer": "Ellis must register the business name, since he is not trading under his own name. He also needs the site to be zoned for a cafe.",
                         "feedback": "Two requirements are outlined with a reason for the business name, but the link to council approval is brief.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-5-7-n0-s3",
@@ -11298,7 +11298,7 @@
                         "mark": 4,
                         "answer": "Priya could take a short bookkeeping course, which would cost less than a bookkeeper over time. However, the course would take time away from making ceramics, and her income is limited so she may not be able to afford the time away.",
                         "feedback": "Discusses training for one missing skill with some reasons, but does not weigh hiring or reach a clear conclusion for Priya.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-5-9-n0-n1-s3",
@@ -11592,7 +11592,7 @@
                         "mark": 2,
                         "answer": "The owner could ask existing homeowners what extra services they would like. Local competitors' prices could also show what the market charges.",
                         "feedback": "Outlines two relevant sources, with at least one linked to the scenario, but gives no third source.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-1-n0-s3",
@@ -11932,7 +11932,7 @@
                         "mark": 2,
                         "answer": "A vision statement shows where the business wants to be in future. For Ironbark, it shows the clinic wants to be a first choice for families.",
                         "feedback": "Describes the purpose of a vision statement with some reference to the scenario, but does not explain how it guides decisions.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-4-n0-s3",
@@ -12045,7 +12045,7 @@
                         "mark": 2,
                         "answer": "Coastside Plumbing could aim for growth in its business. It could also try to improve customer service.",
                         "feedback": "Outlines two relevant business goals, with at least one linked to the scenario, but gives no third goal.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-5-n0-s3",
@@ -12158,7 +12158,7 @@
                         "mark": 2,
                         "answer": "Harbourside could use market penetration by offering its cafe customers a discount for buying more beans. It could also supply cafes in Brisbane, which would be market development.",
                         "feedback": "Two relevant strategies are outlined with some link to the scenario, but a third is missing and the link to long-term growth is not explicit.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-6-n0-s3",
@@ -12272,7 +12272,7 @@
                         "mark": 2,
                         "answer": "Human resources are the workers, and physical resources are the trucks and excavator. The business also needs money to buy materials.",
                         "feedback": "Two resource types are classified with examples, but financial resources are only mentioned in passing.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-7-n0-s3",
@@ -12500,7 +12500,7 @@
                         "mark": 2,
                         "answer": "Sunnyvale could advertise its grooming services on social media. This would help it reach dog owners.",
                         "feedback": "One element of promotion is outlined with some link to the target market, but no second element is given.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-9-n0-s3",
@@ -12728,7 +12728,7 @@
                         "mark": 2,
                         "answer": "The owner will need to recruit tutors. The new staff will also need training.",
                         "feedback": "Two tasks are described, but the links to the four new tutors and the year levels taught are general.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-11-n0-s3",
@@ -13238,7 +13238,7 @@
                         "mark": 4,
                         "answer": "Cash flow projections show the timing of cash inflows and cash outflows, which helps the owner see problems before they happen. In this case the projection shows a negative closing balance in month three because the timber purchase is paid before customers pay. The owner could use the projection to arrange an overdraft in advance. However, the projection depends on customers paying on time, so it is only as useful as its assumptions.",
                         "feedback": "Four marks: explains the value of the projection with relevant reference to the scenario, but the assessment of its assumptions is brief and the judgement is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-15-n0-n1-s3",
@@ -13298,7 +13298,7 @@
                         "mark": 2,
                         "answer": "Greenleaf Gardens could compare its weekly sales reports with the sales target in the business plan.",
                         "feedback": "Two marks: outlines one method of monitoring performance, but does not cover the other targets.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-16-n0-s3",
@@ -13580,7 +13580,7 @@
                         "mark": 4,
                         "answer": "The owner should raise the monthly fabric allowance in the budget to about $5,000, because wool prices have risen and are unlikely to fall quickly. A more realistic budget makes it easier to see when spending is out of line.",
                         "feedback": "Four marks: recommends one revision to the budget with relevant reasoning, but does not address the cancelled orders or the sales increase.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-6-18-n0-n1-s3",
@@ -13754,7 +13754,7 @@
                         "mark": 2,
                         "answer": "Cedar Lane could cut its prices to match the competitor.",
                         "feedback": "Two marks: describes one corrective action linked to the competitor, but gives no detail about how it would be monitored or why it would work.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-6-20-n0-s3",
@@ -13928,7 +13928,7 @@
                         "mark": 4,
                         "answer": "A business plan is important because the bank wants to see that the owners can repay the loan. A plan with sales and cash flow forecasts lets the bank judge the risk. The owners should therefore write a plan before applying, even though it takes time.",
                         "feedback": "Four marks: explains the value of the plan for the loan with relevant reference to the scenario, but the reasoning is brief and does not weigh the owners' argument.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-7-1-n0-n1-s3",
@@ -14102,7 +14102,7 @@
                         "mark": 2,
                         "answer": "Trend analysis looks at sales over time to see whether they are going up or down.",
                         "feedback": "Two marks: describes trend analysis with some relevance to the bookshop, but does not explain how the forecast would inform the business plan.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-7-3-n0-s3",
@@ -14156,7 +14156,7 @@
                         "mark": 4,
                         "answer": "Trend analysis assumes the past will continue, which may not be true when a new online competitor has entered the market. Five years of data may also include unusual years that distort the forecast. The owner should therefore be cautious about relying on the trend for the whole business plan.",
                         "feedback": "Four marks: discusses the effect of a new competitor on the trend. The unusual years point is stated without explanation, and the three-year length of the forecast is not addressed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-7-3-n0-n1-s3",
@@ -14384,7 +14384,7 @@
                         "mark": 4,
                         "answer": "The contract would roughly double orders, so Harbour Print Co would need new machinery and more paper and ink before it is paid. Its working capital is limited, so a payment delay could leave the business unable to meet its current liabilities. The business could ask for a deposit to reduce the risk.",
                         "feedback": "A 4-mark response identifies relevant risks and a response, but the assessment is not extended to a clear judgement on whether to accept the contract.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-7-5-n0-n1-s3",
@@ -14444,7 +14444,7 @@
                         "mark": 2,
                         "answer": "The point-of-sale system could let customers order online, so staff spend less time on the phone.",
                         "feedback": "A 2-mark response describes one benefit clearly but does not describe a second way of improving operations.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-11-3-7-6-n0-s3",
@@ -14498,7 +14498,7 @@
                         "mark": 4,
                         "answer": "The point-of-sale system costs $18,000 to install and train staff, plus $450 a month, which is a large cost for a small bakery. Online ordering and automatic stock records could save time and reduce waste, so the owner should consider adopting it. The owner should, however, test it first.",
                         "feedback": "A 4-mark response identifies relevant costs and benefits, but the justification is brief and the risks are not weighed against the benefits.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-11-3-7-6-n0-n1-s3",
@@ -14666,7 +14666,7 @@
                       "competitive advantage",
                       "customer expectations"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained discussion of the trade-off between cost and quality in operations strategy, weighing cost leadership against quality differentiation for different businesses, and reaching a reasoned view on how the balance should be set\n5-6 marks: Discusses both cost and quality in operations strategy with accurate examples and a link to competitive position\n4 marks: Discusses one of cost or quality with accurate detail and some reference to the other\n2-3 marks: Describes cost and quality in operations with limited discussion\n1 mark: Minimal relevant response",
+                    "markingCriteria": "8 marks: Makes a sustained discussion of the trade-off between cost and quality in operations strategy, weighing cost leadership against quality differentiation for different businesses, and reaching a reasoned view on how the balance should be set\n6-7 marks: Discusses both cost and quality in operations strategy with accurate examples and a link to competitive position\n4-5 marks: Discusses one of cost or quality with accurate detail and some reference to the other\n2-3 marks: Describes cost and quality in operations with limited discussion\n1 mark: Minimal relevant response",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-1-1",
@@ -14781,7 +14781,7 @@
                       "competition",
                       "supply chain"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the impact of globalisation on operations strategy, including sourcing, scale, location of production and competitive pressure, with a reasoned judgement on its effect on different businesses\n5-6 marks: Analyses at least two impacts of globalisation on operations strategy with accurate examples\n3-4 marks: Describes the impact of globalisation on operations with some accuracy\n1-2 marks: Makes a basic or general statement about globalisation",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the impact of globalisation on operations strategy, including sourcing, scale, location of production and competitive pressure, with a reasoned judgement on its effect on different businesses\n5-7 marks: Analyses at least two impacts of globalisation on operations strategy with accurate examples\n3-4 marks: Describes the impact of globalisation on operations with some accuracy\n1-2 marks: Makes a basic or general statement about globalisation",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-2-1",
@@ -14853,7 +14853,7 @@
                         "mark": 2,
                         "answer": "Overseas assembly may lower labour costs. However, parts from overseas can take longer to arrive.",
                         "feedback": "A 2-mark response gives two relevant effects, but it does not outline a third way and each point is brief rather than developed.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-2-n1-s3",
@@ -14931,7 +14931,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Redgum Metal Works is considering upgrading its welding equipment and adding fume extraction at its Hunter Valley factory. The upgrade would reduce fumes and noise but add significant capital cost. The owners argue that current regulation is too strict and costs jobs, while the workers' representatives want faster adoption of safer equipment.",
-                    "markingCriteria": "7-8 marks: Makes a sustained evaluation of whether the policies strike an appropriate balance, weighing the protection they give workers and the community against the costs they impose on Redgum Metal Works, and reaches a justified overall judgement\n6 marks: Evaluates the balance of policy effects with supported judgements about costs and protection, but the overall judgement is only partly developed\n5 marks: Assesses the costs and benefits of the policies for Redgum Metal Works with accurate examples, but makes limited judgement\n3-4 marks: Describes the policies and their effects on operations, with some attempt to judge their impact\n2 marks: Makes a relevant statement about one policy and its effect on Redgum, with little judgement\n1 mark: Minimal relevant response with little or no link to the scenario",
+                    "markingCriteria": "8 marks: Makes a sustained evaluation of whether the policies strike an appropriate balance, weighing the protection they give workers and the community against the costs they impose on Redgum Metal Works, and reaches a justified overall judgement\n7 marks: Evaluates the balance of policy effects with supported judgements about costs and protection, but the overall judgement is only partly developed\n5-6 marks: Assesses the costs and benefits of the policies for Redgum Metal Works with accurate examples, but makes limited judgement\n3-4 marks: Describes the policies and their effects on operations, with some attempt to judge their impact\n2 marks: Makes a relevant statement about one policy and its effect on Redgum, with little judgement\n1 mark: Minimal relevant response with little or no link to the scenario",
                     "keywords": [
                       "government policies",
                       "workplace safety",
@@ -15196,7 +15196,7 @@
                         "mark": 2,
                         "answer": "Simultaneity means the customer and the service happen together, so the business cannot store services. This means Redline must plan its mechanics around when cars arrive.",
                         "feedback": "A 2-mark response clarifies the term and gives one operations effect for Redline, but the second point repeats the first and the customer experience is not considered.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-5-n1-s3",
@@ -15239,7 +15239,7 @@
                       "finance",
                       "human resources"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based assessment of the relationship between operations and the other key business functions in both businesses, weighing the effect of their interdependence on performance and reaching a reasoned judgement\n5-6 marks: Assesses the relationship between operations and at least two other functions in both businesses, with accurate evidence and an attempt at judgement\n4 marks: Assesses the relationship in one business in some depth, or describes links in both businesses with limited assessment\n2-3 marks: Identifies links between operations and other functions with little assessment\n1 mark: Makes a general statement about business functions",
+                    "markingCriteria": "8 marks: Makes a sustained, criteria-based assessment of the relationship between operations and the other key business functions in both businesses, weighing the effect of their interdependence on performance and reaching a reasoned judgement\n6-7 marks: Assesses the relationship between operations and at least two other functions in both businesses, with accurate evidence and an attempt at judgement\n4-5 marks: Assesses the relationship in one business in some depth, or describes links in both businesses with limited assessment\n2-3 marks: Identifies links between operations and other functions with little assessment\n1 mark: Makes a general statement about business functions",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-6-1",
@@ -15311,7 +15311,7 @@
                         "mark": 2,
                         "answer": "Ironbark needs finance for its cutting machine, and Little Sprout needs finance to pay its educators.",
                         "feedback": "A 2-mark response identifies a finance need in each business, but it does not contrast how operations decisions drive those needs.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-6-n1-s3",
@@ -15389,7 +15389,7 @@
                     "verb": "PROPOSE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Riverside Pet Supplies is a Brisbane pet store that sells food and accessories and offers grooming from the same site. Its owners have noticed that larger online retailers offer lower prices and fast delivery, while Riverside's advantage lies in expert advice, grooming quality and the convenience of a local store. The owners want an operations strategy that protects that advantage without matching online prices.",
-                    "markingCriteria": "7-8 marks: Proposes a coherent operations strategy for Riverside, with specific elements justified against its advantage and the online competition, assesses the trade-offs and risks, and explains how the strategy would sustain the advantage over time\n6 marks: Proposes a clear strategy with justified elements linked to Riverside's advantage, with limited assessment of risks or trade-offs\n5 marks: Proposes an operations strategy with some justification, but the link to sustained advantage is limited\n3-4 marks: Describes operations changes for Riverside with little justification or linkage to competition\n2 marks: Makes a relevant suggestion without any operations strategy or justification\n1 mark: Minimal relevant response",
+                    "markingCriteria": "8 marks: Proposes a coherent operations strategy for Riverside, with specific elements justified against its advantage and the online competition, assesses the trade-offs and risks, and explains how the strategy would sustain the advantage over time\n7 marks: Proposes a clear strategy with justified elements linked to Riverside's advantage, with limited assessment of risks or trade-offs\n5-6 marks: Proposes an operations strategy with some justification, but the link to sustained advantage is limited\n3-4 marks: Describes operations changes for Riverside with little justification or linkage to competition\n2 marks: Makes a relevant suggestion without any operations strategy or justification\n1 mark: Minimal relevant response",
                     "keywords": [
                       "operations strategy",
                       "competitive advantage",
@@ -15469,7 +15469,7 @@
                       "risks",
                       "trade-offs"
                     ],
-                    "markingCriteria": "7-8 marks: Recommends specific, justified operations strategies for one hypothetical business, linking each recommendation to the business's objectives, market and constraints, and assessing the risks and trade-offs of the recommendations\n5-6 marks: Recommends operations strategies with accurate justification and attempts to assess the risks or trade-offs\n4 marks: Recommends operations strategies with some justification for each, but little assessment of risk or trade-offs\n2-3 marks: Makes relevant recommendations for the bakery with little or no justification or link to the owners' concerns\n1 mark: Makes a general statement about operations",
+                    "markingCriteria": "8 marks: Recommends specific, justified operations strategies for one hypothetical business, linking each recommendation to the business's objectives, market and constraints, and assessing the risks and trade-offs of the recommendations\n6-7 marks: Recommends operations strategies with accurate justification and attempts to assess the risks or trade-offs\n4-5 marks: Recommends operations strategies with some justification for each, but little assessment of risk or trade-offs\n2-3 marks: Makes relevant recommendations for the bakery with little or no justification or link to the owners' concerns\n1 mark: Makes a general statement about operations",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-8-1",
@@ -15838,7 +15838,7 @@
                         "mark": 2,
                         "answer": "Harbourside Brewery is a goods business, because it makes beer. Kerry's Dry Cleaners is a service business, because it cleans clothes.",
                         "feedback": "A 2-mark response classifies two businesses correctly with a basic reason, but it does not classify the cinema or the bike shop.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-10-n1-s3",
@@ -15968,7 +15968,7 @@
                     "verb": "DISCUSS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Gumleaf Cosmetics is a skincare manufacturer in Adelaide. It is launching a new product line that needs a new production line, a marketing campaign promising fast availability in pharmacies, and additional production staff. The directors must agree how the functions will work together before the launch.",
-                    "markingCriteria": "7-8 marks: Discusses the interdependence of operations with marketing, finance and human resources in the launch, weighing how each function's plan constrains the others, and reaches a reasoned view on how the launch should be coordinated\n5-6 marks: Discusses links between operations and at least two other functions in the launch, with accurate reference to the scenario and some sense of how they affect each other\n4 marks: Describes links between operations and other functions in the launch, with limited discussion of their effects\n2-3 marks: Identifies a link between operations and another function with little discussion\n1 mark: Makes a general statement about business functions",
+                    "markingCriteria": "8 marks: Discusses the interdependence of operations with marketing, finance and human resources in the launch, weighing how each function's plan constrains the others, and reaches a reasoned view on how the launch should be coordinated\n6-7 marks: Discusses links between operations and at least two other functions in the launch, with accurate reference to the scenario and some sense of how they affect each other\n4-5 marks: Describes links between operations and other functions in the launch, with limited discussion of their effects\n2-3 marks: Identifies a link between operations and another function with little discussion\n1 mark: Makes a general statement about business functions",
                     "keywords": [
                       "interdependence",
                       "operations management",
@@ -16114,7 +16114,7 @@
                       "cost-based competition",
                       "environmental sustainability"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the influences on operations management, weighing the relative effect of globalisation, technology, quality expectations, competition, policy, regulation and sustainability on operations decisions, with a reasoned conclusion\n5-6 marks: Analyses at least four influences with accurate examples and a link to operations decisions\n3-4 marks: Describes influences on operations management with some accuracy\n1-2 marks: Makes a basic or general statement about influences",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the influences on operations management, weighing the relative effect of globalisation, technology, quality expectations, competition, policy, regulation and sustainability on operations decisions, with a reasoned conclusion\n5-7 marks: Analyses at least four influences with accurate examples and a link to operations decisions\n3-4 marks: Describes influences on operations management with some accuracy\n1-2 marks: Makes a basic or general statement about influences",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-12-1",
@@ -16767,7 +16767,7 @@
                         "mark": 2,
                         "answer": "Drip irrigation uses less water than overhead sprinklers, so the nursery can cut its water bills.",
                         "feedback": "A 2-mark response describes one change and a basic benefit, but it does not weigh the cost or show a second change.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-15-n1-s3",
@@ -17321,7 +17321,7 @@
                       "customer contact",
                       "process design"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of how volume, variety, variation in demand and visibility of customer contact influence the design of operations processes, weighing their effects on cost, flexibility and quality, with a reasoned conclusion\n5-6 marks: Analyses at least three of these influences with accurate examples and a link to process design\n3-4 marks: Describes these influences on operations processes with some accuracy\n1-2 marks: Makes a basic or general statement about demand",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of how volume, variety, variation in demand and visibility of customer contact influence the design of operations processes, weighing their effects on cost, flexibility and quality, with a reasoned conclusion\n5-7 marks: Analyses at least three of these influences with accurate examples and a link to process design\n3-4 marks: Describes these influences on operations processes with some accuracy\n1-2 marks: Makes a basic or general statement about demand",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-20-1",
@@ -17778,7 +17778,7 @@
                     "verb": "ANALYSE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Sandpiper Boatworks in Ulladulla builds custom fibreglass yachts to order and also makes a standard four-metre runabout in batches of ten. Its current layout groups tools and workers by task, so each boat moves between several workshops. The owner is considering a new layout and task design for the standard runabout.",
-                    "markingCriteria": "7-8 marks: Analyses the difference between process and product layout for both kinds of work at Sandpiper, linking each to volume, variety and task design, and reaches a sustained conclusion about the layout choice\n5-6 marks: Analyses the layout options with accurate links to the scenario and some consideration of task design or trade-offs\n3-4 marks: Describes process and product layouts with limited analysis of their effect on Sandpiper's operations process\n1-2 marks: Makes a general statement about layouts or processes",
+                    "markingCriteria": "8 marks: Analyses the difference between process and product layout for both kinds of work at Sandpiper, linking each to volume, variety and task design, and reaches a sustained conclusion about the layout choice\n5-7 marks: Analyses the layout options with accurate links to the scenario and some consideration of task design or trade-offs\n3-4 marks: Describes process and product layouts with limited analysis of their effect on Sandpiper's operations process\n1-2 marks: Makes a general statement about layouts or processes",
                     "keywords": [
                       "process layout",
                       "product layout",
@@ -18386,7 +18386,7 @@
                       "flexibility",
                       "customisation"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the performance objectives of quality, speed, dependability, flexibility, customisation and cost in operations strategy, weighing how they trade off against one another and reaching a reasoned view on how to prioritise them\n5-6 marks: Analyses at least four performance objectives with accurate examples and a trade-off\n3-4 marks: Describes performance objectives with some accuracy\n1-2 marks: Makes a basic or general statement about operations objectives",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the performance objectives of quality, speed, dependability, flexibility, customisation and cost in operations strategy, weighing how they trade off against one another and reaching a reasoned view on how to prioritise them\n5-7 marks: Analyses at least four performance objectives with accurate examples and a trade-off\n3-4 marks: Describes performance objectives with some accuracy\n1-2 marks: Makes a basic or general statement about operations objectives",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-27-1",
@@ -18702,7 +18702,7 @@
                     "verb": "JUSTIFY",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Ferncliff Kitchenware is a Melbourne manufacturer of kitchen tools sold through department stores and its own website. Its next range must be designed, prototyped and tested before it reaches stores in about a year. The business has a small workshop and two experienced product designers, but no prototyping specialists.",
-                    "markingCriteria": "7-8 marks: Justifies a clear decision on in-house or outsourced design, weighing control, cost, speed and expertise against the risks of each option for Ferncliff, and supports the decision with reasoning about the range's long-term operations\n5-6 marks: Justifies a decision with accurate reasons for and against each option, with some link to the scenario and an attempt at weighing them\n4 marks: Discusses the advantages or disadvantages of one option with limited justification of the decision\n2-3 marks: Identifies an advantage or risk of design choices with little discussion\n1 mark: Makes a general statement about design or outsourcing",
+                    "markingCriteria": "8 marks: Justifies a clear decision on in-house or outsourced design, weighing control, cost, speed and expertise against the risks of each option for Ferncliff, and supports the decision with reasoning about the range's long-term operations\n6-7 marks: Justifies a decision with accurate reasons for and against each option, with some link to the scenario and an attempt at weighing them\n4-5 marks: Discusses the advantages or disadvantages of one option with limited justification of the decision\n2-3 marks: Identifies an advantage or risk of design choices with little discussion\n1 mark: Makes a general statement about design or outsourcing",
                     "keywords": [
                       "in-house design",
                       "outsourcing",
@@ -18782,7 +18782,7 @@
                       "disruption",
                       "competitive advantage"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of supply chain management, including logistics, e-commerce and global sourcing, weighing the cost and speed benefits against the risks of disruption, with a reasoned conclusion\n5-6 marks: Analyses at least two elements of supply chain management with accurate examples and a link to competitive advantage\n3-4 marks: Describes supply chain management with some accuracy\n1-2 marks: Makes a basic or general statement about supply chains",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of supply chain management, including logistics, e-commerce and global sourcing, weighing the cost and speed benefits against the risks of disruption, with a reasoned conclusion\n5-7 marks: Analyses at least two elements of supply chain management with accurate examples and a link to competitive advantage\n3-4 marks: Describes supply chain management with some accuracy\n1-2 marks: Makes a basic or general statement about supply chains",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-29-1",
@@ -18897,7 +18897,7 @@
                       "control",
                       "dependence"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based assessment of the advantages and disadvantages of outsourcing as an operations strategy, weighing cost and focus against control, quality and dependence, with a reasoned judgement on when outsourcing is appropriate\n5-6 marks: Assesses both advantages and disadvantages with accurate evidence and attempts a judgement\n4 marks: Assesses one side with accurate evidence and suggests a conclusion\n2-3 marks: Describes outsourcing with some relevant detail, or identifies an advantage or disadvantage\n1 mark: Makes a basic or general statement about outsourcing",
+                    "markingCriteria": "8 marks: Makes a sustained, criteria-based assessment of the advantages and disadvantages of outsourcing as an operations strategy, weighing cost and focus against control, quality and dependence, with a reasoned judgement on when outsourcing is appropriate\n6-7 marks: Assesses both advantages and disadvantages with accurate evidence and attempts a judgement\n4-5 marks: Assesses one side with accurate evidence and suggests a conclusion\n2-3 marks: Describes outsourcing with some relevant detail, or identifies an advantage or disadvantage\n1 mark: Makes a basic or general statement about outsourcing",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-30-1",
@@ -19249,7 +19249,7 @@
                       "inventory management",
                       "cash flow"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the advantages and disadvantages of holding stock and of the LIFO, FIFO and JIT approaches, weighing the cost, risk and cash flow effects, with a reasoned judgement on the appropriate approach for different businesses\n5-6 marks: Analyses the holding of stock and at least two inventory approaches with accurate evidence\n3-4 marks: Describes inventory management and some of its approaches, such as LIFO, FIFO or JIT, with some accuracy\n1-2 marks: Makes a basic or general statement about stock",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the advantages and disadvantages of holding stock and of the LIFO, FIFO and JIT approaches, weighing the cost, risk and cash flow effects, with a reasoned judgement on the appropriate approach for different businesses\n5-7 marks: Analyses the holding of stock and at least two inventory approaches with accurate evidence\n3-4 marks: Describes inventory management and some of its approaches, such as LIFO, FIFO or JIT, with some accuracy\n1-2 marks: Makes a basic or general statement about stock",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-32-1",
@@ -19567,7 +19567,7 @@
                         "mark": 2,
                         "answer": "Standard welding procedures are one feature, and welder training is another, since both help welders make consistent joints.",
                         "feedback": "A 2-mark response outlines two relevant features briefly. Adding an in-process check during welding would move it up.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-33-n1-s3",
@@ -19956,7 +19956,7 @@
                         "mark": 5,
                         "answer": "Mossvale should adopt a workflow improvement strategy that targets the waiting time between design, cutting and finishing, which is most of the 12 days of lead time on custom orders. Continuous improvement starts with a visible job board showing each order's stage and where delays build up. Cutting should be scheduled in batches of similar orders, so the bench is not repeatedly reset. A short weekly review of the longest waits lets the team propose changes, such as moving finishing closer to assembly. Success should be judged by measurement of the average days between stages, recorded on the board and compared with the current 12-day lead time. Because the strategy targets waiting rather than work, and needs no new equipment, it suits a small workshop. The owner should set a review eight weeks after the board is introduced, to keep or adjust the change on evidence.",
                         "feedback": "Full marks: a specific improvement targets the waiting between stages, with steps, a measure of success and a justification drawn from the 12-day lead time.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-36-n1-s2",
@@ -19964,7 +19964,7 @@
                         "mark": 3,
                         "answer": "Mossvale could schedule its cutting in batches so that workers spend less time changing settings between jobs, which would shorten the lead time.",
                         "feedback": "A 3-mark response proposes a relevant improvement with some explanation. Explaining how the change would be measured and why it targets the waiting would move it up.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-36-n1-s3",
@@ -19972,7 +19972,7 @@
                         "mark": 1,
                         "answer": "Mossvale should work faster to get orders out sooner.",
                         "feedback": "A 1-mark response makes a general statement about working faster and does not propose a strategy for the waiting between stages.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -20007,7 +20007,7 @@
                       "reorganising plant layout",
                       "inertia"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the sources of resistance to change in operations and the methods of overcoming it, weighing the financial costs of change against the human and organisational costs of inertia, with a reasoned judgement on how change should be managed\n5-6 marks: Analyses the sources of resistance and at least two methods of overcoming it with accurate examples\n3-4 marks: Describes resistance to change and some methods of overcoming it, such as retraining, with some accuracy\n1-2 marks: Makes a basic or general statement about change",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the sources of resistance to change in operations and the methods of overcoming it, weighing the financial costs of change against the human and organisational costs of inertia, with a reasoned judgement on how change should be managed\n5-7 marks: Analyses the sources of resistance and at least two methods of overcoming it with accurate examples\n3-4 marks: Describes resistance to change and some methods of overcoming it, such as retraining, with some accuracy\n1-2 marks: Makes a basic or general statement about change",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-37-1",
@@ -20246,7 +20246,7 @@
                       "research and development",
                       "operations strategy"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the global factors affecting operations strategy, including global sourcing, economies of scale, scanning and learning, and research and development, weighing their benefits and risks, with a reasoned conclusion\n5-6 marks: Analyses at least three global factors with accurate examples and a link to operations decisions\n3-4 marks: Describes global factors affecting operations with some accuracy\n1-2 marks: Makes a basic or general statement about global operations",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the global factors affecting operations strategy, including global sourcing, economies of scale, scanning and learning, and research and development, weighing their benefits and risks, with a reasoned conclusion\n5-7 marks: Analyses at least three global factors with accurate examples and a link to operations decisions\n3-4 marks: Describes global factors affecting operations with some accuracy\n1-2 marks: Makes a basic or general statement about global operations",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-38-1",
@@ -20505,7 +20505,7 @@
                         "mark": 2,
                         "answer": "Uniforms are goods that can be stocked, while coaching is a service that happens at set times.",
                         "feedback": "A 2-mark response distinguishes goods from services with one accurate example. Linking each to what operations must do would move it up.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-39-n1-s3",
@@ -20583,7 +20583,7 @@
                     "verb": "JUSTIFY",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Tallis Mattress Co., a Sydney retailer, advertises its mattresses as 'the best in the country'. The claim cannot be tested objectively, and the company's lawyers say the wording is not clearly false, but several customers have complained that they paid a premium price because they believed the claim was proven.",
-                    "markingCriteria": "7-8 marks: Justifies with sustained reasoning whether the advertising should change, weighing the legal position that the claim is not clearly false against ethical responsibility and consumer trust, and reaching a clear conclusion supported by the scenario\n5-6 marks: Justifies a clear position with relevant legal and ethical reasoning and some weighing of the customer complaints, or justifies a position mainly on ethical or legal grounds with a conclusion\n4 marks: Describes the legal and ethical considerations for the advertising with some relevance to the scenario, and reaches a limited view\n2-3 marks: Identifies a consideration relevant to the advertising claim, with some explanation\n1 mark: Makes a general statement about advertising claims",
+                    "markingCriteria": "8 marks: Justifies with sustained reasoning whether the advertising should change, weighing the legal position that the claim is not clearly false against ethical responsibility and consumer trust, and reaching a clear conclusion supported by the scenario\n6-7 marks: Justifies a clear position with relevant legal and ethical reasoning and some weighing of the customer complaints, or justifies a position mainly on ethical or legal grounds with a conclusion\n4-5 marks: Describes the legal and ethical considerations for the advertising with some relevance to the scenario, and reaches a limited view\n2-3 marks: Identifies a consideration relevant to the advertising claim, with some explanation\n1 mark: Makes a general statement about advertising claims",
                     "keywords": [
                       "advertising claim",
                       "misleading",
@@ -20662,7 +20662,7 @@
                       "sales promotion",
                       "publicity"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based assessment of why a mix of promotional strategies is important in the marketing of goods and services, weighing the strengths of advertising, personal selling, sales promotion and publicity, and reaching a reasoned judgement\n5-6 marks: Assesses the importance of a promotional mix with accurate evidence across at least two strategies and attempts a judgement\n4 marks: Assesses at least two promotional strategies with accurate evidence and suggests a conclusion\n2-3 marks: Describes promotional strategies with some relevant detail, or identifies one strategy\n1 mark: Makes a basic or general statement about promotion",
+                    "markingCriteria": "8 marks: Makes a sustained, criteria-based assessment of why a mix of promotional strategies is important in the marketing of goods and services, weighing the strengths of advertising, personal selling, sales promotion and publicity, and reaching a reasoned judgement\n6-7 marks: Assesses the importance of a promotional mix with accurate evidence across at least two strategies and attempts a judgement\n4-5 marks: Assesses at least two promotional strategies with accurate evidence and suggests a conclusion\n2-3 marks: Describes promotional strategies with some relevant detail, or identifies one strategy\n1 mark: Makes a basic or general statement about promotion",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-41-1",
@@ -20726,7 +20726,7 @@
                         "mark": 6,
                         "answer": "Lark's best launch uses a sequenced mix of promotional strategies: the video creates awareness, the trail race sponsorship builds credibility, and the early-buyer discount converts interest into sales. The video should come first, because it shows the tent on difficult terrain, reaches people researching lightweight shelters, and can be reused at low cost. Sponsorship of the trail race is a more expensive way to reach a specialised audience, so it should be limited to a race that Lark's customers already attend. The early-buyer discount is a sales promotion that converts the interest the video creates into purchases, and it can be offered through both the website and the two outdoor stores, because many customers want to see the tent in person. Across the buying process, these options form one plan: awareness through video, credibility through a targeted race presence, and action through a time-limited discount. The $20,000 budget should go mostly to the video and the discount, with sponsorship kept to a modest share. The recommendation is to launch with the video and the discount, and to use the race sponsorship only if money remains. Results in the first two months should show whether the video generates enquiries and whether the discount converts them, before the race budget is released.",
                         "feedback": "Full marks: the three options are integrated into one plan that moves the buyer from awareness to purchase, with the budget and both sales channels taken into account.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-41-n1-s2",
@@ -20783,7 +20783,7 @@
                       "criteria",
                       "recommendation"
                     ],
-                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the marketing strategies for a good or service, weighing the product, price, place and promotion decisions against the market's needs and the business's objectives, and reaching a reasoned judgement on effectiveness\n7-8 marks: Evaluates several marketing strategies with precise, accurate evidence and reaches a clear overall position on effectiveness\n6 marks: Evaluates at least one strategy and attempts a judgement, but the reasoning is uneven\n4-5 marks: Describes marketing strategies for a good or service with some relevant detail\n2-3 marks: Identifies one or two marketing strategies for the good or service, with limited explanation and no evaluation of their effectiveness\n1 mark: Minimal relevant response",
+                    "markingCriteria": "10 marks: Makes a sustained, criteria-based evaluation of the marketing strategies for a good or service, weighing the product, price, place and promotion decisions against the market's needs and the business's objectives, and reaching a reasoned judgement on effectiveness\n9 marks: Evaluates several marketing strategies with precise, accurate evidence and reaches a clear overall position on effectiveness\n7-8 marks: Evaluates at least one strategy and attempts a judgement, but the reasoning is uneven\n5-6 marks: Describes marketing strategies for a good or service with some relevant detail\n3-4 marks: Identifies one or two marketing strategies for the good or service, with limited explanation and no evaluation of their effectiveness\n1-2 marks: Minimal relevant response",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-42-1",
@@ -20799,7 +20799,7 @@
                         "mark": 4,
                         "answer": "The water bottle is differentiated on durability and design, which suits its target market. The premium price supports brand value, but it may limit growth against cheaper competitors.",
                         "feedback": "A 4-mark response evaluates the strategies with some judgement, but the criteria are not stated and the promotion and distribution are not evaluated. Adding these would strengthen it.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-42-3",
@@ -20815,7 +20815,7 @@
                         "mark": 2,
                         "answer": "Summit Flask sells a reusable bottle online and in specialist shops at a premium price.",
                         "feedback": "A 2-mark response identifies the product, price and channels without evaluating any strategy against criteria.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: Summit Flask, a start-up selling a premium reusable water bottle to consumers aged 25 to 40 in Sydney and Melbourne, launched at $65 through its online store and specialist outdoor retailers. Its launch target is 8 per cent of the premium bottle market within two years, and its marketing budget for the first year is $150,000."
@@ -20854,7 +20854,7 @@
                         "mark": 6,
                         "answer": "Mango Grove's data can test whether its marketing is working, but only if the evidence is read carefully. The survey of 200 shoppers shows who bought the bar and why, which can test whether the target market of health-conscious consumers is correct. However, it covers only buyers, so it cannot show whether the bar appeals to shoppers who did not buy it. The weekly store sales figures show whether an in-store promotion lifted sales, but only if the stores are compared with similar stores that had no promotion, since a rise may reflect seasonal demand rather than the campaign. The two competitor launches in the same stores are a useful benchmark, showing whether Mango Grove's sales rise faster than the market. Overall, the marketing strategies appear to work in some stores but cannot yet be confirmed across all twelve. To test them, Mango Grove should run a matched-store comparison over eight weeks, with the promotion in six stores and not in six similar stores, and survey a sample of non-buyers as well as buyers. The results should be reported with their limits, so that managers do not mistake a difference between stores for proof that the campaign caused it. A cost check would also show whether the in-store promotion pays for itself, which the sales data alone cannot establish.",
                         "feedback": "Full marks: the strategies are investigated using the survey, store sales and competitor data, the limits of the evidence are identified, and a specific test is proposed to confirm the findings.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-42-n1-s2",
@@ -20905,7 +20905,7 @@
                       "financial forecast",
                       "monitoring"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of a marketing plan for a business, examining its objectives, target markets, strategies, financial forecast and monitoring, and the links between them, with a reasoned conclusion on its soundness\n5-6 marks: Analyses the main components of the marketing plan with accurate evidence and a link between two of them\n3-4 marks: Describes a marketing plan and its components with some accuracy\n1-2 marks: Makes a basic or general statement about marketing plans",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of a marketing plan for a business, examining its objectives, target markets, strategies, financial forecast and monitoring, and the links between them, with a reasoned conclusion on its soundness\n5-7 marks: Analyses the main components of the marketing plan with accurate evidence and a link between two of them\n3-4 marks: Describes a marketing plan and its components with some accuracy\n1-2 marks: Makes a basic or general statement about marketing plans",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-43-1",
@@ -21494,7 +21494,7 @@
                         "mark": 2,
                         "answer": "The sewing machine is production, because it increases output, and the dealer discount is selling, because it pushes existing stock to dealers. The survey and the redesign are not classified.",
                         "feedback": "A 2-mark response classifies two decisions correctly with reasons. Classifying the survey and the redesign as marketing would move it up.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-47-n1-s3",
@@ -22080,7 +22080,7 @@
                         "mark": 2,
                         "answer": "The gym must not mislead customers about its no joining fee offer. It must also provide its services with due care and skill.",
                         "feedback": "A 2-mark response outlines two requirements briefly with some application. Adding a third requirement and explaining how the offer's conditions must be disclosed would move it up.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-50-n1-s3",
@@ -22635,7 +22635,7 @@
                       "accuracy",
                       "ethical marketing"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the ethical issues in marketing, weighing truth, accuracy and good taste in advertising, health risks, fair competition and sugging, and reaching a reasoned view on how businesses should respond\n5-6 marks: Analyses at least three ethical issues with accurate examples and a link to consumer trust\n3-4 marks: Describes ethical issues in marketing with some accuracy\n1-2 marks: Makes a basic or general statement about marketing ethics",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the ethical issues in marketing, weighing truth, accuracy and good taste in advertising, health risks, fair competition and sugging, and reaching a reasoned view on how businesses should respond\n5-7 marks: Analyses at least three ethical issues with accurate examples and a link to consumer trust\n3-4 marks: Describes ethical issues in marketing with some accuracy\n1-2 marks: Makes a basic or general statement about marketing ethics",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-55-1",
@@ -22883,7 +22883,7 @@
                         "mark": 2,
                         "answer": "A SWOT analysis lists strengths, weaknesses, opportunities and threats. For this guitar manufacturer, it is used to check whether the standardised strategy suits the US market, although it does not say what the business should do about any gaps.",
                         "feedback": "Names the elements of a SWOT and refers to its purpose for this business, which meets the 2-mark row. The purpose is stated but not clearly determined, and the answer does not say what the analysis tells the manager about the standardised strategy, so it stays short of the top row. Explaining which findings would affect the US decision would lift it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-hsc-2020-22a-3",
@@ -23395,7 +23395,7 @@
                         "mark": 2,
                         "answer": "The commuters are classified by age, which is demographic, and by where they live, which is geographic. Glenview Cycle Works should target them first because they are a clear group.",
                         "feedback": "A 2-mark response classifies two variables correctly and names a target group, but gives no reason linked to the e-bike range. Explain why the group suits the product to reach 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-59-n1-s3",
@@ -23438,7 +23438,7 @@
                       "place",
                       "objectives"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of how a business develops marketing strategies, showing how the product, price, place and promotion decisions follow from the objectives and target markets, with a reasoned conclusion on coherence\n5-6 marks: Analyses the development of marketing strategies with accurate examples and a link to objectives or target markets\n3-4 marks: Describes marketing strategies with some accuracy\n1-2 marks: Makes a basic or general statement about marketing",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of how a business develops marketing strategies, showing how the product, price, place and promotion decisions follow from the objectives and target markets, with a reasoned conclusion on coherence\n5-7 marks: Analyses the development of marketing strategies with accurate examples and a link to objectives or target markets\n3-4 marks: Describes marketing strategies with some accuracy\n1-2 marks: Makes a basic or general statement about marketing",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-60-1",
@@ -23501,7 +23501,7 @@
                         "mark": 6,
                         "answer": "Bayview Seedlings should build its marketing strategy around one clear position: the easiest route to a productive vegetable garden for busy Sydney households aged 25 to 40, its target market. On product, it should keep its kit design but add step-by-step instructions and a short video, so buyers can see the value that justifies a premium over the seed packets of large garden chains. On price, it should keep a premium with a family bundle, because this target market values convenience and reliable results more than the lowest price. On place, it should keep its online store and partner with two or three Sydney garden centres on consignment. On promotion, most of the $25,000 marketing budget should fund targeted social media advertising and short videos of kits growing, because these suit the target market. The business should keep all spending within the budget and review sales and enquiry data monthly, moving money towards the channel that brings the most orders. Together these decisions form a coherent marketing mix: the product and promotion persuade the target market, the price signals quality and the place decisions make the kits easy to buy.",
                         "feedback": "Full marks: a coherent strategy is proposed for all four mix elements, each decision is justified with the budget and the target market, and the elements are shown to work together.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-60-n1-s2",
@@ -23973,7 +23973,7 @@
                         "mark": 4,
                         "answer": "This business could divide the total market into smaller segments so it can target its service to them more effectively and increase sales. For example, it could divide by demographics and advertise and tailor the service and price to a particular income level and social class. It could also segment by psychographic characteristics and appeal to aspirational pianists who may want to increase their skills and satisfy their personal interest.",
                         "feedback": "Meets the 4-mark row by proposing TWO relevant ways segmentation can be used by this business to continue its growth. The answer proposes demographic segments, to 'tailor the service and price to a particular income level', and psychographic segments, to 'appeal to aspirational pianists'.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-bs-hsc-2024-23c-2",
@@ -23981,7 +23981,7 @@
                         "mark": 2,
                         "answer": "The business could use geographic segmentation by opening lessons in more states. It could also use demographic segmentation, dividing customers by age and income, to offer different prices.",
                         "feedback": "Identifies two segmentation methods with brief application, but the proposals are general and not clearly tied to growth. To lift it, explain how this business would apply each method and how it would add customers.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-bs-hsc-2024-23c-3",
@@ -23989,7 +23989,7 @@
                         "mark": 1,
                         "answer": "Market segmentation divides a market into groups of customers with similar needs.",
                         "feedback": "Gives a correct definition but no proposed use for this business. To lift it, propose a specific use of segmentation for the piano business and say how it supports growth.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "A piano teaching business which guarantees highly qualified and experienced teachers is rapidly expanding across all states of Australia.",
@@ -24695,7 +24695,7 @@
                       "brand image",
                       "value"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the interaction between price and quality in marketing decisions, showing how customers use price as a signal of quality and how the business manages perceived value, with a reasoned conclusion\n5-6 marks: Analyses the relationship between price and quality with accurate examples and a link to perceived value\n3-4 marks: Describes price and quality in marketing with some accuracy\n1-2 marks: Makes a basic or general statement about prices",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the interaction between price and quality in marketing decisions, showing how customers use price as a signal of quality and how the business manages perceived value, with a reasoned conclusion\n5-7 marks: Analyses the relationship between price and quality with accurate examples and a link to perceived value\n3-4 marks: Describes price and quality in marketing with some accuracy\n1-2 marks: Makes a basic or general statement about prices",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-68-1",
@@ -25046,7 +25046,7 @@
                         "mark": 2,
                         "answer": "Publicity, such as sending the taste awards to local newspapers, is a low-cost way to tell people about the cider. Sales promotions, such as free samples, can encourage people to try it.",
                         "feedback": "A 2-mark response outlines two promotion mix elements with relevant uses but does not give a third. Add a third element, such as personal selling, to reach 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-70-n1-s3",
@@ -25545,7 +25545,7 @@
                       "costs",
                       "service levels"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of physical distribution issues, including transport, warehousing and inventory, weighing their effect on cost, service levels and customer satisfaction, with a reasoned conclusion\n5-6 marks: Analyses at least two of the issues with accurate examples and a link to service levels\n3-4 marks: Describes physical distribution with some accuracy\n1-2 marks: Makes a basic or general statement about delivery",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of physical distribution issues, including transport, warehousing and inventory, weighing their effect on cost, service levels and customer satisfaction, with a reasoned conclusion\n5-7 marks: Analyses at least two of the issues with accurate examples and a link to service levels\n3-4 marks: Describes physical distribution with some accuracy\n1-2 marks: Makes a basic or general statement about delivery",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-75-1",
@@ -25926,7 +25926,7 @@
                     "verb": "RECOMMEND",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Redleaf Outdoor Gear, a Melbourne business that sells camping equipment, sells online and through one store. Its website loads slowly on mobile phones, its email list has 8,000 subscribers, and its owners have a budget of $40,000 for e-marketing over the next year. Most of its online sales come from people who first find the store through search.",
-                    "markingCriteria": "7-8 marks: Makes a sustained recommendation on how to allocate the e-marketing budget across the website, email and social media, weighing the costs and benefits of each with integrated evidence from the scenario and a reasoned view on the strategy's effect\n5-6 marks: Recommends an allocation across at least two e-marketing channels, with accurate reasons linked to the scenario\n4 marks: Recommends a broad allocation with some reasons linked to the scenario\n2-3 marks: Describes e-marketing channels with limited links to the budget\n1 mark: Makes a general statement about digital marketing",
+                    "markingCriteria": "8 marks: Makes a sustained recommendation on how to allocate the e-marketing budget across the website, email and social media, weighing the costs and benefits of each with integrated evidence from the scenario and a reasoned view on the strategy's effect\n6-7 marks: Recommends an allocation across at least two e-marketing channels, with accurate reasons linked to the scenario\n4-5 marks: Recommends a broad allocation with some reasons linked to the scenario\n2-3 marks: Describes e-marketing channels with limited links to the budget\n1 mark: Makes a general statement about digital marketing",
                     "keywords": [
                       "e-marketing",
                       "digital channels",
@@ -26041,7 +26041,7 @@
                     "verb": "ASSESS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Lowry Bean Co, a Melbourne coffee roaster, sells premium beans in Victoria and New South Wales. Its brand is built on Australian cafe culture and a relaxed local story. It is considering opening a cafe in Auckland, exporting packaged beans to Japan, and has been offered a licensing deal by a Japanese distributor.",
-                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the global marketing decisions in each market, weighing market entry, adaptation and cultural differences against Lowry Bean Co's resources and brand, and reaches a reasoned judgement on which entry method is most suitable\n5-6 marks: Assesses the decisions in both markets with accurate evidence and some links to the brand\n4 marks: Describes the market entry options with some links to the scenario\n2-3 marks: Identifies global marketing decisions with limited assessment\n1 mark: Makes a general statement about global marketing",
+                    "markingCriteria": "8 marks: Makes a sustained assessment of the global marketing decisions in each market, weighing market entry, adaptation and cultural differences against Lowry Bean Co's resources and brand, and reaches a reasoned judgement on which entry method is most suitable\n6-7 marks: Assesses the decisions in both markets with accurate evidence and some links to the brand\n4-5 marks: Describes the market entry options with some links to the scenario\n2-3 marks: Identifies global marketing decisions with limited assessment\n1 mark: Makes a general statement about global marketing",
                     "keywords": [
                       "global marketing",
                       "market entry",
@@ -26823,7 +26823,7 @@
                       "unique selling proposition",
                       "market position"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of competitive positioning, including how a business differentiates its offering from competitors using a perceptual map or similar analysis, with a reasoned conclusion on the strength of the position\n5-6 marks: Analyses competitive positioning with accurate examples of differentiation and a link to competitors\n3-4 marks: Describes competitive positioning with some accuracy\n1-2 marks: Makes a basic or general statement about competition",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of competitive positioning, including how a business differentiates its offering from competitors using a perceptual map or similar analysis, with a reasoned conclusion on the strength of the position\n5-7 marks: Analyses competitive positioning with accurate examples of differentiation and a link to competitors\n3-4 marks: Describes competitive positioning with some accuracy\n1-2 marks: Makes a basic or general statement about competition",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-83-1",
@@ -26984,7 +26984,7 @@
                     "verb": "DISCUSS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Marlin Pools, an Australian pool-building company, has a strong cash position after a good year. Its board wants to cut spending on staff training and maintenance equipment this year to lift profit and pay a larger dividend, but its long-term plan relies on developing a new fibreglass pool range that needs skilled installers.",
-                    "markingCriteria": "7-8 marks: Makes a sustained discussion of the conflicts between Marlin Pools' short-term and long-term financial objectives, weighing the trade-offs of training and equipment spending against profitability and growth, and reaches a reasoned view on the board's proposal\n5-6 marks: Discusses at least two conflicts with accurate examples and a clear link to the financial objectives\n4 marks: Discusses one conflict with accurate detail and some link to the scenario\n2-3 marks: Describes short-term and long-term objectives with limited discussion of conflict\n1 mark: Makes a general statement about business goals",
+                    "markingCriteria": "8 marks: Makes a sustained discussion of the conflicts between Marlin Pools' short-term and long-term financial objectives, weighing the trade-offs of training and equipment spending against profitability and growth, and reaches a reasoned view on the board's proposal\n6-7 marks: Discusses at least two conflicts with accurate examples and a clear link to the financial objectives\n4-5 marks: Discusses one conflict with accurate detail and some link to the scenario\n2-3 marks: Describes short-term and long-term objectives with limited discussion of conflict\n1 mark: Makes a general statement about business goals",
                     "keywords": [
                       "short-term objectives",
                       "long-term objectives",
@@ -27125,7 +27125,7 @@
                       "exchange rates",
                       "regulation"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the influence of government and the global market on financial management, weighing regulation, taxation, interest rates and exchange rates, with a reasoned conclusion\n5-6 marks: Analyses the influence of government and the global market with accurate examples and a link to financial decisions\n3-4 marks: Describes the influences on financial management with some accuracy\n1-2 marks: Makes a basic or general statement about financial management",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the influence of government and the global market on financial management, weighing regulation, taxation, interest rates and exchange rates, with a reasoned conclusion\n5-7 marks: Analyses the influence of government and the global market with accurate examples and a link to financial decisions\n3-4 marks: Describes the influences on financial management with some accuracy\n1-2 marks: Makes a basic or general statement about financial management",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-85-1",
@@ -27188,7 +27188,7 @@
                         "mark": 6,
                         "answer": "Government incentives and the weaker Australian dollar push Ridgeback Solar's financial management in opposite directions, and its decisions must weigh both. The incentives have boosted sales and cash flow, but they depend on policy that can change, so the financial manager should evaluate how much revenue would remain without them. The weaker dollar raises the cost of panels bought at US dollar prices, squeezing margins as sales rise. The combined effect of the global market and policy is more sales but a smaller margin on each one. Ridgeback Solar should hedge its exposure, perhaps with forward contracts that fix the Australian dollar cost of part of its next orders, and price with a margin that absorbs some currency movement. It should also hold a cash reserve so that a fall in incentives does not force it to cut staff. On balance, the sales gain is valuable but fragile, while the currency risk is persistent and manageable, so the incentives should be treated as temporary.",
                         "feedback": "Full marks: the incentives and the weaker dollar are evaluated together, their effects on cash flow and margin are weighed, and a reasoned set of management decisions is justified.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-85-n1-s2",
@@ -27353,7 +27353,7 @@
                       "political risk",
                       "credit risk"
                     ],
-                    "markingCriteria": "6-8 marks: Makes a sustained comparison of the risks in domestic and global financial transactions, weighing exchange rate, political, credit and regulatory risks, and reaches a reasoned view on how they should be managed\n3-5 marks: Compares the risks in domestic and global transactions with accurate examples and at least one difference\n1-2 marks: Describes the risks in each type of transaction, or makes a general statement about financial risk",
+                    "markingCriteria": "8 marks: Makes a sustained comparison of the risks in domestic and global financial transactions, weighing exchange rate, political, credit and regulatory risks, and reaches a reasoned view on how they should be managed\n4-7 marks: Compares the risks in domestic and global transactions with accurate examples and at least one difference\n1-3 marks: Describes the risks in each type of transaction, or makes a general statement about financial risk",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-87-1",
@@ -27369,7 +27369,7 @@
                         "mark": 3,
                         "answer": "Both types carry credit risk. Global transactions also carry exchange rate risk, which does not exist in domestic sales, and political risk.",
                         "feedback": "A 3-mark response compares the risks with accurate examples. Explaining how each risk is managed would move it into the top band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-87-3",
@@ -27424,7 +27424,7 @@
                         "mark": 2,
                         "answer": "Sandstone faces exchange rate risk because the payment is in New Zealand dollars.",
                         "feedback": "A 2-mark response clarifies one risk specific to the export sale but does not explain its effect on the business. Explain how the risk changes Sandstone's payment, or clarify a second risk, to reach 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-87-n1-s3",
@@ -27647,7 +27647,7 @@
                       "industry averages",
                       "limitations"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based assessment of business performance using comparative ratio analysis, comparing ratios over time and against benchmarks, and reaching a reasoned judgement on performance and its causes\n5-6 marks: Assesses performance using comparative ratio analysis with accurate evidence from more than one comparison and attempts a judgement\n4 marks: Assesses performance using one comparison with accurate evidence and suggests a conclusion\n2-3 marks: Describes comparative ratio analysis or identifies a comparison with some relevant detail\n1 mark: Makes a basic or general statement about performance",
+                    "markingCriteria": "8 marks: Makes a sustained, criteria-based assessment of business performance using comparative ratio analysis, comparing ratios over time and against benchmarks, and reaching a reasoned judgement on performance and its causes\n6-7 marks: Assesses performance using comparative ratio analysis with accurate evidence from more than one comparison and attempts a judgement\n4-5 marks: Assesses performance using one comparison with accurate evidence and suggests a conclusion\n2-3 marks: Describes comparative ratio analysis or identifies a comparison with some relevant detail\n1 mark: Makes a basic or general statement about performance",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-89-1",
@@ -27765,7 +27765,7 @@
                       "collection period",
                       "gross profit ratio"
                     ],
-                    "markingCriteria": "7-8 marks: Recommends specific, justified strategies to improve financial performance, linking each to the ratios or financial problem identified, and assessing the risks and trade-offs of the recommendations\n5-6 marks: Recommends strategies with accurate justification linked to the financial position, and identifies at least one risk or trade-off\n4 marks: Recommends strategies with justification linked to the financial position\n2-3 marks: Describes possible strategies with some relevant detail, or identifies a strategy without justification\n1 mark: Makes a basic or general statement about financial improvement",
+                    "markingCriteria": "8 marks: Recommends specific, justified strategies to improve financial performance, linking each to the ratios or financial problem identified, and assessing the risks and trade-offs of the recommendations\n6-7 marks: Recommends strategies with accurate justification linked to the financial position, and identifies at least one risk or trade-off\n4-5 marks: Recommends strategies with justification linked to the financial position\n2-3 marks: Describes possible strategies with some relevant detail, or identifies a strategy without justification\n1 mark: Makes a basic or general statement about financial improvement",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-90-1",
@@ -27829,7 +27829,7 @@
                         "mark": 6,
                         "answer": "The proposed strategies would improve liquidity, but their effect on financial performance depends on how the clearance is run. Cutting the range by a third releases cash tied up in stock: inventory makes up 45 per cent of Crestline's current assets, so using clearance sale proceeds to repay short-term debts would lift the current ratio above 0.9. Fewer lines also reduce the risk of obsolete stock. However, clearance prices on some lines will fall below cost, lowering the gross profit ratio of 38 per cent on those sales. Customers who want a full selection may also go elsewhere, reducing sales volume and the gross profit earned overall. The strategies are therefore effective for liquidity and risk but less so for profitability, unless clearance is limited to genuinely slow lines and combined with better supplier terms, since better terms would also reduce the need to hold large stock levels in the first place. The owner should track weekly clearance sales and the number of plant lines sold, so that the effect on gross profit is measured rather than assumed. On balance, the proposal should proceed in a modified form that protects gross profit while releasing cash.",
                         "feedback": "Full marks: the proposal is evaluated for its effect on liquidity, profitability and risk, the trade-off is weighed with evidence from the scenario, and a conditional judgement on effectiveness is reached.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-90-n1-s2",
@@ -27880,7 +27880,7 @@
                       "regulation",
                       "integrity"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of ethical financial reporting practices, weighing transparency and accuracy against the pressure to present results favourably, with reference to stakeholders and regulation, and a reasoned judgement\n5-6 marks: Analyses ethical reporting practices with accurate examples and a link to stakeholders\n3-4 marks: Describes financial reporting practices with some accuracy\n1-2 marks: Makes a basic or general statement about financial reporting",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of ethical financial reporting practices, weighing transparency and accuracy against the pressure to present results favourably, with reference to stakeholders and regulation, and a reasoned judgement\n5-7 marks: Analyses ethical reporting practices with accurate examples and a link to stakeholders\n3-4 marks: Describes financial reporting practices with some accuracy\n1-2 marks: Makes a basic or general statement about financial reporting",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-91-1",
@@ -28319,7 +28319,7 @@
                     "verb": "ASSESS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Sunset Tiles Pty Ltd, a wholesale tile distributor, has a net profit ratio of 16 per cent but a current ratio of 0.7. Most of its sales are made on 90-day credit terms, while its major tile suppliers require payment within 30 days, so its cash is consistently short of its immediate obligations.",
-                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based assessment of the trade-off between profitability and liquidity, weighing the short-term and long-term effects of each priority, and reaches a reasoned judgement on which objective should take precedence\n5-6 marks: Assesses both objectives with accurate evidence from the scenario and attempts a judgement on which should take priority\n4 marks: Assesses one objective with accurate evidence and suggests a conclusion\n2-3 marks: Describes profitability and liquidity with some relevant detail, or identifies a trade-off without assessing it\n1 mark: Makes a basic or general statement about financial objectives",
+                    "markingCriteria": "8 marks: Makes a sustained, criteria-based assessment of the trade-off between profitability and liquidity, weighing the short-term and long-term effects of each priority, and reaches a reasoned judgement on which objective should take precedence\n6-7 marks: Assesses both objectives with accurate evidence from the scenario and attempts a judgement on which should take priority\n4-5 marks: Assesses one objective with accurate evidence and suggests a conclusion\n2-3 marks: Describes profitability and liquidity with some relevant detail, or identifies a trade-off without assessing it\n1 mark: Makes a basic or general statement about financial objectives",
                     "keywords": [
                       "profitability",
                       "liquidity",
@@ -28356,7 +28356,7 @@
                         "mark": 5,
                         "answer": "Liquidity should take priority because the current ratio of 0.7 shows that short-term debts exceed current assets, so suppliers paid within 30 days cannot be covered from current assets. Extending credit to lift profit would widen the gap, while the 16 per cent net profit ratio is a strength to protect once cash flow is restored.",
                         "feedback": "A 5-mark response assesses both objectives with accurate evidence and attempts a judgement. Weighing the short-term and long-term consequences more fully would move it up.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-94-n1-s3",
@@ -28532,7 +28532,7 @@
                         "mark": 2,
                         "answer": "The flour invoice and the Christmas overdraft are short-term, because they are paid within the year, and the van is long-term.",
                         "feedback": "A 2-mark response classifies all three decisions but gives brief reasons. Explaining the period over which each is funded would move it up.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-95-n1-s3",
@@ -28767,7 +28767,7 @@
                         "mark": 2,
                         "answer": "Retaining the profit means the owners receive less money now, but the business can buy new equipment without borrowing.",
                         "feedback": "A 2-mark response identifies effects on the owners and the business without summarising the trade-off. Adding the effect on control and future borrowing would move it up.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-97-n1-s3",
@@ -29353,7 +29353,7 @@
                     "verb": "DISCUSS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: the federal government proposes a lower company tax rate for small companies that reinvest at least 60 per cent of their profits in equipment and staff. A separate proposal would require companies with turnover above $10 million to publish their financial reports sooner after year-end.",
-                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based discussion of how both proposals would influence financial management decisions, weighing the incentives and risks of each and reaching a reasoned view on the effect on the company\n5-6 marks: Discusses the effects of both proposals on financial management with accurate reasoning and at least one consideration of risk or limitation\n4 marks: Discusses the effect of one proposal on financial management with accurate reasoning\n2-3 marks: Describes a possible effect of either proposal with some relevant detail, or identifies one effect without discussion\n1 mark: Makes a basic or general statement about government policy and business",
+                    "markingCriteria": "8 marks: Makes a sustained, criteria-based discussion of how both proposals would influence financial management decisions, weighing the incentives and risks of each and reaching a reasoned view on the effect on the company\n6-7 marks: Discusses the effects of both proposals on financial management with accurate reasoning and at least one consideration of risk or limitation\n4-5 marks: Discusses the effect of one proposal on financial management with accurate reasoning\n2-3 marks: Describes a possible effect of either proposal with some relevant detail, or identifies one effect without discussion\n1 mark: Makes a basic or general statement about government policy and business",
                     "keywords": [
                       "company taxation",
                       "retained profits",
@@ -29432,7 +29432,7 @@
                       "interest rates",
                       "risk"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of global market influences on financial management, including the economic outlook, availability of funds and interest rates, weighing their effect on borrowing, investment and risk, with a reasoned conclusion\n5-6 marks: Analyses at least two global influences with accurate examples and a link to financial decisions\n3-4 marks: Describes global market influences with some accuracy\n1-2 marks: Makes a basic or general statement about global finance",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of global market influences on financial management, including the economic outlook, availability of funds and interest rates, weighing their effect on borrowing, investment and risk, with a reasoned conclusion\n5-7 marks: Analyses at least two global influences with accurate examples and a link to financial decisions\n3-4 marks: Describes global market influences with some accuracy\n1-2 marks: Makes a basic or general statement about global finance",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-103-1",
@@ -29727,7 +29727,7 @@
                       "cost",
                       "risk"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained, criteria-based assessment of the advantages and disadvantages of debt and equity financing, weighing cost, control, risk and flexibility, with a reasoned judgement on which is appropriate for different purposes\n5-6 marks: Assesses both forms of financing with accurate evidence and attempts a judgement on their suitability\n4 marks: Assesses one form with accurate evidence and suggests a conclusion\n2-3 marks: Describes debt and equity with some relevant detail, or identifies an advantage or disadvantage\n1 mark: Makes a basic or general statement about financing",
+                    "markingCriteria": "8 marks: Makes a sustained, criteria-based assessment of the advantages and disadvantages of debt and equity financing, weighing cost, control, risk and flexibility, with a reasoned judgement on which is appropriate for different purposes\n6-7 marks: Assesses both forms of financing with accurate evidence and attempts a judgement on their suitability\n4-5 marks: Assesses one form with accurate evidence and suggests a conclusion\n2-3 marks: Describes debt and equity with some relevant detail, or identifies an advantage or disadvantage\n1 mark: Makes a basic or general statement about financing",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-105-1",
@@ -30696,7 +30696,7 @@
                         "mark": 6,
                         "answer": "Selling the factory would reduce gearing, but whether it should proceed depends on costs and alternatives. A gearing ratio of 2.4, the debt to equity ratio, means liabilities are more than twice equity, so the business is highly reliant on debt. Its $96,000 annual interest costs are fixed and must be paid even if sales fall, and the asset sale would remove them along with much of the financial risk of default, improving solvency. However, the sale may not raise enough to repay the full $1.2 million, and the business would lose the asset that underpins its production capacity and must pay rent on a smaller leased site. The alternatives include retaining profits to reduce debt gradually, negotiating a lower interest rate, or selling a smaller asset. Operating profit of about $290,000 covers the interest bill about three times over, so the business can repay debt from earnings without a forced sale. Overall, the sale is effective in reducing financial risk only if the price covers the loan and the business can operate from a leased site at a sustainable cost. Without these conditions, gradual reduction of debt from retained earnings is the more prudent course.",
                         "feedback": "Full marks: the sale is evaluated against its effect on gearing, interest, operating capacity and alternatives, and a conditional judgement on its effectiveness is reached.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-110-n1-s2",
@@ -31316,7 +31316,7 @@
                     "verb": "INVESTIGATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Pinegrove Outdoor Furniture earns a gross profit ratio of 34 per cent on its existing range, which has been stable for three years. The aluminium range would earn a forecast gross profit ratio of 26 per cent, and similar manufacturers average about 30 per cent. The owners have set a minimum gross profit ratio target of 30 per cent for new lines.",
-                    "markingCriteria": "7-8 marks: Investigates the decision through all three comparisons, weighing the evidence and its limitations, and reaches a reasoned, conditional conclusion on whether the expansion should proceed\n6 marks: Investigates the decision through at least two comparisons with accurate evidence and identifies the main limitation of the analysis\n5 marks: Investigates the decision with accurate evidence from one comparison and suggests a conclusion\n3-4 marks: Describes the comparisons and some evidence from the scenario without investigating the decision\n2 marks: Identifies a comparison without applying it to the decision\n1 mark: Makes a basic or general statement about expansion",
+                    "markingCriteria": "8 marks: Investigates the decision through all three comparisons, weighing the evidence and its limitations, and reaches a reasoned, conditional conclusion on whether the expansion should proceed\n7 marks: Investigates the decision through at least two comparisons with accurate evidence and identifies the main limitation of the analysis\n5-6 marks: Investigates the decision with accurate evidence from one comparison and suggests a conclusion\n3-4 marks: Describes the comparisons and some evidence from the scenario without investigating the decision\n2 marks: Identifies a comparison without applying it to the decision\n1 mark: Makes a basic or general statement about expansion",
                     "keywords": [
                       "comparative ratio analysis",
                       "gross profit ratio",
@@ -31692,7 +31692,7 @@
                       "creative accounting",
                       "stakeholders"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the ethical issues related to financial reports, weighing the effect of misleading presentation on stakeholders against the pressures on managers, and reaching a reasoned view on the responsibilities involved\n5-6 marks: Analyses at least two ethical issues with accurate examples and a link to stakeholders\n3-4 marks: Describes ethical issues related to financial reports with some accuracy\n1-2 marks: Makes a basic or general statement about financial reporting",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the ethical issues related to financial reports, weighing the effect of misleading presentation on stakeholders against the pressures on managers, and reaching a reasoned view on the responsibilities involved\n5-7 marks: Analyses at least two ethical issues with accurate examples and a link to stakeholders\n3-4 marks: Describes ethical issues related to financial reports with some accuracy\n1-2 marks: Makes a basic or general statement about financial reporting",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-115-1",
@@ -31876,7 +31876,7 @@
                         "mark": 6,
                         "answer": "Tamar Furniture's cash flow management must combine several strategies, because the $90,000 machine on top of the seasonal gap of about $140,000 would exceed the $150,000 overdraft limit. A monthly cash flow forecast from September to March shows when the peak deficit occurs and tests the effect of the machine before it is committed. The machine should be funded by an equipment loan or lease, keeping the $90,000 out of the overdraft and preserving the limit for the seasonal peak. The gap should be narrowed by negotiating supplier terms that stagger payments for timber and labour, and by offering a modest discount for customers who settle by the end of December, which costs margin but brings cash forward. Factoring part of the December invoices also brings cash forward from February, but its fee should be compared with the overdraft interest it avoids. Together, these strategies match inflows to outflows and protect working capital and liquidity.",
                         "feedback": "Full marks: several cash flow strategies are combined into a plan that matches the timing of inflows and outflows, protects liquidity, and weighs the cost of the discount and factoring against the overdraft.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-116-n1-s2",
@@ -33001,7 +33001,7 @@
                         "mark": 2,
                         "answer": "The kitchen lease, shop wages and insurance are fixed costs, while flour, butter and delivery fuel are variable costs. The kitchen lease belongs to the production kitchen cost centre.",
                         "feedback": "A 2-mark response classifies all five costs but assigns a cost centre to only one of them, so the control side of the question is not answered.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-124-n1-s3",
@@ -33109,7 +33109,7 @@
                         "mark": 6,
                         "answer": "Mosaic Hospitality should set revenue controls that connect each restaurant's online revenue to its marketing objectives of raising online bookings to $1.8 million a year. First, it should break the objective into monthly sales targets for each restaurant, so that the $420,000 first-quarter target is allocated by venue and month rather than only at group level. Second, it should use weekly variance analysis to compare online bookings with targets, so that the two venues behind most of the $70,000 shortfall receive early attention, such as revised offers or better photography on their listings. Third, it should review the 15 per cent advance-booking discount, which reduces revenue on each booking, and test whether a smaller discount or a deposit system would lift volume without cutting margins too far. Finally, pricing controls should set a minimum rate for peak nights, so that discounts do not apply when demand is high and the restaurant is already full. A deposit system also reduces no-shows, which removes revenue that the restaurants have already planned for. The trade-off is that tighter controls may reduce bookings from price-sensitive customers, so the group should track both revenue and occupancy and adjust the plan if volume falls. Reviewing the controls each quarter against the $1.8 million target lets the group respond to a shortfall before the year ends.",
                         "feedback": "Full marks: revenue controls are proposed for targets, pricing and variance, prioritised for the two underperforming restaurants, and the trade-off is identified with a way to monitor it.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-125-n1-s2",
@@ -33195,7 +33195,7 @@
                     "verb": "DISCUSS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Kingfisher Outdoor, an Australian maker of camping equipment, earns 40 per cent of its $25 million revenue from US customers. It pays for its fabric in US dollars, reports its results in Australian dollars, and is considering raising $10 million from US investors to open a distribution centre in the United States.",
-                    "markingCriteria": "7-8 marks: Makes a sustained discussion of whether the benefits of global financial management outweigh its challenges for Kingfisher Outdoor, weighing access to capital, natural hedging and proximity to customers against currency, regulatory and political risk, and reaches a reasoned conclusion\n5-6 marks: Discusses benefits and challenges with accurate examples and a link to the scenario, with a conclusion that is only partly supported\n4 marks: Discusses either the benefits or the challenges with accurate detail and some reference to the scenario\n2-3 marks: Describes global financial management with limited discussion\n1 mark: Makes a minimal relevant statement about international finance",
+                    "markingCriteria": "8 marks: Makes a sustained discussion of whether the benefits of global financial management outweigh its challenges for Kingfisher Outdoor, weighing access to capital, natural hedging and proximity to customers against currency, regulatory and political risk, and reaches a reasoned conclusion\n6-7 marks: Discusses benefits and challenges with accurate examples and a link to the scenario, with a conclusion that is only partly supported\n4-5 marks: Discusses either the benefits or the challenges with accurate detail and some reference to the scenario\n2-3 marks: Describes global financial management with limited discussion\n1 mark: Makes a minimal relevant statement about international finance",
                     "keywords": [
                       "global financial management",
                       "currency risk",
@@ -33234,7 +33234,7 @@
                         "mark": 5,
                         "answer": "Raising money from US investors and opening a US distribution centre gives Kingfisher access to more funds and to US customers, and its US-dollar fabric costs partly offset its US sales. However, the firm will have to manage exchange rates, because a change in the US dollar affects its earnings when they are reported in Australian dollars. It will also need to comply with US laws, which can be expensive, so the benefits seem to be larger than the challenges.",
                         "feedback": "A 5-mark response discusses benefits and challenges with an example, but the conclusion is asserted rather than supported and the risk controls are not discussed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-126-n1-s3",
@@ -33768,7 +33768,7 @@
                     "verb": "ASSESS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Harrow Wool Mills, a Geelong processor, sells 60 per cent of its output in US dollars on contracts settled in three to six months. It buys wool at prices that move with world commodity markets and has a $6 million bank loan at a variable rate. Its board is considering forward contracts, options and interest rate swaps, but it has limited treasury expertise and a policy of not speculating.",
-                    "markingCriteria": "7-8 marks: Makes a sustained assessment of the effectiveness of derivatives for Harrow's currency, commodity and interest rate risks, weighing the protection each instrument gives against its cost, complexity and the risk of speculation, and reaches a reasoned, scenario-based judgement on which instruments to use\n5-6 marks: Assesses the effectiveness of several derivatives for the scenario risks with accurate detail and a partly supported judgement\n4 marks: Assesses derivatives for at least two risks with some accurate detail, but with limited weighing of their costs or limits\n2-3 marks: Describes forward contracts, futures, options or swaps and their use, with some relevance to the scenario\n1 mark: Identifies derivatives with limited relevance to the scenario, or makes a general statement about financial instruments",
+                    "markingCriteria": "8 marks: Makes a sustained assessment of the effectiveness of derivatives for Harrow's currency, commodity and interest rate risks, weighing the protection each instrument gives against its cost, complexity and the risk of speculation, and reaches a reasoned, scenario-based judgement on which instruments to use\n6-7 marks: Assesses the effectiveness of several derivatives for the scenario risks with accurate detail and a partly supported judgement\n4-5 marks: Assesses derivatives for at least two risks with some accurate detail, but with limited weighing of their costs or limits\n2-3 marks: Describes forward contracts, futures, options or swaps and their use, with some relevance to the scenario\n1 mark: Identifies derivatives with limited relevance to the scenario, or makes a general statement about financial instruments",
                     "keywords": [
                       "derivatives",
                       "financial risk",
@@ -33807,7 +33807,7 @@
                         "mark": 5,
                         "answer": "Forward contracts can protect Harrow's US dollar sales by fixing the exchange rate, so the mill knows what it will receive in Australian dollars. Options and swaps are also available. An interest rate swap could help with the variable-rate loan by fixing the interest payments. The mill should use a forward contract because it is simple and does not need much expertise, although the wool price risk is harder to cover.",
                         "feedback": "A 5-mark response assesses derivatives for two risks with accurate detail, but it does not weigh the cost or the limits of the instruments in any depth.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-131-n1-s3",
@@ -33862,7 +33862,7 @@
                       "enterprise agreements",
                       "Fair Work Act 2009"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained discussion of the influence of government on the process of determining employment contracts, weighing minimum standards, awards and enterprise agreement rules against the freedom of parties to bargain, with a reasoned view\n5-6 marks: Discusses the influence of government with accurate examples and a link to the bargaining process\n4 marks: Discusses one form of government influence with accurate detail\n2-3 marks: Describes government influence on contracts with limited discussion\n1 mark: Minimal relevant response",
+                    "markingCriteria": "8 marks: Makes a sustained discussion of the influence of government on the process of determining employment contracts, weighing minimum standards, awards and enterprise agreement rules against the freedom of parties to bargain, with a reasoned view\n6-7 marks: Discusses the influence of government with accurate examples and a link to the bargaining process\n4-5 marks: Discusses one form of government influence with accurate detail\n2-3 marks: Describes government influence on contracts with limited discussion\n1 mark: Minimal relevant response",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-132-1",
@@ -34095,7 +34095,7 @@
                       "negotiation",
                       "mediation"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of the causes of two workplace disputes and the strategies used to resolve them, weighing the effectiveness of each strategy against the causes, with a reasoned conclusion\n5-6 marks: Analyses the causes of two disputes and at least one strategy used to resolve them with accurate examples\n3-4 marks: Describes two workplace disputes and some strategies with some accuracy\n1-2 marks: Makes a basic or general statement about workplace disputes",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of the causes of two workplace disputes and the strategies used to resolve them, weighing the effectiveness of each strategy against the causes, with a reasoned conclusion\n5-7 marks: Analyses the causes of two disputes and at least one strategy used to resolve them with accurate examples\n3-4 marks: Describes two workplace disputes and some strategies with some accuracy\n1-2 marks: Makes a basic or general statement about workplace disputes",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-134-1",
@@ -34451,7 +34451,7 @@
                       "bargaining power",
                       "outcomes"
                     ],
-                    "markingCriteria": "6-8 marks: Makes a sustained comparison of the negotiation of enterprise or collective agreements with the negotiation of individual contracts, weighing bargaining power, the process and the outcomes for employees, with a reasoned view on which suits which workers\n3-5 marks: Compares the two processes with accurate detail on at least two differences, or describes both processes accurately with one difference\n1-2 marks: Describes the two processes with limited comparison",
+                    "markingCriteria": "8 marks: Makes a sustained comparison of the negotiation of enterprise or collective agreements with the negotiation of individual contracts, weighing bargaining power, the process and the outcomes for employees, with a reasoned view on which suits which workers\n4-7 marks: Compares the two processes with accurate detail on at least two differences, or describes both processes accurately with one difference\n1-3 marks: Describes the two processes with limited comparison",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-137-1",
@@ -34467,7 +34467,7 @@
                         "mark": 3,
                         "answer": "Collective agreements pool the bargaining power of employees and apply to a whole workforce. Individual contracts depend on the bargaining power of one employee.",
                         "feedback": "A 3-mark response compares the processes on bargaining power with accurate detail. Comparing the approval process and the outcomes would move it up.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-137-3",
@@ -34567,7 +34567,7 @@
                       "control",
                       "cost"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained discussion of the advantages and disadvantages of outsourcing in the global market, weighing cost and access to skills against control, quality and reputational risk, with a reasoned view\n5-6 marks: Discusses advantages and disadvantages with accurate examples and a link to the global market\n4 marks: Discusses one side with accurate detail and some reference to the other\n2-3 marks: Describes outsourcing with limited discussion\n1 mark: Minimal relevant response",
+                    "markingCriteria": "8 marks: Makes a sustained discussion of the advantages and disadvantages of outsourcing in the global market, weighing cost and access to skills against control, quality and reputational risk, with a reasoned view\n6-7 marks: Discusses advantages and disadvantages with accurate examples and a link to the global market\n4-5 marks: Discusses one side with accurate detail and some reference to the other\n2-3 marks: Describes outsourcing with limited discussion\n1 mark: Minimal relevant response",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-138-1",
@@ -34633,7 +34633,7 @@
                         "mark": 6,
                         "answer": "Outsourcing has been effective for Corowa Printing Co only in the narrow sense of saving money. The $420,000 annual saving is substantial for a 90-staff printer, so the cost savings aim has been met. However, the rise in print errors from 1 to 4 per cent shows that quality control has weakened, because the supplier's work is not checked as closely as in-house work was. Two major customers' complaints about delays put reputation at risk, and the loss of most design staff means Corowa has lost the knowledge needed to supervise the supplier. In the global market, a supplier overseas is harder to monitor, so the decision needs more oversight. The costs of errors, reprints, delays and lost customers could already exceed the saving, although they have not been measured against it, so the effectiveness of the decision is doubtful. Corowa should add reprint and credit costs to the errors, compare that total with the $420,000 saving, set service levels with penalties, retain a small in-house design team to check the supplier's work, and report errors monthly before deciding whether to continue.",
                         "feedback": "Full marks: the decision is evaluated against both the cost aim and the quality aim, the scenario evidence is weighed, and the recommendation follows from the judgement.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-138-n1-s2",
@@ -34684,7 +34684,7 @@
                       "indicators",
                       "staff turnover"
                     ],
-                    "markingCriteria": "9-10 marks: Makes a sustained, criteria-based evaluation of the effectiveness of human resource management for one business, using indicators such as turnover, absenteeism and disputes, and recommends appropriate alternative strategies with justification and risks\n7-8 marks: Evaluates effectiveness with precise evidence and recommends alternative strategies with justification and an account of their risks\n6 marks: Evaluates effectiveness with some evidence and makes a recommendation, but the reasoning is uneven\n4-5 marks: Describes human resource management and some relevant strategies, with accurate detail drawn from the scenario\n2-3 marks: Identifies some aspects of human resource management with limited evaluation and little use of scenario evidence\n1 mark: Minimal relevant response with little or no evaluation or recommendation",
+                    "markingCriteria": "10 marks: Makes a sustained, criteria-based evaluation of the effectiveness of human resource management for one business, using indicators such as turnover, absenteeism and disputes, and recommends appropriate alternative strategies with justification and risks\n9 marks: Evaluates effectiveness with precise evidence and recommends alternative strategies with justification and an account of their risks\n7-8 marks: Evaluates effectiveness with some evidence and makes a recommendation, but the reasoning is uneven\n5-6 marks: Describes human resource management and some relevant strategies, with accurate detail drawn from the scenario\n3-4 marks: Identifies some aspects of human resource management with limited evaluation and little use of scenario evidence\n1-2 marks: Minimal relevant response with little or no evaluation or recommendation",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-139-1",
@@ -34700,7 +34700,7 @@
                         "mark": 4,
                         "answer": "Staff turnover is high, and absenteeism rises during peak periods, so human resource management is not fully effective. The business should introduce career development and better rostering.",
                         "feedback": "A 4-mark response evaluates effectiveness using indicators and recommends strategies, but the evidence is brief and the risks of the recommendations are not assessed. Adding these would strengthen it.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-bs-139-3",
@@ -34727,7 +34727,7 @@
                     "verb": "INVESTIGATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Halden Foods' packing plant employs 350 staff. Turnover has risen from 22 per cent to 41 per cent over two years. Exit interviews cite shift patterns, pay relative to a nearby warehouse and a new supervisor. The HR manager has access to rostering records, payroll data, exit survey responses and a staff engagement survey taken each year.",
-                    "markingCriteria": "7-8 marks: Makes a sustained investigation of the causes of rising turnover at Halden Foods, linking each likely cause to the available data, planning how each cause could be tested, and reaching a reasoned view on which causes are most likely\n6 marks: Investigates several likely causes with accurate links to the data and a plan for testing each, with a partly supported view on the most likely causes\n5 marks: Investigates at least two likely causes with accurate links to the data and some planning of how they could be tested\n3-4 marks: Identifies likely causes from the scenario with some link to the data\n2 marks: Describes turnover and some possible causes with limited investigation\n1 mark: Makes a minimal relevant statement about staff turnover",
+                    "markingCriteria": "8 marks: Makes a sustained investigation of the causes of rising turnover at Halden Foods, linking each likely cause to the available data, planning how each cause could be tested, and reaching a reasoned view on which causes are most likely\n7 marks: Investigates several likely causes with accurate links to the data and a plan for testing each, with a partly supported view on the most likely causes\n5-6 marks: Investigates at least two likely causes with accurate links to the data and some planning of how they could be tested\n3-4 marks: Identifies likely causes from the scenario with some link to the data\n2 marks: Describes turnover and some possible causes with limited investigation\n1 mark: Makes a minimal relevant statement about staff turnover",
                     "keywords": [
                       "staff turnover",
                       "human resource management",
@@ -35121,7 +35121,7 @@
                         "mark": 2,
                         "answer": "Payroll and the recruitment of engineers can be outsourced, while workforce planning and safety training should stay in-house.",
                         "feedback": "A 2-mark response classifies four functions with minimal reasoning and leaves out employee relations and enterprise bargaining.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-142-n1-s3",
@@ -35749,7 +35749,7 @@
                     "verb": "ASSESS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Ridgeway Electrical, a Newcastle contracting firm with 60 staff, employs apprentices, a few older tradespeople and several subcontractors on short-term jobs. Its general manager believes the firm complies with the law, but wants an honest assessment of whether the legal framework protects its workers adequately and whether its hiring practices sit within it.",
-                    "markingCriteria": "7-8 marks: Makes a sustained judgement on how effectively the legal framework protects workers and constrains the firm, weighing the Fair Work Act 2009, anti-discrimination law and work health and safety law against the scenario, with precise examples and an explicit conclusion about the limits of the framework\n5-6 marks: Makes a clear judgement on the framework's effectiveness supported by accurate examples from at least two areas of law and linked to the scenario, with some limits identified\n4 marks: Assesses the framework with a partial judgement, using accurate examples from at least two areas of law but with limited link to the scenario\n2-3 marks: Describes elements of the framework with some accuracy and makes a basic or unsupported comment on effectiveness\n1 mark: Makes a general statement about employment law without assessing it",
+                    "markingCriteria": "8 marks: Makes a sustained judgement on how effectively the legal framework protects workers and constrains the firm, weighing the Fair Work Act 2009, anti-discrimination law and work health and safety law against the scenario, with precise examples and an explicit conclusion about the limits of the framework\n6-7 marks: Makes a clear judgement on the framework's effectiveness supported by accurate examples from at least two areas of law and linked to the scenario, with some limits identified\n4-5 marks: Assesses the framework with a partial judgement, using accurate examples from at least two areas of law but with limited link to the scenario\n2-3 marks: Describes elements of the framework with some accuracy and makes a basic or unsupported comment on effectiveness\n1 mark: Makes a general statement about employment law without assessing it",
                     "keywords": [
                       "legal framework",
                       "human resource management",
@@ -36073,7 +36073,7 @@
                         "mark": 2,
                         "answer": "The National Employment Standards under the Fair Work Act set basic conditions that all employees are entitled to, whatever their contract says. They include annual leave and public holidays, which give employees paid time away from work.",
                         "feedback": "This sketches how the standards protect employees in general terms and names two of them, but the examples are a list rather than an explained protection. Explain one protection in more detail, as the top answer does.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-hsc-2022-22b-3",
@@ -36133,7 +36133,7 @@
                         "mark": 2,
                         "answer": "The Teddy Bear Store advertisement omits superannuation, which employers must pay under the Superannuation Guarantee, so the store's offer is likely unlawful.",
                         "feedback": "Outlines one issue clearly, the omission of superannuation and its legal basis, but does not give a second issue as the question asks. Add the union membership condition and the law it conflicts with.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-hsc-2023-22b-3",
@@ -36762,7 +36762,7 @@
                         "mark": 2,
                         "answer": "Technology such as online job boards and video conferencing has changed how the human resources function recruits and trains staff.",
                         "feedback": "This response outlines the influence with two relevant examples but does not describe how each tool changes HR work or what results from it. Describing the effect on the function would lift it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-bs-hsc-2025-24a-3",
@@ -37052,7 +37052,7 @@
                       "reputation",
                       "stakeholder expectations"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of ethics and corporate social responsibility in human resource management, weighing the effect on workers, reputation and performance, and reaching a reasoned view on the difference between compliance and responsibility\n5-6 marks: Analyses ethics and corporate social responsibility with accurate examples and a link to workers and reputation\n3-4 marks: Describes ethics and corporate social responsibility with some accuracy\n1-2 marks: Makes a basic or general statement about ethics",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of ethics and corporate social responsibility in human resource management, weighing the effect on workers, reputation and performance, and reaching a reasoned view on the difference between compliance and responsibility\n5-7 marks: Analyses ethics and corporate social responsibility with accurate examples and a link to workers and reputation\n3-4 marks: Describes ethics and corporate social responsibility with some accuracy\n1-2 marks: Makes a basic or general statement about ethics",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-153-1",
@@ -37601,7 +37601,7 @@
                         "mark": 2,
                         "answer": "A pay rise will keep hygienists because they want more money, and flexible rosters help them balance work.",
                         "feedback": "A 2-mark response describes both strategies but does not compare their effect on retention or cost. Compare the two against the budget constraint in the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bs-156-n1-s3",
@@ -37919,7 +37919,7 @@
                     "verb": "DISCUSS",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Sandra Okafor is the manager of a 30-nurse medical ward at Eastlake Medical Centre. She has run the ward through directives for six years, and turnover has risen to nearly one in four. The hospital's executive has asked her to introduce a more participative approach, such as shared rostering decisions and team problem solving, but some senior nurses doubt that it will work during high-pressure shifts.",
-                    "markingCriteria": "7-8 marks: Discusses the likely effects of the shift on motivation, retention, performance and the ward's capacity during high-pressure shifts, weighs the benefits against the risks in the scenario, and reaches a reasoned view on how the change should be introduced\n5-6 marks: Discusses several effects of the shift on staff and patient outcomes, with links to the scenario and some weighing of benefits and risks\n4 marks: Explains two or more effects of the shift on human resource outcomes, with some links to the ward and limited discussion of risks\n2-3 marks: Describes a participative approach and one effect on staff, with little scenario detail\n1 mark: Makes a general statement about leadership style",
+                    "markingCriteria": "8 marks: Discusses the likely effects of the shift on motivation, retention, performance and the ward's capacity during high-pressure shifts, weighs the benefits against the risks in the scenario, and reaches a reasoned view on how the change should be introduced\n6-7 marks: Discusses several effects of the shift on staff and patient outcomes, with links to the scenario and some weighing of benefits and risks\n4-5 marks: Explains two or more effects of the shift on human resource outcomes, with some links to the ward and limited discussion of risks\n2-3 marks: Describes a participative approach and one effect on staff, with little scenario detail\n1 mark: Makes a general statement about leadership style",
                     "keywords": [
                       "leadership style",
                       "human resource management",
@@ -39085,7 +39085,7 @@
                     "verb": "EVALUATE",
                     "totalMarks": 8,
                     "scenario": "Hypothetical: Calloway Logistics, a Western Sydney distribution business with 360 staff, has a written grievance procedure that requires staff to raise complaints first with their supervisor. Several warehouse workers say the procedure is slow, that supervisors are sometimes involved in the disputes they must resolve, and that some complaints have gone unanswered for months.",
-                    "markingCriteria": "7-8 marks: Makes a sustained evaluation of the grievance procedure's effectiveness, weighing its benefits for fairness and documentation against its weaknesses at Calloway, and reaches a supported judgement on how the procedure should change\n6 marks: Evaluates the procedure with a clear judgement, supported by accurate reasoning and evidence from the scenario about speed, impartiality and documentation\n5 marks: Evaluates the procedure with a partial judgement, identifying strengths and weaknesses with some scenario detail\n3-4 marks: Describes the grievance procedure and one strength or weakness, with limited judgement\n2 marks: Identifies a feature of the procedure without evaluating it\n1 mark: Makes a general statement about workplace disputes",
+                    "markingCriteria": "8 marks: Makes a sustained evaluation of the grievance procedure's effectiveness, weighing its benefits for fairness and documentation against its weaknesses at Calloway, and reaches a supported judgement on how the procedure should change\n7 marks: Evaluates the procedure with a clear judgement, supported by accurate reasoning and evidence from the scenario about speed, impartiality and documentation\n5-6 marks: Evaluates the procedure with a partial judgement, identifying strengths and weaknesses with some scenario detail\n3-4 marks: Describes the grievance procedure and one strength or weakness, with limited judgement\n2 marks: Identifies a feature of the procedure without evaluating it\n1 mark: Makes a general statement about workplace disputes",
                     "keywords": [
                       "resolution",
                       "grievance procedures",
@@ -39237,7 +39237,7 @@
                         "mark": 6,
                         "answer": "Hartley's board should adopt absenteeism as its headline measure, while using turnover as a supporting check. Turnover is a widely used indicator of effectiveness in human resource management because it shows whether people are retained and what replacing them costs, but a low group-wide turnover rate can hide a serious problem in one store. Absenteeism is more sensitive to local conditions, because it reflects morale, health and workload at store level, so the high rate in one pharmacy would show up in the figures. Satisfaction surveys are valuable but are periodic and depend on response rates, so they are less timely as a signal. Absenteeism has its own limits, since some absence is legitimate, such as sick leave, and a high rate needs investigation rather than automatic judgement. Turnover is also shaped by the local labour market, so a low group-wide rate may reflect a tight market rather than good management. The board should compare each store against its own history and test whether absenteeism and turnover move together. A store with high absence and low turnover may have staff who stay but are disengaged, which the headline turnover figure would never reveal. The board should therefore report absenteeism by store, with turnover as a check, because this gives the clearest picture of effectiveness.",
                         "feedback": "Full marks: each indicator is evaluated for strengths and limits, the headline choice is justified by the one-store pattern, and the limit of the chosen measure is stated.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-167-n1-s2",
@@ -39414,7 +39414,7 @@
                         "mark": 4,
                         "answer": "Ridgeview should introduce a quarterly target review, in which managers explain each change to targets and invite staff to comment before new targets are set. This addresses the unexplained target changes that undermine trust and engagement, and it improves communication about goals. It reinforces the co-op's shared values of teamwork and service to members, and it strengthens the corporate culture by making decisions visible. The initiative should be trialled in one team first, so the co-op can test it before extending it. Success could be measured through the staff survey item on clarity of goals and the rate of staff leaving, which would show whether engagement and retention are improving.",
                         "feedback": "Full marks: the initiative addresses the unexplained target changes, links to the stated values, and states two measures of success.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-168-n1-s2",
@@ -39422,7 +39422,7 @@
                         "mark": 2,
                         "answer": "Ridgeview should run team-building days to improve how staff feel about the co-op.",
                         "feedback": "A 2-mark response proposes an initiative that does not address the cause of disengagement. Propose a change that responds to the unexplained target changes and say how you would measure it.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-bs-168-n1-s3",
@@ -39430,7 +39430,7 @@
                         "mark": 1,
                         "answer": "Ridgeview should make staff happier at work.",
                         "feedback": "A 1-mark response is a general aim with no initiative. Name a specific initiative linked to the scenario.",
-                        "band": 3
+                        "band": 2
                       }
                     ]
                   },
@@ -39632,7 +39632,7 @@
                       "morale",
                       "retention"
                     ],
-                    "markingCriteria": "7-8 marks: Makes a sustained analysis of changes in staff turnover as an indicator of human resource effectiveness, weighing the costs of turnover, the possible causes of change and the limits of the indicator, with a reasoned conclusion\n5-6 marks: Analyses changes in turnover with accurate examples of costs and causes and a link to effectiveness\n3-4 marks: Describes staff turnover and its changes with some accuracy\n1-2 marks: Makes a basic or general statement about turnover",
+                    "markingCriteria": "8 marks: Makes a sustained analysis of changes in staff turnover as an indicator of human resource effectiveness, weighing the costs of turnover, the possible causes of change and the limits of the indicator, with a reasoned conclusion\n5-7 marks: Analyses changes in turnover with accurate examples of costs and causes and a link to effectiveness\n3-4 marks: Describes staff turnover and its changes with some accuracy\n1-2 marks: Makes a basic or general statement about turnover",
                     "sampleAnswers": [
                       {
                         "id": "sa-bs-170-1",
@@ -39696,7 +39696,7 @@
                         "mark": 6,
                         "answer": "Cobalt should introduce three changes that target the reasons developers gave for leaving, each with its own measures of success. First, a career framework that sets out clear career paths, with defined skill levels, pay bands and a technical leadership track, lets developers see progress without leaving. Its success can be measured through the proportion of developers who progress each year. Second, a rostering rule that caps overtime and creates a rotating on-call roster would reduce the workload on urgent projects and make hours predictable. Its success can be measured through average weekly hours and the number of developers who report a sustainable workload in the annual survey. Third, a retention review with any developer who signals an intention to leave would uncover reasons early and respond before resignation, reducing replacement costs. Its success can be measured through the staff turnover rate among those reviewed. Each change should be piloted with one team, so Cobalt can see which change reduces losses before committing the full budget. The firm should also set a target for regretted losses, so it measures whether it keeps the developers it most needs, not just the total number of resignations.",
                         "feedback": "Full marks: three changes target the career and workload causes, each is explained in terms of turnover, and each has a measure of success, with the cost of replacing developers weighed against the cost of the change.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-bs-170-n1-s2",

@@ -18,8 +18,8 @@ import { splitSyllabusTerms } from '../../utils/syllabusTermSource';
  * exactly as `hooks/useWritingMetrics.ts` runs a student's draft, and its colour
  * (`chromaLevel`) is held to the sample's own band.
  *
- * Below "Ready to submit" the rule has no exceptions; `CHROMA_CEILING` in
- * `utils/draftReadiness.ts` is calibrated from this same data. "Ready to submit"
+ * Below "Ready to submit" the colour is neutral, so the rule holds trivially there and
+ * this guards against a future change bringing band colours back. "Ready to submit"
  * keeps the question's top colour, because it needs full length and every term
  * the question names; a handful of lower-mark samples are written that
  * completely, and they are pinned here by count so a new one is noticed.

@@ -149,7 +149,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
   const commandTermInfo = useMemo(
     () => getPromptTermInfo(currentPrompt),
-    [currentPrompt.verb, currentPrompt.bandCeiling]
+    [currentPrompt.verb, currentPrompt.bandCeiling, currentPrompt.totalMarks]
   );
 
   // The band this prompt actually works toward — the verb's tier is the sole
@@ -229,8 +229,9 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
       text: 'text-white',
     };
 
-    // Neutral while empty/barely-started, and always neutral in Exam Mode.
-    if (readiness.isNeutral || isExamMode) return neutralConfig;
+    // Neutral until the draft is ready to submit (readiness shows no band colour
+    // below that; see `chromaLevel`), and always neutral in Exam Mode.
+    if (readiness.isNeutral || readiness.chromaLevel === 0 || isExamMode) return neutralConfig;
 
     // Substance to evaluate, coach mode: the band's own fill, drawn flat from
     // `--band-rgb` as `band-solid`. That class carries its ink, which clears AA
@@ -474,7 +475,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border-white/15 light:border-slate-300 shadow-inner'
               : !userAnswer.trim()
                 ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border-white/10 light:border-slate-400 opacity-50'
-                : `${buttonConfig.surface} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
+                : `${buttonConfig.surface} ${buttonConfig.text ?? ''} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
           }
         `}
       >
@@ -547,6 +548,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             keywords={currentPrompt.keywords}
             verb={currentPrompt.verb}
             bandCeiling={currentPrompt.bandCeiling}
+            totalMarks={currentPrompt.totalMarks}
             promptId={currentPrompt.id}
             isFocusMode={isFocusMode}
             onToggleFocusMode={onToggleFocusMode}
