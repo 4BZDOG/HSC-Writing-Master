@@ -25,9 +25,9 @@ const makeProxyResponse = (evaluationJson: unknown) =>
 
 const basePrompt: Prompt = {
   id: 'p1',
-  question: 'Describe the key steps involved in DNA replication.',
+  question: 'Analyse the key steps involved in DNA replication.',
   totalMarks: 10,
-  verb: 'Describe' as PromptVerb,
+  verb: 'Analyse' as PromptVerb,
   scenario: '',
   markingCriteria: 'Award marks for correct sequence and terminology.',
   keywords: ['helicase', 'polymerase'],
@@ -70,8 +70,9 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     );
     expect(result.overallMark).toBe(7);
     // The band is derived from mark + cognitive tier, not taken from the model.
-    // 'Describe' is Tier 2; tier is the sole cap, so 7/10 → Band 2.
-    expect(result.overallBand).toBe(2);
+    // 'Analyse' is Tier 4, so the ceiling is Band 4. On 10 marks the ladder reads
+    // 7/10 as Band 3. (A Tier-2 verb cannot carry 10 marks: verbFitsLength.)
+    expect(result.overallBand).toBe(3);
     expect(result.overallFeedback).toBe('Strong response with clear terminology.');
     expect(result.strengths).toContain('Clear terminology');
     expect(result.improvements).toContain('Add more depth');
@@ -94,8 +95,8 @@ describe('evaluateAnswer (service integration, mocked proxy)', () => {
     const result = await evaluateAnswer('answer', basePrompt);
 
     expect(result.overallMark).toBe(10); // clamped to totalMarks
-    // 10/10 on a Tier-2 'Describe' question: tier is the sole cap → Band 2.
-    expect(result.overallBand).toBe(2);
+    // 10/10 on a Tier-4 'Analyse' question: the verb's tier is the cap → Band 4.
+    expect(result.overallBand).toBe(4);
     expect(result.criteria[0].mark).toBe(5); // clamped to maxMark
   });
 

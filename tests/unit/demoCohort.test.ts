@@ -619,21 +619,25 @@ describe('cohort shape', () => {
   it('gives the at-risk student a materially lower average than the strong one', () => {
     const atRisk = DEMO_STUDENTS.find((s) => s.archetype === 'atRisk')!;
     const strong = DEMO_STUDENTS.find((s) => s.archetype === 'strong')!;
+    // A six-mark question now stops at Band 5 (the owner's rule), so the seeded
+    // strong student averages about 3.2 against the at-risk student's 1.5: a gap
+    // of 1.7, under the old threshold of 2 that was tuned to the old ladder.
     expect(cohort.stats[strong.username].averageBand).toBeGreaterThan(
-      cohort.stats[atRisk.username].averageBand + 2
+      cohort.stats[atRisk.username].averageBand + 1.5
     );
   });
 
   /**
-   * Attainment as a share of what the question could award. Raw bands are not
-   * comparable across tiers — the Verb Gate caps an IDENTIFY question at band 1
-   * — so measuring against the ceiling is the only way to compare a student's
-   * performance on low-tier and high-tier questions.
+   * Attainment as a share of the marks the question could award, the same share
+   * the cohort reports as `markShareMean`. It was a share of the band ceiling, but
+   * the ceiling is a rule of the ladder rather than of the student: a six-mark
+   * question's ceiling fell from Band 6 to Band 5, which lifted every weak answer
+   * to a larger share, and the at-risk student came out more attained than the
+   * strong one.
    */
-  const attainment = (a: { promptId: string; band: number }): number => {
+  const attainment = (a: { promptId: string; mark: number }): number => {
     const prompt = new Map(POOL.map((p) => [p.id, p])).get(a.promptId)!;
-    const ceiling = getBandForMark(prompt.totalMarks, prompt.totalMarks, tierOfPrompt(prompt));
-    return a.band / ceiling;
+    return a.mark / prompt.totalMarks;
   };
 
   it('makes the verb-blocked student fall short of the ceiling only on high tiers', () => {

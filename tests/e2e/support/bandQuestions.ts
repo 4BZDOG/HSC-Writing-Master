@@ -1,12 +1,13 @@
 import type { Page } from '@playwright/test';
-import { getCommandTermInfo } from '../../../data/commandTerms';
+import { getPromptTermInfo } from '../../../data/commandTerms';
 import type { PromptVerb, StatePath } from '../../../types';
 
 /**
  * One question per cognitive tier, from the bundled curriculum, as the path
  * that opens it.
  *
- * A card header is painted in the band of its question's command verb, and the
+ * A card header is painted in its question's ceiling band (the verb's tier, held
+ * to Band 5 on 6 marks or fewer), and the
  * workspace opens on whichever question the picker reaches first. That is one
  * band, and it was not even the same one run to run. So the guard asks the
  * curriculum for a question at each tier and opens each in turn.
@@ -30,7 +31,10 @@ interface CourseFile {
     year?: StatePath['syllabusYear'];
     subTopics: {
       id: string;
-      dotPoints: { id: string; prompts: { id: string; verb?: PromptVerb }[] }[];
+      dotPoints: {
+        id: string;
+        prompts: { id: string; verb?: PromptVerb; totalMarks?: number; bandCeiling?: number }[];
+      }[];
     }[];
   }[];
 }
@@ -52,7 +56,8 @@ export const questionPathPerTier = async (page: Page): Promise<Map<number, State
       for (const subTopic of topic.subTopics) {
         for (const dotPoint of subTopic.dotPoints) {
           for (const prompt of dotPoint.prompts) {
-            const { tier } = getCommandTermInfo(prompt.verb);
+            // The question's own ceiling: its verb's tier, held to Band 5 on 6 marks or fewer.
+            const { tier } = getPromptTermInfo(prompt);
             if (found.has(tier)) continue;
             found.set(tier, {
               courseId: course.id,

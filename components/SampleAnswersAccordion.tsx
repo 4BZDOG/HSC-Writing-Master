@@ -972,7 +972,7 @@ const SampleAnswersAccordion: React.FC<SampleAnswersAccordionProps> = ({
   const studioLocked = isFeatureLocked('aiContentStudio');
   const commandTermInfo = useMemo(
     () => getPromptTermInfo(prompt),
-    [prompt.verb, prompt.bandCeiling]
+    [prompt.verb, prompt.bandCeiling, prompt.totalMarks]
   );
   const tier = commandTermInfo.tier;
 

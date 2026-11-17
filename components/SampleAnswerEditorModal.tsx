@@ -49,7 +49,7 @@ const SampleAnswerEditorModal: React.FC<SampleAnswerEditorModalProps> = ({
 
   const commandTermInfo = useMemo(
     () => getPromptTermInfo(prompt),
-    [prompt.verb, prompt.bandCeiling]
+    [prompt.verb, prompt.bandCeiling, prompt.totalMarks]
   );
 
   // The verb's cognitive tier caps the achievable band (same rule the

@@ -449,14 +449,16 @@ describe('getTierBandConfig', () => {
   });
 });
 
-describe('NESA-aligned band mapping (tier is the only cap)', () => {
-  it('full marks on a high-tier verb reaches the tier ceiling regardless of mark count', () => {
-    // 3/3 Evaluate (Tier 6) → Band 6 per NESA descriptors.
-    expect(getBandForMark(3, 3, 6)).toBe(6);
-    // 2/2 Evaluate → Band 6.
-    expect(getBandForMark(2, 2, 6)).toBe(6);
-    // 5/5 Evaluate → Band 6.
-    expect(getBandForMark(5, 5, 6)).toBe(6);
+describe('NESA-aligned band mapping (verb tier and length are the caps)', () => {
+  it('full marks reach Band 5 on six marks or fewer, and Band 6 from seven', () => {
+    // A short answer cannot show the sustained judgement Band 6 describes, so a
+    // Tier-6 verb stops at Band 5 on six marks or fewer. Band 6 needs seven.
+    expect(getBandForMark(2, 2, 6)).toBe(5);
+    expect(getBandForMark(3, 3, 6)).toBe(5);
+    expect(getBandForMark(5, 5, 6)).toBe(5);
+    expect(getBandForMark(6, 6, 6)).toBe(5);
+    expect(getBandForMark(7, 7, 6)).toBe(6);
+    expect(getBandForMark(8, 8, 6)).toBe(6);
   });
 
   it('low-tier verbs still cap the band even with full marks', () => {
@@ -467,15 +469,14 @@ describe('NESA-aligned band mapping (tier is the only cap)', () => {
   });
 
   it('steps one band per mark down from the ceiling on a short question', () => {
-    // The outlier case this rule exists for: a Tier-6 verb on a 4-mark
-    // question. Full marks reach the ceiling and every mark dropped costs
-    // exactly one band, so the ladder is even — 4/4 Band 6, 3/4 Band 5, 2/4
-    // Band 4, 1/4 Band 3 — and Bands 1-2 are simply not reachable.
-    expect(Array.from({ length: 5 }, (_, i) => getBandForMark(i, 4, 6))).toEqual([1, 3, 4, 5, 6]);
+    // A Tier-6 verb on a 4-mark question. The ceiling is Band 5, so full marks
+    // reach Band 5 and every mark dropped costs exactly one band: 4/4 Band 5,
+    // 3/4 Band 4, 2/4 Band 3, 1/4 Band 2. Band 1 is not reachable that short.
+    expect(Array.from({ length: 5 }, (_, i) => getBandForMark(i, 4, 6))).toEqual([1, 2, 3, 4, 5]);
 
-    // Shorter still: a 3-mark and a 2-mark Evaluate step the same way.
-    expect(Array.from({ length: 4 }, (_, i) => getBandForMark(i, 3, 6))).toEqual([1, 4, 5, 6]);
-    expect(Array.from({ length: 3 }, (_, i) => getBandForMark(i, 2, 6))).toEqual([1, 5, 6]);
+    // A 3-mark and a 2-mark Evaluate step the same way, from Bands 3 and 4.
+    expect(Array.from({ length: 4 }, (_, i) => getBandForMark(i, 3, 6))).toEqual([1, 3, 4, 5]);
+    expect(Array.from({ length: 3 }, (_, i) => getBandForMark(i, 2, 6))).toEqual([1, 4, 5]);
 
     // A proportional rule was tried here and withdrawn: ceil(mark/total × 6)
     // put 2/4 and 3/4 two bands apart while 1/4 and 2/4 sat one apart, so the
@@ -485,24 +486,25 @@ describe('NESA-aligned band mapping (tier is the only cap)', () => {
 
   it('reports only the bands a question can actually award', () => {
     // The coverage strip and the AI rubric brief both read the ladder from
-    // here. On a 4-mark Evaluate, Bands 1-2 are unreachable: counting
-    // 1..ceiling instead left the exemplar coverage strip permanently
-    // "2 bands missing", with dashed chips no exemplar could ever fill.
-    expect(bandsForQuestion(4, 6)).toEqual([6, 5, 4, 3]);
-    expect(bandsForQuestion(2, 6)).toEqual([6, 5]);
+    // here. On a 4-mark Evaluate (ceiling Band 5), Band 1 is unreachable:
+    // counting 1..ceiling would leave the exemplar coverage strip permanently
+    // "a band missing", with a dashed chip no exemplar could ever fill.
+    expect(bandsForQuestion(4, 6)).toEqual([5, 4, 3, 2]);
+    expect(bandsForQuestion(2, 6)).toEqual([5, 4]);
     expect(bandMarkRanges(4, 6)).toEqual([
-      { band: 6, lo: 4, hi: 4 },
-      { band: 5, lo: 3, hi: 3 },
-      { band: 4, lo: 2, hi: 2 },
-      { band: 3, lo: 1, hi: 1 },
+      { band: 5, lo: 4, hi: 4 },
+      { band: 4, lo: 3, hi: 3 },
+      { band: 3, lo: 2, hi: 2 },
+      { band: 2, lo: 1, hi: 1 },
     ]);
 
-    // Long enough to spread and every band is in play, some over a range.
-    expect(bandsForQuestion(6, 6)).toEqual([6, 5, 4, 3, 2, 1]);
+    // Six marks reach every band up to the Band 5 ceiling; Band 3 takes two marks.
+    expect(bandsForQuestion(6, 6)).toEqual([5, 4, 3, 2, 1]);
+    // Eight marks reach Band 6, with Band 3 and Band 4 each taking two marks.
     expect(bandMarkRanges(8, 6)).toEqual([
-      { band: 6, lo: 7, hi: 8 },
-      { band: 5, lo: 6, hi: 6 },
-      { band: 4, lo: 5, hi: 5 },
+      { band: 6, lo: 8, hi: 8 },
+      { band: 5, lo: 7, hi: 7 },
+      { band: 4, lo: 5, hi: 6 },
       { band: 3, lo: 3, hi: 4 },
       { band: 2, lo: 2, hi: 2 },
       { band: 1, lo: 1, hi: 1 },
@@ -512,21 +514,21 @@ describe('NESA-aligned band mapping (tier is the only cap)', () => {
     expect(bandsForQuestion(6, 2)).toEqual([2, 1]);
   });
 
-  it('keeps the marks-dropped ladder once a question is long enough to spread', () => {
-    // Above the ceiling the original rule stands: full marks at the verb's
-    // ceiling, one band for each mark dropped.
+  it('is one band per mark under the ceiling, and gives the extra rung to Band 3', () => {
+    // Five marks fit under a Band 5 ceiling: one band per mark.
     expect(Array.from({ length: 5 }, (_, i) => getBandForMark(i + 1, 5, 6))).toEqual([
-      2, 3, 4, 5, 6,
+      1, 2, 3, 4, 5,
     ]);
+    // Six marks: the extra rung goes to Band 3, so marks 3 and 4 both earn Band 3.
     expect(Array.from({ length: 6 }, (_, i) => getBandForMark(i + 1, 6, 6))).toEqual([
-      1, 2, 3, 4, 5, 6,
+      1, 2, 3, 3, 4, 5,
     ]);
   });
 
-  it('still reaches the tier ceiling on full marks under either rule', () => {
-    expect(getBandForMark(2, 2, 6)).toBe(6);
-    expect(getBandForMark(4, 4, 6)).toBe(6);
-    expect(getBandForMark(6, 6, 6)).toBe(6);
+  it('reaches the ceiling on full marks, whatever the length', () => {
+    expect(getBandForMark(2, 2, 6)).toBe(5);
+    expect(getBandForMark(4, 4, 6)).toBe(5);
+    expect(getBandForMark(6, 6, 6)).toBe(5);
     expect(getBandForMark(2, 2, 3)).toBe(3);
   });
 });

@@ -22,19 +22,18 @@ describe('bands on a ranged marking guide', () => {
     expect(parseMarkingCriteria(NESA_20, 20, 5).map((r) => r.band)).toEqual([5, 4, 3, 2, 1]);
   });
 
-  it('puts every mark of a row in the row’s band, where the formula would split it', () => {
+  it('puts every mark of a row in the row’s band', () => {
     const q = { totalMarks: 8, verb: 'EXPLAIN', markingCriteria: NESA_8 };
-    // The formula puts 5/8 and 6/8 in different bands; the guide's 5-6 row is one.
-    expect(getBandForMark(5, 8, 3)).not.toBe(getBandForMark(6, 8, 3));
+    // The guide's 5-6 row is one band, and so is every mark in it.
     expect(promptBandForMark(q, 5)).toBe(promptBandForMark(q, 6));
     const rows = parseMarkingCriteria(NESA_8, 8, 3);
-    expect(rows.map((r) => r.band)).toEqual([3, 3, 2, 1]);
+    expect(rows.map((r) => r.band)).toEqual([3, 2, 2, 1]);
     expect(promptBandForMark(q, 5)).toBe(rows[1].band);
     expect(promptBandForMark(q, 3)).toBe(rows[2].band);
   });
 
-  it('agrees with the formula on the app’s own one-band-per-row rubrics', () => {
-    const tier4of7 = '6-7 marks: a\n4-5 marks: b\n2-3 marks: c\n1 mark: d';
+  it('agrees with the formula on a rubric the app builds from its bands', () => {
+    const tier4of7 = '7 marks: a\n5-6 marks: b\n3-4 marks: c\n1-2 marks: d';
     const q = { totalMarks: 7, verb: 'ANALYSE', markingCriteria: tier4of7 };
     for (let m = 1; m <= 7; m++) expect(promptBandForMark(q, m)).toBe(getBandForMark(m, 7, 4));
   });

@@ -16,8 +16,8 @@ vi.mock('../../services/geminiService', async (importOriginal) => {
 
 afterEach(cleanup);
 
-// EVALUATE is a Tier 6 verb, so on a six-mark question each mark is its own band:
-// mark 3 is Band 3, and the next band up starts at mark 4.
+// EVALUATE is a Tier 6 verb, but a six-mark question stops at Band 5: marks 3 and
+// 4 share Band 3, and the next band up from mark 3 starts at mark 5.
 const prompt = {
   id: 'p-1',
   question: 'Evaluate the design of the survey.',
@@ -50,7 +50,7 @@ describe('SampleAnswerRevisionModal: the mark a revision starts on', () => {
   it('starts on the next band up, not on the lowest unused mark', () => {
     render(<SampleAnswerRevisionModal {...props(3, [3])} />);
 
-    expect(targetValue()).toBe('4');
+    expect(targetValue()).toBe('5');
   });
 
   it('at full marks, steps down to the nearest unused mark rather than to 0/6', () => {
@@ -73,7 +73,7 @@ describe('SampleAnswerRevisionModal: the mark a revision starts on', () => {
 
   it('follows a different answer when the one under revision changes', () => {
     const { rerender } = render(<SampleAnswerRevisionModal {...props(3, [3])} />);
-    expect(targetValue()).toBe('4');
+    expect(targetValue()).toBe('5');
 
     rerender(<SampleAnswerRevisionModal {...props(6, [6])} />);
 
@@ -88,7 +88,7 @@ describe('SampleAnswerRevisionModal: the mark a revision starts on', () => {
     rerender(<SampleAnswerRevisionModal {...props(3, [3])} isOpen={false} />);
     rerender(<SampleAnswerRevisionModal {...props(3, [3])} isOpen />);
 
-    expect(targetValue()).toBe('4');
+    expect(targetValue()).toBe('5');
   });
 
   /**

@@ -88,7 +88,7 @@ export const useWritingMetrics = (
 ): WritingMetrics => {
   const commandTermInfo = useMemo(
     () => getPromptTermInfo(prompt),
-    [prompt.verb, prompt.bandCeiling]
+    [prompt.verb, prompt.bandCeiling, prompt.totalMarks]
   );
 
   const wordCount = useMemo(

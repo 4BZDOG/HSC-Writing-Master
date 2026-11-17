@@ -103,13 +103,13 @@ describe('the Model answer control on a guide row', () => {
   });
 
   it('finds the exemplar for a band row by the band its mark earns on this question', () => {
-    // EVALUATE on 4 marks: mark 4 earns Band 6, so the Band 6 row has the exemplar.
-    renderGuide('Band 6: Comprehensive evaluation\nBand 3: Basic', prompt('EVALUATE', 4, [4]));
+    // EVALUATE on 4 marks: mark 4 earns Band 5, so the Band 5 row has the exemplar.
+    renderGuide('Band 5: Comprehensive evaluation\nBand 3: Basic', prompt('EVALUATE', 4, [4]));
 
     expect(screen.getByRole('button', { name: 'See the model answer for 4 marks' })).toBeTruthy();
     expect(chips()).toHaveLength(1);
     // The band row says its band once, in its label, and gets no second caption.
-    expect(screen.getAllByText('Band 6')).toHaveLength(1);
+    expect(screen.getAllByText('Band 5')).toHaveLength(1);
   });
 
   it('uses the singular for a single mark', () => {

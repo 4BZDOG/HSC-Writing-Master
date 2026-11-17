@@ -1,5 +1,18 @@
 # HSC AI Evaluator - Change Log
 
+## [Unreleased] - 2026-11-17 (Band 5 is full marks on short questions)
+
+- **Changed (DATA_VERSION 2.57.0).** A question worth 6 marks or fewer now tops out at Band 5, whatever its verb;
+  Band 6 needs 7 marks or more (`getQuestionBandCeiling` in `data/commandTerms.ts`).
+  - Under 15 marks, only full marks earn the ceiling. The other marks are shared evenly between the bands below it,
+    with any left over going to the middle bands first (Band 3, then 4, 2, 1): see `shortQuestionBands`. A 6-mark
+    Evaluate reads 6/6 Band 5, 5/6 Band 4, 4/6 and 3/6 Band 3, 2/6 Band 2, 1/6 Band 1. From 15 marks nothing changes.
+  - The question's colour follows the new ceiling (`getPromptTermInfo` takes `totalMarks`).
+  - Shipped data re-derived: sample-answer bands via `content:canonicalise`, and the mark ranges on 425 app-written
+    marking guides relabelled to the new ladder, each row keeping its wording. Past-paper guides are NESA's and are
+    unchanged.
+- **Added.** History core questions for Modern History and Ancient History, and English Advanced Year 11 questions.
+
 ## [Unreleased] - 2026-11-16 (Health and Movement Science reaches every library)
 
 - **Fixed (DATA_VERSION 2.56.0).** Health and Movement Science is complete (138 questions, every dot point covered)

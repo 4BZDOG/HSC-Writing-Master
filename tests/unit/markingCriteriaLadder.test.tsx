@@ -139,20 +139,20 @@ describe('the accordion renders a row per mark level', () => {
    * colour the exemplar ladder never shows at the same mark.
    */
   it('snaps a band-labelled row onto the ladder this question can award', () => {
-    // A 4-mark Evaluate is the outlier this rule exists for: Tier 6, so the
-    // ladder runs 4/4 Band 6 down to 1/4 Band 3 and Band 2 is unreachable.
-    // The row belongs at mark 1, where the exemplar is Band 3 — so the row is
-    // Band 3 too, and both are drawn yellow.
-    const { container } = renderCriteria('Band 2: Elementary statements only.', {
+    // A 4-mark Evaluate is the outlier this rule exists for: the ceiling is
+    // Band 5, so the ladder runs 4/4 Band 5 down to 1/4 Band 2 and Band 1 is
+    // unreachable. The row belongs at mark 1, where the exemplar is Band 2, so
+    // the row is Band 2 too, and both are drawn in its colour.
+    const { container } = renderCriteria('Band 1: Elementary statements only.', {
       verb: 'EVALUATE' as PromptVerb,
       totalMarks: 4,
     });
 
-    expect(screen.getByText('Band 3')).toBeTruthy();
-    expect(screen.queryByText('Band 2')).toBeNull();
+    expect(screen.getByText('Band 2')).toBeTruthy();
+    expect(screen.queryByText('Band 1')).toBeNull();
     const row = container.querySelector('div.items-stretch') as HTMLElement;
     expect(row.className).toContain('band-fill');
-    expect(row.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(3));
+    expect(row.style.getPropertyValue('--band-rgb')).toBe(getBandRgb(2));
   });
 
   it('leaves a band-labelled row alone when the question can award that band', () => {

@@ -6,16 +6,17 @@ import { getBandForMark, markForBand, TIER_GROUPS } from '../../data/commandTerm
  * sees (marking, sample answers, the criteria panel, and the improvement
  * target). Tier identity: each tier's maxBand equals its tier number, so the
  * ribbon colour is the ceiling colour everywhere.  The verb's tier is the
- * sole ceiling — there is no secondary marks-based cap.
+ * ceiling, held to Band 5 on six marks or fewer (see getQuestionBandCeiling).
  */
 describe('getBandForMark tier ceilings', () => {
-  it('caps at the tier number regardless of mark count', () => {
+  it('caps at the tier number, and at Band 5 on six marks or fewer', () => {
     expect(getBandForMark(5, 5, 1)).toBe(1);
     expect(getBandForMark(5, 5, 2)).toBe(2);
     expect(getBandForMark(5, 5, 3)).toBe(3);
     expect(getBandForMark(5, 5, 4)).toBe(4);
     expect(getBandForMark(5, 5, 5)).toBe(5);
-    expect(getBandForMark(6, 6, 6)).toBe(6);
+    expect(getBandForMark(6, 6, 6)).toBe(5);
+    expect(getBandForMark(7, 7, 6)).toBe(6);
     expect(getBandForMark(10, 10, 2)).toBe(2);
     expect(getBandForMark(10, 10, 4)).toBe(4);
     expect(getBandForMark(10, 10, 6)).toBe(6);
@@ -46,10 +47,11 @@ describe('markForBand (inverse of getBandForMark)', () => {
     expect(markForBand(2, 5, 1)).toBe(5);
   });
 
-  it('full marks always reach the tier ceiling regardless of mark count', () => {
+  it('full marks reach the tier ceiling, or Band 5 on six marks or fewer', () => {
     for (const group of TIER_GROUPS) {
       for (const total of [3, 5, 8, 10]) {
-        expect(getBandForMark(total, total, group.tier)).toBe(group.maxBand);
+        const ceiling = total <= 6 ? Math.min(group.maxBand, 5) : group.maxBand;
+        expect(getBandForMark(total, total, group.tier)).toBe(ceiling);
       }
     }
   });
