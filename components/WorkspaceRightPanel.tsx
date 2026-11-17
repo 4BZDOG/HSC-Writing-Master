@@ -149,7 +149,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
 
   const commandTermInfo = useMemo(
     () => getPromptTermInfo(currentPrompt),
-    [currentPrompt.verb, currentPrompt.bandCeiling]
+    [currentPrompt.verb, currentPrompt.bandCeiling, currentPrompt.totalMarks]
   );
 
   // The band this prompt actually works toward — the verb's tier is the sole
@@ -548,6 +548,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
             keywords={currentPrompt.keywords}
             verb={currentPrompt.verb}
             bandCeiling={currentPrompt.bandCeiling}
+            totalMarks={currentPrompt.totalMarks}
             promptId={currentPrompt.id}
             isFocusMode={isFocusMode}
             onToggleFocusMode={onToggleFocusMode}

@@ -105,7 +105,11 @@ export const promptBandForMark = (prompt: BandedPrompt, mark: number): number =>
   bandOnGuide(
     mark,
     prompt.totalMarks,
-    getPromptTermInfo({ verb: prompt.verb as PromptVerb, bandCeiling: prompt.bandCeiling }).tier,
+    getPromptTermInfo({
+      verb: prompt.verb as PromptVerb,
+      bandCeiling: prompt.bandCeiling,
+      totalMarks: prompt.totalMarks,
+    }).tier,
     prompt.markingCriteria
   );
 

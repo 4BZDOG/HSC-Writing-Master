@@ -21,7 +21,7 @@ interface UseFeedbackViewArgs {
  * cannot disagree about any of them.
  */
 export function useFeedbackView({ result, prompt, userAnswer, hierarchy }: UseFeedbackViewArgs) {
-  const termInfo = useMemo(() => getPromptTermInfo(prompt), [prompt.verb, prompt.bandCeiling]);
+  const termInfo = useMemo(() => getPromptTermInfo(prompt), [prompt.verb, prompt.bandCeiling, prompt.totalMarks]);
   const upgradesLocked = isFeatureLocked('answerUpgrades');
 
   // The rewrite as this client may present it (see `presentableRewrite`): the

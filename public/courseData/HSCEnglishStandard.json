@@ -449,7 +449,7 @@
                         "answer": "The familiar text is easier to understand because you know the story. The extract has short sentences, which make it harder to read.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: features of each text are described and a general difference is stated, but there is no close analysis of any device and no interpretation of the extract.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student is comparing a familiar text they have studied closely with an invented 120-word extract about a lighthouse keeper, written for this task. The student must show how close analysis builds an interpretation in each case.\n\n**The Foghorn at Carrow Head (an invented prose extract)**\n\nThe keeper climbed the iron stairs at dusk, as he had every evening for thirty-one winters. He trimmed the wick and wrote the pressure in the log, pressing so hard that the pencil tore the damp page. Out past the reef, the foghorn sounded.\n\nNow he stands at the glass. Fog. The foghorn sounds. The foghorn sounds again. The foghorn sounds, and the room fills with it.\n\nGrey sea. Grey sky. Grey rail. Nothing moves. He does not sit. He does not sleep. The lamp is lit. The lamp is lit.\n\nIt is always dusk now. The stairs are still there, and he is always about to go down them, and he never does. The log waits for his pencil."
@@ -674,7 +674,7 @@
                         "answer": "The news report is more formal than the diary.",
                         "source": "AI",
                         "feedback": "Earns 1 mark: a relevant but general statement about one difference, with no evidence and no comparison of structure or features.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: Two invented texts describe the same storm that closed a coastal road: a 120-word news report in a formal register, and a 90-word diary entry written by a teenager who was stuck at home. Both were written for this task and are not real documents.\n\n**Storm Closes Coastal Road (an invented news report)**\n\nThe coastal road between Marrow Head and Sandy Creek remains closed this morning after a severe storm. Emergency crews were called out after midnight, when floodwater covered sections of the bitumen and fallen trees blocked drains. Because the water rose quickly, the road was closed to all traffic by dawn, and dozens of motorists were stranded. The regional emergency service received more than forty calls for help, and several hundred homes lost power. Authorities say the closure of the coastal road will continue until engineers complete a safety inspection. Residents are asked to avoid unnecessary travel and to keep clear of flooded drains. The weather bureau has warned that further rain is expected on Thursday, and residents should remain alert.\n\n**An invented diary entry about a teenager stuck at home in the storm**\n\nBecause the coastal road closed before breakfast, and because Dad is stranded across the creek, I have spent the whole day inside this house with the power off. By noon the rain was hitting the windows like gravel, and the radio kept repeating the warnings. At three I checked the back gate. I checked it again at four. I keep thinking the water is still rising, so I go upstairs again. Then the lights flicker and die. Dark. Thunder. Water under the laundry door. Phone dead. Nobody answering. Honestly? Terrified."
@@ -719,7 +719,7 @@
                         "mark": 2,
                         "answer": "The diary starts with long sentences and ends with short ones, which shows the writer's fear increasing.",
                         "feedback": "Earns 2 marks: the broad change from long to short sentences is outlined, but there is no clause-level or fragment-level detail and the middle section is not traced.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-12-3",
@@ -794,7 +794,7 @@
                         "mark": 2,
                         "answer": "AI tools are good or bad. I think they should be allowed in school because some students need help and it's fair. Teachers should decide.\n\nRationale: I wrote what I think.",
                         "feedback": "Earns 2 marks: a short text states an opinion with minimal structure and no counter-argument, and the rationale is one line that does not identify any choice.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is contributing to a school magazine debate about whether students should be allowed to use AI writing tools for assessed work. The article must explore a complex idea rather than a simple yes or no, and it will be read by Year 10 and Year 11 students and their teachers.",
@@ -840,7 +840,7 @@
                         "mark": 2,
                         "answer": "A discursive text looks at both sides and a persuasive text tries to convince you of one side. My library piece looks at both sides.",
                         "feedback": "Earns 2 marks: one feature is described for the discursive form, supported by a brief reference to the student's own writing, but the persuasive form is only defined and no feature is described.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-14-3",
@@ -900,7 +900,7 @@
                         "mark": 4,
                         "answer": "The platform is empty. An old man waits for a train that does not come any more. He thinks about his wife and how she used to meet him here. The station is closed now. I wanted to write about waiting like the poem does.\n\nRationale: The text is about waiting like the poem. It has an old man too and it is set at a station, so there is a connection.",
                         "feedback": "Earns 4 marks: the thematic connection (waiting) is clear and the text is composed, but the stylistic connection is not developed; the sentences do not echo the poem's form, and the rationale names the shared subject without naming an echo.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-15-3",
@@ -1068,7 +1068,7 @@
                         "mark": 2,
                         "answer": "The value is about students using the library at night. The word 'safe' shows the reader what I mean.",
                         "feedback": "Earns 2 marks: the value is named as students' use, with one word choice and a general link to the reader. The explanation of why 'safe' signals the value is not developed, and no second word choice is given.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-18-3",
@@ -1241,7 +1241,7 @@
                         "mark": 4,
                         "answer": "Recycling is important, and our school should start a recycling club because there is a lot of rubbish in the corridors. You could join and help us sort the bins at lunchtime. Come to the club on Thursday.\n\nRationale: I changed the first sentence to make the claim clearer, and I added the time and place of the club so that the call to action is specific.",
                         "feedback": "Earns 4 marks: several improvements are made (a clearer claim, a concrete problem, a specific call to action), and the rationale identifies two changes. The paragraph is still short and less engaging for the audience, and the rationale does not explain the purpose of each change.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-21-3",
@@ -1363,7 +1363,7 @@
                         "mark": 2,
                         "answer": "I used metalanguage like anecdote and rhetorical question in my essay. They are good for persuasion.",
                         "feedback": "Earns 2 marks: metalanguage is identified in the essay with little reflection on its value. It does not connect the terms to any example or to the reader.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student has drafted a persuasive essay arguing that the school should adopt a later start on Mondays. The teacher has asked the student to include a reflection on the metalanguage used in the essay, such as 'anecdote', 'rhetorical question' and 'hyperbole'.\n\n**A Later Start on Mondays (an invented persuasive essay)**\n\nOn the first Monday of term, Mia stood at the bus shelter on Harbour Road and watched the 6.40 pull away without her. She had slept badly and not heard her alarm. By the time she reached the gate at 7.20, the Monday assembly had already started. Her story is why I am writing this essay.\n\nOur school asks every student to be ready for a 7 am start on Mondays. Who benefits from a 7 am start? Not the students, who arrive tired and spend the first hour fighting to stay awake. Not the teachers, who must rouse a room of yawning faces. A later start, perhaps 9.30 on Mondays, would give us time to arrive ready to think.\n\nSleep is the most important thing in a school day, and teenagers are biologically wired to fall asleep later than adults. Call it hyperbole if you like, but a student who sleeps through first period learns nothing from it. Students who rest properly remember more, argue more clearly and fall ill less often.\n\nSome will argue that the bus timetable makes a later start impossible. That is a problem of planning, not of principle. The school council can ask the bus company for a later Monday service, and the timetable can shift by one period.\n\nI therefore ask the school council to put a later Monday start to a vote this term. Mia should not have to choose between sleep and the first lesson, and neither should any of us."
@@ -1640,7 +1640,7 @@
                         "answer": "The narrative is a digital story with messages and pictures, which is different from a book.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: a relevant but general comment about the narrative's form. No language feature, structure or choice is analysed and no effect on the reader is described.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: An invented interactive digital narrative, printed below, was written for this task, and students must analyse how its form shapes the story.\n\n**Seen at 9:42 pm (an invented interactive digital narrative)**\n\n[9:38 pm] Kai to Mum: Still @ Jordan's. Home by 10. Promise.\n\n[9:39 pm] Mum to Kai: Dad says ur car went past the house twice. U driving?\n\n[9:40 pm] Lou to Kai: Sent the photos. Delete after.\n\nGallery (3 images, linked from the messages):\n\nImage 1, 9:12 pm: A padlock hangs open on the reservoir gate.\n\nImage 2, 9:14 pm: Black water. Two empty bottles lie in the grass.\n\nImage 3, 9:15 pm: Car keys in the dirt beside a tyre, a torch still switched on.\n\nTimed choice (10 seconds). Option A: Jordan's, don't worry. Option B: It was me. I'm sorry.\n\n[9:41 pm] Your reply, Option A, sent with 3 seconds left: Jordan's, don't worry.\n\n[9:42 pm] Mum to Kai: Okay. Dad's in the drive now, looking at the car. Come inside. Don't make me ask twice.\n\n[9:42 pm] Lou to Kai: Mum's already seen image 3. Sorry."
@@ -1685,7 +1685,7 @@
                         "mark": 2,
                         "answer": "One choice is the timed decision, which makes the reader feel rushed. This affects their sense of time because they have less time to think.",
                         "feedback": "Earns 2 marks: one stylistic choice is described with its effect on the reader's sense of time. The second choice is missing, and the effect is stated briefly rather than explained.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-29-3",
@@ -2122,7 +2122,7 @@
                         "mark": 2,
                         "answer": "The rewards system assumes young readers like getting points, so they will keep choosing the option that earns them the most.",
                         "feedback": "Earns 2 marks: one assumption about young readers is described and linked to the rewards system. The second assumption is missing and the link is not developed.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-37-3",
@@ -2187,7 +2187,7 @@
                         "mark": 4,
                         "answer": "Monday 3 March\nThe watch is missing from the hall table. Nobody saw it go.\n\nTuesday 4 March\nA neighbour saw a grey car parked outside last night. The police might come.\n\nThursday 6 March\nI found a receipt from a pawn shop in my school bag. It is not my handwriting.\n\nRationale: I used a diary to tell a mystery story with clues in each entry, so the reader wants to know who took the watch.",
                         "feedback": "Earns 4 marks: the diary structure and a genre convention (the clue and the suspect) are used, and the rationale identifies one experiment. The text is too short and the clues are not developed, so the structure does little to withhold information from the reader.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-38-3",
@@ -2364,7 +2364,7 @@
                         "answer": "The argument starts with the article and then uses the poem. It ends with a call to action.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: the order of points is identified with little justification. No reason is given for the sequence and the reader is not discussed.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student has written a 250-word argument on whether schools should run a phone-recycling scheme. It responds to two invented texts, a 150-word article on e-waste and a short poem about a phone forgotten in a drawer. The argument opens with the article's evidence on waste, moves to the poem's image of forgetting, answers the cost objection last and ends with a call to action.\n\n**Old Phones, Hidden Waste (an invented article)**\n\nOld phones should be recycled in every school, and the reason is not complicated. Old phones contain materials that cannot be replaced cheaply, including small amounts of gold, copper and rare metals that take enormous effort to mine. Each device left in a drawer is a loss that nobody sees. Across one school, dozens of unused phones may sit in drawers and lockers.\n\nRecycling is good for the environment, but a scheme must be visible to last, because recycling works only when people can see it working. A labelled box and a term-end count make the scheme real for students.\n\nElectronic waste is one of the fastest-growing kinds of rubbish in the world. A school that collects its own phones shows students that a device is not disposable simply because it is out of date. A box at reception is the first step.\n\n**The Phone in the Drawer (an invented poem)**\n\nIts screen has a crack across one corner now,\nand the battery gives up before the afternoon.\nIt sits in a drawer, forgotten and full of photographs:\na birthday cake with one candle left unlit,\na dog asleep on a sunlit rug,\na beach at dusk, a friend laughing at the camera.\n\nA phone sits in a drawer full of photographs nobody will look at again.\n\nNobody meant to leave it there.\nIt was replaced by something faster,\nand the old one slipped beneath the takeaway menus,\nthe spare keys, the tangled chargers, the warranty card.\nEach private picture waits for a thumb to wake it,\nand each thumb has moved on to the next small glow.\n\nStill it keeps the moments no one can hold:\na first swim, a late night, the slow walk home.\nForgetting is quiet. It breaks nothing.\nIt only keeps the past in a dark space until the past is lost."
@@ -2424,7 +2424,7 @@
                         "answer": "Old places are important to people. The cinema should stay open because it belongs to everyone.\n\nRationale: I wanted to say it is important.",
                         "source": "AI",
                         "feedback": "Earns 2 marks: a general value is stated with minimal reflection, and the rationale does not identify any choice of form or language.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A school's creative anthology is inviting students to respond to the theme 'what we owe to the places we grow up in'. The editors expect pieces that show a clear value and a perspective the writer genuinely holds, and they will read the rationale to see how the choices of form and language express it.",
@@ -2529,7 +2529,7 @@
                         "mark": 4,
                         "answer": "For the blog I made a list of headings and wrote quickly. I read it aloud to edit it. For the podcast I planned in time blocks and recorded myself speaking, then listened to the recording to edit it.\n\nRationale: The process that changed most was editing, because a podcast has to be listened to again.",
                         "feedback": "Earns 4 marks: the processes are described in both mediums and one change (editing) is identified in the rationale. The reflection describes what was done rather than judging how the processes differed, and the technologies are not discussed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-44-3",
@@ -2803,7 +2803,7 @@
                         "mark": 2,
                         "answer": "Technology helps students write better texts, because they can edit and organise their ideas on a computer.",
                         "feedback": "Names technology in general with a vague link to the composition, which places it in the 2-3 band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A Year 11 student is composing a multimodal feature for an online literary magazine about the ethics of social media algorithms. Her teacher asks the class to document the tools used at each stage of composition, and to reflect on how those tools shaped the final text."
@@ -2982,7 +2982,7 @@
                         "answer": "The language is short and the story is about a family losing their house.",
                         "source": "AI",
                         "feedback": "Describes language and content side by side without any link between them, so it earns the 1-2 band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 student is preparing an analytical response for an assessment task on a literary text she has studied. The text is an invented short story about a family losing its home. Her teacher has asked her to move beyond describing the language and to explain how the words and the content work together.\n\n**The Door on Keel Street (an invented short story)**\n\nThe bank letter arrives on a Tuesday. Mum reads it twice and slides it under the fruit bowl. Nobody mentions it at dinner.\n\nThe house is sold in March. Dad makes a list of what to take. The list is short. The removalists are booked for the last Saturday.\n\nThe house was in its prime once. The kitchen smelled of bread and lemon oil, and afternoon light lay in long gold bars across the floorboards while the kettle ticked on the stove and the children argued in the hall about whose turn it was to feed the dog, and the smell of cut grass and the neighbour's jasmine came in through the back door.\n\nNow there is less. The fridge is unplugged. The rooms answer back when Ellie calls out. Mum wraps the good plates in newspaper and says nothing. Ellie sleeps on a mattress in the lounge and asks when the removalists are coming.\n\nEach night Dad checks the front lock. He does not check the other one. It stays unlocked, as it has since the letter came, and the cold night air comes in through the open door.\n\nOn the last morning the bed goes out first. Mum stands on the back step with her keys in her hand. She looks at the yard for a long time. Then she drops the keys into her bag and does not turn around. Behind us, for the first time, nobody closes the open door."
@@ -3261,7 +3261,7 @@
                         "mark": 2,
                         "answer": "Readers' personal experiences and their cultural background change how they interpret a text, so different perspectives lead to different interpretations.",
                         "feedback": "Summarises two ways perspectives affect interpretation accurately, but the summary is general and does not explain the mechanism, so it sits in the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-57-3",
@@ -3450,7 +3450,7 @@
                         "answer": "Silence can be a good thing, so people should not always judge quiet people. I wanted to write about it.",
                         "source": "AI",
                         "feedback": "States an opinion with little argument and no structural rationale, so it sits in the 1-2 band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Year 11 student Tomas must compose a short opinion piece of about 250 words for his school's literacy blog. The text is an invented novel. The piece responds to ideas raised by a literary text he has studied, and it must be followed by a brief rationale for his choices.\n\n**The Jetty at Corrie Bay (an invented novel extract)**\n\nThe sergeant asks the question again, the way he has every Thursday since August. Jess looks at the chipped edge of the table and says nothing. She refuses to speak about her brother's disappearance, and the silence in the room stretches until the clock above the door ticks over to four.\n\nAt home it is worse, because home is where the silence is kept. Her mother sets out three plates and sits without touching hers. Her father stands at the sink with his back to the room, rinsing a cup that is already clean.\n\nJess tries once more at dinner. She tells him about Danny, the jetty, the torch on the water and the empty mooring where the family boat should be. Her father changes the subject whenever she tries to explain. He asks about her exams. He asks whether the bins went out. He says the council wants the hedge cut before the weekend.\n\nAt school people think she is weak, and a few call it cowardice. Her mother's fork stops halfway to her mouth, and nobody picks it up again.\n\nJess goes to bed with her shoes still on. Through the wall she hears her father telling her mother, very low, that the girl has to stop, that speaking now will only hurt them all. The house takes his words and holds them, like everything else in it.\n\nAbout the text: Jess refuses to speak about her brother's disappearance for most of the novel, and her father changes the subject whenever she tries to explain. In its final chapter her silence is answered by someone else. Her father finally admits that Danny took the boat out in bad weather after an argument with him, and that the family has kept quiet about it for a year.",
@@ -3560,7 +3560,7 @@
                         "mark": 4,
                         "answer": "The river has a sign that says it is safe. My grandmother believes it. I do not. I think the sign is a promise and you have to see whether people keep promises.\n\nRationale: I wrote this to show two values about trust. I kept it short.",
                         "feedback": "Reflects a value with a general perspective, but the choices are not developed and the rationale describes them only in general terms, so it sits in the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-62-3",
@@ -3689,7 +3689,7 @@
                         "mark": 2,
                         "answer": "The column has a short headline and uses a first-person voice. These features are for readers who want something quick and personal.",
                         "feedback": "Outlines two features with a general link to the audience, so it sits in the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-64-3",
@@ -3804,7 +3804,7 @@
                         "mark": 4,
                         "answer": "The memoir uses first-person language and a kitchen setting to show the writer's private world. It then changes form to include facts about the hospital, which shows a public world. The direct address to the reader makes the experience feel shared, so readers from different backgrounds can connect with it.",
                         "feedback": "Shows several language and form choices shaping perspectives with clear examples, but the analysis of how the choices affect different readers is brief, so it sits in the 5-6 band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-en-66-3",
@@ -3812,7 +3812,7 @@
                         "mark": 2,
                         "answer": "The memoir uses short sentences and a kitchen setting, which makes it personal.",
                         "feedback": "Describes language and setting without linking them to perspectives or human experiences, so it earns the 1-2 band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A Year 12 student is writing an analytical essay about a text that has been read by many different communities. The text is an invented memoir set in a small kitchen. Her teacher asks her to show how the language and forms reach readers from several perspectives and experiences.\n\n**The Kettle on Tanner Street (an invented memoir)**\n\nThe kettle is always the first thing I fill. Mum taught me that, standing at this sink in her dressing gown while the radio gave the weather. The tap coughs, the pipes knock twice, and the kitchen fills with the smell of burnt toast and the dish soap she bought by the litre. Everything here is small and close: the lino worn pale in front of the stove, the calendar still showing March, her mug with the chipped handle hanging on its hook.\n\nI keep the mug, and the calendar, though it is wrong now.\n\nThe hospital keeps its own record:\n\nEllery Hill District Hospital opened in 1961 with forty-two beds on the general ward.\nEmergency waiting times are published each quarter.\nThe car park was resurfaced in March at a cost of $212,000.\nNo ward has been named after anyone who worked there.\n\nI read the list at the kitchen table, twice, as if the numbers might tell me something about her. They do not. The car park was resurfaced in March, the ward has no name, and the kettle still boils for one. Nobody at the council has mentioned the corridor where she waited.\n\nIf you have sat in that waiting room, you already know how long an hour can be. You know the figures are printed for people who will never need them. So I fill the kettle again, and I wait for it to boil, the way she taught me."
@@ -4460,7 +4460,7 @@
                         "mark": 2,
                         "answer": "The poem has rhythm and sound, which make it beautiful. It also has an image of a coat that shows sadness.",
                         "feedback": "Classifies features into two groups with general examples and no stated basis for the grouping, so it sits in the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-69-3",
@@ -4760,7 +4760,7 @@
                         "mark": 2,
                         "answer": "The interpretation is good and the writer has thought about the text.",
                         "feedback": "Makes a broad comment with no criteria and little analysis, so it sits in the 2-3 mark band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A Year 12 student has written an interpretation of a literary text for her examination. The text is invented: its closing scene can be read as a resolution or as a deliberate withholding, and its second section repeats short verbs that suggest the protagonist's withdrawal. Her teacher asks the class to assess how well the interpretation is developed. An extract from her response is printed after the story.\n\n**Low Water (an invented short story)**\n\nI\n\nMarnie has not spoken to her brother since the funeral. The house on Sorrell Point is quiet in the afternoons, and she keeps the blinds half down so the neighbours cannot see her at the table. Her brother rang twice last week. She let both calls go to the message bank, and she listened to the messages in the car with the engine off until the windows fogged.\n\nII\n\nShe sits. She folds the letter. She reads it once, then sits again. She waits for the kettle, and it does not boil, so she waits again. She stops. Her hands rest on the table as if they belong to somebody else.\n\nIII\n\nOutside, the tide is pulling back across the flats. Gulls walk the wet sand in neat lines, and the light lies flat and grey on the water, the colour of an old coin. A boat crosses the channel and leaves a thin white seam behind it. A boy on a bike stops at the boat ramp to watch, then rides off when his mother calls him.\n\nHer phone lights up on the bench. Marnie reads the name for a long time. Then she draws her hand back from the screen, the way she draws back from the edge of the pier when the wind picks up, and she turns the phone face down. The tide keeps going out. She stays where she is while the room grows quieter around her.\n\n**The student's interpretation (an extract from her examination response)**\n\nMost readers take the ending of 'Low Water' as a resolution: Marnie has made her choice and the story rests. I read it instead as a deliberate withholding. The story never tells us what the call means to her, and that silence is its point.\n\nThe second section shows Marnie withdrawing before she makes any choice. Its verbs are short and repeated: 'She sits. She folds the letter.' She 'sits again' and 'waits again'. The sentences stop as often as she does, and their sparseness mirrors a woman pulling away from her own life.\n\nThe final section uses the outgoing tide to show the same retreat.\n\nBy the end, turning the phone face down is not a decision but another withdrawal. The room 'grows quieter around her', and the story withholds what she will do next."
@@ -6330,7 +6330,7 @@
                         "mark": 2,
                         "answer": "A personal context is the reader's own life. A cultural context is what a community believes, and this changes what readers think about a text.",
                         "feedback": "Clarifies the difference with a general example and little on how each context shapes meaning, so it sits in the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-81-3",
@@ -7091,7 +7091,7 @@
                         "mark": 4,
                         "answer": "The author's context influences the text's ideas, because the narrator shares the expectations of the author's community. The assumption that stability is good is important and affects the perspectives. The text also has some doubts later, so the influence is not complete. Overall, context has a strong effect on the perspectives.",
                         "feedback": "Makes a clear judgement with some evidence about how the context shapes perspectives, but the weighing is brief and the later doubt is noted without analysis, so it sits in the 5-6 mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-en-86-3",
@@ -7099,7 +7099,7 @@
                         "mark": 2,
                         "answer": "The author's time and place affect the text, so the ideas are old.",
                         "feedback": "Makes a general statement about the author's influences with little evidence, so it sits in the 1-2 band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A Year 12 student is writing an evaluative essay for a critical reading task. The text is an invented novel, written in a period of rapid social change. She must assess how far the author's context and unstated cultural assumptions determine the perspectives and ideas presented in the text.\n\n**The Permanent Address (an invented novel)**\n\nChapter One\n\nThe Pryors have moved five times in eight years, and each time the street pretends not to notice. People who keep moving are restless. They never plant a hedge they will not see grow, and they never learn the names of the people on either side. In my experience they are unreliable as neighbours, and unreliable as friends, because they always keep one foot on the next road.\n\nWhen the new estate went up past the highway, the town filled with strangers who had come for the mine work and would leave when the work did. I watched them unload their vans on Saturday mornings. I told myself the streets were held together by the people who had never left them.\n\nChapter Nine\n\nLately I find myself asking questions I once answered without thinking. Why did I stay in this house for thirty years? Was it loyalty or duty, or only that I could not picture another kitchen? When the Pryors' van turned at the corner, did I envy them, or did I only pity them? Perhaps I have mistaken a habit for a virtue. I cannot yet say.\n\nAbout the text: The narrator's son takes a job in the city, and the house she has defended for decades begins to look less like a refuge and more like a cage. The mine closes in the final third, the new estate empties, and she must decide whether the people she judged were the unreliable ones. The novel never openly argues its position; its certainties give way to doubt."
@@ -7257,7 +7257,7 @@
                         "mark": 6,
                         "answer": "The story's content shapes its social, moral and ethical positions with varying effectiveness, and I judge it against three criteria: whether the positions are clearly established, whether they are consistent, and whether their consequences are explored. On the first criterion the story is effective. Details such as the empty canteen and the unpaid final wages establish the social position that workers are disposable, without requiring an explicit statement.\n\nThe moral position is less consistent. The narrator condemns the manager's cruelty, yet at the end she accepts a favour from the same manager. This contradiction weakens the moral position, because the story asks the reader to judge a character whose own choices are not judged. The ethical position is stronger, since the unresolved compromise forces the reader to weigh it rather than accept it.\n\nOn the third criterion the story is less complete. The closure's consequences for the wider community are mentioned but not explored, so the social position remains focused on individuals. My overall judgement is that the content shapes the social and ethical positions effectively, but the moral position is undermined by an inconsistency the story does not resolve.",
                         "feedback": "The exemplar describes an invented story for illustration. It names three criteria, tests the content of each position against them, and reaches an explicit overall judgement. The identification of the inconsistency in the moral position is what earns the top band.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-en-88-2",
@@ -7633,7 +7633,7 @@
                         "mark": 4,
                         "answer": "A public pool would help our town. The council survey shows that many families travel more than forty minutes to swim, and children are learning later than they should. A swim coach who runs lessons in a borrowed hall has a waiting list she cannot manage. A pool would give our children a place to learn close to home.\n\nRationale: I used the survey and the coach because both are about local people. I also mentioned the health report about drowning.",
                         "feedback": "Two sources are used effectively and the claim is clear, but the health report appears only in the rationale and is not integrated, and the rationale describes its choices without explaining them. This is the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-93-3",
@@ -7689,7 +7689,7 @@
                         "mark": 2,
                         "answer": "The survey finding is statistical, the single parent's account is anecdotal and the economist's view is expert opinion. The record of cancelled services is also expert opinion because it comes from the people who run the timetable.",
                         "feedback": "Three pieces are classified correctly, but the fourth is wrong and no reasons are given, which matches the 2-mark line.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-94-3",
@@ -7938,7 +7938,7 @@
                         "answer": "The poem is about a girl who misses her grandmother. The bread tin is still on the bench and the poem ends with the tin.",
                         "source": "AI",
                         "feedback": "The response paraphrases the poem's content with no technique named and no rationale, which matches the 1-2 mark line.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Students are studying the invented 30-line free-verse poem printed below, which was written for this question.\n\n**The Tin on the Bench (an invented free-verse poem)**\n\nNan stopped baking\nyears before she died.\nThe kitchen forgot\nthe sour smell of bread.\nWhat she left was the bread tin,\nsquat on the bench, lid down.\n\nI noticed it the way\nyou notice a clock. Each morning\nI reached past the tin\nfor a cup. Its lid was always pressed\ndown tightly, a dull seam\nI never once saw lifted.\n\nMum said we could open it,\nthat there was nothing left inside\nbut crumbs. We left it.\nThe lid stayed down,\nheld by a habit\nnone of us would name.\n\nAt Christmas the cousins ate\noff paper plates. Nobody mentioned\nthe bench. Every eye drifted back\nto it, the way a tongue once found\nthe gap where a tooth had been.\nNobody asked what she would have made.\n\nTonight the house is quiet,\nand I am the one who stands\nat the bench, my hand on the tin,\nnot lifting it, not walking away.\nThe kettle clicks off. The tin is still on the bench,\nits lid pressed down tightly, and I am in the room with it.",
@@ -8874,7 +8874,7 @@
                         "mark": 2,
                         "answer": "The final entry changes to present tense, so the reader feels the drought is happening now. This changes how time feels in the story.",
                         "feedback": "The shift is identified and there is a general statement about its effect on time, but the answer does not place the entry within the sequence or explain the change, which matches the 2-mark line.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-104-3",
@@ -9587,7 +9587,7 @@
                         "answer": "The memoir is about a flood and a drought, and the author was a child. Those things change how the flood is remembered.",
                         "source": "AI",
                         "feedback": "The contexts are named and a general statement is made about their effect, with no evidence from the memoir, which matches the 2-3 mark line.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Students are studying an invented 800-word memoir extract, written for this question, in which a woman describes the flood that destroyed her family's farm when she was eleven. The memoir was published twenty years later in a collection of rural life writing, after a long drought had changed the local community.\n\n**Water Over the Fence Line (an invented memoir extract)**\n\nI want to be honest about the first thing I remember, which is that I thought the flood was beautiful. I was eleven. The creek that had been a thin brown line all summer was suddenly a sheet of light moving between the gum trunks, as if it had somewhere better to be. On the Tuesday the water began rising over the fence line of the lower paddock. Nobody told me to be afraid, so I was not. I counted the posts as they went under.\n\nBy the Wednesday the water was over the second wire and still climbing. I could hear it before I could see it properly: a low, steady sound, like someone pouring for a very long time. At night it came up against the shed wall, and the iron rang under its weight. In the morning the whole shed smelled of wet timber and diesel, a sharp, sweet smell I could not understand at the time. I thought it was simply what a flood smelled like.\n\nI understand now what the flood cost. The lower paddock had been sown in autumn with money the bank had lent against the wheat. My father had borrowed on the strength of a dry season that had been dry before and would be dry again. The water took the crop, the fencing and most of the fodder, and the insurance paid a fraction of what had gone. That was the arithmetic he did at the kitchen table, slowly, with the pencil he kept behind his ear for the stock tallies.\n\nMy brother Tom said the flood would take the house. I believed him for one night. Mum put us to bed in our clothes so we could leave quickly, and I lay awake listening. I remember the sound of the water against the shed and the sound of Dad's boots on the verandah, back and forth, back and forth. I remember how much noise a flood makes when nobody is shouting.\n\nWe called that summer the year of plenty. The phrase came from the men at the hall, who talked about the creek lifting the soil and filling the dams, and Mum used it at the shop as if it were a kind of luck. Looking back, I can see why it was said. For a few weeks the flood looked like the best thing that had ever happened to us. Now, when I think of it, the flood is a memory of abundance, and I have to remind myself that it was also the end of the farm.\n\nOn the third day we drove the ewes up to the house paddock. They were quiet, and their wool was grey with silt. I carried a bucket of feed that was heavier than I was. The light lay on the water, pale and flat, and the tops of the fence posts stuck up through it like the teeth of something buried. I stopped to look, and Dad shouted at me to keep walking.\n\nMum kept a list on the back of the calendar. It began with the ewes and the wire and went on to the chaff bags, the pump and the old Ford that never ran again. She wrote each item in pencil, as if she might rub it out later, and she never did. I found the list years afterwards, folded inside the cookbook, and I read it standing up in the pantry.\n\nThe drought came later, after the creek had gone back into its bed and the flats had cracked like old crockery. Twenty years on, the bottom paddock is dry in most years, and the men who talk about the flood now speak of it the way you would speak of someone who left town. They say the big water without any pride. That is what changed how I remember it. The drought made the flood a story about what the district once had, as well as what our family lost.\n\nThe decision to sell was made at the kitchen table, not at the bank. Dad said the land would be better in other hands. Mum said nothing for a long time, then got up and filled the kettle. I did not understand then that the kettle was her answer. Years later I asked her about it, and she said she had been thinking about whether we would ever swim in that creek again.\n\nThe shed was the last thing the water reached and the first thing I stopped thinking about. Dad drove the tractor out before the flood reached the axle, and we watched from the rise as the roof sat level with the water and then, quite quietly, went under.\n\nThe farm was sold in March."
@@ -9803,7 +9803,7 @@
                         "mark": 2,
                         "answer": "The story starts with a crime, which is a convention. It also uses clues, like the torn page.",
                         "feedback": "Two conventions are outlined with only general reference to the early chapters, which matches the 2-mark line.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-111-3",
@@ -10335,7 +10335,7 @@
                         "answer": "The poem is about a lighthouse keeper in winter. One way to read it is that the job is ending. Another is that the sea goes on.",
                         "source": "AI",
                         "feedback": "General statements are made about the perspectives with limited reference to the poem, which matches the 2-3 mark line.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Students are reading an invented 24-line poem, written for this question, about a lighthouse keeper's final winter before the light is automated. Class discussion has produced three readings: a historical reading that sees the poem as a record of a vanishing occupation, an ecological reading that focuses on the sea and the birds, and a personal reading from a student whose family moved away from a coastal town.\n\n**The Last Winter at Galley Point (an invented poem)**\n\nthe stairs wind up a hundred and six iron steps,\nand every dusk the keeper counts them with one hand on the rail.\nat the top the glass is cold. he wipes it with a rag\nuntil the sea comes clear, grey and wide and not yet dark.\nhe is trimming the wick and logging the weather\nin the same hand his father used, pressing hard on the page.\n\nthe wind has gone south-west and the glass is falling.\nin spring the men from the city will bring a new mechanism,\na timer and a motor, and the keeper will be a line on a form.\nthe logbook and the wick are all the work he has left.\nhe writes it down anyway: visibility poor, swell rising.\nthe stairs ring under his boots, and the glass shivers in its frame.\n\nthe sea and birds keep to their hours below the light.\nterns come off the reef, shearwaters skim low over the swell,\nand none of them looks up at the tower.\nthey have never needed a keeper to be somewhere in the dark.\nthe stairs, the glass, the stairs again, the glass again,\nthe same small room repeated until the winter is only that.\n\nthe logbook is closed. the wick is trimmed for the last time.\nthe stairs are empty, and the glass gives back nothing but the dark.\nthe lamp continues to turn above the rocks and the birds.\nhe has no one left to write the weather for.\nthe light goes round the way it always has,\nthe lamp turns on for no one."
@@ -10444,7 +10444,7 @@
                         "mark": 4,
                         "answer": "The final image is a lamp that turns on for no one. I think it shows hope, because the light keeps working after the keeper leaves. The word 'turns' makes it seem like something is still happening, and people keep doing things even when nobody is watching.\n\nRationale: My reading is different from the historical one because it is about hope and not about the job ending.",
                         "feedback": "The personal reading has some textual evidence in the verb, and the rationale describes the difference from the historical reading, but the analysis is brief and the differences from the ecological reading are not addressed. This is the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-117-3",
@@ -11415,7 +11415,7 @@
                         "mark": 2,
                         "answer": "The memoir uses language that is powerful. The father seems sad about his wife.",
                         "feedback": "The language is called powerful with little evidence and no feature is named, which matches the 2-3 mark row.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Students are reading an invented 500-word memoir extract, written for this question, in which a father describes learning to make his daughter's school lunch after his wife's death.\n\n**The Lunch Box (an invented memoir extract)**\n\nIn the first month he could not find anything. Frances had kept the kitchen the way she kept her handwriting, small and exact, and now he opened cupboards like a man searching someone else's house. On the first Sunday he spent an hour looking for a wooden spoon. He found it at last in the jar beside the stove, worn pale where her hand had always been.\n\nRuby needed a lunch every school day. He wrote a list on the back of an envelope and stuck it to the fridge: bread, ham, cheese, cucumber; apple, muesli bar, two biscuits; drink bottle, filled the night before. Within a week the list had become a map of everything he did not know.\n\nThe kitchen was full of things that had been hers: a colander with one handle loose, a tea towel printed with lighthouses, a lunch box with a broken clasp that Ruby still carried by the handle, and a tin of biscuits his wife always bought. He could not bring himself to empty the tin, so it stayed on the shelf between the jam and the oats.\n\nBy the second month he had started to read the kitchen as a weather system. Cold fronts moved in over the sink when the tap squeaked. The pressure built around the bread bin on Sunday nights, and he could feel a storm before he touched the lid. Then there would be a sudden clearing, usually while the kettle boiled, when he stood with both hands flat on the bench and thought of nothing at all.\n\nFriends had once joked that the house runs on his wife, the way a clock runs on its spring. Now the spring had gone, and he was learning to wind the house by hand, one routine at a time.\n\nRuby noticed everything. \"Dad, the clasp is broken again,\" she said, and he fixed it with a paper clip, then with tape. Eventually he let her hold the lid shut with her thumb.\n\nShe told him what she wanted: no crusts, no cucumber, and a biscuit she never ate but always checked for. He learned the small economies. Ham folded once, not twice. Apples cut in eight so they would not brown before the bell.\n\nEach morning he got a little faster, and each morning the speed felt like something he had taken from her. The grief did not keep to a timetable. Some mornings it arrived with the smell of toast. Once it was simply the sound of the tin lid, stuck, and he stood at the bench until the kettle clicked off.\n\nOn Tuesday he made lunch in the usual order: two slices of wholemeal bread, ham folded once, cheese, a cut apple, and two biscuits from the tin. He wrapped the sandwiches in foil, checked the clasp, and put the lunch box by the front door. He records the lunch he has made and the time it took him: nineteen minutes. The clasp held."
@@ -11461,7 +11461,7 @@
                         "mark": 2,
                         "answer": "One example is the kitchen as a weather system, which shows the father's feelings changing. The second is a clock comparison that shows the house depended on his wife.",
                         "feedback": "Two examples are described briefly, with an account of what each shows, but the descriptions are not developed, which matches the 2-mark line.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-122-3",
@@ -11568,7 +11568,7 @@
                         "mark": 3,
                         "answer": "The extract shows that taste is important to people and that it connects them to home. The speaker says taste is “something homebound”, which means it stays close to where people live. The writer also uses personification when taste “has not quite caught up” with the modern world, so taste seems old and slow. The last part talks about snacks from around the world and dishes that bring us back home, which shows that taste can connect people.",
                         "feedback": "This answer sits in the 3 mark row: it describes the extract's idea that taste is homebound and identifies personification with a brief effect, but the last sentence retells the snacks and dishes and the effect stays general. Explaining what the contrast between distance and closeness shows about taste would move it toward the 4 mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-226-3",
@@ -11686,7 +11686,7 @@
                         "mark": 2,
                         "answer": "Passage A is imaginative because it is a story. Passage B is persuasive because it wants parents to act. Passage C is reflective. Passage D is about facts.",
                         "feedback": "Three passages are classified correctly, but the fourth is not classified as discursive, and no supporting features are given, which matches the 2-mark line.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-125-3",
@@ -11867,7 +11867,7 @@
                         "mark": 4,
                         "answer": "Headline: The Hours Nobody Counts. Part-time work teaches a lot, but most teenagers do not know their rights. We spoke to some students. Ask which award covers your job and check your pay slip against it. Keep a record of your rostered hours, because rosters change without warning.\n\nRationale: I used a headline and a few short interviews because these are conventions of the feature article. I addressed the reader as you so that the article gives advice.",
                         "feedback": "The article uses recognisable feature conventions and a direct address to the reader, and the rationale describes these choices, but the manipulation of the genre is limited and the rationale does not explain its purpose. This is the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-128-3",
@@ -12047,7 +12047,7 @@
                         "mark": 4,
                         "answer": "I saw the girl running. I had to keep to the timetable, so I did not stop. Then I saw her in the mirror, bent over. I think she got a lift. I felt bad at the end of the shift.\n\nRationale: I changed the point of view to the driver so the reader can see why he did not stop. This changes how the reader feels about the scene.",
                         "feedback": "The retelling shifts to the driver's perspective with some consistency, and the rationale describes the change, but the driver's voice is thin and the effect on the reader's sympathy is only stated. This is the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-130-3",
@@ -12111,7 +12111,7 @@
                         "mark": 2,
                         "answer": "The retelling is good because it is told by the driver. The reader feels different about it.",
                         "feedback": "A statement about effectiveness is made with little evidence and no named criteria, which matches the 2-3 mark row.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A classmate has written a 170-word retelling of the same bus scene from the bus driver's point of view, invented for this question. The class is assessing whether the change in point of view is effective.\n\n**Last Bus Home (an invented scene)**\n\nMira runs for the last bus home and misses it. She is in Year 12, and tonight her Chemistry folder is crammed into her bag. The bus is pulling away from the stop on Hanley Road, its red tail-lights sliding past the shelter.\n\nShe wears a grey hoodie, and her bag thumps against her hip as she runs. Her lungs burn. Her shoes slap the wet footpath. Her side aches with every breath. Her hair is in her eyes.\n\nStop. Please stop.\n\nThe bus does not stop. Through the lit window she sees the driver's face, a pale shape turning toward the road. She waves her arm above her head, once, twice. The bus driver saw her and drove on.\n\nThe bus turns at the lights. She loses it behind the petrol station. She runs faster, past the bakery with its shutters down, past the shelter where the timetable is peeling off the glass. At the shelter, a group of boys laughs at something on a phone. One of them calls out that she should have left earlier. She does not look at them.\n\nNine forty. The last one. Mum is on the late shift at the hospital and will not answer until eleven. Her phone says 9:41. There is nothing else to do.\n\nShe stops at the kerb with her hands on her knees. Her breath comes in ragged pulls. Her legs shake. She thinks of the walk home, four kilometres in the dark, past the closed garden centre and the rail bridge. A car passes, its headlights raking across her face, and the driver does not look at her.\n\nShe pulls her phone out. Eleven per cent battery. Her thumb hovers over Mum's name.\n\nShe presses call. The phone rings once, then twice.\n\n**Eyes on the Mirror (an invented classmate's retelling)**\n\nI am checking the rear-view mirror and the timetable every few seconds. Nine forty. Last run of the night.\n\nThe mirror shows a girl coming down Hanley Road. Grey hoodie. Bag bouncing on her hip. She is still running.\n\nI keep the doors shut. Rules are rules. A driver who waits for every runner is never on time.\n\nThe timetable says nine forty. The mirror says she is closer. The mirror says she is waving, and I keep my hands on the wheel. My foot stays off the brake.\n\nAt the lights I turn left. The mirror shows her slowing, hands on her knees, getting smaller at the kerb. Nothing on the timetable changes. Nine forty-one. The timetable does not wait.\n\nAt the depot the lot is dark. I sit in the cab with the engine ticking down. Some nights the job is only the route. Other nights it is the people left standing at the stop, and the mirror keeps them for you.\n\nI decide not to tell the school."
@@ -12470,7 +12470,7 @@
                         "mark": 3,
                         "answer": "I went to the lane this morning to look at the painting. There is a big face on one wall and there are murals on both sides. The ground is grey and there is a white line down the middle. Some pink paint is on the ground too, from when somebody spilt it. I like the street art because it makes the city look more interesting.\n\nIt is a good place to think about things. The lane is narrow, so it feels a bit like a tunnel, and the face looks sad to me. I think the artists want people to come and look at their work. The white line goes all the way down the lane, so I walked along it to the end.",
                         "feedback": "This answer sits in the 1-3 row: it attempts the task and names several details from the stimulus, but it is a list of observations with no story, no controlling idea and little control of language. The move that would lift it is to give the narrator a problem in the lane and let the final sentence return to the image.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Stimulus: Colour photograph of a narrow city laneway covered in street art: a large painted face on the left, murals on both walls and a grey paved lane with a white centre line and pink paint splashes (photograph by Brittany Kulick). Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.",
@@ -12663,7 +12663,7 @@
                         "mark": 2,
                         "answer": "A metaphor is when one thing is described as another, like the town being a sleeping dog. A rhetorical question is a question that does not need an answer.",
                         "feedback": "Two terms are defined accurately, and the metaphor is matched to the draft, but no third term is defined, which matches the 2-mark line.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-135-3",
@@ -12717,7 +12717,7 @@
                         "mark": 4,
                         "answer": "The peer feedback uses strong imagery and nice tone, which are general terms. Strong imagery is a category of language, but it does not say what the images are or what they do. Nice tone is a judgement, not a term about the tone itself. The feedback is useful for encouragement but not for helping the writer see how meaning is made.",
                         "feedback": "The metalanguage is assessed with some reference to two examples and a general view on how well it reflects meaning, but the analysis of meaning is brief and the examples are not tested in depth. This is the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-136-3",
@@ -12837,7 +12837,7 @@
                         "mark": 5,
                         "answer": "In my study of the craft of writing I learned that a piece needs a clear idea and a shape, and I tried to use both. For part (a) I wanted the lane to change but also to stay the same, so I made the piece run from morning to night. I used a simile, “like a tide over sand”, to show the paint covering the murals, because a simile helps the reader see the paint. I also used the sound of the roller and the white centre line at the end. The roller hums, which makes the crew seem gentle while they erase the murals, and I wanted the reader to notice that. In class we looked at how writers finish a piece, and that helped me decide to end where I started. I think these choices make the piece engaging because I used them on purpose, and the study showed me how.",
                         "feedback": "This answer sits in the 5-6 row: it explains the shape of the piece and one simile and shows that the study of craft informed the writing, but the explanation stays general and only one reference is used. The move that would lift it is to link two or three devices to the particular effect each has on the reader, rather than naming them.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-en-180-3",
@@ -12845,7 +12845,7 @@
                         "mark": 2,
                         "answer": "My piece is about a laneway in the city where people paint on the walls and then the council paints over them. I used a lot of description, like the pink splashes and the white line, and I think the ending is good. The study of craft helped me think about how to write it and what to put in, and I tried to make the lane come alive for the reader.",
                         "feedback": "This answer sits in the 1-2 row: it gives some relevant information about the piece and about the study of craft, but it describes the piece rather than explaining how it became engaging. The move that would lift it is to choose one device, quote its exact wording and say what it does to the reader.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Refer to the piece you crafted for part (a). The sample answers below respond to a model part (a) piece, which is a first-person story told mostly in the present tense: a narrator watches a council crew paint over a city laneway at dawn, and by night the walls have been repainted. The piece ends on the stimulus, with a painted face, murals on both walls and a white centre line, and its pink splashes outlast every repaint. Your answer will be assessed on how well you: craft language to address the demands of the question; use language appropriate to audience, purpose and form to shape meaning.",
@@ -12902,7 +12902,7 @@
                         "mark": 4,
                         "answer": "I would cut the long introduction so the speech starts quickly. I would also replace the technical term with plain words, because students may not know it. The ending could be a call to action so students do something. These changes would help the audience understand the speech better.",
                         "feedback": "Revisions are recommended with reasons, but the reasons are general and the link to the Year 9 audience and to the speech's purpose is only partly made. This is the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-en-137-3",
@@ -13010,7 +13010,7 @@
                         "mark": 2,
                         "answer": "The student wrote a first draft and then edited it. Then the speech was presented in assembly.",
                         "feedback": "The stages are described only in general terms, with no specific change at any stage, which matches the 2-mark line.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-en-139-3",

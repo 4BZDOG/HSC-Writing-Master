@@ -151,7 +151,7 @@
                         "mark": 2,
                         "answer": "The WHO defines health as complete physical, mental and social well-being. This is one meaning, but the answer gives no second meaning from another source.",
                         "feedback": "Outlines the WHO definition accurately but gives no second meaning from another source, which meets the 2-mark row. A named second source would reach the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-1-1-n0-s3",
@@ -268,7 +268,7 @@
                         "mark": 2,
                         "answer": "The health continuum runs from ill health to good health. Sam's injury moved Sam towards the ill health end for a time.",
                         "feedback": "Describes the continuum with a link to Sam, which meets the 2-mark row. Naming and explaining a dimension of health would reach the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-1-2-n0-s3",
@@ -439,7 +439,7 @@
                         "mark": 4,
                         "answer": "Epidemiology measures such as incidence and prevalence describe the health status of a population. In the scenario, prevalence is higher in one region, but incidence has fallen, so more people are living with asthma. Morbidity shows how much illness there is. Health reports help compare regions.",
                         "feedback": "Explains how two measures describe health status and refers to the scenario, which meets the 4-mark row. It does not explain why the pair of trends may mislead, so it stops short of the 5-mark row.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-1-3-n0-n1-s3",
@@ -500,7 +500,7 @@
                         "mark": 2,
                         "answer": "Extended clinic hours will help residents see a doctor when they need one, which improves their access to health services.",
                         "feedback": "Outlines one way access improves health, linked to the scenario, which meets the 2-mark row. Adding equity or participation would reach the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-1-4-n0-s3",
@@ -556,7 +556,7 @@
                         "mark": 4,
                         "answer": "Equity and access help health status because services reach people who need them, such as the families in the scenario. Participation helps communities trust services. Rights mean everyone should be able to use health care, but this only works if it is funded.",
                         "feedback": "Explains how several principles affect health status, with links to the scenario, which meets the 4-mark row. The limits of the principles are not weighed, so no judgement is reached.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-1-4-n0-n1-s3",
@@ -672,7 +672,7 @@
                         "mark": 4,
                         "answer": "Low income and limited public transport make it harder for residents to reach healthy food and services. High smoking rates are a health behaviour, and the scenario shows these determinants affecting the population group. Some residents cannot book a regular doctor, which adds to the problem.",
                         "feedback": "Explains how two determinants affect the population group, with some links to the scenario, which meets the 4-mark row. It does not discuss several determinants interacting, so the 5-mark row is not met.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-1-5-n0-n1-s3",
@@ -901,7 +901,7 @@
                         "mark": 6,
                         "answer": "The survey raises several ethical considerations. Because it involves young people under 18, it needs informed consent from a parent or guardian as well as the student's own agreement, and participation should be voluntary. Asking for names and postcodes reduces privacy, and publishing results on social media could identify individuals, which breaches confidentiality. The validity of the data is limited because the survey may not measure the meanings of health students actually hold, especially when one-word answers give little depth. Reliability is also questionable, since a two-day window and a sample of 40 classmates would not necessarily produce the same findings if the survey were repeated with another group. Credibility is weakened by the lack of a clear method for analysing the data and by peer influence among friends who answer together. The data may still give a useful starting point, but overall the survey has limited credibility and needs redesign, with anonymous responses, a longer collection period and a wider, more representative sample before its conclusions are shared.",
                         "feedback": "Evaluates the ethical considerations and the validity, reliability and credibility of the data with a clear judgement, weighing the strengths and limits against the scenario, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-2-2-n0-n1-s2",
@@ -1030,7 +1030,7 @@
                         "mark": 3,
                         "answer": "Academic pressure and social media comparison are causes of psychological distress, and they add to the stress of young people with less family support. Poor sleep is a health behaviour that often accompanies the distress.",
                         "feedback": "Explains a cause and links it to a determinant of health, which meets the 3-mark row. The answer does not show how the health behaviours and protective factors interact, so it stops short of the 5-mark row.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-3-1-n0-n1-s3",
@@ -1206,7 +1206,7 @@
                         "mark": 2,
                         "answer": "Self-efficacy is a student's belief that they can manage a problem such as stress, so they are more willing to act. Students who lack it may avoid asking for help.",
                         "feedback": "One skill is described with a link to stress, which meets the 2-mark row. A second skill is missing.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-3-3-n0-s3",
@@ -1260,7 +1260,7 @@
                         "mark": 4,
                         "answer": "Tom's self-efficacy could help him raise sleep problems with friends and suggest changes such as a phone-free hour before bed. A sense of purpose could also motivate them. Friends who trust him may listen more than they would to a teacher.",
                         "feedback": "Skills are linked to friends' health with some reasoning, but the discussion is brief and does not weigh the limits.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-3-3-n0-n1-s3",
@@ -1320,7 +1320,7 @@
                         "mark": 2,
                         "answer": "Jordan's screen time is a sedentary behaviour that can delay sleep. Short sleep may leave him tired at school.",
                         "feedback": "One behaviour is linked to a likely effect, but the second is not described. This is a 2-mark response.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-3-4-n0-s3",
@@ -1496,7 +1496,7 @@
                         "mark": 3,
                         "answer": "Past advocacy, such as the petition about healthy food, shows young people what a clear request can achieve. Current advocacy on sleep could build on it, and individuals in a community can speak up at meetings to strengthen it.",
                         "feedback": "Future advocacy is described with some reference to earlier work and to individuals, but the reasoning is brief.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-4-1-n0-n1-s3",
@@ -1556,7 +1556,7 @@
                         "mark": 2,
                         "answer": "A government youth mental health service provides counselling. A charity may run workshops in schools to promote health.",
                         "feedback": "The role of each organisation is outlined briefly, with limited detail.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-4-2-n0-s3",
@@ -1671,7 +1671,7 @@
                         "mark": 2,
                         "answer": "The Ottawa Charter includes action areas such as healthy public policy. Another is creating supportive environments for health.",
                         "feedback": "Two action areas are outlined with some accuracy, but without much explanation.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-4-3-n0-s3",
@@ -1734,7 +1734,7 @@
                         "mark": 2,
                         "answer": "Partnerships with communities can help people feel involved in health programs.",
                         "feedback": "Partnerships are described in general terms, with no explanation of how they strengthen health.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -1786,7 +1786,7 @@
                         "mark": 2,
                         "answer": "SDG 3 aims for healthy lives and well-being for everyone.",
                         "feedback": "The aim of Goal 3 is outlined with some accurate detail, but no target is given.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-4-4-n0-s3",
@@ -1833,7 +1833,7 @@
                         "mark": 6,
                         "answer": "The Sustainable Development Goals give a local council a shared framework for planning. Goal 3 targets health directly, while other goals, such as quality education and reduced inequalities, affect young people's health. The World Health Organization applies a health lens to the goals, which supports a health in all policies approach: transport, sport and food decisions can all be tested for their health effects. For the council, this means the youth group's suggestions for transport to sport and healthy food can be linked to specific goals and measured. However, the goals are not legally binding, so their use depends on the council's own commitment and funding. Local data on young people's health may also be limited, which makes progress harder to show. The strongest approach would link each action to a clear indicator, involve young people in decisions and report results to the community. On balance, the goals are a useful framework for a local community, but they only improve health when they are backed by action and resources.",
                         "feedback": "The goals are judged as a useful framework for a local community, with strengths and limitations weighed. The World Health Organization's health lens is used accurately.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-hms-11-health-for-individuals-and-communities-4-4-n0-n1-s2",
@@ -1981,7 +1981,7 @@
                         "mark": 2,
                         "answer": "The quadriceps are on the front of the thigh and straighten the knee. The hamstrings are on the back and bend the knee.",
                         "feedback": "Places both muscles and gives a correct basic action for each, without explaining the contraction types or the relationship.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -2034,7 +2034,7 @@
                         "mark": 2,
                         "answer": "The lever is a third-class lever. The elbow is the fulcrum and the biceps is the effort.",
                         "feedback": "Classifies the lever and names two components correctly, but does not place the resistance.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-1-2-n0-s3",
@@ -2090,7 +2090,7 @@
                         "mark": 4,
                         "answer": "Keeping the box close to the body reduces the force on the lower back, because the load sits nearer the body's centre of mass. Bending at the hips and knees lets the large leg muscles do most of the lifting.",
                         "feedback": "Justifies one principle clearly with a reason, but the second point is not developed beyond its general label.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-1-2-n0-n1-s3",
@@ -2215,7 +2215,7 @@
                         "mark": 2,
                         "answer": "Her resting heart rate will probably fall with training. Her heart will pump more efficiently.",
                         "feedback": "Identifies two outcomes without explaining the mechanism for either.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -2268,7 +2268,7 @@
                         "mark": 2,
                         "answer": "Carbohydrate is digested into glucose in the small intestine. The glucose then enters the blood.",
                         "feedback": "Gives the digestion and absorption steps correctly, but omits the transport and use by the working muscles.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-1-4-n0-s3",
@@ -2324,7 +2324,7 @@
                         "mark": 3,
                         "answer": "Adrenaline increases the breakdown of glycogen in the liver and muscles, which raises the glucose available for the race. Blood flow is redirected away from the stomach and intestines, so digestion of the meal slows and is less efficient.",
                         "feedback": "Describes both effects accurately and links them to digestion, but the analysis of why they matter for performance is missing.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-1-4-n0-n1-s3",
@@ -2449,7 +2449,7 @@
                         "mark": 2,
                         "answer": "Jordan has small motor units and Leo has large motor units, so their force output differs.",
                         "feedback": "Identifies the motor unit size for each athlete, but does not explain how this relates to control or force.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -2558,7 +2558,7 @@
                         "mark": 3,
                         "answer": "Chen's sprint needs fast nerve signals to fast-twitch muscle fibres, and his energy comes mainly from the ATP-PCr system. Ruby's jog relies on slow-twitch fibres and aerobic energy, with a steady heart rate.",
                         "feedback": "Describes the two movements accurately with links to fibre type and energy supply, but does not analyse the cardiovascular or respiratory differences.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-1-6-n0-n1-s3",
@@ -2743,7 +2743,7 @@
                         "mark": 2,
                         "answer": "Ava's sprint uses the ATP-PCr system. Chloe's jog uses the aerobic system.",
                         "feedback": "Classifies two activities correctly, but does not classify the 60-second effort.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-1-n0-s3",
@@ -2799,7 +2799,7 @@
                         "mark": 3,
                         "answer": "The ATP-PCr system supplies ATP first, then the glycolytic system takes over as the effort continues. The aerobic system contributes a smaller share throughout, and fatigue builds as hydrogen ions and depleted phosphocreatine limit the energy supply.",
                         "feedback": "Describes the sequence of energy systems and two causes of fatigue accurately, without linking them to the falling power.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-1-n0-n1-s3",
@@ -2860,7 +2860,7 @@
                         "mark": 2,
                         "answer": "Iron helps carry oxygen in the blood. Calcium helps muscles contract.",
                         "feedback": "Gives a correct role for each micronutrient, but does not link them to the energy systems.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-2-n0-s3",
@@ -2908,7 +2908,7 @@
                         "mark": 6,
                         "answer": "The claim is partly correct, but it is too narrow. Carbohydrate is the main fuel for high-intensity training, because glycogen stored in the muscles supplies glucose to the energy systems, particularly the glycolytic system, and this rower needs those stores to sustain repeated efforts. However, protein is also essential, because it supplies amino acids for repairing and building muscle fibres after 12 hours of training each week. Removing protein would limit recovery, even if energy intake were sufficient. Micronutrients also matter: iron is needed for haemoglobin to carry oxygen to the aerobic system, and calcium, magnesium and B vitamins support muscle function and energy metabolism. A carbohydrate-only diet would neglect the macronutrient and micronutrient needs of an active person. The claim should be rejected, because carbohydrate is a priority but the rower needs a balanced diet to support her energy systems across her training load.",
                         "feedback": "Weighs carbohydrate against protein and micronutrients and reaches a reasoned conclusion that rejects the claim.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-2-n0-n1-s2",
@@ -2977,7 +2977,7 @@
                         "mark": 2,
                         "answer": "The goal shooter does more sprint and jump work, and the centre does more running. Both players still do the same team drills.",
                         "feedback": "Outlines a general training difference for each player with a link to position, which meets the 2-mark row. To reach 3 marks, name the energy system for each player and explain why it suits the position.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-3-n0-s3",
@@ -3210,7 +3210,7 @@
                         "mark": 2,
                         "answer": "Heart rate rises and ventilation rate increases, so more oxygen reaches her muscles.",
                         "feedback": "Describes two responses with a basic reason, which meets the 2-mark row. Add stroke volume, cardiac output and lactate levels to reach the top row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-5-n0-s3",
@@ -3439,7 +3439,7 @@
                         "mark": 2,
                         "answer": "Fitness testing gives a baseline, so the instructor knows where each older adult starts.",
                         "feedback": "Outlines one purpose with a basic description, which meets the 2-mark row. Add a clear outcome for the participant or program to reach 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-2-7-n0-s3",
@@ -3676,7 +3676,7 @@
                         "mark": 2,
                         "answer": "Random practice mixes different shots, which may help the player's skill transfer to games.",
                         "feedback": "Outlines a principle with a general link to basketball, which meets the 2-mark row. Name how the coach would set up the drill to reach 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-3-2-n0-s3",
@@ -3723,7 +3723,7 @@
                         "mark": 5,
                         "answer": "Further research question one: Does varied practice, mixing shot types and defensive pressure, produce more durable accuracy over a full season than repetitive practice? This matters because it would show whether the movement skill is retained under match conditions, not just in training. Further research question two: How does the timing of knowledge of performance feedback, given immediately or after a short delay, affect a shooter's ability to self-correct? The answer would help netball coaches decide how often to give feedback, since over-reliance on the coach can limit skill development. Both questions could be tested by tracking shot accuracy in training and games across the season, which makes the research practical for coaches and players.",
                         "feedback": "Proposes two researchable further research questions, each with a sound reason linked to netball practice, which meets the 5-mark row. The second question builds on the first by moving from practice type to feedback.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-3-2-n0-n1-s2",
@@ -3731,7 +3731,7 @@
                         "mark": 3,
                         "answer": "Further research question: Does a season of varied practice improve a netball shooter's accuracy? This would test whether the movement skill improves over time.",
                         "feedback": "Proposes one further research question with a basic reason, which meets the 3-mark row. Propose a second question and explain how it would extend understanding to reach 4 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-3-2-n0-n1-s3",
@@ -3739,7 +3739,7 @@
                         "mark": 1,
                         "answer": "Further research question: Does practice help the movement skill?",
                         "feedback": "States a topic for further research in question form, which meets the 1-mark row. Add a reason and a second question to move up.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -3912,7 +3912,7 @@
                         "mark": 2,
                         "answer": "Parkrun is a contemporary form of exercise where people run together each week, which builds social interaction.",
                         "feedback": "Outlines one contemporary form of exercise with a basic link to social interaction, which meets the 2-mark row. Add a second form and explain how it builds belonging to reach 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-11-the-body-and-mind-in-motion-4-2-n0-s3",
@@ -4041,7 +4041,7 @@
                         "mark": 2,
                         "answer": "Morbidity is the illness, injury or disability in a population, while mortality is the number of deaths. Cardiovascular disease is a major cause of mortality in Australia.",
                         "feedback": "The difference between the two terms is outlined accurately, but only one condition is identified, so the morbidity half of the question is not answered.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-1-1-n0-s3",
@@ -4160,7 +4160,7 @@
                         "mark": 2,
                         "answer": "Determinants of health are factors that influence how healthy people are, such as income and housing. Limited access to health services is also a determinant for Aboriginal and Torres Strait Islander Peoples.",
                         "feedback": "Outlines the meaning and names two determinants, but does not show how they produce inequities, so it sits in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-1-2-n0-s3",
@@ -4216,7 +4216,7 @@
                         "mark": 4,
                         "answer": "Determinants such as income and distance interact to affect the health of residents in this rural town. Low incomes make it harder to pay for transport to specialists, so people delay care and their health status can decline. Telehealth and transport support could help address this.",
                         "feedback": "Discusses determinants and their effect on health status in general terms, with a brief link to actions. The interaction is asserted rather than developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-1-2-n0-n1-s3",
@@ -4277,7 +4277,7 @@
                         "mark": 2,
                         "answer": "Life expectancy at birth is how long a newborn is expected to live. Infant mortality is another measure that can be compared between countries.",
                         "feedback": "Outlines life expectancy accurately and names a second indicator, but does not explain how it is used to compare countries.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-1-3-n0-s3",
@@ -4395,7 +4395,7 @@
                         "mark": 2,
                         "answer": "Prevalence means how many people have a condition. Incidence means how many new cases occur. Physical activity can protect against cancer.",
                         "feedback": "Defines both terms with some imprecision and names a relevant factor. The factor is not expressed as a protective factor, which weakens it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-1-4-n0-s3",
@@ -4512,7 +4512,7 @@
                         "mark": 2,
                         "answer": "Healthy ageing means staying well as people get older. An ageing population will need more health care.",
                         "feedback": "Gives a general definition and a challenge, but the challenge is not linked to the health system, so it sits in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-1-5-n0-s3",
@@ -4635,7 +4635,7 @@
                         "mark": 2,
                         "answer": "The healthcare system treats illness and promotes health. Cost is a barrier to equity of access.",
                         "feedback": "Outlines the role in general terms and names a barrier without explaining it, which places it in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-1-n0-s3",
@@ -4752,7 +4752,7 @@
                         "mark": 2,
                         "answer": "Funding the Medicare Benefits Schedule is a federal government responsibility. Operating public hospitals is a state and territory government responsibility.",
                         "feedback": "Classifies two responsibilities correctly, but gives a reason only for the first, so it sits in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-2-n0-s3",
@@ -4868,7 +4868,7 @@
                         "mark": 2,
                         "answer": "Person-centred healthcare means care that focuses on the patient. A patient can be involved by talking to their doctor about options.",
                         "feedback": "Describes the approach in general terms and identifies a way of involvement without a clear link to the approach.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-3-n0-s3",
@@ -4983,7 +4983,7 @@
                         "mark": 2,
                         "answer": "Health expenditure is money spent on health care. Medicare is one Commonwealth-funded program.",
                         "feedback": "Defines the term and names one program, but the second program is missing, so it sits in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-4-n0-s3",
@@ -5039,7 +5039,7 @@
                         "mark": 4,
                         "answer": "Health expenditure pays for Medicare and private health insurance. Spending on prevention may reduce future demand for hospital care, but its benefits are harder to measure than those of treatment. Equity of access also matters for people on low incomes.",
                         "feedback": "Discusses the effects of spending on populations with a general reference to prevention and access. The trade-offs are noted but not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-4-n0-n1-s3",
@@ -5099,7 +5099,7 @@
                         "mark": 2,
                         "answer": "Herbal medicines and acupuncture are complementary healthcare products and services available in Australia.",
                         "feedback": "Meets the 2-mark row by identifying two relevant complementary healthcare options. It does not outline how either is used, which the 3-mark row requires.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-5-n0-s3",
@@ -5154,7 +5154,7 @@
                         "mark": 4,
                         "answer": "Complementary healthcare can be a supplement to medical treatment, such as acupuncture used alongside care for chronic pain. However, herbal supplements have limited trial evidence and can interact with prescribed medicines, so the person should tell their doctor before using them.",
                         "feedback": "Meets the 4-mark row by discussing a benefit and a limitation with relevant detail. It stops short of a judgement on the extent of benefit, which the 6-mark row requires.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-5-n0-n1-s3",
@@ -5214,7 +5214,7 @@
                         "mark": 2,
                         "answer": "A critical health consumer checks who published the health information and looks for peer-reviewed evidence before trusting it.",
                         "feedback": "Meets the 2-mark row by identifying two relevant checks. A third check, linked to the scenario, would be needed for the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-6-n0-s3",
@@ -5268,7 +5268,7 @@
                         "mark": 4,
                         "answer": "A critical health consumer should check who wrote health information, because a wellness blog may be selling products. Marcus should compare the blog with the hospital's advice before changing his diet or tablets, which improves the credibility of his decision.",
                         "feedback": "Meets the 4-mark row by explaining why assessing health information matters, with some detail on credibility. It does not show how the checks support an informed decision or weigh the risks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-6-n0-n1-s3",
@@ -5328,7 +5328,7 @@
                         "mark": 2,
                         "answer": "A current change in the healthcare system is the use of telehealth for video consultations.",
                         "feedback": "Meets the 2-mark row by identifying a current change and a relevant feature of it. It does not describe a challenge the change creates.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-7-n0-s3",
@@ -5383,7 +5383,7 @@
                         "mark": 4,
                         "answer": "Emerging changes such as an ageing population and workforce shortages create challenges for the healthcare system, because more people need care while fewer nurses and GPs are available. Governments may need to fund more services, which can be hard to sustain over time.",
                         "feedback": "Meets the 4-mark row by discussing two emerging changes and their challenges with some detail. It does not discuss the challenges for patients or weigh the trade-offs.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-2-7-n0-n1-s3",
@@ -5449,7 +5449,7 @@
                         "mark": 2,
                         "answer": "Technology such as a wearable heart monitor can track a patient's heart between clinic visits.",
                         "feedback": "Meets the 2-mark row by describing one way technology is used to monitor a health condition, with an example. A second, different use is needed for the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-3-1-n0-s3",
@@ -5504,7 +5504,7 @@
                         "mark": 3,
                         "answer": "Telehealth changes the relationship between patients and health practitioners, because consultations can happen by video. Patients gain access to care without travel, but some find it harder to build trust online, which can affect the quality of the relationship.",
                         "feedback": "Meets the 3-mark row by explaining how one technology changes the relationship, with a benefit and a limitation. It does not analyse several technologies or reach a judgement.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-3-1-n0-n1-s3",
@@ -5563,7 +5563,7 @@
                         "mark": 2,
                         "answer": "The wearable glucose monitor is used for monitoring, and the robotic surgical system is used for treatment.",
                         "feedback": "Meets the 2-mark row by classifying two of the innovations. The mRNA vaccine platform is not classified, so the answer does not reach the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-3-2-n0-s3",
@@ -5678,7 +5678,7 @@
                         "mark": 2,
                         "answer": "Two digital health services are My Health Record and telehealth.",
                         "feedback": "Meets the 2-mark row by identifying two digital health services. It does not describe how either is used, which the 3-mark row requires.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-3-3-n0-s3",
@@ -5733,7 +5733,7 @@
                         "mark": 4,
                         "answer": "My Health Record connects some health information, such as test results and medicines, across the healthcare system, so clinicians can see more of a patient's history. However, many clinics use software that does not communicate with other systems, so patients still repeat their history.",
                         "feedback": "Meets the 4-mark row by explaining one way digital health connects information and one limitation, with relevant detail. It does not make a judgement on the extent of success.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-3-3-n0-n1-s3",
@@ -5791,7 +5791,7 @@
                         "mark": 2,
                         "answer": "Big data is used to identify high-risk patients, and it is used to track diseases.",
                         "feedback": "Meets the 2-mark row by identifying two uses of big data. Neither use is explained or linked to better health, so it does not reach the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-3-4-n0-s3",
@@ -5912,7 +5912,7 @@
                         "mark": 2,
                         "answer": "The Sustainable Development Goals are universal and apply to all countries.",
                         "feedback": "Meets the 2-mark row by identifying one key feature with a relevant detail. A second feature is needed for the 3-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-4-1-n0-s3",
@@ -5967,7 +5967,7 @@
                         "mark": 3,
                         "answer": "SDG 4 Quality Education can build health literacy, so residents understand health information and seek care early. SDG 10 Reduced Inequalities addresses income and access barriers that also affect the health of a community.",
                         "feedback": "Meets the 3-mark row by explaining the link between each goal and health, with relevant detail. It does not analyse how the two goals interact or what this means for the council.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-health-in-an-australian-and-global-context-4-1-n0-n1-s3",
@@ -6270,7 +6270,7 @@
                         "mark": 2,
                         "answer": "Sam could do a 12-minute run to see how far they can cover, and repeat it later to check progress.",
                         "feedback": "One test is described with a basic reference to progress, which places the answer in the middle row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-1-2-n0-s3",
@@ -6442,7 +6442,7 @@
                         "mark": 3,
                         "answer": "Morgan's 2 km time fades at the end, so the program should include interval training to improve the finish. A retest after twelve weeks would show whether the program is working.",
                         "feedback": "The fading finish is linked to interval training, which is one analytical link, but the answer does not address intensity or progression, so it sits in the 3-mark row.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-1-3-n0-n1-s3",
@@ -6673,7 +6673,7 @@
                         "mark": 6,
                         "answer": "Lee's program applies some principles well but misses others. Progressive overload is absent, because the same 40-minute run and the same squat and leg press loads over twelve weeks provide no increasing stimulus, so further gains are unlikely. Specificity is partly met, since running and strength training suit a soccer player, but steady running does not reflect the repeated sprints of match play. Reversibility is a concern, as the three-week break may cause fitness gains to decline, and the program has no maintenance sessions. Variety is also limited, because the same run and the same lifts repeat every week, so the body is challenged in only one way. Warm-up is missing before the strength sessions, which raises the risk of injury and should be added. Overall, the principles of training are applied poorly to the strength sessions and only partly to the aerobic sessions, so the program needs revision.",
                         "feedback": "Several principles are evaluated for both session types, with reasons for each judgement and an overall conclusion about the program, which meets the top row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-2-2-n0-n1-s2",
@@ -6797,7 +6797,7 @@
                         "mark": 3,
                         "answer": "Progressive overload in the heavy sessions causes muscle hypertrophy, mainly in fast-twitch fibres, which helps Quinn produce more force. Sprint sessions train the same fibres, so the adaptations are specific to the event.",
                         "feedback": "Progressive overload is linked to hypertrophy in fast-twitch fibres and specificity is noted, but the answer does not fully explain the link to sprint performance, so it sits in the 3-mark row.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-2-3-n0-n1-s3",
@@ -6863,7 +6863,7 @@
                         "mark": 2,
                         "answer": "Hydration matters in hot weather, and a warm-up prepares players for jumping.",
                         "feedback": "Two considerations are outlined briefly, which places the answer in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-3-1-n0-s3",
@@ -6927,7 +6927,7 @@
                         "mark": 2,
                         "answer": "The tennis player needs individual skill practice, and the netball team needs team tactics.",
                         "feedback": "One difference is identified in general terms, with no comparison of the two designs.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -6979,7 +6979,7 @@
                         "mark": 2,
                         "answer": "Peaking is when an athlete is at their best for a race, and tapering reduces training before it.",
                         "feedback": "Both terms are defined, but neither phase is stated, which places the answer in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-3-2-n0-s3",
@@ -7095,7 +7095,7 @@
                         "mark": 2,
                         "answer": "Casey could use self-talk to calm down before matches.",
                         "feedback": "One strategy is outlined with a brief reference to anxiety, which places the answer in the 2-mark row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-3-3-n0-s3",
@@ -7143,7 +7143,7 @@
                         "mark": 6,
                         "answer": "For the tennis player, an individual sport, psychological strategies such as a pre-point routine and self-talk can manage stress and anxiety, because the player is alone under pressure at each point. Arousal can be lowered with breathing control before serving, since high arousal can disrupt fine motor control. For the netball squad, a group sport, strategies must work at team level, such as a shared pre-match routine, team goal setting and calm, positive talk from the captain. Tension can spread between players, so the routine should aim for a steady, focused arousal level across the whole squad. The inverted-U relationship between arousal and performance means the aim is an optimal level, not the lowest possible. To investigate effectiveness, the coach could rate each player's anxiety before and after matches and record errors made under pressure, then compare these with the previous season. A fall in anxiety with fewer errors would show that the strategies are improving performance.",
                         "feedback": "Strategies are investigated for both sports, linked to arousal, stress and anxiety, and the answer shows how their effect could be checked, which meets the top row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-3-3-n0-n1-s2",
@@ -7266,7 +7266,7 @@
                         "mark": 4,
                         "answer": "A tennis player changing her tactics depends mainly on her own skills and fitness, and her coach can only offer advice at changeovers. For the rugby league team, the factors include communication, the roles of each player and interchange rules. Both must consider the opponent, but the team also has to coordinate its game plan across many players.",
                         "feedback": "Discusses relevant factors for both contexts with some links to how strategies are applied, but the team's coordination point is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-3-4-n0-n1-s3",
@@ -7445,7 +7445,7 @@
                         "mark": 2,
                         "answer": "He could go to bed at the same time each night. He could also eat breakfast before training.",
                         "feedback": "Names two relevant strategies but does not outline how each one reduces fatigue.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-4-2-n0-s3",
@@ -7507,7 +7507,7 @@
                         "mark": 2,
                         "answer": "The physiotherapist could ask players how they slept. Players should drink water during the tournament.",
                         "feedback": "Identifies some routines with minimal explanation of how monitoring would show when they need to change.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -7558,7 +7558,7 @@
                         "mark": 2,
                         "answer": "Protein is a macronutrient. Caffeine is an ergogenic aid, while iron is a micronutrient.",
                         "feedback": "Classifies three substances correctly, but creatine is missing.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-4-3-n0-s3",
@@ -7612,7 +7612,7 @@
                         "mark": 4,
                         "answer": "Protein supplements may help if the player's diet does not meet her needs, but whole foods are a good source. Caffeine can improve alertness, but it may disrupt sleep. Creatine may help with repeated sprints, although it can cause weight gain. The player should consider the risk of contamination before buying any product.",
                         "feedback": "Discusses benefits or risks of several products with some reasoning, but the judgement on whether to use them is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-4-3-n0-n1-s3",
@@ -7731,7 +7731,7 @@
                         "mark": 4,
                         "answer": "Video analysis can show where the runner's foot lands relative to her body, which observation alone can miss. Measuring joint angles and cadence gives the coach evidence to target overstriding. This can help her move more efficiently over a long race, and she can see the changes herself. Observation is still useful, but video makes the technique easier to check.",
                         "feedback": "Explains some benefits of video analysis with reference to the overstriding fault, but the limits of observation are not weighed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-5-1-n0-n1-s3",
@@ -7789,7 +7789,7 @@
                         "mark": 2,
                         "answer": "She could do a cool-down after training. She could also try relaxation before sleep.",
                         "feedback": "Names one physiological and one psychological strategy without explaining how each aids recovery.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-5-2-n0-s3",
@@ -7844,7 +7844,7 @@
                         "mark": 4,
                         "answer": "A cool-down helps the player recover from each session by lowering her heart rate and removing lactate. Relaxation can reduce stress and support sleep. Hydrotherapy may reduce soreness, but the evidence is mixed, so the coach should use it with care in the weekly plan.",
                         "feedback": "Justifies some strategies with reasons partly linked to the training load, but the case for combining them is not developed.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-5-2-n0-n1-s3",
@@ -8078,7 +8078,7 @@
                         "mark": 2,
                         "answer": "The physiotherapist would assess the ankle, and then the player would do exercises.",
                         "feedback": "Identifies some procedures with minimal explanation of the stages or the return-to-play decision.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -8128,7 +8128,7 @@
                         "mark": 2,
                         "answer": "Anabolic steroids can damage the liver. They can also affect the heart.",
                         "feedback": "Names two health effects without explaining how each affects the cyclist's body.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-5-5-n0-s3",
@@ -8182,7 +8182,7 @@
                         "mark": 4,
                         "answer": "Using a banned substance to speed recovery can hide pain and make injury management harder, and it may improve performance in the short term. The health implications include risks to the heart and liver. Ethically, the athlete gains an unfair advantage over rivals. Drug testing can detect many substances, but it cannot stop athletes who choose to hide their use.",
                         "feedback": "Discusses effects on injury management, health and fairness with some reasoning, but the limits of testing are only briefly noted.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-hms-12-training-for-improved-performance-5-5-n0-n1-s3",

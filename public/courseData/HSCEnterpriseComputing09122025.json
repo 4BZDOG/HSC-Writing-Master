@@ -163,7 +163,7 @@
                         "mark": 2,
                         "answer": "Residents can zoom and filter the flood map, which helps them find their street. The website also has videos, which make it more interesting to visit.",
                         "feedback": "Outlines one feature, zooming and filtering the flood map, and how it helps residents, which meets the 2-mark row. To reach 3 marks, explain a second feature, such as clear labels, and how it helps residents understand the warning.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-01-n0-s3",
@@ -586,7 +586,7 @@
                         "mark": 3,
                         "answer": "Simulation lets drivers practise routines safely before real deliveries. Gamification with points and badges can motivate drivers to complete their online training, which supports learning, though the benefit may fade.",
                         "feedback": "Analyses two tools, simulation and gamification, with some links to training outcomes, which meets the 3-mark row. To reach 4 marks, analyse augmented reality as well, with a clear link to driver learning.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-04-n0-n1-s3",
@@ -836,7 +836,7 @@
                         "mark": 2,
                         "answer": "Social media lets her share the film and get comments, and creative commons music is free to use.",
                         "feedback": "Identifies a benefit of each resource, which meets the 2-mark row, but the claim that creative commons music is free overlooks its licence conditions. To reach 3 marks, describe both resources with a link to the filmmaker.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -891,7 +891,7 @@
                         "mark": 2,
                         "answer": "Captions show the narration on screen, which helps a deaf visitor follow the tour.",
                         "feedback": "Describes one way captions help a deaf visitor, which meets the 2-mark row. To reach 3 marks, describe a transcript as a second way, linked to the online tour.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-07-n0-s3",
@@ -951,7 +951,7 @@
                         "mark": 3,
                         "answer": "Push notifications and step counts may encourage residents to walk regularly, though the effect may fade. Voice navigation lets residents with vision impairment explore the trails without a printed map.",
                         "feedback": "Examines one influence on walking and one accessibility feature, with some reasoning, which meets the 3-mark row. To reach 4 marks, examine both with relevant reasons in more depth.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-07-n0-n1-s3",
@@ -1073,7 +1073,7 @@
                         "mark": 3,
                         "answer": "Pop-ups create urgency with a limited-time discount, so the customer may decide quickly. Autofill makes checkout faster by filling in card details, which reduces effort.",
                         "feedback": "Analyses two techniques, pop-up urgency and autofill, with some links to behaviour, which meets the 3-mark row. To reach 4 marks, link the two techniques more clearly to the purchase decision.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-08-n0-n1-s3",
@@ -1137,7 +1137,7 @@
                         "mark": 2,
                         "answer": "Platform X is an example of crowdsourcing, since residents supply the reports. Platform Y offers a massive online open course, because the course is free and open.",
                         "feedback": "Classifies two platforms correctly, each with a supporting feature, which meets the 2-mark row. To reach 3 marks, classify Platform Z as a massive multiplayer online game with a supporting feature.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-09-n0-s3",
@@ -1187,7 +1187,7 @@
                         "mark": 6,
                         "answer": "A crowdsourcing app creates human connections between students and community members, who supply and check local information together. Its effectiveness depends on moderation, because open contributions on social media may include inaccurate content and unkind comments. Massive online open courses offer content that is often developed by universities and let students learn at their own pace, but they often provide weak human connections, since interaction is mostly through forums with thousands of other learners. Massive multiplayer online games encourage strong connections, because teams cooperate in real time and friendships can continue offline. However, these games carry cyber safety risks and may distract from learning if they are not structured. On balance, the crowdsourcing option is most effective for community connection if it is moderated, the game is best for teamwork if supervised, and the course is strongest for content but weakest for connection.",
                         "feedback": "Evaluates each option's connection benefits against its risks, and judges which is most effective, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-09-n0-n1-s2",
@@ -1257,7 +1257,7 @@
                         "mark": 2,
                         "answer": "An identifier is a username or email address used to find an account. An identity is the information about a person that a platform holds, such as their profile and interests.",
                         "feedback": "Defines both terms, which meets the 2-mark row. To reach 3 marks, state the difference between them and give an example of each from the social media account.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-uim-stg11-10-n0-s3",
@@ -1504,7 +1504,7 @@
                         "mark": 2,
                         "answer": "The developer can make buttons for each stop in the software and link each button to its page. A pop-up panel can be hidden until a marker is clicked.",
                         "feedback": "Describes both elements in general terms, which meets the 2-mark row. To reach 3 marks, name the software feature that makes each element work, such as an event or trigger.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-csi-stg11-02-n0-s3",
@@ -1742,7 +1742,7 @@
                         "mark": 2,
                         "answer": "The UI is what the user sees and clicks, such as buttons and menus. The UX is how the user feels when using the website.",
                         "feedback": "Defines both terms in general terms, which meets the 2-mark row. To reach 3 marks, name one UI element and explain its effect on the UX.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-csi-stg11-04-n0-s3",
@@ -2105,7 +2105,7 @@
                         "mark": 2,
                         "answer": "The team gets the timetable data and builds a map from it. Then the story is put on the school website.",
                         "feedback": "Describes two stages in general terms, which meets the 2-mark row. To reach 3 marks, describe a third stage, such as checking the dataset, in more detail.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-cim-stg11-02-n0-s3",
@@ -2224,7 +2224,7 @@
                         "mark": 2,
                         "answer": "Waterfall completes each phase in order, such as design, then build. Agile works in short cycles and gets feedback from the client.",
                         "feedback": "Describes both approaches in general terms, which meets the 2-mark row. To reach 3 marks, link each feature to developing the interactive solution.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-imu-cim-stg11-03-n0-s3",
@@ -2474,7 +2474,7 @@
                         "mark": 2,
                         "answer": "Privacy means a resident's personal information is kept from people who should not see it. Freedom of information means residents can ask to see records the council holds about them, so the two ideas are different.",
                         "feedback": "Describes privacy and freedom of information with accurate points, which meets the 2-mark row. To reach 3 marks, outline the difference between them and link each to the council's records.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-ups-stg11-01-n0-s3",
@@ -2949,7 +2949,7 @@
                         "mark": 2,
                         "answer": "Confidentiality is keeping information private. Integrity means the information has not been changed, and the appointment dates were changed.",
                         "feedback": "Defines TWO attributes of information accurately, confidentiality and integrity, which meets the 2-mark row. To reach 3 marks, define availability and link it to the two days offline.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-ups-stg11-05-n0-s3",
@@ -3126,7 +3126,7 @@
                         "mark": 4,
                         "answer": "A people weakness and a technology weakness both affected the firm. The phishing email gave the threat actor login details, while the unpatched server exposed client data, so both weaknesses matter for data. On balance, the technology weakness probably did more damage, because it gave wider access to files.",
                         "feedback": "Discusses both weaknesses with links to data, and makes a tentative judgement, which meets the 4-mark row. To reach 5 marks, link the weaknesses to processes and support the judgement with clearer evidence.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-ups-stg11-06-n0-n1-s3",
@@ -3194,7 +3194,7 @@
                         "mark": 2,
                         "answer": "The text message is an external threat called smishing. The sticky note is an internal threat from an employee.",
                         "feedback": "Classifies TWO threats accurately, the text message and the sticky note, which meets the 2-mark row. To reach 3 marks, classify the botnet traffic as an external threat and name its cybercrime type.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-saw-stg11-01-n0-s3",
@@ -3368,7 +3368,7 @@
                         "mark": 4,
                         "answer": "Multi-factor authentication should come first because the computer is shared, so a stolen password alone should not open client records. Off-site backup is also worth adopting, because it lets the practice restore its records after ransomware. The budget limits the practice, but these two software measures are a reasonable choice.",
                         "feedback": "Justifies some strategies with relevant reasons, and refers to the budget, which meets the 4-mark row. To reach 5 marks, add a hardware option to the combination and link the reasons to the practice's records and budget.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-saw-stg11-02-n0-n1-s3",
@@ -3431,7 +3431,7 @@
                         "mark": 2,
                         "answer": "Ongoing training teaches staff to spot phishing emails, which reduces the chance of a successful attack.",
                         "feedback": "Outlines ONE of these actions, staff training, with a relevant link to the cybersecurity strategy, which meets the 2-mark row. To reach 3 marks, outline vulnerability checks and link both actions to the strategy.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-saw-stg11-03-n0-s3",
@@ -3488,7 +3488,7 @@
                         "mark": 4,
                         "answer": "The firm should assess the impact of a breach on its client files and identify its weakest vulnerabilities, such as personal laptops. It should also keep backups so that data can be restored after damage. Staff training is not included, so the plan would leave the firm open to phishing.",
                         "feedback": "Recommends measures for TWO stages, assessing breach impact and identifying vulnerabilities, with reasons linked to the firm, which meets the 4-mark row. To reach 5 marks, recommend specific measures to control damage and loss, with reasons.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-saw-stg11-03-n0-n1-s3",
@@ -3789,7 +3789,7 @@
                         "mark": 2,
                         "answer": "The Privacy Act 1988 (Cth) requires businesses to protect personal information they hold. The Criminal Code Act 1995 (Cth) makes unauthorised access to data an offence.",
                         "feedback": "Outlines the purpose of two relevant laws accurately, which meets the 2-mark row. To reach 3 marks, outline the purpose of a third relevant law.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-pcs-cle-stg11-02-n0-s3",
@@ -4330,7 +4330,7 @@
                         "mark": 4,
                         "answer": "A web application is useful because anyone can use it in a browser without downloading anything, so more people can join. A dedicated app is also useful because it sends notifications and can use the camera. Both help social networking succeed, and the app probably matters more for members who keep coming back to the platform.",
                         "feedback": "Explains the strengths of both options in relation to success, with a judgement stated, which meets the 4-mark row. To reach 5 marks, assess both options with clear links to success and weigh reach against engagement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-03-n0-n1-s3",
@@ -4439,7 +4439,7 @@
                         "mark": 6,
                         "answer": "Edge computing is a sound choice for most of the company's IoT sensors, but it moves risk rather than removing it. Processing readings in gateways at each warehouse means a cold-storage temperature alert can trigger an immediate response, without waiting for data to travel to a central cloud server and back. This reduces delay and lowers the volume of data sent over the network, which benefits the enterprise. However, each gateway is another device to secure, patch and monitor, so cybersecurity risk grows. Compliance also needs care. Vehicle location data may be personal information, so the company must show that it collects, stores and uses that data lawfully. Sending only summaries to the central cloud server reduces the personal data held there, but raw readings kept at the edge must still be backed up and protected. The decision is justified provided the gateways are secured, patched and monitored, and the company documents how it handles personal data. Without these controls, edge computing reduces delay but increases exposure to attack and compliance failure.",
                         "feedback": "Weighs lower delay and bandwidth benefits against cybersecurity and compliance risks, and reaches a judgement conditional on named controls, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-04-n0-n1-s2",
@@ -4447,7 +4447,7 @@
                         "mark": 4,
                         "answer": "Edge computing lets the warehouses respond quickly to temperature alerts, which benefits the enterprise. However, every gateway is an extra device that could be attacked, so cybersecurity risk increases. The company should also consider its compliance obligations for vehicle location data, which may be personal.",
                         "feedback": "Explains benefits and risks of edge computing with links to cybersecurity and compliance, which meets the 4-mark row. To reach 5 marks, evaluate the decision with clear links to the enterprise and reach a judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-04-n0-n1-s3",
@@ -4565,7 +4565,7 @@
                         "mark": 4,
                         "answer": "A business model is important because a fixed annual fee shows whether schools will pay for the app. Resilience and openness help the team cope with setbacks and listen to feedback. On balance the business model matters most, although both are needed for the start-up's success.",
                         "feedback": "Explains how the business model and the cultural characteristics each contribute to success, with a stated position, which meets the 4-mark row. To reach 5 marks, justify the position with links to success for both factors.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-ihc-stg11-05-n0-n1-s3",
@@ -4697,7 +4697,7 @@
                         "mark": 2,
                         "answer": "Office staff are watched by their manager. Remote staff use a project board and an activity log.",
                         "feedback": "Identifies two monitoring methods, which meets the 2-mark row. To reach 3 marks, describe how one group's monitoring works, with some reference to the other.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -4807,7 +4807,7 @@
                         "mark": 3,
                         "answer": "The workflow tracks invoices, so the firm knows where each one is, and the audit trail shows who approved each invoice. This is a benefit. However, the supervisor's weak phone signal is a limitation, because approvals may be late.",
                         "feedback": "Explains a benefit and a limitation with links to the firm, which meets the 3-mark row. To reach 4 marks, analyse the features that cause each one and link them to the firm's approvals.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-02-n0-n1-s3",
@@ -4926,7 +4926,7 @@
                         "mark": 4,
                         "answer": "A cloud service gives the clinics more capacity and lets every site access the same records. A NAS unit in the central office keeps the records under the group's control, but it is harder for clinics to reach. Both options need good security. I would choose the cloud service because the records are easier to access.",
                         "feedback": "Explains how the options differ on capacity and accessibility, with a stated recommendation, which meets the 4-mark row. To reach 5 marks, link the recommendation clearly to all four factors, including location and security.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-03-n0-n1-s3",
@@ -5037,7 +5037,7 @@
                         "mark": 6,
                         "answer": "Moving the timetabling service to Software as a Service (SaaS) is worthwhile if the school can manage the risks, but the decision should be weighed against control and dependence. In favour, the provider handles updates, security patches, backups and server maintenance, so the IT team can spend time supporting classrooms rather than maintaining an ageing server. A subscription also turns an uncertain repair bill into a predictable annual cost, and staff can use the service from any browser. These are real benefits of cloud computing services for a school with limited technical staff. The concerns are more serious. The school loses direct control over the software and over where its timetable data is stored, so it must check the provider's privacy and data-handling terms. Reliance on one provider also means that an outage or price rise affects every timetable user at once. The school should therefore move only with a contract that guarantees data export, service levels and a plan for changing provider. With those conditions, SaaS is the better option, but without them the school should keep its server and review the decision later.",
                         "feedback": "Weighs cost and support against control of data and reliance on one provider, and gives a judgement tied to named conditions, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-04-n0-n1-s2",
@@ -5045,7 +5045,7 @@
                         "mark": 4,
                         "answer": "Moving to SaaS would remove the technician's time spent on the ageing server, and the provider would handle updates and backups. However, the school would lose some control over its data and would depend on one provider for the timetabling service. The school should think about these risks before deciding.",
                         "feedback": "Explains the benefit of removing server upkeep and the risks of control and dependence, which meets the 4-mark row. To reach 5 marks, evaluate the move with clear links to cost, data control and reliance, and reach a judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-04-n0-n1-s3",
@@ -5107,7 +5107,7 @@
                         "mark": 2,
                         "answer": "Staff can open the firm's files from home or the office over the internet. The firm does not need to buy its own hardware.",
                         "feedback": "Describes how staff access the files, which meets the 2-mark row. To reach 3 marks, name one service the provider manages, such as automatic backup, linked to the firm.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-swe-stg11-05-n0-s3",
@@ -5348,7 +5348,7 @@
                         "mark": 2,
                         "answer": "Twisted-pair cable and fibre-optic cable are guided media, and wi-fi is unguided. Twisted-pair cable is used in networks, and wi-fi suits laptops and tablets.",
                         "feedback": "Classifies all three media as guided or unguided and describes a network use for two of them, which meets the 2-mark row. To reach 3 marks, describe a specific use for each medium, including fibre-optic cable.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-02-n0-s3",
@@ -5638,7 +5638,7 @@
                         "mark": 6,
                         "answer": "Moving the wi-fi access point to a central, higher position at the counter would address proximity, the main cause of weak signal, because the tablets currently connect through a storeroom and behind metal shelving. A clearer line of sight and a shorter path should give the tablets faster, more reliable data flow at little cost. However, the same access point would still serve every customer's phone and video stream, so congestion at lunchtime would remain. A separate wireless broadband connection gives the tablets their own path, using a different one of the modes of connectivity that avoids the shared network, but it depends on mobile signal strength at the counter and adds a monthly cost. Overall, relocating the access point is the more effective first change because it removes the cause of weak signal, while wireless broadband is worth considering only if congestion persists after the move.",
                         "feedback": "Evaluates both changes for data flow, judges the access point move the more effective first step, and qualifies this for congestion and cost, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-04-n0-n1-s2",
@@ -5767,7 +5767,7 @@
                         "mark": 3,
                         "answer": "Device C is central because it has four links, so the network depends on it. If C fails, devices D and E cannot reach the other devices, so the network is split.",
                         "feedback": "Examines how device C's central position affects connectedness, linking it to devices D and E, which meets the 3-mark row. To reach 4 marks, propose a layout change linked to the graph.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-05-n0-n1-s3",
@@ -5830,7 +5830,7 @@
                         "mark": 2,
                         "answer": "SCADA lets operators monitor the plant from one place. Pressure sensors are one of the devices it uses.",
                         "feedback": "Describes the purpose of SCADA in general terms, which meets the 2-mark row. To reach 3 marks, describe the purpose accurately and give two devices it connects.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-06-n0-s3",
@@ -6115,7 +6115,7 @@
                         "mark": 6,
                         "answer": "The main benefit of interfacing machine learning with IoT road sensors is more responsive traffic control. The model can use live vehicle counts to adjust signal timing, reducing queues at intersections that are busy only at certain times, and predicted congestion lets the signals respond before a jam forms. Some sensors can also detect pedestrians and cyclists waiting at crossings, which fixed timing cannot. These benefits depend on reliable sensors, however, because a faulty detector would send the model inaccurate counts and produce poor signal timing. Privacy is a concern if cameras are used, so the council should use anonymous measures such as inductive loops or radar and limit how long any data is kept. The cost concern is also valid, so a trial at one intersection, with human oversight of the signal timing, would test whether the benefits outweigh the risks before wider installation.",
                         "feedback": "Evaluates the benefits and weighs faults, privacy and cost, reaching a recommended trial with human oversight, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-08-n0-n1-s2",
@@ -6185,7 +6185,7 @@
                         "mark": 2,
                         "answer": "A TPM is a chip in the laptop that stores cryptographic keys. It also records startup measurements of the system software.",
                         "feedback": "Describes two TPM functions, storing keys and recording startup measurements, which meets the 2-mark row. To reach 3 marks, link both functions to granting or refusing network access.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-09-n0-s3",
@@ -6303,7 +6303,7 @@
                         "mark": 2,
                         "answer": "UPnP lets devices open ports on the router automatically. Port management means choosing which ports stay open on the router.",
                         "feedback": "Describes UPnP and port management accurately, which meets the 2-mark row. To reach 3 marks, explain how these settings reduce unauthorised access to the home network.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-nai-stg11-10-n0-s3",
@@ -6784,7 +6784,7 @@
                         "mark": 2,
                         "answer": "Staff should be trained to spot phishing emails. The office should use strong passwords on all accounts.",
                         "feedback": "Outlines two relevant procedures, which meets the 2-mark row. To reach 3 marks, outline a third specific procedure and give a purpose for each.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-04-n0-s3",
@@ -6833,7 +6833,7 @@
                         "mark": 5,
                         "answer": "The school should keep regular backups of staff files on a drive that is disconnected from the network after each backup, so a ransomware attack cannot encrypt the copies. It should also require multi-factor authentication, a strong security protocol, for all staff accounts on the staff network, so a stolen password is not enough to reach payroll files. Automatic software updates should be turned on for every computer and server, because ransomware can exploit known flaws that updates fix. Staff should receive short training on phishing emails, since a clicked link or attachment is a common way ransomware enters a network. These procedures suit the school's small budget because many can be set up by existing staff, which supports cybersecurity without large spending.",
                         "feedback": "Proposes specific procedures and protocols, links each to ransomware, and ties the plan to the school's budget and staff, which meets the 5-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-04-n0-n1-s2",
@@ -6841,7 +6841,7 @@
                         "mark": 2,
                         "answer": "The school should back up files and use strong passwords. Staff training would also help cybersecurity.",
                         "feedback": "Proposes two measures with a general reason, which meets the 2-mark row. To reach 3 marks, propose several measures with a reason for each that is linked to ransomware.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-04-n0-n1-s3",
@@ -6849,7 +6849,7 @@
                         "mark": 1,
                         "answer": "Use good passwords on all staff accounts.",
                         "feedback": "Provides some relevant information about one general security measure, which meets the 1-mark row. To reach 2 marks, describe a ransomware threat or a security protocol.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -6903,7 +6903,7 @@
                         "mark": 2,
                         "answer": "A faster internet plan gives the household more bandwidth. Ethernet is another option for the desktop.",
                         "feedback": "Describes one accurate way, a faster plan, and names a second, which meets the 2-mark row. To reach 3 marks, explain how the second way increases the data carried.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-05-n0-s3",
@@ -7069,7 +7069,7 @@
                         "mark": 6,
                         "answer": "The choice of hardware and software affects the transmission of data at each stage of the clinic's network. A plain email attachment is unsecured data: the file is not encrypted, so anyone who intercepts it, or gains access to a copy along the way, can read the referral. The network interface card, router and internet links simply carry that readable content, and the infrastructure offers no protection for it, so data security depends entirely on what is sent. An encrypted email service scrambles the message before it leaves the computer, so the encrypted data is unreadable without a matching key, even though the same hardware carries it. Routers and switches forward only the addressing details, so the encrypted option gives far better protection for patient information without buying new equipment. On balance, the encrypted service is the stronger choice, although the clinic should still keep its router firmware up to date.",
                         "feedback": "Evaluates the hardware and software at each stage for both data types, weighs the effect on security, and reaches a justified judgement for the clinic, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-06-n0-n1-s2",
@@ -7077,7 +7077,7 @@
                         "mark": 4,
                         "answer": "Plain attachments are unsecured data, so the email software and network cards carry content that can be read if intercepted. Encrypted data uses software and a key, so the router and network cards carry data that is unreadable without the key.",
                         "feedback": "Compares unsecured and encrypted transmission with reasons, which meets the 4-mark row. To reach 5 marks, evaluate the hardware and software roles in both data types with a reasoned judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-nsc-cne-stg11-06-n0-n1-s3",
@@ -7377,7 +7377,7 @@
                         "mark": 2,
                         "answer": "The biologist could make a line chart of the water temperature readings, so that changes over the months show up as a line rising or falling.",
                         "feedback": "Meets the 2-mark row by outlining one spreadsheet feature, a line chart of water temperature, and what it shows. To reach 3 marks, it must describe more than one feature and explain how both help the biologist understand the datasets, such as conditional formatting highlighting where populations are declining.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-hsc-2025-20-3",
@@ -7599,7 +7599,7 @@
                         "mark": 4,
                         "answer": "Advances in storage and memory have made cloud-based data analytics economically feasible. Cheap, high-capacity cloud storage, together with solid-state drives in data centres, lets enterprises keep big data sets and historical records on hand, while larger RAM allows analytics engines to hold working datasets in memory for rapid querying. Advances in communication media have made these remote resources practical to use. High-bandwidth fibre networks allow the logistics company's sensor and delivery data to reach a data warehouse in the cloud and be queried by analysts in several offices. Without this bandwidth, cheap storage would be negated by slow transfers, so the two advances work together.",
                         "feedback": "Investigates the storage and RAM advances and the high-bandwidth fibre networks, showing how they work together for the logistics company, which meets the 4-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-dv-04-4m-s2",
@@ -7607,7 +7607,7 @@
                         "mark": 2,
                         "answer": "Cheap cloud object storage means a logistics company can keep several years of delivery records in one place and analyse them without buying its own servers. Better internet connections also help with cloud analytics.",
                         "feedback": "Describes one storage advance and how it enabled cloud analytics, which meets the 2-mark row. To reach 3 marks, explain a specific advance in communication media and link it to the storage advance.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-dv-04-4m-s3",
@@ -7615,7 +7615,7 @@
                         "mark": 1,
                         "answer": "Modern computers have better storage and faster internet, which makes data analytics better in the cloud. Cloud services like Google BigQuery are popular for businesses.",
                         "feedback": "Provides some relevant information about better storage and faster internet, which meets the 1-mark row. To reach 2 marks, describe one storage advance and how it enabled cloud analytics.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false,
@@ -7745,7 +7745,7 @@
                         "mark": 2,
                         "answer": "Software that updates data automatically in real time has helped data analytics. Users no longer need to build a new report each time the figures change, and they can see trends as they happen. This means that people who analyse performance data can work from current information rather than from older reports.",
                         "feedback": "Meets the 2-mark row: it outlines one advancement in software, real-time updating, and its general effect on analytics. It does not refer to the scenario or describe how the advancement empowers the company's analysis, so it stays short of the 3-mark row. Referring to the company's move from spreadsheets to a dashboard would lift it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-hsc-2025-23a-4",
@@ -8324,7 +8324,7 @@
                         "mark": 6,
                         "answer": "The data source is fundamentally biased. Because the opt-in survey was sent only to current employees, it excludes the perspectives of applicants who were rejected, which is a severe form of selection bias: the people who may have experienced unfairness are not represented at all. The opt-in survey design adds a second distortion, since employees who are content with the process are more likely to respond, so the sample is skewed towards positive views before any analysis begins.\n\nUnconscious bias compounds this. Analysts who expect the process to be fair may not intend to mislead, but they can choose metrics that look favourable, such as diversity figures for one department, while leaving out less flattering measures such as the ratio of applicants to hires for each demographic group. Each choice seems reasonable in isolation, yet together they shape what the audience sees and reduce the accuracy of the chart.\n\nUltimately, this misleading visualisation presents a precise-looking picture of fairness built on an unrepresentative dataset and a selective set of metrics. Its accuracy cannot support the claim that the hiring process is fair, and publishing it would damage the company's credibility once the gaps are discovered.",
                         "feedback": "Evaluates both biases with specific links to the scenario, shows how selection bias and unconscious bias combine, and reaches a judgement that the chart cannot support the fairness claim, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-dv-09-6m-s2",
@@ -8332,7 +8332,7 @@
                         "mark": 4,
                         "answer": "Bias in the data source is a problem here, because the survey was only sent to current employees. This means people who applied and were rejected are not included, so the results may not show what really happened in hiring. The survey was also opt-in, so people who were happy with the process may be more likely to answer. Analysts might also be unconsciously biased and choose to show the results that look good, which could make the chart misleading.",
                         "feedback": "Explains both biases and how each could distort the chart, with links to the scenario, which meets the 4-mark row. To reach 5 marks, add a judgement on how far the chart can be trusted.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-dv-09-6m-s3",
@@ -8447,7 +8447,7 @@
                         "mark": 5,
                         "answer": "Business analytics services such as Power BI or Tableau are highly effective for rapid deployment. Their out-of-the-box dashboards let the bank build and share visualisations quickly at a lower upfront cost. However, they offer limited customisation and may not meet every stringent data security protocol the bank requires.\n\nCustom software solutions are less effective on speed and initial cost, because they need significant investment in development time and resources. Their primary strength is customisation: the visualisations can be integrated with proprietary trading and risk systems, can enforce the bank's own data governance rules, and can provide data security controls that an off-the-shelf product cannot.\n\nFor a large bank with complex and specific requirements, the custom solution is more effective overall, despite its higher cost, because it gives analysts a secure and precisely aligned tool.",
                         "feedback": "Evaluates both options against the bank's needs, weighing speed, cost and customisation, and reaches a reasoned judgement that the custom solution is more effective, which meets the 5-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-dv-10-5m-s2",
@@ -8455,7 +8455,7 @@
                         "mark": 3,
                         "answer": "A business analytics service like Power BI is quick to set up and has many features, so it would suit the bank. However, it might not do everything the bank wants. A custom software solution would be more expensive, but it could be designed for the bank's needs.",
                         "feedback": "Explains the strengths and limitations of both options in relation to the bank, which meets the 3-mark row. To reach 4 marks, weigh the two options against the bank's security and speed needs.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-dv-10-5m-s3",
@@ -8463,7 +8463,7 @@
                         "mark": 1,
                         "answer": "Custom software is made just for one company, so it is special. Power BI is a program that people can subscribe to.",
                         "feedback": "Makes a general statement about each option, which meets the 1-mark row. To reach 2 marks, describe one option's strengths or limitations with relevance to the bank.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false
@@ -9109,7 +9109,7 @@
                         "mark": 4,
                         "answer": "AI-powered software would change the user experience of data analytics tools in two main ways. Natural language query lets a non-technical manager ask a question in plain English and receive a suitable chart, which widens access to analysis. Automated insight generation flags correlations, trends or anomalies that a busy user might miss, which saves time. However, if the system misreads an unusual but genuine pattern, or cannot explain why it highlighted a result, users may over-trust it. On balance, the experience improves for less technical users, provided the features make their reasoning transparent.",
                         "feedback": "Investigates two AI features, with a benefit for each and a risk of over-trust, and reaches a reasoned view on the net effect, which meets the 4-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-dv-14-4m-s2",
@@ -9117,7 +9117,7 @@
                         "mark": 2,
                         "answer": "AI could let managers ask questions in plain English and get a chart back, so they do not need to learn a query language. This would make the tools easier to use.",
                         "feedback": "Describes one AI feature and its benefit to users, which meets the 2-mark row. To reach 3 marks, add a risk or limitation and weigh it against the benefit.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-dv-14-4m-s3",
@@ -9125,7 +9125,7 @@
                         "mark": 1,
                         "answer": "AI is going to make data analytics tools much better in the future because it is very clever.",
                         "feedback": "Makes a general claim that AI will improve analytics tools, which meets the 1-mark row. To reach 2 marks, name one AI feature and what it changes for the user.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false,
@@ -10565,7 +10565,7 @@
                         "mark": 2,
                         "answer": "Likes are cheap to collect. Viewers who react may not represent all subscribers.",
                         "feedback": "Outlines one advantage and one limitation, which meets the 2-mark row. To reach 3 marks, outline a second advantage and link each point to feedback on the series.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-09-n0-s3",
@@ -10613,7 +10613,7 @@
                         "mark": 6,
                         "answer": "Likes, emoticons and memes are useful as alternative data, but they are not a sufficient replacement for surveys as the main source of feedback. Their strength is speed and scale: reactions arrive within hours, from many people, at little cost, which a survey cannot match. However, the people who react are self-selected, so the feedback over-represents the most active and vocal customers and misses quieter ones who never react. Emoticons and memes are also ambiguous, since a laughing emoticon can mean approval or mockery, and some reactions come from bots or are bought. A well-designed survey asks specific questions about fit, price and quality, and can reach a broader sample. Alternative data is therefore best used as an early warning or a supplement, checked against a survey, rather than as the sole source of feedback on the range. The brand should also ask customers directly what they think of the range, so that quieter voices are heard.",
                         "feedback": "Weighs speed and scale against self-selection and ambiguity, judges that the data cannot replace surveys, and recommends how the brand should use it, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-09-n0-n1-s2",
@@ -10621,7 +10621,7 @@
                         "mark": 4,
                         "answer": "Likes and memes are fast and cheap, so they can show early reactions to the new range. But the people who react are self-selected, and an emoticon can be sarcastic, so the feedback does not show the views of all customers.",
                         "feedback": "Explains strengths and limitations of the alternative data, linked to the range, which meets the 4-mark row. To reach 5 marks, give a clear judgement on whether it can replace surveys.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-09-n0-n1-s3",
@@ -10689,7 +10689,7 @@
                         "mark": 2,
                         "answer": "The company could count how many times memes about the campaign are shared and liked on social media.",
                         "feedback": "Meets the 2-mark row by outlining a method, counting shares and likes of campaign memes, but it does not say what the counts reveal about effectiveness. To reach 3 marks, the answer must describe how these results show whether the campaign worked, for example by tracking whether reach rises after launch.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ec-hsc-2025-14-4",
@@ -10750,7 +10750,7 @@
                         "mark": 2,
                         "answer": "Raw data is data that has not been changed. Processing means changing the data, which can cause problems.",
                         "feedback": "Defines raw data accurately and describes processing in general terms, which meets the 2-mark row. To reach 3 marks, give a specific way processing could cause an error in the river readings.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-10-n0-s3",
@@ -11522,7 +11522,7 @@
                         "mark": 2,
                         "answer": "A USB drive works without internet access. It can be lost or damaged.",
                         "feedback": "Identifies one advantage and one limitation of a USB drive, which meets the 2-mark row. To reach 3 marks, outline each point and link it to moving the data from remote sites.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-16-n0-s3",
@@ -11570,7 +11570,7 @@
                         "mark": 6,
                         "answer": "The effectiveness of local storage depends on the retailer's priorities. Servers at each store give fast access and keep data under the company's own control, but they do not let head office or analysts see every store's sales records in one place, and a single fire, theft or hardware failure can destroy a store's records. Cloud storage is effective for access because managers at any store can reach the same sales records over the internet, and the provider can scale capacity as sales grow. Its weaknesses are reliance on a stable connection and the need to confirm how the provider secures the data and where it is physically held. Data warehouses best suit the analysis requirement. They integrate sales records from all twelve stores into one structured, historical repository that supports fast queries and trend comparisons across years, but it is costly to build and is not designed to be the everyday store for transactions. Overall, the most effective data storage design combines cloud storage for day-to-day access with a data warehouse for analysis, while local storage is kept only as a short-term backup at each store.",
                         "feedback": "Evaluates all three methods against the retailer's access, security and analysis needs, and recommends a combination, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-16-n0-n1-s2",
@@ -11578,7 +11578,7 @@
                         "mark": 4,
                         "answer": "Local storage on each store's server is fast and secure within the store, but head office cannot see all sales records in one place. Cloud storage lets managers at any store access the records over the internet, so it suits access needs well. A data warehouse is better for comparing sales trends across years, although it is costly. Cloud storage and a data warehouse together would meet the retailer's needs.",
                         "feedback": "Analyses the strengths and weaknesses of all three methods for the retailer, which meets the 4-mark row. To reach 5 marks, judge how effectively each method meets the retailer's needs.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-csa-stg12-16-n0-n1-s3",
@@ -11700,7 +11700,7 @@
                         "mark": 4,
                         "answer": "Consent is an issue because the people who posted did not agree to their posts being used in research. The posts also contain personal financial details, so removing names may not be enough to protect privacy. The team should weigh this against the research benefit and seek ethics committee approval before analysing the posts.",
                         "feedback": "Describes consent and privacy with some explanation, linking one to the research benefit, which meets the 4-mark row. To reach 5 marks, apply each consideration with sound reasons.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-dqu-stg12-01-n0-n1-s3",
@@ -11934,7 +11934,7 @@
                         "mark": 4,
                         "answer": "Before sharing, the service should check whether the Privacy Act 1988 (Cth) or NSW health privacy legislation applies, and whether the results are identifiable. It should also consider data sovereignty, because the community has rights over data about its people. The agreement with the university should state how the results will be stored and used, which addresses governance concerns.",
                         "feedback": "Describes legislation and data sovereignty and how each applies to sharing, which meets the 4-mark row. To reach 5 marks, assess the main issues with sound reasons and link them to the sharing decision.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-dqu-stg12-03-n0-n1-s3",
@@ -11996,7 +11996,7 @@
                         "mark": 2,
                         "answer": "Data literacy is being able to read and use data. A data swamp is a messy collection of data that is hard to use.",
                         "feedback": "Defines both terms, which meets the 2-mark row. To reach 3 marks, give one example of each term in the hospital organisation, drawn from the scenario.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-dqu-stg12-04-n0-s3",
@@ -12052,7 +12052,7 @@
                         "mark": 4,
                         "answer": "Residents change their travel because the dashboard sends a crowding signal, such as red for crowded. The timeframe matters: one morning's figure may make a route look busier than it usually is. Residents with low data literacy may not know how the figures are calculated, so they may act on misleading signals. The council could improve this by educating users about what the data means.",
                         "feedback": "Describes how signals and timeframes influence residents, with some explanation of data literacy, which meets the 4-mark row. To reach 5 marks, discuss the influence with sound reasons and a clear conclusion on the council's role.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-dqu-stg12-04-n0-n1-s3",
@@ -12175,7 +12175,7 @@
                         "mark": 4,
                         "answer": "The mean is $3,202.50, which is pulled up by the $9,400 wedding order, so it does not describe a typical week. The median of $1,997.50 is a better guide to usual takings, because it is not affected by one extreme week. A spreadsheet can calculate both with AVERAGE and MEDIAN, so the owner should report the median for rostering.",
                         "feedback": "Justifies the median with reasoning about the outlier, which meets the 4-mark row. To reach 5 marks, set the mean and median side by side and explain what the gap shows about the café.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-01-n0-n1-s3",
@@ -12409,7 +12409,7 @@
                         "mark": 4,
                         "answer": "Linking sheets means each store's totals update on the summary sheet, so the manager does not copy figures by hand. Conditional formatting can colour any store below its target red, which makes exceptions easy to see in a meeting. However, links may break if a sheet is renamed, so the manager should check them before using the summary.",
                         "feedback": "Describes linked sheets and conditional formatting with some explanation of why they help, and notes one limitation, which meets the 4-mark row. To reach 5 marks, assess the benefits with sound reasons, weighed against the limitation.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-03-n0-n1-s3",
@@ -12519,7 +12519,7 @@
                         "mark": 6,
                         "answer": "Pivot tables and slicers make the data dashboard effective for this weekly decision. A pivot table summarises cancellations by membership types from the full data, so the manager can compare basic, standard and premium without filtering rows by hand. The slicer for the three most recent months lets the manager focus on current trends, and the pivot table updates when a period is selected, so the views stay consistent. The graph of sign-ups gives a quick visual check of whether a membership type is growing. The approach has limitations, however. A slicer that shows only three months may make a type look strong because of a one-month spike rather than a trend. Filtered views can also hide older data, and the dashboard is only as current as its last refresh. The manager should therefore compare the latest months with a longer period before choosing a promotion. Overall, the dashboard supports the decision well when it is read alongside a check of the period shown.",
                         "feedback": "Evaluates the pivot table and slicer against the Monday decision, weighs two limitations, and recommends a check on a longer period, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-04-n0-n1-s2",
@@ -12527,7 +12527,7 @@
                         "mark": 4,
                         "answer": "A pivot table shows cancellations by membership type, so the manager can compare basic, standard and premium quickly. The slicer limits the view to recent months, which helps when looking at current trends. However, a short period may show a spike rather than a trend, so the manager should check a longer period too.",
                         "feedback": "Describes the pivot table and slicer in relation to comparing membership types, with one limitation noted, which meets the 4-mark row. To reach 5 marks, evaluate their usefulness for the promotion decision with sound reasons.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-04-n0-n1-s3",
@@ -12645,7 +12645,7 @@
                         "mark": 4,
                         "answer": "A single table is suitable because the librarian can sort and filter loans easily, and one table is simple to maintain. The main limitation is data redundancy, since a student's name is repeated on every loan record. The librarian should enter names the same way each time to avoid inconsistent records.",
                         "feedback": "Describes the advantages of one table with some reasoning and identifies data redundancy, which meets the 4-mark row. To reach 5 marks, justify the design's suitability for this library with sound reasons.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-06-n0-n1-s3",
@@ -12887,7 +12887,7 @@
                         "mark": 2,
                         "answer": "Scenario 1 is supervised learning because the data is labelled. Scenario 2 is unsupervised learning because there are no labels. Scenario 3 is machine learning.",
                         "feedback": "Classifies two scenarios with reasons, which meets the 2-mark row. To reach 3 marks, classify Scenario 3 as reinforcement learning, citing its rewards, and give a reason for each.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-08-n0-s3",
@@ -12943,7 +12943,7 @@
                         "mark": 4,
                         "answer": "Machine learning and statistical modelling can analyse big data to find patterns in sales and forecast weekly demand. A statistical model may show that temperature affects salad sales. However, forecasts can be inaccurate if the data contains errors or if shopping habits change, so the chain should check predictions against actual sales.",
                         "feedback": "Describes both techniques finding patterns and forecasting demand, and explains why forecasts may be imperfect, which meets the 4-mark row. To reach 5 marks, discuss how each technique makes predictions with sound reasons and give a clear view on trusting the forecasts.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-dsc-ppd-stg12-08-n0-n1-s3",
@@ -13133,7 +13133,7 @@
                         "mark": 2,
                         "answer": "Structured decisions are routine and follow set rules. Unstructured decisions are complex and need human judgement. Semi-structured decisions are somewhere in between.",
                         "feedback": "Describes two categories accurately, which meets the 2-mark row. To reach 3 marks, describe semi-structured decisions and the DSS's role in each category.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-is-02-3m-s3",
@@ -13201,7 +13201,7 @@
                         "mark": 2,
                         "answer": "A structured decision, such as stock reordering, is made automatically by the DSS. An unstructured decision, such as a merger, is one where the DSS only gives data and the managers decide.",
                         "feedback": "Gives examples for two categories with the DSS role explained briefly, which meets the 2-mark row. To reach 3 marks, add a semi-structured example and give a basic DSS role for each category.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -13386,7 +13386,7 @@
                         "mark": 3,
                         "answer": "The expert system has a knowledge base of rules and an inference engine that applies them to the patient's symptoms. It can also raise an alert when vital signs go outside safe ranges.",
                         "feedback": "Describes both components with brief reference to diagnosis and monitoring, which meets the 3-mark row. To reach 4 marks, analyse the role of one component in one application, such as how the rules lead to an alert.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-03-n0-n1-s3",
@@ -13450,7 +13450,7 @@
                         "mark": 2,
                         "answer": "The knowledge base holds rules. The inference engine uses the rules to make decisions. The user interface is the screen the user sees.",
                         "feedback": "Describes all three components briefly, which meets the 2-mark row. To reach 3 marks, explain how the inference engine reasons and how the components connect.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-is-03-3m-s3",
@@ -13743,7 +13743,7 @@
                         "mark": 6,
                         "answer": "The case that changing needs have driven adoption is strong, though not complete. In manufacturing, firms need fewer breakdowns, faster changeovers and customised orders, and an expert system can meet these needs by applying rules to live data from each machine. Under Industry 4.0, this data comes from the Internet of Things, as connected sensors report temperature, vibration and output, so the expert system has the information it needs to act. However, the link is not the only driver. Cheaper sensors and better computing would make expert systems more common even without a change in needs, and the rules must be built and maintained by skilled staff, a cost some firms cannot carry. Managers also face pressure to keep costs down, which makes a system that prevents breakdowns more attractive than repairing them after they happen. On balance, changing needs are a major driver, but they work alongside the availability of technology rather than on their own.",
                         "feedback": "Weighs the needs against other drivers, such as cheaper sensors and skilled staff, and reaches a supported judgement on the extent of the link, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-06-n0-n1-s2",
@@ -14000,7 +14000,7 @@
                         "mark": 2,
                         "answer": "Fuzzy logic gives a value somewhere between true and false, so the expert system can deal with a statement such as warm.",
                         "feedback": "Describes fuzzy logic as a value between true and false, which meets the 2-mark row. To reach 3 marks, link the value to the inference engine's rules and to the 22-degree room.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-08-n0-s3",
@@ -14119,7 +14119,7 @@
                         "mark": 3,
                         "answer": "Fingerprint reader: input, a biometric sensor. Soil probe: input, a sensor. Microcontroller: processing, it decides. Motor: output, an actuator that moves the vents.",
                         "feedback": "Classifies all four components, naming each type, with reasons for some of them, which meets the 3-mark row. To reach 4 marks, give a reason for each component that explains its role in the system.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-09-n0-s3",
@@ -14704,7 +14704,7 @@
                         "mark": 5,
                         "answer": "The ethical issues of bias and accountability are both serious at bail. Bias arises when the historical data used to train the system reflects past institutional bias against certain racial or socio-economic groups. The system then learns and perpetuates that bias, predicting a higher reoffending risk for people from those groups even when individual circumstances suggest otherwise, which leads to discriminatory bail decisions.\n\nAccountability is equally serious. If the system makes a wrong prediction that leads to a person being unfairly denied bail, it is unclear who is responsible: the developers who wrote the algorithm, or the magistrate who relied on it. This black box problem, where the reasoning cannot be explained, makes decisions hard to challenge or correct.\n\nGiven these risks, such a tool should inform, never replace, a human judge, and should be independently audited for bias first.",
                         "feedback": "Investigates bias through historical data and its consequences for defendants, examines accountability, and concludes on whether the tool should be used, which meets the 5-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-is-04-5m-s2",
@@ -14712,7 +14712,7 @@
                         "mark": 3,
                         "answer": "Bias is a problem because the system was trained on past court data, and if that data is unfair, its predictions will be unfair to some groups. Accountability is also a problem because it is not clear who is to blame if a prediction is wrong.",
                         "feedback": "Explains both issues with some link to bail, which meets the 3-mark row. To reach 4 marks, explain how biased historical data leads to harsher predictions, and name who might be responsible.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-is-04-5m-s3",
@@ -14720,7 +14720,7 @@
                         "mark": 1,
                         "answer": "Bias and accountability are ethical issues with AI in courts.",
                         "feedback": "Names both issues, which meets the 1-mark row. To reach 2 marks, explain how each issue arises in the bail hearing.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "isPastHSC": false,
@@ -14894,7 +14894,7 @@
                         "mark": 2,
                         "answer": "Machine learning can forecast demand from past sales. Image recognition can sort returned clothing by condition.",
                         "feedback": "Outlines two techniques with a general function, which meets the 2-mark row. To reach 3 marks, state the enterprise need each one meets, such as reducing overstock.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-15-n0-s3",
@@ -14950,7 +14950,7 @@
                         "mark": 3,
                         "answer": "The forecast from machine learning shows the buyer what demand is likely, and the dashboard shows the stock position. However, the buyer still needs to check unusual trends before accepting the system's recommended orders.",
                         "feedback": "Describes two components with a general link to the buyer, which meets the 3-mark row. To reach 4 marks, explain how two components work together, with a clear reason.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-sta-stg12-15-n0-n1-s3",
@@ -15184,7 +15184,7 @@
                         "mark": 6,
                         "answer": "Filtering surplus data through edge computing on the IoT network has clear benefits. Local processing sends only changed readings, so transmission costs and cloud storage fall, and alerts such as a temperature breach reach staff faster. However, the distributor must be able to produce a full record for a disputed delivery, and an edge filter that discards repeated readings removes the detail that proves a temperature stayed stable. A better approach keeps relevant data in full and stores a compressed copy of the rest. For example, the system could record every reading for each trip but archive only changes once the trip is verified. The decision should weigh the risk of a disputed delivery, because a lost record could cost more than the storage saved. On balance, the distributor should filter at the edge only if it keeps complete trip records for long enough to resolve disputes.",
                         "feedback": "Weighs the benefit of lower transmission and storage cost against the disputed-delivery risk, offers a specific middle approach, and reaches a clear judgement, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-dis-stg12-02-n0-n1-s2",
@@ -15489,7 +15489,7 @@
                         "mark": 2,
                         "answer": "AI can use occupancy sensors to switch off lights in empty rooms. It can also predict when equipment needs repair.",
                         "feedback": "Outlines two ways, with a sensor link for one, which meets the 2-mark row. To reach 3 marks, outline a third distinct way, such as fault detection from sensor readings, with its outcome.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-dis-stg12-05-n0-s3",
@@ -15784,7 +15784,7 @@
                         "mark": 3,
                         "answer": "If the light is only probably on (CF 0.7), a rule with CF 0.9 gives a lower CF of 0.63 for the next conclusion, so the tree is less certain than either value alone.",
                         "feedback": "Shows a correct calculation for one rule, with the certainty falling down the tree, which meets the 3-mark row. To reach 4 marks, carry the calculation through the second rule and explain the compounding.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-cis-stg12-02-n0-n1-s3",
@@ -15845,7 +15845,7 @@
                         "mark": 2,
                         "answer": "Primary data is collected by the user, such as its own sales records. Secondary data is collected by someone else.",
                         "feedback": "Clarifies the difference in general terms, with one example, which meets the 2-mark row. To reach 3 marks, give an example of each kind from the café's system and say why each was collected.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-cis-stg12-03-n0-s3",
@@ -15893,7 +15893,7 @@
                         "mark": 6,
                         "answer": "Basing the weekly order on an unverified free forecast carries a real risk, because the decision support system treats the weather forecast as fact. If the forecast is wrong, for example predicting rain on a sunny weekend, the system may cut the order and leave cafés short of coffee on a busy day. A free website may not state who produced its forecast, how old it is or which area it covers, so the café cannot judge its reliability. Before each order, the café should verify the data source by comparing the forecast with a second, established provider, checking the date and location, and recording how often the forecast has matched the actual weather. The amount of checking should match the risk: a forecast that changes the order slightly needs a quick comparison, while one that would cut stock for a major event needs more care. On balance, the forecast should be used only after it has been verified, because the cost of a wrong order exceeds the effort of checking.",
                         "feedback": "Judges the risk from the forecast's unknown provenance, names specific verification steps, and matches the checking to the size of the risk, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-isy-cis-stg12-03-n0-n1-s2",
@@ -16496,7 +16496,7 @@
                         "mark": 2,
                         "answer": "A self-driving car has sensors and a computer that makes driving decisions. An expert system can stop the car when a pedestrian is detected.",
                         "feedback": "Identifies sensors and planning in general terms, which meets the 2-mark row. To reach 3 marks, describe the role of one expert system, with the rules it uses.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -16615,7 +16615,7 @@
                         "mark": 3,
                         "answer": "An iterative approach builds the system in parts, and each part is tested before the next one starts. A Gantt chart is a chart that shows the tasks on a timeline, so the team can see when each task is due.",
                         "feedback": "Describes both tools in general features only, which meets the 3-mark row. To reach 4 marks, explain the repeated cycles of an iterative approach and link the Gantt chart's tasks to each iteration.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ep-01-5m-s3",
@@ -17036,7 +17036,7 @@
                         "mark": 2,
                         "answer": "Computational thinking means solving problems step by step. Design thinking means thinking about what the user needs. Systems thinking means looking at how things connect.",
                         "feedback": "Describes all three in general terms, which meets the 2-mark row. To reach 3 marks, add one distinctive feature to each, such as decomposition, user empathy or interconnections.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ep-04-3m-s3",
@@ -17096,7 +17096,7 @@
                         "mark": 4,
                         "answer": "Design thinking would involve talking to customers about their banking needs and building a prototype of the app so users can test it. Computational thinking would break the app into parts, such as login and transfers, and write a step-by-step process for each. Systems thinking means the app has to connect to the bank's other systems.",
                         "feedback": "Describes design and computational thinking with clear detail and systems thinking in general terms, which meets the 4-mark row. To reach 5 marks, explain the interdependencies and the effect of a change on other parts.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ep-04-6m-s3",
@@ -17445,7 +17445,7 @@
                         "mark": 6,
                         "answer": "For the start-up developing an innovative mobile app, agile is the more suitable development approach. Its requirements are unknown and will change as users respond, so agile's iterative cycles let the team use prototyping to build a minimum viable product, test it with real users and adapt features in each sprint. Waterfall would be unsuitable, because its rigid sequence requires every requirement to be fixed before design begins. The trade-off is that agile produces less upfront documentation, which a start-up can accept in exchange for responsiveness.\n\nFor the government agency building a payroll system, waterfall is the more suitable development approach. The requirements are fixed by legislation, so detailed upfront design and documentation support the accountability and testing that government oversight requires. The linear structure also gives predictable budgets and milestones. Its limitation is rigidity: if the law changes mid-project, the sequential process makes change costly, so the agency would need strict change control.\n\nOverall, the suitability of each approach depends on certainty: agile fits the start-up because its uncertainty rewards iteration, while waterfall fits the agency because its certainty rewards upfront planning.",
                         "feedback": "Judges each project's suitability with reasons tied to its requirements, and weighs a limitation of each approach, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ep-06-6m-s2",
@@ -17453,7 +17453,7 @@
                         "mark": 4,
                         "answer": "The start-up should use agile. Its requirements are uncertain, so an iterative approach lets it release prototypes, collect user feedback and adjust features each sprint. The government agency should use waterfall because its legal requirements are fixed, so it can plan and document everything at the start.",
                         "feedback": "Makes a clear judgement for both projects, which meets the 4-mark row. To reach 5 marks, weigh a limitation of the approach chosen for one project, such as waterfall's rigidity if the law changes.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-ep-06-6m-s3",
@@ -17563,7 +17563,7 @@
                         "mark": 6,
                         "answer": "The plan is only partly feasible. Its implementation plan is sensible in sequence, because training takes place in the week before the switch and staff know the system before it goes live. However, the direct cutover is a poor match for the risks. Switching from paper on a single Monday leaves no fallback if the internet connection fails, which the risk analysis already identifies as unreliable. A phased changeover, or one in which paper records continue for a short period, would reduce that risk. The training is also insufficient for the second risk. Two long-serving staff who have never used a computer for stock records need hands-on sessions across several weeks, not one general briefing, and the plan does not say how their progress will be checked. The testing methodology is the weakest part of the feasibility assessment. One trial run on 20 items, carried out only by the owner, tests very little. A feasible test would use realistic stock movements, including returns and transfers, and would involve the staff who will use the system daily. The plan is feasible only if the cutover is phased and testing is widened.",
                         "feedback": "Judges each component against a named risk and reaches a conditional conclusion on feasibility, testing included, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-ent-11-12-cp-enp-pai-stg12-03-n0-n1-s2",

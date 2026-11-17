@@ -216,7 +216,7 @@ export const WritingMetricsDashboard: React.FC<WritingMetricsDashboardProps> = R
 
     const commandTermInfo = useMemo(
       () => getPromptTermInfo(prompt),
-      [prompt.verb, prompt.bandCeiling]
+      [prompt.verb, prompt.bandCeiling, prompt.totalMarks]
     );
     const { wordCount, analysis, keywordStats, progressInfo } = useWritingMetrics(
       userAnswer,

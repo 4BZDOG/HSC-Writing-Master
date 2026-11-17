@@ -292,7 +292,7 @@
                         "mark": 2,
                         "answer": "An author's perspective is the viewpoint a writer holds, and historical context is the setting in which the source was written. For example, the senator is worried about the crowds.",
                         "feedback": "Describes both terms accurately, but the example only states what the senator thinks and does not connect it to the context. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-4-3",
@@ -346,7 +346,7 @@
                         "mark": 6,
                         "answer": "Taken together, the three sources show that Augustus presented his power as the restoration of the Republic rather than as a monarchy. The coin is the most immediate source: its portrait and short legend were produced by the authorities and circulated widely, so it reveals the image the regime wanted ordinary people to see. The inscription on the monument provides different evidence. Set up in a provincial city, it shows the same message reaching local communities, but it cannot show whether people accepted or resisted it. The literary extract, written decades later by an author with his own agenda, offers an interpretation that must be weighed against the official material. Each of these types of sources records the past for different purposes. When the sources are synthesised, a reasoned claim emerges: the regime used coin, monument and inscription together to project continuity with the Republic, while the later account shows how that image came to be understood. Each source has limits, but their agreement on the central message makes the claim more secure than any single item could support.",
                         "feedback": "Combines all three types of sources into one reasoned claim, then weighs the contemporary official evidence (coin, inscription) against the later interpretive account. The limits of each source are stated, which is what separates this from a description and earns the full 6 marks.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-ah-5-2",
@@ -354,7 +354,7 @@
                         "mark": 4,
                         "answer": "The coin shows an official image of Augustus, and the inscription shows that the same image was placed in a provincial city. The literary extract is later, so it is an interpretation rather than evidence from the time. Together these sources suggest that the regime wanted people to see Augustus as a restorer, although the coin and the inscription cannot show how people reacted to the message.",
                         "feedback": "Combines the sources into a claim about how Augustus was presented and notes that the literary extract is later. The evaluation of reliability is limited, so it sits at the 4-mark band rather than the top band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-5-3",
@@ -409,7 +409,7 @@
                         "mark": 2,
                         "answer": "The inscription is epigraphic, the narrative is literary and the coin is numismatic. Comparing them helps the historian check the evidence.",
                         "feedback": "Classifies all three correctly, but the reason for comparing is general and does not explain what the comparison achieves. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-6-3",
@@ -592,7 +592,7 @@
                         "answer": "Augustus kept the Senate and consuls but became more powerful than them.",
                         "source": "AI",
                         "feedback": "Makes a general statement about Augustus' rule with one example of continuity and an unexplained claim about power. It does not analyse extent or nature, so it is in the 1-2 band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A student is writing an extended response for a Year 12 history paper on the transition from the late Republic to the Principate. The student has notes on Augustus' settlement of 27 BCE, the Senate, the army and the moral legislation of 18 BCE, and must decide how far the old system survived."
@@ -805,7 +805,7 @@
                         "mark": 4,
                         "answer": "Marathon was significant because the Athenians defeated the Persians in 490 BCE, which preserved their independence for a time. Herodotus presents it as a turning point. However, the Persian Wars continued after Marathon, including Xerxes' invasion, so the battle did not decide the war. Its meaning for later generations was also shaped by how it was remembered.",
                         "feedback": "Assesses the battle's significance with some explanation and notes a limit to the claim. The recognition of different purposes is brief and the criteria are not stated, so it sits at the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-13-3",
@@ -859,7 +859,7 @@
                         "mark": 2,
                         "answer": "Historical significance is the importance of an event for the past. Historians judge it differently because they have different purposes, such as focusing on military outcomes or on political change.",
                         "feedback": "Gives an accurate definition and a general reason for different judgements, but no specific example. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-14-3",
@@ -913,7 +913,7 @@
                         "mark": 6,
                         "answer": "The representations of Augustus are contested because the sources were produced for different purposes by authors in different positions. The Res Gestae, an inscription composed under Augustus' own supervision, presents the settlement as a restoration of the Republic, so it is an interpretation from the inside, valuable as evidence but shaped by self-presentation. Tacitus, writing about a century later, reads the Principate as a settlement that concealed the loss of liberty behind republican forms. His account is persuasive in exposing the gap between forms and power, but it reflects a senator's criticism of later imperial rule. Modern scholarship, drawing on archaeology, coinage and provincial inscriptions, suggests the regime was carefully managed yet genuinely accepted in many communities. Evaluated against explicit criteria of purpose, proximity and range of evidence, the modern account is the most persuasive, because it does not rely on a single author's viewpoint. The judgement remains provisional, since new evidence may shift the balance.",
                         "feedback": "Evaluates three contested representations against explicit criteria (purpose, proximity and range of evidence), and reaches a reasoned, qualified judgement. It identifies the limits of each representation, which is what the top band requires.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-ah-15-2",
@@ -921,7 +921,7 @@
                         "mark": 4,
                         "answer": "The representations of Augustus are contested. The Res Gestae presents his settlement as a restoration of the Republic, while Tacitus presents it as a deception. Historians need to evaluate both, because each was written for a different purpose. The modern view that combines different sources is probably the most persuasive.",
                         "feedback": "Compares representations and reaches a judgement, with some evaluation. It does not state explicit criteria or test the judgement against evidence, so it sits in the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-15-3",
@@ -1095,7 +1095,7 @@
                         "mark": 2,
                         "answer": "A research plan should have clear questions and identify the evidence needed to answer each. It should also show the order of the work.",
                         "feedback": "Outlines two features with brief explanation, but does not give a third. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-18-3",
@@ -1210,7 +1210,7 @@
                         "mark": 2,
                         "answer": "The student should look at several sources and compare the evidence before writing.",
                         "feedback": "Gives two steps in general terms without the detail of how the evidence is gathered or recorded. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-20-3",
@@ -1316,7 +1316,7 @@
                         "mark": 2,
                         "answer": "Acknowledging a source means giving credit to the author. Using evidence without this is plagiarism.",
                         "feedback": "Clarifies the difference between acknowledging a source and not doing so, but does not explain why the distinction matters for historical writing. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-22-3",
@@ -1663,7 +1663,7 @@
                         "mark": 5,
                         "answer": "A plausible hypothesis is that Augustus introduced the moral legislation of 18 BCE to strengthen the social order of the elite and to encourage marriage and childbearing. The hypothesis is testable because the evidence can confirm or reject it. The first question is whether the surviving sources describe the legislation in terms of demographic concern, such as the declining number of citizen children, or in terms of moral decline among the elite; if they emphasise the second, the hypothesis must be revised. The second question is whether the legislation was enforced and how the elite responded, since a law that was never used would suggest its purpose was symbolic. Hypotheses are stated before the evidence is examined, so the investigation can test them. Historical questions of this kind give the investigation a clear direction.",
                         "feedback": "Proposes a clear, testable hypothesis about the legislation and two questions that would confirm or reject it. It explains how the evidence could revise the hypothesis, which is what the top band requires.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-ah-27-2",
@@ -1671,7 +1671,7 @@
                         "mark": 3,
                         "answer": "Augustus may have wanted to strengthen the elite family and encourage marriage. This could be tested by looking at what the sources say about the reasons for the law and whether it was enforced.",
                         "feedback": "Proposes a hypothesis and indicates how it could be tested, but the two questions are not stated, so testing is limited. This is the 3-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-27-3",
@@ -1679,7 +1679,7 @@
                         "mark": 1,
                         "answer": "Augustus wanted better morals.",
                         "feedback": "Makes a general claim about motives that cannot be tested as written and proposes no questions. This is the 1-mark band.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "A student is beginning an investigation into Augustus' marriage and morality laws. The student has read that the laws were justified as a response to social decline, but has not yet decided what to investigate. The teacher asks for a testable hypothesis and the questions needed to test it."
@@ -1990,7 +1990,7 @@
                         "mark": 6,
                         "answer": "Synthesising evidence from a range of sources shows that the Athenian navy was central to the empire in the fifth century BCE, but a reasoned historical argument must explain why. The epigraphic tribute lists, which survive as inscriptions, show that allied cities paid assessments that Athens used to fund the fleet, so the navy was tied to the financial structure of the empire. Thucydides' account of the Delian League, written from a later perspective, presents the Athenians as leaders whose fleet protected the allies and enforced their obligations. Both sources point to the navy as the instrument through which Athens maintained its position. Each source has limits, however: the tribute lists record payments but not the motives of those who paid, while Thucydides reflects his own view of Athenian power. The fleet's role at Salamis in 480 BCE shows that the navy's importance was both practical and symbolic. Taken together, the financial, military and political evidence converges on the same conclusion, though the argument would need revision if new inscriptions showed the tribute was used for other purposes.",
                         "feedback": "Integrates the epigraphic tribute lists, Thucydides and the evidence from Salamis into one argument about the navy's central role. It weighs the limits of each source and states what new evidence would change the claim, which is the top band the synthesis requires.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-ah-33-2",
@@ -1998,7 +1998,7 @@
                         "mark": 4,
                         "answer": "The tribute lists show that allied cities paid money to Athens, which helped fund the fleet. Thucydides describes the Athenians as the leaders who protected the allies. Together these sources suggest that the navy was central to Athenian power, although the lists do not show why the allies paid.",
                         "feedback": "Combines two sources into a claim and notes one limit. The synthesis is brief and the third source is not used, so it sits in the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-33-3",
@@ -2395,7 +2395,7 @@
                         "mark": 2,
                         "answer": "Comedy exaggerates, so it is not a true record of women. A historian should compare it with other sources.",
                         "feedback": "Describes a limitation and says the historian should compare it, but does not explain how the comparison accounts for the limitation. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-40-3",
@@ -2569,7 +2569,7 @@
                         "mark": 1,
                         "answer": "Men are shown in vases and women in comedy.",
                         "feedback": "Makes an inaccurate and general statement that does not compare the depictions of gender. This is the 1-mark band.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A student has collected a set of Athenian vase paintings showing men at a drinking party and women at a household fountain, together with the plot summary of Aristophanes' Lysistrata. The student must compare how each source depicts masculinity and femininity, and what the purposes of each source explain."
@@ -2675,7 +2675,7 @@
                         "mark": 3,
                         "answer": "Women ran the household in classical Athens, managing the stores and textiles. The dowry also linked a woman to her family's property.",
                         "feedback": "Describes the role in the household and gives one example for the family sphere, but does not describe the economic role or use the sources. This is the 3-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-45-3",
@@ -2729,7 +2729,7 @@
                         "mark": 2,
                         "answer": "Legal status is what the law allowed women to do. Economic role is the work they actually did.",
                         "feedback": "Clarifies the two terms but does not explain why a historian must distinguish them. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-46-3",
@@ -2843,7 +2843,7 @@
                         "mark": 2,
                         "answer": "Women could not vote and needed guardians, while religious roles were more open to them.",
                         "feedback": "Summarises the limited political role and contrasts it with religious roles, but without the reasons. This is the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-48-3",
@@ -2912,7 +2912,7 @@
                         "mark": 2,
                         "answer": "Livia was the wife of Augustus and was influential.",
                         "feedback": "Identifies Livia and one aspect of her influence with no assessment. This is the 2-mark band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is preparing an extended response on one influential woman of the Roman world. The student has Tacitus' and Cassius Dio's accounts of Livia, the honours given to her after Augustus' death, and modern discussion of her informal influence. The student must assess her role and significance."
@@ -3189,7 +3189,7 @@
                         "mark": 2,
                         "answer": "Historians use written sources such as Homer and Herodotus, and material evidence such as inscriptions and archaeology.",
                         "feedback": "Two kinds of evidence are named, but the answer does not say what each shows about the origins or extent of slavery. This earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-55-3",
@@ -3250,7 +3250,7 @@
                         "mark": 2,
                         "answer": "Enslaved people in Roman households did domestic work like cooking and cleaning. Some were secretaries who handled letters for their masters.",
                         "feedback": "Two occupations are described with some reference to the evidence, but the answer does not show the range of roles or connect them to status. This earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-56-3",
@@ -3374,7 +3374,7 @@
                         "answer": "Athenians had attitudes to slavery. Some philosophers thought slavery was natural and enslaved people could be owned.",
                         "source": "AI",
                         "feedback": "The answer identifies an attitude and a status without analysis or reference to the relationship with masters. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A student is writing a research essay on Athenian attitudes to slavery. The student has a set of hypothetical extracts: a philosophical treatise arguing that some people are naturally suited to servitude, a law court speech in which a master defends the mistreatment of an enslaved man, and a comic fragment that mocks a cunning slave. The student must explain how these attitudes shaped the position of the enslaved."
@@ -3599,7 +3599,7 @@
                         "mark": 2,
                         "answer": "Enslaved people in Sicily rose up against their owners in 135 BCE. The leader was Eunus, who was a Syrian enslaved man.",
                         "feedback": "The answer describes the start of the revolt and names its leader, but gives no causes and no account of how the revolt ended. This earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-62-3",
@@ -3662,7 +3662,7 @@
                         "answer": "Spartacus led a slave revolt against Rome. It was a big event in Roman history.",
                         "source": "AI",
                         "feedback": "The answer identifies a revolt and a consequence without discussing its significance or giving any evidence. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student preparing for an extended response is working from a hypothetical set of sources: a short summary of the revolt in Campania, a passage from a later historian describing the crucifixions along the Via Appia, and a modern article that argues the revolts changed little. The student must reach a judgement on how significant the revolts were."
@@ -3999,7 +3999,7 @@
                         "mark": 3,
                         "answer": "The Ara Pacis shows the emperor with his family in a procession, which suggests peace. Greek art showed heroes and athletes. Art reflects the values of the people who made it and the people who paid for it.",
                         "feedback": "The answer identifies themes and links them to values in general terms, but the analysis is not developed and the relationship between the example and the values is asserted rather than explained. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-69-3",
@@ -4123,7 +4123,7 @@
                         "answer": "Elites used art to show power. Non-elites also made some art.",
                         "source": "AI",
                         "feedback": "The answer identifies two uses of art without justifying the claim or drawing on specific evidence. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is writing an essay for a unit on the representation of ancient society. The student has a hypothetical set of sources: imperial monuments in Rome, a freedman's tomb, and dedications made by associations of traders. The student must decide how far the evidence supports the claim that non-elite groups used art and architecture to represent themselves."
@@ -4184,7 +4184,7 @@
                         "mark": 2,
                         "answer": "The Parthenon is a famous Athenian temple. It was built to honour Athena.",
                         "feedback": "The answer identifies the Parthenon and one feature without assessing its significance. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is preparing an extended response for a unit on Athenian art. The student has a hypothetical summary of the building programme on the Acropolis, a note on the funds used for the temple, and a short extract from a later biographer about the criticism that the project attracted."
@@ -4292,7 +4292,7 @@
                         "mark": 2,
                         "answer": "The Doric order spread to Italy from Greece through colonies. The Ionic order had scrolls on the capitals.",
                         "feedback": "A route of spread is named and the two orders are identified, but the answer does not explain the process of spread or how the forms changed. This earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-74-3",
@@ -4585,7 +4585,7 @@
                         "mark": 2,
                         "answer": "Armies changed when new weapons came in. The Romans had swords called gladii.",
                         "feedback": "The answer describes a change and a weapon without discussing the effect on the structure or role of armies. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is writing an extended essay on the military history of the ancient Mediterranean. The student has summaries of the hoplite phalanx, the Macedonian army, the Marian legion and Hannibal's army at Cannae, and must weigh how far changes in weapons and tactics transformed the armies that used them."
@@ -4868,7 +4868,7 @@
                         "mark": 3,
                         "answer": "Hannibal used a strategy at Cannae that trapped the Roman army. His cavalry attacked from behind and the African infantry closed in, so the Romans were surrounded. This is called double envelopment.",
                         "feedback": "The answer names the double envelopment and the cavalry's role, and explains the result in general terms, but it does not examine the deployment of the centre or the Roman formation. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-84-3",
@@ -4984,7 +4984,7 @@
                         "mark": 4,
                         "answer": "Rome destroyed Carthage in 146 BCE, which removed its main rival in the western Mediterranean. The province of Africa was created, and Roman elites became richer from the spoils. The Carthaginians lost their city and were defeated. Polybius was present and wrote about how the destruction affected Rome.",
                         "feedback": "The answer discusses the impact on Rome and Carthage with some judgement, and covers the political and economic consequences. It does not weigh the impact on the conquered or evaluate the sources, so it sits in the 5-6 mark row. Fewer keywords are used than in the full answer.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-86-3",
@@ -4992,7 +4992,7 @@
                         "mark": 2,
                         "answer": "Rome destroyed Carthage. Carthage was a big rival of Rome.",
                         "feedback": "The answer identifies the destruction of Carthage and a rivalry without assessing the impact on either people. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "A student is preparing an extended response for a unit on warfare and conquest. The student has a hypothetical extract from a Greek historian who witnessed the destruction, a note on the new province of Africa, and a modern article arguing that the conquest was a turning point. The student must assess its impact on the conquerors and the conquered."
@@ -5151,7 +5151,7 @@
                         "mark": 2,
                         "answer": "A funerary practice is how people bury their dead. Inhumation and cremation were two types of burial.",
                         "feedback": "The answer gives a definition and identifies two forms of burial, but the definition is imprecise and it does not explain how the choice of form reflected belief. This earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-89-3",
@@ -5212,7 +5212,7 @@
                         "mark": 3,
                         "answer": "The prothesis was the laying out of the body in the house, and women mourned. The ekphora was the procession to the grave. Solon limited grave goods and lament.",
                         "feedback": "Two rituals are described and the regulation of lament is noted, but the answer does not explain the beliefs or purposes behind the rituals in any depth. This earns 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-90-3",
@@ -5390,7 +5390,7 @@
                         "answer": "Funerals brought people together. Death was a shared event.",
                         "source": "AI",
                         "feedback": "The answer identifies a communal aspect of funerals without justifying the claim or using examples. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is writing an extended response for a unit on death and society. The student has summaries of an Athenian state funeral, a Roman funeral procession and an Egyptian burial, and must decide how far the evidence supports the claim that funerary beliefs and rituals bound communities together."
@@ -5498,7 +5498,7 @@
                         "mark": 2,
                         "answer": "The Book of the Dead had spells for the afterlife. Egyptians believed the heart was judged.",
                         "feedback": "The answer identifies the example and a feature of the judgement, but it does not explain the concept of the afterlife or how the example shows it. This earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-95-3",
@@ -5683,7 +5683,7 @@
                         "answer": "Tomb II at Vergina is a Macedonian tomb with gold. Scholars disagree about it.",
                         "source": "AI",
                         "feedback": "The answer identifies the tomb and a scholarly disagreement without investigating its significance. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is preparing an extended research response on a royal tomb. The student has a hypothetical summary of the excavation report, a note on the gold larnax and the wreath, and two competing scholarly views on who was buried there. The student must investigate what the tomb reveals about death and funerary practice."
@@ -5851,7 +5851,7 @@
                         "answer": "The Prima Porta statue shows Augustus. It is a famous Roman statue.",
                         "source": "AI",
                         "feedback": "The answer identifies the statue without evaluating its usefulness as a source. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is preparing an extended response for a unit on power and image. The student has a hypothetical photograph of the Prima Porta statue, a summary of its discovery at the Villa of Livia, and a note on the scene carved on the cuirass. The student must judge how far the statue can be used to understand how Roman authority was presented."
@@ -6008,7 +6008,7 @@
                         "mark": 2,
                         "answer": "The statue shows Augustus in armour with his arm raised. The breastplate has a scene of a Parthian returning a Roman standard, and a Cupid by his foot shows his link to Venus.",
                         "feedback": "Two features are described accurately, but neither is explained as a claim about legitimacy, so it stays at the descriptive 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-104-3",
@@ -6242,7 +6242,7 @@
                         "answer": "Roman generals fought wars and won triumphs. Pompey and Caesar were powerful generals in the late Republic.",
                         "source": "AI",
                         "feedback": "Identifies generals and a triumph, but does not explain the link to elite position or discuss change, so it sits in the 2-mark band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A student is reading a biography of a late Republican general and wants to explain why elite careers were so closely tied to war. The student must also account for the changing relationship between generals and the soldiers who served under them."
@@ -6348,7 +6348,7 @@
                         "mark": 4,
                         "answer": "Qin Shi Huang unified China in 221 BCE and became the First Emperor. He standardised writing, weights and measures and built the Great Wall. However, Confucian historians disliked him and Sima Qian portrayed him as cruel, so his reputation is negative. He was significant because he created the first imperial state.",
                         "feedback": "Relevant evidence and a reputational point, but significance is asserted rather than weighed, and the source is not evaluated. It sits in the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-110-3",
@@ -6741,7 +6741,7 @@
                         "mark": 2,
                         "answer": "Merchants got rich and some families became more important in port towns. Labourers did not get much of the money.",
                         "feedback": "Two points with no development of the social change, so it fits the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-117-3",
@@ -6913,7 +6913,7 @@
                         "mark": 2,
                         "answer": "Alexander's conquests spread Greek culture to Central Asia. Gandharan art is one example of this influence.",
                         "feedback": "Identifies an example but offers no explanation or assessment, so it sits in the 2-3 mark row.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A hypothetical museum label (invented for this task) describes a Buddha statue from Gandhara, dated to the 2nd century CE, whose drapery and facial features resemble Greek sculpture. The student must decide whether the statue shows foreign influence transforming local religious art or simply borrowing a fashionable style."
@@ -8945,7 +8945,7 @@
                         "answer": "The eruption of 79 CE destroyed Pompeii and Herculaneum. Some people say there was an earthquake before that.",
                         "source": "AI",
                         "feedback": "Two accurate statements with no discussion of the extent of the eruption's role, so it fits the 2-mark band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A Year 12 student is challenged by a classmate who argues that Pompeii was already declining before 79 CE and that the eruption only completed a process that had begun. The student must decide how far the evidence supports this view."
@@ -8995,7 +8995,7 @@
                         "mark": 2,
                         "answer": "The eruption began with a violent explosion that sent ash and pumice high into the sky. Hot clouds of gas and volcanic material then swept over the towns.",
                         "feedback": "Meets the 2-mark row: some accurate information about the main features, but it does not say how the eruption affected each city. Naming the pyroclastic surges and the different fates of the two cities would reach 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-hsc-2025-1-3",
@@ -9064,7 +9064,7 @@
                         "mark": 2,
                         "answer": "The loaf is organic remains and the fish market painting is art. The house plan is buildings. The election notice is art because it is painted on a wall.",
                         "feedback": "Three of the four items are classified correctly. The election notice is misclassified because the medium was used instead of the purpose of the item. It fits the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-128-3",
@@ -9513,7 +9513,7 @@
                         "mark": 2,
                         "answer": "A thermopolium was a shop that sold food and drink to passers-by. It had a counter with jars set into it.",
                         "feedback": "Accurate on form and function, but does not connect the shop to street-level commerce or the wider economy. It fits the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-135-3",
@@ -9571,7 +9571,7 @@
                         "mark": 3,
                         "answer": "Source B, a group of bronze fish hooks from Pompeii, suggests that fishing was one of the town's industries. Pompeii also had bakeries, with mills and ovens, and fullonicae for cleaning and dyeing cloth. These show that the town produced food and textiles as well as objects for sale.",
                         "feedback": "Meets the 3-mark row: some information about several industries, with a reference to Source B. To reach 4 marks it would explain what the fish hooks reveal about fishing and its links to trade, rather than listing industries.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-hsc-2025-3-3",
@@ -9694,7 +9694,7 @@
                         "mark": 2,
                         "answer": "The tabernae were shops at the front of houses. They made money for the owners.",
                         "feedback": "Accurate on location and income, but with no link to the household itself. It fits the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-137-3",
@@ -9808,7 +9808,7 @@
                         "mark": 3,
                         "answer": "Baths in Pompeii were used for relaxing and exercise. The Stabian Baths had hot, warm and cold rooms. People went there to talk, and wealthy men could show their status. This made the baths part of the community.",
                         "feedback": "Accurate on the facilities and social functions, but the link between status, display and community is asserted rather than analysed. It fits the 3-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-139-3",
@@ -10027,7 +10027,7 @@
                         "mark": 2,
                         "answer": "Venus was the patron goddess of Pompeii and had a temple in the town.",
                         "feedback": "Accurate basics, but no explanation of what the cult reveals about civic identity or religion. It fits the 2-mark band.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-ah-143-3",
@@ -10258,7 +10258,7 @@
                         "mark": 2,
                         "answer": "Archaeologists at Pompeii now use technology, and historians ask new questions.",
                         "feedback": "Two general points with no examples or assessment, so it fits the 2-3 mark row.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A Year 12 seminar is debating whether recent archaeology at Pompeii and Herculaneum has changed the story of the cities mainly because of new scientific techniques, or because modern historians ask different questions about ordinary people and the enslaved. The student must weigh both arguments before reaching a judgement."
@@ -10317,7 +10317,7 @@
                         "mark": 3,
                         "answer": "Technology such as DNA testing and artificial intelligence has been used to study Pompeii. Source D shows writing being identified on a scroll, and this has helped historians.",
                         "feedback": "Meets the 1-3 row: general statements about new technology and a reference to Source D. Explaining what one method revealed, and how it changed understanding, would move it up the ladder.",
-                        "band": 1
+                        "band": 3
                       }
                     ],
                     "scenario": "Source C\nExtract from ‘New DNA evidence at Pompeii reveals surprises about identities of Vesuvius eruption victims’ from CBS News, 2024\nNew DNA evidence at Pompeii reveals surprises about identities of Vesuvius eruption victims\nObservers see stories [in the human remains from Pompeii] . . . like a mother holding a child . . .\nBut new DNA evidence suggests things were not as they seem — and these prevailing interpretations come from looking at the ancient world through modern eyes.\n“We were able to disprove or challenge some of the previous narratives built upon how these individuals were kind of found in relation to each other,” said Alissa Mittnik . . .\nMittnik and her colleagues discovered that the person thought to be a mother was actually a man unrelated to the child . . .\nResearchers focused on 14 casts undergoing restoration, extracting DNA from the fragmented skeletal remains that mixed with them. They hoped to determine the sex, ancestry and genetic relationships between the victims.\nResearchers also confirmed Pompeii citizens came from diverse backgrounds but mainly descended from eastern Mediterranean immigrants . . .\nEarlier this year, three researchers won a $700,000 prize for using artificial intelligence to read a 2,000-year-old scroll that was scorched in the Vesuvius eruption. . . .\nThe scroll’s author was “probably Epicurean philosopher Philodemus,” writing “about music, food, and how to enjoy life’s pleasures,” wrote contest organizer Nat Friedman on social media.\n© CBS News\nSource D\nImage showing identification of writing on a scroll from Herculaneum using artificial intelligence (AI)\n[Image: greyscale photograph of a charred scroll fragment from Herculaneum on a black background, with purple outlined boxes around individual marks, each labelled with a Greek or Latin letter, showing the AI identification of writing]\nCourtesy of the Vesuvius Challenge (scrollprize.org)\n\nYour answer will be assessed on how well you:\n• demonstrate historical knowledge and understanding relevant to the question\n• communicate ideas and information logically\n• use historical terms and concepts appropriately",
@@ -10373,7 +10373,7 @@
                         "mark": 4,
                         "answer": "Human remains from Pompeii are displayed as plaster casts, which some people find disrespectful. Scientists also study bones to learn about health. Tourism means more people see the casts, which can damage the site. The ethics of displaying remains are debated.",
                         "feedback": "Identifies the main issues of display, study and tourism, but asserts that the display is disrespectful without weighing either side. It also treats the casts as remains, when they are plaster made from the voids left by bodies. It fits the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-ah-148-3",

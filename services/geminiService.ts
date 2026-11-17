@@ -174,7 +174,7 @@ const buildMarkingCriteriaInstruction = (
   // unreachable one the two calls cross and the row came out as a reversed
   // range ("3-2 marks: [criteria — Band 4]"). Nothing routed here hit that —
   // the ≤6-mark branch above returns first, and above six marks the
-  // proportional rule reaches every band — but the ladder is the thing being
+  // ladder reaches every band — but the ladder is the thing being
   // described, so it is now the thing being read.
   const ranges = guideRanges(marks, tier);
   const maxBand = ranges.length ? ranges[0].band : getTierTargetBand(tier);

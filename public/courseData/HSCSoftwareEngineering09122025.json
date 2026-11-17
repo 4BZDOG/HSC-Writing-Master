@@ -266,7 +266,7 @@
                         "mark": 2,
                         "answer": "Version 1 is procedural programming because it uses functions on separate lists. Version 2 is OOP because it uses a Student class.",
                         "feedback": "Classifies both versions, with a general reason for each, which meets the 2-mark row. To reach the 3-mark row, name what the Student class does, such as storing each student's marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-02-n0-s3",
@@ -332,7 +332,7 @@
                         "mark": 2,
                         "answer": "Procedural programming uses functions and shared data, while OOP uses classes and objects.",
                         "feedback": "Identifies a feature of each approach with a brief comparison, which meets the 2-mark row. To reach the 3-mark row, link each approach to the stock program.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -386,7 +386,7 @@
                         "mark": 2,
                         "answer": "A data flow diagram shows how orders and stock data move between processes and stores. A class diagram shows the classes and their attributes in the system.",
                         "feedback": "Describes what TWO representations show, with a general reference to the system, which meets the 2-mark row. To reach the 3-mark row, add the structure chart and a specific canteen element for each diagram.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-03-n0-s3",
@@ -443,7 +443,7 @@
                         "mark": 4,
                         "answer": "The team should prepare all three, because a data flow diagram shows how data moves and a structure chart shows the modules. A class diagram is also useful for the ticketing module. Using only one would leave gaps in the design of the system, although the extra time is a real cost.",
                         "feedback": "Justifies the choice of representations with some relevant reasons, which meets the 4-mark row. To reach the 5-mark row, make a judgement on the choice and support it, such as by explaining what each single diagram would miss.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-03-n0-n1-s3",
@@ -507,7 +507,7 @@
                         "mark": 2,
                         "answer": "Task definition sets the program's inputs and outputs first. Top-down design then breaks the program into smaller tasks.",
                         "feedback": "Outlines TWO stages, task definition and top-down design, with brief descriptions, which meets the 2-mark row. To reach the 3-mark row, add where the facade pattern and agility fit.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-04-n0-s3",
@@ -627,7 +627,7 @@
                         "mark": 2,
                         "answer": "Correctness can be checked by testing known lists, such as lists with repeated marks. Robustness can be checked by testing the empty list, which currently fails.",
                         "feedback": "Describes TWO measures with a general link to the method, which meets the 2-mark row. To reach the 3-mark row, add a third measure, such as efficiency, linked to a feature of the method.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-05-n0-s3",
@@ -684,7 +684,7 @@
                         "mark": 4,
                         "answer": "The code implements the sorting algorithm correctly, as shown by the passing unit tests. However, the nested loops compare every pair of orders, so the program is slow with 10,000 orders and its efficiency is weak. The duplicated blocks also make the programming code harder to maintain, so the effectiveness of the code is limited.",
                         "feedback": "Discusses strengths and weaknesses with relevant evidence, which meets the 4-mark row. To reach the 5-mark row, assess the code against at least two criteria and weigh the weaknesses.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-05-n0-n1-s3",
@@ -744,7 +744,7 @@
                         "mark": 2,
                         "answer": "The Order object calls a public method of the Payment object and passes the total. The Payment object then returns a result.",
                         "feedback": "Describes how the Order object calls a method of the Payment object, with a brief description of the response, which meets the 2-mark row. To reach the 3-mark row, name the parameter passed and explain the result.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-06-n0-s3",
@@ -861,7 +861,7 @@
                         "mark": 2,
                         "answer": "The loop can stop as soon as the product code is found. The sales tax can be calculated once before the loop starts.",
                         "feedback": "Outlines TWO optimisations with a brief explanation of each, which meets the 2-mark row. To reach the 3-mark row, add a third distinct change, such as a lookup structure.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-07-n0-s3",
@@ -925,7 +925,7 @@
                         "mark": 2,
                         "answer": "Code optimisation makes programs faster. However, optimised code can be harder to read.",
                         "feedback": "Identifies the effect of optimisation on performance, with brief detail on readability, which meets the 2-mark row. To reach the 3-mark row, describe an optimisation with a general link to the timetable program.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -978,7 +978,7 @@
                         "mark": 2,
                         "answer": "Consistency keeps the class layout the same for all students. Version control lets students merge their changes safely into one shared program.",
                         "feedback": "Outlines TWO practices, consistency and version control, with a brief benefit for each, which meets the 2-mark row. To reach the 3-mark row, add code commenting or feedback with a specific benefit.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-08-n0-s3",
@@ -1036,7 +1036,7 @@
                         "mark": 4,
                         "answer": "Encapsulation and classes let each developer work on one class at a time, which reduces clashes. Consistency and code commenting also help others understand the code. Version control records changes, and feedback from reviews helps the team find errors early. However, the team's practices matter as much as the OOP design.",
                         "feedback": "Discusses several practices and OOP features with some reasoning, which meets the 4-mark row. To reach the 5-mark row, explain how far each feature supports collaboration.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-uop-stg11-08-n0-n1-s3",
@@ -1162,7 +1162,7 @@
                         "mark": 4,
                         "answer": "Placing the discount branch in a function means the rule is kept in one place, so a change needs only one edit. The function can also be tested on its own with a few quantities. Keeping it in the main program would repeat the logic and make errors more likely, although it would make a very small program simpler.",
                         "feedback": "Justifies the placement with some reasons and considers the main program as an alternative, which meets the 4-mark row. To reach the 5-mark row, explain the testing and reuse advantages more fully.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-pop-stg11-01-n0-n1-s3",
@@ -1273,7 +1273,7 @@
                         "mark": 6,
                         "answer": "The restructured design supports ease of maintenance in several ways. The clear mainline only calls named subroutines, so a new member can follow the flow without reading every line, and each subroutine performs one logical task, so a change to the winner choice should not affect saving the results. Stubs allow the unwritten ticket check to be tested now and replaced later without changing the mainline. However, the practices around the design are weak. With no version control, the club cannot compare a modified OOP programming code with earlier versions or undo a faulty change, which is a serious risk when an inexperienced member edits it. Because the club keeps no record of earlier versions, a damaged file could lose months of work unless a regular backup is made. The design is strong in structure but weak in process. Before modifying the code, the club should adopt version control, make a regular backup and add comments explaining each subroutine's purpose. Overall, the design supports maintenance well, but only if these practices are added.",
                         "feedback": "Weighs the design's structure against version control and backup, with a reasoned judgement, which meets the 6-mark row. Keep the judgement conditional on specific practices, as the closing sentence does.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-pop-stg11-02-n0-n1-s2",
@@ -1281,7 +1281,7 @@
                         "mark": 4,
                         "answer": "The clear mainline and subroutines make the program easier to follow, and stubs let the unwritten part be tested. However, the club keeps no record of earlier versions, so a faulty change could not be undone, and there is no regular backup. The design is good, but the practices around it are weak.",
                         "feedback": "Discusses some strengths and weaknesses of the design for maintenance, which meets the 4-mark row. To reach the 5-mark row, evaluate how far the weaknesses matter for the inexperienced member.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-pop-stg11-02-n0-n1-s3",
@@ -1343,7 +1343,7 @@
                         "mark": 2,
                         "answer": "The first test is unit testing, since it checks one method alone. The third is system testing, since it checks the whole program.",
                         "feedback": "Classifies two tests correctly with a brief reason for each, which meets the 2-mark row. To reach the 3-mark row, classify the second test as subsystem testing and give its reason.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-pop-stg11-03-n0-s3",
@@ -1392,7 +1392,7 @@
                         "mark": 6,
                         "answer": "The mix of black box testing and white box testing is effective in part. Black box testing checks the fee method against its specification without knowledge of the code, so it shows whether the program behaves correctly for users, including unexpected inputs the developers did not consider. White box testing checks every branch of the fee calculation, which confirms each path has been exercised and reduces the chance of an untested condition. However, neither approach alone checks how the booking and payment classes work together, so a fault in that link could pass both tests. Grey box testing, which uses partial knowledge of the design, could help here, but the team should still add subsystem testing and system testing to close this gap. The absence of a formal quality assurance process is a more serious weakness, because nothing requires testing to be planned, recorded or repeated after each change. Without it, the team cannot show that a later fix has not broken an earlier feature. The testing is a useful start but not sufficient for release, so the team should combine these methods with planned quality assurance first.",
                         "feedback": "Evaluates both methods' coverage against formal quality assurance, with a reasoned judgement on release readiness, which meets the 6-mark row. Keep the judgement tied to the evidence, as the closing sentences do.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-pop-stg11-03-n0-n1-s2",
@@ -1400,7 +1400,7 @@
                         "mark": 4,
                         "answer": "Black box testing checks the fee method against its specification, which is useful for user-level behaviour. White box testing checks each branch of the code. However, neither method checks how the booking and payment classes work together, so the team should also use system testing.",
                         "feedback": "Discusses the strengths and limitations of both methods, which meets the 4-mark row. To reach the 5-mark row, evaluate what each method's coverage shows, with relevant evidence.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-oop-pop-stg11-03-n0-n1-s3",
@@ -1477,7 +1477,7 @@
                         "mark": 2,
                         "answer": "Two specialised fields are manufacturing and healthcare. In manufacturing, a robotic arm assembles parts on a production line. In healthcare, a surgical robot helps doctors perform precise operations.",
                         "feedback": "Outlines two specialised fields, each with a named mechatronic system, which meets the 2-mark row. To reach 3 marks, outline a third field with its own example system.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-umhs-stg11-01-n0-s3",
@@ -2276,7 +2276,7 @@
                         "mark": 2,
                         "answer": "A motor driver is needed because the motor draws more current than the microcontroller can give.",
                         "feedback": "Describes the limit of the microcontroller pins, which meets the 2-mark row. To reach 3 marks, explain one reason the motor should not connect directly to the pins.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -2332,7 +2332,7 @@
                         "mark": 2,
                         "answer": "The arm needs an emergency stop because the user may not react quickly. A simple switch control also suits the user.",
                         "feedback": "Describes two requirements, each linked to a design feature, which meets the 2-mark row. To reach 3 marks, describe a third requirement and the design feature it shapes.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-umhs-stg11-08-n0-s3",
@@ -2382,7 +2382,7 @@
                         "mark": 6,
                         "answer": "The arm meets many of the client's specialist requirements, so it is a suitable mechatronic system for people with disability. Its joystick suits limited hand control, because small, consistent movements can operate the arm without fine motor skill. The speed limit set by the therapist reduces the risk of sudden or unsafe motion, which is a key design feature for a client who may not react quickly. The emergency stop is an essential function, as it lets the client or a carer halt the arm immediately. However, the evaluation must also consider the limitations. A battery life of about four hours may not cover a full day of therapy, so the clinic must plan charging and the design may need a larger battery. The mounting must also be checked for compatibility with the wheelchair, since a poor fit would reduce stability and safe use. Overall, the design meets the core requirements well, but its daily functions are less certain, so the clinic should trial the arm for longer before committing.",
                         "feedback": "Evaluates the arm's design and functions against the client's specialist requirements and weighs them against its limitations, which meets the 6-mark row. Naming the trial measures the clinic should use would make the recommendation more concrete.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-umhs-stg11-08-n0-n1-s2",
@@ -2580,7 +2580,7 @@
                         "mark": 2,
                         "answer": "The closed-loop algorithm reads a temperature sensor and switches the fan on when the reading is high. The sensor gives feedback, which the program uses to decide when to switch the fan off.",
                         "feedback": "Describes the switching of the fan from the sensor reading, which meets the 2-mark row. To reach 3 marks, describe the repeated read and compare steps and how feedback corrects each pass.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-dca-stg11-02-n0-s3",
@@ -2755,7 +2755,7 @@
                         "mark": 3,
                         "answer": "The robot reads its front distance sensor and reverses when the reading is less than 15 cm. Otherwise it drives forward. Because the sensor faces forward only, objects at the sides are not checked.",
                         "feedback": "Describes the sensor input and the two actions, with a brief limitation about side objects, which meets the 3-mark row. To reach 4 marks, explain how this limitation affects the robot in a changing classroom.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-dca-stg11-03-n0-n1-s3",
@@ -3060,7 +3060,7 @@
                         "mark": 2,
                         "answer": "A simulation models the gate and its sensor on a computer, so the team can test the programming code without hardware. The team can then check that the code responds to the sensor.",
                         "feedback": "Describes a simulation that tests the code, which meets the 2-mark row. To reach 3 marks, name a simulated sensor input and the output the code should produce.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-pab-stg11-03-n0-s3",
@@ -3415,7 +3415,7 @@
                         "mark": 2,
                         "answer": "As the temperature rises towards 20 °C, the heater power is reduced, so the heater does not run at full power all the time.",
                         "feedback": "Describes that heater power falls as the temperature rises, which meets the 2-mark row. To reach 3 marks, refer to the error and give a power value at two temperatures.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-pab-stg11-06-n0-s3",
@@ -3463,7 +3463,7 @@
                         "mark": 6,
                         "answer": "The on/off control algorithm is simpler to implement and responds quickly, because the heater runs at full power whenever the temperature is below the 20 °C setpoint. However, its temperature swings between 18.5 °C and 21.5 °C, a range of 3 °C, so the enclosure is often too cold or too hot. The proportional control algorithm reduces the heater power as the error shrinks, so its temperature stays in a much narrower range.\n\nThe proportional algorithm has a limitation: it settles between 19.4 °C and 19.7 °C, about 0.5 °C below the setpoint. This steady-state error occurs because the power is zero only when the error is zero, so a small error is needed to supply the heat lost to the surroundings. For an enclosure that needs precise control, this offset may be unacceptable, although it is far smaller than the on/off swing. Overall, the proportional control algorithm improves the performance of the mechatronic system by giving a smoother, more stable temperature, so it is the better choice for this enclosure.",
                         "feedback": "Weighs the on/off swing against the proportional offset using the data, and reaches a justified conclusion, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-pab-stg11-06-n0-n1-s2",
@@ -3700,7 +3700,7 @@
                         "mark": 6,
                         "answer": "The function is effective for the four fixed-value tests. Tests 1, 2, 3 and 5 passed in all ten runs, so the speed_for_distance control algorithm returns the required speed for 5 cm, 10 cm, 10.5 cm and 31 cm. This shows the effectiveness of the function at these inputs.\n\nThe repeatability of test 4 is poor, but the cause is the test design rather than the function. The test used a real ultrasonic sensor, so the input varied between 29.8 cm and 31.2 cm. The function responded correctly to each input it received, because 29.8 cm gives 50% and 31.2 cm gives 100%, so the varying results came from the varying inputs. The unit test is therefore not repeatable because the input is not controlled.\n\nTo make the evaluation reliable, the team should replace the sensor with a fixed input of 30 cm in test 4, then repeat the test ten times. Only then can the test show whether the component is effective at exactly 30 cm. Overall, the control algorithm has shown its effectiveness, but its results cannot yet be trusted at the 30 cm boundary.",
                         "feedback": "Judges effectiveness at each fixed input, identifies the uncontrolled sensor input as the cause of poor repeatability and recommends a specific fix, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pmc-pab-stg11-08-n0-n1-s2",
@@ -3783,7 +3783,7 @@
                         "mark": 2,
                         "answer": "Requirements definition records what the booking system must do. Testing and debugging checks that the features work and fixes faults.",
                         "feedback": "Gives a correct purpose for both steps, which meets the 2-mark row. To reach 3 marks, add one specific effect for each step on the booking system.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-sdev-stg11-01-n0-s3",
@@ -3950,7 +3950,7 @@
                         "mark": 6,
                         "answer": "Online code collaboration tools are widely used in industry, so their prevalence is a strong reason to consider them in software development education. Professional teams use them to share repositories, track changes through version control and review code before it is merged, which supports quality and accountability. For a student team, these benefits are significant: everyone can see the current program, and the teacher can follow each person's contribution. However, the learning curve is real, because students new to version control may struggle with commits, branches and merge conflicts, and this can take time away from programming. The tools also add a layer of setup that a Year 11 class may not need. On balance, a student team should use these tools, but with a simplified workflow, a short introduction and clear guidelines for code review, so that the benefits are gained without overwhelming beginners.",
                         "feedback": "Evaluates the tools with a clear judgement, weighing industry prevalence and benefits such as code review against the learning curve, which meets the 6-mark row. The recommendation is tied to the class's situation.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-sdev-stg11-02-n0-n1-s2",
@@ -4211,7 +4211,7 @@
                         "mark": 2,
                         "answer": "Both strategies break a problem into smaller parts.",
                         "feedback": "Identifies one similarity, which meets the 2-mark row. To reach 3 marks, describe how each strategy works.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -4331,7 +4331,7 @@
                         "mark": 2,
                         "answer": "A flowchart and pseudocode both show the steps of an algorithm.",
                         "feedback": "Identifies a flowchart and pseudocode as ways to show algorithm steps, which meets the 2-mark row. To reach 3 marks, explain where the subprogram appears.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   }
@@ -4442,7 +4442,7 @@
                         "mark": 3,
                         "answer": "Abstraction shows the main modules of a system, and refinement adds detail to each module. Top-down design uses both in a new project with clear requirements, while bottom-up design suits existing tested components.",
                         "feedback": "Explains the role of abstraction and refinement, with a link to the new project, which meets the 3-mark row. To reach 4 marks, develop when bottom-up design suits the second project.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-04-n0-n1-s3",
@@ -4561,7 +4561,7 @@
                         "mark": 3,
                         "answer": "Desk checking traces the algorithm with test marks to confirm its logic. Peer checking asks a classmate to look for mistakes the author has missed, such as an error in the call to the Average function.",
                         "feedback": "Explains what each checking method does, with an example of an error peer checking could catch, which meets the 3-mark row. To reach 4 marks, explain how the call and the returned value must match.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-05-n0-n1-s3",
@@ -4623,7 +4623,7 @@
                         "mark": 2,
                         "answer": "PrintReceipt is a procedure. TaxAmount is a function because it returns a value.",
                         "feedback": "Classifies both correctly, with a reason for TaxAmount only, which meets the 2-mark row. To reach 3 marks, give the reason that PrintReceipt is a procedure.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-alg-stg11-06-n0-s3",
@@ -5693,7 +5693,7 @@
                         "mark": 2,
                         "answer": "Waterfall has stages such as requirements, design, coding and testing, and they are done one after another.",
                         "feedback": "Outlines several Waterfall stages in order, which meets the 2-mark row. To reach 3 marks, include deployment and link the stages to the timetable program.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-scd-stg11-03-n0-s3",
@@ -5856,7 +5856,7 @@
                         "mark": 6,
                         "answer": "The program meets its functionality requirement, since it passes every functional test, so it does what it was designed to do. However, its performance is poor: taking 40 seconds to sort 100 numbers suggests an inefficient algorithm, possibly a simple nested-loop sort, which would not cope with larger data sets. The readability of code is also a concern, because a program with no comments is hard for another programmer to follow or maintain. The quality of documentation is therefore very low, so users and future developers cannot tell how to run the program or what its limits are. A tester would evaluate the solution as partly effective: it is correct, but it is slow, hard to maintain and poorly documented. Testing should be repeated after the algorithm is improved and comments are added, so the final evaluation reflects all four aspects.",
                         "feedback": "Evaluates functionality against performance, readability and documentation, and reaches a justified overall judgement, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-prf-scd-stg11-04-n0-n1-s2",
@@ -6298,7 +6298,7 @@
                         "mark": 2,
                         "answer": "Secure software protects sensitive user data, such as account details and transaction records, from unauthorised access. It also reduces the number of cyber attacks and software vulnerabilities that could disrupt the banking platform.",
                         "feedback": "Outlines two distinct benefits, each briefly described, which meets the 2-mark row. To reach 3 marks, add a third distinct benefit with a supporting feature.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-a497063d-ba0e-44fb-aecf-6a7db3ddb86a",
@@ -6424,7 +6424,7 @@
                         "mark": 4,
                         "answer": "It is important to protect the data and also to fix vulnerabilities. Protecting data means using encryption. Fixing vulnerabilities means stopping hackers getting in. It's probably better to stop the hackers in the first place, because if they can't get in, they can't steal the data. But if they do get in, the data should be encrypted. A good evaluation is that you need to do both.",
                         "feedback": "Discusses both focus areas with some relevant reasoning, which meets the 4-mark row. To reach 5 marks, weigh the limitations of each approach and develop the overall judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-5ce05e8b-f231-464c-83b3-e07f2c69678e",
@@ -6507,7 +6507,7 @@
                         "mark": 2,
                         "answer": "Secure software protects customers' financial data from being stolen. It also helps reduce cyber attacks on the FinTech app.",
                         "feedback": "Identifies two general benefits, which meets the 1-2 mark row. To reach 3 marks, name specific practices and link each benefit to the company.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -6568,7 +6568,7 @@
                         "mark": 4,
                         "answer": "The design and testing phases are fundamental to developing secure code because they integrate security into the software development process. In the design phase, threat modelling identifies risks, such as data interception, before code is written. For example, the design of an online banking system would require sensitive data to be encrypted in transit and at rest. In the testing phase, penetration testing and vulnerability scanning check that these controls work, so flaws are found and patched before release. This is why both phases matter for secure code.",
                         "feedback": "Explains the roles of both phases with relevant examples, which meets the 4-mark row. To reach 5 marks, add a clear sentence on why each phase is fundamental to secure code.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-05504a00-e562-4e90-b9ea-16f9102b274c",
@@ -6767,7 +6767,7 @@
                         "mark": 2,
                         "answer": "End users influence secure design because their capabilities vary. For example, inexperienced users need security settings that are easy to understand, such as a simple password reset. The design must therefore assume that users will make mistakes.",
                         "feedback": "Describes one way user capability affects design, through simpler security settings for inexperienced users, which meets the 2-mark row. To reach 3 marks, name the feature and explain how it reduces risk.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-d3ac64f8-e578-446b-b34e-d907fe72c0ef",
@@ -6816,7 +6816,7 @@
                       {
                         "id": "sa-6b16246c-8f32-4904-bdb6-e1fe21fafbe6",
                         "source": "AI",
-                        "band": 6,
+                        "band": 5,
                         "answer": "The first is simple push-notification multi-factor authentication, with one 'Approve' button on the user's smartphone. This is justified because senior users may struggle to type a six-digit code in time, and it keeps protection strong while preserving accessibility. The second is large, plain-language warnings before risky actions, such as sharing health records. This is justified because this group is more vulnerable to phishing, and explicit prompts such as 'Are you sure you want to share your health summary?' build phishing resistance.",
                         "mark": 4,
                         "feedback": "Proposes two secure design features, push-notification authentication and plain-language warnings, and justifies each by the needs of senior users and the risks they face, which meets the 4-mark row."
@@ -6824,7 +6824,7 @@
                       {
                         "id": "sa-590350ec-724a-477a-8217-4346a0e62d4e",
                         "source": "AI",
-                        "band": 4,
+                        "band": 3,
                         "answer": "One feature would be to use fingerprints to log in instead of passwords, because they might forget their password. Another feature is to make the error messages very simple and not scary, so they don't get confused if something goes wrong. This makes it easier for them to use it safely.",
                         "mark": 2,
                         "feedback": "Proposes two relevant features, fingerprint login and simple error messages, with general justifications, which meets the 2-mark row. To reach 3 marks, explain how one feature protects senior users from a specific risk such as phishing."
@@ -6832,7 +6832,7 @@
                       {
                         "id": "sa-102dd318-fda8-4588-9a10-473a5562e903",
                         "source": "AI",
-                        "band": 3,
+                        "band": 2,
                         "answer": "It should have big buttons so they can see them. And it should have a password to be secure.",
                         "mark": 1,
                         "feedback": "Suggests large buttons, a usability feature, which meets the 1-mark row. To reach 2 marks, propose one secure design feature and justify it."
@@ -6960,7 +6960,7 @@
                         "mark": 4,
                         "answer": "Authentication and authorisation are two distinct yet interconnected pillars of secure software design. Authentication is verifying a user's identity, answering the question 'Who are you?'. For example, when a user logs into an online banking system, they enter a username and password, and their identity is confirmed if the credentials match. Authorisation determines what an authenticated user can access, answering 'What are you allowed to do?'. For example, an account holder can view their balance but cannot approve loans. This shows the key contrast between the two concepts.",
                         "feedback": "Defines both concepts and gives a banking example for each, which meets the 4-mark row. To reach 5 marks, add explicit comparison points and explain how the two work together.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-ca3d45b5-1037-4e33-ba83-0bbc1642204b",
@@ -7436,7 +7436,7 @@
                         "mark": 4,
                         "answer": "Security by design means building security into software from the start rather than adding it afterwards. Cryptography contributes by ensuring data confidentiality. For example, encrypting sensitive user data from the outset means that even if a database is breached, the information remains unreadable. Sandboxing contributes by providing isolation, so a security flaw in one component cannot easily affect the entire system. For instance, web browsers run different tabs in their own sandboxes, so a malicious website cannot access the user's files. Both are design decisions that mitigate threats.",
                         "feedback": "Explains both techniques with relevant examples, which meets the 4-mark row. To reach 5 marks, state explicitly how each is built into the design phase.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-83bb54d9-a203-4ea5-ab11-335f88d557e9",
@@ -7572,7 +7572,7 @@
                         "mark": 4,
                         "answer": "Privacy by design (PbD) is a foundational approach to software development that integrates privacy from the initial design phase. Its core characteristic is its proactive nature, so privacy is built in rather than treated as an add-on after a breach. It makes privacy a default setting, and it respects user privacy by ensuring that data collection and processing are privacy-enhancing. Key principles include data minimisation, where only necessary data is collected. For example, a voice assistant would process commands locally where possible, rather than sending all recordings to cloud servers by default. Users would also be asked for consent before data leaves the device.",
                         "feedback": "Explains the proactive nature of privacy by design with a relevant example, which meets the 4-mark row. To reach 5 marks, add how the design gives users control over their data.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-1996689e-5a40-4847-8ef7-f0b8cd20dfc3",
@@ -7639,7 +7639,7 @@
                         "mark": 3,
                         "answer": "Privacy as the default means the app should keep a student's data private without them needing to change settings. For example, a mood check-in is only shown to the student. This protects students because their information is not shared by accident. It is better to build privacy in from the start than to add it later.",
                         "feedback": "Describes the default setting with an example, which meets the 3-mark row. To reach 4 marks, explain what opt-in sharing prevents and compare it with retrofitting.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-1762992228798-w9b30kg-n1-s3",
@@ -7707,7 +7707,7 @@
                         "mark": 2,
                         "answer": "Privacy by design means thinking about privacy right at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage of building the software itself, including what data is collected and whether it is needed at all.",
                         "feedback": "Meets the 2-mark row: it outlines one feature of privacy by design, that it is a proactive approach taken from the start. It does not describe how this would work in the weather app, so it stays short of the 3-mark row. Describing how the app would apply it, such as deleting a user's location data once the forecast has been delivered, would lift it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-se-hsc-2025-16c-4",
@@ -7774,7 +7774,7 @@
                         "mark": 6,
                         "answer": "For a large financial services company, a hot site is the better option for disaster recovery on a new online banking platform. Customers expect to reach their accounts at any time, so the platform must keep running after a disaster.\n\nA hot site is a fully equipped facility that mirrors the main data centre, with hardware, software and data kept up to date in real time. If the primary site fails, the hot site can take over almost immediately, so customers would notice very little disruption.\n\nA cold site is only a building with power and networking. The servers must be bought, installed and restored from backups before the platform can run again, which could take days. During that time, customers could not make payments or check their balances, and trust in the bank would fall.\n\nBecause the banking platform cannot tolerate long outages, a hot site is the most suitable choice. Its fast recovery supports business continuity, while a cold site would leave the company exposed for too long after a disaster.",
                         "feedback": "Evaluates both sites with relevant reasoning about recovery time and a supported recommendation, which meets the 6-mark row. To reach 7 marks, weigh the cost of a hot site directly against the cost of downtime.",
-                        "band": 5
+                        "band": 4
                       },
                       {
                         "id": "sa-287c6c17-d0cc-4607-a5f0-b19dd299af2b",
@@ -7900,7 +7900,7 @@
                       {
                         "id": "sa-801cc11a-da13-4a3b-bc4b-bcb46724914a",
                         "source": "AI",
-                        "band": 6,
+                        "band": 5,
                         "answer": "For a small e-commerce business, I would propose a four-phase incident response plan for the data breach, focused on containment, eradication, recovery and communication.\n\nThe immediate priority is to stop the breach and prevent further data loss. This involves isolating affected systems, for example by shutting down the web server or blocking the attacker's IP address at the firewall.\n\nOnce contained, the team must identify and remove the root cause of the breach (e.g., patch the vulnerability). They would then restore the system from a known-good backup and verify that it is clean.\n\nAfter recovery, the business must communicate transparently. This involves notifying affected customers about what data was compromised and what steps they should take. It also includes mandatory reporting to the relevant authorities, such as the Office of the Australian Information Commissioner (OAIC), as required by law.\n\nFinally, the team should conduct a post-mortem to analyse the breach and improve security controls to prevent a recurrence. This proposal is justified as it provides a structured, logical sequence of actions that prioritises limiting the damage before moving on to recovery and communication.",
                         "mark": 6,
                         "feedback": "Proposes a sequenced plan with distinct phases, including containment and communication, each with a specific action, which meets the 6-mark row. Keep each action tied to the small online store."
@@ -7979,7 +7979,7 @@
                         "mark": 6,
                         "answer": "Employing SAST, DAST and manual penetration testing throughout the software development life cycle is highly effective for a new e-commerce platform handling sensitive customer data and financial transactions. Each method offers distinct advantages that complement the others.\n\nSAST is effective early in the SDLC, during coding. It analyses source code for vulnerabilities such as SQL injection and cross-site scripting without executing the code, so developers can fix flaws quickly. However, SAST can produce false positives and may not detect runtime configuration issues or authentication bypasses.\n\nDAST is effective during testing. It tests the running application from the outside, simulating attacks to find server misconfigurations, authentication flaws and session management issues. It provides a real-world perspective, but it cannot see the underlying code logic and may miss vulnerabilities that are not exposed through external interfaces.\n\nManual penetration testing is performed closer to deployment. Human testers explore complex business logic flaws, chained vulnerabilities and payment bypasses that automated tools often miss. Its effectiveness comes from a real attacker's perspective, but it is resource-intensive and provides only a snapshot in time.\n\nIntegrating these strategies gives a layered defence. Regarding relative importance, manual penetration testing is arguably the most critical strategy for assurance, because it uncovers the complex business logic flaws that could cause significant financial losses. SAST and DAST provide broad, efficient coverage, and all three are essential.",
                         "feedback": "Evaluates the combined approach with a supported judgement, which meets the 6-mark row. To reach 7-8 marks, weigh the relative importance of SAST and DAST as well as penetration testing.",
-                        "band": 5
+                        "band": 4
                       },
                       {
                         "id": "sa-c129c2b3-14af-469c-b46f-42c8611ec25e",
@@ -8047,7 +8047,7 @@
                       {
                         "id": "sa-5b741504-94db-4aae-86b9-3d959a2c9419",
                         "source": "AI",
-                        "band": 6,
+                        "band": 5,
                         "answer": "I propose a security code review process based on mandatory peer reviews within pull requests (PRs) integrated into the team's continuous integration (CI) workflow. The process would be: 1) A developer completes a feature on a separate branch. 2) Before merging into the main branch, they open a PR. 3) The CI system automatically runs SAST tools on the new code. 4) At least one other team member must then manually review the code for security flaws (e.g., input validation errors, logic flaws) and approve the PR. 5) Only after automated checks pass and a peer approves can the code be merged. This process is justified for an Agile workflow because it is lightweight, continuous, and asynchronous. It doesn't require separate, long security review meetings that would disrupt a sprint. The review is focused only on the small code change in the PR, which fits the iterative nature of Agile. This improves security by providing a 'second pair of eyes' to catch errors the original developer missed and promotes a shared sense of security ownership within the team.",
                         "mark": 6,
                         "feedback": "Proposes a lightweight peer review process within pull requests, with automated checks, and justifies its fit with Agile sprints and security, which meets the 6-mark row. Keep each step tied to the team's sprint cadence."
@@ -8126,7 +8126,7 @@
                         "mark": 3,
                         "answer": "Input validation and input sanitisation are both defensive programming practices used to ensure data integrity. Input validation checks the data before it is processed, such as whether an email address contains an '@' symbol and a domain. Input sanitisation cleans the data after it is received, for example by converting '<' and '>' so that a script cannot run in the browser. Both help prevent attacks such as Cross-Site Scripting (XSS).",
                         "feedback": "Explains both practices and their purposes, with an example for each, which meets the 3-mark row. To reach 4 marks, compare them directly and use a banking example for each.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-5650f939-322c-4854-ae9b-46af47931357",
@@ -8330,7 +8330,7 @@
                         "mark": 3,
                         "answer": "Implementing input validation contributes to API safety by ensuring that data received from users is in the correct format before it is processed. This helps prevent injection attacks such as SQL injection by filtering out malicious input. Rate limiting enhances API security by restricting the number of requests a user can make in a set time. It helps prevent Denial of Service (DoS) attacks.",
                         "feedback": "Explains both mechanisms with a general example, which meets the 3-mark row. To reach 4 marks, explain how each control reduces its named attack, with a specific example for the API.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-edf00722-c294-4902-b3ce-d2aaf26de725",
@@ -8397,7 +8397,7 @@
                         "mark": 2,
                         "answer": "The API should only return the order fields the app displays. This means the developer should not include the payment details in the response.",
                         "feedback": "Describes limiting returned fields, which meets the 2-mark row. To reach 3 marks, name the feature precisely and explain what it protects in the endpoint.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-1762992378502-498wa3v-n1-s3",
@@ -8465,7 +8465,7 @@
                         "mark": 3,
                         "answer": "Session management is about maintaining a user's state, like remembering if a user is logged in or what items are in their shopping cart. This ensures efficient execution for the user because they do not have to re-enter information. Exception management deals with unexpected problems. For example, if a database connection fails, it can display a user-friendly error message rather than the software simply stopping. This helps the user avoid losing their task.",
                         "feedback": "Describes the roles of both processes with an example for each, which meets the 3-mark row. To reach 4 marks, compare them directly and link both to efficient execution.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-26ee32b2-26a8-40ea-9ad4-671e1188789f",
@@ -8663,7 +8663,7 @@
                         "mark": 2,
                         "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit, after which they expire and the data is removed. Sessions can also end when the user logs out or closes the browser.",
                         "feedback": "Meets the 2-mark row: it identifies some features of session management, stored visit data, a time limit and logging out. It does not say how these features affect the efficiency of code execution, so it stays short of the 3-mark row. Explaining how large stored session data slows the program would lift it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-se-hsc-2025-20-4",
@@ -8731,7 +8731,7 @@
                         "mark": 3,
                         "answer": "XSS compromises security when an attacker injects malicious script into a web page, which then runs in other users' browsers and can steal session cookies. To mitigate XSS, applications should implement output encoding, which converts user-supplied data into a safe format before it is rendered. CSRF tricks a logged-in user into performing an unwanted action, such as making a purchase. A common strategy is to use anti-CSRF tokens.",
                         "feedback": "Explains how XSS and CSRF compromise the application and gives a coding strategy for each, which meets the 3-mark row. To reach 4 marks, explain how the CSRF mitigation stops the forged request.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-58639721-8674-4ce6-899e-a7be7e0a0c57",
@@ -8977,7 +8977,7 @@
                         "mark": 3,
                         "answer": "Secure coding practices protect against file attacks through input validation, for example by disallowing '..' sequences in file requests. Least privilege access control limits the damage if an attack succeeds. For side-channel attacks, constant-time operations are used, such as comparing a password hash without stopping at the first mismatch, so that timing does not leak information.",
                         "feedback": "Explains practices for both attack types, with an example for each, which meets the 3-mark row. To reach 4 marks, develop the timing example and explain how it stops leakage.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-92d5f355-c321-46a5-b90d-6f42acb97f79",
@@ -9042,7 +9042,7 @@
                       {
                         "id": "sa-af1796d4-43b6-4148-98a6-e593b3c77b05",
                         "source": "AI",
-                        "band": 2,
+                        "band": 1,
                         "answer": "A timing attack is when a hacker can guess a password by seeing how long it takes for the computer to say 'wrong'. If it takes a tiny bit longer for some guesses, it gives them a clue.",
                         "mark": 2,
                         "feedback": "Describes a timing attack through a password example, which meets the 2-mark row. To reach 3 marks, name it as a side-channel attack and explain how response times reveal the secret."
@@ -9170,7 +9170,7 @@
                         "mark": 4,
                         "answer": "The senior back-end developer, who knows the payment logic best, should lead threat modelling and the security design review. Code review of authentication and input handling should be shared between the front-end developer and the other back-end developer. The tester should own security testing, including penetration testing. The junior developer should pair with the senior developer on reviews to learn common vulnerabilities. This allocation improves the quality of the module.",
                         "feedback": "Proposes a specific allocation of security tasks matched to expertise, with reasons linked to module quality, which meets the 4-mark row. Keep each allocation tied to a named skill.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-1762992559552-xnx79zp-n1-s2",
@@ -9178,7 +9178,7 @@
                         "mark": 3,
                         "answer": "The senior developer could handle the security design, and the tester could check the software for security problems. Other developers could review each other's code so that errors are caught. This helps the team because each person has a role in security.",
                         "feedback": "Proposes allocations of security tasks with a basic reason, which meets the 3-mark row. To reach 4 marks, name the expertise behind each allocation and link it to module quality.",
-                        "band": 5
+                        "band": 4
                       },
                       {
                         "id": "prompt-1762992559552-xnx79zp-n1-s3",
@@ -9186,7 +9186,7 @@
                         "mark": 1,
                         "answer": "Everyone in the team should help with security.",
                         "feedback": "Provides some relevant information about shared security work, which meets the 1-mark row. To reach 2 marks, identify one security task that could be delegated.",
-                        "band": 3
+                        "band": 2
                       }
                     ]
                   }
@@ -9428,7 +9428,7 @@
                         "mark": 2,
                         "answer": "A social issue is that users may lose trust in the platform if their personal data is leaked, which can damage the company's reputation. The company must also consider ethics, such as privacy.",
                         "feedback": "Outlines ONE social issue of data privacy, which meets the 2-mark row. To reach 3 marks, outline an ethical issue as well, such as consent, and link it to data collection.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-c62ed6d9-e342-4813-9471-669969ca8d4a",
@@ -9557,7 +9557,7 @@
                         "mark": 2,
                         "answer": "Customers will need to enter their address and payment details, so the company has to keep this personal information safe. If it is not protected, a hacker could steal it.",
                         "feedback": "Meets the 2-mark row by outlining one relevant issue, the security of customers' personal and payment information. To reach 3, outline another distinct issue from the scenario, such as the accuracy of the dietary information shown on the menu.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-se-hsc-2025-23a-4",
@@ -9870,7 +9870,7 @@
                         "mark": 2,
                         "answer": "The browser connects to the bank's server using HTTPS. The server sends its certificate and the two sides agree on a key, then the dashboard data is sent encrypted.",
                         "feedback": "Describes the HTTPS connection and encrypted transfer in order, which meets the 2-mark row. To reach 3 marks, name each step and its mechanism, such as the certificate check and key exchange.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-ec55bd17-33bd-4090-8349-dd2be82cddac-s3",
@@ -10007,7 +10007,7 @@
                         "answer": "The Domain Name System (DNS) is a protocol that changes a website's name into its IP address. When you type a name like google.com, DNS finds the right numbers so your computer can connect to the server.",
                         "mark": 2,
                         "feedback": "Describes DNS as translating a name into an IP address, which meets the 2-mark row. To reach 3 marks, describe the DNS query and how it lets the browser connect to the site.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-47b5185e-8284-4470-b2df-474583f5b23a",
@@ -10218,7 +10218,7 @@
                         "mark": 2,
                         "answer": "The engineer should use HTTPS because it is the secure version of HTTP and it uses port 443.",
                         "feedback": "Identifies HTTPS and port 443 with a brief reason, which meets the 2-mark row. To reach 3 marks, explain that data is encrypted in transit and how that protects card details.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-1a284b14-dbf5-4e5c-9f13-ea9e5eaedfa9-s3",
@@ -10359,7 +10359,7 @@
                         "mark": 4,
                         "answer": "Input sanitisation removes or encodes dangerous characters from user input, which can stop many XSS payloads, but it is easy to get wrong because each context needs different handling. Prepared statements are more reliable against SQL injection because the query and the data are kept separate. Content Security Policy limits which scripts a browser will run, so an injected script may be blocked even when the input check is missed. Together these controls are useful, although none is effective alone for a login page.",
                         "feedback": "Explains how each practice reduces injection or XSS risk, with some judgement on their limits, which meets the 4-mark row. To reach 5 marks, evaluate each practice's effectiveness and compare them directly.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-new-2025-11-18-002-s3",
@@ -10403,7 +10403,7 @@
                         "mark": 2,
                         "answer": "The browser and server first perform a handshake to set up a secure connection. The server then provides its certificate so the browser can check its identity, and the data is encrypted before it is sent.",
                         "feedback": "Describes the handshake and encryption in order, which meets the 2-mark row. To reach 3 marks, name each step and its mechanism, such as the session key exchange.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-2bb988ac-e04c-4b30-a2fd-c8eeea400e40-s3",
@@ -10592,7 +10592,7 @@
                         "mark": 3,
                         "answer": "Distributed file systems spread large datasets across many machines, so the company can store petabytes of logs without relying on one server. Columnar databases store each column together, which speeds up analytical queries across many users, although they are less efficient for frequent single-row updates.",
                         "feedback": "Describes both technologies, with a benefit for each, which meets the 3-mark row. To reach 4 marks, explain the roles of each in meeting the company's big data demands.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-new-bigdata-2025-s3",
@@ -10635,7 +10635,7 @@
                         "mark": 2,
                         "answer": "High volume means the service needs distributed storage across several servers rather than one machine. This makes the architecture more complex to manage.",
                         "feedback": "Describes one architectural effect of volume, which meets the 2-mark row. To reach 3 marks, describe how velocity changes the design and links to live forecasting.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-dc82eda0-a781-465f-818f-29ca87430b6d-s3",
@@ -10801,7 +10801,7 @@
                         "mark": 2,
                         "answer": "High volume means that web applications need to store data across several servers instead of one. This makes the architecture more complex, but it is necessary for the system to keep up.",
                         "feedback": "Describes one effect of volume on the architecture, which meets the 2-mark row. To reach 3 marks, describe how velocity changes the design and its effect on the system.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-b395034d-0d51-485b-bb18-de499c25d48e-s3",
@@ -11053,7 +11053,7 @@
                         "mark": 1,
                         "answer": "The W3C makes web standards for websites.",
                         "feedback": "Gives a general description of the W3C, which meets the 1-2 marks row. To reach 3 marks, explain the W3C's role in developing standards and name one internationalisation standard for the system.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false,
@@ -11118,7 +11118,7 @@
                         "answer": "The W3C makes the rules for the web, like the rules for HTML and CSS. This is important so that websites work the same in Chrome, Firefox, and Safari. The implication for developers is that they have to follow these rules when they build websites. This stops the web from being a mess where nothing works properly everywhere.",
                         "mark": 3,
                         "feedback": "Identifies the W3C's role in making rules and describes one implication for developers, which meets the 3-mark row. To reach 4 marks, explain how the rules keep sites working across browsers.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-241405fb-cd84-4ff8-8461-cf239c0f1c7e",
@@ -11220,7 +11220,7 @@
                         "mark": 2,
                         "answer": "The W3C develops web standards, such as HTML and CSS, which helps developers build websites that work in different browsers.",
                         "feedback": "Describes one role of the W3C, developing standards, with a brief reason for developers, which meets the 2-mark row. To reach 3 marks, explain how the standards help users in different regions or on different devices.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-c263b2e4-51a1-460c-a0b8-dff670288822-s3",
@@ -11849,7 +11849,7 @@
                         "mark": 1,
                         "answer": "A PWA can work without the internet.",
                         "feedback": "Provides some relevant information that a PWA can work offline, which meets the 1-2 marks row. To reach 3 marks, name one storage technology and its offline function.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false,
@@ -11964,7 +11964,7 @@
                         "mark": 2,
                         "answer": "CSS allows the same HTML page to look different on a phone and a desktop by changing the layout rules. This means developers do not need to build separate pages.",
                         "feedback": "Describes that CSS changes the layout for different devices, which meets the 2-mark row. To reach 3 marks, name a mechanism such as relative units or media queries and explain it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-a89b1390-558b-4c0f-8ed2-791bf34604f2-s3",
@@ -12034,7 +12034,7 @@
                         "mark": 6,
                         "answer": "For a large, complex web application, the use of a CSS preprocessor like SASS, or its SCSS syntax, is highly effective and justifiable, despite the minor overhead it introduces. My evaluation is that its benefits for maintainability and consistency far outweigh the costs.\n\nPlain CSS can become difficult to manage at scale. It lacks features for code reuse and consistency, often leading to repetition and 'magic numbers' for colours and sizes. A preprocessor like SASS addresses this by introducing programming-like features. Variables allow developers to define a central palette of colours or font sizes, ensuring consistency across hundreds of files. Changing a brand colour becomes a one-line edit instead of a project-wide search-and-replace. Mixins allow for the creation of reusable blocks of styles, which is perfect for common patterns like flexbox centring or button styles, reducing code duplication.\n\nThe primary trade-off is the introduction of a compilation step; browsers cannot read SASS directly, so it must be compiled into standard CSS. However, this is a standard, automated part of modern web development workflows and is a small price to pay for the enormous improvement in organisation and long-term maintainability on a large project.",
                         "feedback": "Evaluates the preprocessor against plain CSS with specific features and a judgement for a large project, which meets the 6-mark row. Keep each trade-off tied to maintainability in this enterprise context.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-css-1-2",
@@ -12042,7 +12042,7 @@
                         "mark": 4,
                         "answer": "A CSS preprocessor like SASS is better for big projects. It lets you use variables, so you can set a colour once and reuse it everywhere. This makes it consistent. It also lets you nest your styles which makes the code easier to read. Plain CSS doesn't have this, so you have to repeat code a lot. The downside is you need a tool to turn the SASS code into regular CSS that the browser can read.",
                         "feedback": "Compares the approaches on one feature and one trade-off, which meets the 4-mark row. To reach 5 marks, evaluate the downside of the compilation step and reach a supported judgement for the team.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-css-1-3",
@@ -12087,7 +12087,7 @@
                         "mark": 2,
                         "answer": "CSS lets a developer set the colours and fonts once in a shared stylesheet, so every page of the store looks consistent. This also makes the design easier to change.",
                         "feedback": "Describes consistent styling through a shared stylesheet, which meets the 2-mark row. To reach 3 marks, link CSS to responsiveness and the mobile and desktop users.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-6a2085be-9a58-475f-943b-6f323029de10-s3",
@@ -12335,7 +12335,7 @@
                         "mark": 2,
                         "answer": "Version control keeps a history of every change to the code, so the team can see who changed what. Developers work in a shared repository, which helps them collaborate.",
                         "feedback": "Describes a shared history and repository for the team, which meets the 2-mark row. To reach 3 marks, explain how developers use branching and merging to combine work.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-bac87eb6-5bc6-42e6-874a-3a8b5e95ced5-s3",
@@ -12521,7 +12521,7 @@
                         "mark": 2,
                         "answer": "Code libraries let developers reuse tested components, such as menus and forms, which speeds up development of the website.",
                         "feedback": "Describes one benefit, reuse, with a basic link to speed, which meets the 2-mark row. To reach 3 marks, link it to responsive layouts and the e-commerce site.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-cfd5005d-be12-443e-acb1-8a78bae11866-s3",
@@ -12593,7 +12593,7 @@
                         "mark": 2,
                         "answer": "A template engine such as Jinja2 lets developers write one HTML template and fill it with data from the database for each user. This reduces repeated code.",
                         "feedback": "Describes how data is inserted into a template with one benefit, which meets the 2-mark row. To reach 3 marks, explain how the separation supports maintenance.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-template-engine-001-s3",
@@ -12646,7 +12646,7 @@
                         "mark": 1,
                         "answer": "Code libraries are collections of code that people use.",
                         "feedback": "Provides some relevant information that libraries are collections of code, which meets the 1-2 marks row. To reach 3 marks, explain one benefit and mention template engines.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false,
@@ -12763,7 +12763,7 @@
                         "mark": 2,
                         "answer": "Open-source software is developed by a community of contributors who share improvements to the code. This makes many web frameworks widely available for developers to use.",
                         "feedback": "Describes community collaboration and its benefit, which meets the 2-mark row. To reach 3 marks, describe a second characteristic, such as public source code, and link both to web applications.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-9683eccc-1241-454f-b9a3-d600b62cae5f-s3",
@@ -12946,7 +12946,7 @@
                         "mark": 2,
                         "answer": "File compression such as Gzip makes text files smaller, so pages download faster. Browser caching lets repeat visitors reuse stored files, which also helps load times.",
                         "feedback": "Describes both techniques and their effect on load time, which meets the 2-mark row. To reach 3 marks, explain how files are reduced or reused and link this to the site's failed audits.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-821dfb94-4155-43b0-b83e-af2f010d3796-s3",
@@ -13028,7 +13028,7 @@
                         "mark": 2,
                         "answer": "Caching would help. The app could store the weather data people look at most often on their phone, so it does not have to download it again each time.",
                         "feedback": "Meets the 2-mark row by outlining one way, caching, that is not a PWA. To reach 3, outline a second distinct way, such as reducing image resolution or compressing the data it downloads.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-se-hsc-2025-16b-4",
@@ -13138,7 +13138,7 @@
                         "mark": 6,
                         "answer": "A web content management system (CMS) is likely to be the better option for this bakery, though it has costs that must be weighed. Its main strength is that the owner can update the menu and blog through a browser-based editor without writing code, so changes do not wait for a designer. Widely used open-source platforms also reduce the risk of building from scratch, because the core software is developed and reviewed by a large community, and the owner can choose from many templates and plug-ins. The prevalence of these systems means that help and tutorials are easy to find. However, a CMS needs regular updates and secure logins, since outdated plug-ins are a frequent source of security weaknesses. Hand-coding gives complete control over the design and avoids this maintenance overhead, but it needs skills the bakery lacks and makes every small change costly. On balance, the CMS offers better value for a business with no programmer, provided the owner commits to regular maintenance.",
                         "feedback": "Weighs the CMS against hand-coding on updating, cost, security and the owner's skills, with a conditional conclusion, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-pwb-dwa-stg12-09-n0-n1-s2",
@@ -13215,7 +13215,7 @@
                         "answer": "The back-end is very important for an e-commerce website to succeed. It is responsible for handling the database, which stores all the product information and customer details. The back-end also processes payments when a customer buys something, which is a key part of the site. It also handles user logins to make sure they are secure. So, if the back-end doesn't work well, people can't buy things and their data might not be safe, which means the site would not be successful.",
                         "mark": 4,
                         "feedback": "Makes a judgement and identifies database management, payments and login security, linked to success, which meets the 4-mark row. To reach 5 marks, add performance or scalability and support the judgement.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-a2a47476-b178-4ccf-91c5-3c9d8dea8186",
@@ -13260,7 +13260,7 @@
                         "mark": 2,
                         "answer": "Back-end development processes requests, retrieves data from the database and returns the right response. It also checks that users are authorised before they see their account data.",
                         "feedback": "Describes data processing and an authorisation check, which meets the 2-mark row. To reach 3 marks, explain how the back-end keeps the application working and secure.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-03235591-0ba1-4904-a8dd-0da6a3a783a1-s3",
@@ -13327,7 +13327,7 @@
                         "mark": 1,
                         "answer": "The front-end is the part users see and the back-end is the part they do not see.",
                         "feedback": "Provides some relevant information by describing the layers' visibility, which meets the 1-2 marks row. To reach 3 marks, describe the contribution of each layer to the EHR application.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false,
@@ -13450,7 +13450,7 @@
                         "mark": 4,
                         "answer": "When you request a webpage, the server sends it to the web framework. The framework's router looks at the URL and decides which code to run. That code, the controller, gets information from the database using the model. Then it puts that information into an HTML template and sends the final page back to you.",
                         "feedback": "Describes the main stages in order, including routing and the controller, which meets the 4-mark row. To reach 5 marks, add how the web server hands the request to the framework and how the response is returned.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-bl-1-3",
@@ -13671,7 +13671,7 @@
                         "mark": 2,
                         "answer": "The web application uses server-side code to create the new directory and to search the log file for the error code. The server carries out these tasks using shell commands.",
                         "feedback": "Names the directory creation and log search as server-side shell tasks, which meets the 2-mark row. To reach 3 marks, name the mechanism, such as exec() or subprocess, and explain how the commands are invoked.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-67ab5192-765b-41b9-80fa-a45cda66e57f-s3",
@@ -13750,7 +13750,7 @@
                         "mark": 3,
                         "answer": "An INNER JOIN is used in SQL to get data from two tables at once. You use it when the tables are related. For example, if you have a Users table and a Posts table, you can join them to find out who wrote which post. The query would look like: SELECT * FROM Posts JOIN Users ON Posts.AuthorID = Users.UserID;",
                         "feedback": "Describes the purpose of INNER JOIN and gives a relevant query, which meets the 3-mark row. To reach 4 marks, explain which rows are returned and why, such as only posts with a matching author.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-d28702bf-607d-4cee-a47b-e19e51036643",
@@ -14245,7 +14245,7 @@
                         "mark": 2,
                         "answer": "An ORM lets developers work with database records as objects in their programming language, which makes the code quicker to write. Raw SQL is written directly as query statements.",
                         "feedback": "Describes both approaches and identifies ONE difference, speed of writing code, which meets the 2-mark row. To reach 3 marks, identify a clear difference for raw SQL, such as the control the developer has over the SQL that runs.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-fb3ff393-09ae-4122-b2a0-58c5311bc0ed-s3",
@@ -14376,7 +14376,7 @@
                         "mark": 2,
                         "answer": "Front-end and back-end developers hold daily meetings, which lets them share progress with each other.",
                         "feedback": "Describes ONE collaborative practice, daily meetings, which meets the 2-mark row. To reach 3 marks, describe a second practice and explain how it improves the web solution, such as agreed API specifications.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-3ad4e4bd-3138-4ce9-818a-c0c3d3dd8560-s3",
@@ -14561,7 +14561,7 @@
                         "mark": 2,
                         "answer": "A service worker caches the news articles so they can be read offline. This is an important part of making a website a PWA.",
                         "feedback": "Describes ONE component, the service worker's offline caching, which meets the 2-mark row. To reach 3 marks, describe the manifest's role, such as naming the app and supplying its icon, and link the two.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-64c9d891-9a6f-410c-b8d3-05bbb82eafd1-s3",
@@ -14762,7 +14762,7 @@
                         "mark": 2,
                         "answer": "A data dictionary is a tool that describes the data in a project. It lists all the data fields and what they mean. For example, it would say that a 'FirstName' field is text and can only be 50 characters long. This helps programmers create the database.",
                         "feedback": "Describes the contents and gives a correct example of a field and its type, which meets the 2-mark row. To reach 3 marks, explain how the dictionary defines the structures of the whole system and guides design.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-9dc49c4a-3e9f-4719-aa19-d7468d6aa65c",
@@ -14822,7 +14822,7 @@
                         "mark": 3,
                         "answer": "The system is for searching books. A functional requirement is that you can search by a book's title. A non-functional requirement is that it has to be easy to use. The data would be stored in a record with fields for the book's name and author.",
                         "feedback": "Identifies a functional and a non-functional requirement and a basic data structure, which meets the 3-mark row. To reach 4 marks, define the boundaries, such as what the kiosk excludes, and make the non-functional requirement measurable.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-reqs-1-3",
@@ -14888,7 +14888,7 @@
                         "mark": 3,
                         "answer": "Brainstorming is when you just shout out ideas and write them all down on a list. Mind-mapping is when you draw a picture with a main idea in the middle and lines connecting to other ideas. The difference is that brainstorming is for getting lots of ideas, while mind-mapping is for organising them and seeing how they are related.",
                         "feedback": "Describes both tools and identifies a difference, which meets the 3-mark row. To reach 4 marks, compare their outcomes, such as a long list against a connected map, and say when each is suited.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-idea-tools-1-3",
@@ -15456,7 +15456,7 @@
                         "mark": 1,
                         "answer": "You should use Agile because it is the best one.",
                         "feedback": "Names Agile and gives no reasons, which meets the 1-2 mark row. To reach 3-4 marks, justify the choice with basic reasons tied to the alert system's requirements and safety demands.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -15570,7 +15570,7 @@
                         "mark": 2,
                         "answer": "A WAgile project starts with a Waterfall stage to gather requirements, then the team builds the app in Agile sprints.",
                         "feedback": "Describes the two stages of WAgile in order, which meets the 2-mark row. To reach 3 marks, explain the purpose of each stage, such as fixing legal requirements first and shaping sprints with resident feedback.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-wagile-001-n1-s3",
@@ -15634,7 +15634,7 @@
                         "mark": 3,
                         "answer": "A Gantt chart is for planning a project. It has a list of tasks on the side and a calendar along the top. You draw bars to show how long each task will take. You can also link the bars to show that one task has to finish before another one starts.",
                         "feedback": "Describes the purpose of planning and at least three components, the task list, timeline and bars, which meets the 3-mark row. To reach 4 marks, explain how the chart tracks progress over time.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-gantt-1-3",
@@ -15820,7 +15820,7 @@
                         "mark": 2,
                         "answer": "A project manager can show the client the work often so they can give feedback. They can also let the client decide which features are the most important to do next.",
                         "feedback": "Describes two strategies briefly, which meets the 2-mark row. To reach 3 marks, explain why each gives the client a real say in the project, such as the client's feedback shaping the next steps.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-fdd25ef8-04c6-4f24-bacc-0deceacc2b0a",
@@ -15944,7 +15944,7 @@
                         "mark": 2,
                         "answer": "One issue is that the client's long email is hard to turn into requirements. Another is that feedback may come too late.",
                         "feedback": "Names two communication issues, which meets the 2-mark row. To reach 3 marks, outline how each issue links to the client relationship and the team's decisions.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-rap-stg12-09-n0-s3",
@@ -16065,7 +16065,7 @@
                         "mark": 2,
                         "answer": "A continual checking process means that every time a programmer saves their code, a server automatically runs tests on it. This is to check if the new code broke anything. It finds bugs early.",
                         "feedback": "Outlines the process in general terms, with automatic tests on each save, which meets the 2-mark row. To reach 3 marks, explain how defects are prevented from building up over time, not only found early.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-0a6874a6-a22c-4ef8-babc-93fe2b4c008d",
@@ -16612,7 +16612,7 @@
                         "mark": 2,
                         "answer": "The team could show the problem first, then the app, and then the results on slides.",
                         "feedback": "Describes a sequence of slides with some stages, which meets the 2-mark row. To reach 3 marks, give specific content for each stage, such as the requirements and test results.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-pai-stg12-02-n0-s3",
@@ -16733,7 +16733,7 @@
                         "mark": 2,
                         "answer": "It is important to document algorithms so other people can understand what your code does. It is also important so that you can remember what you did if you need to fix it later.",
                         "feedback": "States two reasons with brief explanation, which meets the 2-mark row. To reach 3 marks, explain the consequence of each, such as the time lost when the original author is unavailable.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-5ccbdbcf-b499-4f91-b590-52cf9e3829e1",
@@ -16963,7 +16963,7 @@
                         "mark": 5,
                         "answer": "The team should allocate most developer time to back-end database work, because the timetable depends on accurate data and that work carries the highest risk. The second developer should spend most of their time on front-end interface design, with a smaller share given to testing the interface with students. For the $600 budget, the team should spend the largest share on cloud hosting, since a live server is needed for user testing, and keep a smaller reserve for any paid licence that proves necessary. The reserve lets the team respond to difficulties without cutting features. These allocations support the development of the software engineering solution by matching resources to risk and to what users will test.",
                         "feedback": "Allocates both budget and developer time, with reasons tied to the team's strengths and risks, and a reserve for difficulties, which meets the 5-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-pai-stg12-04-n0-n1-s2",
@@ -16971,7 +16971,7 @@
                         "mark": 3,
                         "answer": "The team should give most developer time to the back-end work, because the database is complex. The rest of the budget could go to hosting.",
                         "feedback": "Proposes an allocation of developer time with a reason, which meets the 3-mark row. To reach 4 marks, justify the budget split and consider the trade-offs of the choice.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-pai-stg12-04-n0-n1-s3",
@@ -16979,7 +16979,7 @@
                         "mark": 1,
                         "answer": "Resources are important, so the team should plan them carefully.",
                         "feedback": "Makes a general comment about planning resources, which meets the 1-mark row. To reach 2 marks, describe the budget or the developers' strengths.",
-                        "band": 2
+                        "band": 1
                       }
                     ]
                   }
@@ -17029,7 +17029,7 @@
                         "mark": 6,
                         "answer": "A programmed data backup strategy for a solo developer should follow the '3-2-1 rule' to reduce the risk of data loss: three copies, on two different media, with one copy off-site.\n\nThe three copies are the live working directory on the laptop and two automated backups. The developer uses a version control system such as Git and regularly pushes code to a remote repository on GitHub or GitLab, which is the second copy, on the platform's servers. A daily scheduled script also copies the whole project folder to an external hard drive, which is the third copy, so the backups sit on two different media. The remote repository, hosted in cloud storage, provides the off-site copy, protecting the code from a local disaster, such as fire, that could destroy both the laptop and the external drive.\n\nThe proposal creates redundancy against several failure scenarios. A simple file deletion can be recovered from the local Git history, a laptop failure from the external hard drive or the remote repository, and a catastrophic local event from the off-site copy. Because the backups run without manual action, protection no longer depends on the developer remembering to save their work.",
                         "feedback": "Applies the 3-2-1 rule with specific copies, locations and an automated schedule, and justifies each element against the risk of data loss, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-3016417e-0d53-4570-b5ca-5b3b35a660fc",
@@ -17037,7 +17037,7 @@
                         "mark": 4,
                         "answer": "My proposal is to follow the 3-2-1 rule. The developer should have 3 copies of their work. The first is on their computer. The second should be on an external hard drive. The third should be off-site, like on GitHub. This uses two different media (computer/hard drive and cloud). This is a good strategy because if their computer breaks, they have the hard drive. If their house burns down with the computer and the hard drive, they still have the copy on GitHub.",
                         "feedback": "Proposes a strategy that references the 3-2-1 rule and includes two locations, which meets the 4-mark row. To reach 5 marks, describe copies in three separate locations and the programmed schedule that makes them.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-e1395750-9c1e-4289-b2b8-90ec6a7c5e28",
@@ -17269,7 +17269,7 @@
                         "mark": 6,
                         "answer": "A student facing a persistent bug in a third-party library has three strategies. Searching online is highly effective as a first step. Stack Overflow or the library's GitHub Issues may already contain a documented solution, so its main strength is speed and efficiency if a solution exists. Its weakness is that for obscure bugs, no solution may be found.\n\nCollaborating with peers is the next logical step. A classmate may have faced the issue before or can offer a fresh perspective ('rubber duck debugging'). This is highly effective for breaking a mental block, but it interrupts another person's work.\n\nCreating a workaround involves writing code to bypass the bug without fixing it in the library itself. Its effectiveness lies in its ability to unblock immediate progress. However, it is risky: it can introduce bugs and creates 'technical debt', making the code harder to maintain.\n\nMy evaluation is that the most effective approach is sequential. A student should first time-box their online search, then seek peer collaboration. A workaround should only be considered as a last resort, and it must be clearly documented as technical debt to be addressed later.",
                         "feedback": "Evaluates each strategy's effectiveness for this bug, weighing strengths and limitations, and gives a justified order of use, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-difficulties-1-2",
@@ -17392,7 +17392,7 @@
                         "mark": 5,
                         "answer": "I propose an innovative solution in the form of a 'Task Prioritisation Matrix', based on the Eisenhower Matrix, which helps users sort tasks by importance and urgency. The feature would present a four-quadrant user interface where tasks are dragged into 'Urgent & Important' (Do), 'Not Urgent & Important' (Schedule), 'Urgent & Not Important' (Delegate) and 'Not Urgent & Not Important' (Delete).\n\nTo test this UI design, I would create a low-fidelity prototype on paper. I would sketch the main list screen and the matrix screen separately, and write each task on a sticky note. In a user testing session, I would ask the user to drag a task into a quadrant, and I would move the paper note onto the matrix sketch. This allows rapid testing of the core concept before any code is written.",
                         "feedback": "Proposes an innovative feature, the Task Prioritisation Matrix, and explains a low-fidelity paper prototype with a specific plan for testing the interface with users, which meets the 5-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-c6b6ae8a-9316-4957-8ec7-4b2c9a896544",
@@ -17400,7 +17400,7 @@
                         "mark": 3,
                         "answer": "An innovative feature would be to let the user sort their tasks by how much energy they have. To prototype this, I would draw the screens on paper. I would draw the list and then draw some buttons for 'high energy' and 'low energy'. I would then ask a user to pretend to click the buttons to see if they understand how to use it.",
                         "feedback": "Proposes a feature and describes a basic paper prototype, which meets the 3-mark row. To reach 4 marks, explain what users would do with the sketches and what you would learn from them.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-f930b4e8-c5fd-4a79-a564-2af38d5f665e",
@@ -17641,7 +17641,7 @@
                         "mark": 2,
                         "answer": "Breakpoints and debugging output statements are two tools that can be used to find the logic errors in the game code. A programmer could use either one while testing the game during its development.",
                         "feedback": "Meets the 2-mark row by identifying TWO relevant tools, Breakpoints and debugging output statements, and saying when they would be used. It does not outline how either one works, so it stays short of the 3-mark row. Explaining that a breakpoint halts execution so the variables can be checked would lift it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-se-hsc-2025-15b-3",
@@ -17826,7 +17826,7 @@
                         "mark": 2,
                         "answer": "The team could fix the login screen. It could also make reminders less frequent.",
                         "feedback": "Outlines one specific response and names a second, which meets the 2-mark row. To reach 3 marks, explain which testers raised each issue and how each change answers it.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-tae-stg12-03-n0-s3",
@@ -17883,7 +17883,7 @@
                         "mark": 3,
                         "answer": "The login feedback should come first because most testers found it confusing. The team should change the login screen and test it again.",
                         "feedback": "Describes the login feedback and proposes a response to one issue, which meets the 3-mark row. To reach 4 marks, analyse the main feedback, not just the login issue, and give reasons for the priorities.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "prompt-swe-11-12-cp-sep-tae-stg12-03-n0-n1-s3",
@@ -17941,7 +17941,7 @@
                         "mark": 4,
                         "answer": "Boundary value analysis (BVA) is an effective black-box technique. Its effectiveness rests on errors being most likely at input boundaries. For example, if an 'age' field accepts integers from 18 to 65 inclusive, BVA test cases would be 17, 18, 19, 64, 65 and 66. It targets points where logic is likely to be flawed, such as using '<' instead of '<='. It is far more efficient than exhaustive testing. However, it considers only single inputs and may miss errors from input combinations.",
                         "feedback": "Evaluates boundary value analysis by explaining why errors cluster at the edges of input ranges, and applies it with accurate test values and a judgement of its effectiveness, which meets the 4-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-e93deb41-8a1a-4b23-b589-f43f5f63df1c",
@@ -17949,7 +17949,7 @@
                         "mark": 3,
                         "answer": "Boundary value analysis is a way to test software by checking the values at the edges of a valid range. For example, if a password must be between 8 and 16 characters, you would test with 7, 8, 16, and 17 characters. This is an effective technique because developers often make mistakes with the conditions at these boundaries, so it's a good way to find bugs without having to test every single possible value.",
                         "feedback": "Describes boundary value analysis with a correct example and claims it is effective, which meets the 3-mark row. To reach 4 marks, explain why defects cluster at input boundaries and evaluate its efficiency.",
-                        "band": 5
+                        "band": 4
                       },
                       {
                         "id": "sa-16a70c5a-3b4c-4a4e-afbf-e05f27404034",
@@ -17957,7 +17957,7 @@
                         "mark": 1,
                         "answer": "Boundary testing is when you test the edges of something. For a box that takes a number from 1 to 10, you would test 1 and 10. This is to see if it works.",
                         "feedback": "Makes a basic statement about testing the edges of inputs, which meets the 1-mark row. To reach 2 marks, describe boundary value analysis accurately, such as testing the values just inside and just outside the range.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -18005,7 +18005,7 @@
                         "mark": 5,
                         "answer": "The feedback that the checkout process is 'confusing' is too vague to act on. I would propose a two-part test plan that synthesises this user feedback and evaluates the UI.\n\nPart one is qualitative usability testing to understand the 'why' behind the feedback. This involves recruiting five to seven representative users and observing them as they attempt to complete a purchase, encouraging them to 'think aloud'. This direct observation reveals the specific pain points and confusing labels.\n\nPart two is an evaluation against measurable criteria: task success rate (what percentage of users complete a purchase without assistance?), time on task, and error rate (how many users make a mistake, and where?). Collecting this data against benchmarks moves the team from subjective feedback to a concrete evaluation of the UI, and pinpoints the areas that need redesign.",
                         "feedback": "Proposes a two-part plan of usability testing and measurable criteria to evaluate the checkout, which meets the 5-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-506d3dd9-ede4-4664-b161-1e0caa062ae9",
@@ -18013,7 +18013,7 @@
                         "mark": 2,
                         "answer": "If the checkout is confusing, my plan is to ask the users what is confusing. Then I would use their feedback to change the design to make it better. Then I would test it again to see if it is still confusing.",
                         "feedback": "Proposes a general step, asking users what is confusing, which meets the 2-mark row. To reach 3 marks, name a specific method, such as task-based testing, and link it to evaluating the interface.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-28f2240e-e324-4529-86cb-4f7e76903899",
@@ -18214,7 +18214,7 @@
                         "mark": 3,
                         "answer": "A CI/CD pipeline helps by running tests automatically every time a programmer saves their work. Instead of a person having to remember to run tests, the system does it for them. If a test fails, the system stops the code from being released. This helps the team find bugs quickly and stops bad code from going to the customers.",
                         "feedback": "Explains that tests run automatically on every save, with a benefit of finding bugs quickly, which meets the 3-mark row. To reach 4 marks, explain the feedback to developers and how failed tests stop bad code moving forward.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-cicd-band2",
@@ -18272,7 +18272,7 @@
                         "mark": 2,
                         "answer": "RPA is software that acts like a robot to do boring jobs on a computer, like copying and pasting data. Normally it only follows strict rules. You can use Machine Learning to make it better by letting the bot understand things like pictures or handwriting, so it can do more complex jobs.",
                         "feedback": "Defines RPA accurately and outlines an ML extension, which meets the 2-mark row. To reach 3 marks, describe how ML would let the bots read handwritten forms, linked to the rule-based limitation.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-rpa-band2",
@@ -18617,7 +18617,7 @@
                         "mark": 3,
                         "answer": "Supervised learning uses data that is already labelled with the right answer. For example, teaching a computer to recognise spam emails by showing it emails marked 'spam' or 'not spam'. Unsupervised learning uses data that has no labels. The computer has to find the patterns on its own. An example is looking at customer data to find groups of similar people. The main difference is whether you give the computer the answers (labels) during training or not.",
                         "feedback": "Compares the two models on the labelled-data difference, with examples of spam and customer groups, which meets the 3-mark row. To reach 4 marks, compare what each model is trying to achieve, such as predicting outcomes versus finding groups.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-sup-unsup-band2",
@@ -18677,7 +18677,7 @@
                         "mark": 3,
                         "answer": "Reinforcement learning is when an AI learns by trying things out. There is an agent (the AI) and an environment (the game). The AI makes a move, and if it's a good move, it gets a reward. If it's a bad move, it gets a punishment. For a game AI, winning the game would give a big reward. By playing the game over and over, the AI learns which moves give the most rewards and gets better at playing.",
                         "feedback": "Explains the agent, environment and rewards with a game example, which meets the 3-mark row. To reach 4 marks, explain how the agent's policy improves over repeated games.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-rl-band2",
@@ -18800,7 +18800,7 @@
                         "mark": 2,
                         "answer": "To make image recognition work, you feed a computer program thousands of pictures that are labelled, like 'cat' or 'dog'. The algorithm looks at these pictures and learns the patterns that make up a cat. Then, when it sees a new picture, it checks if it matches those patterns to decide what it is.",
                         "feedback": "Describes training on labelled pictures and the algorithm finding patterns, which meets the 2-mark row. To reach 3 marks, explain how features are extracted and how an image is classified.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-img-rec-band2",
@@ -18918,7 +18918,7 @@
                         "mark": 3,
                         "answer": "Retailers use machine learning to look at their past sales data to guess what will happen in the future. The algorithms look for patterns, like selling more ice cream in summer. By forecasting how much they will sell, they can order the right amount of stock. This helps them avoid throwing away food that goes off, and ensures they have enough products on the shelves for customers.",
                         "feedback": "Explains that ML uses historical sales data to find patterns for forecasting, with a link to stock levels, which meets the 3-mark row. To reach 4 marks, describe the predictive model and link it to reduced waste and shortages.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-forecast-band2",
@@ -18977,7 +18977,7 @@
                         "mark": 2,
                         "answer": "Machine learning uses old data to look for patterns, like how much stock is sold at Christmas. It then uses these patterns to guess what will happen next, helping the manager know when to order more stock.",
                         "feedback": "Outlines that ML uses historical data to find patterns and predict, which meets the 2-mark row. To reach 3 marks, describe the steps in order, including how the learned patterns are applied to new data.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-forecast-outline-band2",
@@ -19092,7 +19092,7 @@
                         "mark": 3,
                         "answer": "A decision tree is like a flowchart used to make a decision. It starts with a question at the top, like 'Does the person have a job?'. Depending on the answer (yes or no), you follow a line to the next question. You keep answering questions until you reach the bottom, which gives you the final answer. For a bank, this final answer would be whether to give the loan or not.",
                         "feedback": "Describes the tree structure and feature tests with a loan example, which meets the 3-mark row. To reach 4 marks, trace one applicant through the tree from root to leaf to a decision.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-dtree-band2",
@@ -19159,7 +19159,7 @@
                         "mark": 2,
                         "answer": "Decision trees are better because you can see the flowchart. Neural networks are like a brain so they are hard to understand. The doctor needs to know the answer so they should use the tree.",
                         "feedback": "Describes one model's interpretability, which meets the 2-mark row. To reach 3 marks, identify a difference between the two models and compare their suitability for the medical tool.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "isPastHSC": false
@@ -19326,7 +19326,7 @@
                         "mark": 3,
                         "answer": "KNN works by looking at the data points that are closest to the new one you want to classify. 'K' is the number of neighbours you check. For example, if K is 3, you find the 3 closest dots on the graph. If the majority of those dots are blue, then the new dot is classified as blue. It assumes that things that are close to each other are similar.",
                         "feedback": "Describes the distance and majority-vote steps with a simple example, which meets the 3-mark row. To reach 4 marks, describe KNN as an instance-based method and explain how distances are compared.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-knn-band2",
@@ -19640,7 +19640,7 @@
                         "mark": 2,
                         "answer": "The input layer takes in the data you want to process. The hidden layers are in the middle and do all the calculations to figure out what the data means. The output layer is the last part that gives you the final answer or decision.",
                         "feedback": "Outlines the roles of the input and hidden layers, and identifies the output layer's role, which meets the 2-mark row. To reach 3 marks, outline the output layer as producing the prediction, in network order.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-nn-layers-band2",
@@ -19822,7 +19822,7 @@
                         "mark": 2,
                         "answer": "Automation means that boring, repetitive jobs are being done by machines. This means workers need new skills. They need to be good at things robots can't do, like solving hard problems or being creative and working well with other people.",
                         "feedback": "Outlines ONE shift, toward problem solving and creativity, which meets the 2-mark row. To reach 3 marks, outline how automation removes routine tasks, with an example of each shift.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-skills-band2",
@@ -19932,7 +19932,7 @@
                         "mark": 6,
                         "answer": "AI-powered assistive technologies have had a revolutionary impact on the lives of people with disabilities, primarily by fostering greater independence. Technologies like computer vision apps (e.g., Seeing AI) allow visually impaired users to 'read' menus or identify people, removing reliance on others for daily tasks. Similarly, NLP-driven voice assistants empower those with motor neurone disease to control their environment without physical interaction. While challenges regarding cost and algorithmic bias remain, the overall effectiveness of these tools is high, as they shift the paradigm from 'care' to 'empowerment', enabling fuller participation in the workforce and society.\n\nFor people who are blind or have low vision, an AI screen reader can describe images and documents in real time, which removes the need for a sighted assistant for many everyday tasks. This shows the scale of benefit that the technology can offer.",
                         "feedback": "Evaluates the effect on independence and participation for people with vision and motor disabilities, weighing cost and bias against benefits, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-disability-band4",
@@ -19940,7 +19940,7 @@
                         "mark": 4,
                         "answer": "AI helps people with disabilities by giving them tools to do things they couldn't do before. For example, blind people can use apps on their phones that describe what the camera sees. Voice assistants like Siri help people who can't type to send messages. This makes a big difference because it lets them be more independent and live their lives without needing as much help from other people.",
                         "feedback": "Explains two benefits, camera-based description and voice control, with reasons, which meets the 4-mark row. To reach 5 marks, evaluate the impact across at least two types of disability.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-disability-band2",
@@ -19991,7 +19991,7 @@
                         "mark": 6,
                         "answer": "The environmental impact of large-scale ML is a complex trade-off. On the negative side, training massive models, such as large language models, requires substantial computational power, so the training costs are paid in energy consumption as well as money. Data centres that run these models produce a significant carbon footprint and use high volumes of water for cooling. Hardware is also replaced frequently, which creates electronic waste.\n\nHowever, this must be weighed against the positive applications. ML supports the optimisation of renewable energy grids, reduces waste in supply chains through better resource management, and helps model climate change solutions. My evaluation is that while the development cost is high, the long-term application of AI offers a net positive potential for sustainability, provided the industry shifts towards green energy for training infrastructure. The benefit is conditional: if energy consumption grows faster than efficiency gains, the net effect will be negative.\n\nOnly when the negative effects are measured alongside the benefits can the trade-off be assessed fairly. The judgement is that AI is neither a hero nor a villain, but a tool whose environmental outcome depends on energy choices.",
                         "feedback": "Evaluates negative effects from training and data centres against positive grid and supply chain benefits, reaching a conditional judgement, which meets the 6-mark row.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-env-band4",
@@ -19999,7 +19999,7 @@
                         "mark": 4,
                         "answer": "Training big AI models is bad for the environment because it uses a huge amount of electricity, which creates carbon emissions. Data centres also use a lot of water. However, AI can also help the environment. For example, it can make power grids more efficient or help design better batteries. Overall, AI causes pollution to make, but it might help us solve climate change in the long run.",
                         "feedback": "Explains a negative effect from training energy use and a positive effect on power grids, which meets the 4-mark row. To reach 5 marks, evaluate both effects with reasons and weigh which outweighs the other.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-env-band2",
@@ -20308,7 +20308,7 @@
                         "mark": 3,
                         "answer": "When making AI for Indigenous communities, developers must respect their cultural rules. Some stories or words are only meant for certain people, like men or women, or elders. If the AI learns these and tells them to the wrong person, it breaks their cultural laws. Also, they need to be careful with information about people who have passed away. The AI needs to be built so it doesn't share things it shouldn't.",
                         "feedback": "Explains that cultural rules restrict what the AI shares, with a reason, which meets the 3-mark row. To reach 4 marks, explain how the community controls its data and how this changes the model.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-culture-band2",
@@ -20503,7 +20503,7 @@
                         "mark": 3,
                         "answer": "When humans label data, they teach the computer what things are. If the humans have bias or make mistakes, like forgetting to label children as pedestrians, the computer learns that children aren't pedestrians. This makes the model unreliable because it will make the same mistakes the humans did when it's driving on the road.",
                         "feedback": "Explains that mistaken labels teach the model incorrect patterns, with a reason, which meets the 3-mark row. To reach 4 marks, explain how the labels become ground truth and reduce reliability for particular groups.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-human-label-band2",
@@ -20623,7 +20623,7 @@
                         "mark": 4,
                         "answer": "To stop bias, the team should first make sure their training data is balanced. They need to check they have enough CVs from men and women of all backgrounds. Second, they should test the AI regularly to see if it is being fair. If they see it rejecting too many people from one group, they know there is a problem. Third, they should have a diverse team of programmers. If everyone on the team is the same, they might not notice that the AI is being unfair to other people.",
                         "feedback": "Recommends three strategies with basic reasons, which meets the 4-mark row. To reach 5 marks, justify each strategy more fully against the risk of human bias.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-mitigate-band2",

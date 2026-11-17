@@ -43,7 +43,7 @@ const SampleAnswerRevisionModal: React.FC<SampleAnswerRevisionModalProps> = ({
 }) => {
   const commandTermInfo = useMemo(
     () => getPromptTermInfo(prompt),
-    [prompt.verb, prompt.bandCeiling]
+    [prompt.verb, prompt.bandCeiling, prompt.totalMarks]
   );
 
   // The marks already on this question, as a string. The accordion hands in a

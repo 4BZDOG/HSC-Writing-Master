@@ -916,18 +916,20 @@ export const courseBandCeiling = (
 
 /**
  * The command term as this question applies it: the verb's own entry, with the
- * tier set to the question's `bandCeiling` when its course gives it one. Every
- * surface that has the question in hand reads its tier from here, so the band
- * ceiling, the colour and the ladder agree.
+ * tier set to the question's ceiling. The ceiling is its `bandCeiling` when its
+ * course gives one, else its verb's tier, and it is held to the length cap
+ * (`getQuestionBandCeiling`) whenever `totalMarks` is passed. Pass `totalMarks`
+ * wherever the question is in hand, so the colour, the ladder and the band
+ * ceiling agree: a 6-mark Evaluate is drawn in Band 5's colour, not Band 6's.
  */
 export const getPromptTermInfo = (
-  prompt: { verb?: PromptVerb; bandCeiling?: number } | null | undefined
+  prompt: { verb?: PromptVerb; bandCeiling?: number; totalMarks?: number } | null | undefined
 ): CommandTermInfo => {
   const info = getCommandTermInfo(prompt?.verb);
   const ceiling = prompt?.bandCeiling;
-  return ceiling && ceiling >= 1 && ceiling <= 6 && ceiling !== info.tier
-    ? { ...info, tier: ceiling }
-    : info;
+  const verbTier = ceiling && ceiling >= 1 && ceiling <= 6 ? ceiling : info.tier;
+  const tier = prompt?.totalMarks ? getQuestionBandCeiling(prompt.totalMarks, verbTier) : verbTier;
+  return tier !== info.tier ? { ...info, tier } : info;
 };
 
 /**
@@ -1132,48 +1134,93 @@ export const getCommandTermsForMarks = (
  * Prompt drew a 20-mark DISCUSS in its tier's blue while the terms, guide and
  * exemplars beside it were purple, and NESA's five rows (17-20 … 1-4) no longer
  * fell one to a band, so an exemplar at the foot of a row read a band below the
- * row. A question's ceiling is its verb's tier, everywhere.
+ * row. A question's ceiling is its verb's tier, and at most Band 5 on 6 marks or fewer
+ * (see getQuestionBandCeiling).
  */
 export const EXTENDED_RESPONSE_MARKS = 15;
 
 /**
- * The highest band a full-mark response to this question can demonstrate: the
- * verb tier's ceiling (tier N → Band N). The same cap the Writing Prompt is drawn
- * in, so every surface of a question is one colour. `totalMarks` is accepted so a
- * caller states the question, not only the verb.
+ * The band ceiling a question can demonstrate: the lower of two caps.
+ *
+ * - The verb's tier (tier N → Band N), so a tier-3 verb stays at Band 3 however
+ *   long the question is.
+ * - The length: Band 5 on 6 marks or fewer, Band 6 from 7 marks. A short answer
+ *   cannot show the sustained, judged response that Band 6 describes, so a 6-mark
+ *   Evaluate reaches Band 5 at full marks and Band 6 needs seven marks. Decided in
+ *   November 2026, and it applies in every course.
+ *
+ * It is the same cap the Writing Prompt is drawn in, so every surface of a
+ * question is one colour. `totalMarks` is what makes this the question's ceiling
+ * and not only its verb's.
  */
-export const getQuestionBandCeiling = (_totalMarks: number, tier: number = 4): number => {
+export const getQuestionBandCeiling = (totalMarks: number, tier: number = 4): number => {
   const tierGroup = TIER_GROUPS.find((g) => g.tier === tier);
-  return tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
+  const verbCeiling = tierGroup ? tierGroup.maxBand : Math.max(1, Math.min(6, tier));
+  const lengthCeiling = totalMarks <= 6 ? 5 : 6;
+  return Math.min(verbCeiling, lengthCeiling);
 };
 
 /**
- * Calculates the Performance Band (1-6) based on the mark achieved,
- * constrained only by the verb's cognitive tier (tier N → max Band N).
+ * The band each mark of a short question (under `EXTENDED_RESPONSE_MARKS`) earns.
+ * Element i is the band of mark i + 1. Built explicitly so the ladder can be read
+ * and tested, rather than worked out by a formula.
  *
- * NESA's own band descriptors map full marks to the verb's ceiling band
- * regardless of mark count (3/3 on an Evaluate = Band 6), so the verb tier is
- * the sole cap — there is no secondary marks-based limit.
+ * - At or below the ceiling, one band per mark, counted down from it: 4 marks under
+ *   a Band 5 ceiling read [2, 3, 4, 5].
+ * - Above it, full marks earn the ceiling and each mark below steps down one band.
+ *   The extra rungs (marks minus ceiling) have to go somewhere, so they are given
+ *   to the middle bands: Band 3 first, then Band 4, alternating while both lie
+ *   below the ceiling. A ceiling of 3 gives them all to Band 2. A ceiling of 2 or
+ *   less gives them to Band 1, so the bottom still reaches Band 1 at one mark.
  *
- * A question whose marking guide is written in mark ranges (NESA's 17-20 / 13-16
- * …) reads its bands from the guide's rows instead: `promptBandForMark` in
- * `utils/guideBands.ts`. Call that wherever the question is in hand.
+ * Examples: 6 marks at a Band 5 ceiling → [1, 2, 3, 3, 4, 5]; 8 marks at Band 6 →
+ * [1, 2, 3, 3, 4, 4, 5, 6]; 7 marks at Band 6 → [1, 2, 3, 3, 4, 5, 6]; 8 marks at
+ * Band 3 → [1, 2, 2, 2, 2, 2, 2, 3]. The list never falls as marks rise.
+ */
+export const shortQuestionBands = (totalMarks: number, ceiling: number): number[] => {
+  const top = Math.max(1, Math.floor(ceiling));
+  const marks = Math.max(0, Math.floor(totalMarks));
+  if (marks <= top) return Array.from({ length: marks }, (_, i) => top - marks + i + 1);
+
+  // How many marks each band takes: one each, then the extra rungs.
+  const copies = new Map<number, number>();
+  for (let band = 1; band <= top; band++) copies.set(band, 1);
+  const middle = [3, 4].filter((band) => band <= top - 1);
+  const fallback = Math.max(1, top - 1);
+  for (let k = 0; k < marks - top; k++) {
+    const band = middle.length > 0 ? middle[k % middle.length] : fallback;
+    copies.set(band, (copies.get(band) ?? 0) + 1);
+  }
+
+  const ladder: number[] = [];
+  for (let band = 1; band <= top; band++) {
+    for (let n = 0; n < (copies.get(band) ?? 0); n++) ladder.push(band);
+  }
+  return ladder;
+};
+
+/**
+ * Calculates the Performance Band (1-6) a mark earns on a question.
  *
- * Below that ceiling there is ONE rule, and it is a ladder of marks, not a
- * fraction of them: each mark dropped costs exactly one band. On a 4-mark
- * Evaluate (Tier 6) that reads 4/4 → Band 6, 3/4 → Band 5, 2/4 → Band 4,
- * 1/4 → Band 3, and 0 → Band 1. Bands below the bottom rung are simply not
- * reachable on a question that short — see {@link bandsForQuestion}, which is
- * what every surface should ask for the ladder rather than assuming Bands
- * 1..maxBand are all in play.
+ * Under 15 marks (`EXTENDED_RESPONSE_MARKS`) the mark is read off the ladder in
+ * `shortQuestionBands`, with the ceiling from `getQuestionBandCeiling`. Full marks
+ * earns the ceiling and each mark below steps down one band. On a 6-mark Evaluate
+ * that reads 6/6 → Band 5, 5/6 → Band 4, 4/6 → Band 3, 3/6 → Band 3, 2/6 → Band 2
+ * and 1/6 → Band 1. A 4-mark Evaluate reads 4/4 → Band 5 down to 1/4 → Band 2.
+ * Bands below the bottom rung are not reachable on a question that short (see
+ * {@link bandsForQuestion}).
  *
- * A proportional rule for short questions was tried and withdrawn. Scaling by
- * the FRACTION of marks earned (ceil(mark / total × maxBand)) reads plausibly
- * in isolation but breaks the thing the ladder is for: it puts 2/4 and 3/4 two
- * bands apart while 1/4 and 2/4 sit one apart, so the exemplars, the marking
- * guide rows and the colour of each stopped stepping evenly. The offset rule
- * below is what the marking guide is written against, so it is what the bands
- * are read from.
+ * From 15 marks the band is read proportionally, ceil(mark × ceiling / total).
+ * NESA's five-row guide (`guideRanges`) is built on that, so long questions keep it.
+ *
+ * A question whose marking guide is written in mark ranges reads its bands from
+ * the guide's rows instead: `promptBandForMark` in `utils/guideBands.ts`. Call that
+ * wherever the question is in hand.
+ *
+ * A proportional rule for short questions was tried and withdrawn. Scaling by the
+ * fraction of marks earned put 2/4 and 3/4 two bands apart while 1/4 and 2/4 sat
+ * one apart, so the marking guide rows and the colour of each mark stopped
+ * stepping evenly. One band per mark is what the marking guide is written against.
  *
  * @param mark The mark achieved or target mark.
  * @param totalMarks The total marks available for the question.
@@ -1186,9 +1233,10 @@ export const getBandForMark = (mark: number, totalMarks: number, tier: number = 
   const maxBand = getQuestionBandCeiling(totalMarks, tier);
   const clampedMark = Math.min(mark, totalMarks);
 
-  // Fewer marks than bands: one band per mark, counted DOWN from the ceiling.
-  if (totalMarks <= maxBand) {
-    return maxBand - totalMarks + clampedMark;
+  if (totalMarks < EXTENDED_RESPONSE_MARKS) {
+    const ladder = shortQuestionBands(totalMarks, maxBand);
+    const index = Math.min(ladder.length, Math.max(1, Math.floor(clampedMark))) - 1;
+    return ladder[index] ?? 1;
   }
 
   return Math.min(maxBand, Math.max(1, Math.ceil((clampedMark / totalMarks) * maxBand)));
@@ -1248,8 +1296,8 @@ export const bandMarkRanges = (
  * The bands a question can actually award, highest first.
  *
  * On a question with fewer marks than its verb's band range, the bottom of the
- * ladder is unreachable: a 4-mark Evaluate runs 4/4 → Band 6 down to 1/4 →
- * Band 3, and no mark maps to Band 2. Anything that draws the ladder — the
+ * ladder is unreachable: a 4-mark Evaluate runs 4/4 → Band 5 down to 1/4 →
+ * Band 2, and no mark maps to Band 1. Anything that draws the ladder — the
  * exemplar coverage strip, the rubric rows the AI is asked to write — has to
  * ask for it rather than counting 1..maxBand, or it reports bands as "missing"
  * that no answer to this question could ever demonstrate.

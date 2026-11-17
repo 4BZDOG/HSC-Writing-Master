@@ -62,6 +62,7 @@ export function reportLevels(
   const tier = getPromptTermInfo({
     verb: prompt.verb as PromptVerb,
     bandCeiling: prompt.bandCeiling,
+    totalMarks: prompt.totalMarks,
   }).tier;
   const target = rewriteTarget(revised, overallMark, total, tier, prompt.markingCriteria);
   return { you, next: { mark: target.mark, band: target.band, isRewrite }, top };

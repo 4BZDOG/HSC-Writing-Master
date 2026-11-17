@@ -487,7 +487,7 @@
                         "mark": 2,
                         "answer": "The temperature at Marlow Point has gone up over the 70 years, which is a warming trend. Some years are warmer than others.",
                         "feedback": "Describes the trend but does not describe the range of values or identify an anomaly. The second sentence is too vague to earn a third mark.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-3-3",
@@ -707,7 +707,7 @@
                         "mark": 2,
                         "answer": "Deforestation is human-induced because people clear forest for farms and timber. Desertification is human-induced because overgrazing removes vegetation. Melting glaciers and retreating ice sheets are human-induced because warming is caused by greenhouse gases.",
                         "feedback": "Three changes are classified correctly, but there is no basis beyond a single phrase and no contested case, so it stays at 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-7-3",
@@ -769,7 +769,7 @@
                         "answer": "Deforestation and melting glaciers are changes in land cover that affect the environment.",
                         "source": "AI",
                         "feedback": "Lists two land cover changes and gives a general effect without explanation, so it falls in the 2-3 band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A class report compares satellite land cover maps for two decades. It shows forest loss in one region, dryland soil degradation in another and shrinking ice margins in a mountain range. The report is hypothetical and is used to frame a class discussion of global change."
@@ -890,7 +890,7 @@
                         "answer": "Forest cover has been lost in the Hollin Valley, which affects the environment.",
                         "source": "AI",
                         "feedback": "Names the form of land cover and gives a general effect with no explanation, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A catchment, the Hollin Valley, has lost forest cover as farms expanded onto its steeper slopes. Local data suggest that the cleared slopes now shed more runoff into the river, and the change is part of a wider pattern in the region. The catchment and its data are hypothetical."
@@ -1056,7 +1056,7 @@
                         "mark": 2,
                         "answer": "A contemporary hazard is something dangerous happening now, such as a flood.",
                         "feedback": "Defines the term and gives one example of a natural hazard, but does not distinguish it from an ecological hazard, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-13-3",
@@ -1117,7 +1117,7 @@
                         "answer": "A contemporary hazard is good for Study 2 because it is happening now.",
                         "source": "AI",
                         "feedback": "Gives one reason for suitability without any human activity or further explanation, so it falls in the 2-3 band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A coastal town, Tarn Bay, has had repeated flooding after heavy rain and an algal bloom in its estuary that closed a shellfish harvest. Students are choosing one event as their Study 2 hazard. The town and its events are hypothetical."
@@ -1502,7 +1502,7 @@
                         "answer": "Irrigation has expanded because of export demand, which lowers river flows and raises salinity. Rainfall in the headwaters is also more variable with climate, so less water reaches the estuary. Wetland loss shows the change in the basin.",
                         "source": "AI",
                         "feedback": "Describes the changes and explains the integration influence, but the climate influence is only stated and the two are not related, so it sits at 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-21-3",
@@ -1556,7 +1556,7 @@
                         "mark": 2,
                         "answer": "Irrigated area rises and wetland area falls over the four dates.",
                         "feedback": "Accurately summarises two trends but does not relate them or cover salinity, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-22-3",
@@ -1616,7 +1616,7 @@
                         "mark": 2,
                         "answer": "A challenge is that salinity is rising. An opportunity is that farmers can grow more crops with irrigation.",
                         "feedback": "Outlines one challenge and one opportunity, but no perspectives or responses are identified, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-23-3",
@@ -1678,7 +1678,7 @@
                         "answer": "The agency could manage the water better, for example by using a plan.",
                         "source": "AI",
                         "feedback": "Names a management response in general terms without linking it to the negative impacts, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Irrigation expansion has increased yields on the plain but has lowered river flows and raised salinity, while the estuary's wetlands have shrunk. Farmers, local communities and a conservation group each want different outcomes from a proposed water-sharing plan. The Halvern Basin is hypothetical, and so are the plan and its stakeholders."
@@ -1722,7 +1722,7 @@
                         "mark": 6,
                         "answer": "The effectiveness of the allocation scheme at the selected place in the Halvern Basin is judged against four explicit criteria: water savings, river salinity outcomes, wetland condition and social acceptance. The scheme addresses the challenge of overuse, but on salinity it has not achieved its aim, because river salinity has continued to rise in dry years. On social acceptance, farmers say the rules are unfair in those years, so the scheme is not yet accepted by all users. Water savings and wetland condition cannot be judged from the scenario, because no readings are supplied for either. On the evidence available, the regional water agency, one of the organisations managing this challenge, has not yet shown that the scheme achieves its aims. The judgement is limited: the scenario gives no baseline before the scheme, and a dry-year rise in salinity may reflect drought as much as the scheme's design, so a firmer conclusion needs several years of measured outcomes.",
                         "feedback": "Sets out four explicit criteria, judges the scheme against the two it can be measured on (salinity and social acceptance), and notes that water savings and wetland condition cannot be judged from the data supplied. It reaches a clear judgement that the aims are not yet shown to be met, and names the limits of the evidence, which is what the top band requires.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-25-2",
@@ -1906,7 +1906,7 @@
                         "mark": 2,
                         "answer": "The flash flood is a natural hazard because it is caused by heavy rain. It is at a local scale in Pellow Creek.",
                         "feedback": "Classifies both the type and the scale, but gives a reason only for the type. The scale is stated without a reason, so it sits at 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-28-3",
@@ -2187,7 +2187,7 @@
                         "mark": 4,
                         "answer": "The flood is a challenge because it damages homes and gives residents little time to respond. An opportunity is a warning system that is cheap. Residents, the council and insurers may disagree about the best response, and a buy-back is one response that works at catchment scale.",
                         "feedback": "Discusses one challenge and one opportunity with limited evidence, and identifies responses and perspectives without weighing them. This matches the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-33-3",
@@ -2241,7 +2241,7 @@
                         "mark": 2,
                         "answer": "The flood damages homes and roads in the township, which is an impact on people.",
                         "feedback": "Outlines one impact on people with a supporting detail, but no change to natural processes is included, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-34-3",
@@ -2345,7 +2345,7 @@
                         "mark": 4,
                         "answer": "The proposed action is a warning system for Pellow Creek, linked to rain gauges in the upper catchment, so that intense bursts of rain trigger alerts before a flash flood reaches the lower township. The mechanism is time: the gauges detect the rain early, so residents have time to move vehicles and possessions. The predicted outcome is a reduction in risk to people and property in the lower valley. The main constraint is that a warning only reduces risk if residents act on it, so the limited budget must also fund clear messages and drills.",
                         "feedback": "Proposes a specific action with a clear mechanism (earlier warning from rain gauges), predicts its outcome with a reason, and names the main constraint (residents must act on warnings, within a limited budget). That makes the proposal specific and credible.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-36-2",
@@ -2353,7 +2353,7 @@
                         "mark": 2,
                         "answer": "The council could install a warning system that gives residents more time.",
                         "feedback": "Proposes a general action with no mechanism and no predicted outcome, so it earns the 2-mark level.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-36-3",
@@ -2361,7 +2361,7 @@
                         "mark": 1,
                         "answer": "Better drainage would help.",
                         "feedback": "A general statement about reducing risk with no specific action or outcome, so it earns only the 1-mark level.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: The council has a limited budget for the Pellow Creek township and is choosing between a warning system linked to rain gauges and a drainage upgrade for the lower streets. The Pellow Creek township and both options are hypothetical."
@@ -2809,7 +2809,7 @@
                         "mark": 2,
                         "answer": "A selected place is an area where the climate change challenge is studied, and its boundaries should be fixed so that the project can be judged on the same area.",
                         "feedback": "Clarifies the meaning and gives one reason for fixing the boundaries, but no example of a boundary decision, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-44-3",
@@ -2889,7 +2889,7 @@
                         "answer": "Geographical inquiry uses evidence and maps. It is done by students.",
                         "source": "AI",
                         "feedback": "Lists features of inquiry without any explanation of how it contributes to understanding or management, so it falls in the 2-3 band.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: A Year 11 class is investigating whether a proposed flood levee would reduce risk in a hypothetical township. They must decide what their inquiry can and cannot tell the council before the decision is made. The township and proposal are hypothetical."
@@ -2936,7 +2936,7 @@
                         "mark": 2,
                         "answer": "Geographical inquiry is an investigation of a place using evidence. An example question is whether a levee reduces flooding.",
                         "feedback": "Defines inquiry and gives one example question, but does not distinguish it from a general report, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-46-3",
@@ -3277,7 +3277,7 @@
                         "mark": 2,
                         "answer": "The student should ask what the focus is and what the geographic extent is.",
                         "feedback": "Names two planning questions without explaining why each matters, so it earns the 2-mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-52-3",
@@ -3912,7 +3912,7 @@
                         "mark": 5,
                         "answer": "The first recommendation is individual action: residents near the creek should avoid applying fertiliser to lawns before forecast heavy rain, because runoff from fertilised lawns is a direct source of nitrate. This costs residents little and can be promoted through local newsletters, so it is feasible. The second is collective action: the council should restore a vegetated buffer strip between the golf course and Lark Creek, which would filter nitrate runoff before it reaches the water, with monthly sampling at the four sites to test whether nitrate levels fall after the buffer is established. Both recommendations are appropriate because they target the cause identified in the investigation, and the expected outcome is a measurable drop in nitrate levels.",
                         "feedback": "Two recommendations, one individual and one collective, each specific, feasible, tied to the cause of the runoff, and paired with an expected outcome. The monitoring step gives the collective action a way to be checked, which is what the top band rewards.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-64-2",
@@ -3920,7 +3920,7 @@
                         "mark": 2,
                         "answer": "Residents should use less fertiliser on their lawns. The council should restore wetlands near the creek to filter nitrate.",
                         "feedback": "One individual and one collective recommendation, but both are general and no expected outcome or link to the sampling is given, so it sits at the 3 mark level.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-64-3",
@@ -3928,7 +3928,7 @@
                         "mark": 1,
                         "answer": "People should look after the creek.",
                         "feedback": "A general comment with no recommendation, so one mark.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: the Lark Creek investigation found that nitrate levels rose after heavy rain near a golf course. Residents of the nearby suburb (hypothetical) and the local council both have a role in managing the runoff."
@@ -4386,7 +4386,7 @@
                         "answer": "Some environments are valuable to everyone because they have plants and animals found nowhere else.",
                         "source": "AI",
                         "feedback": "Describes the value with little discussion and no contest, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A Year 11 class is preparing a debate on whether environments such as coral reefs or old-growth forests should be protected for all people, even when they lie within one nation's territory."
@@ -4431,7 +4431,7 @@
                         "mark": 2,
                         "answer": "The universal value of an environment is the value it holds for everyone, such as a reef that many countries depend on.",
                         "feedback": "Explains the concept in general terms with an example that is not fully explained, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-73-3",
@@ -4495,7 +4495,7 @@
                         "mark": 2,
                         "answer": "The catchment has rainfall as an input. Land clearing is a factor that affects it.",
                         "feedback": "One characteristic and one factor, both named with little development, so 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-74-3",
@@ -4548,7 +4548,7 @@
                         "mark": 3,
                         "answer": "Vegetation intercepts rain, so less water reaches the soil quickly. If trees are cleared, more runoff reaches the stream and flood peaks rise.",
                         "feedback": "One connection analysed with its consequence, but no second connection and no implication, so it sits at the 4 mark level.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-75-3",
@@ -5223,7 +5223,7 @@
                         "mark": 2,
                         "answer": "Migration brings new groups to a region. Geography also matters because mountains can separate people.",
                         "feedback": "Two factors, each with a brief explanation and no Eastmoor example, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-87-3",
@@ -5282,7 +5282,7 @@
                         "answer": "Trade and communication now link places across the world, so production is organised across borders. These links bring jobs and cheaper goods to some places, but other regions lose industries to competitors, so the benefits are uneven.",
                         "source": "AI",
                         "feedback": "Discusses the integration and one uneven outcome with some balance, but has no examples and no reasoned conclusion, so it sits at the 5 mark level.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-88-3",
@@ -5290,7 +5290,7 @@
                         "answer": "The world is more connected because of trade and the internet.",
                         "source": "AI",
                         "feedback": "Describes integration with almost no discussion, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A Year 11 class is preparing for a debate on whether global integration has benefited all places equally. The class must weigh economic gains against the places and workers that have lost out."
@@ -5669,7 +5669,7 @@
                         "mark": 2,
                         "answer": "Population growth uses more water. The city has more traffic and needs more roads.",
                         "feedback": "Two challenges described in general terms with no specific effect on the city, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-95-3",
@@ -6054,7 +6054,7 @@
                         "answer": "The closure of the factory removed jobs from Ferncliff, but a logistics hub has since brought new employment. Truck traffic through residential streets raises noise and emissions, so the benefits are not shared equally.",
                         "source": "AI",
                         "feedback": "Discusses the change and one uneven impact with some balance, but has no examples of which residents gain and no reasoned overall judgement, so it sits at the 5 mark level.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-102-3",
@@ -6062,7 +6062,7 @@
                         "answer": "Ferncliff lost its factory, and then a logistics hub opened there.",
                         "source": "AI",
                         "feedback": "Describes the change with almost no discussion, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Ferncliff is a hypothetical manufacturing town invented for this question. It lost its main factory when production moved to an overseas competitor, and it later gained a logistics hub serving global freight."
@@ -6220,7 +6220,7 @@
                         "mark": 2,
                         "answer": "New restaurants have changed Ellery's high street. New festivals have been added to the calendar.",
                         "feedback": "Two impacts with an example each, but no third impact, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-105-3",
@@ -6287,7 +6287,7 @@
                         "answer": "The valley has a shared administration and a water board that both groups use.",
                         "source": "AI",
                         "feedback": "Describes the arrangements with almost no assessment of their effect on tension, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Calder Basin is a fictional river valley invented for this question. Two governments and a regional community claim parts of it, and the valley supplies irrigation water to all three. An agreed administration and a shared water board were set up after a period of dispute."
@@ -6382,7 +6382,7 @@
                         "answer": "The fibre-optic cable let firms sell services overseas, and the container port brought freight traffic and new warehouses. These advances changed where people work and how land is used.",
                         "source": "AI",
                         "feedback": "Examines two advances and their effects on the town, but gives no implications for people or the environment, so it sits at the 4 mark level.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-108-3",
@@ -6510,7 +6510,7 @@
                         "answer": "Deserts are hot and dry, and polar regions are cold.",
                         "source": "AI",
                         "feedback": "Describes two challenges with no discussion of responses, so it sits at the 2 mark level.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "A Year 11 class is comparing a desert, a polar region and a high mountain range as places where people have chosen to live, and where their occupation has been constrained by the environment."
@@ -6776,7 +6776,7 @@
                         "answer": "People have built stilt houses and canals to deal with the flooding. The floods are a natural environment feature that people have to live with.",
                         "source": "AI",
                         "feedback": "Two factors are described, but no judgement is made about which shaped the character of places more. This is a description, so it earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Kelvane Delta is hypothetical. Its floods are predictable and seasonal, its soils are fertile, and its population has built stilt houses, drainage canals and flood-tolerant rice varieties over several centuries. Local councils now debate whether further engineering or managed retreat from the lowest districts is the better response."
@@ -6993,7 +6993,7 @@
                         "mark": 2,
                         "answer": "Tarrin Hollow farms for its own food and sells to local markets. It is also quite isolated, so new businesses have not come to it.",
                         "feedback": "Two features are described and linked to limited change, but the explanation is brief and there is no third feature, so the answer earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-119-3",
@@ -7114,7 +7114,7 @@
                         "answer": "Ashmere has changed because of container terminals and migrant workers. Tarrin Hollow is a village that farms and has not changed much.",
                         "source": "AI",
                         "feedback": "Changes are described in both places, but there is no discussion of extent and no link to global economic integration as the cause, so it earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Ashmere is a hypothetical port town where container terminals, migrant workers and imported goods have reshaped the waterfront over two decades. Tarrin Hollow, about 300 kilometres inland, has changed much less, with families still farming and selling into local markets."
@@ -7387,7 +7387,7 @@
                         "mark": 2,
                         "answer": "Economic: the port now handles more containers. Social: many people work in port and export jobs.",
                         "feedback": "Two effects are classified correctly with examples, but the examples are brief and the third effect is missing, so the answer earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-125-3",
@@ -7726,7 +7726,7 @@
                         "mark": 2,
                         "answer": "A household survey counting heritage language speakers is quantitative. Interviews with elders about customs are qualitative.",
                         "feedback": "Two kinds of evidence are classified correctly, but the reasons are only implied and there is no third kind, so the answer earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-131-3",
@@ -7794,7 +7794,7 @@
                         "answer": "Village associations run festivals in Velt Ridge. The government funds language schools.",
                         "source": "AI",
                         "feedback": "Two responses are described, but there is no judgement about the extent to which either manages the impacts, so it earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Velt Ridge is a hypothetical mountain region where a national tourism industry has changed local language use, festivals and land ownership. A regional government program funds language schools, while village associations run their own festivals and mediate land sales."
@@ -8239,7 +8239,7 @@
                         "answer": "A joint fishing commission sets catch limits and a river-sharing agreement shares water in drought. Fishing communities say their catches have fallen.",
                         "source": "AI",
                         "feedback": "The responses and one impact are described, but there is no evaluation against criteria and no judgement of effectiveness, so the answer earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Two states share the hypothetical Vallen Strait. A joint fishing commission sets seasonal catch limits, and a river-sharing agreement commits both states to share water in drought years. Fishing communities on the eastern shore report that catches have fallen since the commission was formed, while border incidents have become less frequent."
@@ -8469,7 +8469,7 @@
                         "mark": 2,
                         "answer": "Containerisation has made shipping cheaper, so goods move between countries more easily. Satellites also let people send information over long distances.",
                         "feedback": "Two advances are described with some explanation of their effect, but the explanation is brief and there is no third advance, so the answer earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-144-3",
@@ -8698,7 +8698,7 @@
                         "answer": "Ashmere is a port connected to global networks. Tarrin Hollow has broadband now.",
                         "source": "AI",
                         "feedback": "The two places are described, but there is no assessment of transformation or implications, so the answer earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: A regional planning review compares Ashmere, a port connected to global shipping and data networks, with Tarrin Hollow, a highland village that gained broadband access only recently."
@@ -8799,7 +8799,7 @@
                         "mark": 2,
                         "answer": "Global networks connect world cities, and firms in finance and corporate law link their offices across them. London and New York are linked this way, which strengthens their role as world cities.",
                         "feedback": "Outlines one influence of global networks on world cities, but the link to the role of the city stays general. Naming a real city and explaining how the network changes its role would lift it to a description of the influence.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-hsc-2024-24a-3",
@@ -8919,7 +8919,7 @@
                         "mark": 2,
                         "answer": "The study looked at Corran Rail. It found that the line has brought new sawmills to the towns along the route.",
                         "feedback": "The network and one finding are summarised, but the answer does not give the scale or a second finding, so it earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-151-3",
@@ -9563,7 +9563,7 @@
                         "mark": 2,
                         "answer": "The profile rises steeply from the river to the lower slope, then rises gently to the summit.",
                         "feedback": "The profile is described with both slopes in sequence, but the valley shape is not explained and the locations are not linked to the contours, so the answer earns 2 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-161-3",
@@ -9800,7 +9800,7 @@
                         "answer": "Route A is 4.5 km with 60 m of ascent. Route B is 3 km with 340 m of ascent. Route B is shorter in distance.",
                         "source": "AI",
                         "feedback": "The two routes are described with figures, but no travel time is calculated and no choice is made, so the answer earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: Route A follows the river on a gentle gradient for 4.5 km, with a total ascent of 60 m. Route B climbs the northern slope directly, covering 3 km with 340 m of ascent. A walker averages 4 km/h on Route A and 2.5 km/h on Route B because of the steep climb. The Kestrel Gorge map and both routes are hypothetical."
@@ -10121,7 +10121,7 @@
                         "mark": 3,
                         "answer": "Density divides the number of bus shelters by the area, so the two areas can be compared fairly. Area P has a higher density than Area Q, which the raw count of 40 does not show.",
                         "feedback": "Explains the standardisation and the comparison, but without the density figures, so it earns the 3 mark level.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-171-3",
@@ -10339,7 +10339,7 @@
                         "mark": 3,
                         "answer": "The central low fell from 1004 hPa to 992 hPa, and the low moved east, with a cold front trailing behind it.",
                         "feedback": "Describes three changes, including the pressure figures, so it earns the 3 mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-175-3",
@@ -10398,7 +10398,7 @@
                         "mark": 3,
                         "answer": "Canopy cover rises from the north-west to the south-east, reaching 60 per cent in Suburb 6. Surface temperature falls over the same gradient, but no temperature figures are given.",
                         "feedback": "Describes both patterns in direction, with figures for one only, so it earns the 3 mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-176-3",
@@ -10619,7 +10619,7 @@
                         "mark": 2,
                         "answer": "How has volcanic activity influenced human settlement on the island?",
                         "feedback": "Meets the 2-mark row by proposing a valid geographical inquiry question on Aogashima Island. The question, 'How has volcanic activity influenced human settlement', could be tested on a field trip to the island.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-hsc-2024-22b-2",
@@ -10627,7 +10627,7 @@
                         "mark": 1,
                         "answer": "Students could study the volcano on Aogashima Island.",
                         "feedback": "This answer provides some relevant information about the island, but it does not propose an inquiry question. To lift it, turn the idea into a question that names the process and the people or land use it affects.",
-                        "band": 5
+                        "band": 4
                       }
                     ],
                     "scenario": "Refer to pages 2–3 of the Stimulus Booklet to answer parts (a)–(c).",
@@ -10728,7 +10728,7 @@
                         "mark": 3,
                         "answer": "The class counts litter in quadrats along a transect at each of the three sites, and records each count on a sheet that lists the site, date and item category.",
                         "feedback": "Describes the sampling design and the recording sheet, but gives no reliability measure, so it earns the 3 mark level.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-181-3",
@@ -10892,7 +10892,7 @@
                         "mark": 6,
                         "answer": "To synthesise the transect data, the three sites are read together. Litter declines from the car park to the upstream bushland: Site A records 42 items per 100 metres, Site B records 18 and Site C records only 4. The largest fall is between Sites A and B, which suggests that much of the litter is concentrated near the visitor entrance. The plastic share follows the same direction, falling from 71 per cent of items at Site A to 50 per cent at Site B and 25 per cent at Site C. Together, the two patterns suggest that litter near the car park is dominated by plastic items most likely left by visitors. However, sampling conditions may affect the result. Counting on transect 1 was paused by rain for 30 minutes, so the Site A count may be incomplete and the steep decline could be overstated. The class should treat the pattern as a strong indication, and repeat the count on a dry day with the same transect layout and counting rules.",
                         "feedback": "Combines the three sites and the plastic shares into one pattern with figures, and states a specific sampling condition that could change the result. Full marks.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-184-2",
@@ -11761,7 +11761,7 @@
                         "mark": 3,
                         "answer": "Region P has a broad base and 35 per cent aged 0 to 14, while Region Q has a narrow base and 17 per cent aged 65 and over, so Region P needs schools while Region Q faces ageing.",
                         "feedback": "Describes both profiles with figures and identifies one challenge, so it earns the 4 mark level.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-199-3",
@@ -12224,7 +12224,7 @@
                         "answer": "The value of r is −0.41, which is a negative correlation between canopy cover and temperature.",
                         "source": "AI",
                         "feedback": "States the value and direction of the correlation without assessing reliability or cause. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: study of 12 suburbs in a large city. Tree canopy cover ranges from 4 to 38 per cent. The correlation between canopy cover and afternoon surface temperature is r = −0.41. One suburb, an industrial estate with 4 per cent canopy, has the highest temperature and sits well away from the trend. The study uses satellite data from a single summer afternoon."
@@ -12283,7 +12283,7 @@
                         "mark": 3,
                         "answer": "The GPS receiver records the coordinates of each tree, so the location of every tree can be mapped later in the GIS.",
                         "feedback": "Describes what the receiver records and why it is useful, but not the steps taken before and after each reading. This earns 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-208-3",
@@ -12346,7 +12346,7 @@
                         "answer": "GPS gives the location of each mark. It can be less accurate under trees.",
                         "source": "AI",
                         "feedback": "States what GPS provides and a brief comment on accuracy, without justification or evaluation. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: flood-mapping survey of a forested river valley. Surveyors must record the exact location of 80 high-water marks left on tree trunks. Much of the valley floor is under a dense, closed canopy, and the river is wide and bordered by wet ground."
@@ -12461,7 +12461,7 @@
                         "answer": "A choropleth map shades streets by flood risk class.",
                         "source": "AI",
                         "feedback": "Describes one form and one of its features without evaluation. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: council flood-risk project. Planners must explain to residents which streets face the greatest flood risk. Four options are considered: a choropleth map of flood-risk classes by street, a proportional symbol map of properties at risk, an interactive web GIS with layers for flood depth, and an annotated photograph with a hand-drawn overlay. Most residents have no GIS training."
@@ -12514,7 +12514,7 @@
                         "mark": 3,
                         "answer": "First, the field records are entered into the attribute table with their coordinates. Next, each point is assigned to a land use class. Finally, the layer is displayed with symbols and a legend.",
                         "feedback": "Outlines three steps in a sensible order, but does not include the check against the photograph. This earns 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-212-3",
@@ -12577,7 +12577,7 @@
                         "answer": "The GIS has a map layer for flood depth, classed into three groups and shown with colours.",
                         "source": "AI",
                         "feedback": "Describes the map layer and one feature of its classification and symbology, without discussing effect. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: flood-risk study of a low-lying suburb. Analysts build a set of GIS map layers: property boundaries, ground elevation, flood depth in three classes and drainage lines. In one version flood depth is classed using equal intervals; in another it is classed using natural breaks."
@@ -12754,7 +12754,7 @@
                         "mark": 2,
                         "answer": "Satellite images show the land surface at different dates.",
                         "feedback": "States one feature of satellite images without explaining how they show change or connections. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: river catchment studied with a series of satellite images taken at the same time of year over 15 years. A GIS overlays the images on land parcel boundaries and river channels."
@@ -12809,7 +12809,7 @@
                         "answer": "The satellite images are from 2005, 2012 and 2020.",
                         "source": "AI",
                         "feedback": "States one piece of evidence from the scenario without evaluation. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: port expansion beside a mangrove-lined estuary. The council holds satellite images from 2005, 2012 and 2020 and a GIS layer of the expansion footprint. No water quality samples are available for the period."
@@ -12931,7 +12931,7 @@
                         "answer": "The aerial photograph is at 1:25 000 and the satellite pixels are 10 metres.",
                         "source": "AI",
                         "feedback": "States the nominal scale and pixel size without assessment. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: study of a steeply undulating catchment, with ridges rising several hundred metres above the valley floor. The area is covered by an aerial photograph at a nominal scale of 1:25 000 and by a satellite image with a 10-metre pixel size."
@@ -13038,7 +13038,7 @@
                         "mark": 4,
                         "answer": "Shadow evidence depends on the sun's position, which changes with the season, so the date of the photograph needs to be known before the time of day can be estimated. The estimate also depends on the terrain, and the slope in this photograph casts its own shadows.",
                         "feedback": "Explains one limitation, the seasonal change in the sun's position, and its effect on the estimate, and notes the terrain issue briefly without assessing it. This earns 4 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-221-3",
@@ -13162,7 +13162,7 @@
                         "answer": "The method counts points in each land use and divides by the total.",
                         "source": "AI",
                         "feedback": "States how the ratio is calculated without assessing its reliability. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: study of an aerial photograph in which an analyst uses a 200-point grid. Many points fall on mixed sites, such as a hobby farm with houses, orchards and bushland in one cell, and the grid spacing is wide relative to the small land parcels."
@@ -13269,7 +13269,7 @@
                         "answer": "The tidal flats are shown as one simplified zone, because the fine channels would clutter the map and are not needed for a walking route. This removes detail but keeps the map readable for the council.",
                         "source": "AI",
                         "feedback": "Describes one generalisation decision and gives a reason for it. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-225-3",
@@ -13500,7 +13500,7 @@
                         "mark": 4,
                         "answer": "Orienting the photograph to the map or to the earlier photograph lines up the features, so that each place is compared with the same place on both images. Without this, a change could be mistaken for a shift in the image.",
                         "feedback": "Justifies orientation with one reason tied to comparing the same places, but gives no limitation. This earns 4 marks.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-229-3",
@@ -13561,7 +13561,7 @@
                         "mark": 3,
                         "answer": "The transect runs from A at the river to B on the ridge. The land uses recorded at the five points are river channel, wetland, pasture, cropping and housing.",
                         "feedback": "Constructs the transect and lists the land uses without describing the change between points. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-230-3",
@@ -13624,7 +13624,7 @@
                         "answer": "The transect shows the land use changes from forest to housing.",
                         "source": "AI",
                         "feedback": "Describes one result from the transect without discussion. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: catchment transect that a team uses to represent changing land use from a forested headwater to a lower-catchment town. The team surveys only one transect line, and the catchment has several tributaries."
@@ -13722,7 +13722,7 @@
                         "mark": 3,
                         "answer": "The lines all run from the outer suburbs towards the city centre, and the thickest line starts in the nearest suburb.",
                         "feedback": "Describes the flow pattern using direction, without linking it to the density pattern. This earns 3 marks.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-233-3",
@@ -13903,7 +13903,7 @@
                         "answer": "Plants capture energy and store nutrients, and animals such as fruit-eating birds depend on them. Many rainforest trees rely on animals to disperse their seeds, so the functioning of the forest depends on its species interactions. Losing a species that plays a large role could change the forest.",
                         "source": "AI",
                         "feedback": "Analyses one link between species interdependence and ecosystem functioning, using a named example. This earns 4 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-236-3",
@@ -13911,7 +13911,7 @@
                         "answer": "The rainforest has many species that interact.",
                         "source": "AI",
                         "feedback": "Names a feature of ecosystem functioning without analysis. This earns 1 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   },
@@ -14078,7 +14078,7 @@
                         "answer": "Economic valuation does not capture cultural values or existence values, because these are hard to put in dollars. Non-market values are important for management, because markets can undervalue benefits such as flood protection.",
                         "source": "AI",
                         "feedback": "Justifies the view with one reason and states the argument for non-market values, without evaluating it. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-238-3",
@@ -14200,7 +14200,7 @@
                         "answer": "Clearing is a human stress, and it can make ecosystems less healthy.",
                         "source": "AI",
                         "feedback": "Names a human stress and a general effect, without the link to vulnerability or resilience. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ]
                   },
@@ -14358,7 +14358,7 @@
                         "mark": 3,
                         "answer": "Habitat loss occurs when forests or wetlands are cleared for farming, and the species that depended on them lose their homes. Fragmentation can also isolate populations, which shows how habitat loss affects biodiversity.",
                         "feedback": "Describes habitat loss and one mechanism, with an example, without weighing the evidence. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-243-3",
@@ -14539,7 +14539,7 @@
                         "mark": 2,
                         "answer": "The insurance populations are disease-free devils in captivity.",
                         "feedback": "Describes one element of the response without evaluating it. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Tasmanian devil facial tumour disease (DFTD) is a transmissible cancer, first recorded in the 1990s, that has caused severe declines in wild Tasmanian devil populations. The conservation response has included establishing insurance populations of disease-free devils in captivity and in secure sites, with monitoring of wild populations."
@@ -14578,7 +14578,7 @@
                         "mark": 6,
                         "answer": "A sustainable management strategy that operates at both scales needs one set of actions at the wetland and another across the catchment, linked so that each supports the other. At the wetland, the most direct action is to exclude cattle from the banks with fencing and to revegetate the riparian zone with native sedges and shrubs. Grazing compacts the soil, removes the vegetation that filters runoff and damages the habitat the wetland bird depends on, so fencing addresses a pressure named in the scenario. At the catchment scale, the main pressures come from upstream: nutrient and sediment inputs from the town and farms, and changes to flow. A farm nutrient management program and sediment basins on drainage lines above the wetland reduce the load reaching it. Each element responds to a named pressure, but the catchment controls depend on action on private land and on the council's role in the town's outflows, so the landholders and council must work together. Monitoring would use the wetland bird's population count as the most useful indicator, measured at the same time each year, supported by water quality samples for nutrients and turbidity above and below the wetland. A measurable fall in nutrients and a stable or rising bird count would show success.",
                         "feedback": "Proposes a strategy at the wetland and catchment scales, justifies each element by the pressure it addresses, and explains a monitoring method with a measurable indicator. This meets the full-mark criteria.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-246-2",
@@ -14768,7 +14768,7 @@
                         "answer": "Indigenous Peoples are involved in managing the national park.",
                         "source": "AI",
                         "feedback": "Describes Indigenous involvement in general terms, without evaluating its effectiveness. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Uluru-Kata Tjuta National Park, returned to the Anangu traditional owners in 1985 and jointly managed by them with Parks Australia, is one example of Indigenous involvement in management. The Warddeken Indigenous Protected Area in western Arnhem Land uses ranger-led burning to reduce late-season wildfire."
@@ -14883,7 +14883,7 @@
                         "answer": "Kakadu floodplains flood in the wet season and dry in the dry season, so the wetland changes across the year. Magpie geese and waterbirds use the flooded areas for feeding, which links the seasonal cycle to biodiversity. In the dry season, animals are concentrated in the billabongs, which changes where they are found.",
                         "source": "AI",
                         "feedback": "Two links are made between the seasonal cycle and biodiversity, with a basic example, but the analysis of the spatial pattern is limited and the chain of cause and effect is not developed. This earns the 4-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-250-3",
@@ -14891,7 +14891,7 @@
                         "answer": "The floodplains flood in the wet season and dry out later. This changes the area of wetland.",
                         "source": "AI",
                         "feedback": "Identifies a feature of the seasonal cycle but makes no link to biodiversity or the spatial pattern. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "The Kakadu floodplains in the Northern Territory are seasonal wetlands that fill during the wet season and dry out in the dry season. They support large numbers of magpie geese and other waterbirds, and Kakadu National Park is World Heritage listed for its natural and cultural values."
@@ -14944,7 +14944,7 @@
                         "mark": 3,
                         "answer": "Marine heatwaves caused coral bleaching on the Great Barrier Reef in 2016 and 2017. Corals lost the algae they need, so many died, and this reduces the resilience of the reef because it has less time to recover.",
                         "feedback": "Explains the disturbance and links it to resilience, but does not develop the effect on the wider ecosystem. This earns 3 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-251-3",
@@ -15008,7 +15008,7 @@
                         "answer": "Bushfire killed many eucalypt trees in 2019–20. This made the forest vulnerable.",
                         "source": "AI",
                         "feedback": "Describes one effect of the fire with no judgement about resilience. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "The Black Summer bushfires of 2019–20 burnt very large areas of south-eastern Australia, including eucalypt forests. Many eucalypts resprout after fire from epicormic shoots or lignotubers, while some species depend on fire to trigger seed release."
@@ -15124,7 +15124,7 @@
                         "answer": "Runoff from farms reaches the Great Barrier Reef and damages corals.",
                         "source": "AI",
                         "feedback": "Identifies one modification and its effect, with no discussion of reversibility. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Sediment and nutrients from farm runoff reach the Great Barrier Reef, and outbreaks of crown-of-thorns starfish, which feed on coral, have repeatedly damaged reefs. Warming seas driven by global climate change also cause mass coral bleaching."
@@ -15177,7 +15177,7 @@
                         "mark": 3,
                         "answer": "Environmental water is released to keep the Macquarie Marshes flooded, which supports waterbird breeding. Monitoring checks whether the flows are working, so managers can adjust them.",
                         "feedback": "Describes two responses and their purpose, but the explanation of how they maintain the ecosystem is limited. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-255-3",
@@ -15240,7 +15240,7 @@
                         "answer": "Indigenous fire management reduces wildfire in Kakadu, which helps the ecosystem.",
                         "source": "AI",
                         "feedback": "Describes the response and one outcome, with no judgement of effectiveness or of the criteria. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "In Kakadu National Park, Traditional Owners and rangers use early dry season burning, often called cool burning, to reduce the fuel that feeds late dry season wildfires. Savanna burning projects in northern Australia have also generated carbon credits from fire management."
@@ -15356,7 +15356,7 @@
                         "mark": 2,
                         "answer": "Deforestation in the Amazon changed after 2004 because of government policy.",
                         "feedback": "Identifies a change and gives one reason, but the explanation is limited and does not say which policy or why it changed. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Brazil's Action Plan for the Prevention and Control of Deforestation in the Legal Amazon was launched in 2004. Deforestation fell substantially in the years that followed, then rose again after 2019, a change that many analysts linked to weaker enforcement. Indigenous territories cover a large share of the Amazon and are an important means of protecting it."
@@ -15409,7 +15409,7 @@
                         "mark": 3,
                         "answer": "Satellite imagery and monitoring help managers see changes across the Great Barrier Reef, so they can respond to problems sooner.",
                         "feedback": "Explains one tool and its role in management, but the explanation is brief. This earns 3 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-259-3",
@@ -15465,7 +15465,7 @@
                         "answer": "Coral restoration trials and heat-tolerant coral research are useful innovations because they can help damaged parts of the reef recover. However, they are expensive and only cover small areas, and they do not stop warming or runoff, so they work best alongside other management.",
                         "source": "AI",
                         "feedback": "A judgement is reached about the contribution, using two criteria (scale and effectiveness), but the criteria are not developed in depth. This earns the 4-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-260-3",
@@ -15473,7 +15473,7 @@
                         "answer": "Coral restoration is an innovation that helps the Great Barrier Reef recover.",
                         "source": "AI",
                         "feedback": "Describes an innovation and a benefit with no assessment of its contribution. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Coral restoration trials on the Great Barrier Reef collect coral larvae or fragments, grow them in nurseries and reseed damaged reef areas. Research into heat-tolerant corals, including selective breeding, is under way, but these approaches are costly and local, so their scale is limited compared with the reef as a whole."
@@ -15601,7 +15601,7 @@
                         "answer": "Tourism in the Blue Mountains creates jobs and income.",
                         "source": "AI",
                         "feedback": "Identifies one pillar with a feature of tourism, but there is no discussion of interaction. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "The Greater Blue Mountains World Heritage Area, west of Sydney, was inscribed in 2000. Tourism is a major economic activity, and the Darug and Gundungurra peoples are among the Traditional Owners of the land."
@@ -15654,7 +15654,7 @@
                         "mark": 3,
                         "answer": "The precautionary principle means the developer must show the resort will not harm the coastal wetland, because the science is uncertain.",
                         "feedback": "Explains one principle and applies it to the proposal, but the analysis is brief and the second principle is not addressed. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-263-3",
@@ -15709,7 +15709,7 @@
                         "mark": 3,
                         "answer": "The Basin Plan sets limits on water extraction and holds environmental water for rivers, which supports intergenerational equity. However, disputes and dry years mean the outcomes are mixed, so the Plan is only partly successful in conserving biological diversity.",
                         "feedback": "A judgement is attempted and two principles are addressed with examples, but the criteria are not clearly stated and the evidence is brief. This earns the 3-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-264-3",
@@ -15717,7 +15717,7 @@
                         "mark": 2,
                         "answer": "The Basin Plan introduced sustainable diversion limits in 2012.",
                         "feedback": "Describes one feature of the Plan with no judgement about the principles. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "The Murray–Darling Basin Plan, introduced under the Water Act 2007 and in force from 2012, sets sustainable diversion limits that cap the volume of water that can be extracted, and it requires environmental water to be held for rivers and wetlands."
@@ -15824,7 +15824,7 @@
                         "answer": "The UN Sustainable Development Goals set shared targets, while community organisations and governments act locally. Indigenous fire management in northern Australia shows that Indigenous practices can contribute to sustainability, and benefit sharing helps ensure the arrangements are fair. However, coordination across the levels remains a challenge.",
                         "source": "AI",
                         "feedback": "Analyses two levels of action and one Indigenous example with a benefit-sharing link, with supporting evidence. The connections between the levels are not fully developed. This earns the 4-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-266-3",
@@ -15832,7 +15832,7 @@
                         "answer": "The Sustainable Development Goals are a global target set in 2015.",
                         "source": "AI",
                         "feedback": "Identifies one level of action with a fact, but gives no analysis of how it contributes to sustainability. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Savanna burning projects in northern Australia are carbon projects in which Indigenous rangers manage fire on Country. The Nagoya Protocol, adopted in 2010, sets rules on access to genetic resources and the sharing of benefits from their use."
@@ -15880,7 +15880,7 @@
                         "answer": "Political, economic and technological influences all affect planning for global sustainability. Political commitment changes over time, and economic interests can oppose environmental goals, while new technology can help but is unevenly distributed. Overall, the opportunities are real, but the challenges are significant, so the balance is only partly achieved.",
                         "source": "AI",
                         "feedback": "A judgement about the balance is reached with examples from three influences, but social, cultural and environmental influences are not addressed and the evaluation is brief. This earns the 4-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-267-3",
@@ -15888,7 +15888,7 @@
                         "answer": "Global sustainability involves political, economic and environmental influences.",
                         "source": "AI",
                         "feedback": "Describes influences on global sustainability with no judgement. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Global sustainability efforts include the UN Sustainable Development Goals, the Paris Agreement and Indigenous benefit-sharing arrangements. Renewable energy costs have fallen sharply over the past decade, but the transfer of clean technology to lower-income countries remains uneven."
@@ -15935,7 +15935,7 @@
                         "mark": 2,
                         "answer": "Global forums such as the Paris Agreement help countries work together on climate change. They allow nations to agree on shared targets that support global sustainability.",
                         "feedback": "Outlines the role of global forums and names a real example, but does not explain what the forum does for sustainability. Stating what the agreement commits countries to would move it to a description of the role.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-hsc-2025-20a-3",
@@ -16005,7 +16005,7 @@
                         "mark": 3,
                         "answer": "Monitoring shows whether countries are meeting the Sustainable Development Goals, which creates accountability. It also shows where policies need changing.",
                         "feedback": "Two reasons are identified and each is briefly explained, but the development is limited and no indicator is used. This earns 3 marks.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-268-3",
@@ -16121,7 +16121,7 @@
                         "mark": 3,
                         "answer": "Environmental impact and social equity are two criteria. Palm oil clears forests and peatland, which is an environmental concern, and workers may have poor conditions.",
                         "feedback": "Two criteria are described and linked briefly to palm oil, but there is no analysis of how they apply or conflict and no judgement. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-270-3",
@@ -16176,7 +16176,7 @@
                         "answer": "Fish stocks are being overfished in many regions, which is an environmental problem and reduces economic returns. Certification such as the Marine Stewardship Council can reward responsible fishing, but it covers only part of the market. Overall the industry is only partly sustainable.",
                         "source": "AI",
                         "feedback": "A judgement is reached using environmental, economic and governance criteria with examples, but the criteria are used lightly and social equity is not addressed. This earns the 4-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-271-3",
@@ -16184,7 +16184,7 @@
                         "answer": "Overfishing reduces fish stocks in the global fishing industry.",
                         "source": "AI",
                         "feedback": "Describes one aspect of the activity with no judgement and no criteria. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Global wild-capture fisheries supply a large share of the world's seafood. The Food and Agriculture Organization reports that a significant share of assessed fish stocks are fished at levels above what can be sustained. The Marine Stewardship Council certifies fisheries that meet its standard for sustainable stocks and management."
@@ -16231,7 +16231,7 @@
                         "mark": 3,
                         "answer": "Wine making in the Hunter Valley supports many jobs in tourism, such as cellar doors and hospitality in Pokolbin, and gives local towns a sense of identity. However, reliance on export markets exposes these communities to events beyond the region. In 2021, China imposed heavy duties on Australian wine, which sharply reduced the income the industry earned from exports.",
                         "feedback": "Shows a sound understanding of social impacts, with a named place and both a benefit and a vulnerability. To move up, explain how each impact arises and who experiences it.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-hsc-2024-23c-3",
@@ -16302,7 +16302,7 @@
                         "mark": 3,
                         "answer": "Cocoa is grown in tropical areas, mainly in West Africa, such as Côte d'Ivoire and Ghana. Most chocolate is consumed in Europe and North America.",
                         "feedback": "Describes the spatial pattern of production and consumption with examples, but the examination of why the pattern exists is limited. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-272-3",
@@ -16357,7 +16357,7 @@
                         "answer": "Car manufacturing is concentrated in East Asia, Europe and North America, with China the largest producer. Production networks link components and assembly plants across countries, so a disruption in one place can affect others.",
                         "source": "AI",
                         "feedback": "Describes the spatial pattern and a network feature with a basic example, but the analysis of the causes of the pattern is limited. This earns the 5-6 band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-273-3",
@@ -16365,7 +16365,7 @@
                         "answer": "China is the largest car producer in the world by volume.",
                         "source": "AI",
                         "feedback": "Identifies one fact about the spatial pattern without analysis. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Car manufacturing is a major global economic activity. It is concentrated in East Asia, Europe and North America, with China the largest producer by volume. Assembly plants are often located near major markets, and components are made in specialist regions across several countries."
@@ -16542,7 +16542,7 @@
                         "answer": "Cocoa boards in Ghana set prices for farmers.",
                         "source": "AI",
                         "feedback": "Describes one influence with no judgement about relative importance. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "In Ghana, the Cocoa Board (COCOBOD) regulates the marketing of cocoa and sets farmgate prices, while in Côte d'Ivoire the Conseil du Café-Cacao, a state-regulated body, sets a minimum farmgate price for farmers. Fairtrade and other certification schemes offer premiums to some producers, and international buyers have made commitments to address child labour in cocoa supply chains."
@@ -16715,7 +16715,7 @@
                         "mark": 3,
                         "answer": "The COVID-19 pandemic caused international travel to collapse, and recovery has been uneven. Overtourism is now a problem in some cities.",
                         "feedback": "Describes two trends with limited analysis of their causes or implications. This earns 3 marks.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-276-3",
@@ -16770,7 +16770,7 @@
                         "mark": 3,
                         "answer": "Climate change may shift tourism between destinations, and warming threatens reef tourism. Some destinations are introducing visitor caps, which suggests that managing numbers is a likely future direction. Sustainable tourism is a useful framework, although it must be verified.",
                         "feedback": "Discusses two or three directions with examples and a partly supported comment on sustainable tourism. The conclusion is brief. This earns the 5-6 band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-277-3",
@@ -16778,7 +16778,7 @@
                         "mark": 2,
                         "answer": "Climate change affects tourist destinations such as the Great Barrier Reef.",
                         "feedback": "Identifies one effect of climate change with no discussion of future directions. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Climate change is shifting the attractiveness of destinations, and reef tourism on the Great Barrier Reef depends on reef health. Some destinations have introduced visitor caps, and some tourism operators seek sustainability certification."
@@ -17073,7 +17073,7 @@
                         "answer": "Population size is useful because it gives a simple ranking of cities, but it does not show global influence. Urban function, such as financial and political roles, provides a better picture, especially for global cities. Overall, both are needed for a fair assessment.",
                         "source": "AI",
                         "feedback": "A judgement on usefulness is reached using two measures (population and function), but the criteria are developed lightly and data limitations are not discussed. This earns the 4-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-281-3",
@@ -17081,7 +17081,7 @@
                         "answer": "Population is measured for each city and gives a ranking.",
                         "source": "AI",
                         "feedback": "Describes one measure with no judgement about its usefulness. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Global city rankings, such as those produced by the Globalization and World Cities Research Network, rank cities by their advanced services and global connectivity rather than population alone. Tokyo's greater urban area is one of the largest in the world, but some cities with much smaller populations rank highly on specialised functions."
@@ -17312,7 +17312,7 @@
                         "answer": "Costa Rica is ranked highly on the Happy Planet Index.",
                         "source": "AI",
                         "feedback": "Describes one example with a measure but no judgement about the claim. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Vauban in Freiburg is a settlement with low-car streets and energy-efficient buildings. Costa Rica, a country rather than a settlement, has often ranked highly in the Happy Planet Index, which combines life expectancy, wellbeing and ecological footprint, and it generates a large share of its electricity from renewable sources."
@@ -17365,7 +17365,7 @@
                         "mark": 2,
                         "answer": "Curitiba's bus rapid transit has dedicated lanes, which reduces traffic and helps people get to work without cars.",
                         "feedback": "Explains one feature and its benefit, with limited development of how it supports sustainable management. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-286-3",
@@ -17428,7 +17428,7 @@
                         "answer": "Landcare is a volunteer group that works on soil and water.",
                         "source": "AI",
                         "feedback": "Describes the strategy with no evaluation of its success. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Landcare was launched in Victoria in 1986 as a community movement in which local groups work on soil, water and vegetation on farms and public land. It has grown into a national network that relies heavily on volunteers, supported by government grants and corporate partners."
@@ -17468,7 +17468,7 @@
                         "mark": 6,
                         "answer": "The Green Exchange in the regional centre of Curitiba, Brazil has proven to be a successful initiative in sustainably managing an urban setting. Environmentally, the program reduces illegal dumping and increases recycling by allowing residents to exchange recyclable materials for fresh produce. Economically, it supports regional agriculture by creating a market for local farmers and reducing reliance on large industry. The program overall therefore supports the area to thrive economically and improve urban cleanliness.",
                         "feedback": "Meets the 6-mark row by demonstrating an extensive understanding of sustainable management of a rural or urban place with reference to TWO pillars of sustainability, and making a comprehensive judgement of the success of ONE initiative or project using the pillars of sustainability. The answer judges the Green Exchange by what it does, namely that it 'reduces illegal dumping and increases recycling'.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-hsc-2025-21-2",
@@ -17476,7 +17476,7 @@
                         "mark": 3,
                         "answer": "The Green Exchange in Curitiba, Brazil, is a successful initiative for urban places because it deals with waste and supports farmers. Residents trade recyclable materials for fresh produce, at four kilograms of recyclables for one kilogram of food. It meets the environmental pillar by removing rubbish from poor areas and the economic pillar by giving growers a market for surplus cabbage.",
                         "feedback": "Outlines the environmental and economic effects of the initiative with a clear example, but does not weigh its success or refer to the social pillar. Adding a judgement would lift it.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-hsc-2025-21-3",
@@ -17616,7 +17616,7 @@
                         "answer": "Bourke is a rural town and Penrith is an urban centre.",
                         "source": "AI",
                         "feedback": "Identifies one difference between the places with no comparison of location or economy. This earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Bourke is a rural town on the Darling River in north-western New South Wales. Penrith is a large urban centre in Western Sydney, served by rail and major roads."
@@ -17677,7 +17677,7 @@
                         "answer": "Broken Hill is a mining town in a dry area, and mining is the main reason it developed. Its remote location and dry climate also affect the town.",
                         "source": "AI",
                         "feedback": "Names mining and the dry climate as processes, with a brief link to the town's development. It does not analyse how the processes interact, so it earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Broken Hill is a real mining town in far-western New South Wales, used here as an example of a rural place. Students should use the rural place they studied in their own investigation."
@@ -17724,7 +17724,7 @@
                         "mark": 3,
                         "answer": "The river setting shaped where the settlement developed, which is a physical process. The human process is commercial and residential growth, which has made Parramatta a major centre with its own identity in western Sydney.",
                         "feedback": "Explains the river setting clearly, but the human process is only named and its link to identity is brief. This earns the 3-mark band.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-291-3",
@@ -18028,7 +18028,7 @@
                         "mark": 2,
                         "answer": "Parramatta has seen new high-rise housing and more offices, which are social and economic changes. These changes affect the people who live there.",
                         "feedback": "Identifies social and economic changes, but with little explanation of their nature or of how they are linked. This earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Parramatta is a real urban centre within greater Sydney that has experienced high-density residential and commercial development in recent decades. It is used here as the urban place in the investigation."
@@ -18189,7 +18189,7 @@
                         "mark": 4,
                         "answer": "A water-saving programme is the response strategy that has done most for sustainability in the dry town studied, because it reduces demand for scarce water. Its alternative, a new pipeline, would add supply rather than reduce demand, and it is expensive. The programme is therefore justified on environmental and economic grounds, although its social benefits depend on fair access to fittings and support.",
                         "feedback": "Justifies the strategy with environmental and economic reasons and names an alternative, but the comparison is brief. This earns the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-297-3",
@@ -18365,7 +18365,7 @@
                         "mark": 2,
                         "answer": "Tokyo is a large city of about 14 million people. It combines modern features, such as the Shinkansen hub at Tokyo Station, with historic sites such as Senso-ji temple, which was founded in 645.",
                         "feedback": "Identifies relevant features of the city with a named example. To move up, tie the features together into an overall character rather than listing them.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-hsc-2025-22a-3",
@@ -18437,7 +18437,7 @@
                         "mark": 2,
                         "answer": "Dhaka's population has grown through migration from rural areas. Natural increase is also a demographic trend.",
                         "feedback": "Names demographic trends without explaining how they shaped the city's growth, so it earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Dhaka is a real megacity and the capital of Bangladesh. Its population has grown rapidly in recent decades, through both migration from rural districts and natural increase."
@@ -18491,7 +18491,7 @@
                         "answer": "Mexico City is the capital of Mexico and is an important economic centre. It has links to other countries through trade.",
                         "source": "AI",
                         "feedback": "Names a political role, an economic role and a global linkage with little explanation, so it earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Mexico City is a real megacity in central Mexico, built partly on the bed of a former lake. It is used here as an example of a large city outside Australia, and students should use the city they studied."
@@ -18665,7 +18665,7 @@
                         "mark": 2,
                         "answer": "Dhaka's residents face crowded housing and poor services, and flooding is a problem in the city.",
                         "feedback": "Names challenges with little linkage to residents' lives and no assessment, so it earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Dhaka is a real megacity with a very high population density, and it is used here as the large city in the investigation. Its low-lying location makes flooding a recurring concern."
@@ -18711,7 +18711,7 @@
                         "mark": 3,
                         "answer": "During the monsoon, flooding can make streets impassable, so residents struggle to reach work or school. Traffic congestion is another problem in the city.",
                         "feedback": "Explains one daily challenge clearly, with the second cause only named. This earns the 3-mark band.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-304-3",
@@ -18768,7 +18768,7 @@
                         "mark": 3,
                         "answer": "Tokyo is a large city of about 14 million residents, and it has two challenges of living there: crowded trains and small homes. Trains on the Tōzai Line reached a congestion rate of 199 per cent in fiscal 2018. The average home in the city measures about 65 square metres.",
                         "feedback": "Outlines two challenges of living in the city, with a figure for each, but neither is explained. Describing what the crowding and small homes mean for residents would move it to the next row.",
-                        "band": 2
+                        "band": 1
                       },
                       {
                         "id": "sa-geo-hsc-2025-22b-3",
@@ -18840,7 +18840,7 @@
                         "answer": "Jakarta has a sea wall proposal and a plan to move the capital. These responses deal with flooding.",
                         "source": "AI",
                         "feedback": "Names responses with limited comment on their effects, so it earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Jakarta, the capital of Indonesia, is sinking in parts of its northern area because of groundwater extraction and the weight of buildings, and it faces coastal flooding. Its government has proposed a giant sea wall as part of a wider coastal programme, and announced in 2019 that the national capital is to move to Nusantara in East Kalimantan, a relocation provided for in a 2022 law."
@@ -18886,7 +18886,7 @@
                         "mark": 4,
                         "answer": "Upgrading informal settlements is the strategy most likely to improve living conditions, because it brings water, sanitation and secure tenure to the poorest households. A public transport project is the alternative, but it is expensive and often serves wealthier central areas first, so it does less to reduce spatial inequality.",
                         "feedback": "Justifies the strategy with reasons and names an alternative, but the comparison is brief and the criteria are not stated. This earns the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-306-3",
@@ -19013,7 +19013,7 @@
                         "mark": 3,
                         "answer": "Tokyo's rail network helps people reach work and services, and buildings designed to earthquake standards make the city safer.",
                         "feedback": "Relevant but undeveloped: the answer refers to quality of life without explaining either strategy or what it achieved. Name each strategy, give one real example for each, and say what it changed.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Answer parts (a)–(c) with reference to ONE large city of 5 million people or more, outside Australia, that you have studied.\n\nYour answer will be assessed on how well you: apply geographical knowledge and understanding relevant to the question; communicate ideas and information using geographical terms and concepts appropriately; use relevant examples, geographical information and the Stimulus Booklet where appropriate to support the response; present a sustained, logical and cohesive response.",
@@ -19072,7 +19072,7 @@
                         "mark": 4,
                         "answer": "Three geographical questions would guide a plan for inquiry into urban heat in the hypothetical suburb. The first asks how surface temperatures differ between streets with tree cover and streets with dense hard surfaces, which can be answered by recording temperatures at several sites on one afternoon. The second asks which parts of the suburb have the fewest trees and the most paved car parks, which requires mapping land cover through fieldwork. The third asks how residents in the hottest streets adapt to summer heat, which a short survey can answer. Together, the questions move from measurement to explanation to response.",
                         "feedback": "Proposes three specific geographical questions, each linked to a location, a variable and a method that can be answered in the field or from data. The sequence of questions supports the plan for inquiry, which meets the top band.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-307-2",
@@ -19080,7 +19080,7 @@
                         "mark": 3,
                         "answer": "Three questions could guide the inquiry: how temperatures vary between streets, which streets have the most paved surfaces, and how residents cope with heat. The questions are geographical because they focus on location, although the second is broad and does not name a method.",
                         "feedback": "Proposes three questions, but the second is too broad and no method is linked to it. This earns the 3-mark band.",
-                        "band": 5
+                        "band": 4
                       },
                       {
                         "id": "sa-geo-307-3",
@@ -19088,7 +19088,7 @@
                         "mark": 1,
                         "answer": "How hot is it in summer?",
                         "feedback": "Proposes one question with no location and no link to a plan for inquiry, so it earns 1 mark.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: The western Sydney suburb in this inquiry is hypothetical. Students are planning fieldwork to study why some streets are hotter than others in summer and how residents respond."
@@ -19192,7 +19192,7 @@
                         "mark": 4,
                         "answer": "Census counts give consistent population figures over time, but they may not answer the questions the inquiry asks. A household survey adds residents' reasons for moving, which the census cannot show. The survey must use ethical practices such as informed consent and secure storage of responses.",
                         "feedback": "Justifies the use of both source types with reasons, but the ethical practices are only named. This earns the 4-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-309-3",
@@ -19245,7 +19245,7 @@
                         "mark": 3,
                         "answer": "Residents should give informed consent before taking part, so they know what the survey is for and can refuse. Keeping responses anonymous is also important.",
                         "feedback": "Explains one ethical practice clearly and names a second, so it earns the 3-mark band.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-310-3",
@@ -19424,7 +19424,7 @@
                         "mark": 3,
                         "answer": "The urban share rises from 60 to 75 per cent, so urbanisation is occurring in the region. The rural share must be falling as a result.",
                         "feedback": "Interprets the trend and makes a generalisation, but with little reasoning from the data about why it follows. This earns the 3-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-313-3",
@@ -19533,7 +19533,7 @@
                         "mark": 3,
                         "answer": "New housing on low, paved land is likely to increase, which would put more people at risk of flooding. The reason is that planning allows development on the floodplain.",
                         "feedback": "Makes one well-reasoned prediction tied to planning, but does not give a second trend. This earns the 3-mark band.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-315-3",
@@ -19593,7 +19593,7 @@
                         "mark": 3,
                         "answer": "A GIS overlay of flood-prone land and residential areas shows which houses fall inside the flood zone. The output map identifies housing that is exposed, and the clustering shows where exposure is greatest.",
                         "feedback": "Describes the overlay and what it shows, with a brief comment on the spatial pattern, but without a full analysis of the steps. This earns the 3-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-316-3",
@@ -19834,7 +19834,7 @@
                         "answer": "Embankments, wetlands and early warning systems can all reduce flood risk in the suburb.",
                         "source": "AI",
                         "feedback": "Names the options with little comment on their effects, so it earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Hypothetical: The suburb and city are hypothetical. The three options are: higher embankments and larger drains; restored wetlands and open space that absorb floodwater; and an early warning system with raised housing and support for low-income households."
@@ -19932,7 +19932,7 @@
                         "mark": 6,
                         "answer": "Three actions could reduce land subsidence in Mexico City linked to groundwater extraction. The first is to reduce extraction by metering water use and repairing leaking pipes. The likely outcome is a slower rate of subsidence, because less pumping reduces compaction of the clay beneath the city. The trade-off is that households and businesses may face higher bills. The second is to develop alternative water supply from treated wastewater for non-drinking uses. The likely outcome is lower pressure on the aquifer, so subsidence slows in the most affected districts. This is costly and takes years to build, and imported water can shift environmental pressure to the source basin. The third is to restrict new heavy construction on the most compressible ground. The likely outcome is less new damage to buildings and infrastructure, but this does not reverse subsidence that has already occurred. Together, the three actions address extraction and loading, although their effects will be gradual and need monitoring over many years.",
                         "feedback": "Proposes three actions linked to the causes of subsidence, predicts a specific likely outcome for each with reasons, and includes trade-offs. This meets the top band.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-322-2",
@@ -19994,7 +19994,7 @@
                         "mark": 3,
                         "answer": "Renters may enjoy cooler streets, but their rents could rise. Homeowners are likely to see their property values increase, which is a benefit to them. Older residents will benefit from shade.",
                         "feedback": "Predicts outcomes for all three groups, with reasons for only two. This earns the 3-mark band.",
-                        "band": 3
+                        "band": 2
                       },
                       {
                         "id": "sa-geo-323-3",
@@ -20054,7 +20054,7 @@
                         "mark": 4,
                         "answer": "The plan has three stages: preparation, construction and operation. Responsibilities are given to the council and to a community liaison officer, and funding comes from the council's budget. Monitoring is included once the alert system goes live, so the council can check whether residents receive the alerts.",
                         "feedback": "Constructs a plan with stages and responsibilities, with some attention to funding and monitoring, but the timing and review points are thin. This earns the 4-mark band.",
-                        "band": 2
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-324-3",
@@ -20062,7 +20062,7 @@
                         "mark": 2,
                         "answer": "The council should install sensors, upgrade drains and send alerts to residents.",
                         "feedback": "Names actions for the proposal without sequence or responsibility, so it earns 2 marks.",
-                        "band": 1
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: The district and proposal are hypothetical. The proposal would install river-level sensors, upgrade two drains and set up a community alert system."
@@ -20100,7 +20100,7 @@
                         "mark": 5,
                         "answer": "Two risks could delay or weaken implementation of the flood-warning proposal. The first is contractor delay. Drain upgrades depend on crews and materials, and a delay pushes back the alert system and leaves residents unprotected for longer. The management strategy is to set fixed completion dates with penalties for late delivery, and to schedule drain work outside the storm season. Progress is monitored through monthly reports that compare actual and planned milestones, so slippage is identified early. The second risk is low take-up of the alert system, since renters, older residents and people not on the council's contact list may not register. The management strategy is to register households through community organisations, schools and letting agents, and to test alerts with a sample of residents before the first storm season. Take-up is monitored street by street to target outreach.",
                         "feedback": "Proposes two specific risks to implementation, each with a management strategy that addresses its cause, and explains how each strategy would be monitored. This meets the top band.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-325-2",
@@ -20108,7 +20108,7 @@
                         "mark": 3,
                         "answer": "One risk is that contractors are late, which delays the drains. A strategy is to set completion dates in the contract. Another risk is that residents do not sign up for alerts.",
                         "feedback": "Proposes two risks, but only the first has a management strategy. This earns the 3-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-325-3",
@@ -20116,7 +20116,7 @@
                         "mark": 2,
                         "answer": "Two risks are contractor delay and low take-up of the alerts.",
                         "feedback": "Names two risks without management strategies, so it earns 2 marks.",
-                        "band": 3
+                        "band": 2
                       }
                     ],
                     "scenario": "Hypothetical: The flood-warning proposal would install river-level sensors, upgrade two drains and set up a community alert system in a hypothetical low-lying district."
@@ -20178,7 +20178,7 @@
                         "mark": 2,
                         "answer": "Both Mexico City and Jakarta have land subsidence. Both cities use groundwater.",
                         "feedback": "Names a similarity without assessing whether the lessons apply, so it earns 2 marks.",
-                        "band": 2
+                        "band": 3
                       }
                     ],
                     "scenario": "Mexico City and Jakarta are both real megacities where groundwater extraction and building loads have contributed to land subsidence. Mexico City is built partly on the bed of a former lake, and in Jakarta the coastal north is where subsidence is most severe."
@@ -20395,7 +20395,7 @@
                         "mark": 5,
                         "answer": "A communication plan for this flood-management proposal must respond to what each stakeholder needs to know and do. Residents need clear, practical information about risk, alerts and what to do in a storm, so the plan uses the community alert system, letterbox drops in the most exposed streets, and face-to-face sessions through schools, held before the storm season. The council needs the findings and actions for decisions and accountability, so it receives monthly progress reports on the drain upgrades and a formal report after each storm season. Local businesses need to know how the works will affect access and trading, so they receive early notice through business associations and a briefing before construction starts. The plan is evaluated by checking whether residents register for alerts and whether businesses report fewer disruptions.",
                         "feedback": "Proposes a communication plan with a distinct approach for each stakeholder, linked to what each needs to know and do, with channels and timing, and explains how the plan will be evaluated. This meets the top band.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-330-2",
@@ -20403,7 +20403,7 @@
                         "mark": 3,
                         "answer": "The council should tell residents about the alerts and send businesses a letter about the works. A monthly report would keep the council informed.",
                         "feedback": "Covers the stakeholders with general channels, but the approaches are not differentiated for each group. This earns the 3-mark band.",
-                        "band": 4
+                        "band": 3
                       },
                       {
                         "id": "sa-geo-330-3",
@@ -20411,7 +20411,7 @@
                         "mark": 1,
                         "answer": "Residents should be told about the flood plan.",
                         "feedback": "Names one stakeholder and one channel without a plan, so it earns 1 mark.",
-                        "band": 2
+                        "band": 1
                       }
                     ],
                     "scenario": "Hypothetical: The flood-management proposal for a hypothetical suburb includes drain upgrades, a community alert system and changes to planning rules that limit new building on the lowest land."
@@ -20509,7 +20509,7 @@
                         "mark": 6,
                         "answer": "Reflection on this geographical inquiry shows that its effectiveness depends on whether the methods suited the question, whether the data were of sufficient quality, and whether the findings can be trusted. The methods were broadly suited to the question, because the survey gave residents' reasons, which the census could not show, while land cover mapping showed the physical pattern. However, time limited the study, and the survey sample was smaller than planned, so the methods were effective in outline but less effective in depth. The quality of the data also varied. The secondary sources were reliable for broad patterns, but some mapped data were out of date, and survey responses came mainly from people who were easiest to reach. The limits of the findings are clear: the inquiry can support a conclusion about the broad pattern of exposure, but not the precise risk to each household. The most important change would be to design sampling so that the least-reached groups are represented, and to check the data against an independent source before analysis.",
                         "feedback": "Judges the effectiveness of the methods and data against the question, identifies the limits of the findings, and names a specific change that addresses a named weakness. This meets the top band.",
-                        "band": 6
+                        "band": 5
                       },
                       {
                         "id": "sa-geo-332-2",

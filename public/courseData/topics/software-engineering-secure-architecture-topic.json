@@ -58,7 +58,7 @@
                   "mark": 2,
                   "answer": "Secure software protects sensitive user data, such as account details and transaction records, from unauthorised access. It also reduces the number of cyber attacks and software vulnerabilities that could disrupt the banking platform.",
                   "feedback": "Outlines two distinct benefits, each briefly described, which meets the 2-mark row. To reach 3 marks, add a third distinct benefit with a supporting feature.",
-                  "band": 2
+                  "band": 1
                 },
                 {
                   "id": "sa-a497063d-ba0e-44fb-aecf-6a7db3ddb86a",
@@ -184,7 +184,7 @@
                   "mark": 4,
                   "answer": "It is important to protect the data and also to fix vulnerabilities. Protecting data means using encryption. Fixing vulnerabilities means stopping hackers getting in. It's probably better to stop the hackers in the first place, because if they can't get in, they can't steal the data. But if they do get in, the data should be encrypted. A good evaluation is that you need to do both.",
                   "feedback": "Discusses both focus areas with some relevant reasoning, which meets the 4-mark row. To reach 5 marks, weigh the limitations of each approach and develop the overall judgement.",
-                  "band": 4
+                  "band": 3
                 },
                 {
                   "id": "sa-5ce05e8b-f231-464c-83b3-e07f2c69678e",
@@ -267,7 +267,7 @@
                   "mark": 2,
                   "answer": "Secure software protects customers' financial data from being stolen. It also helps reduce cyber attacks on the FinTech app.",
                   "feedback": "Identifies two general benefits, which meets the 1-2 mark row. To reach 3 marks, name specific practices and link each benefit to the company.",
-                  "band": 1
+                  "band": 2
                 }
               ],
               "isPastHSC": false
@@ -328,7 +328,7 @@
                   "mark": 4,
                   "answer": "The design and testing phases are fundamental to developing secure code because they integrate security into the software development process. In the design phase, threat modelling identifies risks, such as data interception, before code is written. For example, the design of an online banking system would require sensitive data to be encrypted in transit and at rest. In the testing phase, penetration testing and vulnerability scanning check that these controls work, so flaws are found and patched before release. This is why both phases matter for secure code.",
                   "feedback": "Explains the roles of both phases with relevant examples, which meets the 4-mark row. To reach 5 marks, add a clear sentence on why each phase is fundamental to secure code.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-05504a00-e562-4e90-b9ea-16f9102b274c",
@@ -527,7 +527,7 @@
                   "mark": 2,
                   "answer": "End users influence secure design because their capabilities vary. For example, inexperienced users need security settings that are easy to understand, such as a simple password reset. The design must therefore assume that users will make mistakes.",
                   "feedback": "Describes one way user capability affects design, through simpler security settings for inexperienced users, which meets the 2-mark row. To reach 3 marks, name the feature and explain how it reduces risk.",
-                  "band": 2
+                  "band": 1
                 },
                 {
                   "id": "sa-d3ac64f8-e578-446b-b34e-d907fe72c0ef",
@@ -576,7 +576,7 @@
                 {
                   "id": "sa-6b16246c-8f32-4904-bdb6-e1fe21fafbe6",
                   "source": "AI",
-                  "band": 6,
+                  "band": 5,
                   "answer": "The first is simple push-notification multi-factor authentication, with one 'Approve' button on the user's smartphone. This is justified because senior users may struggle to type a six-digit code in time, and it keeps protection strong while preserving accessibility. The second is large, plain-language warnings before risky actions, such as sharing health records. This is justified because this group is more vulnerable to phishing, and explicit prompts such as 'Are you sure you want to share your health summary?' build phishing resistance.",
                   "mark": 4,
                   "feedback": "Proposes two secure design features, push-notification authentication and plain-language warnings, and justifies each by the needs of senior users and the risks they face, which meets the 4-mark row."
@@ -584,7 +584,7 @@
                 {
                   "id": "sa-590350ec-724a-477a-8217-4346a0e62d4e",
                   "source": "AI",
-                  "band": 4,
+                  "band": 3,
                   "answer": "One feature would be to use fingerprints to log in instead of passwords, because they might forget their password. Another feature is to make the error messages very simple and not scary, so they don't get confused if something goes wrong. This makes it easier for them to use it safely.",
                   "mark": 2,
                   "feedback": "Proposes two relevant features, fingerprint login and simple error messages, with general justifications, which meets the 2-mark row. To reach 3 marks, explain how one feature protects senior users from a specific risk such as phishing."
@@ -592,7 +592,7 @@
                 {
                   "id": "sa-102dd318-fda8-4588-9a10-473a5562e903",
                   "source": "AI",
-                  "band": 3,
+                  "band": 2,
                   "answer": "It should have big buttons so they can see them. And it should have a password to be secure.",
                   "mark": 1,
                   "feedback": "Suggests large buttons, a usability feature, which meets the 1-mark row. To reach 2 marks, propose one secure design feature and justify it."
@@ -720,7 +720,7 @@
                   "mark": 4,
                   "answer": "Authentication and authorisation are two distinct yet interconnected pillars of secure software design. Authentication is verifying a user's identity, answering the question 'Who are you?'. For example, when a user logs into an online banking system, they enter a username and password, and their identity is confirmed if the credentials match. Authorisation determines what an authenticated user can access, answering 'What are you allowed to do?'. For example, an account holder can view their balance but cannot approve loans. This shows the key contrast between the two concepts.",
                   "feedback": "Defines both concepts and gives a banking example for each, which meets the 4-mark row. To reach 5 marks, add explicit comparison points and explain how the two work together.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-ca3d45b5-1037-4e33-ba83-0bbc1642204b",
@@ -1196,7 +1196,7 @@
                   "mark": 4,
                   "answer": "Security by design means building security into software from the start rather than adding it afterwards. Cryptography contributes by ensuring data confidentiality. For example, encrypting sensitive user data from the outset means that even if a database is breached, the information remains unreadable. Sandboxing contributes by providing isolation, so a security flaw in one component cannot easily affect the entire system. For instance, web browsers run different tabs in their own sandboxes, so a malicious website cannot access the user's files. Both are design decisions that mitigate threats.",
                   "feedback": "Explains both techniques with relevant examples, which meets the 4-mark row. To reach 5 marks, state explicitly how each is built into the design phase.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-83bb54d9-a203-4ea5-ab11-335f88d557e9",
@@ -1332,7 +1332,7 @@
                   "mark": 4,
                   "answer": "Privacy by design (PbD) is a foundational approach to software development that integrates privacy from the initial design phase. Its core characteristic is its proactive nature, so privacy is built in rather than treated as an add-on after a breach. It makes privacy a default setting, and it respects user privacy by ensuring that data collection and processing are privacy-enhancing. Key principles include data minimisation, where only necessary data is collected. For example, a voice assistant would process commands locally where possible, rather than sending all recordings to cloud servers by default. Users would also be asked for consent before data leaves the device.",
                   "feedback": "Explains the proactive nature of privacy by design with a relevant example, which meets the 4-mark row. To reach 5 marks, add how the design gives users control over their data.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-1996689e-5a40-4847-8ef7-f0b8cd20dfc3",
@@ -1399,7 +1399,7 @@
                   "mark": 3,
                   "answer": "Privacy as the default means the app should keep a student's data private without them needing to change settings. For example, a mood check-in is only shown to the student. This protects students because their information is not shared by accident. It is better to build privacy in from the start than to add it later.",
                   "feedback": "Describes the default setting with an example, which meets the 3-mark row. To reach 4 marks, explain what opt-in sharing prevents and compare it with retrofitting.",
-                  "band": 2
+                  "band": 3
                 },
                 {
                   "id": "prompt-1762992228798-w9b30kg-n1-s3",
@@ -1467,7 +1467,7 @@
                   "mark": 2,
                   "answer": "Privacy by design means thinking about privacy right at the start of development rather than adding it later. It is a proactive approach, so developers consider privacy at every stage of building the software itself, including what data is collected and whether it is needed at all.",
                   "feedback": "Meets the 2-mark row: it outlines one feature of privacy by design, that it is a proactive approach taken from the start. It does not describe how this would work in the weather app, so it stays short of the 3-mark row. Describing how the app would apply it, such as deleting a user's location data once the forecast has been delivered, would lift it.",
-                  "band": 2
+                  "band": 1
                 },
                 {
                   "id": "sa-se-hsc-2025-16c-4",
@@ -1532,9 +1532,9 @@
                   "id": "sa-99696f7d-7d03-4449-99d2-652a36eda1a1",
                   "source": "AI",
                   "mark": 6,
-                  "answer": "For a large financial services company, robust disaster recovery is critical given the high volume of transactions, customer trust and regulatory requirements. This scenario requires very low Recovery Time Objective (RTO) and Recovery Point Objective (RPO) values.\n\nA hot site is a fully equipped, redundant facility that mirrors the primary data centre, including hardware, software and real-time data replication. In a disaster, operations can fail over immediately, giving minimal downtime and negligible data loss. This is exceptionally effective for an online banking platform, which must keep processing transactions. The main drawback is the significant cost of duplicate infrastructure and staffing, but the benefits in risk management typically justify this for critical financial systems.\n\nIn contrast, a cold site is a basic facility with power and cooling, but lacking operational hardware, software and current data. Equipment must be sourced, installed and restored from backups, leading to a high RTO of days to weeks and a high RPO. While it is significantly cheaper, its effectiveness for a critical banking platform is very low, because the downtime and data loss would bring financial repercussions and reputational damage.\n\nRecommendation: a hot site is the most effective and justifiable solution for disaster recovery in this scenario. The platform cannot tolerate significant downtime or data loss without severe consequences, and while the initial investment is substantial, a hot site provides the redundancy and immediate failover that a cold site cannot. The cold site's cost saving does not outweigh the catastrophic impact of an outage.",
-                  "feedback": "Evaluates both sites with relevant reasoning about recovery and cost, which meets the 6-mark row. Weigh the cost of a hot site directly against the cost of downtime to reach 7 marks.",
-                  "band": 5
+                  "answer": "For a large financial services company, a hot site is the better option for disaster recovery on a new online banking platform. Customers expect to reach their accounts at any time, so the platform must keep running after a disaster.\n\nA hot site is a fully equipped facility that mirrors the main data centre, with hardware, software and data kept up to date in real time. If the primary site fails, the hot site can take over almost immediately, so customers would notice very little disruption.\n\nA cold site is only a building with power and networking. The servers must be bought, installed and restored from backups before the platform can run again, which could take days. During that time, customers could not make payments or check their balances, and trust in the bank would fall.\n\nBecause the banking platform cannot tolerate long outages, a hot site is the most suitable choice. Its fast recovery supports business continuity, while a cold site would leave the company exposed for too long after a disaster.",
+                  "feedback": "Evaluates both sites with relevant reasoning about recovery time and a supported recommendation, which meets the 6-mark row. To reach 7 marks, weigh the cost of a hot site directly against the cost of downtime.",
+                  "band": 4
                 },
                 {
                   "id": "sa-287c6c17-d0cc-4607-a5f0-b19dd299af2b",
@@ -1660,7 +1660,7 @@
                 {
                   "id": "sa-801cc11a-da13-4a3b-bc4b-bcb46724914a",
                   "source": "AI",
-                  "band": 6,
+                  "band": 5,
                   "answer": "For a small e-commerce business, I would propose a four-phase incident response plan for the data breach, focused on containment, eradication, recovery and communication.\n\nThe immediate priority is to stop the breach and prevent further data loss. This involves isolating affected systems, for example by shutting down the web server or blocking the attacker's IP address at the firewall.\n\nOnce contained, the team must identify and remove the root cause of the breach (e.g., patch the vulnerability). They would then restore the system from a known-good backup and verify that it is clean.\n\nAfter recovery, the business must communicate transparently. This involves notifying affected customers about what data was compromised and what steps they should take. It also includes mandatory reporting to the relevant authorities, such as the Office of the Australian Information Commissioner (OAIC), as required by law.\n\nFinally, the team should conduct a post-mortem to analyse the breach and improve security controls to prevent a recurrence. This proposal is justified as it provides a structured, logical sequence of actions that prioritises limiting the damage before moving on to recovery and communication.",
                   "mark": 6,
                   "feedback": "Proposes a sequenced plan with distinct phases, including containment and communication, each with a specific action, which meets the 6-mark row. Keep each action tied to the small online store."
@@ -1739,7 +1739,7 @@
                   "mark": 6,
                   "answer": "Employing SAST, DAST and manual penetration testing throughout the software development life cycle is highly effective for a new e-commerce platform handling sensitive customer data and financial transactions. Each method offers distinct advantages that complement the others.\n\nSAST is effective early in the SDLC, during coding. It analyses source code for vulnerabilities such as SQL injection and cross-site scripting without executing the code, so developers can fix flaws quickly. However, SAST can produce false positives and may not detect runtime configuration issues or authentication bypasses.\n\nDAST is effective during testing. It tests the running application from the outside, simulating attacks to find server misconfigurations, authentication flaws and session management issues. It provides a real-world perspective, but it cannot see the underlying code logic and may miss vulnerabilities that are not exposed through external interfaces.\n\nManual penetration testing is performed closer to deployment. Human testers explore complex business logic flaws, chained vulnerabilities and payment bypasses that automated tools often miss. Its effectiveness comes from a real attacker's perspective, but it is resource-intensive and provides only a snapshot in time.\n\nIntegrating these strategies gives a layered defence. Regarding relative importance, manual penetration testing is arguably the most critical strategy for assurance, because it uncovers the complex business logic flaws that could cause significant financial losses. SAST and DAST provide broad, efficient coverage, and all three are essential.",
                   "feedback": "Evaluates the combined approach with a supported judgement, which meets the 6-mark row. To reach 7-8 marks, weigh the relative importance of SAST and DAST as well as penetration testing.",
-                  "band": 5
+                  "band": 4
                 },
                 {
                   "id": "sa-c129c2b3-14af-469c-b46f-42c8611ec25e",
@@ -1807,7 +1807,7 @@
                 {
                   "id": "sa-5b741504-94db-4aae-86b9-3d959a2c9419",
                   "source": "AI",
-                  "band": 6,
+                  "band": 5,
                   "answer": "I propose a security code review process based on mandatory peer reviews within pull requests (PRs) integrated into the team's continuous integration (CI) workflow. The process would be: 1) A developer completes a feature on a separate branch. 2) Before merging into the main branch, they open a PR. 3) The CI system automatically runs SAST tools on the new code. 4) At least one other team member must then manually review the code for security flaws (e.g., input validation errors, logic flaws) and approve the PR. 5) Only after automated checks pass and a peer approves can the code be merged. This process is justified for an Agile workflow because it is lightweight, continuous, and asynchronous. It doesn't require separate, long security review meetings that would disrupt a sprint. The review is focused only on the small code change in the PR, which fits the iterative nature of Agile. This improves security by providing a 'second pair of eyes' to catch errors the original developer missed and promotes a shared sense of security ownership within the team.",
                   "mark": 6,
                   "feedback": "Proposes a lightweight peer review process within pull requests, with automated checks, and justifies its fit with Agile sprints and security, which meets the 6-mark row. Keep each step tied to the team's sprint cadence."
@@ -1886,7 +1886,7 @@
                   "mark": 3,
                   "answer": "Input validation and input sanitisation are both defensive programming practices used to ensure data integrity. Input validation checks the data before it is processed, such as whether an email address contains an '@' symbol and a domain. Input sanitisation cleans the data after it is received, for example by converting '<' and '>' so that a script cannot run in the browser. Both help prevent attacks such as Cross-Site Scripting (XSS).",
                   "feedback": "Explains both practices and their purposes, with an example for each, which meets the 3-mark row. To reach 4 marks, compare them directly and use a banking example for each.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-5650f939-322c-4854-ae9b-46af47931357",
@@ -2090,7 +2090,7 @@
                   "mark": 3,
                   "answer": "Implementing input validation contributes to API safety by ensuring that data received from users is in the correct format before it is processed. This helps prevent injection attacks such as SQL injection by filtering out malicious input. Rate limiting enhances API security by restricting the number of requests a user can make in a set time. It helps prevent Denial of Service (DoS) attacks.",
                   "feedback": "Explains both mechanisms with a general example, which meets the 3-mark row. To reach 4 marks, explain how each control reduces its named attack, with a specific example for the API.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-edf00722-c294-4902-b3ce-d2aaf26de725",
@@ -2157,7 +2157,7 @@
                   "mark": 2,
                   "answer": "The API should only return the order fields the app displays. This means the developer should not include the payment details in the response.",
                   "feedback": "Describes limiting returned fields, which meets the 2-mark row. To reach 3 marks, name the feature precisely and explain what it protects in the endpoint.",
-                  "band": 2
+                  "band": 1
                 },
                 {
                   "id": "prompt-1762992378502-498wa3v-n1-s3",
@@ -2225,7 +2225,7 @@
                   "mark": 3,
                   "answer": "Session management is about maintaining a user's state, like remembering if a user is logged in or what items are in their shopping cart. This ensures efficient execution for the user because they do not have to re-enter information. Exception management deals with unexpected problems. For example, if a database connection fails, it can display a user-friendly error message rather than the software simply stopping. This helps the user avoid losing their task.",
                   "feedback": "Describes the roles of both processes with an example for each, which meets the 3-mark row. To reach 4 marks, compare them directly and link both to efficient execution.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-26ee32b2-26a8-40ea-9ad4-671e1188789f",
@@ -2423,7 +2423,7 @@
                   "mark": 2,
                   "answer": "Session management stores data about each user's visit to the website, such as their login details. Sessions also have a time limit, after which they expire and the data is removed. Sessions can also end when the user logs out or closes the browser.",
                   "feedback": "Meets the 2-mark row: it identifies some features of session management, stored visit data, a time limit and logging out. It does not say how these features affect the efficiency of code execution, so it stays short of the 3-mark row. Explaining how large stored session data slows the program would lift it.",
-                  "band": 2
+                  "band": 1
                 },
                 {
                   "id": "sa-se-hsc-2025-20-4",
@@ -2491,7 +2491,7 @@
                   "mark": 3,
                   "answer": "XSS compromises security when an attacker injects malicious script into a web page, which then runs in other users' browsers and can steal session cookies. To mitigate XSS, applications should implement output encoding, which converts user-supplied data into a safe format before it is rendered. CSRF tricks a logged-in user into performing an unwanted action, such as making a purchase. A common strategy is to use anti-CSRF tokens.",
                   "feedback": "Explains how XSS and CSRF compromise the application and gives a coding strategy for each, which meets the 3-mark row. To reach 4 marks, explain how the CSRF mitigation stops the forged request.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-58639721-8674-4ce6-899e-a7be7e0a0c57",
@@ -2737,7 +2737,7 @@
                   "mark": 3,
                   "answer": "Secure coding practices protect against file attacks through input validation, for example by disallowing '..' sequences in file requests. Least privilege access control limits the damage if an attack succeeds. For side-channel attacks, constant-time operations are used, such as comparing a password hash without stopping at the first mismatch, so that timing does not leak information.",
                   "feedback": "Explains practices for both attack types, with an example for each, which meets the 3-mark row. To reach 4 marks, develop the timing example and explain how it stops leakage.",
-                  "band": 3
+                  "band": 2
                 },
                 {
                   "id": "sa-92d5f355-c321-46a5-b90d-6f42acb97f79",
@@ -2802,7 +2802,7 @@
                 {
                   "id": "sa-af1796d4-43b6-4148-98a6-e593b3c77b05",
                   "source": "AI",
-                  "band": 2,
+                  "band": 1,
                   "answer": "A timing attack is when a hacker can guess a password by seeing how long it takes for the computer to say 'wrong'. If it takes a tiny bit longer for some guesses, it gives them a clue.",
                   "mark": 2,
                   "feedback": "Describes a timing attack through a password example, which meets the 2-mark row. To reach 3 marks, name it as a side-channel attack and explain how response times reveal the secret."
@@ -2930,7 +2930,7 @@
                   "mark": 4,
                   "answer": "The senior back-end developer, who knows the payment logic best, should lead threat modelling and the security design review. Code review of authentication and input handling should be shared between the front-end developer and the other back-end developer. The tester should own security testing, including penetration testing. The junior developer should pair with the senior developer on reviews to learn common vulnerabilities. This allocation improves the quality of the module.",
                   "feedback": "Proposes a specific allocation of security tasks matched to expertise, with reasons linked to module quality, which meets the 4-mark row. Keep each allocation tied to a named skill.",
-                  "band": 6
+                  "band": 5
                 },
                 {
                   "id": "prompt-1762992559552-xnx79zp-n1-s2",
@@ -2938,7 +2938,7 @@
                   "mark": 3,
                   "answer": "The senior developer could handle the security design, and the tester could check the software for security problems. Other developers could review each other's code so that errors are caught. This helps the team because each person has a role in security.",
                   "feedback": "Proposes allocations of security tasks with a basic reason, which meets the 3-mark row. To reach 4 marks, name the expertise behind each allocation and link it to module quality.",
-                  "band": 5
+                  "band": 4
                 },
                 {
                   "id": "prompt-1762992559552-xnx79zp-n1-s3",
@@ -2946,7 +2946,7 @@
                   "mark": 1,
                   "answer": "Everyone in the team should help with security.",
                   "feedback": "Provides some relevant information about shared security work, which meets the 1-mark row. To reach 2 marks, identify one security task that could be delegated.",
-                  "band": 3
+                  "band": 2
                 }
               ]
             }
@@ -3188,7 +3188,7 @@
                   "mark": 2,
                   "answer": "A social issue is that users may lose trust in the platform if their personal data is leaked, which can damage the company's reputation. The company must also consider ethics, such as privacy.",
                   "feedback": "Outlines ONE social issue of data privacy, which meets the 2-mark row. To reach 3 marks, outline an ethical issue as well, such as consent, and link it to data collection.",
-                  "band": 2
+                  "band": 1
                 },
                 {
                   "id": "sa-c62ed6d9-e342-4813-9471-669969ca8d4a",
@@ -3317,7 +3317,7 @@
                   "mark": 2,
                   "answer": "Customers will need to enter their address and payment details, so the company has to keep this personal information safe. If it is not protected, a hacker could steal it.",
                   "feedback": "Meets the 2-mark row by outlining one relevant issue, the security of customers' personal and payment information. To reach 3, outline another distinct issue from the scenario, such as the accuracy of the dietary information shown on the menu.",
-                  "band": 2
+                  "band": 1
                 },
                 {
                   "id": "sa-se-hsc-2025-23a-4",
