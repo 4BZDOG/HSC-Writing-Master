@@ -7772,8 +7772,8 @@
                         "id": "sa-99696f7d-7d03-4449-99d2-652a36eda1a1",
                         "source": "AI",
                         "mark": 6,
-                        "answer": "For a large financial services company, robust disaster recovery is critical given the high volume of transactions, customer trust and regulatory requirements. This scenario requires very low Recovery Time Objective (RTO) and Recovery Point Objective (RPO) values.\n\nA hot site is a fully equipped, redundant facility that mirrors the primary data centre, including hardware, software and real-time data replication. In a disaster, operations can fail over immediately, giving minimal downtime and negligible data loss. This is exceptionally effective for an online banking platform, which must keep processing transactions. The main drawback is the significant cost of duplicate infrastructure and staffing, but the benefits in risk management typically justify this for critical financial systems.\n\nIn contrast, a cold site is a basic facility with power and cooling, but lacking operational hardware, software and current data. Equipment must be sourced, installed and restored from backups, leading to a high RTO of days to weeks and a high RPO. While it is significantly cheaper, its effectiveness for a critical banking platform is very low, because the downtime and data loss would bring financial repercussions and reputational damage.\n\nRecommendation: a hot site is the most effective and justifiable solution for disaster recovery in this scenario. The platform cannot tolerate significant downtime or data loss without severe consequences, and while the initial investment is substantial, a hot site provides the redundancy and immediate failover that a cold site cannot. The cold site's cost saving does not outweigh the catastrophic impact of an outage.",
-                        "feedback": "Evaluates both sites with relevant reasoning about recovery and cost, which meets the 6-mark row. Weigh the cost of a hot site directly against the cost of downtime to reach 7 marks.",
+                        "answer": "For a large financial services company, a hot site is the better option for disaster recovery on a new online banking platform. Customers expect to reach their accounts at any time, so the platform must keep running after a disaster.\n\nA hot site is a fully equipped facility that mirrors the main data centre, with hardware, software and data kept up to date in real time. If the primary site fails, the hot site can take over almost immediately, so customers would notice very little disruption.\n\nA cold site is only a building with power and networking. The servers must be bought, installed and restored from backups before the platform can run again, which could take days. During that time, customers could not make payments or check their balances, and trust in the bank would fall.\n\nBecause the banking platform cannot tolerate long outages, a hot site is the most suitable choice. Its fast recovery supports business continuity, while a cold site would leave the company exposed for too long after a disaster.",
+                        "feedback": "Evaluates both sites with relevant reasoning about recovery time and a supported recommendation, which meets the 6-mark row. To reach 7 marks, weigh the cost of a hot site directly against the cost of downtime.",
                         "band": 5
                       },
                       {
@@ -18556,7 +18556,7 @@
                         "id": "sa-unsup-def-band4",
                         "source": "AI",
                         "mark": 1,
-                        "answer": "Unsupervised learning is when the computer learns from data that isn't labelled. It has to find the patterns on its own without being told the right answer.",
+                        "answer": "It is when a computer learns from unlabelled data, without being told the answers.",
                         "feedback": "Gives a partly accurate definition that refers to unlabelled data, which meets the 1-mark row. To reach 2 marks, state that the model finds patterns or groups in the data, and its purpose.",
                         "band": 1
                       },
@@ -19444,8 +19444,8 @@
                         "id": "sa-lin-log-band4",
                         "source": "AI",
                         "mark": 2,
-                        "answer": "Linear regression is used when you want to predict a specific number, like a price. It fits a straight line to the data. Logistic regression is used when you want to put things into groups, like 'sold' or 'not sold'. It gives you a probability instead of a raw number.",
-                        "feedback": "Outlines the output of both models and a use case for each, which meets the 2-mark row. To reach 3 marks, distinguish the models by their output, stating that logistic regression predicts a category.",
+                        "answer": "Linear regression predicts a continuous numerical value. Logistic regression instead outputs a probability, which is then mapped to a category.",
+                        "feedback": "Outlines the output of both models, which meets the 2-mark row. To reach 3 marks, give a typical use case for each model, such as house prices for linear regression and whether a house sells for logistic regression.",
                         "band": 3
                       },
                       {
