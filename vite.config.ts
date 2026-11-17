@@ -33,6 +33,38 @@ function buildVersionFile(): Plugin {
   };
 }
 
+type DevHandler = (
+  req: import('http').IncomingMessage,
+  res: import('http').ServerResponse
+) => Promise<void>;
+
+/**
+ * Runs an async dev-server handler so that a failure answers 500 instead of
+ * killing the server. Connect does not catch a rejected promise, so a handler
+ * that throws becomes an unhandled rejection, and Node exits on one. The usual
+ * cause is a client that goes away mid-request: a page closed while its POST is
+ * still uploading makes `for await (const chunk of req)` throw `aborted`
+ * (ECONNRESET). That is how an e2e test that timed out took the dev server down
+ * with it, and every test after it failed with "Connection refused". A request
+ * whose client has gone needs no answer at all.
+ */
+export const guardDevHandler =
+  (label: string, handler: DevHandler) =>
+  (req: import('http').IncomingMessage, res: import('http').ServerResponse) => {
+    handler(req, res).catch((e: NodeJS.ErrnoException) => {
+      const clientGone = req.destroyed || e?.code === 'ECONNRESET' || e?.message === 'aborted';
+      if (clientGone) return;
+      console.error(`[dev-proxy] ${label}:`, e);
+      if (res.headersSent || res.writableEnded) {
+        res.end();
+        return;
+      }
+      res.statusCode = 500;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({ error: 'Dev proxy error.' }));
+    });
+  };
+
 // Dev-only middleware that mirrors the Vercel serverless proxy (api/gemini.ts)
 // so `npm run dev` can call /api/gemini without running `vercel dev`. The key
 // is read server-side from the environment and never exposed to the client.
@@ -40,50 +72,53 @@ function fetchUrlDevProxy(): Plugin {
   return {
     name: 'fetch-url-dev-proxy',
     configureServer(server) {
-      server.middlewares.use('/api/fetch-url', async (req, res) => {
-        if (req.method === 'OPTIONS') {
-          res.statusCode = 204;
-          res.end();
-          return;
-        }
-        if (req.method !== 'POST') {
-          res.statusCode = 405;
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ error: 'Method not allowed. Use POST.' }));
-          return;
-        }
-
-        const chunks: Buffer[] = [];
-        for await (const chunk of req) chunks.push(chunk as Buffer);
-
-        let body: { url?: string };
-        try {
-          body = JSON.parse(Buffer.concat(chunks).toString() || '{}');
-        } catch {
-          res.statusCode = 400;
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ error: 'Invalid JSON body.' }));
-          return;
-        }
-
-        const handler = (await import('./api/fetch-url')).default;
-        const resAdapter: any = {
-          status: (code: number) => {
-            res.statusCode = code;
-            return resAdapter;
-          },
-          json: (data: unknown) => {
+      server.middlewares.use(
+        '/api/fetch-url',
+        guardDevHandler('/fetch-url', async (req, res) => {
+          if (req.method === 'OPTIONS') {
+            res.statusCode = 204;
+            res.end();
+            return;
+          }
+          if (req.method !== 'POST') {
+            res.statusCode = 405;
             res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify(data));
-          },
-          setHeader: (name: string, value: string) => res.setHeader(name, value),
-          end: () => res.end(),
-        };
-        await handler(
-          { method: 'POST', body, headers: req.headers as Record<string, string> },
-          resAdapter
-        );
-      });
+            res.end(JSON.stringify({ error: 'Method not allowed. Use POST.' }));
+            return;
+          }
+
+          const chunks: Buffer[] = [];
+          for await (const chunk of req) chunks.push(chunk as Buffer);
+
+          let body: { url?: string };
+          try {
+            body = JSON.parse(Buffer.concat(chunks).toString() || '{}');
+          } catch {
+            res.statusCode = 400;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'Invalid JSON body.' }));
+            return;
+          }
+
+          const handler = (await import('./api/fetch-url')).default;
+          const resAdapter: any = {
+            status: (code: number) => {
+              res.statusCode = code;
+              return resAdapter;
+            },
+            json: (data: unknown) => {
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify(data));
+            },
+            setHeader: (name: string, value: string) => res.setHeader(name, value),
+            end: () => res.end(),
+          };
+          await handler(
+            { method: 'POST', body, headers: req.headers as Record<string, string> },
+            resAdapter
+          );
+        })
+      );
     },
   };
 }
@@ -92,62 +127,68 @@ function geminiDevProxy(env: Record<string, string>): Plugin {
   return {
     name: 'gemini-dev-proxy',
     configureServer(server) {
-      server.middlewares.use('/api/gemini', async (req, res) => {
-        // Mirror the production handler's opt-in CORS (api/_lib/cors.ts) so
-        // split hosting (frontend on another origin) is testable locally.
-        const { corsHeadersFor } = await import('./api/_lib/cors');
-        const cors = corsHeadersFor(
-          req.headers.origin,
-          env.ALLOWED_ORIGIN || process.env.ALLOWED_ORIGIN
-        );
-        if (cors) {
-          for (const [name, value] of Object.entries(cors)) res.setHeader(name, value);
-        }
-        if (req.method === 'OPTIONS') {
-          res.statusCode = cors ? 204 : 403;
-          res.end();
-          return;
-        }
+      server.middlewares.use(
+        '/api/gemini',
+        guardDevHandler('/gemini', async (req, res) => {
+          // Mirror the production handler's opt-in CORS (api/_lib/cors.ts) so
+          // split hosting (frontend on another origin) is testable locally.
+          const { corsHeadersFor } = await import('./api/_lib/cors');
+          const cors = corsHeadersFor(
+            req.headers.origin,
+            env.ALLOWED_ORIGIN || process.env.ALLOWED_ORIGIN
+          );
+          if (cors) {
+            for (const [name, value] of Object.entries(cors)) res.setHeader(name, value);
+          }
+          if (req.method === 'OPTIONS') {
+            res.statusCode = cors ? 204 : 403;
+            res.end();
+            return;
+          }
 
-        if (req.method !== 'POST') {
-          res.statusCode = 405;
+          if (req.method !== 'POST') {
+            res.statusCode = 405;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'Method not allowed. Use POST.' }));
+            return;
+          }
+
+          const chunks: Buffer[] = [];
+          for await (const chunk of req) {
+            chunks.push(chunk as Buffer);
+          }
+
+          let body: unknown;
+          try {
+            body = JSON.parse(Buffer.concat(chunks).toString() || '{}');
+          } catch {
+            res.statusCode = 400;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify({ error: 'Invalid JSON body.' }));
+            return;
+          }
+
+          const { runAiProxy } = await import('./api/_lib/providers');
+          // Prefer .env files (loadEnv), but fall back to a real injected
+          // process env var (e.g. AI Studio's API_KEY).
+          const keys = {
+            gemini:
+              env.GEMINI_API_KEY ||
+              env.API_KEY ||
+              process.env.GEMINI_API_KEY ||
+              process.env.API_KEY,
+            anthropic: env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY,
+            openrouter: env.OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY,
+            groq: env.GROQ_API_KEY || process.env.GROQ_API_KEY,
+            kimi: env.KIMI_API_KEY || process.env.KIMI_API_KEY,
+          };
+          const result = await runAiProxy(body, keys);
+
+          res.statusCode = result.status;
           res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ error: 'Method not allowed. Use POST.' }));
-          return;
-        }
-
-        const chunks: Buffer[] = [];
-        for await (const chunk of req) {
-          chunks.push(chunk as Buffer);
-        }
-
-        let body: unknown;
-        try {
-          body = JSON.parse(Buffer.concat(chunks).toString() || '{}');
-        } catch {
-          res.statusCode = 400;
-          res.setHeader('Content-Type', 'application/json');
-          res.end(JSON.stringify({ error: 'Invalid JSON body.' }));
-          return;
-        }
-
-        const { runAiProxy } = await import('./api/_lib/providers');
-        // Prefer .env files (loadEnv), but fall back to a real injected
-        // process env var (e.g. AI Studio's API_KEY).
-        const keys = {
-          gemini:
-            env.GEMINI_API_KEY || env.API_KEY || process.env.GEMINI_API_KEY || process.env.API_KEY,
-          anthropic: env.ANTHROPIC_API_KEY || process.env.ANTHROPIC_API_KEY,
-          openrouter: env.OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY,
-          groq: env.GROQ_API_KEY || process.env.GROQ_API_KEY,
-          kimi: env.KIMI_API_KEY || process.env.KIMI_API_KEY,
-        };
-        const result = await runAiProxy(body, keys);
-
-        res.statusCode = result.status;
-        res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify(result.body));
-      });
+          res.end(JSON.stringify(result.body));
+        })
+      );
     },
   };
 }
@@ -227,14 +268,10 @@ function apiDevProxy(): Plugin {
         // fail-open behaviour, and exactly the wrong thing to develop against.
         'screen-contribution',
       ]) {
-        server.middlewares.use(`/api/${route}`, (req, res) => {
-          proxyRoute(route, req, res).catch((e) => {
-            console.error(`[api-dev-proxy] /${route}:`, e);
-            res.statusCode = 500;
-            res.setHeader('Content-Type', 'application/json');
-            res.end(JSON.stringify({ error: 'Dev proxy error.' }));
-          });
-        });
+        server.middlewares.use(
+          `/api/${route}`,
+          guardDevHandler(`/${route}`, (req, res) => proxyRoute(route, req, res))
+        );
       }
     },
   };
