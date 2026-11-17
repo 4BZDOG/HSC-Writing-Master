@@ -475,7 +475,7 @@ const WorkspaceRightPanel: React.FC<WorkspaceRightPanelProps> = ({
               ? 'bg-slate-800 light:bg-slate-200 text-slate-400 cursor-wait border-white/15 light:border-slate-300 shadow-inner'
               : !userAnswer.trim()
                 ? 'bg-slate-800/60 light:bg-slate-200/80 text-slate-500 cursor-not-allowed border-white/10 light:border-slate-400 opacity-50'
-                : `${buttonConfig.surface} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
+                : `${buttonConfig.surface} ${buttonConfig.text ?? ''} ${buttonConfig.shadow} hover:scale-[1.03] active:scale-[0.98] ${buttonConfig.border}`
           }
         `}
       >
