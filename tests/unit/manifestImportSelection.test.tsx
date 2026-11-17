@@ -176,6 +176,6 @@ describe('a course offered once', () => {
         onImport={vi.fn(async () => true)}
       />
     );
-    expect(screen.getByText('Structure only, no questions yet')).toBeTruthy();
+    expect(screen.getByText('No questions yet')).toBeTruthy();
   });
 });

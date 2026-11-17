@@ -29,8 +29,23 @@ afterEach(() => {
   window.localStorage.clear();
 });
 
+/** One question, so the course is ready to use (a course with none is "Coming soon"). */
+const oneQuestion = (id: string) => [
+  {
+    id: `${id}-t`,
+    name: 'Topic',
+    subTopics: [
+      {
+        id: `${id}-st`,
+        name: 'Sub-topic',
+        dotPoints: [{ id: `${id}-dp`, description: 'Dot point', prompts: [{ id: `${id}-p` }] }],
+      },
+    ],
+  },
+];
+
 const course = (id: string, name: string, subject: string): Course =>
-  ({ id, name, subject, outcomes: [], topics: [] }) as unknown as Course;
+  ({ id, name, subject, outcomes: [], topics: oneQuestion(id) }) as unknown as Course;
 
 // Seven Science courses, so the search box appears inside that faculty alone.
 const courses: Course[] = [

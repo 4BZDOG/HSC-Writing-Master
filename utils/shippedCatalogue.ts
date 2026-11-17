@@ -145,14 +145,5 @@ export const addShippedToLibrary = (
   return { courses, added };
 };
 
-/** How many questions a course carries. Zero means it ships as structure only. */
-export const countQuestions = (course: Course): number =>
-  (course.topics ?? []).reduce(
-    (n, topic) =>
-      n +
-      (topic.subTopics ?? []).reduce(
-        (m, st) => m + (st.dotPoints ?? []).reduce((k, dp) => k + (dp.prompts ?? []).length, 0),
-        0
-      ),
-    0
-  );
+/** Re-exported for the callers that already read it from here. */
+export { countQuestions } from './courseAvailability';

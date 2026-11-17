@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { AlertCircle, Check, Library, Loader2, Plus, RotateCcw, Search, X } from 'lucide-react';
-import type { Course } from '../types';
+import type { Course, User } from '../types';
+import { useCourseUnlockGate } from '../hooks/useCourseUnlocks';
+import { useCourseUnlockPrice } from '../hooks/useLivePrices';
+import { summariseAvailability } from '../utils/courseAvailability';
+import { CourseStatusChip } from './CourseStatusChip';
 import { useFocusTrap } from '../hooks/useFocusTrap';
 import { useEscapeKey } from '../hooks/useEscapeKey';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -52,6 +56,8 @@ interface CourseLibraryModalProps {
   loadCatalogue: () => Promise<ShippedCourseOffer[]>;
   /** Adds the chosen courses. Returns the ids actually added. */
   onAdd: (offers: ShippedCourseOffer[]) => string[];
+  /** The viewer, so each course can say whether it is purchased, included or to unlock. */
+  user?: User | null;
 }
 
 type LoadState =
@@ -63,7 +69,7 @@ type LoadState =
 const SEARCH_FROM = 7;
 
 const questionsLabel = (n: number): string =>
-  n === 0 ? 'Structure only, no questions yet' : n === 1 ? '1 question' : `${n} questions`;
+  n === 0 ? 'No questions yet' : n === 1 ? '1 question' : `${n} questions`;
 
 const CourseLibraryModal: React.FC<CourseLibraryModalProps> = ({
   isOpen,
@@ -71,7 +77,11 @@ const CourseLibraryModal: React.FC<CourseLibraryModalProps> = ({
   courses,
   loadCatalogue,
   onAdd,
+  user = null,
 }) => {
+  // Purchased, Included, Unlock · price or Coming soon, as the course picker says it.
+  const unlockGate = useCourseUnlockGate(user);
+  const priceText = useCourseUnlockPrice()?.display ?? null;
   const [load, setLoad] = useState<LoadState>({ status: 'loading' });
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [query, setQuery] = useState('');
@@ -114,6 +124,11 @@ const CourseLibraryModal: React.FC<CourseLibraryModalProps> = ({
   }, [missing, query]);
 
   const groups = useMemo(() => groupCoursesByFaculty(visible), [visible]);
+
+  const summary = useMemo(
+    () => summariseAvailability(missing.map((offer) => unlockGate.availabilityOf(offer.course))),
+    [missing, unlockGate]
+  );
 
   // Only what is still on offer counts: a course the library gained while this was
   // open (another tab, a sync) drops out of the list and out of the count with it.
@@ -216,6 +231,11 @@ const CourseLibraryModal: React.FC<CourseLibraryModalProps> = ({
               <p className="text-sm text-secondary leading-relaxed">
                 Tick the courses you want to add. Nothing already in your library changes.
               </p>
+              {summary && (
+                <p className="t-label text-muted" data-testid="course-availability-summary">
+                  {summary}
+                </p>
+              )}
 
               {missing.length >= SEARCH_FROM && (
                 <div className="relative">
@@ -288,8 +308,12 @@ const CourseLibraryModal: React.FC<CourseLibraryModalProps> = ({
                                 <span className="block text-sm font-bold text-primary leading-snug">
                                   {offer.name}
                                 </span>
-                                <span className="block text-xs text-muted mt-0.5">
+                                <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted mt-0.5">
                                   {questionsLabel(questions)}
+                                  <CourseStatusChip
+                                    availability={unlockGate.availabilityOf(offer.course)}
+                                    priceText={priceText}
+                                  />
                                 </span>
                               </label>
                             </li>

@@ -94,7 +94,7 @@ describe('the course library', () => {
   it('says how many questions each course has, and which ship as structure only', async () => {
     open();
     expect(await screen.findByText('138 questions')).toBeTruthy();
-    expect(screen.getByText('Structure only, no questions yet')).toBeTruthy();
+    expect(screen.getByText('No questions yet')).toBeTruthy();
   });
 
   it('adds the ticked courses and closes', async () => {
@@ -143,5 +143,35 @@ describe('the course library', () => {
     expect(screen.getAllByRole('checkbox')).toHaveLength(1);
     fireEvent.change(search, { target: { value: 'drama' } });
     expect(screen.getByText(/No course in the library matches/)).toBeTruthy();
+  });
+});
+
+describe('the course library says what each course is to the viewer', () => {
+  it('marks a course with no questions Coming soon and counts it', async () => {
+    open();
+    await screen.findByRole('checkbox', { name: /Visual Arts/ });
+    expect(screen.getByTestId('course-status-coming-soon')).toBeTruthy();
+    expect(screen.getByTestId('course-availability-summary').textContent).toBe('1 coming soon');
+  });
+
+  it('marks a course to unlock with its price when course unlocks are on', async () => {
+    vi.stubEnv('VITE_COURSE_UNLOCKS_ENABLED', 'true');
+    const student = { username: 's', role: 'user', preferences: {}, stats: {} } as never;
+    render(
+      <CourseLibraryModal
+        isOpen
+        onClose={vi.fn()}
+        courses={[]}
+        loadCatalogue={vi.fn(async () => CATALOGUE)}
+        onAdd={vi.fn(() => [])}
+        user={student}
+      />
+    );
+    await screen.findByRole('checkbox', { name: /Biology/ });
+    expect(screen.getAllByTestId('course-lock-badge')).toHaveLength(3);
+    expect(screen.getByTestId('course-availability-summary').textContent).toBe(
+      '3 to unlock · 1 coming soon'
+    );
+    vi.unstubAllEnvs();
   });
 });

@@ -8,7 +8,11 @@ import { SUBJECT_AREAS, SUBJECT_AREA_ICON, SUBJECT_AREA_TILE } from '../utils/su
 import { countQuestions } from '../utils/shippedCatalogue';
 import { compareCourseNames } from '../utils/courseGrouping';
 import { isSameCourseName } from '../utils/courseNames';
-import type { Course } from '../types';
+import type { Course, User } from '../types';
+import { useCourseUnlockGate } from '../hooks/useCourseUnlocks';
+import { useCourseUnlockPrice } from '../hooks/useLivePrices';
+import { summariseAvailability } from '../utils/courseAvailability';
+import { CourseStatusChip } from './CourseStatusChip';
 import {
   ChevronDown,
   Download,
@@ -25,6 +29,8 @@ interface ManifestImportModalProps {
   onClose: () => void;
   discoveredDocs: DiscoveredDoc[];
   onImport: (docs: DiscoveredDoc[]) => Promise<boolean>;
+  /** The viewer, so each course can say whether it is purchased, included or to unlock. */
+  user?: User | null;
 }
 
 /**
@@ -50,7 +56,7 @@ const PLACEHOLDERS: Record<string, string[]> = {
 
 /** A course's question count as a reader says it. Zero means it ships as structure only. */
 const questionsLabel = (n: number): string =>
-  n === 0 ? 'Structure only, no questions yet' : n === 1 ? '1 question' : `${n} questions`;
+  n === 0 ? 'No questions yet' : n === 1 ? '1 question' : `${n} questions`;
 
 const MeshOverlay = ({ opacity = 'opacity-[0.05]' }: { opacity?: string }) => (
   <div
@@ -66,7 +72,11 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
   onClose,
   discoveredDocs,
   onImport,
+  user = null,
 }) => {
+  // Purchased, Included, Unlock · price or Coming soon, as the course picker says it.
+  const unlockGate = useCourseUnlockGate(user);
+  const priceText = useCourseUnlockPrice()?.display ?? null;
   const [localDocs, setLocalDocs] = useState<DiscoveredDoc[]>([]);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [isImporting, setIsImporting] = useState(false);
@@ -178,6 +188,17 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
         (g) => g.placeholders.length > 0
       ),
     [filteredGroupedDocs]
+  );
+
+  /** "1 purchased · 3 to unlock · 9 coming soon" across the courses on offer. */
+  const availabilitySummary = useMemo(
+    () =>
+      summariseAvailability(
+        localDocs
+          .filter((doc) => doc.type === 'course')
+          .map((doc) => unlockGate.availabilityOf(doc.data as Course))
+      ),
+    [localDocs, unlockGate]
   );
 
   const unresolvedTopicCount = useMemo(
@@ -304,6 +325,11 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                   </span>
                 )}
               </span>
+              {availabilitySummary && (
+                <span className="t-label text-muted" data-testid="course-availability-summary">
+                  {availabilitySummary}
+                </span>
+              )}
               {unresolvedTopicCount > 0 && (
                 <div className="t-label flex items-center gap-2.5 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-300 light:text-amber-700">
                   <AlertCircle className="w-3.5 h-3.5" />
@@ -466,8 +492,12 @@ const ManifestImportModal: React.FC<ManifestImportModalProps> = ({
                                   them, sitting at the same weight as a pill
                                   naming the file format. */}
                               {doc.type === 'course' && (
-                                <span className="block text-xs text-muted mt-0.5">
+                                <span className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted mt-0.5">
                                   {questionsLabel(countQuestions(doc.data as Course))}
+                                  <CourseStatusChip
+                                    availability={unlockGate.availabilityOf(doc.data as Course)}
+                                    priceText={priceText}
+                                  />
                                 </span>
                               )}
                               {doc.type === 'topic' && !orphanTopic && (

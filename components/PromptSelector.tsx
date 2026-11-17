@@ -2,7 +2,8 @@ import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react'
 import { Course, StatePath, SyllabusYear, User, UserRole } from '../types';
 import { useCourseUnlockGate } from '../hooks/useCourseUnlocks';
 import { useCourseUnlockPrice } from '../hooks/useLivePrices';
-import { CourseLockBadge } from './CourseLockBadge';
+import { CourseStatusChip } from './CourseStatusChip';
+import { COMING_SOON_GROUP, summariseAvailability } from '../utils/courseAvailability';
 import {
   canCreateCurriculum,
   canCurateContent,
@@ -13,6 +14,7 @@ import Combobox, { SEARCH_THRESHOLD } from './Combobox';
 import FacultyFilterBar, { facultyGroupHeading } from './FacultyFilterBar';
 import {
   FACULTY_FILTER_ALL,
+  compareCourseNames,
   groupCoursesByFaculty,
   readFacultyFilter,
   resolveFacultyFilter,
@@ -838,14 +840,21 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
   const showFacultyFilter = courseGroups.length > 1;
   const showFacultyHeadings = showFacultyFilter && facultyFilter === FACULTY_FILTER_ALL;
 
-  // A locked course stays selectable (it can still be browsed); it only carries a
-  // lock badge. With course unlocks off, `isLocked` is always false and no price is fetched.
+  // Each course says what it is to this viewer (utils/courseAvailability.ts):
+  // Purchased, Included, Unlock · price, or Coming soon. A locked course stays
+  // selectable, because it can still be browsed. A course with no questions yet is
+  // filed under "Coming soon" after every faculty, and is disabled for a student,
+  // who would find nothing in it; a curator can open it to write its questions.
+  // With course unlocks off only "Coming soon" ever shows, and no price is fetched.
   const unlockGate = useCourseUnlockGate(user);
   const unlockPrice = useCourseUnlockPrice();
   const unlockPriceText = unlockPrice?.display ?? null;
 
   const courseOptions = useMemo(() => {
     const toOption = (c: Course, group: string | undefined, concealed: boolean) => {
+      const availability = unlockGate.availabilityOf(c);
+      // Not pickable by this viewer: the row says so in its weight, not only in its chip.
+      const unavailable = availability === 'coming-soon' && !canCurate;
       // One row, two renderings. The closed control also carries the meta
       // chips (Draft, Ready) below `sm`, where they take the width the name
       // needs; `inTrigger` hides them there and nowhere else, so the open
@@ -855,10 +864,16 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
           <div className={`p-1.5 rounded-lg border flex-shrink-0 ${LEVEL_TILE.course}`}>
             <Book className="w-4 h-4" />
           </div>
-          <span className="font-medium flex-1 min-w-0 truncate">{c.name}</span>
-          {unlockGate.isLocked(c.id) && (
-            <CourseLockBadge priceText={unlockPriceText} compact={inTrigger} />
-          )}
+          <span
+            className={`font-medium flex-1 min-w-0 truncate ${unavailable ? 'text-[rgb(var(--color-text-muted))]' : ''}`}
+          >
+            {c.name}
+          </span>
+          <CourseStatusChip
+            availability={availability}
+            priceText={unlockPriceText}
+            compact={inTrigger}
+          />
           {canCreateTree && c.status === 'draft' && (
             <span
               className={`t-label px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-500 light:text-amber-800 border border-amber-500/30 flex-shrink-0 ${inTrigger ? 'hidden sm:inline-flex' : ''}`}
@@ -885,6 +900,7 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
         renderSelected: row(true),
         group,
         concealed,
+        disabled: unavailable,
       };
     };
 
@@ -892,9 +908,19 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       facultyFilter === FACULTY_FILTER_ALL
         ? courseGroups
         : courseGroups.filter((g) => g.area === facultyFilter);
-    const listed = visibleGroups.flatMap((group) =>
-      group.courses.map((c) => toOption(c, showFacultyHeadings ? group.area : undefined, false))
+    const isComingSoon = (c: Course) => unlockGate.availabilityOf(c) === 'coming-soon';
+    // Courses with questions first, under their faculties; the ones still coming,
+    // after all of them, so the list opens on something a student can use.
+    const ready = visibleGroups.flatMap((group) =>
+      group.courses
+        .filter((c) => !isComingSoon(c))
+        .map((c) => toOption(c, showFacultyHeadings ? group.area : undefined, false))
     );
+    const comingSoon = visibleGroups
+      .flatMap((group) => group.courses.filter(isComingSoon))
+      .sort((a, b) => compareCourseNames(a.name, b.name))
+      .map((c) => toOption(c, COMING_SOON_GROUP, false));
+    const listed = [...ready, ...comingSoon];
     // The chosen course stays on the closed control even when the faculty filter
     // hides it from the list, so the trigger never reads "Select course…" over a
     // real choice.
@@ -922,16 +948,37 @@ const PromptSelector: React.FC<PromptSelectorProps> = ({
       ? selectedCourse.name
       : undefined;
 
-  const courseFacultyHeader = showFacultyFilter ? (
-    <FacultyFilterBar
-      faculties={courseGroups.map((g) => ({ area: g.area, count: g.courses.length }))}
-      total={courses.length}
-      value={facultyFilter}
-      onChange={chooseFaculty}
-      hiddenCourseName={hiddenCourseName}
-      onShowAll={() => chooseFaculty(FACULTY_FILTER_ALL)}
-    />
-  ) : undefined;
+  // What the library holds for this viewer, in one line at the top of the open
+  // list: "2 purchased · 5 to unlock · 9 coming soon". Absent when every course is
+  // simply open (unlocks off and every course has questions).
+  const availabilitySummary = useMemo(
+    () => summariseAvailability(courses.map((c) => unlockGate.availabilityOf(c))),
+    [courses, unlockGate]
+  );
+
+  const courseFacultyHeader =
+    showFacultyFilter || availabilitySummary ? (
+      <>
+        {showFacultyFilter && (
+          <FacultyFilterBar
+            faculties={courseGroups.map((g) => ({ area: g.area, count: g.courses.length }))}
+            total={courses.length}
+            value={facultyFilter}
+            onChange={chooseFaculty}
+            hiddenCourseName={hiddenCourseName}
+            onShowAll={() => chooseFaculty(FACULTY_FILTER_ALL)}
+          />
+        )}
+        {availabilitySummary && (
+          <p
+            className="t-label px-4 pt-1.5 pb-2 text-[rgb(var(--color-text-muted))]"
+            data-testid="course-availability-summary"
+          >
+            {availabilitySummary}
+          </p>
+        )}
+      </>
+    ) : undefined;
 
   /**
    * Year 11 and Year 12 as a choice beside the course name.

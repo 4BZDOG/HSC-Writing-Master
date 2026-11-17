@@ -28,7 +28,7 @@ import type { Course } from '../types';
 import { isSameCourseName } from './courseNames';
 import { isSupersededCourse } from './courseVisibility';
 import { carryPersonalFields } from './shippedCourseStamp';
-import { countQuestions } from './shippedCatalogue';
+import { countQuestions } from './courseAvailability';
 
 /** True when `a` is a better copy to keep than `b`. Positions break the last tie. */
 const isBetter = (a: Course, aAt: number, b: Course, bAt: number): boolean => {

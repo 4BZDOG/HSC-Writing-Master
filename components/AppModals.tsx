@@ -596,6 +596,7 @@ const AppModals: React.FC<AppModalsProps> = ({
             onClose={() => closeModal('manifestImport')}
             discoveredDocs={syllabusHandlers.discoveredDocs}
             onImport={syllabusHandlers.importDiscoveredDocs}
+            user={user}
           />
         )}
       </Suspense>
@@ -607,6 +608,7 @@ const AppModals: React.FC<AppModalsProps> = ({
             onClose={() => closeModal('courseLibrary')}
             courses={courses}
             loadCatalogue={syllabusHandlers.loadCourseLibrary}
+            user={user}
             onAdd={(offers) => {
               const added = syllabusHandlers.addShippedCourses(offers);
               // One course added is one the user means to open, so the navigator goes
